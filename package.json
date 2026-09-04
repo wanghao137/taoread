@@ -1,0 +1,24 @@
+{
+  "name": "taoread",
+  "version": "0.1.0",
+  "private": true,
+  "description": "桃阅读 — 家庭睡前共读仪式应用（TaoRead）",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "verify": "npm run typecheck && npm run test",
+    "dev:server": "npm run dev -w @taoread/server"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.21.5": true
+  }
+}
