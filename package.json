@@ -10,9 +10,12 @@
   ],
   "scripts": {
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "npm run test --workspaces --if-present",
-    "verify": "npm run typecheck && npm run test",
-    "dev:server": "npm run dev -w @taoread/server"
+    "verify": "npm run typecheck && npm run lint && npm run test",
+    "dev:server": "npm run dev -w @taoread/server",
+    "smoke:weread": "npm run smoke -w @taoread/server"
   },
   "engines": {
     "node": ">=20"
@@ -20,5 +23,10 @@
   "allowScripts": {
     "esbuild@0.28.2": true,
     "esbuild@0.21.5": true
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.4",
+    "typescript-eslint": "^8.69.0"
   }
 }

@@ -3,11 +3,6 @@ import {
   callWereadApi,
   type SleepFn,
 } from '../src/services/weread/gateway'
-import {
-  UpgradeRequiredError,
-  WereadApiError,
-  WereadHttpError,
-} from '../src/lib/errors'
 import { SKILL_VERSION, WEREAD_GATEWAY_URL } from '@taoread/shared'
 
 /** 手造最小 Response 形状，避免依赖真实 Response 构造细节 */
