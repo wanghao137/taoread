@@ -1,0 +1,179 @@
+// 桃阅读数据模型初稿（第 1 夜起草，第 2 夜安装 Prisma 后 validate + migrate 并随实现微调）
+// 约定（docs/02 §4.4）：
+//  - 所有时间戳在数据库层用 DateTime，序列化层对外统一转 Unix 秒；
+//  - 不收集任何儿童真实身份信息（昵称/头像为家长设置的展示值）；
+//  - API Key 仅以密文形态存在于 weread_binding.ciphertext。
+//  - 阅读时长单位：秒。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("TAO_DATABASE_URL")
+}
+
+model Family {
+  id        String   @id @default(cuid())
+  code      String   @unique // 家庭码：加入家庭的凭据
+  createdAt DateTime @default(now())
+
+  children    ChildProfile[]
+  binding     WereadBinding?
+  snapshots   ShelfSnapshot[]
+  cosessions  Cosession[]
+  highlights  HighlightStar[]
+  achievements Achievement[]
+  prompts     ParentPrompt[]
+  reports     WeeklyReport[]
+  events      EventLog
+}
+
+model ChildProfile {
+  id        String   @id @default(cuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  nickname  String // 展示昵称，非真实姓名
+  avatar    String?  // 本地图片引用，非外链
+  stage     String // 3-5 | 6-8 | 9-12
+  createdAt DateTime @default(now())
+
+  cosessions   Cosession[]
+  highlights   HighlightStar[]
+  achievements Achievement[]
+
+  @@index([familyId])
+}
+
+model WereadBinding {
+  id            String   @id @default(cuid())
+  familyId      String   @unique
+  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  ciphertext    String // AES-256-GCM 密文（v1.salt.iv.tag.ct）
+  maskedTail    String // 尾 4 位，回显用
+  status        String   @default("active") // active | invalid
+  lastSyncAt    DateTime?
+  createdAt     DateTime @default(now())
+}
+
+model BookCache {
+  bookId     String   @id // 微信读书 bookId
+  title      String
+  author     String
+  cover      String?
+  category   String?
+  intro      String?
+  chapters   String? // JSON 序列化的章节目录
+  deepLink   String? // 网关回包原值，绝不自行拼接
+  newRating  Int? // 0-100
+  fetchedAt  DateTime @default(now())
+}
+
+model ShelfSnapshot {
+  id             String   @id @default(cuid())
+  familyId       String
+  family         Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookId         String
+  kind           String // book | album | mp
+  title          String
+  author         String?
+  cover          String?
+  category       String?
+  finished       Boolean  @default(false)
+  blocked        Boolean  @default(false) // 家长单书屏蔽
+  readUpdateTime DateTime?
+  syncedAt       DateTime @default(now())
+
+  @@unique([familyId, bookId, kind]) // 最左前缀已覆盖 familyId 查询，无需冗余索引
+}
+
+model Cosession {
+  id           String   @id @default(cuid())
+  familyId     String
+  family       Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  childId      String
+  child        ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  bookId       String? // 微信读书书（纸质书共读为空）
+  paperTitle   String? // 纸质书书名（手动录入）
+  startedAt    DateTime
+  endedAt      DateTime?
+  durationSec  Int? // endedAt - startedAt，秒
+  progressMark String? // little | lot | done
+  mood         String? // happy | excited | calm | sleepy | thinking
+  createdAt    DateTime @default(now())
+
+  highlights HighlightStar[]
+
+  @@index([familyId, startedAt])
+  @@index([childId])
+}
+
+model HighlightStar {
+  id          String   @id @default(cuid())
+  familyId    String
+  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  childId     String
+  child       ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  cosessionId String?
+  cosession   Cosession? @relation(fields: [cosessionId], references: [id], onDelete: SetNull)
+  source      String // weread | voice | manual
+  text        String // 金句原文/孩子口述
+  markCount   Int? // 来源为 weread 时：多少人划过这句
+  createdAt   DateTime @default(now())
+
+  @@index([familyId])
+  @@index([childId])
+}
+
+model Achievement {
+  id         String   @id @default(cuid())
+  familyId   String
+  family     Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  childId    String
+  child      ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  kind       String // night_lamp | streak_best | book_done（纪念式，无兑换）
+  value      Int // 如夜灯第 N 晚 / 连续 N 晚
+  unlockedAt DateTime @default(now())
+
+  @@unique([childId, kind, value]) // 同一成就只解锁一次（幂等）；最左前缀已覆盖 childId 查询
+}
+
+model ParentPrompt {
+  id        String   @id @default(cuid())
+  familyId  String
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookId    String
+  stage     String // 3-5 | 6-8 | 9-12
+  tellPoints String // JSON：讲什么（3 条要点）
+  questions  String // JSON：问什么（3 个开放式问题，按年龄段梯度）
+  hook       String? // 聊什么：「爸妈小时候」话题钩子
+  genType   String   @default("template") // template | llm
+  createdAt DateTime @default(now())
+
+  @@index([familyId, bookId])
+}
+
+model WeeklyReport {
+  id            String   @id @default(cuid())
+  familyId      String
+  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  weekStart     DateTime // 必须由唯一的规范化函数生成（如 Date.UTC(y, m, d-weekday)），禁止各处自行构造；第 2 夜落地时配套工具函数 + 单测
+  stats         String // JSON：共读晚数/累计分钟/书目/金句回顾/下周建议
+  shareImageUrl String?
+  createdAt     DateTime @default(now())
+
+  @@unique([familyId, weekStart])
+}
+
+model EventLog {
+  id       String   @id @default(cuid())
+  familyId String
+  family   Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  role     String // child | parent | system
+  event    String // ritual_started | book_selected | departure_clicked | ...
+  props    String? // JSON 附加属性
+  ts       DateTime @default(now())
+
+  @@index([familyId, ts])
+}

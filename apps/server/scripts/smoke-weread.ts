@@ -20,7 +20,7 @@ import { callWereadApi } from '../src/services/weread/gateway'
 interface ProbeSample {
   idx: number
   latencyMs: number
-  outcome: 'ok' | 'http429' | 'httpError' | 'apiError' | 'network'
+  outcome: 'ok' | 'http429' | 'httpError' | 'apiError' | 'network' | 'upgrade'
   detail: string
 }
 
@@ -143,14 +143,14 @@ async function main(): Promise<void> {
     } catch (err) {
       const e = err as Error & { status?: number; code?: string }
       const latencyMs = Math.round(performance.now() - start)
-      const outcome: ProbeSample['outcome'] =
-        e.code === 'WEREAD_HTTP' && e.status === 429
-          ? 'http429'
-          : e.code === 'WEREAD_HTTP'
-            ? 'httpError'
-            : e.code === 'WEREAD_API'
-              ? 'apiError'
-              : 'network'
+      // 分类语义：status=0 表示网络层失败（网关适配层包装）；429 单列；升级信号独立暴露
+      let outcome: ProbeSample['outcome']
+      if (e.code === 'WEREAD_HTTP' && e.status === 429) outcome = 'http429'
+      else if (e.code === 'WEREAD_HTTP' && e.status === 0) outcome = 'network'
+      else if (e.code === 'WEREAD_HTTP') outcome = 'httpError'
+      else if (e.code === 'WEREAD_API') outcome = 'apiError'
+      else if (e.code === 'WEREAD_UPGRADE') outcome = 'upgrade'
+      else outcome = 'network'
       sample = { idx: i, latencyMs, outcome, detail: `${e.name}:${e.status ?? ''}${e.message.slice(0, 60)}` }
     }
     samples.push(sample)
@@ -161,11 +161,15 @@ async function main(): Promise<void> {
   const okSamples = samples.filter((s) => s.outcome === 'ok').map((s) => s.latencyMs).sort((a, b) => a - b)
   const count429 = samples.filter((s) => s.outcome === 'http429').length
   const first429 = samples.find((s) => s.outcome === 'http429')?.idx
+  const upgradeCount = samples.filter((s) => s.outcome === 'upgrade').length
   lines.push(
     '',
     '### 摸底结论',
     '',
     `- 成功 ${okSamples.length}/${PROBE_TOTAL} 次；429 共 ${count429} 次${first429 ? `（首次出现在第 ${first429} 次）` : ''}`,
+    upgradeCount > 0
+      ? `- ⚠️ 检测到 ${upgradeCount} 次 skill 版本升级信号（WEREAD_UPGRADE），须按 SKILL.md 完成升级后重测`
+      : '',
     okSamples.length > 0
       ? `- 延迟：P50 ${percentile(okSamples, 50)}ms ｜ P95 ${percentile(okSamples, 95)}ms ｜ 最大 ${okSamples[okSamples.length - 1]}ms`
       : '- 无成功样本',
@@ -185,7 +189,18 @@ function writeReport(lines: string[]): void {
 }
 
 main().catch((err) => {
-  // 冒烟是尽力而为的诊断：失败也要留下报告而不是崩溃
-  writeReport([`# 微信读书网关冒烟报告（第 1 夜）`, '', `- 时间：${new Date().toISOString()}`, '', `- ❌ 脚本异常退出：${(err as Error).message}`])
+  // 冒烟是尽力而为的诊断：失败也要留下报告而不是崩溃。
+  // 兜底写报告自身失败时只打日志，保证永远 exit 0（不丢弃主流程已产出的报告）。
   console.error('冒烟脚本异常：', (err as Error).message)
+  try {
+    writeReport([
+      '# 微信读书网关冒烟报告（第 1 夜）',
+      '',
+      `- 时间：${new Date().toISOString()}`,
+      '',
+      `- ❌ 脚本异常退出：${(err as Error).message}`,
+    ])
+  } catch (reportErr) {
+    console.error('兜底报告写入失败（磁盘/权限）：', (reportErr as Error).message)
+  }
 })
