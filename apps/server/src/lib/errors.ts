@@ -1,12 +1,41 @@
 /** 全局错误类型：均带机器可读 code，便于路由层统一转 HTTP */
 
 export class AppError extends Error {
+  /** 映射到 HTTP 状态码（app.ts 统一错误处理器使用） */
+  readonly statusCode: number
+
   constructor(
     message: string,
     readonly code: string,
+    statusCode = 500,
   ) {
     super(message)
     this.name = new.target.name
+    this.statusCode = statusCode
+  }
+}
+
+export class UnauthorizedError extends AppError {
+  constructor(message = '请先登录') {
+    super(message, 'AUTH', 401)
+  }
+}
+
+export class ForbiddenError extends AppError {
+  constructor(message = '没有权限执行此操作') {
+    super(message, 'FORBIDDEN', 403)
+  }
+}
+
+export class NotFoundError extends AppError {
+  constructor(message = '资源不存在') {
+    super(message, 'NOT_FOUND', 404)
+  }
+}
+
+export class ValidationError extends AppError {
+  constructor(message = '请求参数不正确') {
+    super(message, 'VALIDATION', 400)
   }
 }
 
