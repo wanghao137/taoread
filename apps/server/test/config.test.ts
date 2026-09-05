@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { loadConfig } from '../src/config'
 import { ConfigError } from '../src/lib/errors'
 
-const BASE = { TAO_MASTER_KEY: 'x'.repeat(32) }
+const BASE = {
+  TAO_MASTER_KEY: 'x'.repeat(32),
+  TAO_DATABASE_URL: 'file:./test.db',
+}
 
 describe('loadConfig', () => {
   it('默认值正确（PORT 8787 / dev / CORS *）', () => {
@@ -13,8 +16,8 @@ describe('loadConfig', () => {
   })
 
   it('缺少 TAO_MASTER_KEY 时拒绝启动并给出中文提示', () => {
-    expect(() => loadConfig({})).toThrow(ConfigError)
-    expect(() => loadConfig({})).toThrow(/TAO_MASTER_KEY/)
+    expect(() => loadConfig({ TAO_DATABASE_URL: BASE.TAO_DATABASE_URL })).toThrow(ConfigError)
+    expect(() => loadConfig({ TAO_DATABASE_URL: BASE.TAO_DATABASE_URL })).toThrow(/TAO_MASTER_KEY/)
   })
 
   it('主密钥过短时拒绝', () => {

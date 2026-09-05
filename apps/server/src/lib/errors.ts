@@ -67,7 +67,7 @@ export class UpgradeRequiredError extends AppError {
     message: string,
     readonly info: unknown,
   ) {
-    super(message, 'WEREAD_UPGRADE')
+    super(message, 'WEREAD_UPGRADE', 503)
   }
 }
 
