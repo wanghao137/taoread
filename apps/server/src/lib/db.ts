@@ -1,0 +1,29 @@
+import { PrismaClient } from '@prisma/client'
+
+/** 数据库工厂：入口创建单例并注入 buildApp；测试可注入独立实例（临时库） */
+export function createDb(url: string): PrismaClient {
+  return new PrismaClient({
+    datasources: { db: { url } },
+  })
+}
+
+/** 测试辅助：按外键依赖序清空全部表（SQLite 无 TRUNCATE） */
+export const WIPE_TABLES_SQL = [
+  'DELETE FROM EventLog',
+  'DELETE FROM HighlightStar',
+  'DELETE FROM Achievement',
+  'DELETE FROM Cosession',
+  'DELETE FROM ParentPrompt',
+  'DELETE FROM WeeklyReport',
+  'DELETE FROM ShelfSnapshot',
+  'DELETE FROM WereadBinding',
+  'DELETE FROM ChildProfile',
+  'DELETE FROM Family',
+  'DELETE FROM BookCache',
+] as const
+
+export async function wipeDb(db: PrismaClient): Promise<void> {
+  for (const sql of WIPE_TABLES_SQL) {
+    await db.$executeRawUnsafe(sql)
+  }
+}

@@ -10,6 +10,7 @@ const schema = z
     NODE_ENV: z.enum(['dev', 'test', 'prod']).default('dev'),
     TAO_MASTER_KEY: z.string().min(16, 'TAO_MASTER_KEY 至少 16 个字符'),
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
+    TAO_DATABASE_URL: z.string().min(1, 'TAO_DATABASE_URL 不能为空'),
     WEREAD_API_KEY: z.string().optional(),
   })
   .superRefine((cfg, ctx) => {

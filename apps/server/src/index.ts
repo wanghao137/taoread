@@ -1,10 +1,16 @@
 import 'dotenv/config'
 import { loadConfig } from './config'
 import { buildApp } from './app'
+import { createDb } from './lib/db'
+import { tokenSecretFrom } from './modules/family/service'
 
 async function main(): Promise<void> {
   const config = loadConfig()
+  const db = createDb(config.TAO_DATABASE_URL)
   const app = await buildApp({
+    db,
+    tokenSecret: tokenSecretFrom(config.TAO_MASTER_KEY),
+    masterKey: config.TAO_MASTER_KEY,
     allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
     logger: true,
   })

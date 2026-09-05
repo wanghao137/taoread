@@ -27,7 +27,7 @@ model Family {
   achievements Achievement[]
   prompts     ParentPrompt[]
   reports     WeeklyReport[]
-  events      EventLog
+  events      EventLog[]
 }
 
 model ChildProfile {
@@ -175,5 +175,5 @@ model EventLog {
   props    String? // JSON 附加属性
   ts       DateTime @default(now())
 
-  @@index([familyId, ts])
+  @@index([familyId, ts]) // 最左前缀已覆盖 familyId 查询
 }
