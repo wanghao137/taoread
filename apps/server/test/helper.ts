@@ -23,6 +23,8 @@ export interface MakeAppOpts {
   wereadCall?: (apiKey: string) => WereadCall
   /** 冻结业务缓存/限流时钟（限流类测试确定性用） */
   wereadNow?: () => number
+  /** 冻结共读域时钟（成就解锁/幂等收尾类测试确定性用） */
+  cosessionNow?: () => number
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -38,6 +40,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
       new IpRateLimiter({ capacity: 100_000, refillPerMinute: 100_000 }),
     wereadCall: opts.wereadCall,
     wereadNow: opts.wereadNow,
+    ...(opts.cosessionNow ? { cosessionNow: opts.cosessionNow } : {}),
   })
   return { app, db }
 }
@@ -62,6 +65,26 @@ export async function createBoundFamily(
 
 export function authHeaders(token: string): Record<string, string> {
   return { authorization: `Bearer ${token}` }
+}
+
+/** 家长给孩子建档，返回 childId */
+export async function createChild(
+  app: FastifyInstance,
+  token: string,
+  familyId: string,
+  nickname = '桃桃',
+  stage = '3-5',
+): Promise<string> {
+  const res = await app.inject({
+    method: 'POST',
+    url: `/api/family/${familyId}/children`,
+    headers: authHeaders(token),
+    payload: { nickname, stage },
+  })
+  if (res.statusCode !== 201) {
+    throw new Error(`createChild 失败：${res.statusCode} ${res.body}`)
+  }
+  return res.json().id
 }
 
 /** 建家庭并返回家长端会话 */

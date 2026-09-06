@@ -10,6 +10,7 @@ import { IpRateLimiter, IP_LIMIT_DEFAULTS } from './lib/ipRateLimit'
 import { registerFamilyRoutes } from './modules/family/routes'
 import { getBoundKey, type KeyProbe } from './modules/family/service'
 import { registerWereadRoutes } from './modules/weread/routes'
+import { registerCosessionRoutes } from './modules/cosession/routes'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
@@ -26,6 +27,8 @@ export interface BuildAppOptions {
   wereadCall?: (apiKey: string) => WereadCall
   /** 出网缓存/限流时钟注入（测试冻结时间用） */
   wereadNow?: () => number
+  /** 共读域时钟注入（测试冻结时间用；默认真实 Unix 秒） */
+  cosessionNow?: () => number
   allowedOrigin?: string | boolean
   logger?: boolean
 }
@@ -70,6 +73,13 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     db: options.db,
     registry,
     tokenSecret: options.tokenSecret,
+  })
+
+  registerCosessionRoutes(app, {
+    db: options.db,
+    registry,
+    tokenSecret: options.tokenSecret,
+    ...(options.cosessionNow ? { nowSec: options.cosessionNow } : {}),
   })
 
   // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；
