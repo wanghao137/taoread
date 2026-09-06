@@ -151,8 +151,8 @@ export async function finishSession(
   }
   const session = await assertOwnedSession(db, familyId, sessionId)
 
-  // 幂等收尾（断线续传/重复点击）：已收尾 → 只读返回 + 成就补偿评估（N4-002：
-  // 若首次收尾后、成就落库前发生异常，重试时在此补齐缺页——planUnlocks 幂等 + P2002 兜底，重放安全）
+  // 幂等收尾（断线续传/重复点击）：已收尾 → 补偿评估成就（N4-002：若首次收尾后、成就落库前
+  // 发生异常，重试时在此补齐缺页；planUnlocks 幂等 + P2002 兜底，正常重试重放无新增）
   if (session.endedAt !== null) {
     const unlocked = await evaluateAchievements(db, familyId, session.childId, session.id, {
       endedAtSec: Math.floor(session.endedAt.getTime() / 1000),

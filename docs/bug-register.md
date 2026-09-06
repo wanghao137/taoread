@@ -38,3 +38,12 @@
 | N3-008 | 2026-09-06 | P2 | app.ts | maxParamLength 注释与实现不一致（128 vs 256） | fixed：注释更正为 256 并说明动机 | 第 3 夜（白班） |
 | N3-R1 | 2026-09-06 | P2 | modules/weread/routes.ts | assertNotBlockedForChild 的 findFirst 不带 kind，album 屏蔽可误伤同值 bookId 的详情访问 | fixed：查询固定 kind='book'（详情接口均为 book 语义） | 第 3 夜（白班） |
 | N3-R4 | 2026-09-06 | P2 | modules/weread/routes.ts | 孩子对「未屏蔽的非童书」详情四接口仍直通（bookId 可枚举可构造）；book info 回包有 category，具备校验条件 | open：第 9 夜家长端重构——child 角色校验回包 category 命中童书白名单，否则 404 | 第 9 夜（计划） |
+| N4-001 | 2026-09-06 | P2 | modules/cosession/service.ts | finish 的 check-then-act 竞态：并发双收尾各自 update，后到者覆盖先到者（时长放大/进度覆盖） | fixed：updateMany 带 `endedAt: null` 条件原子收尾，count=0 重读走已收尾语义（保留先到者值） | 第 4 夜（白班） |
+| N4-002 | 2026-09-06 | P2 | modules/cosession/service.ts | 成就漏发窗口：收尾已提交、成就落库前异常 → 重试不再评估 → 纪念成就永久缺页（不可自愈） | fixed：已收尾分支补偿评估（持久化 endedAt/bookId/progressMark 重放；planUnlocks 幂等 + P2002 兜底，正常重试无新增）；回归测试锁定补齐语义 | 第 4 夜（白班） |
+| N4-003 | 2026-09-06 | P2 | docs/ | nights.ts 注释声称时区决策「已在日志登记」但第 4 夜条目未写（审查时序问题） | fixed：第 4 夜日志条目与登记册本行即为登记 | 第 4 夜（白班） |
+| N4-004 | 2026-09-06 | P2 | modules/cosession/nights.ts | 夜界取服务器本地时区：容器 UTC 下北京 00:00-07:59 收尾跨午夜共读计入前一日（8h 漂移窗口，无报错无对账） | open：第 15 夜部署准备——部署文档强制 TZ 或引入 TAO_NIGHT_TZ（与 N3-005 trustProxy 同批部署前置） | 第 15 夜（计划） |
+| N4-005 | 2026-09-06 | P2 | modules/cosession/service.ts | bookId 与 paperTitle 可同时传入，共读卡书名优先级随出网成败不一致 | fixed：service 层书源互斥（同传 → 400 二选一）+ 测试 | 第 4 夜（白班） |
+| N4-006 | 2026-09-06 | P2 | modules/cosession/service.ts | 同孩子多 active 会话无守卫：双开设备产生僵尸会话（永不收尾、不进成就统计） | open：第 7 夜孩子端「会话中断恢复」一并定产品语义（409 提示先收尾 或 自动收尾旧场） | 第 7 夜（计划） |
+| N4-007 | 2026-09-06 | P2 | modules/cosession/service.ts | reading-card 每次调用新增 ParentPrompt 行（内容确定性相同），消费方上线后将读到重复卡 | open：第 9 夜重构批——按 (familyId, bookId, nightKey) 唯一化/upsert（与 N3-007 同批）；顺带评估 allSettled 分级降级与角色限制（孩子端每次耗 2 令牌自伤配额） | 第 9 夜（计划） |
+| N4-008 | 2026-09-06 | P2 | modules/cosession/service.ts | logEvent catch 完全黑洞：事件静默丢失不可发现（DB 满等持续失败无从察觉） | fixed：catch 降级 console.warn（含 event 名与错误消息） | 第 4 夜（白班） |
+| N4-R1 | 2026-09-06 | P2 | test/cosession.test.ts | 幂等用例标题「不重评成就」与补偿修复后行为不符（断言仍正确，描述误导） | fixed：标题与注释更正为「补偿重放无新增」 | 第 4 夜（白班） |

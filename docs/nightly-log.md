@@ -5,10 +5,41 @@
 
 ---
 
-## 2026-09-06 ｜ 第 3 夜任务 ｜ 状态：✅ 完成（**白班提前完成**，今晚 23:00 夜班请直接执行第 4 夜任务）
+## 2026-09-06 ｜ 第 4 夜任务 ｜ 状态：✅ 完成（**白班同日提前完成**，今晚 23:00 夜班请直接执行第 5 夜任务）｜ 🏁 M-A 里程碑达成，tag `m-a-done` 已打
 
 **⚠️ 给 2026-09-06 23:00 夜班会话的重要说明：**
-第 3 夜全部任务（微信读书业务 API 四件套 + P2-007 限流）已由白班会话于今日 17:40–19:00 完成，三道审查门全部通过，登记册已更新。**按协议「该夜任务已完成则顺延执行下一夜任务」——请直接执行第 4 夜任务（共读域 API 与模板共读卡，docs/03 §3 第 4 夜），并在收尾时打 `m-a-done` tag（M-A 里程碑夜）。** 无欠账、无未决 P0/P1。
+白班今日连续完成了**第 3 夜与第 4 夜**全部任务，各自通过三道审查门（两次独立的 code-reviewer 对抗审查 + 复审闭环）。**请直接执行第 5 夜任务（Web 地基与设计系统，docs/03 §3 第 5 夜）**——这是首个前端夜（apps/web：Vite+React18+Tailwind+PWA+Framer Motion）。无欠账、无未决 P0/P1。
+
+**完成任务：**
+- [x] ① cosession：POST /api/cosession（weread 书/纸质书书源互斥）、GET /active（断线续传）、GET /:id 详情、POST /:id/finish（**原子收尾 + 幂等**：updateMany 带 endedAt:null 条件防并发双收尾覆盖；重复收尾返回首次值）
+- [x] ② highlight_star：POST /api/cosession/:id/highlights 两来源（voice 口述 / weread 热门划线点选带 markCount「N 人划过这句」）；文本 1-500 字校验
+- [x] ③ achievement：夜灯第 N 晚 / 最长连续（跨 best 瞬间，streak≥2 起）/ 读完第 N 本（去重已读书计数 value，避免 bookId 塞不进 Int32 的 schema 变更）；**防重复解锁最后防线 = @@unique([childId,kind,value])，P2002 捕获跳过**；**已收尾分支补偿评估**（崩溃窗口缺页重放补齐，纪念成就账本级完整）
+- [x] ④ 模板共读卡：POST /api/cosession/:id/reading-card——讲什么 3（简介+热门划线+年龄段提示）/问什么 3（3-5/6-8/9-12 三档开放式问题梯度库）/聊什么（话题钩子）；稳定散列确定性生成（同书同孩子每次相同）；书信息+热门划线走 WereadService；未绑定/网关失败/限流 → 纯模板兜底不报错（升级信号不吞）；ParentPrompt 落库（genType=template）
+- [x] ⑤ EventLog：ritual_started / cosession_finished / highlight_added 三事件（写失败降级 warn 不阻塞主流程）
+- [x] 夜界工具 nights.ts：Unix 秒 → 本地日期桶（跨月/跨年/时区敏感边界单测）
+
+**审查门：**
+- Gate A：verify 全绿 **16 文件 165 用例**；覆盖率：全库语句 90.7%、cosession 模块语句 98.4%（≥70 ✓）、services/weread 分支 87%（≥85 ✓）、crypto 100%、auth 94%
+- Gate B：code-reviewer 对抗审查（增量）发现 **P2×8（零 P0/P1）**，当夜修复 4 项（N4-001 原子收尾 / N4-002 成就补偿 / N4-005 书源互斥 / N4-008 日志 warn）+ 复审**全部通过**，复审新发现文档级 P2×1（N4-R1 已修）；其余 4 项按建议排期（N4-004→夜 15、N4-006→夜 7、N4-007→夜 9、N4-003 随本条目闭环）
+- Gate C：验收走查——①完整共读（开→选书→收尾）落库正确 ✅（durationSec/进度/心情/事件链行为级断言）②断线续传重复收尾幂等 ✅（首次值不被覆盖、时长不变、补偿重放无新增）③成就只在阈值跨越瞬间解锁一次 ✅（同晚第二场不解锁、同书重读不解锁、新书才递增、纯逻辑 6 用例）。回归：第 3 夜 weread 路由 17 测 + 第 2 夜 family/auth 32 测 + 第 1 夜网关/缓存 33 测全绿
+
+**关键决策记录（供审查追踪）：**
+1. **夜界时区**（N4-003/004）：存储一律 Unix 秒；「一晚」的分桶取**服务器本地日期**（家庭自部署单时区，与家长感知一致）。容器化部署必须设 TZ（如 Asia/Shanghai），已列第 15 夜部署前置（与 trustProxy 同批）。
+2. **成就 value 语义**：夜灯=累计晚数、最长连续=连读晚数、读完=去重已读书序数——三者天然递增，复用 schema 现有唯一约束即可防重，无需 schema 变更。固有特性：极并发下两个中间值可能跳档（如两本同时首次读完只产生 value=2）——已评估为可接受的纪念级损失。
+3. M-A 出口标准中的 deepLink 三链路实测按计划留第 7 夜（第 1 夜起即为既定安排），不阻塞 m-a-done。
+
+**给今晚 23:00 夜班（9/6，执行第 5 夜）的交接便签：**
+1. 第 5 夜照 docs/03 §3 执行：apps/web 初始化（Vite+React18+TS+Tailwind+PWA+Framer Motion）、设计系统落盘 docs/design-system.md 同步、基础组件（TaButton/TaCard/TaSheet/TaSticker/Loading/ErrorState/EmptyState）、路由与角色框架（孩子端/家长端 + 家庭码登录，后端 /api/family 与 /join 已就绪）、/dev/kitchen-sink 组件演示页、截图基线 docs/screenshots/night-05/
+2. 后端已全部就绪可直接对接：业务 API 见 modules/weread/routes.ts、共读域见 modules/cosession/routes.ts；孩子视图 /api/shelf?view=child（服务端按角色强制）；共读卡 /api/cosession/:id/reading-card；测试 mock 模式参考 test/weread-routes.test.ts 的 makeMockGateway
+3. 审查重点（计划指定）：可访问性（对比度 ≥4.5、字号 ≥16px、触达 ≥64px）、prefers-reduced-motion 降级；UI 文案必须过 docs/02 §3.4 负向清单（无焦虑话术）
+
+**遗留：** 无 P0/P1。开放 P2：N3-005/N4-004（部署前置，夜 15）、N3-006（registry 上限，夜 13）、N3-007/N3-R4/N4-007（夜 9 重构批）、N4-006（夜 7）。deepLink 三链路验证留第 7 夜。
+
+---
+
+## 2026-09-06 ｜ 第 3 夜任务 ｜ 状态：✅ 完成（白班提前完成；第 4 夜亦已于同日白班完成，见上方条目）
+
+**说明：** 第 3 夜全部任务（微信读书业务 API 四件套 + P2-007 限流）由白班会话完成，三道审查门全部通过。
 
 **完成任务：**
 - [x] ① P2-007（清账）：IpRateLimiter——每 IP 令牌桶（capacity 5 / refill 10min⁻¹，第 1 夜摸底安全参数），挂 POST /api/family 与 /join 两个无凭据入口；RateLimitedError 统一映射 429 语义化中文
@@ -27,7 +58,7 @@
 **产品决策（N3-003，需用户知情）：**
 孩子视图**默认不放行任何听书专辑**——微信读书回包的 albums 无 category 字段，服务端无法判定适龄，「成人有声书漏给孩子」是不可接受的红色风险，故宁缺勿滥。孩子的听书场景将由第 9 夜家长端补「逐个放行」能力（家长自选哪些专辑对孩子可见）。童书类目白名单初版仅含 docs/02 点名的前缀 1300000，**待用户用真实书架数据校准后扩充**（等真实联调时看 category 实际值域）。
 
-**给今晚 23:00 夜班（9/6，执行第 4 夜）的交接便签：**
+**给第 4 夜的交接便签（已于同日白班消化完毕，留档）：**
 1. 第 4 夜任务照 docs/03 §3 执行：cosession（开/收尾/进度三档/心情/金句两来源）、highlight_star、achievement（夜灯/最长连续/读完，唯一约束防重复解锁）、模板共读卡（年龄段三档问题梯度 [02 §2.2]）。审查重点：幂等（重复收尾）、时区（统一 Unix 秒）、成就解锁竞态
 2. 可复用的本夜基建：WereedServiceRegistry（`registry.get(familyId)` 拿服务实例，热门划线 `service.endpoints.bestBookmarks` 供金句点选）；BookCache 表已建未启用（共读卡若需持久化书信息可用）；EventLog 表可记 ritual 事件；屏蔽/孩子视图逻辑在 modules/weread/shelf.ts（纯函数可直接复用）
 3. **收尾打 `m-a-done` tag**（第 4 夜=里程碑夜）；提醒：M-A 出口标准中的 deepLink 三链路实测按计划留第 7 夜，不阻塞 tag

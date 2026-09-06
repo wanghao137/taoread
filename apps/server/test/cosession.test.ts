@@ -191,7 +191,7 @@ describe('共读域 API（第 4 夜）', () => {
       expect(after.json().session).toBeNull()
     })
 
-    it('重复收尾幂等：第二次 alreadyFinished、不改库、不重评成就', async () => {
+    it('重复收尾幂等：alreadyFinished、首次值不被覆盖、补偿重放无新增', async () => {
       const f = await createBoundFamily(h.app, nextKey())
       const childId = await createChild(h.app, f.token, f.familyId)
       const s = await h.app.inject({
