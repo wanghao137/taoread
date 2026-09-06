@@ -24,6 +24,8 @@ export interface BuildAppOptions {
   ipLimiter?: IpRateLimiter
   /** 业务出网函数工厂（测试注入 mock 网关；默认真实网关） */
   wereadCall?: (apiKey: string) => WereadCall
+  /** 出网缓存/限流时钟注入（测试冻结时间用） */
+  wereadNow?: () => number
   allowedOrigin?: string | boolean
   logger?: boolean
 }
@@ -51,6 +53,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       options.wereadCall ??
       ((apiKey) => (apiName, params) =>
         callWereadApi({ apiKey, apiName, params })),
+    now: options.wereadNow,
   })
 
   registerFamilyRoutes(app, {

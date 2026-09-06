@@ -372,29 +372,38 @@ describe('微信读书业务 API（第 3 夜四件套）', () => {
   })
 
   describe('出网限流（令牌桶耗尽 → 429 语义化中文）', () => {
-    it('同一家庭连续 6 次实时调用，第 6 次起返回 429', async () => {
-      const f = await createBoundFamily(h.app, nextKey())
-      // beforeEach 建新家庭（新 familyId → 新服务实例 → 满桶 5）
-      const codes: number[] = []
-      for (let i = 1; i <= 6; i++) {
-        const res = await h.app.inject({
-          method: 'GET',
-          url: `/api/book/P${i}/progress`, // progress 不缓存，每次真实出网
-          headers: authHeaders(f.token),
-        })
-        codes.push(res.statusCode)
+    it('同一家庭连续 6 次实时调用，第 6 次起返回 429（冻结时钟，确定性）', async () => {
+      // 独立 app + 冻结时钟：桶容量 5 且永不回补 → 恰好 5 次 200 后 429
+      const local = await makeApp(probeOk, {
+        wereadCall: gateway.factory,
+        wereadNow: () => 1_000_000,
+      })
+      try {
+        const f = await createBoundFamily(local.app, nextKey())
+        const codes: number[] = []
+        for (let i = 1; i <= 6; i++) {
+          const res = await local.app.inject({
+            method: 'GET',
+            url: `/api/book/P${i}/progress`, // progress 不缓存，每次真实出网
+            headers: authHeaders(f.token),
+          })
+          codes.push(res.statusCode)
+        }
+        expect(codes.slice(0, 5)).toEqual([200, 200, 200, 200, 200])
+        expect(codes[5]).toBe(429)
+        const body = (
+          await local.app.inject({
+            method: 'GET',
+            url: '/api/book/P7/progress',
+            headers: authHeaders(f.token),
+          })
+        ).json()
+        expect(body.code).toBe('WEREAD_RATE_LIMITED')
+        expect(body.message).toContain('频繁')
+      } finally {
+        await local.app.close()
+        await local.db.$disconnect()
       }
-      expect(codes.slice(0, 5)).toEqual([200, 200, 200, 200, 200])
-      expect(codes[5]).toBe(429)
-      const body = (
-        await h.app.inject({
-          method: 'GET',
-          url: '/api/book/P7/progress',
-          headers: authHeaders(f.token),
-        })
-      ).json()
-      expect(body.code).toBe('WEREAD_RATE_LIMITED')
-      expect(body.message).toContain('频繁')
     })
   })
 
@@ -444,5 +453,9 @@ describe('WereadServiceRegistry 单元', () => {
     currentKey = 'wrk-abc-0002'
     const s3 = await registry.get('f1')
     expect(s3).not.toBe(s1) // key 变化 → 新实例（自愈重绑）
+
+    registry.reset()
+    const s4 = await registry.get('f1')
+    expect(s4).not.toBe(s3) // reset 后重建（测试辅助）
   })
 })

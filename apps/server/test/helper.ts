@@ -21,6 +21,8 @@ export interface MakeAppOpts {
   ipLimiter?: IpRateLimiter
   /** mock 网关工厂（业务出网注入） */
   wereadCall?: (apiKey: string) => WereadCall
+  /** 冻结业务缓存/限流时钟（限流类测试确定性用） */
+  wereadNow?: () => number
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -35,6 +37,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
       opts.ipLimiter ??
       new IpRateLimiter({ capacity: 100_000, refillPerMinute: 100_000 }),
     wereadCall: opts.wereadCall,
+    wereadNow: opts.wereadNow,
   })
   return { app, db }
 }

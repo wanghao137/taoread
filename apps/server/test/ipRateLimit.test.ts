@@ -9,11 +9,10 @@ const probeOk = async () => 'active' as const
 describe('IP 级限流（N2-007：无凭据入口）', () => {
   describe('IpRateLimiter 单元', () => {
     it('同一 IP 超容量后第 N+1 次抛 RateLimitedError（429）', () => {
-      let t = 0
       const limiter = new IpRateLimiter({
         capacity: 2,
         refillPerMinute: 60,
-        now: () => t,
+        now: () => 0,
       })
       expect(() => limiter.take('1.1.1.1')).not.toThrow()
       expect(() => limiter.take('1.1.1.1')).not.toThrow()
@@ -56,8 +55,8 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
 
     beforeAll(async () => {
       h = await makeApp(probeOk, {
-        // 小实例：容量 2、回补 60/分钟（真实时钟，各用例用独立 remoteAddress 隔离桶）
-        ipLimiter: new IpRateLimiter({ capacity: 2, refillPerMinute: 60 }),
+        // 小实例：容量 2、时钟冻结（永不回补）→ 用例完全确定性；各用例独立 remoteAddress 隔离桶
+        ipLimiter: new IpRateLimiter({ capacity: 2, refillPerMinute: 60, now: () => 1_000_000 }),
       })
       db = h.db
       await h.app.ready()
