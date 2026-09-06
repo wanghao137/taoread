@@ -1,0 +1,196 @@
+/**
+ * 微信读书业务 API（第 3 夜四件套）：
+ *   GET /api/shelf                          书架聚合（三区和口径 + 快照落库 + ?view=child 孩子视图）
+ *   GET /api/book/:bookId/info|chapters     书籍信息/章节目录（回包直通，24h 缓存）
+ *   GET /api/book/:bookId/progress          阅读进度（实时，不缓存）
+ *   GET /api/book/recommend                 个性化推荐（童书白名单 + 家长屏蔽过滤）
+ *   GET /api/book/:bookId/bestbookmarks     全书热门划线
+ *   PUT /api/family/:familyId/shelf/:bookId/blocked  家长单书屏蔽（N9 家长端用）
+ * 全部业务流量经 WereadService（缓存 + 家庭隔离 + 令牌桶限流）。
+ */
+import type { FastifyInstance, FastifyRequest } from 'fastify'
+import type { PrismaClient } from '@prisma/client'
+import { z } from 'zod'
+import { requireAuth, assertSameFamily } from '../family/routes'
+import type { WereadServiceRegistry } from '../../services/weread/registry'
+import { UnauthorizedError, ValidationError } from '../../lib/errors'
+import {
+  asRecord,
+  filterChildRecommend,
+  filterChildShelf,
+  shelfTotal,
+  syncShelfSnapshot,
+  toShelfItems,
+} from './shelf'
+
+function parse<T>(schema: z.ZodType<T>, data: unknown): T {
+  const result = schema.safeParse(data)
+  if (!result.success) {
+    const detail = result.error.issues.map((issue) => issue.message).join('；')
+    throw new ValidationError(detail || '请求参数不正确')
+  }
+  return result.data
+}
+
+const bookIdParamSchema = z.object({ bookId: z.string().min(1).max(128) })
+const familyBookParamSchema = z.object({
+  familyId: z.string().min(1),
+  bookId: z.string().min(1).max(128),
+})
+
+function authFid(request: FastifyRequest): string {
+  if (!request.auth) throw new UnauthorizedError()
+  return request.auth.fid
+}
+
+/** 该家庭被屏蔽的书 id 集合（用于孩子视图与推荐流过滤） */
+async function loadBlockedBookIds(
+  db: PrismaClient,
+  familyId: string,
+): Promise<Set<string>> {
+  const rows = await db.shelfSnapshot.findMany({
+    where: { familyId, blocked: true },
+    select: { bookId: true },
+  })
+  return new Set(rows.map((row) => row.bookId))
+}
+
+export interface WereadRoutesDeps {
+  db: PrismaClient
+  registry: WereadServiceRegistry
+  tokenSecret: Buffer
+}
+
+export function registerWereadRoutes(
+  app: FastifyInstance,
+  deps: WereadRoutesDeps,
+): void {
+  const { db, registry, tokenSecret } = deps
+
+  // ── 书架聚合 ──
+  app.get('/api/shelf', { preHandler: requireAuth(tokenSecret) }, async (request) => {
+    const familyId = authFid(request)
+    const service = await registry.get(familyId)
+    const payload = await service.endpoints.shelfSync()
+    await syncShelfSnapshot(db, familyId, payload)
+
+    const items = toShelfItems(payload)
+    const blockedBookIds = await loadBlockedBookIds(db, familyId)
+    if (parse(z.object({ view: z.enum(['full', 'child']).optional() }), request.query ?? {}).view === 'child') {
+      const childItems = filterChildShelf(items, blockedBookIds)
+      return {
+        view: 'child' as const,
+        total: shelfTotal(childItems),
+        bookCount: childItems.books.length,
+        albumCount: childItems.albums.length,
+        books: childItems.books,
+        albums: childItems.albums,
+        mp: childItems.mp,
+      }
+    }
+    return {
+      view: 'full' as const,
+      total: shelfTotal(items),
+      bookCount: items.books.length,
+      albumCount: items.albums.length,
+      books: items.books,
+      albums: items.albums,
+      mp: items.mp,
+      blockedBookIds: [...blockedBookIds],
+    }
+  })
+
+  // ── 书籍信息（回包直通：字段口径以 skill 文档为准，不做增删） ──
+  app.get('/api/book/:bookId/info', {
+    preHandler: requireAuth(tokenSecret),
+  }, async (request) => {
+    const { bookId } = parse(bookIdParamSchema, request.params)
+    const service = await registry.get(authFid(request))
+    return service.endpoints.bookInfo(bookId)
+  })
+
+  // ── 章节目录（直通） ──
+  app.get('/api/book/:bookId/chapters', {
+    preHandler: requireAuth(tokenSecret),
+  }, async (request) => {
+    const { bookId } = parse(bookIdParamSchema, request.params)
+    const service = await registry.get(authFid(request))
+    return service.endpoints.chapterInfo(bookId)
+  })
+
+  // ── 阅读进度（实时数据，WereadService 层不缓存） ──
+  app.get('/api/book/:bookId/progress', {
+    preHandler: requireAuth(tokenSecret),
+  }, async (request) => {
+    const { bookId } = parse(bookIdParamSchema, request.params)
+    const service = await registry.get(authFid(request))
+    return service.endpoints.getProgress(bookId)
+  })
+
+  // ── 个性化推荐（童书白名单 + 家长屏蔽过滤） ──
+  app.get('/api/book/recommend', {
+    preHandler: requireAuth(tokenSecret),
+  }, async (request) => {
+    const familyId = authFid(request)
+    const { count } = parse(
+      z.object({ count: z.coerce.number().int().min(1).max(50).default(12) }),
+      request.query ?? {},
+    )
+    const service = await registry.get(familyId)
+    const payload = await service.endpoints.bookRecommend(count)
+    const root = asRecord(payload) ?? {}
+    const rawBooks = Array.isArray(root.books) ? root.books : []
+    const books = rawBooks
+      .map(asRecord)
+      .filter((b): b is Record<string, unknown> => b !== null)
+    const blockedBookIds = await loadBlockedBookIds(db, familyId)
+    return { books: filterChildRecommend(books, blockedBookIds), rawCount: books.length }
+  })
+
+  // ── 全书热门划线（直通；chapterUid=0 表示全部章节） ──
+  app.get('/api/book/:bookId/bestbookmarks', {
+    preHandler: requireAuth(tokenSecret),
+  }, async (request) => {
+    const { bookId } = parse(bookIdParamSchema, request.params)
+    const { chapterUid } = parse(
+      z.object({ chapterUid: z.coerce.number().int().min(0).default(0) }),
+      request.query ?? {},
+    )
+    const service = await registry.get(authFid(request))
+    return service.endpoints.bestBookmarks(bookId, chapterUid)
+  })
+
+  // ── 家长单书屏蔽（仅家长；夜 9 家长端屏蔽管理用） ──
+  app.put('/api/family/:familyId/shelf/:bookId/blocked', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId, bookId } = parse(familyBookParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    const body = parse(
+      z.object({
+        kind: z.enum(['book', 'album']),
+        blocked: z.boolean(),
+        title: z.string().max(200).optional(),
+        author: z.string().max(200).nullish(),
+        cover: z.string().max(1024).nullish(),
+        category: z.string().max(64).nullish(),
+      }),
+      request.body ?? {},
+    )
+    await db.shelfSnapshot.upsert({
+      where: { familyId_bookId_kind: { familyId, bookId, kind: body.kind } },
+      create: {
+        familyId,
+        bookId,
+        kind: body.kind,
+        title: body.title ?? bookId,
+        author: body.author ?? null,
+        cover: body.cover ?? null,
+        category: body.category ?? null,
+        blocked: body.blocked,
+      },
+      update: { blocked: body.blocked },
+    })
+    return { ok: true, bookId, kind: body.kind, blocked: body.blocked }
+  })
+}

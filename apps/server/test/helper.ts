@@ -4,6 +4,7 @@ import { buildApp } from '../src/app'
 import { createDb } from '../src/lib/db'
 import { IpRateLimiter } from '../src/lib/ipRateLimit'
 import { tokenSecretFrom, type KeyProbe } from '../src/modules/family/service'
+import type { WereadCall } from '../src/services/weread/endpoints'
 
 export const TEST_MASTER_KEY = 'test-master-key-0123456789abcdef'
 export const TEST_DB_URL = 'file:./test.db'
@@ -16,10 +17,13 @@ export interface TestHarness {
   db: PrismaClient
 }
 
-export async function makeApp(
-  probe?: KeyProbe,
-  opts: { ipLimiter?: IpRateLimiter } = {},
-): Promise<TestHarness> {
+export interface MakeAppOpts {
+  ipLimiter?: IpRateLimiter
+  /** mock 网关工厂（业务出网注入） */
+  wereadCall?: (apiKey: string) => WereadCall
+}
+
+export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
   const db = createDb(TEST_DB_URL)
   const app = await buildApp({
     db,
@@ -30,8 +34,31 @@ export async function makeApp(
     ipLimiter:
       opts.ipLimiter ??
       new IpRateLimiter({ capacity: 100_000, refillPerMinute: 100_000 }),
+    wereadCall: opts.wereadCall,
   })
   return { app, db }
+}
+
+/** 建家庭 → 家长绑定假 key，返回带 Authorization 头所需的全套凭据 */
+export async function createBoundFamily(
+  app: FastifyInstance,
+  apiKey = FAKE_KEY,
+): Promise<{ familyId: string; familyCode: string; token: string }> {
+  const parent = await createFamilyAsParent(app)
+  const res = await app.inject({
+    method: 'POST',
+    url: `/api/family/${parent.familyId}/bind-weread`,
+    headers: { authorization: `Bearer ${parent.token}` },
+    payload: { apiKey },
+  })
+  if (res.statusCode !== 200) {
+    throw new Error(`createBoundFamily 绑定失败：${res.statusCode} ${res.body}`)
+  }
+  return parent
+}
+
+export function authHeaders(token: string): Record<string, string> {
+  return { authorization: `Bearer ${token}` }
 }
 
 /** 建家庭并返回家长端会话 */

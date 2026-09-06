@@ -78,6 +78,13 @@ export class RateLimitedError extends AppError {
   }
 }
 
+/** 家庭尚未绑定微信读书 API Key（先到家长端完成绑定） */
+export class NotBoundError extends AppError {
+  constructor(message = '还没有绑定微信读书，请先在家长端完成绑定') {
+    super(message, 'WEREAD_NOT_BOUND', 409)
+  }
+}
+
 /** 配置错误 */
 export class ConfigError extends AppError {
   constructor(message: string) {

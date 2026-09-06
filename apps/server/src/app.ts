@@ -1,10 +1,18 @@
 import Fastify, { type FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
 import type { PrismaClient } from '@prisma/client'
-import { AppError } from './lib/errors'
+import {
+  AppError,
+  WereadApiError,
+  WereadHttpError,
+} from './lib/errors'
 import { IpRateLimiter, IP_LIMIT_DEFAULTS } from './lib/ipRateLimit'
 import { registerFamilyRoutes } from './modules/family/routes'
-import type { KeyProbe } from './modules/family/service'
+import { getBoundKey, type KeyProbe } from './modules/family/service'
+import { registerWereadRoutes } from './modules/weread/routes'
+import { callWereadApi } from './services/weread/gateway'
+import type { WereadCall } from './services/weread/endpoints'
+import { WereadServiceRegistry } from './services/weread/registry'
 
 export interface BuildAppOptions {
   db: PrismaClient
@@ -14,6 +22,8 @@ export interface BuildAppOptions {
   probeKey?: KeyProbe
   /** 无凭据入口 IP 限流（测试可注入宽松/可控实例） */
   ipLimiter?: IpRateLimiter
+  /** 业务出网函数工厂（测试注入 mock 网关；默认真实网关） */
+  wereadCall?: (apiKey: string) => WereadCall
   allowedOrigin?: string | boolean
   logger?: boolean
 }
@@ -21,6 +31,8 @@ export interface BuildAppOptions {
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
   const app = Fastify({
     logger: options.logger ?? false,
+    // bookId 等路径参数允许到 128（与各路由 zod 校验一致；默认 100 会在路由层 404）
+    maxParamLength: 256,
   })
 
   await app.register(cors, {
@@ -33,6 +45,14 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     time: new Date().toISOString(),
   }))
 
+  const registry = new WereadServiceRegistry({
+    getKey: (familyId) => getBoundKey(options.db, options.masterKey, familyId),
+    makeCall:
+      options.wereadCall ??
+      ((apiKey) => (apiName, params) =>
+        callWereadApi({ apiKey, apiName, params })),
+  })
+
   registerFamilyRoutes(app, {
     db: options.db,
     tokenSecret: options.tokenSecret,
@@ -43,9 +63,20 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       new IpRateLimiter({ ...IP_LIMIT_DEFAULTS }),
   })
 
-  // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；未知错误一律 500 且不泄露内部信息
+  registerWereadRoutes(app, {
+    db: options.db,
+    registry,
+    tokenSecret: options.tokenSecret,
+  })
+
+  // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；
+  // 网关错误统一 502（客户端只见语义化中文，不暴露重试/内部细节）；未知错误一律 500
   app.setErrorHandler((error, _request, reply) => {
     if (error instanceof AppError) {
+      if (error instanceof WereadHttpError || error instanceof WereadApiError) {
+        reply.code(502).send({ code: error.code, message: '微信读书暂时联系不上，请稍后再试~' })
+        return
+      }
       reply.code(error.statusCode).send({ code: error.code, message: error.message })
       return
     }
