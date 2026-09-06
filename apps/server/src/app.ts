@@ -33,7 +33,7 @@ export interface BuildAppOptions {
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
   const app = Fastify({
     logger: options.logger ?? false,
-    // bookId 等路径参数允许到 128（与各路由 zod 校验一致；默认 100 会在路由层 404）
+    // 放宽路径参数长度上限到 256（zod 校验限 bookId≤128；默认 100 会让超长参数在路由层 404 而非 400）
     maxParamLength: 256,
   })
 

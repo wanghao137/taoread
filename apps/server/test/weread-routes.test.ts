@@ -200,7 +200,7 @@ describe('微信读书业务 API（第 3 夜四件套）', () => {
       expect(rows.find((r) => r.bookId === 'B1002')?.blocked).toBe(false)
     })
 
-    it('孩子视图 view=child：白名单 books + 未屏蔽 albums，总数按同口径重算', async () => {
+    it('孩子视图 view=child：白名单 books、专辑默认不放行，总数按同口径重算', async () => {
       const f = await createBoundFamily(h.app, nextKey())
       await h.app.inject({
         method: 'PUT',
@@ -216,10 +216,77 @@ describe('微信读书业务 API（第 3 夜四件套）', () => {
       const body = res.json()
       expect(body.view).toBe('child')
       // 白名单书 B1001/B1002（1300000xxx），B2001(1000000) 被滤；
-      // 专辑 A3001 被家长屏蔽；mp 入口保留 → 总数 = 2 + 0 + 1 = 3
+      // 专辑无类目可判默认不放行（N3-003）；mp 入口保留 → 总数 = 2 + 0 + 1 = 3
       expect(body.books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001', 'B1002'])
       expect(body.albums).toEqual([])
       expect(body.total).toBe(3)
+    })
+
+    it('N3-002 回归：孩子角色不带 view 参数也强制孩子视图（服务端适龄义务）', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const child = await joinFamily(h.app, f.familyCode, 'child')
+      const res = await h.app.inject({
+        method: 'GET',
+        url: '/api/shelf',
+        headers: authHeaders(child.token),
+      })
+      const body = res.json()
+      expect(body.view).toBe('child')
+      expect(body.books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001', 'B1002'])
+      expect(body.blockedBookIds).toBeUndefined() // 全量视图专属字段不泄露给孩子
+    })
+
+    it('N3-001 回归：屏蔽不在书架上的推荐书，快照同步不丢屏蔽行，推荐流持续过滤', async () => {
+      const key = nextKey()
+      const f = await createBoundFamily(h.app, key)
+      // R1 是推荐流的书，不在书架回包里
+      const put = await h.app.inject({
+        method: 'PUT',
+        url: `/api/family/${f.familyId}/shelf/R1/blocked`,
+        headers: authHeaders(f.token),
+        payload: { kind: 'book', blocked: true, title: '猜猜我有多爱你' },
+      })
+      expect(put.statusCode).toBe(200)
+      // 书架同步（缓存未命中首拉 + 二次缓存命中都会跑同步）
+      await h.app.inject({ method: 'GET', url: '/api/shelf', headers: authHeaders(f.token) })
+      await h.app.inject({ method: 'GET', url: '/api/shelf', headers: authHeaders(f.token) })
+
+      const row = await db.shelfSnapshot.findFirst({ where: { familyId: f.familyId, bookId: 'R1' } })
+      expect(row?.blocked).toBe(true) // 屏蔽行在同步后存活
+
+      const rec = await h.app.inject({
+        method: 'GET',
+        url: '/api/book/recommend',
+        headers: authHeaders(f.token),
+      })
+      // R1 被屏蔽、R2 非童书被滤；B1001 是童书且未屏蔽 → 保留
+      expect(rec.json().books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001'])
+    })
+
+    it('N3-002 回归：孩子访问被屏蔽书的详情接口返回 404', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const child = await joinFamily(h.app, f.familyCode, 'child')
+      await h.app.inject({
+        method: 'PUT',
+        url: `/api/family/${f.familyId}/shelf/B1001/blocked`,
+        headers: authHeaders(f.token),
+        payload: { kind: 'book', blocked: true },
+      })
+      for (const suffix of ['info', 'chapters', 'progress', 'bestbookmarks']) {
+        const res = await h.app.inject({
+          method: 'GET',
+          url: `/api/book/B1001/${suffix}`,
+          headers: authHeaders(child.token),
+        })
+        expect(res.statusCode).toBe(404)
+      }
+      // 家长本人不受屏蔽限制（屏蔽是给孩子的适龄管控，不是家长的）
+      const parentRes = await h.app.inject({
+        method: 'GET',
+        url: '/api/book/B1001/info',
+        headers: authHeaders(f.token),
+      })
+      expect(parentRes.statusCode).toBe(200)
     })
   })
 

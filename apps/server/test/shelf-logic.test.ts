@@ -59,22 +59,22 @@ describe('童书类目白名单', () => {
 })
 
 describe('孩子视图过滤', () => {
-  it('books 按白名单+屏蔽过滤；albums 无 category 字段仅按屏蔽过滤；mp 保留', () => {
+  it('books 按白名单+屏蔽过滤；albums 无类目可判默认全不放行（N3-003 宁缺勿滥）；mp 保留', () => {
     const items = toShelfItems({
       books: [book('B1', '1300000'), book('B2', '1000000'), book('B3', '1300000456')],
       albums: [album('A1'), album('A2')],
       mp: {},
     })
-    const child = filterChildShelf(items, new Set(['B3']))
+    const child = filterChildShelf(items, new Set(['book:B3']))
     expect(child.books.map((b) => b.bookId)).toEqual(['B1'])
-    expect(child.albums.map((a) => (a.albumInfo as { albumId: string }).albumId)).toEqual(['A1', 'A2'])
+    expect(child.albums).toEqual([]) // 听书放行留给夜 9 家长端逐个授权
     expect(child.mp).toEqual({})
-    expect(shelfTotal(child)).toBe(4) // 1 书 + 2 专辑 + 1 mp
+    expect(shelfTotal(child)).toBe(2) // 1 书 + 0 专辑 + 1 mp
   })
 
-  it('推荐流：白名单命中且未屏蔽的才返回', () => {
+  it('推荐流：白名单命中且未屏蔽（kind 前缀键）的才返回', () => {
     const recs = [book('R1', '1300000'), book('R2', '2000000'), book('R3', '1300000999')]
-    expect(filterChildRecommend(recs, new Set(['R3'])).map((b) => b.bookId)).toEqual(['R1'])
+    expect(filterChildRecommend(recs, new Set(['book:R3'])).map((b) => b.bookId)).toEqual(['R1'])
     // 无 category 的条目不进入孩子推荐流
     expect(filterChildRecommend([book('R9'), book('R8', '1300000321')], new Set()).map((b) => b.bookId)).toEqual(['R8'])
   })

@@ -13,7 +13,7 @@ import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth, assertSameFamily } from '../family/routes'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
-import { UnauthorizedError, ValidationError } from '../../lib/errors'
+import { NotFoundError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import {
   asRecord,
   filterChildRecommend,
@@ -43,16 +43,27 @@ function authFid(request: FastifyRequest): string {
   return request.auth.fid
 }
 
-/** 该家庭被屏蔽的书 id 集合（用于孩子视图与推荐流过滤） */
-async function loadBlockedBookIds(
-  db: PrismaClient,
-  familyId: string,
-): Promise<Set<string>> {
+/** 该家庭被屏蔽的条目键集合（kind 前缀隔离 book/album id 空间，N3-004） */
+async function loadBlockedKeys(db: PrismaClient, familyId: string): Promise<Set<string>> {
   const rows = await db.shelfSnapshot.findMany({
     where: { familyId, blocked: true },
-    select: { bookId: true },
+    select: { bookId: true, kind: true },
   })
-  return new Set(rows.map((row) => row.bookId))
+  return new Set(rows.map((row) => `${row.kind}:${row.bookId}`))
+}
+
+/** 孩子角色对被家长屏蔽的书访问详情 → 404（N3-002：适龄管控是服务端义务，不依赖客户端自觉） */
+async function assertNotBlockedForChild(
+  db: PrismaClient,
+  request: FastifyRequest,
+  bookId: string,
+): Promise<void> {
+  if (request.auth?.role !== 'child') return
+  const blocked = await db.shelfSnapshot.findFirst({
+    where: { familyId: request.auth.fid, bookId, blocked: true },
+    select: { id: true },
+  })
+  if (blocked) throw new NotFoundError('没有找到这本书')
 }
 
 export interface WereadRoutesDeps {
@@ -75,9 +86,15 @@ export function registerWereadRoutes(
     await syncShelfSnapshot(db, familyId, payload)
 
     const items = toShelfItems(payload)
-    const blockedBookIds = await loadBlockedBookIds(db, familyId)
-    if (parse(z.object({ view: z.enum(['full', 'child']).optional() }), request.query ?? {}).view === 'child') {
-      const childItems = filterChildShelf(items, blockedBookIds)
+    const blockedKeys = await loadBlockedKeys(db, familyId)
+    // N3-002：孩子角色服务端强制孩子视图（忽略 query）；家长/全量视图仅家长角色可达
+    const queryView = parse(
+      z.object({ view: z.enum(['full', 'child']).optional() }),
+      request.query ?? {},
+    ).view
+    const isChild = request.auth?.role === 'child'
+    if (queryView === 'child' || isChild) {
+      const childItems = filterChildShelf(items, blockedKeys)
       return {
         view: 'child' as const,
         total: shelfTotal(childItems),
@@ -96,7 +113,7 @@ export function registerWereadRoutes(
       books: items.books,
       albums: items.albums,
       mp: items.mp,
-      blockedBookIds: [...blockedBookIds],
+      blockedBookIds: [...blockedKeys],
     }
   })
 
@@ -105,6 +122,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
+    await assertNotBlockedForChild(db, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.bookInfo(bookId)
   })
@@ -114,6 +132,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
+    await assertNotBlockedForChild(db, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.chapterInfo(bookId)
   })
@@ -123,6 +142,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
+    await assertNotBlockedForChild(db, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.getProgress(bookId)
   })
@@ -143,8 +163,8 @@ export function registerWereadRoutes(
     const books = rawBooks
       .map(asRecord)
       .filter((b): b is Record<string, unknown> => b !== null)
-    const blockedBookIds = await loadBlockedBookIds(db, familyId)
-    return { books: filterChildRecommend(books, blockedBookIds), rawCount: books.length }
+    const blockedKeys = await loadBlockedKeys(db, familyId)
+    return { books: filterChildRecommend(books, blockedKeys), rawCount: books.length }
   })
 
   // ── 全书热门划线（直通；chapterUid=0 表示全部章节） ──
@@ -152,6 +172,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
+    await assertNotBlockedForChild(db, request, bookId)
     const { chapterUid } = parse(
       z.object({ chapterUid: z.coerce.number().int().min(0).default(0) }),
       request.query ?? {},

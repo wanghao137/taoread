@@ -33,6 +33,11 @@ export function isChildCategory(category: unknown): boolean {
   return CHILD_CATEGORY_PREFIXES.some((prefix) => category.startsWith(prefix))
 }
 
+/** 屏蔽键：kind 前缀隔离 book/album 两个独立 id 空间，防同值碰撞误伤（N3-004） */
+export function blockedKey(kind: string, bookId: string): string {
+  return `${kind}:${bookId}`
+}
+
 export interface ShelfItems {
   books: Record<string, unknown>[]
   albums: Record<string, unknown>[]
@@ -66,36 +71,36 @@ export function getAlbumId(album: Record<string, unknown>): string | null {
 }
 
 /**
- * 孩子视图过滤：
- * - books：童书白名单（category 命中）且未被家长屏蔽；
- * - albums：回包无 category 字段（shelf.md 未定义），无法类目判定——
- *   只按家长屏蔽过滤（有声书是出发卡三通道之一，全部隐藏会砍掉听书场景）；
+ * 孩子视图过滤（N3-003 决策：宁缺勿滥）：
+ * - books：仅童书白名单（category 命中 1300000 前缀）且未被家长屏蔽；
+ * - albums：回包无 category 字段（shelf.md 未定义），服务端无法判定适龄——
+ *   默认全部不进入孩子视图（成人有声书不可漏给孩子是红线；听书放行留给夜 9 家长端逐个授权）；
  * - mp：文章收藏入口（无 id 可屏蔽），原样保留。
- * 该偏离已记录夜间日志，待真实数据/家长反馈校准。
+ * 该产品决策已登记 nightly-log 第 3 夜与 bug-register N3-003。
  */
 export function filterChildShelf(
   items: ShelfItems,
-  blockedBookIds: ReadonlySet<string>,
+  blocked: ReadonlySet<string>,
 ): ShelfItems {
   const books = items.books.filter((b) => {
     const id = getBookId(b)
-    return id !== null && !blockedBookIds.has(id) && isChildCategory(b.category)
+    return (
+      id !== null && !blocked.has(blockedKey('book', id)) && isChildCategory(b.category)
+    )
   })
-  const albums = items.albums.filter((a) => {
-    const id = getAlbumId(a)
-    return id !== null && !blockedBookIds.has(id)
-  })
-  return { books, albums, mp: items.mp }
+  return { books, albums: [], mp: items.mp }
 }
 
 /** 推荐流孩子过滤：童书白名单 + 未被屏蔽（discover.md：books[].category 存在） */
 export function filterChildRecommend(
   books: Record<string, unknown>[],
-  blockedBookIds: ReadonlySet<string>,
+  blocked: ReadonlySet<string>,
 ): Record<string, unknown>[] {
   return books.filter((b) => {
     const id = getBookId(b)
-    return id !== null && !blockedBookIds.has(id) && isChildCategory(b.category)
+    return (
+      id !== null && !blocked.has(blockedKey('book', id)) && isChildCategory(b.category)
+    )
   })
 }
 
@@ -113,8 +118,9 @@ function unixToDate(v: unknown): Date | null {
 }
 
 /**
- * 书架快照全量同步：保留家长 blocked 标记，其余以网关回包为准。
- * mp 入口无文档化 id，不入快照（数量口径在响应层计算）。
+ * 书架快照同步（N3-001 语义：blocked 行是家长管控数据，绝不因同步丢失）：
+ * - 已屏蔽行：原样保留（无论是否还在书架上——推荐流屏蔽的书天然不在书架）；
+ * - 未屏蔽行：全删全建（网关回包为准，元数据刷新）。
  */
 export async function syncShelfSnapshot(
   db: ShelfSnapshotDb,
@@ -126,8 +132,10 @@ export async function syncShelfSnapshot(
     where: { familyId },
     select: { bookId: true, kind: true, blocked: true },
   })
-  const blockedKeys = new Set(
-    existing.filter((row) => row.blocked).map((row) => `${row.kind}:${row.bookId}`),
+  const existingBlockedKeys = new Set(
+    existing
+      .filter((row) => row.blocked)
+      .map((row) => blockedKey(row.kind, row.bookId)),
   )
 
   type SnapshotRow = {
@@ -140,13 +148,13 @@ export async function syncShelfSnapshot(
     category: string | null
     finished: boolean
     readUpdateTime: Date | null
-    blocked: boolean
   }
   const rows: SnapshotRow[] = []
 
   for (const book of items.books) {
     const bookId = getBookId(book)
     if (bookId === null) continue
+    if (existingBlockedKeys.has(blockedKey('book', bookId))) continue // 屏蔽行保留原状
     rows.push({
       familyId,
       bookId,
@@ -157,12 +165,12 @@ export async function syncShelfSnapshot(
       category: asString(book.category),
       finished: book.finishReading === 1,
       readUpdateTime: unixToDate(book.readUpdateTime),
-      blocked: blockedKeys.has(`book:${bookId}`),
     })
   }
   for (const album of items.albums) {
     const albumId = getAlbumId(album)
     if (albumId === null) continue
+    if (existingBlockedKeys.has(blockedKey('album', albumId))) continue
     const info = asRecord(album.albumInfo)
     rows.push({
       familyId,
@@ -174,16 +182,15 @@ export async function syncShelfSnapshot(
       category: null,
       finished: info !== null && info.finish === 1,
       readUpdateTime: info ? unixToDate(info.updateTime) : null,
-      blocked: blockedKeys.has(`album:${albumId}`),
     })
   }
 
   if (rows.length === 0) {
-    await db.shelfSnapshot.deleteMany({ where: { familyId } })
+    await db.shelfSnapshot.deleteMany({ where: { familyId, blocked: false } })
     return
   }
   await db.$transaction([
-    db.shelfSnapshot.deleteMany({ where: { familyId } }),
+    db.shelfSnapshot.deleteMany({ where: { familyId, blocked: false } }),
     db.shelfSnapshot.createMany({ data: rows }),
   ])
 }
