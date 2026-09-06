@@ -63,13 +63,13 @@ async function logEvent(
   event: string,
   props: Record<string, unknown>,
 ): Promise<void> {
-  // 事件日志失败不影响主流程（观测数据，非账本）
+  // 事件日志失败不影响主流程（观测数据，非账本）；但要有最低限度的可发现性
   try {
     await db.eventLog.create({
       data: { familyId, role, event, props: JSON.stringify(props) },
     })
-  } catch {
-    /* 吞掉：见上 */
+  } catch (err) {
+    console.warn(`[event-log] 写入失败 event=${event}：`, err instanceof Error ? err.message : err)
   }
 }
 
@@ -90,6 +90,10 @@ export async function startSession(
   const paperTitle = input.paperTitle?.trim() || null
   if (!bookId && !paperTitle) {
     throw new ValidationError('请选择一本书，或填一下纸质书的书名')
+  }
+  // 书源互斥（N4-005）：微信读书书与纸质书二选一，避免共读卡书名优先级歧义
+  if (bookId && paperTitle) {
+    throw new ValidationError('微信读书的书和纸质书二选一就好啦')
   }
   const child = await assertOwnedChild(db, familyId, input.childId)
   const session = await db.cosession.create({
@@ -147,22 +151,29 @@ export async function finishSession(
   }
   const session = await assertOwnedSession(db, familyId, sessionId)
 
-  // 幂等收尾（断线续传/重复点击）：已收尾 → 只读返回，不再写库、不再评估成就
+  // 幂等收尾（断线续传/重复点击）：已收尾 → 只读返回 + 成就补偿评估（N4-002：
+  // 若首次收尾后、成就落库前发生异常，重试时在此补齐缺页——planUnlocks 幂等 + P2002 兜底，重放安全）
   if (session.endedAt !== null) {
+    const unlocked = await evaluateAchievements(db, familyId, session.childId, session.id, {
+      endedAtSec: Math.floor(session.endedAt.getTime() / 1000),
+      bookId: session.bookId,
+      progressMark: session.progressMark,
+    })
     return {
       id: session.id,
       alreadyFinished: true,
       durationSec: session.durationSec,
       progressMark: session.progressMark,
       mood: session.mood,
-      unlocked: [],
+      unlocked,
     }
   }
 
   const endedAtSec = nowSec()
   const durationSec = Math.max(0, endedAtSec - Math.floor(session.startedAt.getTime() / 1000))
-  await db.cosession.update({
-    where: { id: session.id },
+  // 原子收尾（N4-001）：where 带 endedAt: null，并发双收尾只有先到者生效，后到者 count=0 重读走幂等分支
+  const updated = await db.cosession.updateMany({
+    where: { id: session.id, endedAt: null },
     data: {
       endedAt: new Date(endedAtSec * 1000),
       durationSec,
@@ -170,6 +181,23 @@ export async function finishSession(
       mood: input.mood ?? null,
     },
   })
+  if (updated.count === 0) {
+    // 并发窗口内已被另一请求收尾：按已收尾语义返回（progressMark/mood 保留先到者的值）
+    const fresh = await db.cosession.findUnique({ where: { id: session.id } })
+    const unlocked = await evaluateAchievements(db, familyId, session.childId, session.id, {
+      endedAtSec: Math.floor((fresh?.endedAt ?? session.startedAt).getTime() / 1000),
+      bookId: session.bookId,
+      progressMark: fresh?.progressMark ?? null,
+    })
+    return {
+      id: session.id,
+      alreadyFinished: true,
+      durationSec: fresh?.durationSec ?? null,
+      progressMark: fresh?.progressMark ?? null,
+      mood: fresh?.mood ?? null,
+      unlocked,
+    }
+  }
 
   const unlocked = await evaluateAchievements(db, session.familyId, session.childId, session.id, {
     endedAtSec,

@@ -225,6 +225,49 @@ describe('共读域 API（第 4 夜）', () => {
       const session = await db.cosession.findUnique({ where: { id: s.json().id } })
       expect(session?.durationSec).toBe(first.json().durationSec) // 时长不因第二次调用变化
     })
+
+    it('成就补偿（N4-002）：首次收尾后成就意外缺失，重复收尾重放补齐', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const childId = await createChild(h.app, f.token, f.familyId)
+      const s = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B1' },
+      })
+      await h.app.inject({
+        method: 'POST',
+        url: `/api/cosession/${s.json().id}/finish`,
+        headers: authHeaders(f.token),
+        payload: { progressMark: 'done' },
+      })
+      // 模拟「收尾已提交、成就落库前崩溃」：删掉一行成就
+      await db.achievement.deleteMany({ where: { childId, kind: 'book_done' } })
+      expect(await db.achievement.findMany({ where: { childId } })).toHaveLength(1)
+
+      const retry = await h.app.inject({
+        method: 'POST',
+        url: `/api/cosession/${s.json().id}/finish`,
+        headers: authHeaders(f.token),
+        payload: {},
+      })
+      expect(retry.json().alreadyFinished).toBe(true)
+      expect(retry.json().unlocked).toEqual([{ kind: 'book_done', value: 1 }]) // 补齐缺页
+      const all = await db.achievement.findMany({ where: { childId } })
+      expect(all).toHaveLength(2) // night_lamp:1 + book_done:1
+    })
+
+    it('书源互斥（N4-005）：bookId 与 paperTitle 同时传 → 400', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const childId = await createChild(h.app, f.token, f.familyId)
+      const res = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B1', paperTitle: '纸质书名' },
+      })
+      expect(res.statusCode).toBe(400)
+    })
   })
 
   describe('成就只解锁一次', () => {
