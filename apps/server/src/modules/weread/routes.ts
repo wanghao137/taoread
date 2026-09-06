@@ -60,7 +60,8 @@ async function assertNotBlockedForChild(
 ): Promise<void> {
   if (request.auth?.role !== 'child') return
   const blocked = await db.shelfSnapshot.findFirst({
-    where: { familyId: request.auth.fid, bookId, blocked: true },
+    // kind 固定 book：详情接口均为 book 语义，album 屏蔽不得误伤同值 bookId（N3-R1）
+    where: { familyId: request.auth.fid, bookId, kind: 'book', blocked: true },
     select: { id: true },
   })
   if (blocked) throw new NotFoundError('没有找到这本书')

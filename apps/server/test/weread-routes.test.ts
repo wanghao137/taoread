@@ -234,6 +234,50 @@ describe('微信读书业务 API（第 3 夜四件套）', () => {
       expect(body.view).toBe('child')
       expect(body.books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001', 'B1002'])
       expect(body.blockedBookIds).toBeUndefined() // 全量视图专属字段不泄露给孩子
+
+      // 显式 view=full 也被强制回孩子视图（isChild 优先于 query）
+      const forced = await h.app.inject({
+        method: 'GET',
+        url: '/api/shelf?view=full',
+        headers: authHeaders(child.token),
+      })
+      expect(forced.json().view).toBe('child')
+      expect(forced.json().blockedBookIds).toBeUndefined()
+    })
+
+    it('解除屏蔽路径：PUT blocked=false 后同步清除屏蔽行，推荐流恢复展示', async () => {
+      const key = nextKey()
+      const f = await createBoundFamily(h.app, key)
+      await h.app.inject({
+        method: 'PUT',
+        url: `/api/family/${f.familyId}/shelf/R1/blocked`,
+        headers: authHeaders(f.token),
+        payload: { kind: 'book', blocked: true, title: '猜猜我有多爱你' },
+      })
+      await h.app.inject({ method: 'GET', url: '/api/shelf', headers: authHeaders(f.token) })
+      const before = await h.app.inject({
+        method: 'GET',
+        url: '/api/book/recommend',
+        headers: authHeaders(f.token),
+      })
+      expect(before.json().books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001'])
+
+      // 家长解除屏蔽（R1 不在书架上）→ 下次同步清除该行 → 推荐恢复
+      await h.app.inject({
+        method: 'PUT',
+        url: `/api/family/${f.familyId}/shelf/R1/blocked`,
+        headers: authHeaders(f.token),
+        payload: { kind: 'book', blocked: false },
+      })
+      await h.app.inject({ method: 'GET', url: '/api/shelf', headers: authHeaders(f.token) })
+      const row = await db.shelfSnapshot.findFirst({ where: { familyId: f.familyId, bookId: 'R1' } })
+      expect(row).toBeNull()
+      const after = await h.app.inject({
+        method: 'GET',
+        url: '/api/book/recommend',
+        headers: authHeaders(f.token),
+      })
+      expect(after.json().books.map((b: { bookId: string }) => b.bookId)).toEqual(['R1', 'B1001'])
     })
 
     it('N3-001 回归：屏蔽不在书架上的推荐书，快照同步不丢屏蔽行，推荐流持续过滤', async () => {
