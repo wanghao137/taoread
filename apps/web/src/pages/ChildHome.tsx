@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { api, ApiError, type ShelfDto } from '../lib/api'
 import { useSession } from '../stores/session'
@@ -17,7 +17,7 @@ export function ChildHome() {
   const signOut = useSession((s) => s.signOut)
   const [shelf, setShelf] = useState<ShelfState>({ kind: 'loading' })
 
-  useEffect(() => {
+  const load = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
     setShelf({ kind: 'loading' })
@@ -38,6 +38,8 @@ export function ChildHome() {
     }
   }, [token, familyId])
 
+  useEffect(() => load(), [load])
+
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8">
       <div className="flex items-center justify-between">
@@ -45,7 +47,7 @@ export function ChildHome() {
         <button
           type="button"
           onClick={signOut}
-          className="cursor-pointer rounded-full border border-night-border px-4 py-2 text-sm text-ink-secondary"
+          className="min-h-touch cursor-pointer rounded-full border border-night-border px-5 text-base text-ink-secondary"
         >
           换一个家庭
         </button>
@@ -68,12 +70,7 @@ export function ChildHome() {
         </h2>
 
         {shelf.kind === 'loading' && <Loading label="书架正在醒来…" />}
-        {shelf.kind === 'error' && (
-          <ErrorState
-            message={shelf.message}
-            onRetry={() => setShelf({ kind: 'loading' })}
-          />
-        )}
+        {shelf.kind === 'error' && <ErrorState message={shelf.message} onRetry={load} />}
         {shelf.kind === 'empty' && (
           <EmptyState
             emoji="📚"
@@ -86,12 +83,12 @@ export function ChildHome() {
             <p className="text-4xl font-bold text-moon-400">{shelf.count}</p>
             <p className="mt-1 text-ink-secondary">本书在书架上等你</p>
             {shelf.sample && (
-              <p className="mt-3 text-sm text-ink-secondary">最近的一本：《{shelf.sample}》</p>
+              <p className="mt-3 text-base text-ink-secondary">最近的一本：《{shelf.sample}》</p>
             )}
           </TaCard>
         )}
 
-        <p className="text-center text-sm text-ink-secondary">
+        <p className="text-center text-base text-ink-secondary">
           「今晚读什么」选书仪式将在下一版本点亮 ✨
         </p>
       </div>

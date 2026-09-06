@@ -1,3 +1,28 @@
+## 2026-09-06 ｜ 第 5 夜（夜班顺延执行）｜ 状态：✅ 完成（M-B 里程碑 1/6）
+
+**背景：** 白班同日已完成第 3、4 夜（M-A 达成）。夜班按日志指示直接执行第 5 夜（Web 地基与设计系统）——首个前端夜。
+
+**完成任务：**
+- [x] ① apps/web 脚手架：Vite5 + React18 + TS strict + Tailwind3.4 + vite-plugin-pwa（manifest/离线壳/图标）+ Framer Motion11 + zustand + react-router6；dev 代理 /api→:8787；生产构建通过（PWA precache 11 entries）
+- [x] ② 设计系统落盘 docs/design-system.md（夜空/蜜桃/月光/墨色四系 token、对比度实测表、触达/字号红线、动效与 reduced-motion 规则、文案红线）；PWA 图标程序化生成（gen-icons.mjs 手写 PNG 编码：夜空底+蜜桃新月+双星，192/512/maskable 三枚）
+- [x] ③ 基础组件 7 件：TaButton（lg=64px 触达/loading 保名/whileTap）、TaCard、TaSheet（dialog 语义+焦点陷阱+还焦+滚动锁）、TaSticker、Loading（月亮呼吸）、ErrorState（零指责）、EmptyState（正向引导）
+- [x] ④ 路由与角色框架：/login（家庭码加入/创建+角色选择）、/child、/parent（四 Tab 壳+家庭概览真实对接）、RequireRole 守卫、401 单点处理、全局 ErrorBoundary；/dev/kitchen-sink 组件演示页
+- [x] ⑤ 视觉走查基线：Playwright + vite preview 三视口（390/768/1280）×2 页共 6 图存 docs/screenshots/night-05/，全页目检通过
+
+**三道审查门：**
+- Gate A：verify 全绿——服务端 16 文件 165 用例 + web 2 文件 11 用例；生产构建成功；PWA 可安装（manifest+SW precache 验证）
+- Gate B：code-reviewer 对抗审查发现 **P1×3 + P2×8（零 P0）**，全部当夜处置（fixed 11 / wont-fix 1 带理由）。P1：孩子端与家长端 retry 死锁 ×2（effect 依赖不变永不重拉）、401 单点处理缺失；P2 含 200+非 JSON 白屏崩溃路径（改 BAD_RESPONSE+ErrorBoundary）、触达 38px/56px 违红线、placeholder 对比度 2.3:1、text-sm 11 处、loading 可访问名丢失、弹层无焦点陷阱。明细 N5-001~012
+- Gate C：验收走查——kitchen-sink 与 login 三视口截图全过（布局无破碎/对比度达标/文案全正向）；儿童红线 grep（落后/差距/课程/教学等）0 命中；孩子端无外链/广告/付费诱导。回归：服务端 165 用例全绿（含第 3/4 夜共读域）
+
+**给第 6 夜（9/7）的交接便签：**
+1. 孩子端仪式流 M1-M2（docs/03 第 6 夜）：月亮入口 + 「今晚读什么」选书（继续读/今晚推荐/翻书架/骰子），对接已有 GET /api/shelf?view=child、/api/book/recommend、/api/book/:id/progress
+2. 选书交互动画（翻卡/星光），底线：空书架/接口失败走 ErrorState/EmptyState（组件已就绪，别再写死锁 retry——统一用 load() useCallback 模式）
+3. 审查重点：动画不阻塞交互、按钮防连点、选书到选定 ≤60 秒走查；UI 全部文案再过负向清单
+
+**遗留：** 无 P0/P1。开放 P2：N2-007 已清（第 3 夜）；存量排期 N3-005/N4-004（夜 15）、N3-006（夜 13）、N3-007/N3-R4/N4-007（夜 9）、N4-006（夜 7）。deepLink 三链路留第 7 夜。
+
+---
+
 # 夜间执行日志（唯一进度事实源）
 
 > 规则：每夜收尾必须更新本文件。夜次 = 日期 − 9/3。开工先读本文件决定做什么。

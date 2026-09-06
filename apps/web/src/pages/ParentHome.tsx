@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type FamilyViewDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { TaCard, TaButton, TaSticker, Loading, ErrorState, EmptyState } from '../components/ui'
@@ -12,7 +12,7 @@ export function ParentHome() {
   const [state, setState] = useState<FamilyState>({ kind: 'loading' })
   const [tab, setTab] = useState<(typeof TABS)[number]>('今晚')
 
-  useEffect(() => {
+  const load = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
     setState({ kind: 'loading' })
@@ -28,21 +28,19 @@ export function ParentHome() {
     }
   }, [token, familyId])
 
-  function reload() {
-    setState({ kind: 'loading' })
-  }
+  useEffect(() => load(), [load])
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-5 pb-24 pt-8">
       <header className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">桃阅读 · 家长端</h1>
-          <p className="text-sm text-ink-secondary">每晚半小时，一起把故事讲完</p>
+          <p className="text-base text-ink-secondary">每晚半小时，一起把故事讲完</p>
         </div>
         <button
           type="button"
           onClick={signOut}
-          className="cursor-pointer rounded-full border border-night-border px-4 py-2 text-sm text-ink-secondary"
+          className="cursor-pointer rounded-full border border-night-border px-4 py-2 text-base text-ink-secondary"
         >
           退出
         </button>
@@ -57,7 +55,7 @@ export function ParentHome() {
       ) : state.kind === 'loading' ? (
         <Loading label="家庭信息赶来中…" />
       ) : state.kind === 'error' ? (
-        <ErrorState message={state.message} onRetry={reload} />
+        <ErrorState message={state.message} onRetry={load} />
       ) : (
         <div className="flex flex-col gap-4">
           <TaCard>
@@ -68,7 +66,7 @@ export function ParentHome() {
             >
               {familyCode ?? '········'}
             </p>
-            <p className="mt-2 text-center text-sm text-ink-secondary">
+            <p className="mt-2 text-center text-base text-ink-secondary">
               在另一台设备上输入这个码即可加入
             </p>
           </TaCard>

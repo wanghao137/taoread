@@ -47,3 +47,15 @@
 | N4-007 | 2026-09-06 | P2 | modules/cosession/service.ts | reading-card 每次调用新增 ParentPrompt 行（内容确定性相同），消费方上线后将读到重复卡 | open：第 9 夜重构批——按 (familyId, bookId, nightKey) 唯一化/upsert（与 N3-007 同批）；顺带评估 allSettled 分级降级与角色限制（孩子端每次耗 2 令牌自伤配额） | 第 9 夜（计划） |
 | N4-008 | 2026-09-06 | P2 | modules/cosession/service.ts | logEvent catch 完全黑洞：事件静默丢失不可发现（DB 满等持续失败无从察觉） | fixed：catch 降级 console.warn（含 event 名与错误消息） | 第 4 夜（白班） |
 | N4-R1 | 2026-09-06 | P2 | test/cosession.test.ts | 幂等用例标题「不重评成就」与补偿修复后行为不符（断言仍正确，描述误导） | fixed：标题与注释更正为「补偿重放无新增」 | 第 4 夜（白班） |
+| N5-001 | 2026-09-06 | P1 | web/pages/ChildHome.tsx | 错误态 retry 死锁：retry 只改本地 state，effect 依赖不变永不重拉，永久卡 Loading | fixed（拉取提取为 useCallback load，effect 调 load，onRetry=load） | 第 5 夜 |
+| N5-002 | 2026-09-06 | P1 | web/pages/ParentHome.tsx | 同根因的家长端 retry 死锁 | fixed（同上模式） | 第 5 夜 |
+| N5-003 | 2026-09-06 | P1 | web/lib/api.ts | design-system §9 明文要求的 401 单点处理缺失，过期会话死锁 | fixed（401 → 清会话 + 回 /login + UNAUTHORIZED 语义，含测试锁定） | 第 5 夜 |
+| N5-004 | 2026-09-06 | P2 | web/lib/api.ts | 2xx+非 JSON 静默归一 undefined → 下游渲染白屏崩溃路径（如静态托管 SPA fallback 打到 /api） | fixed（一律抛 BAD_RESPONSE）+ main.tsx 挂全局 ErrorBoundary（正向文案兜底） | 第 5 夜 |
+| N5-005 | 2026-09-06 | P2 | web/pages/ChildHome.tsx | 孩子端「换一个家庭」触达仅 ~38px，违反 64px 红线 | fixed（min-h-touch + text-base） | 第 5 夜 |
+| N5-006 | 2026-09-06 | P2 | web/components/ui/TaSticker.tsx | 可点态贴纸 56px < 64px 红线（孩子会点） | fixed（可点态 min-h-touch） | 第 5 夜 |
+| N5-007 | 2026-09-06 | P2 | web/pages/LoginPage.tsx | 家庭码 placeholder 对比度 ≈2.3:1，违反 ≥4.5 红线 | fixed（不透明度 40%→70%，实算 ≈4.8:1） | 第 5 夜 |
+| N5-008 | 2026-09-06 | P2 | web/pages/*（11 处） | text-sm(14px) 违反「字号 ≥16px」红线 | fixed（全部提升 text-base） | 第 5 夜 |
+| N5-009 | 2026-09-06 | P2 | web/components/ui/TaButton.tsx | loading 态整体替换 children，可访问名称变空 | fixed（文本保留 opacity-0 + spinner 绝对叠加） | 第 5 夜 |
+| N5-010 | 2026-09-06 | P2 | web/components/ui/TaSheet.tsx | aria-modal 声明了语义义务但无焦点陷阱/还焦/滚动锁 | fixed（移焦+Tab 循环陷阱+关闭还焦+body 滚动锁） | 第 5 夜 |
+| N5-011 | 2026-09-06 | P2 | web/pages/LoginPage.tsx | deviceId 裸用 localStorage（隐私模式异常被上层 try 吞掉但不统一） | fixed（safe 模式 try/catch + 降级 web-ephemeral） | 第 5 夜 |
+| N5-012 | 2026-09-06 | P2 | web/src/App.tsx | 前端角色守卫是装饰性防线（role 客户端自选可改） | wont-fix：架构既定；服务端已按 token 强制（第 3 夜：child 一律孩子视图、屏蔽书 404、角色权限路由级校验），前端仅做体验层引导 | 第 5 夜 |

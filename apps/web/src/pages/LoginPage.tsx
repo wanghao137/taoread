@@ -7,13 +7,17 @@ import { useSession } from '../stores/session'
 import { TaButton, TaCard, TaSticker } from '../components/ui'
 
 function deviceId(): string {
-  // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份
-  let did = localStorage.getItem('taoread-device')
-  if (!did) {
-    did = `web-${Math.random().toString(36).slice(2, 10)}`
-    localStorage.setItem('taoread-device', did)
+  // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
+  try {
+    let did = globalThis.localStorage?.getItem('taoread-device') ?? null
+    if (!did) {
+      did = `web-${Math.random().toString(36).slice(2, 10)}`
+      globalThis.localStorage?.setItem('taoread-device', did)
+    }
+    return did
+  } catch {
+    return 'web-ephemeral'
   }
-  return did
 }
 
 type Mode = 'choose' | 'join' | 'create'
@@ -100,7 +104,7 @@ export function LoginPage() {
         <div className="flex flex-col gap-4">
           <TaCard>
             <h2 className="mb-1 text-xl font-bold">我来说是…</h2>
-            <p className="mb-4 text-sm text-ink-secondary">选择今晚的故事从谁开始</p>
+            <p className="mb-4 text-base text-ink-secondary">选择今晚的故事从谁开始</p>
             <div className="flex gap-3">
               {(Object.keys(ROLE_LABEL) as DeviceRole[]).map((r) => (
                 <button
@@ -132,7 +136,7 @@ export function LoginPage() {
       ) : mode === 'join' ? (
         <TaCard>
           <h2 className="text-xl font-bold">输入家庭码</h2>
-          <p className="mt-1 text-sm text-ink-secondary">8 位家庭码在创建家庭的设备上</p>
+          <p className="mt-1 text-base text-ink-secondary">8 位家庭码在创建家庭的设备上</p>
           <label htmlFor="family-code" className="sr-only">
             家庭码
           </label>
@@ -143,14 +147,14 @@ export function LoginPage() {
             maxLength={8}
             autoComplete="off"
             placeholder="ABCD2345"
-            className="mt-4 h-16 w-full rounded-2xl border border-night-border bg-night-700 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-secondary/40"
+            className="mt-4 h-16 w-full rounded-2xl border border-night-border bg-night-700 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-secondary/70"
           />
           <div className="mt-4 flex justify-center gap-2">
             <TaSticker emoji="👨‍👩‍👧" label="爸爸妈妈" active={role === 'parent'} onClick={() => setRole('parent')} />
             <TaSticker emoji="🧒" label="小朋友" active={role === 'child'} onClick={() => setRole('child')} />
           </div>
           {error && (
-            <p role="alert" className="mt-4 text-center text-sm text-peach-300">
+            <p role="alert" className="mt-4 text-center text-base text-peach-300">
               {error}
             </p>
           )}
@@ -164,11 +168,11 @@ export function LoginPage() {
       ) : (
         <TaCard>
           <h2 className="text-xl font-bold">创建新家庭</h2>
-          <p className="mt-1 text-sm text-ink-secondary">
+          <p className="mt-1 text-base text-ink-secondary">
             创建后会得到一个 8 位家庭码，家里的平板、手机都能加入
           </p>
           {error && (
-            <p role="alert" className="mt-4 text-center text-sm text-peach-300">
+            <p role="alert" className="mt-4 text-center text-base text-peach-300">
               {error}
             </p>
           )}
@@ -182,7 +186,7 @@ export function LoginPage() {
       )}
 
       {mode === 'choose' && (
-        <p className="mt-8 text-center text-sm text-ink-secondary">
+        <p className="mt-8 text-center text-base text-ink-secondary">
           家庭码只在自己家人之间使用，请放心输入
         </p>
       )}

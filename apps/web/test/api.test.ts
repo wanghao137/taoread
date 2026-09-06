@@ -69,9 +69,23 @@ describe('request / api 客户端', () => {
     await expect(request('/api/x', { method: 'DELETE' })).resolves.toBeUndefined()
   })
 
-  it('200 但 body 非 JSON → 返回 undefined 而非崩溃', async () => {
+  it('2xx 但 body 非 JSON → 抛 ApiError(BAD_RESPONSE)，下游永不收到 undefined', async () => {
     mockFetch(async () => ({ ok: true, status: 200, json: async () => { throw new Error('bad') } } as unknown as Response))
-    await expect(request('/api/x')).resolves.toBeUndefined()
+    const err = await request('/api/x').catch((e: unknown) => e)
+    expect(err).toBeInstanceOf(ApiError)
+    expect((err as ApiError).code).toBe('BAD_RESPONSE')
+  })
+
+  it('401 → 清会话 + 抛 UNAUTHORIZED（design-system §9 单点处理）', async () => {
+    const { useSession } = await import('../src/stores/session')
+    useSession.getState().signIn({ token: 't', familyId: 'f', familyCode: 'ABCD2345', role: 'child' })
+    mockFetch(async () => jsonResponse(401, { code: 'AUTH', message: '登录状态过期啦' }))
+    await expect(request('/api/shell', { token: 't' })).rejects.toMatchObject({
+      status: 401,
+      code: 'UNAUTHORIZED',
+    })
+    expect(useSession.getState().token).toBeNull()
+    expect(useSession.getState().role).toBeNull()
   })
 
   it('家庭码输入大写归一后发出（UI 层已 toUpperCase，此处防回归）', async () => {

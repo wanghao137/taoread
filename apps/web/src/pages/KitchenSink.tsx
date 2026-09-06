@@ -37,7 +37,7 @@ export function KitchenSink() {
         <section aria-labelledby="ks-stickers">
           <h2 id="ks-stickers" className="mb-3 text-xl font-bold">贴纸 TaSticker（单选示范）</h2>
           <TaCard>
-            <p className="mb-3 text-sm text-ink-secondary">当前选择：{mood}</p>
+            <p className="mb-3 text-base text-ink-secondary">当前选择：{mood}</p>
             <div className="flex flex-wrap gap-3">
               {MOODS.map((m) => (
                 <TaSticker

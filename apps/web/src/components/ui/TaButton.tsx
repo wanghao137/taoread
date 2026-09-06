@@ -35,18 +35,18 @@ export const TaButton = forwardRef<HTMLButtonElement, TaButtonProps>(function Ta
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`inline-flex select-none items-center justify-center gap-2 transition-opacity ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
+      className={`relative inline-flex select-none items-center justify-center gap-2 transition-opacity ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
         disabled || loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
       } ${className}`}
       {...rest}
     >
-      {loading ? (
+      {/* loading 时保留文本（可访问名称不丢失），spinner 叠加居中 */}
+      <span className={loading ? 'opacity-0' : ''}>{children}</span>
+      {loading && (
         <span
           aria-hidden
-          className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent"
+          className="absolute h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent"
         />
-      ) : (
-        children
       )}
     </motion.button>
   )

@@ -1,4 +1,5 @@
 import type { DeviceRole } from './roles'
+import { useSession } from '../stores/session'
 
 /** API 基址：开发走 Vite 代理（/api → :8787），构建期可用 VITE_API_BASE 覆盖 */
 export const API_BASE = import.meta.env.VITE_API_BASE ?? ''
@@ -25,7 +26,8 @@ interface ErrorBody {
   message?: unknown
 }
 
-/** 统一请求出口：JSON 往返、错误归一为 ApiError（服务端中文 message 直通 UI） */
+/** 统一请求出口：JSON 往返、错误归一为 ApiError（服务端中文 message 直通 UI）。
+ * 401 单点处理（design-system §9）：清会话并回登录页——会话失效绝不留死锁。 */
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = {}
   if (options.body !== undefined) headers['Content-Type'] = 'application/json'
@@ -48,14 +50,19 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   try {
     data = await response.json()
   } catch {
-    if (!response.ok) {
-      throw new ApiError(response.status, 'BAD_RESPONSE', '服务器开小差了，请稍后再试')
-    }
-    return undefined as T
+    // 无论成败，body 不合法都单点归一为 BAD_RESPONSE（下游绝不负责任何解析）
+    throw new ApiError(response.status, 'BAD_RESPONSE', '服务器开小差了，请稍后再试')
   }
 
   if (!response.ok) {
     const body = data as ErrorBody
+    if (response.status === 401) {
+      useSession.getState().signOut()
+      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
+        location.assign('/login')
+      }
+      throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
+    }
     throw new ApiError(
       response.status,
       typeof body.code === 'string' ? body.code : 'UNKNOWN',
