@@ -15,6 +15,7 @@
     "test": "npm run test --workspaces --if-present",
     "verify": "npm run typecheck && npm run lint && npm run test",
     "dev:server": "npm run dev -w @taoread/server",
+    "dev:web": "npm run dev -w @taoread/web",
     "smoke:weread": "npm run smoke -w @taoread/server"
   },
   "engines": {
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "typescript-eslint": "^8.69.0"
   }
 }

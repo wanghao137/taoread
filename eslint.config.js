@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
+import reactHooks from 'eslint-plugin-react-hooks'
 
 export default tseslint.config(
   {
@@ -9,6 +10,18 @@ export default tseslint.config(
       '**/node_modules/**',
       'docs/**',
     ],
+  },
+  {
+    // Node 工具脚本：声明 Node 全局
+    files: ['**/scripts/**/*.mjs', '*.config.js'],
+    languageOptions: {
+      globals: {
+        Buffer: 'readonly',
+        console: 'readonly',
+        process: 'readonly',
+        globalThis: 'readonly',
+      },
+    },
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -27,10 +40,20 @@ export default tseslint.config(
     },
   },
   {
+    // React：Hooks 规则是正确性规则（规则-of-hooks=error）
+    files: ['apps/web/**/*.{ts,tsx}'],
+    plugins: { 'react-hooks': reactHooks },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
+  {
     // 测试文件放宽：允许对 mock 做断言式强转
-    files: ['**/test/**/*.ts'],
+    files: ['**/test/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 )
+
