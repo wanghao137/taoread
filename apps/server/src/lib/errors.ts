@@ -71,10 +71,10 @@ export class UpgradeRequiredError extends AppError {
   }
 }
 
-/** 出网限流触发（令牌桶耗尽） */
+/** 出网限流触发（令牌桶耗尽）——统一映射 HTTP 429 */
 export class RateLimitedError extends AppError {
-  constructor(message = '微信读书接口调用过于频繁，请稍后再试') {
-    super(message, 'WEREAD_RATE_LIMITED')
+  constructor(message = '调用太频繁啦，请稍后再试~') {
+    super(message, 'WEREAD_RATE_LIMITED', 429)
   }
 }
 

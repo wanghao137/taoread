@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { buildApp } from '../src/app'
 import { createDb } from '../src/lib/db'
+import { IpRateLimiter } from '../src/lib/ipRateLimit'
 import { tokenSecretFrom, type KeyProbe } from '../src/modules/family/service'
 
 export const TEST_MASTER_KEY = 'test-master-key-0123456789abcdef'
@@ -15,13 +16,20 @@ export interface TestHarness {
   db: PrismaClient
 }
 
-export async function makeApp(probe?: KeyProbe): Promise<TestHarness> {
+export async function makeApp(
+  probe?: KeyProbe,
+  opts: { ipLimiter?: IpRateLimiter } = {},
+): Promise<TestHarness> {
   const db = createDb(TEST_DB_URL)
   const app = await buildApp({
     db,
     tokenSecret,
     masterKey: TEST_MASTER_KEY,
     probeKey: probe,
+    // 默认宽松限流：既有家庭域测试会连续创建大量家庭；限流专项测试自行注入小实例
+    ipLimiter:
+      opts.ipLimiter ??
+      new IpRateLimiter({ capacity: 100_000, refillPerMinute: 100_000 }),
   })
   return { app, db }
 }

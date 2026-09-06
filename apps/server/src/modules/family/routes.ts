@@ -10,6 +10,7 @@ import {
   WereadHttpError,
 } from '../../lib/errors'
 import { verifyToken, type DeviceRole, type TokenClaims } from '../../lib/auth'
+import { type IpRateLimiter, ipRateLimit } from '../../lib/ipRateLimit'
 import type { KeyProbe } from './service'
 import * as svc from './service'
 
@@ -70,6 +71,8 @@ export interface FamilyRoutesDeps {
   masterKey: string
   /** 绑定探活（测试注入假实现；默认真实网关 /_list） */
   probeKey?: KeyProbe
+  /** 无凭据入口的 IP 限流（N2-007；不传则不限流，仅供测试） */
+  ipLimiter?: IpRateLimiter
 }
 
 /** 默认探针：真实网关 /_list；fetchImpl 可注入（测试）。
@@ -108,9 +111,13 @@ export function registerFamilyRoutes(
 ): void {
   const { db, tokenSecret, masterKey } = deps
   const probe = deps.probeKey ?? defaultProbe
+  // 无凭据入口限流（家庭码即完整身份，防爆破/滥用）
+  const ipLimit = deps.ipLimiter ? { preHandler: ipRateLimit(deps.ipLimiter) } : {}
 
   // ── 创建家庭（无需认证：家庭码即身份的起点）──
-  app.post('/api/family', async (request, reply) => {
+  app.post('/api/family', {
+    ...ipLimit,
+  }, async (request, reply) => {
     const body = parse(
       z.object({ deviceId: deviceIdSchema }),
       request.body ?? {},
@@ -121,7 +128,9 @@ export function registerFamilyRoutes(
   })
 
   // ── 凭家庭码加入（孩子设备/第二位家长）──
-  app.post('/api/family/join', async (request) => {
+  app.post('/api/family/join', {
+    ...ipLimit,
+  }, async (request) => {
     const body = parse(
       z.object({
         familyCode: z.string().min(1),
