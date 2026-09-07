@@ -77,6 +77,10 @@ describe('friendlyLastRead（上次翻开文案；只陈述事实无催促）', 
     expect(friendlyLastRead(0, now)).toBeNull()
     expect(friendlyLastRead(-5, now)).toBeNull()
   })
+
+  it('毫秒单位自动折算（skill 文档未锁单位，防御网关回包为毫秒）', () => {
+    expect(friendlyLastRead((now - 86_400 * 1.2) * 1000, now)).toBe('上次翻开是昨天')
+  })
 })
 
 describe('topRecommendations', () => {

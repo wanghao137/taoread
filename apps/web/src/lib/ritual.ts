@@ -19,10 +19,12 @@ export function pickRandom(items: ShelfItemDto[], rng: () => number = Math.rando
   return items[idx] ?? null
 }
 
-/** 「上次翻开」友好文案（相对 nowSec；只描述事实，不带任何催促语气） */
+/** 「上次翻开」友好文案（相对 nowSec；只描述事实，不带任何催促语气）。
+ * 毫秒防御：skill 文档只写「Unix 时间戳」未锁单位，>1e12 视为毫秒自动折算。 */
 export function friendlyLastRead(readUpdateTimeSec: number | undefined, nowSec: number): string | null {
   if (!readUpdateTimeSec || readUpdateTimeSec <= 0) return null
-  const diffDays = Math.floor((nowSec - readUpdateTimeSec) / 86_400)
+  const seconds = readUpdateTimeSec > 1e12 ? Math.floor(readUpdateTimeSec / 1000) : readUpdateTimeSec
+  const diffDays = Math.floor((nowSec - seconds) / 86_400)
   if (diffDays <= 0) return '今天已经翻开过啦'
   if (diffDays === 1) return '上次翻开是昨天'
   if (diffDays < 30) return `上次翻开是 ${diffDays} 天前`

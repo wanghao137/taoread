@@ -59,3 +59,15 @@
 | N5-010 | 2026-09-06 | P2 | web/components/ui/TaSheet.tsx | aria-modal 声明了语义义务但无焦点陷阱/还焦/滚动锁 | fixed（移焦+Tab 循环陷阱+关闭还焦+body 滚动锁） | 第 5 夜 |
 | N5-011 | 2026-09-06 | P2 | web/pages/LoginPage.tsx | deviceId 裸用 localStorage（隐私模式异常被上层 try 吞掉但不统一） | fixed（safe 模式 try/catch + 降级 web-ephemeral） | 第 5 夜 |
 | N5-012 | 2026-09-06 | P2 | web/src/App.tsx | 前端角色守卫是装饰性防线（role 客户端自选可改） | wont-fix：架构既定；服务端已按 token 强制（第 3 夜：child 一律孩子视图、屏蔽书 404、角色权限路由级校验），前端仅做体验层引导 | 第 5 夜 |
+| N6-001 | 2026-09-07 | P1 | server/modules/weread/shelf.ts | 童书白名单用臆测数字前缀 '1300000' 匹配，真实回包 category 为中文串（"童书-幼儿启蒙"）→ 孩子视图/推荐全灭（白天 mock 臆测值致测试绿真数据空） | fixed（双口径：中文前缀为主 + 数字前缀兼容；真实值域测试锁定；教训入日志） | 第 6 夜 |
+| N6-002 | 2026-09-07 | P1 | web/lib/api.ts | 孩子书架视图字段臆测：服务端孩子视图过滤结果放 books 字段，web 读 childrenView → 真实数据恒空 | fixed（api.shelf 归一化映射 + 契约测试锁定） | 第 6 夜 |
+| N6-003 | 2026-09-07 | P1 | server/modules/cosession/service.ts | startSession 幂等守卫 check-then-create 非原子，并发双开可行 | fixed（SQLite 部分唯一索引 cosession_one_active_per_child + P2002 捕获重读复用；复审推演确认闭环） | 第 6 夜 |
+| N6-004 | 2026-09-07 | P1 | web/pages/child/BookPicker.tsx | 骰子 600ms 动画窗口防连点失效（闭包捕获旧 busyId + 定时器不可撤销） | fixed（busyRef 同步判定 + diceTimerRef 选中即撤销/卸载清理 + diceRolling 期全卡禁用；复审时序推演确认） | 第 6 夜 |
+| N6-005 | 2026-09-07 | P1 | web/pages/ChildHome.tsx | reused 语义错位：忽略服务端复用回包，确认屏显示新点的书而账本记在旧书上 | fixed（消费回包：归属另一本微信读书书 → 解析真实书名进确认屏；解析失败 → 409 正向提示留选书屏） | 第 6 夜 |
+| N6-006 | 2026-09-07 | P2 | web/pages/ChildHome.tsx | reused 纸书变体（bookId=null）仍冒充新书（复审新发现） | fixed（三分支归属判定：他书 resolveBook / 纸书 paperTitle / 本书直通） | 第 6 夜 |
+| N6-007 | 2026-09-07 | P2 | server/modules/cosession/service.ts | P2002 恢复分支零测试覆盖，Prisma 对部分索引的映射假设未经验证（复审新发现） | fixed（stub db 确定性单测：P2002 → reused:true；非 P2002 原样上抛） | 第 6 夜 |
+| N6-008 | 2026-09-07 | P2 | web/pages/ChildHome.tsx | 纸质书活跃会话时「继续今晚的故事」为死按钮 | fixed（bookId 为空 → ready(paperTitle) 走纸书文案分支） | 第 6 夜 |
+| N6-009 | 2026-09-07 | P2 | web/pages/ChildHome.tsx | setChildId 在 load 回调内触发 loadChildren 重建 → familyView/active 双拉取 | fixed（getState 读 childId 移出依赖，拉取各一次） | 第 6 夜 |
+| N6-010 | 2026-09-07 | P2 | web/lib/ritual.ts | friendlyLastRead 假定秒级时间戳（skill 未锁单位），毫秒回包恒显「今天」 | fixed（>1e12 毫秒折算 + 确定性用例） | 第 6 夜 |
+| N6-011 | 2026-09-07 | P2 | web/scripts/screenshot-child-flow.mjs | win32 下 shell:true 进程树 kill 不净，重跑端口占用 | fixed（taskkill /T /F 清进程树） | 第 6 夜 |
+| N6-012 | 2026-09-07 | P2 | server/modules/weread/routes.ts | 推荐流不过滤 price/payType，付费书可能出现在孩子「去读吧」落地（第 3 夜存量，本夜首次触达孩子端） | open：夜 9 与家长授权（听书逐个放行/付费口径）一并定夺 | 第 9 夜（计划） |

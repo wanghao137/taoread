@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { api, ApiError, type ShelfItemDto } from '../../lib/api'
 import {
@@ -30,6 +30,11 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
   const [diceRolling, setDiceRolling] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // 竞态防线（N6-004）：busy 用 ref 同步判定，杜绝「闭包捕获旧 state」的窗口；
+  // 骰子定时器持有句柄，卸载/选中即撤销（N6-005）
+  const busyRef = useRef(false)
+  const diceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const load = useCallback(() => {
     let alive = true
     setFeed({ kind: 'loading' })
@@ -56,10 +61,23 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
 
   useEffect(() => load(), [load])
 
-  /** 防连点：busy 期间忽略点击；服务端幂等兜底（reused 复用同一场） */
+  // 卸载时撤销挂起的骰子定时器（防止 unmount 后触发 select）
+  useEffect(() => {
+    return () => {
+      if (diceTimerRef.current) clearTimeout(diceTimerRef.current)
+    }
+  }, [])
+
+  /** 防连点（同步 ref 判定）+ 服务端幂等兜底（reused 复用同一场） */
   const select = useCallback(
     async (book: ShelfItemDto) => {
-      if (busyId) return
+      if (busyRef.current) return
+      busyRef.current = true
+      if (diceTimerRef.current) {
+        clearTimeout(diceTimerRef.current)
+        diceTimerRef.current = null
+      }
+      setDiceRolling(false)
       setBusyId(book.bookId)
       setError(null)
       try {
@@ -68,25 +86,27 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
       } catch (err) {
         setError(err instanceof ApiError ? err.message : '没有选成功，再试一次就好')
         setBusyId(null)
+        busyRef.current = false
       }
     },
-    [busyId, onPick],
+    [onPick],
   )
 
   const roll = useCallback(() => {
-    if (feed.kind !== 'ready' || busyId || diceRolling) return
+    if (feed.kind !== 'ready' || busyRef.current || diceRolling) return
     const book = pickRandom(feed.shelf)
     if (!book) {
       setError('书架还是空的，先看看今晚的推荐吧')
       return
     }
     setDiceRolling(true)
-    // 星光落定 600ms 后开课；期间重复点击被 busy 忽略
-    setTimeout(() => {
+    // 星光落定 600ms 后开课；期间书卡全部禁用 + busyRef 同步判定，双保险
+    diceTimerRef.current = setTimeout(() => {
+      diceTimerRef.current = null
       setDiceRolling(false)
       void select(book)
     }, 600)
-  }, [feed, busyId, diceRolling, select])
+  }, [feed, diceRolling, select])
 
   if (feed.kind === 'loading') return <Loading label="书架正在醒来…" />
   if (feed.kind === 'error') return <ErrorState onRetry={load} />
@@ -94,6 +114,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
   const continueBook = pickContinueReading(feed.shelf)
   const recommends = topRecommendations(feed.recommend, 3)
   const visibleShelf = showAll ? feed.shelf : feed.shelf.slice(0, 6)
+  const anyDisabled = busyId !== null || diceRolling
 
   return (
     <div className="flex flex-col gap-6">
@@ -109,7 +130,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
           <BookCard
             book={continueBook}
             busy={busyId === continueBook.bookId}
-            disabled={busyId !== null}
+            disabled={anyDisabled}
             onSelect={select}
             note={friendlyLastRead(continueBook.readUpdateTime, nowSec()) ?? undefined}
             highlight
@@ -128,7 +149,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
                 key={b.bookId}
                 book={b}
                 busy={busyId === b.bookId}
-                disabled={busyId !== null}
+                disabled={anyDisabled}
                 onSelect={select}
               />
             ))}
@@ -174,7 +195,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
                   <BookCard
                     book={b}
                     busy={busyId === b.bookId}
-                    disabled={busyId !== null}
+                    disabled={anyDisabled}
                     onSelect={select}
                   />
                 </motion.div>

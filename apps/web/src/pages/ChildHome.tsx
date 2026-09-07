@@ -21,7 +21,6 @@ type Phase =
 export function ChildHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
-  const childId = useSession((s) => s.childId)
   const setChildId = useSession((s) => s.setChildId)
   const signOut = useSession((s) => s.signOut)
 
@@ -40,7 +39,10 @@ export function ChildHome() {
           setPhase({ kind: 'no-children' })
           return
         }
-        const stored = childId && kids.some((k) => k.id === childId) ? childId : null
+        // childId 经 getState 读取（P2-2）：选择孩子属本地 phase 切换，
+        // 不进入本回调依赖，避免 setChildId 触发拉取翻倍
+        const storedChildId = useSession.getState().childId
+        const stored = storedChildId && kids.some((k) => k.id === storedChildId) ? storedChildId : null
         if (stored) {
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else if (kids.length === 1 && kids[0]) {
@@ -57,11 +59,20 @@ export function ChildHome() {
     return () => {
       alive = false
     }
-  }, [token, familyId, childId, setChildId])
+  }, [token, familyId, setChildId])
 
   useEffect(() => loadChildren(), [loadChildren])
 
+  const enterGate = useCallback(
+    (childId: string) => {
+      setChildId(childId)
+      setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
+    },
+    [setChildId],
+  )
+
   // M1：进入月亮门后检查未收尾会话（断线续传）
+  const childId = useSession((s) => s.childId)
   useEffect(() => {
     if (phase.kind !== 'gate' || !phase.checking || !token || !childId) return
     let alive = true
@@ -79,28 +90,68 @@ export function ChildHome() {
     }
   }, [phase, token, childId])
 
-  /** M2 选定：开启共读（服务端幂等）→ 进入确认屏 */
-  const handlePick = useCallback(
-    async (book: { bookId: string; title: string; deepLink?: string }) => {
-      if (!token || !childId) throw new ApiError(0, 'NO_SESSION', '请先回到登录页重新加入')
-      await api.startCosession(childId, book.bookId, token)
-      setPhase({ kind: 'ready', title: book.title, deepLink: book.deepLink })
+  /** 解析会话真实归属的书名与 deepLink（bookInfo 失败返回 null，不阻断） */
+  const resolveBook = useCallback(
+    async (bookId: string): Promise<{ title: string; deepLink?: string } | null> => {
+      if (!token) return null
+      try {
+        const info = await api.bookInfo(bookId, token)
+        return { title: info.title, deepLink: info.deepLink }
+      } catch {
+        return null
+      }
     },
-    [token, childId],
+    [token],
   )
 
-  /** M1 继续今晚的故事：解析书名与 deepLink 后直达确认屏 */
+  /** M2 选定：开启共读（服务端幂等）→ 进入确认屏。
+   * reused 语义消费（N6-006）：会话若已归属另一本书（微信读书书或纸质书），
+   * 确认屏必须显示会话真实归属——显示与账本（共读卡/收尾/成就）永远一致。 */
+  const handlePick = useCallback(
+    async (book: { bookId: string; title: string; deepLink?: string }) => {
+      const currentChildId = useSession.getState().childId
+      if (!token || !currentChildId) throw new ApiError(0, 'NO_SESSION', '请先回到登录页重新加入')
+      const session = await api.startCosession(currentChildId, book.bookId, token)
+      const belongsToAnother =
+        session.reused && (session.bookId !== book.bookId || session.bookId === null)
+      if (belongsToAnother) {
+        // 会话在别的微信读书书上：以会话真实书名/链接进确认屏
+        if (session.bookId) {
+          const resolved = await resolveBook(session.bookId)
+          if (!resolved) {
+            // 无法确认会话归属时绝不冒充新书：给正向提示，留在选书屏
+            throw new ApiError(409, 'SESSION_ACTIVE', '今晚的故事已经开始啦，先把这本读完吧')
+          }
+          setPhase({ kind: 'ready', title: resolved.title, deepLink: resolved.deepLink })
+          return
+        }
+        // 会话是纸质书：无 deepLink，确认屏走纸书文案分支（N6-008 复审补）
+        setPhase({ kind: 'ready', title: session.paperTitle ?? '今晚的故事' })
+        return
+      }
+      setPhase({ kind: 'ready', title: book.title, deepLink: book.deepLink })
+    },
+    [token, resolveBook],
+  )
+
+  /** M1 继续今晚的故事：解析书名与 deepLink 后直达确认屏（纸质书会话直接展示书名） */
   const handleResume = useCallback(async () => {
-    if (phase.kind !== 'gate' || !phase.active?.bookId || !token) return
-    setPhase({ kind: 'resolving' })
-    try {
-      const info = await api.bookInfo(phase.active.bookId, token)
-      setPhase({ kind: 'ready', title: info.title, deepLink: info.deepLink })
-    } catch {
-      // 书籍信息失败不阻断：至少回到选书流
-      setPhase({ kind: 'select' })
+    if (phase.kind !== 'gate' || !phase.active) return
+    const { bookId, paperTitle } = phase.active
+    if (!bookId) {
+      // 纸质书会话（P2-1）：无 deepLink，确认屏走纸书文案分支
+      setPhase({ kind: 'ready', title: paperTitle ?? '今晚的故事' })
+      return
     }
-  }, [phase, token])
+    setPhase({ kind: 'resolving' })
+    const resolved = await resolveBook(bookId)
+    if (!resolved) {
+      // 书籍信息失败不阻断：回到选书流
+      setPhase({ kind: 'select' })
+      return
+    }
+    setPhase({ kind: 'ready', title: resolved.title, deepLink: resolved.deepLink })
+  }, [phase, resolveBook])
 
   function body() {
     switch (phase.kind) {
@@ -120,10 +171,7 @@ export function ChildHome() {
         return (
           <ChildPicker
             children={phase.children}
-            onPick={(id) => {
-              setChildId(id)
-              setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
-            }}
+            onPick={(id) => enterGate(id)}
           />
         )
       case 'gate':

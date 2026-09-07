@@ -98,7 +98,8 @@ export async function startSession(
   const child = await assertOwnedChild(db, familyId, input.childId)
 
   // 幂等守卫（第 6 夜）：该孩子已有未收尾会话时直接复用，绝不开出第二场。
-  // 双保险的最后一环——前端防连点之外，网络重试/双设备同时点选也不会产生脏数据。
+  // 三道防线：① 先查复用（快路径）；② SQLite 部分唯一索引（并发原子闸，见迁移
+  // 20260907003000）；③ create 捕获 P2002 后重读复用——与成就解锁（N4-002）同款模式。
   const active = await db.cosession.findFirst({
     where: { familyId, childId: child.id, endedAt: null },
     orderBy: { startedAt: 'desc' },
@@ -113,21 +114,42 @@ export async function startSession(
     }
   }
 
-  const session = await db.cosession.create({
-    data: {
-      familyId,
+  try {
+    const session = await db.cosession.create({
+      data: {
+        familyId,
+        childId: child.id,
+        bookId,
+        paperTitle,
+        startedAt: new Date(nowSec() * 1000),
+      },
+      select: { id: true, startedAt: true, bookId: true, paperTitle: true },
+    })
+    await logEvent(db, familyId, role, 'ritual_started', {
       childId: child.id,
-      bookId,
-      paperTitle,
-      startedAt: new Date(nowSec() * 1000),
-    },
-    select: { id: true, startedAt: true, bookId: true, paperTitle: true },
-  })
-  await logEvent(db, familyId, role, 'ritual_started', {
-    childId: child.id,
-    source: bookId ? 'weread' : 'paper',
-  })
-  return { ...session, reused: false }
+      source: bookId ? 'weread' : 'paper',
+    })
+    return { ...session, reused: false }
+  } catch (err) {
+    // 并发竞态：另一请求先建了会话触发唯一索引 → 重读复用，绝不向孩子暴露错误
+    const code = typeof err === 'object' && err !== null && 'code' in err ? (err as { code?: string }).code : undefined
+    if (code === 'P2002') {
+      const raced = await db.cosession.findFirst({
+        where: { familyId, childId: child.id, endedAt: null },
+        orderBy: { startedAt: 'desc' },
+      })
+      if (raced) {
+        return {
+          id: raced.id,
+          startedAt: raced.startedAt,
+          bookId: raced.bookId,
+          paperTitle: raced.paperTitle,
+          reused: true,
+        }
+      }
+    }
+    throw err
+  }
 }
 
 export async function getActiveSession(

@@ -142,8 +142,19 @@ async function main() {
     await browser.close()
     console.log('孩子端走查完成 ✔')
   } finally {
-    server.kill()
-    web.kill()
+    killTree(server)
+    killTree(web)
+  }
+}
+
+/** Windows 下 shell:true 的 spawn 产生 cmd→npx→node 进程树，kill() 只杀壳；
+ * 用 taskkill /T /F 清整棵树，避免端口占用导致重跑失败 */
+function killTree(child) {
+  if (!child.pid) return
+  if (process.platform === 'win32') {
+    spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore', shell: true })
+  } else {
+    child.kill()
   }
 }
 
