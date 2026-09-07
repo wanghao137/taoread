@@ -96,6 +96,23 @@ export async function startSession(
     throw new ValidationError('微信读书的书和纸质书二选一就好啦')
   }
   const child = await assertOwnedChild(db, familyId, input.childId)
+
+  // 幂等守卫（第 6 夜）：该孩子已有未收尾会话时直接复用，绝不开出第二场。
+  // 双保险的最后一环——前端防连点之外，网络重试/双设备同时点选也不会产生脏数据。
+  const active = await db.cosession.findFirst({
+    where: { familyId, childId: child.id, endedAt: null },
+    orderBy: { startedAt: 'desc' },
+  })
+  if (active) {
+    return {
+      id: active.id,
+      startedAt: active.startedAt,
+      bookId: active.bookId,
+      paperTitle: active.paperTitle,
+      reused: true,
+    }
+  }
+
   const session = await db.cosession.create({
     data: {
       familyId,
@@ -110,7 +127,7 @@ export async function startSession(
     childId: child.id,
     source: bookId ? 'weread' : 'paper',
   })
-  return session
+  return { ...session, reused: false }
 }
 
 export async function getActiveSession(

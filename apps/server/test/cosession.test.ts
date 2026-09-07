@@ -104,6 +104,53 @@ describe('共读域 API（第 4 夜）', () => {
       expect(events.map((e) => e.event)).toEqual(['ritual_started', 'cosession_finished'])
     })
 
+    it('幂等开课（第 6 夜防连点）：已有未收尾会话时复用，绝不开第二场', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const childId = await createChild(h.app, f.token, f.familyId)
+      const first = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B2001' },
+      })
+      expect(first.statusCode).toBe(201)
+      expect(first.json().reused).toBe(false)
+      expect(first.json().bookId).toBe('B2001')
+
+      // 立刻再点一次（换了一本书/连点）：返回第一场会话，不产生新记录
+      clockSec += 30
+      const second = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B9999' },
+      })
+      expect(second.statusCode).toBe(201)
+      expect(second.json().reused).toBe(true)
+      expect(second.json().id).toBe(first.json().id)
+      expect(second.json().bookId).toBe('B2001')
+      expect(await db.cosession.count({ where: { childId } })).toBe(1)
+
+      // 收尾后允许开新场
+      await h.app.inject({
+        method: 'POST',
+        url: `/api/cosession/${first.json().id}/finish`,
+        headers: authHeaders(f.token),
+        payload: { progressMark: 'lot' },
+      })
+      clockSec += 60
+      const third = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B3001' },
+      })
+      expect(third.statusCode).toBe(201)
+      expect(third.json().reused).toBe(false)
+      expect(third.json().id).not.toBe(first.json().id)
+      expect(await db.cosession.count({ where: { childId } })).toBe(2)
+    })
+
     it('纸质书共读：paperTitle 落库', async () => {
       const f = await createBoundFamily(h.app, nextKey())
       const childId = await createChild(h.app, f.token, f.familyId)
