@@ -7,7 +7,10 @@ export interface SessionState {
   familyId: string | null
   familyCode: string | null
   role: DeviceRole | null
+  /** 孩子档案（孩子端登录后选定/自动绑定；仪式流与共读记录的归属） */
+  childId: string | null
   signIn: (s: { token: string; familyId: string; familyCode: string; role: DeviceRole }) => void
+  setChildId: (childId: string) => void
   signOut: () => void
 }
 
@@ -45,9 +48,12 @@ export const useSession = create<SessionState>()(
       familyId: null,
       familyCode: null,
       role: null,
+      childId: null,
       signIn: ({ token, familyId, familyCode, role }) =>
-        set({ token, familyId, familyCode, role }),
-      signOut: () => set({ token: null, familyId: null, familyCode: null, role: null }),
+        set({ token, familyId, familyCode, role, childId: null }),
+      setChildId: (childId) => set({ childId }),
+      signOut: () =>
+        set({ token: null, familyId: null, familyCode: null, role: null, childId: null }),
     }),
     {
       name: SESSION_KEY,

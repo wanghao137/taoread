@@ -1,44 +1,149 @@
 import { useCallback, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { api, ApiError, type ShelfDto } from '../lib/api'
+import { api, ApiError, type ChildDto, type CosessionDto } from '../lib/api'
 import { useSession } from '../stores/session'
-import { TaCard, Loading, ErrorState, EmptyState } from '../components/ui'
+import { Loading, ErrorState, EmptyState } from '../components/ui'
+import { ChildPicker } from './child/ChildPicker'
+import { RitualGate } from './child/RitualGate'
+import { BookPicker } from './child/BookPicker'
+import { ReadyScreen } from './child/ReadyScreen'
 
-type ShelfState =
+type Phase =
   | { kind: 'loading' }
-  | { kind: 'error'; message?: string }
-  | { kind: 'empty' }
-  | { kind: 'ready'; count: number; sample?: string }
+  | { kind: 'load-error'; message?: string }
+  | { kind: 'no-children' }
+  | { kind: 'pick-child'; children: ChildDto[] }
+  | { kind: 'gate'; checking: boolean; active: CosessionDto | null; activeTitle: string | null }
+  | { kind: 'select' }
+  | { kind: 'ready'; title: string; deepLink?: string }
+  | { kind: 'resolving' } // 继续读：正在解析书名/链接
 
-/** 孩子端首页（第 5 夜为角色壳 + 书架问候；仪式流第 6 夜上线） */
+/** 孩子端仪式流（第 6 夜）：绑定档案 → M1 月亮门 → M2 选书 → 选定确认 */
 export function ChildHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
+  const childId = useSession((s) => s.childId)
+  const setChildId = useSession((s) => s.setChildId)
   const signOut = useSession((s) => s.signOut)
-  const [shelf, setShelf] = useState<ShelfState>({ kind: 'loading' })
 
-  const load = useCallback(() => {
+  const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
+
+  const loadChildren = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
-    setShelf({ kind: 'loading' })
+    setPhase({ kind: 'loading' })
     api
-      .shelf(familyId, token, 'child')
-      .then((dto: ShelfDto) => {
+      .familyView(familyId, token)
+      .then((view) => {
         if (!alive) return
-        const items = dto.childrenView ?? []
-        if (items.length === 0) setShelf({ kind: 'empty' })
-        else setShelf({ kind: 'ready', count: items.length, sample: items[0]?.title })
+        const kids = view.children
+        if (kids.length === 0) {
+          setPhase({ kind: 'no-children' })
+          return
+        }
+        const stored = childId && kids.some((k) => k.id === childId) ? childId : null
+        if (stored) {
+          setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
+        } else if (kids.length === 1 && kids[0]) {
+          setChildId(kids[0].id) // 独生孩子自动绑定，少一步点击
+          setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
+        } else {
+          setPhase({ kind: 'pick-child', children: kids })
+        }
       })
       .catch((err: unknown) => {
         if (!alive) return
-        setShelf({ kind: 'error', message: err instanceof ApiError ? err.message : undefined })
+        setPhase({ kind: 'load-error', message: err instanceof ApiError ? err.message : undefined })
       })
     return () => {
       alive = false
     }
-  }, [token, familyId])
+  }, [token, familyId, childId, setChildId])
 
-  useEffect(() => load(), [load])
+  useEffect(() => loadChildren(), [loadChildren])
+
+  // M1：进入月亮门后检查未收尾会话（断线续传）
+  useEffect(() => {
+    if (phase.kind !== 'gate' || !phase.checking || !token || !childId) return
+    let alive = true
+    api
+      .activeCosession(childId, token)
+      .then(({ session }) => {
+        if (!alive) return
+        setPhase({ kind: 'gate', checking: false, active: session, activeTitle: null })
+      })
+      .catch(() => {
+        if (alive) setPhase({ kind: 'gate', checking: false, active: null, activeTitle: null })
+      })
+    return () => {
+      alive = false
+    }
+  }, [phase, token, childId])
+
+  /** M2 选定：开启共读（服务端幂等）→ 进入确认屏 */
+  const handlePick = useCallback(
+    async (book: { bookId: string; title: string; deepLink?: string }) => {
+      if (!token || !childId) throw new ApiError(0, 'NO_SESSION', '请先回到登录页重新加入')
+      await api.startCosession(childId, book.bookId, token)
+      setPhase({ kind: 'ready', title: book.title, deepLink: book.deepLink })
+    },
+    [token, childId],
+  )
+
+  /** M1 继续今晚的故事：解析书名与 deepLink 后直达确认屏 */
+  const handleResume = useCallback(async () => {
+    if (phase.kind !== 'gate' || !phase.active?.bookId || !token) return
+    setPhase({ kind: 'resolving' })
+    try {
+      const info = await api.bookInfo(phase.active.bookId, token)
+      setPhase({ kind: 'ready', title: info.title, deepLink: info.deepLink })
+    } catch {
+      // 书籍信息失败不阻断：至少回到选书流
+      setPhase({ kind: 'select' })
+    }
+  }, [phase, token])
+
+  function body() {
+    switch (phase.kind) {
+      case 'loading':
+        return <Loading label="月亮正在升起…" />
+      case 'load-error':
+        return <ErrorState message={phase.message} onRetry={loadChildren} />
+      case 'no-children':
+        return (
+          <EmptyState
+            emoji="🍼"
+            title="还没有小读者档案"
+            hint="请爸爸妈妈先在家长端添加，然后回来点亮月亮"
+          />
+        )
+      case 'pick-child':
+        return (
+          <ChildPicker
+            children={phase.children}
+            onPick={(id) => {
+              setChildId(id)
+              setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
+            }}
+          />
+        )
+      case 'gate':
+        return (
+          <RitualGate
+            checking={phase.checking}
+            active={phase.active}
+            activeTitle={phase.activeTitle}
+            onStart={() => setPhase({ kind: 'select' })}
+            onResume={handleResume}
+          />
+        )
+      case 'select':
+        return token ? <BookPicker token={token} onPick={handlePick} /> : null
+      case 'resolving':
+        return <Loading label="把书找出来…" />
+      case 'ready':
+        return <ReadyScreen title={phase.title} deepLink={phase.deepLink} />
+    }
+  }
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8">
@@ -52,46 +157,7 @@ export function ChildHome() {
           换一个家庭
         </button>
       </div>
-
-      <div className="flex flex-1 flex-col justify-center gap-6">
-        <motion.div
-          aria-hidden
-          className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-moon-300 text-6xl shadow-[0_0_70px_rgba(255,217,122,0.4)]"
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          🌙
-        </motion.div>
-
-        <h2 className="text-center text-2xl font-bold leading-relaxed">
-          今晚的故事时间
-          <br />
-          <span className="text-moon-400">马上开始</span>
-        </h2>
-
-        {shelf.kind === 'loading' && <Loading label="书架正在醒来…" />}
-        {shelf.kind === 'error' && <ErrorState message={shelf.message} onRetry={load} />}
-        {shelf.kind === 'empty' && (
-          <EmptyState
-            emoji="📚"
-            title="书架还空着"
-            hint="请爸爸妈妈把书放进来，第一本故事正在路上"
-          />
-        )}
-        {shelf.kind === 'ready' && (
-          <TaCard className="text-center">
-            <p className="text-4xl font-bold text-moon-400">{shelf.count}</p>
-            <p className="mt-1 text-ink-secondary">本书在书架上等你</p>
-            {shelf.sample && (
-              <p className="mt-3 text-base text-ink-secondary">最近的一本：《{shelf.sample}》</p>
-            )}
-          </TaCard>
-        )}
-
-        <p className="text-center text-base text-ink-secondary">
-          「今晚读什么」选书仪式将在下一版本点亮 ✨
-        </p>
-      </div>
+      <div className="flex flex-1 flex-col py-6">{body()}</div>
     </main>
   )
 }

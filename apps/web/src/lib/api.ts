@@ -102,6 +102,10 @@ export interface ShelfItemDto {
   category?: string
   blocked?: boolean
   kind?: string
+  /** Unix 秒（微信读书回包原值）；继续读排序依据 */
+  readUpdateTime?: number
+  /** 网关回包原值，只透传不拼接 */
+  deepLink?: string
 }
 
 export interface ShelfDto {
@@ -130,4 +134,49 @@ export const api = {
       `/api/shelf?familyId=${encodeURIComponent(familyId)}${view ? `&view=${view}` : ''}`,
       { token },
     ),
+
+  /** 个性化推荐（服务端已做童书白名单 + 家长屏蔽过滤） */
+  recommend: (token: string, count = 6) =>
+    request<RecommendDto>(`/api/book/recommend?count=${count}`, { token }),
+
+  /** 书籍详情（服务端直通微信读书 /book/info，字段以 skill 文档为准） */
+  bookInfo: (bookId: string, token: string) =>
+    request<BookInfoDto>(`/api/book/${encodeURIComponent(bookId)}/info`, { token }),
+
+  /** 开启共读（服务端幂等：已有未收尾会话时返回同一场，reused=true） */
+  startCosession: (childId: string, bookId: string, token: string) =>
+    request<CosessionDto>('/api/cosession', {
+      method: 'POST',
+      body: { childId, bookId },
+      token,
+    }),
+
+  /** 当前未收尾会话（断线续传）；无则 session 为 null */
+  activeCosession: (childId: string, token: string) =>
+    request<{ session: CosessionDto | null }>(
+      `/api/cosession/active?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+}
+
+export interface RecommendDto {
+  books: ShelfItemDto[]
+  rawCount: number
+}
+
+export interface BookInfoDto {
+  bookId: string
+  title: string
+  author?: string
+  cover?: string
+  intro?: string
+  deepLink?: string
+}
+
+export interface CosessionDto {
+  id: string
+  startedAt: string
+  bookId: string | null
+  paperTitle: string | null
+  reused?: boolean
 }
