@@ -10,7 +10,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "icons": "node scripts/gen-icons.mjs",
-    "shots": "node scripts/screenshot-baseline.mjs"
+    "shots": "node scripts/screenshot-baseline.mjs",
+    "shots:child": "node scripts/screenshot-child-flow.mjs"
   },
   "dependencies": {
     "@taoread/shared": "*",

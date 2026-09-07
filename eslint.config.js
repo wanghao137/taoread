@@ -23,6 +23,10 @@ export default tseslint.config(
         fetch: 'readonly',
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
+        // Playwright addInitScript 回调运行在浏览器上下文（混合脚本）
+        window: 'readonly',
+        localStorage: 'readonly',
+        document: 'readonly',
       },
     },
   },

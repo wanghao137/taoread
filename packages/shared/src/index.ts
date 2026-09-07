@@ -23,8 +23,8 @@ export const SEARCH_SCOPE = {
 } as const
 export type SearchScope = (typeof SEARCH_SCOPE)[keyof typeof SEARCH_SCOPE]
 
-/** 微信读书童书相关类目 ID 前缀（用于适龄过滤；完整白名单由服务端配置） */
-export const CHILD_CATEGORY_PREFIXES = ['1300000'] as const
+/** 童书类目白名单（双口径，真实回包校准）：中文前缀为主，数字前缀兼容 */
+export const CHILD_CATEGORY_PREFIXES = ['童书', '1300000'] as const
 
 /** 共读收尾时孩子的进度三档（M4） */
 export const PROGRESS_MARKS = ['little', 'lot', 'done'] as const

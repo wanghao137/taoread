@@ -7,10 +7,13 @@
  */
 import type { PrismaClient } from '@prisma/client'
 
-/** 童书类目白名单（docs/02 §5.4：category 前缀 1300000=童书）。
+/** 童书类目白名单（双口径，2026-09-07 真实书架校准）：
+ *  - 中文前缀：网关回包 category 实测为中文串（如「童书-幼儿启蒙」「童书-儿童文学」）；
+ *  - 数字前缀：兼容可能返回数字类目 ID 的回包（docs/02 §5.4 点名 1300000=童书）。
  * 白名单语义：仅命中前缀的 books 进入孩子视图/推荐流，宁缺勿滥。
- * 初版仅含计划书点名前缀，待真实书架数据校准后扩充（见夜间日志）。 */
-export const CHILD_CATEGORY_PREFIXES = ['1300000'] as const
+ * 教训记录（N6-001）：白天会话 mock 用臆测数字串导致测试绿但真实数据全灭——
+ * 白名单口径必须以真实回包为准（见 nightly-log 第 6 夜）。 */
+export const CHILD_CATEGORY_PREFIXES = ['童书', '1300000'] as const
 
 export function asRecord(v: unknown): Record<string, unknown> | null {
   return typeof v === 'object' && v !== null && !Array.isArray(v)
