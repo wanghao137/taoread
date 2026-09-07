@@ -129,11 +129,15 @@ export const api = {
   familyView: (familyId: string, token: string) =>
     request<FamilyViewDto>(`/api/family/${familyId}`, { token }),
 
-  shelf: (familyId: string, token: string, view?: 'child') =>
-    request<ShelfDto>(
+  shelf: async (familyId: string, token: string, view?: 'child') => {
+    const dto = await request<ShelfDto>(
       `/api/shelf?familyId=${encodeURIComponent(familyId)}${view ? `&view=${view}` : ''}`,
       { token },
-    ),
+    )
+    // 服务端孩子视图把过滤结果放在 books 字段（与全量视图同名）；归一化为 childrenView 供孩子端统一消费
+    if (view === 'child') return { ...dto, childrenView: dto.books ?? [] }
+    return dto
+  },
 
   /** 个性化推荐（服务端已做童书白名单 + 家长屏蔽过滤） */
   recommend: (token: string, count = 6) =>

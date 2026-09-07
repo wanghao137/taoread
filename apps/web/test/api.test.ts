@@ -88,6 +88,25 @@ describe('request / api 客户端', () => {
     expect(useSession.getState().role).toBeNull()
   })
 
+  it('孩子书架视图归一化：服务端 books 字段映射为 childrenView（N6-002）', async () => {
+    const { calls } = mockFetch(async () =>
+      jsonResponse(200, {
+        view: 'child',
+        total: 2,
+        books: [
+          { bookId: 'B1', title: '脑筋急转弯', category: '童书-幼儿启蒙' },
+          { bookId: 'B2', title: '十万个为什么', category: '童书-幼儿启蒙' },
+        ],
+        albums: [],
+        mp: {},
+      }),
+    )
+    const dto = await api.shelf('fam-1', 'tok-1', 'child')
+    expect(calls[0]!.url).toContain('view=child')
+    expect(dto.childrenView).toHaveLength(2)
+    expect(dto.childrenView![0]!.title).toBe('脑筋急转弯')
+  })
+
   it('家庭码输入大写归一后发出（UI 层已 toUpperCase，此处防回归）', async () => {
     const { calls } = mockFetch(async () => jsonResponse(200, { familyId: 'f', familyCode: 'X', token: 't' }))
     await api.joinFamily('  ab12cd34  '.trim().toUpperCase(), 'parent', 'd')
