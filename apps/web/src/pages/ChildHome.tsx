@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ChildDto, type CosessionDto, type UnlockDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState } from '../components/ui'
@@ -39,6 +39,9 @@ export function ChildHome() {
   const signOut = useSession((s) => s.signOut)
 
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
+
+  // 门屏双通道防连点（N7-006，延续 BookPicker 的 busyRef 模式）
+  const gateBusyRef = useRef(false)
 
   const loadChildren = useCallback(() => {
     if (!token || !familyId) return
@@ -93,7 +96,13 @@ export function ChildHome() {
       .activeCosession(childId, token)
       .then(({ session }) => {
         if (!alive) return
-        setPhase({ kind: 'gate', checking: false, active: session, activeTitle: null })
+        // 纸质书会话在门屏即展示书名（N7-005：activeTitle 不再是死字段）
+        setPhase({
+          kind: 'gate',
+          checking: false,
+          active: session,
+          activeTitle: session && !session.bookId ? session.paperTitle : null,
+        })
       })
       .catch(() => {
         if (alive) setPhase({ kind: 'gate', checking: false, active: null, activeTitle: null })
@@ -162,48 +171,59 @@ export function ChildHome() {
     [token, resolveBook],
   )
 
-  /** M1 继续去读：解析后进出发卡 */
+  /** M1 继续去读：解析后进出发卡；解析失败回门屏（N7-001：绝不降级进 select——
+   * active 会话存在时 select 无法开新书也回不到收尾，是死路） */
   const handleResume = useCallback(async () => {
-    if (phase.kind !== 'gate' || !phase.active) return
-    const { bookId, paperTitle } = phase.active
-    const sessionId = phase.active.id
-    if (!bookId) {
-      // 纸质书会话：无 deepLink，出发卡走纸书分支
-      setPhase({
-        kind: 'departure',
-        book: { title: paperTitle ?? '今晚的故事' },
-        sessionId,
-        isPaper: true,
-      })
-      return
+    if (phase.kind !== 'gate' || !phase.active || gateBusyRef.current) return
+    gateBusyRef.current = true
+    try {
+      const { bookId, paperTitle } = phase.active
+      const sessionId = phase.active.id
+      if (!bookId) {
+        // 纸质书会话：无 deepLink，出发卡走纸书分支
+        setPhase({
+          kind: 'departure',
+          book: { title: paperTitle ?? '今晚的故事' },
+          sessionId,
+          isPaper: true,
+        })
+        return
+      }
+      setPhase({ kind: 'resolving' })
+      const resolved = await resolveBook(bookId)
+      if (!resolved) {
+        // 解析失败回门屏：续传卡仍在，「读完收尾」通道可达
+        setPhase({ kind: 'gate', checking: false, active: phase.active, activeTitle: null })
+        return
+      }
+      setPhase({ kind: 'departure', book: resolved, sessionId, isPaper: false })
+    } finally {
+      gateBusyRef.current = false
     }
-    setPhase({ kind: 'resolving' })
-    const resolved = await resolveBook(bookId)
-    if (!resolved) {
-      // 书籍信息失败不阻断：回到选书流
-      setPhase({ kind: 'select' })
-      return
-    }
-    setPhase({ kind: 'departure', book: resolved, sessionId, isPaper: false })
   }, [phase, resolveBook])
 
   /** M1 读完收尾：解析书名（金句区按 bookId 拉热门划线） */
   const handleFinishEntry = useCallback(async () => {
-    if (phase.kind !== 'gate' || !phase.active) return
-    const { bookId, paperTitle } = phase.active
-    const sessionId = phase.active.id
-    if (!bookId) {
-      setPhase({ kind: 'finish', sessionId, bookId: null, title: paperTitle ?? '今晚的故事' })
-      return
+    if (phase.kind !== 'gate' || !phase.active || gateBusyRef.current) return
+    gateBusyRef.current = true
+    try {
+      const { bookId, paperTitle } = phase.active
+      const sessionId = phase.active.id
+      if (!bookId) {
+        setPhase({ kind: 'finish', sessionId, bookId: null, title: paperTitle ?? '今晚的故事' })
+        return
+      }
+      setPhase({ kind: 'resolving' })
+      const resolved = await resolveBook(bookId)
+      setPhase({
+        kind: 'finish',
+        sessionId,
+        bookId,
+        title: resolved?.title ?? paperTitle ?? '今晚的故事',
+      })
+    } finally {
+      gateBusyRef.current = false
     }
-    setPhase({ kind: 'resolving' })
-    const resolved = await resolveBook(bookId)
-    setPhase({
-      kind: 'finish',
-      sessionId,
-      bookId,
-      title: resolved?.title ?? paperTitle ?? '今晚的故事',
-    })
   }, [phase, resolveBook])
 
   function body() {
@@ -234,7 +254,20 @@ export function ChildHome() {
           />
         )
       case 'select':
-        return token ? <BookPicker token={token} onPick={handlePick} /> : null
+        return token ? (
+          <div className="flex flex-col gap-4">
+            <button
+              type="button"
+              onClick={() =>
+                setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
+              }
+              className="min-h-[3rem] cursor-pointer self-start rounded-xl px-3 text-base text-ink-secondary"
+            >
+              ← 回到月亮
+            </button>
+            <BookPicker token={token} onPick={handlePick} />
+          </div>
+        ) : null
       case 'resolving':
         return <Loading label="把书找出来…" />
       case 'ready':

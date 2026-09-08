@@ -57,9 +57,9 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
     }
   }, [bookId, token])
 
-  // 展开金句区时懒加载热门划线
+  // 展开金句区时懒加载热门划线（返回清理函数，卸载后守卫生效）
   useEffect(() => {
-    if (tab === 'pick' && bookmarks.kind === 'idle') loadBookmarks()
+    if (tab === 'pick' && bookmarks.kind === 'idle') return loadBookmarks()
   }, [tab, bookmarks.kind, loadBookmarks])
 
   async function addHighlight(body: { source: 'weread' | 'voice'; text: string; markCount?: number }) {

@@ -71,3 +71,14 @@
 | N6-010 | 2026-09-07 | P2 | web/lib/ritual.ts | friendlyLastRead 假定秒级时间戳（skill 未锁单位），毫秒回包恒显「今天」 | fixed（>1e12 毫秒折算 + 确定性用例） | 第 6 夜 |
 | N6-011 | 2026-09-07 | P2 | web/scripts/screenshot-child-flow.mjs | win32 下 shell:true 进程树 kill 不净，重跑端口占用 | fixed（taskkill /T /F 清进程树） | 第 6 夜 |
 | N6-012 | 2026-09-07 | P2 | server/modules/weread/routes.ts | 推荐流不过滤 price/payType，付费书可能出现在孩子「去读吧」落地（第 3 夜存量，本夜首次触达孩子端） | open：夜 9 与家长授权（听书逐个放行/付费口径）一并定夺 | 第 9 夜（计划） |
+| N7-001 | 2026-09-08 | P1 | web/pages/ChildHome.tsx | 选书屏死锁：续传解析失败降级进 select 后，active 会话下既开不了新书也回不到收尾（409 提示「先读完」却不给收尾的路） | fixed（解析失败回门屏保住续传卡 + select 阶段加「回到月亮」返回） | 第 7 夜 |
+| N7-002 | 2026-09-08 | P2 | server/modules/cosession/service.ts | 金句服务端零去重（(cosessionId,source,text) 无约束），前端 Set 防线可绕过 | open：夜 9 与金句管理一并做（部分唯一索引 + P2002 复用，项目成熟模式） | 第 9 夜（计划） |
+| N7-003 | 2026-09-08 | P2 | web/pages/child/DepartureScreen.tsx | deepLink 降级链的「引导浮层」缺席且未记录裁剪；无 deepLink 时通道区空置 | fixed（无 deepLink 时展示「请爸爸妈妈在微信读书里找到这本书」引导文案）；浮层部分裁剪已在日志记录（https 链接隐式兜底网页版） | 第 7 夜 |
+| N7-004 | 2026-09-08 | P2 | web/pages/child/DepartureScreen.tsx | 倒计时期间通道按钮 opacity:0 仍可点击（隐形误触风险）；走查脚本断言被裸 timeout 顶替 | fixed（counting 时 pointer-events-none）；脚本改为先等「3」出现再等通道 | 第 7 夜 |
+| N7-005 | 2026-09-08 | P2 | web/pages/ChildHome.tsx | activeTitle 死字段，续传卡永远显示「今晚的那本书」（纸书 paperTitle 明明可得） | fixed（门屏检查时填充 paperTitle） | 第 7 夜 |
+| N7-006 | 2026-09-08 | P2 | web/pages/ChildHome.tsx | 门屏双通道按钮未延续 busyRef 防连点模式 | fixed（gateBusyRef + try/finally） | 第 7 夜 |
+| N7-007 | 2026-09-08 | P2 | web/lib/api.ts | HighlightDto 声明了服务端不返回的三个字段（select 仅 id），契约失真误导后人 | fixed（DTO 收窄为 {id}） | 第 7 夜 |
+| N7-008 | 2026-09-08 | P2 | web/lib/finish.ts | 进度/心情枚举 web 端独立维护，防不了跨端漂移 | fixed（web 从 @taoread/shared 单一来源派生；server zod 对齐列入夜 13 重构批） | 第 7 夜 |
+| N7-009 | 2026-09-08 | P2 | web/scripts/screenshot-night7.mjs | 金句来源 A 判定有懒加载竞态，可能静默误判「无划线」掩盖回归 | fixed（先等列表/空态其一出现再判定；实测本轮正确识别空态走来源 B） | 第 7 夜 |
+| N7-010 | 2026-09-08 | P2 | web/pages/child/FinishScreen.tsx | loadBookmarks 的 alive 清理函数被 effect 丢弃（N5-001 同族弱化版） | fixed（effect 返回清理函数） | 第 7 夜 |
+| N7-011 | 2026-09-08 | P2 | server/modules/cosession | N4-006 僵尸会话语义（多 active 场）本夜仍未落实 | open：改期夜 9（与家长端「读完收尾」管理同批），本夜日志已明确改期 | 第 9 夜（计划） |

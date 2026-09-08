@@ -64,7 +64,7 @@ export function DepartureScreen({ title, cover, deepLink, isPaper = false, onFin
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: counting ? 0 : 1, y: counting ? 10 : 0 }}
         transition={{ delay: counting ? 0 : 0.15 }}
-        className="w-full max-w-sm"
+        className={`w-full max-w-sm ${counting ? 'pointer-events-none' : ''}`}
       >
         <h2 className="mb-1 text-xl font-bold leading-relaxed">
           出发！<span className="text-moon-400">《{title}》</span>
@@ -88,6 +88,11 @@ export function DepartureScreen({ title, cover, deepLink, isPaper = false, onFin
             <div className="min-h-touch flex w-full items-center justify-center rounded-2xl border border-night-border bg-night-700 text-lg font-bold">
               📖 翻开纸书吧
             </div>
+          )}
+          {!isPaper && !deepLink && (
+            <p className="min-h-touch flex w-full items-center justify-center rounded-2xl border border-night-border bg-night-700 px-4 text-center text-base text-ink-secondary">
+              请爸爸妈妈在微信读书里找到这本《{title}》
+            </p>
           )}
           <TaButton variant="secondary" onClick={onFinish}>
             读完回来了 → 去收尾

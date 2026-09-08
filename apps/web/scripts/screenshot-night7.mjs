@@ -149,7 +149,12 @@ async function main() {
     // 进度三档 + 心情
     await page.getByRole('button', { name: /读了好多/ }).click()
     await page.getByRole('button', { name: /开心/ }).click()
-    // 金句来源 A：挑一句（真实热门划线；无则自动走来源 B）
+    // 金句来源 A：挑一句（真实热门划线；先等列表或空态其一出现，防懒加载竞态 N7-009）
+    await page
+      .getByText(/人划过这句|还没有热门划线/)
+      .first()
+      .waitFor({ timeout: 20_000 })
+      .catch(() => {})
     const pickItem = page.getByRole('button', { name: /人划过这句/ }).first()
     const hasBookmarks = await pickItem.isVisible().catch(() => false)
     if (hasBookmarks) {

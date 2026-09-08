@@ -209,10 +209,8 @@ export interface FinishResultDto {
 }
 
 export interface HighlightDto {
+  /** 服务端 addHighlight 回包仅含 id（与 server select 对齐） */
   id: string
-  source: string
-  text: string
-  markCount: number | null
 }
 
 export interface RecommendDto {
