@@ -8,12 +8,14 @@ export interface RitualGateProps {
   checking: boolean
   /** 点亮月亮 → 进入选书流 */
   onStart: () => void
-  /** 有未收尾会话时：直接回到今晚那本 */
+  /** 有未收尾会话：继续去读（出发卡） */
   onResume: () => void
+  /** 有未收尾会话：读完啦，直接收尾（第 7 夜 M4） */
+  onFinish: () => void
 }
 
-/** M1 仪式入口：月亮升起。有未收尾会话时优先给出「继续今晚的故事」 */
-export function RitualGate({ active, activeTitle, checking, onStart, onResume }: RitualGateProps) {
+/** M1 仪式入口：月亮升起。有未收尾会话时给出「继续去读 / 读完收尾」双通道 */
+export function RitualGate({ active, activeTitle, checking, onStart, onResume, onFinish }: RitualGateProps) {
   if (checking) {
     return <Loading label="看看昨晚的故事…" />
   }
@@ -32,14 +34,17 @@ export function RitualGate({ active, activeTitle, checking, onStart, onResume }:
       {active ? (
         <TaCard className="text-center">
           <p className="text-lg font-bold leading-relaxed">
-            {activeTitle ? `《${activeTitle}》` : '昨晚的那本书'}
+            {activeTitle ? `《${activeTitle}》` : '今晚的那本书'}
             <br />
             还没讲完呢
           </p>
           <p className="mt-1 text-ink-secondary">故事在老地方等你</p>
-          <TaButton className="mt-4 w-full" onClick={onResume}>
-            继续今晚的故事
-          </TaButton>
+          <div className="mt-4 flex flex-col gap-3">
+            <TaButton onClick={onResume}>继续去读</TaButton>
+            <TaButton variant="secondary" onClick={onFinish}>
+              读完啦，去收尾
+            </TaButton>
+          </div>
         </TaCard>
       ) : (
         <div className="text-center">

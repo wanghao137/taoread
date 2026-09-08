@@ -161,6 +161,58 @@ export const api = {
       `/api/cosession/active?childId=${encodeURIComponent(childId)}`,
       { token },
     ),
+
+  /** 全书热门划线 Top20（含原文与「N 人划过」人数） */
+  bestBookmarks: (bookId: string, token: string) =>
+    request<BestBookmarksDto>(`/api/book/${encodeURIComponent(bookId)}/bestbookmarks`, { token }),
+
+  /** 收尾：进度三档 + 心情（幂等，重复收尾返回首次结果） */
+  finishCosession: (
+    id: string,
+    body: { progressMark?: string; mood?: string },
+    token: string,
+  ) =>
+    request<FinishResultDto>(`/api/cosession/${encodeURIComponent(id)}/finish`, {
+      method: 'POST',
+      body,
+      token,
+    }),
+
+  /** 金句两来源：weread=热门划线点选（带 markCount），voice=孩子口述 */
+  addHighlight: (
+    id: string,
+    body: { source: 'weread' | 'voice' | 'manual'; text: string; markCount?: number },
+    token: string,
+  ) =>
+    request<HighlightDto>(`/api/cosession/${encodeURIComponent(id)}/highlights`, {
+      method: 'POST',
+      body,
+      token,
+    }),
+}
+
+export interface BestBookmarksDto {
+  totalCount?: number
+  items?: Array<{ markText?: string; totalCount?: number; chapterUid?: number }>
+}
+
+export interface UnlockDto {
+  kind: string
+  value: number
+}
+
+export interface FinishResultDto {
+  id: string
+  alreadyFinished: boolean
+  durationSec: number | null
+  unlocked: UnlockDto[]
+}
+
+export interface HighlightDto {
+  id: string
+  source: string
+  text: string
+  markCount: number | null
 }
 
 export interface RecommendDto {

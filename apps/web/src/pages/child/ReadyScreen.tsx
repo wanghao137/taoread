@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion'
-import { TaCard } from '../../components/ui'
+import { TaCard, TaButton } from '../../components/ui'
 
 export interface ReadyScreenProps {
   title: string
-  deepLink?: string
+  cover?: string
+  /** 选定 → 出发卡（3-2-1 倒计时 + 阅读通道） */
+  onDepart: () => void
 }
 
-/** 选定确认：选好啦 → 出发读吧（deepLink 为网关回包原值）。完整出发仪式第 7 夜点亮 */
-export function ReadyScreen({ title, deepLink }: ReadyScreenProps) {
+/** 选定确认：选好啦 → 出发（完整出发仪式在 DepartureScreen，第 7 夜） */
+export function ReadyScreen({ title, cover, onDepart }: ReadyScreenProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
       <motion.span
@@ -27,24 +29,20 @@ export function ReadyScreen({ title, deepLink }: ReadyScreenProps) {
       </h2>
 
       <TaCard className="w-full">
-        {deepLink ? (
-          <a
-            href={deepLink}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-peach-gradient min-h-touch flex w-full items-center justify-center rounded-2xl text-lg font-bold text-night-900"
-          >
-            去读吧 →
-          </a>
-        ) : (
-          <p className="text-ink-secondary">翻开纸书，故事开始啦</p>
-        )}
-        <p className="mt-3 text-base text-ink-secondary">
-          读完回到这里，还有今晚的收尾小仪式（即将点亮）
-        </p>
+        <div className="mx-auto mb-4 h-28 w-24 overflow-hidden rounded-xl bg-night-700">
+          {cover ? (
+            <img src={cover} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.visibility = 'hidden' }} />
+          ) : (
+            <span aria-hidden className="flex h-full w-full items-center justify-center text-5xl">
+              📖
+            </span>
+          )}
+        </div>
+        <TaButton className="w-full" onClick={onDepart}>
+          出发去读 →
+        </TaButton>
+        <p className="mt-3 text-base text-ink-secondary">和爸爸妈妈说一声，一起读吧 🍑</p>
       </TaCard>
-
-      <p className="text-base text-ink-secondary">和爸爸妈妈说一声，一起读吧 🍑</p>
     </div>
   )
 }

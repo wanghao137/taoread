@@ -1,11 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
-import { api, ApiError, type ChildDto, type CosessionDto } from '../lib/api'
+import { api, ApiError, type ChildDto, type CosessionDto, type UnlockDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
 import { RitualGate } from './child/RitualGate'
 import { BookPicker } from './child/BookPicker'
 import { ReadyScreen } from './child/ReadyScreen'
+import { DepartureScreen } from './child/DepartureScreen'
+import { FinishScreen } from './child/FinishScreen'
+import { CelebrationScreen } from './child/CelebrationScreen'
+
+interface BookRef {
+  /** 会话/书籍归属的微信读书 bookId（纸质书会话为空） */
+  bookId?: string
+  title: string
+  deepLink?: string
+  cover?: string
+}
 
 type Phase =
   | { kind: 'loading' }
@@ -14,10 +25,13 @@ type Phase =
   | { kind: 'pick-child'; children: ChildDto[] }
   | { kind: 'gate'; checking: boolean; active: CosessionDto | null; activeTitle: string | null }
   | { kind: 'select' }
-  | { kind: 'ready'; title: string; deepLink?: string }
+  | { kind: 'ready'; book: BookRef; sessionId: string }
+  | { kind: 'departure'; book: BookRef; sessionId: string; isPaper: boolean }
+  | { kind: 'finish'; sessionId: string; bookId: string | null; title: string }
+  | { kind: 'celebrate'; unlocked: UnlockDto[] }
   | { kind: 'resolving' } // 继续读：正在解析书名/链接
 
-/** 孩子端仪式流（第 6 夜）：绑定档案 → M1 月亮门 → M2 选书 → 选定确认 */
+/** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
 export function ChildHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
@@ -39,14 +53,13 @@ export function ChildHome() {
           setPhase({ kind: 'no-children' })
           return
         }
-        // childId 经 getState 读取（P2-2）：选择孩子属本地 phase 切换，
-        // 不进入本回调依赖，避免 setChildId 触发拉取翻倍
+        // childId 经 getState 读取（N6-009）：选择孩子属本地 phase 切换，不触发重拉
         const storedChildId = useSession.getState().childId
         const stored = storedChildId && kids.some((k) => k.id === storedChildId) ? storedChildId : null
         if (stored) {
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else if (kids.length === 1 && kids[0]) {
-          setChildId(kids[0].id) // 独生孩子自动绑定，少一步点击
+          setChildId(kids[0].id)
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else {
           setPhase({ kind: 'pick-child', children: kids })
@@ -64,8 +77,8 @@ export function ChildHome() {
   useEffect(() => loadChildren(), [loadChildren])
 
   const enterGate = useCallback(
-    (childId: string) => {
-      setChildId(childId)
+    (id: string) => {
+      setChildId(id)
       setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
     },
     [setChildId],
@@ -90,13 +103,18 @@ export function ChildHome() {
     }
   }, [phase, token, childId])
 
-  /** 解析会话真实归属的书名与 deepLink（bookInfo 失败返回 null，不阻断） */
+  /** 解析会话/书籍的书名、封面与 deepLink（bookInfo 失败返回 null，不阻断） */
   const resolveBook = useCallback(
-    async (bookId: string): Promise<{ title: string; deepLink?: string } | null> => {
+    async (bookId: string): Promise<BookRef | null> => {
       if (!token) return null
       try {
         const info = await api.bookInfo(bookId, token)
-        return { title: info.title, deepLink: info.deepLink }
+        return {
+          bookId,
+          title: info.title,
+          ...(info.deepLink ? { deepLink: info.deepLink } : {}),
+          ...(info.cover ? { cover: info.cover } : {}),
+        }
       } catch {
         return null
       }
@@ -104,43 +122,59 @@ export function ChildHome() {
     [token],
   )
 
-  /** M2 选定：开启共读（服务端幂等）→ 进入确认屏。
-   * reused 语义消费（N6-006）：会话若已归属另一本书（微信读书书或纸质书），
-   * 确认屏必须显示会话真实归属——显示与账本（共读卡/收尾/成就）永远一致。 */
+  /** M2 选定：开启共读（服务端幂等）→ 确认屏。
+   * reused 语义消费（N6-006）：确认屏永远显示会话真实归属的那本。 */
   const handlePick = useCallback(
-    async (book: { bookId: string; title: string; deepLink?: string }) => {
+    async (book: { bookId: string; title: string; deepLink?: string; cover?: string }) => {
       const currentChildId = useSession.getState().childId
       if (!token || !currentChildId) throw new ApiError(0, 'NO_SESSION', '请先回到登录页重新加入')
       const session = await api.startCosession(currentChildId, book.bookId, token)
       const belongsToAnother =
         session.reused && (session.bookId !== book.bookId || session.bookId === null)
       if (belongsToAnother) {
-        // 会话在别的微信读书书上：以会话真实书名/链接进确认屏
         if (session.bookId) {
           const resolved = await resolveBook(session.bookId)
           if (!resolved) {
-            // 无法确认会话归属时绝不冒充新书：给正向提示，留在选书屏
             throw new ApiError(409, 'SESSION_ACTIVE', '今晚的故事已经开始啦，先把这本读完吧')
           }
-          setPhase({ kind: 'ready', title: resolved.title, deepLink: resolved.deepLink })
+          setPhase({ kind: 'ready', book: resolved, sessionId: session.id })
           return
         }
-        // 会话是纸质书：无 deepLink，确认屏走纸书文案分支（N6-008 复审补）
-        setPhase({ kind: 'ready', title: session.paperTitle ?? '今晚的故事' })
+        // 会话是纸质书：确认屏走纸书出发分支
+        setPhase({
+          kind: 'ready',
+          book: { title: session.paperTitle ?? '今晚的故事' },
+          sessionId: session.id,
+        })
         return
       }
-      setPhase({ kind: 'ready', title: book.title, deepLink: book.deepLink })
+      setPhase({
+        kind: 'ready',
+        sessionId: session.id,
+        book: {
+          bookId: session.bookId ?? book.bookId,
+          title: book.title,
+          ...(book.deepLink ? { deepLink: book.deepLink } : {}),
+          ...(book.cover ? { cover: book.cover } : {}),
+        },
+      })
     },
     [token, resolveBook],
   )
 
-  /** M1 继续今晚的故事：解析书名与 deepLink 后直达确认屏（纸质书会话直接展示书名） */
+  /** M1 继续去读：解析后进出发卡 */
   const handleResume = useCallback(async () => {
     if (phase.kind !== 'gate' || !phase.active) return
     const { bookId, paperTitle } = phase.active
+    const sessionId = phase.active.id
     if (!bookId) {
-      // 纸质书会话（P2-1）：无 deepLink，确认屏走纸书文案分支
-      setPhase({ kind: 'ready', title: paperTitle ?? '今晚的故事' })
+      // 纸质书会话：无 deepLink，出发卡走纸书分支
+      setPhase({
+        kind: 'departure',
+        book: { title: paperTitle ?? '今晚的故事' },
+        sessionId,
+        isPaper: true,
+      })
       return
     }
     setPhase({ kind: 'resolving' })
@@ -150,7 +184,26 @@ export function ChildHome() {
       setPhase({ kind: 'select' })
       return
     }
-    setPhase({ kind: 'ready', title: resolved.title, deepLink: resolved.deepLink })
+    setPhase({ kind: 'departure', book: resolved, sessionId, isPaper: false })
+  }, [phase, resolveBook])
+
+  /** M1 读完收尾：解析书名（金句区按 bookId 拉热门划线） */
+  const handleFinishEntry = useCallback(async () => {
+    if (phase.kind !== 'gate' || !phase.active) return
+    const { bookId, paperTitle } = phase.active
+    const sessionId = phase.active.id
+    if (!bookId) {
+      setPhase({ kind: 'finish', sessionId, bookId: null, title: paperTitle ?? '今晚的故事' })
+      return
+    }
+    setPhase({ kind: 'resolving' })
+    const resolved = await resolveBook(bookId)
+    setPhase({
+      kind: 'finish',
+      sessionId,
+      bookId,
+      title: resolved?.title ?? paperTitle ?? '今晚的故事',
+    })
   }, [phase, resolveBook])
 
   function body() {
@@ -168,12 +221,7 @@ export function ChildHome() {
           />
         )
       case 'pick-child':
-        return (
-          <ChildPicker
-            children={phase.children}
-            onPick={(id) => enterGate(id)}
-          />
-        )
+        return <ChildPicker children={phase.children} onPick={(id) => enterGate(id)} />
       case 'gate':
         return (
           <RitualGate
@@ -181,7 +229,8 @@ export function ChildHome() {
             active={phase.active}
             activeTitle={phase.activeTitle}
             onStart={() => setPhase({ kind: 'select' })}
-            onResume={handleResume}
+            onResume={() => void handleResume()}
+            onFinish={() => void handleFinishEntry()}
           />
         )
       case 'select':
@@ -189,7 +238,50 @@ export function ChildHome() {
       case 'resolving':
         return <Loading label="把书找出来…" />
       case 'ready':
-        return <ReadyScreen title={phase.title} deepLink={phase.deepLink} />
+        return (
+          <ReadyScreen
+            title={phase.book.title}
+            cover={phase.book.cover}
+            onDepart={() => {
+              // sessionId 已在 handlePick 落入 phase（无多余请求）
+              setPhase({
+                kind: 'departure',
+                book: phase.book,
+                sessionId: phase.sessionId,
+                isPaper: !phase.book.bookId,
+              })
+            }}
+          />
+        )
+      case 'departure':
+        return (
+          <DepartureScreen
+            title={phase.book.title}
+            cover={phase.book.cover}
+            deepLink={phase.book.deepLink}
+            isPaper={phase.isPaper}
+            onFinish={() =>
+              setPhase({
+                kind: 'finish',
+                sessionId: phase.sessionId,
+                bookId: phase.book.bookId ?? null,
+                title: phase.book.title,
+              })
+            }
+          />
+        )
+      case 'finish':
+        return token ? (
+          <FinishScreen
+            sessionId={phase.sessionId}
+            bookId={phase.bookId}
+            title={phase.title}
+            token={token}
+            onFinished={(unlocked) => setPhase({ kind: 'celebrate', unlocked })}
+          />
+        ) : null
+      case 'celebrate':
+        return <CelebrationScreen unlocked={phase.unlocked} onBack={() => enterGate(childId ?? '')} />
     }
   }
 
