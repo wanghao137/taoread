@@ -11,6 +11,7 @@ import { registerFamilyRoutes } from './modules/family/routes'
 import { getBoundKey, type KeyProbe } from './modules/family/service'
 import { registerWereadRoutes } from './modules/weread/routes'
 import { registerCosessionRoutes } from './modules/cosession/routes'
+import { registerRitualRoutes } from './modules/ritual/routes'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
@@ -29,6 +30,13 @@ export interface BuildAppOptions {
   wereadNow?: () => number
   /** 共读域时钟注入（测试冻结时间用；默认真实 Unix 秒） */
   cosessionNow?: () => number
+  /** 就寝时刻（本地日内分钟数，生产默认 21:30 由 config 提供）；null=关闭（测试缺省，防深夜测试被闸） */
+  bedTimeMin?: number | null
+  /** 活跃会话软封顶秒数（默认 300）；超时温和引导收尾 */
+  overtimeCapSec?: number
+  /** 仪式域时钟注入（测试） */
+  ritualNowSec?: () => number
+  ritualNowMin?: () => number
   allowedOrigin?: string | boolean
   logger?: boolean
 }
@@ -79,7 +87,17 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     db: options.db,
     registry,
     tokenSecret: options.tokenSecret,
+    bedTimeMin: options.bedTimeMin ?? null,
     ...(options.cosessionNow ? { nowSec: options.cosessionNow } : {}),
+  })
+
+  registerRitualRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
+    bedTimeMin: options.bedTimeMin ?? null,
+    overtimeCapSec: options.overtimeCapSec ?? 300,
+    ...(options.ritualNowSec ? { nowSec: options.ritualNowSec } : {}),
+    ...(options.ritualNowMin ? { nowMinutesOfDay: options.ritualNowMin } : {}),
   })
 
   // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；

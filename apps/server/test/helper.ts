@@ -25,6 +25,14 @@ export interface MakeAppOpts {
   wereadNow?: () => number
   /** 冻结共读域时钟（成就解锁/幂等收尾类测试确定性用） */
   cosessionNow?: () => number
+  /** 就寝时刻（本地日内分钟数）；null=关闭。缺省关闭（时段专项测试自注入） */
+  bedTimeMin?: number | null
+  /** 活跃会话软封顶秒数（默认 300） */
+  overtimeCapSec?: number
+  /** 仪式域时钟注入（overtime 判定） */
+  ritualNowSec?: () => number
+  /** 仪式域本地分钟注入（bedtime 判定） */
+  ritualNowMin?: () => number
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -41,6 +49,10 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     wereadCall: opts.wereadCall,
     wereadNow: opts.wereadNow,
     ...(opts.cosessionNow ? { cosessionNow: opts.cosessionNow } : {}),
+    bedTimeMin: opts.bedTimeMin ?? null,
+    overtimeCapSec: opts.overtimeCapSec,
+    ...(opts.ritualNowSec ? { ritualNowSec: opts.ritualNowSec } : {}),
+    ...(opts.ritualNowMin ? { ritualNowMin: opts.ritualNowMin } : {}),
   })
   return { app, db }
 }

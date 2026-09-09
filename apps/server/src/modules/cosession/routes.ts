@@ -12,7 +12,7 @@ import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../family/routes'
-import { UnauthorizedError, ValidationError } from '../../lib/errors'
+import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
 import * as svc from './service'
 
@@ -31,6 +31,8 @@ export interface CosessionRoutesDeps {
   tokenSecret: Buffer
   /** 时钟注入（测试冻结时间；默认真实 Unix 秒） */
   nowSec?: () => number
+  /** 就寝时刻（本地日内分钟数，默认 21:30）；null=关闭。开新书闸：就寝窗口拒绝新建（收尾不受限） */
+  bedTimeMin?: number | null
 }
 
 export function registerCosessionRoutes(
@@ -42,8 +44,19 @@ export function registerCosessionRoutes(
     deps.nowSec ?? (() => Math.floor(Date.now() / 1000))
   const auth = requireAuth(tokenSecret)
 
+  /** 就寝判定（第 8 夜护眼限制，服务端权威）：窗口内不开新书，文案正向 */
+  const isBedtimeNow = () => {
+    if (deps.bedTimeMin === null || deps.bedTimeMin === undefined) return false
+    const now = new Date()
+    const nowMin = now.getHours() * 60 + now.getMinutes()
+    return nowMin >= deps.bedTimeMin || nowMin < 6 * 60
+  }
+
   app.post('/api/cosession', { preHandler: auth }, async (request, reply) => {
     if (!request.auth) throw new UnauthorizedError()
+    if (isBedtimeNow()) {
+      throw new AppError('月亮睡觉啦，明晚再一起读书吧', 'RITUAL_CLOSED', 403)
+    }
     const body = parse(
       z.object({
         childId: z.string().min(1),

@@ -12,6 +12,7 @@ async function main(): Promise<void> {
     tokenSecret: tokenSecretFrom(config.TAO_MASTER_KEY),
     masterKey: config.TAO_MASTER_KEY,
     allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
+    bedTimeMin: config.TAO_BEDTIME === 'off' ? null : config.TAO_BEDTIME,
     logger: true,
   })
   await app.listen({ port: config.PORT, host: '0.0.0.0' })

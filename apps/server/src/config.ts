@@ -11,6 +11,10 @@ const schema = z
     TAO_MASTER_KEY: z.string().min(16, 'TAO_MASTER_KEY 至少 16 个字符'),
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
     TAO_DATABASE_URL: z.string().min(1, 'TAO_DATABASE_URL 不能为空'),
+    // 就寝时刻（本地日内分钟数，默认 21:30=1290）；'off' 关闭（测试/走查）
+    TAO_BEDTIME: z
+      .union([z.literal('off'), z.coerce.number().int().min(0).max(1439)])
+      .default(1290),
     WEREAD_API_KEY: z.string().optional(),
   })
   .superRefine((cfg, ctx) => {
