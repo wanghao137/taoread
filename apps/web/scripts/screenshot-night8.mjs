@@ -104,10 +104,11 @@ function sessionInitScript(child, family) {
 
 async function main() {
   mkdirSync(OUT, { recursive: true })
-  const apiKey = readEnvKey()
 
-  // ── 阶段一：默认配置（当前真实时钟 23:xx > 21:30）→ 月亮睡了 ──
-  let server = spawnServer(SERVER_DIR, ['tsx', 'src/index.ts'])
+  // ── 阶段一：注入就寝时刻=当前钟点-1 分钟 → 必然命中窗口（N8-010 走查确定性，不赌真实时钟）──
+  const nowMin = new Date().getHours() * 60 + new Date().getMinutes()
+  const bedMin = (nowMin - 1 + 1440) % 1440
+  let server = spawnServer(SERVER_DIR, ['tsx', 'src/index.ts'], { TAO_BEDTIME: String(bedMin) })
   let web = spawnServer(WEB_DIR, ['vite', 'preview', '--port', String(WEB_PORT), '--strictPort'])
   try {
     await waitFor(`${API}/api/health`)
@@ -123,7 +124,7 @@ async function main() {
     await page.goto(`${BASE}/child`, { waitUntil: 'networkidle' })
     await page.getByText('月亮睡觉啦').waitFor({ timeout: 20_000 })
     await page.screenshot({ path: resolve(OUT, 'bedtime-mode.png'), fullPage: true })
-    console.log('✓ 阶段一：就寝模式（真实时钟命中 21:30 后窗口）')
+    console.log('✓ 阶段一：就寝模式（注入 TAO_BEDTIME=当前-1 分钟必然命中）')
     await browser.close()
   } finally {
     killTree(server)

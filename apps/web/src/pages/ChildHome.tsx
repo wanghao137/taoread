@@ -32,7 +32,7 @@ type Phase =
       activeTitle: string | null
       overtime?: boolean
     }
-  | { kind: 'bedtime'; hasActive: boolean }
+  | { kind: 'bedtime'; hasActive: boolean; session: CosessionDto | null }
   | { kind: 'wall' }
   | { kind: 'select' }
   | { kind: 'ready'; book: BookRef; sessionId: string }
@@ -110,7 +110,7 @@ export function ChildHome() {
       const session = activeRes.session
       const mode = windowRes?.mode ?? 'open'
       if (mode === 'bedtime') {
-        setPhase({ kind: 'bedtime', hasActive: session !== null })
+        setPhase({ kind: 'bedtime', hasActive: session !== null, session })
         return
       }
       setPhase({
@@ -120,6 +120,9 @@ export function ChildHome() {
         activeTitle: session && !session.bookId ? session.paperTitle : null,
         overtime: mode === 'overtime',
       })
+    }).catch(() => {
+      // 网络失败降级为无会话门屏：续传/收尾通道仍在，服务端幂等兜底（N8-002）
+      if (alive) setPhase({ kind: 'gate', checking: false, active: null, activeTitle: null })
     })
     return () => {
       alive = false
@@ -270,7 +273,28 @@ export function ChildHome() {
           />
         )
       case 'bedtime':
-        return <BedtimeScreen hasActive={phase.hasActive} />
+        return (
+          <BedtimeScreen
+            hasActive={phase.hasActive}
+            onFinish={() => {
+              const s = phase.session
+              if (!s) return
+              if (!s.bookId) {
+                setPhase({ kind: 'finish', sessionId: s.id, bookId: null, title: s.paperTitle ?? '今晚的故事' })
+                return
+              }
+              setPhase({ kind: 'resolving' })
+              void resolveBook(s.bookId).then((resolved) => {
+                setPhase({
+                  kind: 'finish',
+                  sessionId: s.id,
+                  bookId: s.bookId,
+                  title: resolved?.title ?? s.paperTitle ?? '今晚的故事',
+                })
+              })
+            }}
+          />
+        )
       case 'wall':
         return token && childId ? (
           <AchievementWall childId={childId} token={token} onBack={() => enterGate(childId)} />

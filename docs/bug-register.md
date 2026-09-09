@@ -82,3 +82,17 @@
 | N7-009 | 2026-09-08 | P2 | web/scripts/screenshot-night7.mjs | 金句来源 A 判定有懒加载竞态，可能静默误判「无划线」掩盖回归 | fixed（先等列表/空态其一出现再判定；实测本轮正确识别空态走来源 B） | 第 7 夜 |
 | N7-010 | 2026-09-08 | P2 | web/pages/child/FinishScreen.tsx | loadBookmarks 的 alive 清理函数被 effect 丢弃（N5-001 同族弱化版） | fixed（effect 返回清理函数） | 第 7 夜 |
 | N7-011 | 2026-09-08 | P2 | server/modules/cosession | N4-006 僵尸会话语义（多 active 场）本夜仍未落实 | open：改期夜 9（与家长端「读完收尾」管理同批），本夜日志已明确改期 | 第 9 夜（计划） |
+| N8-001 | 2026-09-09 | P1 | server/modules/cosession/routes.ts | 开课就寝闸时钟不可注入（闭包内直读 new Date()），专项测试依赖真实时钟——白天跑必红，验收「可测（注入时钟）」未达成 | fixed（单一来源 isBedtime + nowMinutesOfDay 注入点，app.ts 贯通两域；测试确定化） | 第 8 夜 |
+| N8-002 | 2026-09-09 | P1 | web/pages/ChildHome.tsx | gate 检查 Promise.all 无 catch：activeCosession 网络失败 → 永久卡 Loading（夜间场景恰在高发窗口） | fixed（catch 降级为无会话门屏，续传/收尾通道保留，服务端幂等兜底；复审确认） | 第 8 夜 |
+| N8-003 | 2026-09-09 | P2 | server/modules/ritual/routes.ts | requireAuth 第三方重复实现且语义漂移（无头 403 vs 家庭域 401，api.ts 401 单点对 ritual 永不触发） | fixed（删除本地实现改用 family 版，401 对齐） | 第 8 夜 |
+| N8-004 | 2026-09-09 | P2 | server/modules/ritual/routes.ts | assertOwnedChild 403 与家庭域/共读域 404 口径分裂 | fixed（统一 NotFoundError 404，测试同步） | 第 8 夜 |
+| N8-005 | 2026-09-09 | P2 | server/modules/ritual/routes.ts | ritualWindowOf 兜底分支拆两次 new Date()，跨点瞬间可偏差 60 分钟 | fixed（单 Date IIFE 兜底） | 第 8 夜 |
+| N8-006 | 2026-09-09 | P2 | server/src/config.ts | TAO_BEDTIME=（空串）被 coerce 成 0 → 全天就寝静默生效且无提示 | fixed（string+transform 显式拒绝空串/非数字/超界；config 四组测试） | 第 8 夜 |
+| N8-007 | 2026-09-09 | P2 | web/pages/child/RitualGate.tsx | overtime 下「故事讲完啦」与「还想再读一会儿」语义自相矛盾 | fixed（文案改「再多读一小段」；软引导不惩罚口径登记） | 第 8 夜 |
+| N8-008 | 2026-09-09 | P2 | web/pages/child/BedtimeScreen.tsx | 就寝+有活跃会话时无收尾入口 → 当晚夜灯成就丢失（隐性惩罚，与成就一致性冲突） | fixed（bedtime 屏保留「先把今晚的故事收好」单一收尾通道，锁定即锁定不被破坏） | 第 8 夜 |
+| N8-009 | 2026-09-09 | P2 | server/test/ritual.test.ts | 测试缺口：overtime 边界（299/300）未测、bedtime 端到端零覆盖、就寝期收尾/金句放行无回归 | fixed（补三组确定性用例） | 第 8 夜 |
+| N8-010 | 2026-09-09 | P2 | web/scripts/screenshot-night8.mjs | 阶段一依赖真实时钟命中就寝窗口，白天/傍晚运行必败 | fixed（注入 TAO_BEDTIME=当前-1 分钟确定性命中） | 第 8 夜 |
+| N8-011 | 2026-09-09 | P2（预登记） | web/lib/api.ts | achievements.unlockedAt（UTC ISO）未来若直接浏览器时区渲染，与「晚」的服务器本地分桶口径冲突（当前无消费点） | open：夜 9 展示解锁时间时统一走服务器 TZ 格式化或服务端下发夜键 | 第 9 夜（计划） |
+| N8-R1 | 2026-09-09 | P2 | docs/bug-register.md | 第 8 夜代码注释引用 N8 登记号但登记簿未落档（复审 R-1） | fixed（本批补录 N8-001~011 + R 项） | 第 8 夜 |
+| N8-R2 | 2026-09-09 | P3 | server/test/ritual.test.ts | 用例标题「越权 403」与断言 404 不符 | fixed（标题对齐） | 第 8 夜 |
+| N8-R3 | 2026-09-09 | P3 | web/scripts/screenshot-night8.mjs | 走查成功日志宣称「真实时钟」实际为注入时钟，文案失真 | fixed（日志对齐） | 第 8 夜 |

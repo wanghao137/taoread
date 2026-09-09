@@ -35,3 +35,24 @@ describe('loadConfig', () => {
     expect(cfg.TAO_ALLOWED_ORIGIN).toBe('https://taoread.example')
   })
 })
+
+describe('TAO_BEDTIME 配置（N8-006）', () => {
+  it('默认 1290（21:30）', () => {
+    expect(loadConfig({ ...BASE }).TAO_BEDTIME).toBe(1290)
+  })
+
+  it('off 关闭 / 数字字符串解析', () => {
+    expect(loadConfig({ ...BASE, TAO_BEDTIME: 'off' }).TAO_BEDTIME).toBe('off')
+    expect(loadConfig({ ...BASE, TAO_BEDTIME: '1260' }).TAO_BEDTIME).toBe(1260)
+  })
+
+  it('空串显式拒绝（防 dotenv 残留静默变成 0 点就寝=全天关闭）', () => {
+    expect(() => loadConfig({ ...BASE, TAO_BEDTIME: '' })).toThrow(ConfigError)
+    expect(() => loadConfig({ ...BASE, TAO_BEDTIME: '' })).toThrow(/TAO_BEDTIME/)
+  })
+
+  it('非法值拒绝：非数字/超 1439', () => {
+    expect(() => loadConfig({ ...BASE, TAO_BEDTIME: 'abc' })).toThrow(ConfigError)
+    expect(() => loadConfig({ ...BASE, TAO_BEDTIME: '1440' })).toThrow(ConfigError)
+  })
+})

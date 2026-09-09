@@ -105,7 +105,7 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
     await overtimeApp.db.$disconnect()
   })
 
-  it('成就墙端点：空态与解锁列表（含越权 403）', async () => {
+  it('成就墙端点：空态与解锁列表（越权 404 对齐）', async () => {
     const f = await createFamilyAsParent(h.app)
     const childId = await createChildVia(h.app, f.token, f.familyId)
     const child = await joinFamily(h.app, f.familyCode, 'child')
@@ -142,11 +142,12 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
       url: `/api/achievements?childId=${childId}`,
       headers: { authorization: `Bearer ${other.token}` },
     })
-    expect(cross.statusCode).toBe(403)
+    expect(cross.statusCode).toBe(404) // 口径对齐：越权统一 404（N8-004）
   })
 
-  it('开课就寝闸：就寝窗口内 POST /api/cosession 被拒绝（正向文案 403），收尾不受限', async () => {
-    const bedApp = await makeApp(undefined, { bedTimeMin: 1290, ritualNowMin: () => 22 * 60 })
+  it('开课就寝闸：就寝窗口内 POST /api/cosession 被拒绝（正向文案 403），收尾与金句不受限', async () => {
+    let nowMin = 22 * 60 // 可变注入：先就寝拒绝，再切回白天开场，再入夜验证收尾放行
+    const bedApp = await makeApp(undefined, { bedTimeMin: 1290, ritualNowMin: () => nowMin })
     await bedApp.app.ready()
     const f = await createFamilyAsParent(bedApp.app)
     const childId = await createChildVia(bedApp.app, f.token, f.familyId)
@@ -159,8 +160,87 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
     })
     expect(start.statusCode).toBe(403)
     expect(start.json()).toMatchObject({ code: 'RITUAL_CLOSED', message: /月亮睡觉啦/ })
+
+    // 白天正常开场
+    nowMin = 12 * 60
+    const opened = await bedApp.app.inject({
+      method: 'POST',
+      url: '/api/cosession',
+      headers: { authorization: `Bearer ${child.token}` },
+      payload: { childId, bookId: 'B1' },
+    })
+    expect(opened.statusCode).toBe(201)
+
+    // 入夜后收尾与金句均放行（就寝闸只挡开新书）
+    nowMin = 22 * 60
+    const finished = await bedApp.app.inject({
+      method: 'POST',
+      url: `/api/cosession/${opened.json().id}/finish`,
+      headers: { authorization: `Bearer ${child.token}` },
+      payload: { progressMark: 'lot' },
+    })
+    expect(finished.statusCode).toBe(200)
+    const hl = await bedApp.app.inject({
+      method: 'POST',
+      url: `/api/cosession/${opened.json().id}/highlights`,
+      headers: { authorization: `Bearer ${child.token}` },
+      payload: { source: 'voice', text: '睡觉前收一句' },
+    })
+    expect(hl.statusCode).toBe(201)
     await bedApp.app.close()
     await bedApp.db.$disconnect()
+  })
+
+  it('窗口端点：bedtime 分支端到端（注入时钟确定化，N8-009）', async () => {
+    const bedApp = await makeApp(undefined, { bedTimeMin: 1290, ritualNowMin: () => 22 * 60 })
+    await bedApp.app.ready()
+    const f = await createFamilyAsParent(bedApp.app)
+    const childId = await createChildVia(bedApp.app, f.token, f.familyId)
+    const child = await joinFamily(bedApp.app, f.familyCode, 'child')
+    const res = await bedApp.app.inject({
+      method: 'GET',
+      url: `/api/ritual/window?childId=${childId}`,
+      headers: { authorization: `Bearer ${child.token}` },
+    })
+    expect(res.json()).toMatchObject({ mode: 'bedtime', hasActive: false })
+    await bedApp.app.close()
+    await bedApp.db.$disconnect()
+  })
+
+  it('overtime 边界：299s 未超时 / 300s 恰好超时（>= 口径，N8-009）', async () => {
+    let now = 1_800_000_000
+    const app2 = await makeApp(undefined, {
+      bedTimeMin: null,
+      overtimeCapSec: 300,
+      cosessionNow: () => now,
+      ritualNowSec: () => now,
+    })
+    await app2.app.ready()
+    const f = await createFamilyAsParent(app2.app)
+    const childId = await createChildVia(app2.app, f.token, f.familyId)
+    const child = await joinFamily(app2.app, f.familyCode, 'child')
+    await app2.app.inject({
+      method: 'POST',
+      url: '/api/cosession',
+      headers: { authorization: `Bearer ${child.token}` },
+      payload: { childId, bookId: 'B1' },
+    })
+    now += 299
+    const before = await app2.app.inject({
+      method: 'GET',
+      url: `/api/ritual/window?childId=${childId}`,
+      headers: { authorization: `Bearer ${child.token}` },
+    })
+    expect(before.json().mode).toBe('open')
+    now += 1 // 恰好 300
+    const at = await app2.app.inject({
+      method: 'GET',
+      url: `/api/ritual/window?childId=${childId}`,
+      headers: { authorization: `Bearer ${child.token}` },
+    })
+    expect(at.json().mode).toBe('overtime')
+    await app2.app.close()
+    await app2.db.$disconnect()
   })
 })
 

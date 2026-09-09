@@ -88,6 +88,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     registry,
     tokenSecret: options.tokenSecret,
     bedTimeMin: options.bedTimeMin ?? null,
+    ...(options.ritualNowMin ? { nowMinutesOfDay: options.ritualNowMin } : {}),
     ...(options.cosessionNow ? { nowSec: options.cosessionNow } : {}),
   })
 

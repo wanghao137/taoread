@@ -3,10 +3,12 @@ import { motion } from 'framer-motion'
 export interface BedtimeScreenProps {
   /** 有未收尾会话时给出期待感提示（不催促） */
   hasActive: boolean
+  /** 就寝窗口内保留收尾通道（读了就要算数——隐性惩罚红线，N8-008） */
+  onFinish?: () => void
 }
 
 /** 睡觉模式（第 8 夜护眼限制）：月亮睡了——正向告别，无惩罚语义 */
-export function BedtimeScreen({ hasActive }: BedtimeScreenProps) {
+export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
       <motion.div
@@ -29,6 +31,16 @@ export function BedtimeScreen({ hasActive }: BedtimeScreenProps) {
           ? '今晚的故事先睡在这里，明晚接着讲'
           : '明晚同一时间，我们继续读书'}
       </p>
+
+      {hasActive && onFinish && (
+        <button
+          type="button"
+          onClick={onFinish}
+          className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-ink-secondary underline underline-offset-4"
+        >
+          先把今晚的故事收好
+        </button>
+      )}
 
       <p className="text-sm text-ink-secondary">晚安，做个有故事的好梦 🌙</p>
     </div>

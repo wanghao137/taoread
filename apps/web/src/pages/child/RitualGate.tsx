@@ -58,7 +58,7 @@ export function RitualGate({
               <>
                 <TaButton onClick={onFinish}>去收尾</TaButton>
                 <TaButton variant="secondary" onClick={onResume}>
-                  还想再读一会儿
+                  再多读一小段
                 </TaButton>
               </>
             ) : (
