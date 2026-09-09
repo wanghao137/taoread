@@ -9,6 +9,8 @@ import { ReadyScreen } from './child/ReadyScreen'
 import { DepartureScreen } from './child/DepartureScreen'
 import { FinishScreen } from './child/FinishScreen'
 import { CelebrationScreen } from './child/CelebrationScreen'
+import { AchievementWall } from './child/AchievementWall'
+import { BedtimeScreen } from './child/BedtimeScreen'
 
 interface BookRef {
   /** 会话/书籍归属的微信读书 bookId（纸质书会话为空） */
@@ -23,7 +25,15 @@ type Phase =
   | { kind: 'load-error'; message?: string }
   | { kind: 'no-children' }
   | { kind: 'pick-child'; children: ChildDto[] }
-  | { kind: 'gate'; checking: boolean; active: CosessionDto | null; activeTitle: string | null }
+  | {
+      kind: 'gate'
+      checking: boolean
+      active: CosessionDto | null
+      activeTitle: string | null
+      overtime?: boolean
+    }
+  | { kind: 'bedtime'; hasActive: boolean }
+  | { kind: 'wall' }
   | { kind: 'select' }
   | { kind: 'ready'; book: BookRef; sessionId: string }
   | { kind: 'departure'; book: BookRef; sessionId: string; isPaper: boolean }
@@ -87,26 +97,30 @@ export function ChildHome() {
     [setChildId],
   )
 
-  // M1：进入月亮门后检查未收尾会话（断线续传）
+  // M1：进入月亮门后检查未收尾会话（断线续传）+ 服务端时段窗口（就寝/超时，第 8 夜）
   const childId = useSession((s) => s.childId)
   useEffect(() => {
     if (phase.kind !== 'gate' || !phase.checking || !token || !childId) return
     let alive = true
-    api
-      .activeCosession(childId, token)
-      .then(({ session }) => {
-        if (!alive) return
-        // 纸质书会话在门屏即展示书名（N7-005：activeTitle 不再是死字段）
-        setPhase({
-          kind: 'gate',
-          checking: false,
-          active: session,
-          activeTitle: session && !session.bookId ? session.paperTitle : null,
-        })
+    void Promise.all([
+      api.activeCosession(childId, token),
+      api.ritualWindow(childId, token).catch(() => null), // 窗口失败静默降级为 open（功能可用性优先）
+    ]).then(([activeRes, windowRes]) => {
+      if (!alive) return
+      const session = activeRes.session
+      const mode = windowRes?.mode ?? 'open'
+      if (mode === 'bedtime') {
+        setPhase({ kind: 'bedtime', hasActive: session !== null })
+        return
+      }
+      setPhase({
+        kind: 'gate',
+        checking: false,
+        active: session,
+        activeTitle: session && !session.bookId ? session.paperTitle : null,
+        overtime: mode === 'overtime',
       })
-      .catch(() => {
-        if (alive) setPhase({ kind: 'gate', checking: false, active: null, activeTitle: null })
-      })
+    })
     return () => {
       alive = false
     }
@@ -248,11 +262,19 @@ export function ChildHome() {
             checking={phase.checking}
             active={phase.active}
             activeTitle={phase.activeTitle}
+            overtime={phase.overtime}
             onStart={() => setPhase({ kind: 'select' })}
             onResume={() => void handleResume()}
             onFinish={() => void handleFinishEntry()}
+            onWall={() => setPhase({ kind: 'wall' })}
           />
         )
+      case 'bedtime':
+        return <BedtimeScreen hasActive={phase.hasActive} />
+      case 'wall':
+        return token && childId ? (
+          <AchievementWall childId={childId} token={token} onBack={() => enterGate(childId)} />
+        ) : null
       case 'select':
         return token ? (
           <div className="flex flex-col gap-4">

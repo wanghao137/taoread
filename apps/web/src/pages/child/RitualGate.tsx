@@ -6,16 +6,28 @@ export interface RitualGateProps {
   active: CosessionDto | null
   activeTitle: string | null
   checking: boolean
-  /** 点亮月亮 → 进入选书流 */
+  /** 服务端判定：活跃会话超过软封顶 → 温和引导收尾（第 8 夜） */
+  overtime?: boolean
   onStart: () => void
   /** 有未收尾会话：继续去读（出发卡） */
   onResume: () => void
   /** 有未收尾会话：读完啦，直接收尾（第 7 夜 M4） */
   onFinish: () => void
+  /** 打开夜灯成就墙 */
+  onWall: () => void
 }
 
 /** M1 仪式入口：月亮升起。有未收尾会话时给出「继续去读 / 读完收尾」双通道 */
-export function RitualGate({ active, activeTitle, checking, onStart, onResume, onFinish }: RitualGateProps) {
+export function RitualGate({
+  active,
+  activeTitle,
+  checking,
+  overtime = false,
+  onStart,
+  onResume,
+  onFinish,
+  onWall,
+}: RitualGateProps) {
   if (checking) {
     return <Loading label="看看昨晚的故事…" />
   }
@@ -36,14 +48,27 @@ export function RitualGate({ active, activeTitle, checking, onStart, onResume, o
           <p className="text-lg font-bold leading-relaxed">
             {activeTitle ? `《${activeTitle}》` : '今晚的那本书'}
             <br />
-            还没讲完呢
+            {overtime ? '故事讲完啦' : '还没讲完呢'}
           </p>
-          <p className="mt-1 text-ink-secondary">故事在老地方等你</p>
+          <p className="mt-1 text-ink-secondary">
+            {overtime ? '把这一晚好好收进纪念册' : '故事在老地方等你'}
+          </p>
           <div className="mt-4 flex flex-col gap-3">
-            <TaButton onClick={onResume}>继续去读</TaButton>
-            <TaButton variant="secondary" onClick={onFinish}>
-              读完啦，去收尾
-            </TaButton>
+            {overtime ? (
+              <>
+                <TaButton onClick={onFinish}>去收尾</TaButton>
+                <TaButton variant="secondary" onClick={onResume}>
+                  还想再读一会儿
+                </TaButton>
+              </>
+            ) : (
+              <>
+                <TaButton onClick={onResume}>继续去读</TaButton>
+                <TaButton variant="secondary" onClick={onFinish}>
+                  读完啦，去收尾
+                </TaButton>
+              </>
+            )}
           </div>
         </TaCard>
       ) : (
@@ -58,6 +83,10 @@ export function RitualGate({ active, activeTitle, checking, onStart, onResume, o
           </TaButton>
         </div>
       )}
+
+      <TaButton variant="ghost" size="md" className="mx-auto" onClick={onWall}>
+        ✨ 我的夜灯
+      </TaButton>
     </div>
   )
 }

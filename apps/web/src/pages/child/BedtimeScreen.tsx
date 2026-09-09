@@ -1,0 +1,36 @@
+import { motion } from 'framer-motion'
+
+export interface BedtimeScreenProps {
+  /** 有未收尾会话时给出期待感提示（不催促） */
+  hasActive: boolean
+}
+
+/** 睡觉模式（第 8 夜护眼限制）：月亮睡了——正向告别，无惩罚语义 */
+export function BedtimeScreen({ hasActive }: BedtimeScreenProps) {
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
+      <motion.div
+        aria-hidden
+        className="flex h-32 w-32 items-center justify-center rounded-full bg-night-700 text-7xl shadow-inner"
+        animate={{ opacity: [1, 0.75, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        😴
+      </motion.div>
+
+      <h2 className="text-2xl font-bold leading-relaxed">
+        月亮睡觉啦
+        <br />
+        <span className="text-ink-secondary">星星也打了个哈欠</span>
+      </h2>
+
+      <p className="text-base text-ink-secondary">
+        {hasActive
+          ? '今晚的故事先睡在这里，明晚接着讲'
+          : '明晚同一时间，我们继续读书'}
+      </p>
+
+      <p className="text-sm text-ink-secondary">晚安，做个有故事的好梦 🌙</p>
+    </div>
+  )
+}

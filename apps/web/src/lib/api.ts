@@ -189,6 +189,35 @@ export const api = {
       body,
       token,
     }),
+
+  /** 仪式时段窗口（服务端权威）：bedtime=月亮睡了；overtime=温和引导收尾 */
+  ritualWindow: (childId: string, token: string) =>
+    request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, {
+      token,
+    }),
+
+  /** 成就墙数据（纪念式只读） */
+  achievements: (childId: string, token: string) =>
+    request<AchievementsDto>(`/api/achievements?childId=${encodeURIComponent(childId)}`, {
+      token,
+    }),
+}
+
+export interface RitualWindowDto {
+  mode: 'open' | 'bedtime' | 'overtime'
+  hasActive: boolean
+}
+
+export interface AchievementItemDto {
+  kind: string
+  value: number
+  unlockedAt: string
+}
+
+export interface AchievementsDto {
+  nightLamps: AchievementItemDto[]
+  streakBest: AchievementItemDto[]
+  booksDone: AchievementItemDto[]
 }
 
 export interface BestBookmarksDto {
