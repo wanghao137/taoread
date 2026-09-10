@@ -1,16 +1,28 @@
 import { useCallback, useEffect, useState } from 'react'
-import { api, ApiError, type FamilyViewDto } from '../lib/api'
+import { api, ApiError, type ChildDto, type FamilyViewDto } from '../lib/api'
 import { useSession } from '../stores/session'
-import { TaCard, TaButton, TaSticker, Loading, ErrorState, EmptyState } from '../components/ui'
+import { Loading, ErrorState } from '../components/ui'
+import { TonightPanel } from './parent/TonightPanel'
+import { ShelfManager } from './parent/ShelfManager'
+import { SettingsPanel } from './parent/SettingsPanel'
 
-/** 家长端首页（第 5 夜角色壳：家庭概览 + Tab 占位；第 9-10 夜填充） */
+const TABS = ['今晚', '书架', '周报', '设置'] as const
+
+type FamilyState =
+  | { kind: 'loading' }
+  | { kind: 'error'; message?: string }
+  | { kind: 'ready'; view: FamilyViewDto }
+
+/** 家长端（第 9 夜）：今晚共读卡 / 书架管理 / 设置（周报第 10 夜） */
 export function ParentHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
   const familyCode = useSession((s) => s.familyCode)
   const signOut = useSession((s) => s.signOut)
-  const [state, setState] = useState<FamilyState>({ kind: 'loading' })
   const [tab, setTab] = useState<(typeof TABS)[number]>('今晚')
+  const [state, setState] = useState<FamilyState>({ kind: 'loading' })
+  // 变更计数：子面板改动后触发「今晚」重拉（家庭视图 → 孩子列表）
+  const [revision, setRevision] = useState(0)
 
   const load = useCallback(() => {
     if (!token || !familyId) return
@@ -28,7 +40,32 @@ export function ParentHome() {
     }
   }, [token, familyId])
 
-  useEffect(() => load(), [load])
+  useEffect(() => load(), [load, revision])
+
+  const childrenList: ChildDto[] = state.kind === 'ready' ? state.view.children : []
+
+  function body() {
+    if (tab === '周报') {
+      return <p className="py-10 text-center text-base text-ink-secondary">周报将在下一版本亮起来</p>
+    }
+    if (state.kind === 'loading') return <Loading label="家庭信息赶来中…" />
+    if (state.kind === 'error')
+      return <ErrorState message={state.message} onRetry={() => setRevision((n) => n + 1)} />
+    if (tab === '今晚')
+      return (
+        <TonightPanel token={token ?? ''} childrenList={childrenList} />
+      )
+    if (tab === '书架')
+      return <ShelfManager familyId={familyId ?? ''} token={token ?? ''} />
+    return (
+      <SettingsPanel
+        familyId={familyId ?? ''}
+        token={token ?? ''}
+        onDeleted={() => undefined}
+        onChanged={() => setRevision((n) => n + 1)}
+      />
+    )
+  }
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-5 pb-24 pt-8">
@@ -40,72 +77,23 @@ export function ParentHome() {
         <button
           type="button"
           onClick={signOut}
-          className="cursor-pointer rounded-full border border-night-border px-4 py-2 text-base text-ink-secondary"
+          className="min-h-[3rem] cursor-pointer rounded-full border border-night-border px-4 text-base text-ink-secondary"
         >
           退出
         </button>
       </header>
 
-      {tab !== '今晚' ? (
-        <EmptyState
-          emoji="🚧"
-          title={`「${tab}」正在路上`}
-          hint="这一页会在接下来的版本里亮起来"
-        />
-      ) : state.kind === 'loading' ? (
-        <Loading label="家庭信息赶来中…" />
-      ) : state.kind === 'error' ? (
-        <ErrorState message={state.message} onRetry={load} />
-      ) : (
-        <div className="flex flex-col gap-4">
-          <TaCard>
-            <h2 className="mb-3 text-lg font-bold">家庭码</h2>
-            <p
-              data-testid="family-code"
-              className="text-center text-3xl font-bold tracking-[0.3em] text-moon-400"
-            >
-              {familyCode ?? '········'}
-            </p>
-            <p className="mt-2 text-center text-base text-ink-secondary">
-              在另一台设备上输入这个码即可加入
-            </p>
-          </TaCard>
-
-          <TaCard>
-            <h2 className="mb-3 text-lg font-bold">微信读书绑定</h2>
-            {state.view.binding ? (
-              <p className="text-ink-secondary">
-                已绑定（{state.view.binding.maskedTail}）
-                {state.view.binding.status === 'unverified' && ' · 待验证'}
-              </p>
-            ) : (
-              <p className="text-ink-secondary">
-                还没有绑定，绑定后书架与阅读统计会自动同步（设置里操作）
-              </p>
-            )}
-          </TaCard>
-
-          <TaCard>
-            <h2 className="mb-3 text-lg font-bold">小朋友</h2>
-            {state.view.children.length === 0 ? (
-              <div className="flex flex-col items-start gap-3">
-                <p className="text-ink-secondary">
-                  还没有档案，为家里的小读者建一份吧
-                </p>
-                <TaButton size="md" variant="secondary">
-                  添加小读者（下一版本开放）
-                </TaButton>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {state.view.children.map((c) => (
-                  <TaSticker key={c.id} emoji="🧒" label={`${c.nickname}（${c.stage}）`} />
-                ))}
-              </div>
-            )}
-          </TaCard>
-        </div>
+      {tab === '今晚' && (
+        <p className="mb-4 rounded-2xl border border-night-border bg-night-800/60 px-4 py-3 text-base text-ink-secondary">
+          家庭码{' '}
+          <span data-testid="family-code" className="font-bold tracking-widest text-moon-400">
+            {familyCode ?? '········'}
+          </span>
+          ，在小读者的设备上输入即可加入
+        </p>
       )}
+
+      {body()}
 
       <nav
         aria-label="家长端导航"
@@ -128,10 +116,3 @@ export function ParentHome() {
     </main>
   )
 }
-
-const TABS = ['今晚', '书架', '周报', '设置'] as const
-
-type FamilyState =
-  | { kind: 'loading' }
-  | { kind: 'error'; message?: string }
-  | { kind: 'ready'; view: FamilyViewDto }

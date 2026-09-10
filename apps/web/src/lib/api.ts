@@ -190,6 +190,13 @@ export const api = {
       token,
     }),
 
+  /** 绑定微信读书（仅家长）：探针校验 + 密文落库 */
+  bindWeread: (familyId: string, token: string, apiKey: string) =>
+    request<{ maskedTail: string; status: string }>(
+      `/api/family/${encodeURIComponent(familyId)}/bind-weread`,
+      { method: 'POST', body: { apiKey }, token },
+    ),
+
   /** 仪式时段窗口（服务端权威）：bedtime=月亮睡了；overtime=温和引导收尾 */
   ritualWindow: (childId: string, token: string) =>
     request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, {
@@ -201,6 +208,63 @@ export const api = {
     request<AchievementsDto>(`/api/achievements?childId=${encodeURIComponent(childId)}`, {
       token,
     }),
+
+  /** 家庭设置读取/更新（仅家长；null=回落服务端默认） */
+  getSettings: (familyId: string, token: string) =>
+    request<FamilySettingsDto>(`/api/family/${encodeURIComponent(familyId)}/settings`, { token }),
+  updateSettings: (familyId: string, token: string, body: Partial<FamilySettingsDto>) =>
+    request<FamilySettingsDto>(`/api/family/${encodeURIComponent(familyId)}/settings`, {
+      method: 'PATCH',
+      body,
+      token,
+    }),
+
+  /** 注销家庭（仅家长）：物理删除全部数据，不可恢复 */
+  deleteFamily: (familyId: string, token: string) =>
+    request<void>(`/api/family/${encodeURIComponent(familyId)}`, { method: 'DELETE', token }),
+
+  /** 家长单书/专辑屏蔽（书架管理） */
+  setBlocked: (familyId: string, bookId: string, token: string, body: { kind: string; blocked: boolean; title?: string }) =>
+    request<{ ok: boolean }>(
+      `/api/family/${encodeURIComponent(familyId)}/shelf/${encodeURIComponent(bookId)}/blocked`,
+      { method: 'PUT', body, token },
+    ),
+
+  /** 添加小读者档案（设置页） */
+  addChild: (familyId: string, token: string, nickname: string, stage: string) =>
+    request<{ id: string }>(`/api/family/${encodeURIComponent(familyId)}/children`, {
+      method: 'POST',
+      body: { nickname, stage },
+      token,
+    }),
+
+  /** 移除小读者档案（级联清理其共读记录） */
+  deleteChildDoc: (familyId: string, token: string, childId: string) =>
+    request<void>(`/api/children/${encodeURIComponent(childId)}`, { method: 'DELETE', token }),
+
+  /** 今晚共读卡（按活跃/最近会话生成，讲什么/问什么/聊什么） */
+  readingCard: (sessionId: string, token: string) =>
+    request<ReadingCardDto>(`/api/cosession/${encodeURIComponent(sessionId)}/reading-card`, {
+      method: 'POST',
+      token,
+    }),
+}
+
+export interface FamilySettingsDto {
+  bedtimeMin: number | null
+  overtimeCapSec: number | null
+}
+
+export interface ReadingCardDto {
+  promptId: string
+  card: {
+    bookTitle: string
+    stage?: string
+    tellPoints: string[]
+    questions: string[]
+    hook: string
+    genType?: string
+  }
 }
 
 export interface RitualWindowDto {
