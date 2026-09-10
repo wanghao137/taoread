@@ -114,6 +114,8 @@ export interface ShelfDto {
   albums?: ShelfItemDto[]
   mp?: unknown
   childrenView?: ShelfItemDto[]
+  /** 仅全量视图返回："kind:bookId" 串集合（家长书架屏蔽状态来源） */
+  blockedBookIds?: string[]
 }
 
 export const api = {

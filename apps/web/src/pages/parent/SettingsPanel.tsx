@@ -12,6 +12,8 @@ export interface SettingsPanelProps {
   onDeleted: () => void
   /** 数据变化（孩子增删/绑定变化）→ 父级刷新 */
   onChanged: () => void
+  /** 外部变更计数（绑定成功后父级刷新视图） */
+  revision?: number
 }
 
 const BEDTIME_PRESETS = [
@@ -28,12 +30,13 @@ const CAP_PRESETS = [
 ] as const
 
 /** 设置页（第 9 夜）：绑定向导 / 小读者管理 / 护眼设置 / 注销家庭 */
-export function SettingsPanel({ familyId, token, onDeleted, onChanged }: SettingsPanelProps) {
+export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision }: SettingsPanelProps) {
   const navigate = useNavigate()
   const signOut = useSession((s) => s.signOut)
   const [view, setView] = useState<FamilyView>({ kind: 'loading' })
   const [settings, setSettings] = useState<FamilySettingsDto | null>(null)
   const [newNickname, setNewNickname] = useState('')
+  const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -53,7 +56,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged }: Setting
     return () => {
       alive = false
     }
-  }, [familyId, token])
+  }, [familyId, token, revision])
 
   async function run<T>(action: () => Promise<T>, okMessage?: string): Promise<T | undefined> {
     setBusy(true)
@@ -93,7 +96,14 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged }: Setting
 
     return (
       <div className="flex flex-col gap-4">
-        {!view.view.binding && <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />}
+        {view.view.binding ? (
+          <p className="text-base text-ink-secondary" data-testid="binding-status">
+            微信读书已绑定（{view.view.binding.maskedTail}）
+            {view.view.binding.status === 'unverified' && ' · 待验证'}
+          </p>
+        ) : (
+          <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
+        )}
 
         <TaCard>
           <h3 className="mb-3 text-lg font-bold">小读者</h3>
@@ -132,6 +142,16 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged }: Setting
               maxLength={20}
               className="h-12 w-32 rounded-xl border border-night-border bg-night-700 px-3 text-base"
             />
+            <select
+              value={newStage}
+              onChange={(e) => setNewStage(e.target.value)}
+              aria-label="年龄段"
+              className="h-12 rounded-xl border border-night-border bg-night-700 px-3 text-base"
+            >
+              <option value="3-5">3-5 岁</option>
+              <option value="6-8">6-8 岁</option>
+              <option value="9-12">9-12 岁</option>
+            </select>
             <TaButton
               size="md"
               variant="secondary"
@@ -139,13 +159,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged }: Setting
               loading={busy}
               onClick={() =>
                 void run(
-                  () =>
-                    api.addChild(
-                      familyId,
-                      token,
-                      newNickname.trim(),
-                      '6-8',
-                    ),
+                  () => api.addChild(familyId, token, newNickname.trim(), newStage),
                   '添加成功',
                 ).then((r) => {
                   if (r !== undefined) {

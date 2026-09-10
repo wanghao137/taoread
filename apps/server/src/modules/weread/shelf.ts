@@ -139,7 +139,6 @@ export async function syncShelfSnapshot(
 ): Promise<void> {
   const fingerprint = JSON.stringify(payload)
   if (syncFingerprints.get(familyId) === fingerprint) return // 无变化：零写库
-  syncFingerprints.set(familyId, fingerprint)
 
   const items = toShelfItems(payload)
   const existing = await db.shelfSnapshot.findMany({
@@ -222,4 +221,6 @@ export async function syncShelfSnapshot(
       await db.shelfSnapshot.deleteMany({ where: { id: row.id } })
     }
   }
+  // N9-204：全部写成功后才提交指纹，中途失败下次仍会重放（半写可自愈）
+  syncFingerprints.set(familyId, fingerprint)
 }

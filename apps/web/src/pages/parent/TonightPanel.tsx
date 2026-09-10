@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ChildDto, type ReadingCardDto } from '../../lib/api'
 import { Loading, ErrorState, TaCard, TaSticker } from '../../components/ui'
 
@@ -20,8 +20,12 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
     childrenList.map((child) => ({ child, state: 'loading' })),
   )
 
+  // N9-201：挂载/刷新即拉取；卸载与刷新按钮触发时置 false，陈旧响应不再覆盖状态
+  const aliveRef = useRef({ value: true })
+
   const load = useCallback(() => {
-    const alive = { value: true }
+    aliveRef.current = { value: true }
+    const alive = aliveRef.current
     setRows(childrenList.map((child) => ({ child, state: 'loading' })))
     void Promise.all(
       childrenList.map(async (child) => {
@@ -57,7 +61,14 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
     )
   }, [childrenList, token])
 
-  useEffect(() => load(), [load])
+  const loadRef = useRef(load)
+  loadRef.current = load
+  useEffect(() => {
+    loadRef.current()
+    return () => {
+      aliveRef.current.value = false
+    }
+  }, [load])
 
   function reload() {
     load()

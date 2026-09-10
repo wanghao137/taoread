@@ -63,6 +63,7 @@ export function ParentHome() {
         token={token ?? ''}
         onDeleted={() => undefined}
         onChanged={() => setRevision((n) => n + 1)}
+        revision={revision}
       />
     )
   }

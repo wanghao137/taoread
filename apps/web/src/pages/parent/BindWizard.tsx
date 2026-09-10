@@ -49,12 +49,14 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
           </label>
           <input
             id="api-key"
+            type="password"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
             autoComplete="off"
             placeholder="wrk-…"
             className="h-14 w-full rounded-2xl border border-night-border bg-night-700 px-4 text-base"
           />
+          <p className="text-base text-ink-secondary">钥匙输入时会隐藏显示，防止旁人看到</p>
           {error && (
             <p role="alert" className="text-base text-peach-300">
               {error}

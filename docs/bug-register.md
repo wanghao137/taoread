@@ -96,3 +96,15 @@
 | N8-R1 | 2026-09-09 | P2 | docs/bug-register.md | 第 8 夜代码注释引用 N8 登记号但登记簿未落档（复审 R-1） | fixed（本批补录 N8-001~011 + R 项） | 第 8 夜 |
 | N8-R2 | 2026-09-09 | P3 | server/test/ritual.test.ts | 用例标题「越权 403」与断言 404 不符 | fixed（标题对齐） | 第 8 夜 |
 | N8-R3 | 2026-09-09 | P3 | web/scripts/screenshot-night8.mjs | 走查成功日志宣称「真实时钟」实际为注入时钟，文案失真 | fixed（日志对齐） | 第 8 夜 |
+| N9-101 | 2026-09-10 | P1 | web/pages/parent/ShelfManager.tsx | 书架屏蔽状态读 b.blocked（服务端全量视图无此字段，状态在 blockedBookIds），已屏蔽书永远显示「屏蔽」按钮 | fixed（web 解析 blockedBookIds 构建 Set 参与渲染 + ShelfDto 声明补齐） | 第 9 夜 |
+| N9-102 | 2026-09-10 | P1 | web/pages/parent/ShelfManager.tsx | toggleBlock 硬编码 kind:'book'，听书分区屏蔽写入错误 kind 行（id 空间碰撞，N3-R1 要防的场景） | fixed（分区→kind 映射，albums 传 'album'） | 第 9 夜 |
+| N9-103 | 2026-09-10 | P1 | migrations/20260910220000 | 金句唯一索引未先去重存量，含重复行的库 migrate deploy 会中断（部署阻断） | fixed（索引前 DELETE 保留每组最小 rowid） | 第 9 夜 |
+| N9-104 | 2026-09-10 | P1 | web/pages/parent/SettingsPanel.tsx | 唯一建档入口硬编码 stage='6-8'，3-5/9-12 孩子共读卡梯度全失准 | fixed（建档表单三档年龄段选择器） | 第 9 夜 |
+| N9-201 | 2026-09-10 | P2 | web/pages/parent/TonightPanel.tsx | alive 哨兵从不置 false（死代码），刷新按钮可致旧响应覆盖新状态 | fixed（aliveRef + effect cleanup） | 第 9 夜 |
+| N9-202 | 2026-09-10 | P2 | web/pages/parent/ShelfManager.tsx | toggleBlock 失败静默无反馈（ready 态原样返回） | fixed（失败提示） | 第 9 夜 |
+| N9-203 | 2026-09-10 | P2 | web/pages/parent/BindWizard.tsx + 走查脚本 | key 输入未掩码（屏显可旁观）；走查在 fill 后截图致真实 key 入截图 | fixed（type=password + 截图改在 fill 前） | 第 9 夜 |
+| N9-204 | 2026-09-10 | P2 | server/modules/weread/shelf.ts | 指纹在写库前提交且逐行写无事务，中途失败后同步被永久跳过（半写滞留） | fixed（指纹改写库成功后提交，半写下次自愈） | 第 9 夜 |
+| N9-205 | 2026-09-10 | P2 | server registry + shelf syncFingerprints | 注销家庭后进程内 Map（含解密 key 的服务实例/书架指纹）不清理且无界 | open：夜 11 e2e 批——deleteFamilyCompletely 后调用按 familyId 失效 + Map 容量上限（与 N3-006 同批） | 第 11 夜（计划） |
+| N9-206 | 2026-09-10 | P2 | prisma/schema.prisma | schema @@unique 与手工部分索引漂移，下次 migrate dev 会检出并尝试补建 | wont-fix（文档化）：迁移文件注释已预警 drift；夜 15 部署前统一审计迁移目录 | 第 15 夜复核 |
+| N9-207 | 2026-09-10 | P2 | server/test | 第 9 夜新功能测试缺口（settings 边界/家庭级覆盖/去重/夜键/注销级联） | fixed（night9.test.ts 6 用例：边界/越权/覆盖/级联 DB 断言/去重幂等/夜键唯一） | 第 9 夜 |
+| N9-208 | 2026-09-10 | P2 | web/pages/parent/ShelfManager.tsx | mp 分区硬编码空数组，有收藏也显示空态矛盾 | fixed（分区按钮隐藏 mp，仅 books/albums 可管理） | 第 9 夜 |

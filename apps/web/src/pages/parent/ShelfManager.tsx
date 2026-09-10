@@ -47,14 +47,20 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
     if (busyId) return
     setBusyId(bookId)
     try {
-      await api.setBlocked(familyId, bookId, token, { kind: 'book', blocked, title })
+      await api.setBlocked(familyId, bookId, token, {
+        kind: kindOf[partition],
+        blocked,
+        title,
+      })
       setState((prev) => {
         if (prev.kind !== 'ready') return prev
         const flip = (items?: ShelfDto['books']) =>
           items?.map((b) => (b.bookId === bookId ? { ...b, blocked } : b))
-        return { kind: 'ready', dto: { ...prev.dto, books: flip(prev.dto.books) } }
+        return { kind: 'ready', dto: { ...prev.dto, books: flip(prev.dto.books), albums: flip(prev.dto.albums) } }
       })
     } catch (err) {
+      // 失败要有可见反馈（N9-202）：局部提示而非静默
+      window.alert('操作没有成功，请稍后再试')
       setState((prev) =>
         prev.kind === 'ready'
           ? prev
@@ -69,12 +75,14 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
   if (state.kind === 'error') return <ErrorState message={state.message} onRetry={load} />
 
   const dto = state.dto
-  const partitions: Record<Partition, ShelfDto['books']> = {
-    books: dto.books ?? [],
-    albums: dto.albums ?? [],
+  const blockedKeys = new Set(dto.blockedBookIds ?? [])
+  const partitions: Record<Partition, Array<{ bookId: string; title?: string; blocked: boolean }>> = {
+    books: (dto.books ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: blockedKeys.has(`book:${b.bookId}`) })),
+    albums: (dto.albums ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: blockedKeys.has(`album:${b.bookId}`) })),
     mp: [],
   }
   const items = partitions[partition] ?? []
+  const kindOf: Record<Partition, string> = { books: 'book', albums: 'album', mp: 'book' }
 
   return (
     <div className="flex flex-col gap-4">
@@ -83,7 +91,7 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
       </p>
 
       <div className="flex gap-2">
-        {(Object.keys(PARTITION_META) as Partition[]).map((p) => (
+        {(Object.keys(PARTITION_META) as Partition[]).filter((p) => p !== 'mp').map((p) => (
           <TaButton
             key={p}
             size="md"
