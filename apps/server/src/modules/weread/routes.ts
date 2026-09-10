@@ -16,8 +16,11 @@ import type { WereadServiceRegistry } from '../../services/weread/registry'
 import { NotFoundError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import {
   asRecord,
+  asString,
   filterChildRecommend,
   filterChildShelf,
+  invalidateSyncFingerprint,
+  isChildCategory,
   shelfTotal,
   syncShelfSnapshot,
   toShelfItems,
@@ -52,9 +55,15 @@ async function loadBlockedKeys(db: PrismaClient, familyId: string): Promise<Set<
   return new Set(rows.map((row) => `${row.kind}:${row.bookId}`))
 }
 
-/** 孩子角色对被家长屏蔽的书访问详情 → 404（N3-002：适龄管控是服务端义务，不依赖客户端自觉） */
-async function assertNotBlockedForChild(
+/**
+ * 孩子角色书籍详情适龄闸（N3-R4，第 9 夜落实）：
+ * 被屏蔽 → 404；未屏蔽但类目不在童书白名单（bookId 可枚举构造的旁路）→ 404。
+ * 类目来源 bookInfo（service 层 24h 缓存，重复校验零额外出网）。
+ * 子页接口（chapters/progress/bestbookmarks）回包无 category，统一借 bookInfo 判定。
+ */
+async function assertChildBookAllowed(
   db: PrismaClient,
+  registry: WereadServiceRegistry,
   request: FastifyRequest,
   bookId: string,
 ): Promise<void> {
@@ -65,6 +74,12 @@ async function assertNotBlockedForChild(
     select: { id: true },
   })
   if (blocked) throw new NotFoundError('没有找到这本书')
+  const service = await registry.get(authFid(request))
+  const info = asRecord(await service.endpoints.bookInfo(bookId))
+  const category = asString(info?.category)
+  if (!isChildCategory(category)) {
+    throw new NotFoundError('没有找到这本书')
+  }
 }
 
 export interface WereadRoutesDeps {
@@ -123,7 +138,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
-    await assertNotBlockedForChild(db, request, bookId)
+    await assertChildBookAllowed(db, registry, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.bookInfo(bookId)
   })
@@ -133,7 +148,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
-    await assertNotBlockedForChild(db, request, bookId)
+    await assertChildBookAllowed(db, registry, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.chapterInfo(bookId)
   })
@@ -143,7 +158,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
-    await assertNotBlockedForChild(db, request, bookId)
+    await assertChildBookAllowed(db, registry, request, bookId)
     const service = await registry.get(authFid(request))
     return service.endpoints.getProgress(bookId)
   })
@@ -173,7 +188,7 @@ export function registerWereadRoutes(
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {
     const { bookId } = parse(bookIdParamSchema, request.params)
-    await assertNotBlockedForChild(db, request, bookId)
+    await assertChildBookAllowed(db, registry, request, bookId)
     const { chapterUid } = parse(
       z.object({ chapterUid: z.coerce.number().int().min(0).default(0) }),
       request.query ?? {},
@@ -213,6 +228,9 @@ export function registerWereadRoutes(
       },
       update: { blocked: body.blocked },
     })
+    // 屏蔽状态变更 → 快照指纹失效（N3-007）：下次同步不再跳过，
+    // 解除屏蔽后「不在书架的行被清除」语义得以保持
+    invalidateSyncFingerprint(familyId)
     return { ok: true, bookId, kind: body.kind, blocked: body.blocked }
   })
 }

@@ -79,8 +79,17 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
       where: { familyId: request.auth.fid, childId, endedAt: null },
       orderBy: { startedAt: 'desc' },
     })
+    // 家庭级护眼设置覆盖（第 9 夜）：Family.bedtimeMin/overtimeCapSec 优先，null 回落默认
+    const family = await db.family.findUnique({
+      where: { id: request.auth.fid },
+      select: { bedtimeMin: true, overtimeCapSec: true },
+    })
     const mode = ritualWindowOf(
-      windowDeps,
+      {
+        ...windowDeps,
+        ...(family?.bedtimeMin != null ? { bedTimeMin: family.bedtimeMin } : {}),
+        ...(family?.overtimeCapSec != null ? { overtimeCapSec: family.overtimeCapSec } : {}),
+      },
       active ? Math.floor(active.startedAt.getTime() / 1000) : null,
     )
     return { mode, hasActive: active !== null }

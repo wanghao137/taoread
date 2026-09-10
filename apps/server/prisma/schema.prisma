@@ -18,16 +18,19 @@ model Family {
   id        String   @id @default(cuid())
   code      String   @unique // 家庭码：加入家庭的凭据
   createdAt DateTime @default(now())
+  /// 家庭级护眼设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s）
+  bedtimeMin     Int?
+  overtimeCapSec Int?
 
-  children    ChildProfile[]
-  binding     WereadBinding?
-  snapshots   ShelfSnapshot[]
-  cosessions  Cosession[]
-  highlights  HighlightStar[]
+  children     ChildProfile[]
+  binding      WereadBinding?
+  snapshots    ShelfSnapshot[]
+  cosessions   Cosession[]
+  highlights   HighlightStar[]
   achievements Achievement[]
-  prompts     ParentPrompt[]
-  reports     WeeklyReport[]
-  events      EventLog[]
+  prompts      ParentPrompt[]
+  reports      WeeklyReport[]
+  events       EventLog[]
 }
 
 model ChildProfile {
@@ -149,9 +152,11 @@ model ParentPrompt {
   questions  String // JSON：问什么（3 个开放式问题，按年龄段梯度）
   hook       String? // 聊什么：「爸妈小时候」话题钩子
   genType   String   @default("template") // template | llm
+  nightKey  String? // YYYY-MM-DD（nights.ts 口径）；同家庭同书同晚唯一（N4-007）
   createdAt DateTime @default(now())
 
   @@index([familyId, bookId])
+  @@unique([familyId, bookId, stage, nightKey]) // nightKey 非空时唯一（部分唯一索引见迁移）
 }
 
 model WeeklyReport {

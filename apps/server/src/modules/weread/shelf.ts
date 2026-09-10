@@ -121,25 +121,32 @@ function unixToDate(v: unknown): Date | null {
 }
 
 /**
- * 书架快照同步（N3-001 语义：blocked 行是家长管控数据，绝不因同步丢失）：
- * - 已屏蔽行：原样保留（无论是否还在书架上——推荐流屏蔽的书天然不在书架）；
- * - 未屏蔽行：全删全建（网关回包为准，元数据刷新）。
+ * 书架快照同步（N3-001 语义：blocked 行是家长管控数据，绝不因同步丢失；
+ * N3-007 第 9 夜重构：回包指纹跳过无变化同步（消除写放大）+ 行级 upsert
+ * （元数据更新不动 blocked，消除全删全建与 PUT 屏蔽的并发唯一键窗口）。
  */
+const syncFingerprints = new Map<string, string>()
+
+/** 屏蔽状态变更后由 PUT blocked 调用：使指纹失效，下次同步不再跳过（N3-007 语义保全） */
+export function invalidateSyncFingerprint(familyId: string): void {
+  syncFingerprints.delete(familyId)
+}
+
 export async function syncShelfSnapshot(
   db: ShelfSnapshotDb,
   familyId: string,
   payload: unknown,
 ): Promise<void> {
+  const fingerprint = JSON.stringify(payload)
+  if (syncFingerprints.get(familyId) === fingerprint) return // 无变化：零写库
+  syncFingerprints.set(familyId, fingerprint)
+
   const items = toShelfItems(payload)
   const existing = await db.shelfSnapshot.findMany({
     where: { familyId },
-    select: { bookId: true, kind: true, blocked: true },
+    select: { id: true, bookId: true, kind: true, blocked: true },
   })
-  const existingBlockedKeys = new Set(
-    existing
-      .filter((row) => row.blocked)
-      .map((row) => blockedKey(row.kind, row.bookId)),
-  )
+  const existingByKey = new Map(existing.map((row) => [blockedKey(row.kind, row.bookId), row]))
 
   type SnapshotRow = {
     familyId: string
@@ -157,7 +164,6 @@ export async function syncShelfSnapshot(
   for (const book of items.books) {
     const bookId = getBookId(book)
     if (bookId === null) continue
-    if (existingBlockedKeys.has(blockedKey('book', bookId))) continue // 屏蔽行保留原状
     rows.push({
       familyId,
       bookId,
@@ -173,7 +179,6 @@ export async function syncShelfSnapshot(
   for (const album of items.albums) {
     const albumId = getAlbumId(album)
     if (albumId === null) continue
-    if (existingBlockedKeys.has(blockedKey('album', albumId))) continue
     const info = asRecord(album.albumInfo)
     rows.push({
       familyId,
@@ -188,12 +193,33 @@ export async function syncShelfSnapshot(
     })
   }
 
-  if (rows.length === 0) {
-    await db.shelfSnapshot.deleteMany({ where: { familyId, blocked: false } })
-    return
+  const desiredKeys = new Set<string>()
+  for (const row of rows) {
+    const key = blockedKey(row.kind, row.bookId)
+    desiredKeys.add(key)
+    const prev = existingByKey.get(key)
+    if (!prev) {
+      await db.shelfSnapshot.create({ data: row })
+      continue
+    }
+    if (prev.blocked) continue // 屏蔽行保留原状（家长管控数据，元数据也不刷新）
+    await db.shelfSnapshot.update({
+      where: { id: prev.id },
+      data: {
+        title: row.title,
+        author: row.author,
+        cover: row.cover,
+        category: row.category,
+        finished: row.finished,
+        readUpdateTime: row.readUpdateTime,
+        syncedAt: new Date(),
+      },
+    })
   }
-  await db.$transaction([
-    db.shelfSnapshot.deleteMany({ where: { familyId, blocked: false } }),
-    db.shelfSnapshot.createMany({ data: rows }),
-  ])
+  // 移除已不在书架且未屏蔽的行
+  for (const [key, row] of existingByKey) {
+    if (!desiredKeys.has(key) && !row.blocked) {
+      await db.shelfSnapshot.deleteMany({ where: { id: row.id } })
+    }
+  }
 }

@@ -47,18 +47,26 @@ export function registerCosessionRoutes(
     deps.nowSec ?? (() => Math.floor(Date.now() / 1000))
   const auth = requireAuth(tokenSecret)
 
-  /** 就寝判定（第 8 夜护眼限制，服务端权威）：单一来源 isBedtime + 可注入时钟 */
+  /** 就寝判定（第 8 夜护眼限制，服务端权威）：单一来源 isBedtime + 可注入时钟。
+   * 第 9 夜起支持家庭级覆盖：Family.bedtimeMin 优先，null 回落环境默认。 */
   const nowMinutesOfDay =
     deps.nowMinutesOfDay ??
     (() => {
       const d = new Date()
       return d.getHours() * 60 + d.getMinutes()
     })
-  const isBedtimeNow = () => isBedtime(nowMinutesOfDay(), deps.bedTimeMin ?? null)
+  const isBedtimeNow = async (familyId: string) => {
+    const family = await db.family.findUnique({
+      where: { id: familyId },
+      select: { bedtimeMin: true },
+    })
+    const bedTimeMin = family?.bedtimeMin ?? deps.bedTimeMin ?? null
+    return isBedtime(nowMinutesOfDay(), bedTimeMin)
+  }
 
   app.post('/api/cosession', { preHandler: auth }, async (request, reply) => {
     if (!request.auth) throw new UnauthorizedError()
-    if (isBedtimeNow()) {
+    if (await isBedtimeNow(request.auth.fid)) {
       throw new AppError('月亮睡觉啦，明晚再一起读书吧', 'RITUAL_CLOSED', 403)
     }
     const body = parse(
@@ -139,6 +147,7 @@ export function registerCosessionRoutes(
       registry,
       request.auth.fid,
       id,
+      nowSec,
     )
     return { promptId, card }
   })

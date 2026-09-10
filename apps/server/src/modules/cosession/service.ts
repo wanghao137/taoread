@@ -13,7 +13,8 @@ import {
   WereadHttpError,
 } from '../../lib/errors'
 import { planUnlocks, type UnlockPlanItem } from './achievements'
-import { generateReadingCard } from './readingCard'
+import { generateReadingCard, type ReadingCard } from './readingCard'
+import { nightKeyOf } from './nights'
 import { asRecord, asString } from '../weread/shelf'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
 
@@ -325,22 +326,35 @@ export async function addHighlight(
     throw new ValidationError('金句长度需要在 1-500 字之间')
   }
   const session = await assertOwnedSession(db, familyId, sessionId)
-  const highlight = await db.highlightStar.create({
-    data: {
-      familyId,
-      childId: session.childId,
-      cosessionId: session.id,
+  try {
+    const highlight = await db.highlightStar.create({
+      data: {
+        familyId,
+        childId: session.childId,
+        cosessionId: session.id,
+        source: input.source,
+        text,
+        markCount: input.source === 'weread' ? (input.markCount ?? null) : null,
+      },
+      select: { id: true },
+    })
+    await logEvent(db, familyId, role, 'highlight_added', {
+      sessionId: session.id,
       source: input.source,
-      text,
-      markCount: input.source === 'weread' ? (input.markCount ?? null) : null,
-    },
-    select: { id: true },
-  })
-  await logEvent(db, familyId, role, 'highlight_added', {
-    sessionId: session.id,
-    source: input.source,
-  })
-  return highlight
+    })
+    return highlight
+  } catch (err) {
+    // N7-002 去重（第 9 夜）：同会话同来源同文本唯一索引命中 → 返回已有行（幂等，前端可重试）
+    const code = typeof err === 'object' && err !== null && 'code' in err ? (err as { code?: string }).code : undefined
+    if (code === 'P2002') {
+      const existing = await db.highlightStar.findFirst({
+        where: { cosessionId: session.id, source: input.source, text },
+        select: { id: true },
+      })
+      if (existing) return existing
+    }
+    throw err
+  }
 }
 
 export async function getSessionDetail(db: CosessionDb, familyId: string, sessionId: string) {
@@ -363,6 +377,7 @@ export async function generateCardForSession(
   registry: WereadServiceRegistry,
   familyId: string,
   sessionId: string,
+  nowSec: () => number = () => Math.floor(Date.now() / 1000),
 ): Promise<ReadingCardResult> {
   const session = await assertOwnedSession(db, familyId, sessionId)
   const child = await db.childProfile.findUnique({ where: { id: session.childId } })
@@ -410,17 +425,63 @@ export async function generateCardForSession(
     intro,
     topBookmarks,
   })
-  const prompt = await db.parentPrompt.create({
-    data: {
-      familyId,
-      bookId: session.bookId ?? title,
-      stage: child.stage,
-      tellPoints: JSON.stringify(card.tellPoints),
-      questions: JSON.stringify(card.questions),
-      hook: card.hook,
-      genType: 'template',
-    },
-    select: { id: true },
+  // N4-007（第 9 夜）：共读卡按（家庭, 书, 阶段, 夜键）唯一化——同一晚重复调用返回同一张卡，
+  // 消费方不再读到重复行；卡内容确定性生成，命中旧行时直接回放存储的 JSON。
+  const bookKey = session.bookId ?? title
+  const nightKey = nightKeyOf(nowSec())
+  const existingPrompt = await db.parentPrompt.findFirst({
+    where: { familyId, bookId: bookKey, stage: child.stage, nightKey },
+    select: { id: true, tellPoints: true, questions: true, hook: true },
   })
-  return { card, promptId: prompt.id }
+  if (existingPrompt) {
+    try {
+      const card: ReadingCard = {
+        bookTitle: title,
+        stage: child.stage,
+        tellPoints: JSON.parse(existingPrompt.tellPoints) as string[],
+        questions: JSON.parse(existingPrompt.questions) as string[],
+        hook: existingPrompt.hook ?? '',
+        genType: 'template',
+      }
+      return { card, promptId: existingPrompt.id }
+    } catch {
+      // 存储行损坏（不应发生）：走重建路径
+    }
+  }
+  try {
+    const prompt = await db.parentPrompt.create({
+      data: {
+        familyId,
+        bookId: bookKey,
+        stage: child.stage,
+        tellPoints: JSON.stringify(card.tellPoints),
+        questions: JSON.stringify(card.questions),
+        hook: card.hook,
+        genType: 'template',
+        nightKey,
+      },
+      select: { id: true },
+    })
+    return { card, promptId: prompt.id }
+  } catch (err) {
+    const code = typeof err === 'object' && err !== null && 'code' in err ? (err as { code?: string }).code : undefined
+    if (code === 'P2002') {
+      const raced = await db.parentPrompt.findFirst({
+        where: { familyId, bookId: bookKey, stage: child.stage, nightKey },
+        select: { id: true, tellPoints: true, questions: true, hook: true },
+      })
+      if (raced) {
+        const racedCard: ReadingCard = {
+          bookTitle: title,
+          stage: child.stage,
+          tellPoints: JSON.parse(raced.tellPoints) as string[],
+          questions: JSON.parse(raced.questions) as string[],
+          hook: raced.hook ?? '',
+          genType: 'template',
+        }
+        return { card: racedCard, promptId: raced.id }
+      }
+    }
+    throw err
+  }
 }

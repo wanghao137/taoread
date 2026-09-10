@@ -221,4 +221,39 @@ export function registerFamilyRoutes(
     reply.code(204)
     return null
   })
+
+  // ── 家庭设置（第 9 夜，仅家长）：就寝时刻 / 软封顶秒数；null=回落服务端默认 ──
+  app.get('/api/family/:familyId/settings', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    return svc.getSettings(db, familyId)
+  })
+
+  app.patch('/api/family/:familyId/settings', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    const body = parse(
+      z.object({
+        bedtimeMin: z.number().int().nullable().optional(),
+        overtimeCapSec: z.number().int().nullable().optional(),
+      }),
+      request.body ?? {},
+    )
+    return svc.updateSettings(db, familyId, body)
+  })
+
+  // ── 注销家庭（第 9 夜，仅家长）：物理删除全部家庭数据，不可恢复 ──
+  app.delete('/api/family/:familyId', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request, reply) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    await svc.deleteFamilyCompletely(db, familyId)
+    reply.code(204)
+    return null
+  })
 }

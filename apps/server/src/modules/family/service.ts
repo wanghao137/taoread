@@ -233,6 +233,49 @@ export async function deleteChild(
   await db.childProfile.delete({ where: { id: childId } })
 }
 
+/** 家庭设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s） */
+export interface FamilySettings {
+  bedtimeMin: number | null
+  overtimeCapSec: number | null
+}
+
+const BEDTIME_RANGE = { min: 0, max: 1439 } as const
+const CAP_RANGE = { min: 60, max: 3600 } as const
+
+export async function getSettings(db: FamilyDb, familyId: string): Promise<FamilySettings> {
+  const family = await assertFamilyExists(db, familyId)
+  return { bedtimeMin: family.bedtimeMin, overtimeCapSec: family.overtimeCapSec }
+}
+
+export async function updateSettings(
+  db: FamilyDb,
+  familyId: string,
+  input: Partial<FamilySettings>,
+): Promise<FamilySettings> {
+  await assertFamilyExists(db, familyId)
+  const data: { bedtimeMin?: number | null; overtimeCapSec?: number | null } = {}
+  if (input.bedtimeMin !== undefined) {
+    if (input.bedtimeMin !== null && (input.bedtimeMin < BEDTIME_RANGE.min || input.bedtimeMin > BEDTIME_RANGE.max)) {
+      throw new ValidationError('睡前时刻需要在 0-1439 分钟之间')
+    }
+    data.bedtimeMin = input.bedtimeMin
+  }
+  if (input.overtimeCapSec !== undefined) {
+    if (input.overtimeCapSec !== null && (input.overtimeCapSec < CAP_RANGE.min || input.overtimeCapSec > CAP_RANGE.max)) {
+      throw new ValidationError('单次共读时长需要在 1-60 分钟之间')
+    }
+    data.overtimeCapSec = input.overtimeCapSec
+  }
+  await db.family.update({ where: { id: familyId }, data })
+  return getSettings(db, familyId)
+}
+
+/** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复 */
+export async function deleteFamilyCompletely(db: FamilyDb, familyId: string): Promise<void> {
+  await assertFamilyExists(db, familyId)
+  await db.family.delete({ where: { id: familyId } })
+}
+
 async function assertFamilyExists(db: FamilyDb, familyId: string) {
   const family = await db.family.findUnique({ where: { id: familyId } })
   if (!family) throw new ForbiddenError('家庭不存在或无权访问')
