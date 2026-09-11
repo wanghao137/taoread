@@ -277,6 +277,7 @@ export interface WeeklyReportDataDto {
   totalMinutes: number
   books: Array<{ key: string; title: string }>
   highlights: Array<{ text: string; source: string }>
+  highlightsTotal: number
   achievementsUnlocked: number
   nextWeekHint: string
 }

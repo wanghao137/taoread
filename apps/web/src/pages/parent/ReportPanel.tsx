@@ -29,6 +29,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
+  const [exportError, setExportError] = useState<string | null>(null)
 
   const load = useCallback(() => {
     let alive = true
@@ -56,6 +57,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
   async function downloadPng() {
     if (exporting) return
     setExporting(true)
+    setExportError(null)
     try {
       const svg = await api.shareCardSvg(familyId, token, week)
       const img = new Image()
@@ -78,9 +80,11 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       a.href = url
       a.download = `taoread-week-${week}.png`
       a.click()
-      URL.revokeObjectURL(url)
+      // 延迟回收：同步 revoke 会中断 Firefox 的异步取件（N10-007）
+      setTimeout(() => URL.revokeObjectURL(url), 10_000)
     } catch {
-      setError('分享卡导出没有成功，请稍后再试')
+      // 导出失败不清周报内容：独立局部提示（N10-008）
+      setExportError('分享卡导出没有成功，请稍后再试')
     } finally {
       setExporting(false)
     }
@@ -96,7 +100,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
           <p className="text-5xl font-bold text-moon-400">{report.nights}</p>
           <p className="mt-1 text-base text-ink-secondary">个共读的夜晚</p>
           <p className="mt-3 text-base text-ink-secondary">
-            累计 {report.totalMinutes} 分钟 · 读完 {report.books.length} 本 · 收金句 {report.highlights.length} 句
+            累计 {report.totalMinutes} 分钟 · 读完 {report.books.length} 本 · 收金句 {report.highlightsTotal} 句
             {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
           </p>
           <p className="mt-2 text-base text-ink-secondary">{report.nextWeekHint}</p>
@@ -126,6 +130,11 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
           </TaCard>
         )}
 
+        {exportError && (
+          <p role="alert" className="text-center text-base text-peach-300">
+            {exportError}
+          </p>
+        )}
         <TaButton className="w-full" onClick={() => void downloadPng()} loading={exporting}>
           保存分享卡（1080×1440）
         </TaButton>

@@ -94,7 +94,7 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     expect(await db.weeklyReport.count({ where: { familyId: f.familyId } })).toBe(1)
   })
 
-  it('越权与参数：跨家庭 404 / 非法日期 404', async () => {
+  it('越权与参数：跨家庭 404 / 非法日期 404（含分量回绕 N10-003）', async () => {
     const f = await createFamilyAsParent(h.app)
     const other = await createFamilyAsParent(h.app, 'other')
     const bad1 = await h.app.inject({
@@ -109,6 +109,19 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
       headers: authHeaders(f.token),
     })
     expect(bad2.statusCode).toBe(404)
+    // 滚动日期拒绝（Date 静默进位防御回归锁）
+    const rolled = await h.app.inject({
+      method: 'GET',
+      url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-02-30`,
+      headers: authHeaders(f.token),
+    })
+    expect(rolled.statusCode).toBe(404)
+    const rolled2 = await h.app.inject({
+      method: 'GET',
+      url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-13-45`,
+      headers: authHeaders(f.token),
+    })
+    expect(rolled2.statusCode).toBe(404)
   })
 
   it('分享卡 SVG：1080×1440 规格、无隐私字段、空周可渲染', async () => {
@@ -137,7 +150,7 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     const sunday1900 = new Date(2026, 8, 6, 19, 0)
     let tickNow = sunday1900
     const { startWeeklyReportScheduler } = await import('../src/modules/reports/routes')
-    const handle = startWeeklyReportScheduler(h.app, db, {
+    const handle = startWeeklyReportScheduler(db, {
       intervalMs: 10,
       now: () => tickNow,
     })

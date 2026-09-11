@@ -25,15 +25,27 @@ export interface WeeklyReportData {
   nights: number // 共读晚数（去重夜键）
   totalMinutes: number // 累计分钟（已收尾会话）
   books: Array<{ key: string; title: string }> // 本周读过的书（去重）
-  highlights: Array<{ text: string; source: string }> // 本周金句（全部，至多 12 条截取）
+  highlights: Array<{ text: string; source: string }> // 展示用至多 12 条
+  highlightsTotal: number // 本周金句总数（计数与展示分离，N10-005）
   achievementsUnlocked: number // 本周解锁成就数
   nextWeekHint: string // 下周建议（正向模板）
 }
 
-/** 周一 00:00 的 Unix 秒起点与终点（ exclusive ） */
+/**
+ * 周聚合窗口（N10-004）：从规范化 weekStart 的 UTC 分量（= 本地日历的周一）
+ * 构造【本地午夜】时刻作为窗口，使窗口与 nights.ts 的本地夜桶在任意 TZ 下对齐。
+ * 直接用规范化值当物理时刻会在 TZ≠UTC 时漂移出 ±8h 的错周带（复审 N10-004）。
+ */
 function weekRangeSec(weekStart: Date): { fromSec: number; toSec: number } {
-  const fromSec = Math.floor(weekStart.getTime() / 1000)
-  return { fromSec, toSec: fromSec + 7 * 24 * 3600 }
+  const y = weekStart.getUTCFullYear()
+  const m = weekStart.getUTCMonth()
+  const d = weekStart.getUTCDate()
+  const fromLocal = new Date(y, m, d) // 本地周一 00:00
+  const toLocal = new Date(y, m, d + 7) // 次周一 00:00（本地）
+  return {
+    fromSec: Math.floor(fromLocal.getTime() / 1000),
+    toSec: Math.floor(toLocal.getTime() / 1000),
+  }
 }
 
 /** 解析 YYYY-MM-DD 为规范化周一；非法抛 NotFoundError（调用方转 404） */
@@ -42,8 +54,13 @@ export function parseWeekStart(s: string | undefined, now: Date): Date {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s)
   if (!m) throw new NotFoundError('周起始日期格式应为 YYYY-MM-DD')
   const [, y, mo, d] = m
-  const parsed = weekStartFromParts(Number(y), Number(mo), Number(d))
-  if (Number.isNaN(parsed.getTime())) throw new NotFoundError('周起始日期不合法')
+  const [yy, mm, dd] = [Number(y), Number(mo), Number(d)]
+  // 滚动校验（N10-003）：2026-02-30 这类入参会被 Date 静默进位，必须拒绝
+  const probe = new Date(Date.UTC(yy, mm - 1, dd))
+  if (probe.getUTCFullYear() !== yy || probe.getUTCMonth() !== mm - 1 || probe.getUTCDate() !== dd) {
+    throw new NotFoundError('周起始日期不合法')
+  }
+  const parsed = weekStartFromParts(yy, mm, dd)
   return parsed
 }
 
@@ -107,6 +124,7 @@ export async function generateWeeklyReport(
     totalMinutes: Math.round(totalSec / 60),
     books: [...bookMap.entries()].map(([key, title]) => ({ key, title })),
     highlights: highlights.slice(0, 12).map((h) => ({ text: h.text, source: h.source })),
+    highlightsTotal: highlights.length,
     achievementsUnlocked: achievements,
     nextWeekHint:
       nightKeys.size === 0
@@ -114,19 +132,13 @@ export async function generateWeeklyReport(
         : `本周共读了 ${nightKeys.size} 晚，下周继续点亮夜灯`,
   }
 
-  // upsert 周报行（任意历史周可重生成；重复生成不产生重复行）
-  const existing = await db.weeklyReport.findUnique({
-    where: { familyId_weekStart: { familyId, weekStart } },
-    select: { id: true },
-  })
+  // upsert 周报行（任意历史周可重生成；并发/重复生成以唯一约束兜底不产生重复行）
   const statsJson = JSON.stringify(data)
-  if (existing) {
-    await db.weeklyReport.update({ where: { id: existing.id }, data: { stats: statsJson } })
-  } else {
-    await db.weeklyReport.create({
-      data: { familyId, weekStart, stats: statsJson },
-    })
-  }
+  await db.weeklyReport.upsert({
+    where: { familyId_weekStart: { familyId, weekStart } },
+    create: { familyId, weekStart, stats: statsJson },
+    update: { stats: statsJson },
+  })
   return data
 }
 
@@ -134,8 +146,9 @@ export async function generateWeeklyReport(
 export function renderShareCardSvg(data: WeeklyReportData): string {
   const esc = (s: string) =>
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-  const bookLines = data.books.slice(0, 5).map((b) => `《${esc(b.title)}》`)
-  const highlightLines = data.highlights.slice(0, 3).map((h) => `「${esc(h.text)}」`)
+  const truncate = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s)
+  const bookLines = data.books.slice(0, 5).map((b) => `《${esc(truncate(b.title, 18))}》`)
+  const highlightLines = data.highlights.slice(0, 3).map((h) => `「${esc(truncate(h.text, 26))}」`)
   const bookY = bookLines.length > 0 ? 560 : 520
   const hlY = bookY + bookLines.length * 64 + (bookLines.length > 0 ? 40 : 0)
 
@@ -155,7 +168,7 @@ export function renderShareCardSvg(data: WeeklyReportData): string {
   <text x="540" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">${esc(data.weekStart)} 那一周</text>
   <text x="540" y="360" text-anchor="middle" font-family="system-ui, sans-serif" font-size="140" font-weight="bold" fill="#FFD97A">${data.nights}</text>
   <text x="540" y="430" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#B8C1E2">个共读的夜晚</text>
-  <text x="540" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">累计 ${data.totalMinutes} 分钟 · 读完 ${data.books.length} 本 · 金句 ${data.highlights.length} 句</text>
+  <text x="540" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">累计 ${data.totalMinutes} 分钟 · 读完 ${data.books.length} 本 · 金句 ${data.highlightsTotal} 句</text>
   ${bookLines.map((line, i) => `<text x="540" y="${bookY + i * 64}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#F4F1FF">${line}</text>`).join('\n  ')}
   ${highlightLines.map((line, i) => `<text x="540" y="${hlY + i * 56}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#FFD3C4">${line}</text>`).join('\n  ')}
   <text x="540" y="${hlY + highlightLines.length * 56 + 60}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" fill="#B8C1E2">${esc(data.nextWeekHint)}</text>

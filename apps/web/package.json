@@ -14,7 +14,8 @@
     "shots:child": "node scripts/screenshot-child-flow.mjs",
     "shots:night7": "node scripts/screenshot-night7.mjs",
     "shots:night8": "node scripts/screenshot-night8.mjs",
-    "shots:night9": "node scripts/screenshot-night9.mjs"
+    "shots:night9": "node scripts/screenshot-night9.mjs",
+    "shots:night10": "node scripts/screenshot-night10.mjs"
   },
   "dependencies": {
     "@taoread/shared": "*",

@@ -108,3 +108,14 @@
 | N9-206 | 2026-09-10 | P2 | prisma/schema.prisma | schema @@unique 与手工部分索引漂移，下次 migrate dev 会检出并尝试补建 | wont-fix（文档化）：迁移文件注释已预警 drift；夜 15 部署前统一审计迁移目录 | 第 15 夜复核 |
 | N9-207 | 2026-09-10 | P2 | server/test | 第 9 夜新功能测试缺口（settings 边界/家庭级覆盖/去重/夜键/注销级联） | fixed（night9.test.ts 6 用例：边界/越权/覆盖/级联 DB 断言/去重幂等/夜键唯一） | 第 9 夜 |
 | N9-208 | 2026-09-10 | P2 | web/pages/parent/ShelfManager.tsx | mp 分区硬编码空数组，有收藏也显示空态矛盾 | fixed（分区按钮隐藏 mp，仅 books/albums 可管理） | 第 9 夜 |
+| N10-001 | 2026-09-11 | P1 | server/modules/reports/routes.ts | 周报调度器 tick 异常逃逸成 unhandled rejection → 自部署环境整进程下线（无常驻拉起） | fixed（tick 全体 try/catch + setInterval .catch 双保险；签名删除死参数 app） | 第 10 夜 |
+| N10-002 | 2026-09-11 | P2 | server/modules/reports/service.ts | 周报 upsert 为 find-then-create，并发双生成撞唯一键 → 500 | fixed（原生 upsert ON CONFLICT 原子化） | 第 10 夜 |
+| N10-003 | 2026-09-11 | P2 | server/modules/reports/service.ts | 滚动日期（2026-02-30）被 Date 静默进位，返回错误周周报 | fixed（round-trip 分量校验拒绝 404 + 回归测试锁定） | 第 10 夜 |
+| N10-004 | 2026-09-11 | P2 | server/modules/reports/service.ts | 周聚合窗口用规范化值当物理时刻，TZ≠UTC 时漂移 ±8h 错周带（与 N4-004 机制不同的新发现） | fixed（窗口改从本地日历分量构造本地午夜，与夜桶任意 TZ 对齐；存储键不变） | 第 10 夜 |
+| N10-005 | 2026-09-11 | P2 | reports/service.ts + ReportPanel.tsx | 金句计数用截断后 length（≥13 句永远显示 12），SVG 摘要行漏改 | fixed（highlightsTotal 计数与展示分离，DTO/UI/SVG 三处对齐） | 第 10 夜 |
+| N10-006 | 2026-09-11 | P2 | server/modules/reports/service.ts | 分享卡长书名/长划线横向溢出 1080 卡面破版 | fixed（截断 18/26 字加省略号；truncate 先于 esc 无转义残缺） | 第 10 夜 |
+| N10-007 | 2026-09-11 | P2 | web/pages/parent/ReportPanel.tsx | blob URL 同步 revoke 可静默中断下载（Firefox 尤甚） | fixed（延迟 10s 回收） | 第 10 夜 |
+| N10-008 | 2026-09-11 | P2 | web/pages/parent/ReportPanel.tsx | 导出失败清空整页周报且 onRetry 语义错位 | fixed（独立 exportError 局部提示，不动周报数据） | 第 10 夜 |
+| N10-009 | 2026-09-11 | P2 | web/scripts/screenshot-night10.mjs | 走查种子宣称「两晚」实为同日 1 晚掩盖口径错误；金句从未 seed（死代码）；足迹断言宽松 | fixed（口径断言精确「共读 1 晚」；金句真实落库并断言可见） | 第 10 夜 |
+| N10-010 | 2026-09-11 | P2 | server/test/reports.test.ts | share-card 路由零 HTTP 级测试；R3 滚动日期无回归锁（复审 N-3） | fixed（补 2026-02-30/2026-13-45 → 404 回归锁；share-card 路由 HTTP 用例列入夜 11 e2e 批） | 第 10 夜 |
+| N10-R1 | 2026-09-11 | P3 | web/scripts/screenshot-night10.mjs | 走查脚本 mondayOf 死函数遗留 lint 失败 | fixed（删除） | 第 10 夜 |

@@ -67,7 +67,6 @@ export function registerReportsRoutes(app: FastifyInstance, deps: ReportsRoutesD
  * 部署注意：按服务器本地时间判定（TZ 环境，见 N3-005/N4-004 部署前置）。
  */
 export function startWeeklyReportScheduler(
-  app: FastifyInstance,
   db: PrismaClient,
   options: { intervalMs?: number; now?: () => Date; families?: () => Promise<string[]> } = {},
 ): { stop: () => void } {
@@ -98,12 +97,19 @@ export function startWeeklyReportScheduler(
         }
       }
       lastRunDay = dayKey
+    } catch (err) {
+      // N10-001：调度异常绝不逃逸成 unhandled rejection（自部署环境无常驻拉起）
+      console.error('[weekly-scheduler] 生成失败：', err instanceof Error ? err.message : err)
     } finally {
       running = false
     }
   }
 
-  const timer = setInterval(() => void tick(), options.intervalMs ?? 60_000)
+  const timer = setInterval(() => {
+    void tick().catch((err) => {
+      console.error('[weekly-scheduler] tick 异常：', err instanceof Error ? err.message : err)
+    })
+  }, options.intervalMs ?? 60_000)
   timer.unref?.()
   return { stop: () => clearInterval(timer) }
 }

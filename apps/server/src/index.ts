@@ -17,7 +17,7 @@ async function main(): Promise<void> {
     logger: true,
   })
   // 周报调度：周日 19:00（服务器本地时间）为全部家庭生成当周周报（幂等 upsert）
-  startWeeklyReportScheduler(app, db)
+  startWeeklyReportScheduler(db)
   await app.listen({ port: config.PORT, host: '0.0.0.0' })
 }
 
