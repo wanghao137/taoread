@@ -3,6 +3,7 @@ import { loadConfig } from './config'
 import { buildApp } from './app'
 import { createDb } from './lib/db'
 import { tokenSecretFrom } from './modules/family/service'
+import { startWeeklyReportScheduler } from './modules/reports/routes'
 
 async function main(): Promise<void> {
   const config = loadConfig()
@@ -15,6 +16,8 @@ async function main(): Promise<void> {
     bedTimeMin: config.TAO_BEDTIME === 'off' ? null : config.TAO_BEDTIME,
     logger: true,
   })
+  // 周报调度：周日 19:00（服务器本地时间）为全部家庭生成当周周报（幂等 upsert）
+  startWeeklyReportScheduler(app, db)
   await app.listen({ port: config.PORT, host: '0.0.0.0' })
 }
 

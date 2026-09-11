@@ -12,6 +12,7 @@ import { getBoundKey, type KeyProbe } from './modules/family/service'
 import { registerWereadRoutes } from './modules/weread/routes'
 import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
+import { registerReportsRoutes } from './modules/reports/routes'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
@@ -99,6 +100,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     overtimeCapSec: options.overtimeCapSec ?? 300,
     ...(options.ritualNowSec ? { nowSec: options.ritualNowSec } : {}),
     ...(options.ritualNowMin ? { nowMinutesOfDay: options.ritualNowMin } : {}),
+  })
+
+  registerReportsRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
   })
 
   // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；
