@@ -250,6 +250,35 @@ export const api = {
       method: 'POST',
       token,
     }),
+
+  /** 周报（任意历史周可重生成；start 缺省=本周） */
+  weeklyReport: (familyId: string, token: string, start?: string) =>
+    request<{ report: WeeklyReportDataDto }>(
+      `/api/reports/weekly?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}`,
+      { token },
+    ),
+
+  /** 分享卡 SVG 文本（服务端渲染，系统字体） */
+  shareCardSvg: async (familyId: string, token: string, start?: string): Promise<string> => {
+    const headers: Record<string, string> = {}
+    if (token) headers['Authorization'] = `Bearer ${token}`
+    const res = await fetch(
+      `${API_BASE}/api/reports/weekly/share-card?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}`,
+      { headers },
+    )
+    if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
+    return res.text()
+  },
+}
+
+export interface WeeklyReportDataDto {
+  weekStart: string
+  nights: number
+  totalMinutes: number
+  books: Array<{ key: string; title: string }>
+  highlights: Array<{ text: string; source: string }>
+  achievementsUnlocked: number
+  nextWeekHint: string
 }
 
 export interface FamilySettingsDto {

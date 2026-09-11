@@ -5,6 +5,8 @@ import { Loading, ErrorState } from '../components/ui'
 import { TonightPanel } from './parent/TonightPanel'
 import { ShelfManager } from './parent/ShelfManager'
 import { SettingsPanel } from './parent/SettingsPanel'
+import { ReportPanel } from './parent/ReportPanel'
+import { FootprintBar } from './parent/FootprintBar'
 
 const TABS = ['今晚', '书架', '周报', '设置'] as const
 
@@ -45,12 +47,11 @@ export function ParentHome() {
   const childrenList: ChildDto[] = state.kind === 'ready' ? state.view.children : []
 
   function body() {
-    if (tab === '周报') {
-      return <p className="py-10 text-center text-base text-ink-secondary">周报将在下一版本亮起来</p>
-    }
     if (state.kind === 'loading') return <Loading label="家庭信息赶来中…" />
     if (state.kind === 'error')
       return <ErrorState message={state.message} onRetry={() => setRevision((n) => n + 1)} />
+    if (tab === '周报')
+      return <ReportPanel familyId={familyId ?? ''} token={token ?? ''} />
     if (tab === '今晚')
       return (
         <TonightPanel token={token ?? ''} childrenList={childrenList} />
@@ -83,6 +84,10 @@ export function ParentHome() {
           退出
         </button>
       </header>
+
+      {tab === '今晚' && (
+        <FootprintBar familyId={familyId ?? ''} token={token ?? ''} />
+      )}
 
       {tab === '今晚' && (
         <p className="mb-4 rounded-2xl border border-night-border bg-night-800/60 px-4 py-3 text-base text-ink-secondary">
