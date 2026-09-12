@@ -199,6 +199,13 @@ export const api = {
       { method: 'POST', body: { apiKey }, token },
     ),
 
+  /** 搜索选书（孩子端，服务端适龄过滤后返回） */
+  search: (keyword: string, token: string, count = 6) =>
+    request<{ hits: ShelfItemDto[] }>(
+      `/api/search?keyword=${encodeURIComponent(keyword)}&count=${count}`,
+      { token },
+    ),
+
   /** 仪式时段窗口（服务端权威）：bedtime=月亮睡了；overtime=温和引导收尾 */
   ritualWindow: (childId: string, token: string) =>
     request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, {

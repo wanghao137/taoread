@@ -9,6 +9,7 @@ import { ReadyScreen } from './child/ReadyScreen'
 import { DepartureScreen } from './child/DepartureScreen'
 import { FinishScreen } from './child/FinishScreen'
 import { CelebrationScreen } from './child/CelebrationScreen'
+import { StarSea } from './child/StarSea'
 import { AchievementWall } from './child/AchievementWall'
 import { BedtimeScreen } from './child/BedtimeScreen'
 
@@ -39,6 +40,7 @@ type Phase =
   | { kind: 'departure'; book: BookRef; sessionId: string; isPaper: boolean }
   | { kind: 'finish'; sessionId: string; bookId: string | null; title: string }
   | { kind: 'celebrate'; unlocked: UnlockDto[] }
+  | { kind: 'star-sea'; bookId: string; title: string }
   | { kind: 'resolving' } // 继续读：正在解析书名/链接
 
 /** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
@@ -316,11 +318,24 @@ export function ChildHome() {
         ) : null
       case 'resolving':
         return <Loading label="把书找出来…" />
+      case 'star-sea':
+        return token ? (
+          <StarSea
+            bookId={phase.bookId}
+            title={phase.title}
+            token={token}
+            onBack={() => (childId ? enterGate(childId) : undefined)}
+          />
+        ) : null
       case 'ready':
         return (
           <ReadyScreen
             title={phase.book.title}
             cover={phase.book.cover}
+            bookId={phase.book.bookId}
+            onStarSea={() =>
+              setPhase({ kind: 'star-sea', bookId: phase.book.bookId ?? '', title: phase.book.title })
+            }
             onDepart={() => {
               // sessionId 已在 handlePick 落入 phase（无多余请求）
               setPhase({

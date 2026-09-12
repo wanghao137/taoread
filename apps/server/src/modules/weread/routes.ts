@@ -14,6 +14,7 @@ import { z } from 'zod'
 import { requireAuth, assertSameFamily } from '../family/routes'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
 import { NotFoundError, UnauthorizedError, ValidationError } from '../../lib/errors'
+import { SEARCH_SCOPE } from '@taoread/shared'
 import {
   asRecord,
   asString,
@@ -181,6 +182,44 @@ export function registerWereadRoutes(
       .filter((b): b is Record<string, unknown> => b !== null)
     const blockedKeys = await loadBlockedKeys(db, familyId)
     return { books: filterChildRecommend(books, blockedKeys), rawCount: books.length }
+  })
+
+  // ── 搜索选书（第 11 夜 M-C）：/store/search 经孩子视图同款过滤（类目白名单+屏蔽），scope=10 电子书 ──
+  app.get('/api/search', { preHandler: requireAuth(tokenSecret) }, async (request) => {
+    const familyId = authFid(request)
+    const { keyword, count } = parse(
+      z.object({
+        keyword: z.string().min(1).max(60),
+        count: z.coerce.number().int().min(1).max(12).default(6),
+      }),
+      request.query ?? {},
+    )
+    const service = await registry.get(familyId)
+    const payload = await service.endpoints.storeSearch({ keyword, scope: SEARCH_SCOPE.EBOOK, count })
+    const root = asRecord(payload) ?? {}
+    const results = Array.isArray(root.results) ? root.results : []
+    const blockedKeys = await loadBlockedKeys(db, familyId)
+    const hits: Record<string, unknown>[] = []
+    for (const group of results) {
+      const rec = asRecord(group)
+      const groupBooks = Array.isArray(rec?.books) ? rec.books : []
+      for (const raw of groupBooks) {
+        const b = asRecord(raw)
+        const info = asRecord(b?.bookInfo)
+        if (!b || !info) continue
+        hits.push({
+          bookId: asString(info.bookId),
+          title: asString(info.title),
+          author: asString(info.author),
+          cover: asString(info.cover),
+          category: asString(info.category),
+          deepLink: asString(info.deepLink),
+          readingCount: b.readingCount,
+          newRating: b.newRating,
+        })
+      }
+    }
+    return { hits: filterChildRecommend(hits, blockedKeys) }
   })
 
   // ── 全书热门划线（直通；chapterUid=0 表示全部章节） ──

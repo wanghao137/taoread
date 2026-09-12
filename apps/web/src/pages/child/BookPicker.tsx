@@ -166,6 +166,8 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
         🎲 掷骰子，抽一本惊喜
       </TaButton>
 
+      <SearchBox token={token} busy={anyDisabled} onSelect={select} />
+
       {feed.shelf.length > 0 && (
         <section aria-labelledby="shelf-title">
           <div className="mb-2 flex items-center justify-between">
@@ -277,5 +279,94 @@ function BookCard({
         </span>
       </motion.button>
     </TaCard>
+  )
+}
+
+/** 搜索选书（第 11 夜 M-C）：孩子端大键盘，服务端适龄过滤后展示 */
+function SearchBox({
+  token,
+  busy,
+  onSelect,
+}: {
+  token: string
+  busy: boolean
+  onSelect: (book: ShelfItemDto) => void
+}) {
+  const [keyword, setKeyword] = useState('')
+  const [hits, setHits] = useState<ShelfItemDto[] | null>(null)
+  const [searching, setSearching] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function run() {
+    const kw = keyword.trim()
+    if (kw.length < 1 || searching) return
+    setSearching(true)
+    setError(null)
+    try {
+      const dto = await api.search(kw, token)
+      setHits(dto.hits ?? [])
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : '搜索没有成功，再试一次')
+    } finally {
+      setSearching(false)
+    }
+  }
+
+  return (
+    <section aria-labelledby="search-title">
+      <h3 id="search-title" className="mb-2 text-base font-bold text-ink-secondary">
+        找一本想读的书
+      </h3>
+      <TaCard>
+        <div className="flex gap-2">
+          <input
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') void run()
+            }}
+            placeholder="输入书名或作者"
+            maxLength={60}
+            aria-label="搜索书名或作者"
+            className="h-12 min-w-0 flex-1 rounded-xl border border-night-border bg-night-700 px-4 text-base"
+          />
+          <TaButton size="md" disabled={keyword.trim().length < 1} loading={searching} onClick={() => void run()}>
+            搜一搜
+          </TaButton>
+        </div>
+        {error && (
+          <p role="alert" className="mt-2 text-base text-peach-300">
+            {error}
+          </p>
+        )}
+        {hits !== null && hits.length === 0 && (
+          <p className="mt-3 text-base text-ink-secondary">
+            没找到「{keyword}」，换个词试试，或者从上面的书架里挑一本
+          </p>
+        )}
+        {hits !== null && hits.length > 0 && (
+          <ul className="mt-3 flex flex-col gap-2">
+            {hits.map((b) => (
+              <li key={b.bookId}>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onSelect(b)}
+                  className="flex min-h-touch w-full cursor-pointer items-center justify-between rounded-2xl border border-night-border bg-night-700/50 px-4 text-left disabled:cursor-not-allowed"
+                >
+                  <span className="truncate text-base">
+                    《{b.title}》
+                    {b.author && <span className="ml-2 text-ink-secondary">{b.author}</span>}
+                  </span>
+                  <span aria-hidden className="ml-2 shrink-0 text-peach-400">
+                    ✓
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </TaCard>
+    </section>
   )
 }
