@@ -8,6 +8,13 @@ import { startWeeklyReportScheduler } from './modules/reports/routes'
 async function main(): Promise<void> {
   const config = loadConfig()
   const db = createDb(config.TAO_DATABASE_URL)
+  // N11-001 反向守卫：本入口使用真实网关。库内若存在演示家庭（PEACH888），
+  // 说明误将演示库交给真实服务——演示 key 会经真实网关出网，必须拒绝启动。
+  const demoLeak = await db.family.findUnique({ where: { code: 'PEACH888' }, select: { id: true } })
+  if (demoLeak) {
+    console.error('拒绝启动：当前库包含演示家庭（PEACH888）。请使用 npm run demo 入口，或更换 TAO_DATABASE_URL。')
+    process.exit(1)
+  }
   const app = await buildApp({
     db,
     tokenSecret: tokenSecretFrom(config.TAO_MASTER_KEY),

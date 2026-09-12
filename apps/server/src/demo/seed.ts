@@ -1,5 +1,5 @@
 /**
- * 演示家庭种子（`npm run demo`）：家庭 DEMO8888 + 两个孩子 + 过去两周的共读账本
+ * 演示家庭种子（`npm run demo`）：家庭 PEACH888 + 两个孩子（小桃有历史账本；小柚为空账本，用于演示新孩子空态） + 过去两周的共读账本
  * （夜灯/最长连续/读完成就、金句、心情、进度），数据经真实业务路径落库。
  */
 import type { PrismaClient } from '@prisma/client'
@@ -97,15 +97,36 @@ export async function seedDemoFamily(db: PrismaClient, masterKey: string): Promi
       },
     })
 
-    // 每晚 1-2 句金句（voice 为主，穿插 weread 热门划线）
-    const quotePool = [
-      { source: 'voice', text: '小王子说，重要的东西用眼睛是看不见的！' },
-      { source: 'weread', text: '你在你的玫瑰身上花费的时间，让你的玫瑰变得如此重要。', markCount: 45231 },
-      { source: 'voice', text: '夏洛在网上织字救小猪，太厉害了！' },
-      { source: 'weread', text: '所有的大人都曾经是小孩，虽然，只有少数人记得。', markCount: 38900 },
-    ]
-    const quotes = [quotePool[i % quotePool.length]!]
-    if (i % 3 === 0) quotes.push(quotePool[(i + 1) % quotePool.length]!)
+    // 每晚 1-2 句金句，与当晚所读书籍配对（N11-004：金句来源必须匹配 session.bookId，
+    // 否则周报/共读卡解析书名时张冠李戴）
+    const quotesByBook: Record<string, Array<{ source: string; text: string; markCount?: number }>> = {
+      '9000001': [
+        { source: 'voice', text: '小王子说，重要的东西用眼睛是看不见的！' },
+        { source: 'weread', text: '你在你的玫瑰身上花费的时间，让你的玫瑰变得如此重要。', markCount: 45231 },
+        { source: 'weread', text: '所有的大人都曾经是小孩，虽然，只有少数人记得。', markCount: 38900 },
+      ],
+      '9000002': [
+        { source: 'voice', text: '夏洛在网上织字救小猪，太厉害了！' },
+        { source: 'voice', text: '威尔伯有夏洛这个朋友，真幸福。' },
+      ],
+      '9000003': [
+        { source: 'voice', text: '我也要像小豆豆一样，有一个忍不住想说的电车教室。' },
+      ],
+      '3300103106': [
+        { source: 'weread', text: '什么东西越洗越脏？——水。', markCount: 12003 },
+        { source: 'voice', text: '我猜对啦！球门是关不上的门！' },
+      ],
+      '506698': [
+        { source: 'voice', text: '原来星星不是天空的洞洞，是大火球！' },
+      ],
+      '32858446': [
+        { source: 'weread', text: '读过一本好书，像交了一个益友。', markCount: 15600 },
+        { source: 'voice', text: '悟空一个跟头就是十万八千里！' },
+      ],
+    }
+    const pool = quotesByBook[book.bookId] ?? quotesByBook['9000001']!
+    const quotes = [pool[i % pool.length]!]
+    if (i % 3 === 0) quotes.push(pool[(i + 1) % pool.length]!)
     for (const q of quotes) {
       await db.highlightStar.create({
         data: {

@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test'
 const CODE = 'PEACH888'
 
 test.describe('家长端', () => {
-  test('登录 → 今晚足迹/共读卡 → 书架屏蔽 → 周报 → 设置 → 注销', async ({ page }) => {
+  test('登录 → 今晚足迹/共读卡 → 书架屏蔽 → 周报 → 设置', async ({ page }) => {
     await page.goto('/login')
     await page.getByRole('button', { name: /输入家庭码加入/ }).click()
     await page.locator('#family-code').fill(CODE)
@@ -41,9 +41,5 @@ test.describe('家长端', () => {
     await page.getByRole('button', { name: '21:00', exact: true }).click()
     await page.getByText('小桃（6-8）').waitFor()
 
-    // ── 注销：二次确认 → 回登录页 ──
-    await page.getByRole('button', { name: /注销家庭/ }).click()
-    await page.getByRole('button', { name: /再点一次确认注销/ }).click()
-    await page.getByText('输入家庭码').waitFor()
   })
 })

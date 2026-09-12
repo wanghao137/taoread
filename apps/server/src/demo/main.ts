@@ -14,6 +14,15 @@ import { seedDemoFamily, DEMO_FAMILY_CODE } from './seed'
 
 async function main(): Promise<void> {
   const config = loadConfig()
+  // N11-001（P1）：演示库隔离强制化——TAO_DATABASE_URL 必须是 demo 专属文件。
+  // 否则演示 key（wrk-demo-key-0001）会经共用库进入真实网关出网路径。
+  if (!/file:\.\/(demo|e2e-run)/.test(config.TAO_DATABASE_URL)) {
+    console.error(
+      `演示模式拒绝启动：TAO_DATABASE_URL 必须指向 demo 专属库（如 "file:./demo.db"），当前为 "${config.TAO_DATABASE_URL}"。` +
+        '演示 key 严禁经共用库进入真实网关路径。',
+    )
+    process.exit(1)
+  }
   // 演示库自迁移：全新环境零配置可跑（demo 指向独立 sqlite 文件时自动建表）
   execSync('npx --no-install prisma migrate deploy', {
     cwd: process.cwd(),

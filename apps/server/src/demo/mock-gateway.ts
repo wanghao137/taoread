@@ -1,5 +1,5 @@
 /**
- * 演示模式 mock 网关（`npm run demo`，TAO_DEMO=1）。
+ * 演示模式 mock 网关（`npm run demo`；隔离边界=独立入口 demo/main.ts，无 TAO_DEMO 开关）。
  *
  * 设计约束：回包结构与字段口径与真实微信读书 Agent 网关完全一致
  * （weread skill 各说明文档为准），使演示链路=真实链路，仅数据源不同。
@@ -220,15 +220,18 @@ export function createDemoGateway(): WereadCall {
 
       case '/store/search': {
         const keyword = String(params?.keyword ?? '')
+        const count = Number(params?.count ?? 3) || 3
+        const scope = Number(params?.scope ?? 10)
+        // 真实过滤（标题/作者包含），并回显请求的 scope/count（N11-002：mock 尊重契约）
         const hits = CATALOG.filter(
           (b) => keyword.length > 0 && (b.title.includes(keyword) || b.author.includes(keyword)),
-        ).slice(0, 3)
+        ).slice(0, count)
         return {
           sid: 'demo-search',
           hasMore: 0,
           results: hits.map((b) => ({
             title: '电子书',
-            scope: 17,
+            scope,
             scopeCount: 1,
             currentCount: 1,
             books: [
@@ -252,7 +255,8 @@ export function createDemoGateway(): WereadCall {
       }
 
       default:
-        return { errcode: 0 }
+        // 与真实网关语义一致：未知 api_name 是错误而非空成功
+        return { errcode: -2013, errmsg: `演示网关不支持该接口：${apiName}` }
     }
   }
   return call as WereadCall

@@ -184,12 +184,13 @@ export function registerWereadRoutes(
     return { books: filterChildRecommend(books, blockedKeys), rawCount: books.length }
   })
 
-  // ── 搜索选书（第 11 夜 M-C）：/store/search 经孩子视图同款过滤（类目白名单+屏蔽），scope=10 电子书 ──
+  // ── 搜索选书（第 11 夜 M-C）：/store/search 经孩子视图同款过滤（类目白名单+屏蔽），scope=10 电子书。
+  // 产品口径（N11-003）：搜索是「为孩子找书」的场景，家长与孩子角色一律走适龄过滤——有意设计。 ──
   app.get('/api/search', { preHandler: requireAuth(tokenSecret) }, async (request) => {
     const familyId = authFid(request)
     const { keyword, count } = parse(
       z.object({
-        keyword: z.string().min(1).max(60),
+        keyword: z.string().trim().min(1).max(60),
         count: z.coerce.number().int().min(1).max(12).default(6),
       }),
       request.query ?? {},
