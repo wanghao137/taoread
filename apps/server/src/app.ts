@@ -10,6 +10,7 @@ import { IpRateLimiter, IP_LIMIT_DEFAULTS } from './lib/ipRateLimit'
 import { registerFamilyRoutes } from './modules/family/routes'
 import { getBoundKey, type KeyProbe } from './modules/family/service'
 import { registerWereadRoutes } from './modules/weread/routes'
+import { invalidateSyncFingerprint } from './modules/weread/shelf'
 import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
@@ -76,6 +77,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     ipLimiter:
       options.ipLimiter ??
       new IpRateLimiter({ ...IP_LIMIT_DEFAULTS }),
+    onFamilyDeleted: (familyId) => {
+      // N9-205：注销后逐出进程内的服务实例（含解密 key）与书架同步指纹
+      registry.remove(familyId)
+      invalidateSyncFingerprint(familyId)
+    },
   })
 
   registerWereadRoutes(app, {

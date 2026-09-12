@@ -177,7 +177,8 @@ export function renderShareCardSvg(data: WeeklyReportData): string {
 </svg>`
 }
 
-/** 周日 19:00 检查（调度器逐分钟调用）：是否到了本周报生成时刻 */
+/** 周日 19:00–20:00 窗口检查（N10-R10 第 11 夜放宽：单分钟窗口错过即缺）。
+ * 幂等由调度器 lastRunDay + 周报 upsert 承担，窗口内重复生成无害。 */
 export function isSundayEveningRun(now: Date): boolean {
-  return now.getDay() === 0 && now.getHours() === 19 && now.getMinutes() === 0
+  return now.getDay() === 0 && now.getHours() === 19
 }

@@ -9,7 +9,8 @@
     "smoke": "tsx scripts/smoke-weread.ts",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "start:demo": "tsx src/demo/main.ts"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",

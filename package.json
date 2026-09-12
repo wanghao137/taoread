@@ -16,7 +16,8 @@
     "verify": "npm run typecheck && npm run lint && npm run test",
     "dev:server": "npm run dev -w @taoread/server",
     "dev:web": "npm run dev -w @taoread/web",
-    "smoke:weread": "npm run smoke -w @taoread/server"
+    "smoke:weread": "npm run smoke -w @taoread/server",
+    "demo": "node scripts/demo.mjs"
   },
   "engines": {
     "node": ">=20"

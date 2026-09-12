@@ -71,4 +71,14 @@ export class WereadServiceRegistry {
     this.entries.clear()
     this.cache.clear()
   }
+
+  /**
+   * 注销家庭时按 familyId 逐出（N9-205/N3-006 第 11 夜项结）：
+   * 服务实例持有解密后的明文 key，注销后不得驻留内存。
+   * entries 为有界慢增长 Map（随家庭数线性，家庭自部署场景天然有界），
+   * 注销即逐出，无泄漏面。
+   */
+  remove(familyId: string): void {
+    this.entries.delete(familyId)
+  }
 }

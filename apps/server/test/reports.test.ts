@@ -165,8 +165,11 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     await new Promise((r) => setTimeout(r, 40))
     expect(await db.weeklyReport.count()).toBe(1)
     handle.stop()
-    // 时间推进验证：注入时钟变化后 isSundayEveningRun 语义
-    expect(isSundayEveningRun(new Date(2026, 8, 6, 19, 1))).toBe(false)
+    // 时间推进验证：注入时钟变化后 isSundayEveningRun 语义（窗口 19:00–20:00，N10-R10）
+    expect(isSundayEveningRun(new Date(2026, 8, 6, 19, 1))).toBe(true)
+    expect(isSundayEveningRun(new Date(2026, 8, 6, 19, 59))).toBe(true)
+    expect(isSundayEveningRun(new Date(2026, 8, 6, 20, 0))).toBe(false)
     expect(isSundayEveningRun(new Date(2026, 8, 6, 18, 59))).toBe(false)
+    expect(isSundayEveningRun(new Date(2026, 8, 7, 19, 0))).toBe(false) // 周一
   })
 })

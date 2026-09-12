@@ -270,10 +270,16 @@ export async function updateSettings(
   return getSettings(db, familyId)
 }
 
-/** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复 */
-export async function deleteFamilyCompletely(db: FamilyDb, familyId: string): Promise<void> {
+/** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复。
+ * onFamilyDeleted（N9-205）：注销后逐出进程内该家庭的缓存/服务实例（含解密 key），由 app 层注入。 */
+export async function deleteFamilyCompletely(
+  db: FamilyDb,
+  familyId: string,
+  onFamilyDeleted?: (familyId: string) => void,
+): Promise<void> {
   await assertFamilyExists(db, familyId)
   await db.family.delete({ where: { id: familyId } })
+  onFamilyDeleted?.(familyId)
 }
 
 async function assertFamilyExists(db: FamilyDb, familyId: string) {

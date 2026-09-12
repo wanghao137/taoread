@@ -73,6 +73,8 @@ export interface FamilyRoutesDeps {
   probeKey?: KeyProbe
   /** 无凭据入口的 IP 限流（N2-007；不传则不限流，仅供测试） */
   ipLimiter?: IpRateLimiter
+  /** 注销后逐出进程内该家庭的缓存/服务实例（N9-205，app 层注入 registry.remove+指纹失效） */
+  onFamilyDeleted?: (familyId: string) => void
 }
 
 /** 默认探针：真实网关 /_list；fetchImpl 可注入（测试）。
@@ -252,7 +254,7 @@ export function registerFamilyRoutes(
   }, async (request, reply) => {
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
-    await svc.deleteFamilyCompletely(db, familyId)
+    await svc.deleteFamilyCompletely(db, familyId, deps.onFamilyDeleted)
     reply.code(204)
     return null
   })
