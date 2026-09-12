@@ -119,3 +119,13 @@
 | N10-009 | 2026-09-11 | P2 | web/scripts/screenshot-night10.mjs | 走查种子宣称「两晚」实为同日 1 晚掩盖口径错误；金句从未 seed（死代码）；足迹断言宽松 | fixed（口径断言精确「共读 1 晚」；金句真实落库并断言可见） | 第 10 夜 |
 | N10-010 | 2026-09-11 | P2 | server/test/reports.test.ts | share-card 路由零 HTTP 级测试；R3 滚动日期无回归锁（复审 N-3） | fixed（补 2026-02-30/2026-13-45 → 404 回归锁；share-card 路由 HTTP 用例列入夜 11 e2e 批） | 第 10 夜 |
 | N10-R1 | 2026-09-11 | P3 | web/scripts/screenshot-night10.mjs | 走查脚本 mondayOf 死函数遗留 lint 失败 | fixed（删除） | 第 10 夜 |
+| N11-001 | 2026-09-12 | P1 | server/demo/main.ts + index.ts | 演示隔离仅靠操作者自觉配独立库：共用 dev.db 跑 demo 后，演示 key（wrk-demo-key-0001）经正常入口+真实网关出网 | fixed（双向守卫：demo 入口强制 file:./demo|e2e-run 前缀否则拒启；正常入口检测库内 PEACH888 家庭即拒启） | 交付日 |
+| N11-002 | 2026-09-12 | P2 | server/demo/mock-gateway.ts | mock /store/search 忽略请求 scope/count（硬编码 17/3），以 mock 为基准的契约测试会固化错误口径（N6-001 同型） | fixed（回显请求 scope、尊重 count） | 交付日 |
+| N11-003 | 2026-09-12 | P2 | server/modules/weread/routes.ts | /api/search keyword 未 trim（纯空白通过，产生无效搜索与脏缓存键） | fixed（z.string().trim()） | 交付日 |
+| N11-004 | 2026-09-12 | P2 | server/demo/seed.ts | 种子金句与当晚书籍错配（读《脑筋急转弯》落《小王子》划线，周报/共读卡张冠李戴） | fixed（按 session.bookId 从对应书目的金句池取） | 交付日 |
+| N11-005 | 2026-09-12 | P2 | server/demo/mock-gateway.ts | mock 未知 api_name 静默返回成功（真实网关为错误），demo 全绿上线才炸 | fixed（default 分支返回 errcode:-2013 错误语义） | 交付日 |
+| N11-006 | 2026-09-12 | P2 | server/demo/seed.ts + mock-gateway.ts | 注释漂移：DEMO8888→PEACH888、TAO_DEMO=1→独立入口无开关 | fixed（两处注释对齐实际隔离模型） | 交付日 |
+| N11-007 | 2026-09-12 | P2 | server/modules/weread/routes.ts | /api/search 适龄过滤押注「真实网关 search 回包含 category」未验证假设（N6-001 同型，fail-closed 不破红线但功能可能全灭） | open：真实接入联调时用真实网关打一发 /store/search 校准字段；若无 category 需经 BookCache 二次判定 | 真实接入前 |
+| N11-008 | 2026-09-12 | P2 | e2e/demo-parent.spec.ts | 家长 e2e 末步注销删除共享演示家庭，后续 visual spec 无家可入（测试顺序耦合） | fixed（注销流拆至字母序末位 zz-teardown spec；家长 spec 保持非破坏性） | 交付日 |
+| N11-009 | 2026-09-12 | P2 | server/modules/reports/service.ts | 周报金句列表重复文本（种子轮换+不同晚划同句），演示观感差 | fixed（展示按文本去重，计数同步 dedupeByText） | 交付日 |
+| N11-R1 | 2026-09-12 | P3 | e2e/playwright.config.ts | 首版 npm 脚本 unlink e2e.db 在 Windows 文件占用下静默失败，跨运行状态污染（症状：登录即见续传卡） | fixed（改唯一时间戳库 e2e-run-*.db，零清理零竞争） | 交付日 |
