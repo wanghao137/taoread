@@ -1,6 +1,6 @@
 /**
  * 演示模式入口（`npm run demo`）：
- * TAO_DEMO=1 语义 = mock 网关 + 种子家庭 DEMO8888 + 就寝窗关闭。
+ * 演示隔离边界 = 独立入口（本文件硬编码 mock 探针/网关 + 就寝窗关闭）；无 TAO_DEMO 开关。
  * 环境变量缺失时使用演示内置主密钥（仅本地演示，不用于生产）。
  */
 import 'dotenv/config'
@@ -33,7 +33,7 @@ async function main(): Promise<void> {
     logger: false,
   })
 
-  const familyId = await seedDemoFamily(db)
+  const familyId = await seedDemoFamily(db, masterKey)
 
   await app.listen({ port: config.PORT, host: '0.0.0.0' })
   console.log('')

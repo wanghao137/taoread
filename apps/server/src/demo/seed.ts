@@ -16,19 +16,18 @@ function nightAt(daysAgo: number, hour = 20, minute = 30): Date {
   return d
 }
 
-export async function seedDemoFamily(db: PrismaClient): Promise<string> {
+export async function seedDemoFamily(db: PrismaClient, masterKey: string): Promise<string> {
   // 幂等：已有演示家庭直接复用
   const existing = await db.family.findUnique({ where: { code: DEMO_FAMILY_CODE } })
   if (existing) return existing.id
 
   const family = await db.family.create({ data: { code: DEMO_FAMILY_CODE } })
-  await db.family.update({ where: { id: family.id }, data: { code: DEMO_FAMILY_CODE } })
 
   // 绑定（演示 key，探针在 demo 模式恒成功）
   await db.wereadBinding.create({
     data: {
       familyId: family.id,
-      ciphertext: await encryptSecret(DEMO_KEY, process.env.TAO_MASTER_KEY ?? 'demo-master-key-0123456789'),
+      ciphertext: await encryptSecret(DEMO_KEY, masterKey),
       maskedTail: '****0001',
       status: 'active',
     },

@@ -47,7 +47,9 @@ async function waitFor(url, timeoutMs = 150_000) {
     try {
       const res = await fetch(url)
       if (res.ok) return
-    } catch {}
+    } catch {
+      // 探测为尽力而为：未就绪继续轮询
+    }
     if (Date.now() - start > timeoutMs) throw new Error(`等待超时：${url}`)
     await new Promise((r) => setTimeout(r, 600))
   }

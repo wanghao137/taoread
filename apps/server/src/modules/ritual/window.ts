@@ -26,6 +26,8 @@ const MORNING_END_MIN = 6 * 60 // 06:00 后月亮醒来
 /** 就寝判定：bedtimeMin 起至次日 06:00 */
 export function isBedtime(nowMin: number, bedTimeMin: number | null): boolean {
   if (bedTimeMin === null) return false
+  // bedTimeMin=0（午夜就寝）的窗口仅为 00:00-06:00（B1-02：>=0 恒真会导致全天锁定）
+  if (bedTimeMin === 0) return nowMin < MORNING_END_MIN
   return nowMin >= bedTimeMin || nowMin < MORNING_END_MIN
 }
 

@@ -26,6 +26,14 @@ describe('就寝判定（纯逻辑）', () => {
   it('关闭（null）永不就寝', () => {
     expect(isBedtime(23 * 60, null)).toBe(false)
   })
+
+  it('bedTimeMin=0（午夜就寝）窗口仅为 00:00-06:00（B1-02 边界回归锁）', () => {
+    expect(isBedtime(0, 0)).toBe(true)
+    expect(isBedtime(5 * 60 + 59, 0)).toBe(true)
+    expect(isBedtime(6 * 60, 0)).toBe(false)
+    expect(isBedtime(12 * 60, 0)).toBe(false)
+    expect(isBedtime(23 * 60, 0)).toBe(false)
+  })
 })
 
 describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {

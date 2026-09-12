@@ -198,7 +198,20 @@ export async function syncShelfSnapshot(
     desiredKeys.add(key)
     const prev = existingByKey.get(key)
     if (!prev) {
-      await db.shelfSnapshot.create({ data: row })
+      // B1-11：并发首同步同键双 create 会撞唯一键 → upsert 原子化（update 不动 blocked，保 N3-001）
+      await db.shelfSnapshot.upsert({
+        where: { familyId_bookId_kind: { familyId, bookId: row.bookId, kind: row.kind } },
+        create: row,
+        update: {
+          title: row.title,
+          author: row.author,
+          cover: row.cover,
+          category: row.category,
+          finished: row.finished,
+          readUpdateTime: row.readUpdateTime,
+          syncedAt: new Date(),
+        },
+      })
       continue
     }
     if (prev.blocked) continue // 屏蔽行保留原状（家长管控数据，元数据也不刷新）

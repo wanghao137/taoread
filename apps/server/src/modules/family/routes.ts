@@ -97,7 +97,9 @@ export function makeDefaultProbe(fetchImpl?: typeof fetch): KeyProbe {
         throw new ValidationError('这把 API Key 没有通过微信读书验证，请核对后重试')
       }
       if (err instanceof WereadHttpError) {
-        if (err.status === 0 || err.status >= 500) return 'unverified'
+        // 网关限流（B1-04）与网络层失败、5xx 同为「暂时性」：允许绑定但标记未验证；
+        // key 被网关明确拒绝（4xx 其余）才判无效
+        if (err.status === 0 || err.status === 429 || err.status >= 500) return 'unverified'
         throw new ValidationError('这把 API Key 没有通过微信读书验证，请核对后重试')
       }
       throw err
