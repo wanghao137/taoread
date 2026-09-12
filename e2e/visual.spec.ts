@@ -1,7 +1,7 @@
 import { mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { expect, test } from '@playwright/test'
+import { test } from '@playwright/test'
 
 /** 交付截图输出目录：docs/screenshots/final/ */
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), '../docs/screenshots/final')
