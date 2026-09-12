@@ -43,6 +43,10 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
 
   useEffect(() => load(), [load])
 
+  // 屏蔽状态本地受控集（N9-101 真修：渲染与翻转共用同一来源，
+  // 服务端 blockedBookIds 只作初始值；e2e 抓到乐观翻转被重渲染丢弃）
+  const [blockedOverride, setBlockedOverride] = useState<Record<string, boolean>>({})
+
   async function toggleBlock(bookId: string, blocked: boolean, title?: string) {
     if (busyId) return
     setBusyId(bookId)
@@ -52,12 +56,7 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
         blocked,
         title,
       })
-      setState((prev) => {
-        if (prev.kind !== 'ready') return prev
-        const flip = (items?: ShelfDto['books']) =>
-          items?.map((b) => (b.bookId === bookId ? { ...b, blocked } : b))
-        return { kind: 'ready', dto: { ...prev.dto, books: flip(prev.dto.books), albums: flip(prev.dto.albums) } }
-      })
+      setBlockedOverride((prev) => ({ ...prev, [`${kindOf[partition]}:${bookId}`]: blocked }))
     } catch (err) {
       // 失败要有可见反馈（N9-202）：局部提示而非静默
       window.alert('操作没有成功，请稍后再试')
@@ -75,10 +74,11 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
   if (state.kind === 'error') return <ErrorState message={state.message} onRetry={load} />
 
   const dto = state.dto
-  const blockedKeys = new Set(dto.blockedBookIds ?? [])
+  const isBlocked = (kind: string, bookId: string) =>
+    blockedOverride[`${kind}:${bookId}`] ?? (dto.blockedBookIds ?? []).includes(`${kind}:${bookId}`)
   const partitions: Record<Partition, Array<{ bookId: string; title?: string; blocked: boolean }>> = {
-    books: (dto.books ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: blockedKeys.has(`book:${b.bookId}`) })),
-    albums: (dto.albums ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: blockedKeys.has(`album:${b.bookId}`) })),
+    books: (dto.books ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: isBlocked('book', b.bookId) })),
+    albums: (dto.albums ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: isBlocked('album', b.bookId) })),
     mp: [],
   }
   const items = partitions[partition] ?? []

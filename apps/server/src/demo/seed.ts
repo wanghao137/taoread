@@ -63,7 +63,7 @@ export async function seedDemoFamily(db: PrismaClient): Promise<string> {
   const rotation = [books[3], books[0], books[2], books[4], books[1], books[5]]
   const moods = ['happy', 'excited', 'calm', 'sleepy', 'thinking']
   const marks: Array<'little' | 'lot' | 'done'> = ['lot', 'lot', 'done', 'lot', 'little', 'done']
-  const dayPlan = [0, 1, 2, 3, 5, 7, 8, 10, 11, 12, 14] // daysAgo
+  const dayPlan = [1, 2, 3, 4, 6, 8, 9, 11, 12, 13, 15] // daysAgo：历史到昨天，今晚留给实时会话
   let bookIdx = 0
   let doneCount = 0
   const finishedBooks = new Set<string>()

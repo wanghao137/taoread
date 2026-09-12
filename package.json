@@ -17,7 +17,8 @@
     "dev:server": "npm run dev -w @taoread/server",
     "dev:web": "npm run dev -w @taoread/web",
     "smoke:weread": "npm run smoke -w @taoread/server",
-    "demo": "node scripts/demo.mjs"
+    "demo": "node scripts/demo.mjs",
+    "e2e": "playwright test -c e2e/playwright.config.ts"
   },
   "engines": {
     "node": ">=20"
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.63.0",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "playwright": "^1.63.0",

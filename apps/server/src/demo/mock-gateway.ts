@@ -221,7 +221,7 @@ export function createDemoGateway(): WereadCall {
       case '/store/search': {
         const keyword = String(params?.keyword ?? '')
         const hits = CATALOG.filter(
-          (b) => b.title.includes(keyword) || b.author.includes(keyword) || keyword.length > 0,
+          (b) => keyword.length > 0 && (b.title.includes(keyword) || b.author.includes(keyword)),
         ).slice(0, 3)
         return {
           sid: 'demo-search',
