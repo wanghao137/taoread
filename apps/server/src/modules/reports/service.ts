@@ -36,6 +36,12 @@ export interface WeeklyReportData {
  * 构造【本地午夜】时刻作为窗口，使窗口与 nights.ts 的本地夜桶在任意 TZ 下对齐。
  * 直接用规范化值当物理时刻会在 TZ≠UTC 时漂移出 ±8h 的错周带（复审 N10-004）。
  */
+/** 金句按文本去重（不同晚划同一句只展示一次，计数同步） */
+function dedupeByText(items: Array<{ text: string; source: string }>): Array<{ text: string; source: string }> {
+  const seen = new Set<string>()
+  return items.filter((h) => (seen.has(h.text) ? false : (seen.add(h.text), true)))
+}
+
 function weekRangeSec(weekStart: Date): { fromSec: number; toSec: number } {
   const y = weekStart.getUTCFullYear()
   const m = weekStart.getUTCMonth()
@@ -123,8 +129,8 @@ export async function generateWeeklyReport(
     nights: nightKeys.size,
     totalMinutes: Math.round(totalSec / 60),
     books: [...bookMap.entries()].map(([key, title]) => ({ key, title })),
-    highlights: highlights.slice(0, 12).map((h) => ({ text: h.text, source: h.source })),
-    highlightsTotal: highlights.length,
+    highlights: dedupeByText(highlights).slice(0, 12).map((h) => ({ text: h.text, source: h.source })),
+    highlightsTotal: dedupeByText(highlights).length,
     achievementsUnlocked: achievements,
     nextWeekHint:
       nightKeys.size === 0
