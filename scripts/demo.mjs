@@ -6,17 +6,20 @@ import { spawn } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SERVER_DIR = resolve(ROOT, 'apps/server')
 const WEB_DIR = resolve(ROOT, 'apps/web')
 const API_PORT = 8787
 const WEB_PORT = 5173
 
-function spawnNpm(cwd, args, label, color) {
-  const child = spawn('npm', args, {
+const TSX_BIN = resolve(SERVER_DIR, '../../node_modules/tsx/dist/cli.mjs')
+const VITE_BIN = resolve(WEB_DIR, '../../node_modules/vite/bin/vite.js')
+
+// 该环境下 shell spawn cmd.exe 间歇 ENOENT：直接用 node 调包内 bin（绕开 shell）
+function spawnNpm(cwd, bin, args, label, color, extraEnv = {}) {
+  const child = spawn(process.execPath, [bin, ...args], {
     cwd,
-    shell: true,
-    env: { ...process.env, FORCE_COLOR: '1' },
+    env: { ...process.env, FORCE_COLOR: '1', ...extraEnv },
   })
   const pipe = (stream, out) => {
     let buffered = ''
@@ -46,8 +49,15 @@ function killTree(child) {
 
 console.log('🍑 桃阅读 演示启动中…')
 
-const server = spawnNpm(SERVER_DIR, ['run', 'start:demo'], 'server', '36') // cyan
-const web = spawnNpm(WEB_DIR, ['run', 'dev', '--', '--port', String(WEB_PORT), '--strictPort'], 'web', '35') // magenta
+const server = spawnNpm(
+  SERVER_DIR,
+  TSX_BIN,
+  ['src/demo/main.ts'],
+  'server',
+  '36',
+  { TAO_DATABASE_URL: 'file:./demo.db' }, // N11-001：demo 专属库（隔离守卫要求）
+) // cyan
+const web = spawnNpm(WEB_DIR, VITE_BIN, [WEB_DIR, '--port', String(WEB_PORT), '--strictPort'], 'web', '35') // magenta
 
 const shutdown = () => {
   killTree(server)
