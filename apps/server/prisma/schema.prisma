@@ -15,9 +15,9 @@ datasource db {
 }
 
 model Family {
-  id        String   @id @default(cuid())
-  code      String   @unique // 家庭码：加入家庭的凭据
-  createdAt DateTime @default(now())
+  id             String   @id @default(cuid())
+  code           String   @unique // 家庭码：加入家庭的凭据
+  createdAt      DateTime @default(now())
   /// 家庭级护眼设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s）
   bedtimeMin     Int?
   overtimeCapSec Int?
@@ -38,63 +38,64 @@ model ChildProfile {
   familyId  String
   family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
   nickname  String // 展示昵称，非真实姓名
-  avatar    String?  // 本地图片引用，非外链
+  avatar    String? // 本地图片引用，非外链
   stage     String // 3-5 | 6-8 | 9-12
   createdAt DateTime @default(now())
 
   cosessions   Cosession[]
   highlights   HighlightStar[]
   achievements Achievement[]
+  reading      ReadingProgress[]
 
   @@index([familyId])
 }
 
 model WereadBinding {
-  id            String   @id @default(cuid())
-  familyId      String   @unique
-  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  ciphertext    String // AES-256-GCM 密文（v1.salt.iv.tag.ct）
-  maskedTail    String // 尾 4 位，回显用
-  status        String   @default("active") // active | unverified | invalid
-  lastSyncAt    DateTime?
-  createdAt     DateTime @default(now())
+  id         String    @id @default(cuid())
+  familyId   String    @unique
+  family     Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  ciphertext String // AES-256-GCM 密文（v1.salt.iv.tag.ct）
+  maskedTail String // 尾 4 位，回显用
+  status     String    @default("active") // active | unverified | invalid
+  lastSyncAt DateTime?
+  createdAt  DateTime  @default(now())
 }
 
 model BookCache {
-  bookId     String   @id // 微信读书 bookId
-  title      String
-  author     String
-  cover      String?
-  category   String?
-  intro      String?
-  chapters   String? // JSON 序列化的章节目录
-  deepLink   String? // 网关回包原值，绝不自行拼接
-  newRating  Int? // 0-100
-  fetchedAt  DateTime @default(now())
+  bookId    String   @id // 微信读书 bookId
+  title     String
+  author    String
+  cover     String?
+  category  String?
+  intro     String?
+  chapters  String? // JSON 序列化的章节目录
+  deepLink  String? // 网关回包原值，绝不自行拼接
+  newRating Int? // 0-100
+  fetchedAt DateTime @default(now())
 }
 
 model ShelfSnapshot {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   familyId       String
-  family         Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family         Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
   bookId         String
   kind           String // book | album | mp
   title          String
   author         String?
   cover          String?
   category       String?
-  finished       Boolean  @default(false)
-  blocked        Boolean  @default(false) // 家长单书屏蔽
+  finished       Boolean   @default(false)
+  blocked        Boolean   @default(false) // 家长单书屏蔽
   readUpdateTime DateTime?
-  syncedAt       DateTime @default(now())
+  syncedAt       DateTime  @default(now())
 
   @@unique([familyId, bookId, kind]) // 最左前缀已覆盖 familyId 查询，无需冗余索引
 }
 
 model Cosession {
-  id           String   @id @default(cuid())
+  id           String       @id @default(cuid())
   familyId     String
-  family       Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family       Family       @relation(fields: [familyId], references: [id], onDelete: Cascade)
   childId      String
   child        ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
   bookId       String? // 微信读书书（纸质书共读为空）
@@ -104,7 +105,7 @@ model Cosession {
   durationSec  Int? // endedAt - startedAt，秒
   progressMark String? // little | lot | done
   mood         String? // happy | excited | calm | sleepy | thinking
-  createdAt    DateTime @default(now())
+  createdAt    DateTime     @default(now())
 
   highlights HighlightStar[]
 
@@ -113,50 +114,50 @@ model Cosession {
 }
 
 model HighlightStar {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   familyId    String
-  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family      Family       @relation(fields: [familyId], references: [id], onDelete: Cascade)
   childId     String
   child       ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
   cosessionId String?
-  cosession   Cosession? @relation(fields: [cosessionId], references: [id], onDelete: SetNull)
+  cosession   Cosession?   @relation(fields: [cosessionId], references: [id], onDelete: SetNull)
   source      String // weread | voice | manual
   text        String // 金句原文/孩子口述
   markCount   Int? // 来源为 weread 时：多少人划过这句
-  createdAt   DateTime @default(now())
+  createdAt   DateTime     @default(now())
 
   @@index([familyId])
   @@index([childId])
 }
 
 model Achievement {
-  id         String   @id @default(cuid())
+  id         String       @id @default(cuid())
   familyId   String
-  family     Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family     Family       @relation(fields: [familyId], references: [id], onDelete: Cascade)
   childId    String
   child      ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
   kind       String // night_lamp | streak_best | book_done（纪念式，无兑换）
   value      Int // 如夜灯第 N 晚 / 连续 N 晚
-  unlockedAt DateTime @default(now())
+  unlockedAt DateTime     @default(now())
 
   @@unique([childId, kind, value]) // 同一成就只解锁一次（幂等）；最左前缀已覆盖 childId 查询
 }
 
 model ParentPrompt {
-  id        String   @id @default(cuid())
-  familyId  String
-  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  bookId    String
-  stage     String // 3-5 | 6-8 | 9-12
+  id         String   @id @default(cuid())
+  familyId   String
+  family     Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookId     String
+  stage      String // 3-5 | 6-8 | 9-12
   tellPoints String // JSON：讲什么（3 条要点）
   questions  String // JSON：问什么（3 个开放式问题，按年龄段梯度）
   hook       String? // 聊什么：「爸妈小时候」话题钩子
-  genType   String   @default("template") // template | llm
-  nightKey  String? // YYYY-MM-DD（nights.ts 口径）；同家庭同书同晚唯一（N4-007）
-  createdAt DateTime @default(now())
+  genType    String   @default("template") // template | llm
+  nightKey   String? // YYYY-MM-DD（nights.ts 口径）；同家庭同书同晚唯一（N4-007）
+  createdAt  DateTime @default(now())
 
-  @@index([familyId, bookId])
   @@unique([familyId, bookId, stage, nightKey]) // nightKey 非空时唯一（部分唯一索引见迁移）
+  @@index([familyId, bookId])
 }
 
 model WeeklyReport {
@@ -169,6 +170,89 @@ model WeeklyReport {
   createdAt     DateTime @default(now())
 
   @@unique([familyId, weekStart])
+}
+
+// ── v2 内容域（CBF：Canonical Book Format，docs/07 §3）──
+// 书 = 章 = 块。块是阅读器渲染与 TTS 的最小单位。
+// 内容域 bookId 以 `cbf:` 前缀注入共读会话，与微信读书 bookId 永不冲突。
+
+model Book {
+  id        String            @id // 稳定 slug，如 sanzi-jing；共读会话引用时加 cbf: 前缀
+  title     String
+  author    String?
+  lang      String // zh | en
+  category  String // poetry 古诗 | primer 蒙学 | story 故事 | tale 童话
+  ageStage  String // 3-5 | 6-8 | 9-12
+  intro     String?
+  coverArt  String // 封面 SVG 场景键（见 web 端 SceneArt）
+  coverFrom String? // 封面渐变起点色
+  coverTo   String? // 封面渐变终点色
+  words     Int               @default(0)
+  source    String // 版权台账摘要：公版来源与年限说明
+  createdAt DateTime          @default(now())
+  chapters  Chapter[]
+  progress  ReadingProgress[]
+
+  @@index([lang, category])
+}
+
+model Chapter {
+  id     String  @id @default(cuid())
+  bookId String
+  book   Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  order  Int
+  title  String
+  art    String? // 章节 SVG 场景键
+  blocks Block[]
+
+  @@unique([bookId, order])
+  @@index([bookId])
+}
+
+model Block {
+  id          String  @id @default(cuid())
+  chapterId   String
+  chapter     Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  order       Int
+  kind        String // text 段落 | poem 诗句 | note 小贴士 | image 插图
+  text        String
+  pinyin      String? // 拼音（poem/primer 块；按字注音，空格分词）
+  translation String? // 白话译文/注释
+  art         String? // image 块的 SVG 场景键
+
+  @@unique([chapterId, order])
+  @@index([chapterId])
+}
+
+/// 权利台账（docs/07 §2 修改三）：只录公版或自有内容，字段留痕可审计
+model RightsLedger {
+  id              String   @id @default(cuid())
+  bookId          String   @unique
+  workTitle       String
+  author          String?
+  authorDeathYear Int? // 作者卒年（PD 判定核心）
+  translator      String? // 译者（如有，另有译者权利）
+  jurisdiction    String // CN | US | EU
+  basis           String // pd-70 | pd-us | original | adapted
+  sourceUrl       String?
+  note            String?
+  createdAt       DateTime @default(now())
+}
+
+/// 孩子在内容域书籍上的阅读进度（章序 + 块序）
+model ReadingProgress {
+  id           String       @id @default(cuid())
+  childId      String
+  child        ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  bookId       String
+  book         Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterOrder Int          @default(1)
+  blockOrder   Int          @default(0)
+  finished     Boolean      @default(false)
+  updatedAt    DateTime     @updatedAt
+
+  @@unique([childId, bookId])
+  @@index([childId])
 }
 
 model EventLog {

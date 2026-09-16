@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { api, ApiError, type ChildDto, type CosessionDto, type UnlockDto } from '../lib/api'
+import { api, ApiError, type ChildDto, type ContentBookDto, type CosessionDto, type UnlockDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
@@ -12,6 +12,8 @@ import { CelebrationScreen } from './child/CelebrationScreen'
 import { StarSea } from './child/StarSea'
 import { AchievementWall } from './child/AchievementWall'
 import { BedtimeScreen } from './child/BedtimeScreen'
+import { BookShelf } from './child/BookShelf'
+import { ReaderScreen } from './child/ReaderScreen'
 
 interface BookRef {
   /** 会话/书籍归属的微信读书 bookId（纸质书会话为空） */
@@ -42,12 +44,14 @@ type Phase =
   | { kind: 'celebrate'; unlocked: UnlockDto[] }
   | { kind: 'star-sea'; bookId: string; title: string }
   | { kind: 'resolving' } // 继续读：正在解析书名/链接
+  | { kind: 'shelf' } // v2 桃书架
+  | { kind: 'reading'; book: ContentBookDto; startChapter: number } // v2 自研阅读器
 
 /** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
 export function ChildHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
-  const setChildId = useSession((s) => s.setChildId)
+  const setChild = useSession((s) => s.setChild)
   const signOut = useSession((s) => s.signOut)
 
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
@@ -74,7 +78,7 @@ export function ChildHome() {
         if (stored) {
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else if (kids.length === 1 && kids[0]) {
-          setChildId(kids[0].id)
+          setChild({ childId: kids[0].id, stage: kids[0].stage })
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else {
           setPhase({ kind: 'pick-child', children: kids })
@@ -87,16 +91,25 @@ export function ChildHome() {
     return () => {
       alive = false
     }
-  }, [token, familyId, setChildId])
+  }, [token, familyId, setChild])
 
   useEffect(() => loadChildren(), [loadChildren])
 
   const enterGate = useCallback(
-    (id: string) => {
-      setChildId(id)
+    (child: { childId: string; stage: string }) => {
+      setChild(child)
       setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
     },
-    [setChildId],
+    [setChild],
+  )
+
+  /** 已绑定孩子的回门捷径：从会话读 stage（onBack 类回调只有 childId） */
+  const reEnterGate = useCallback(
+    (id: string) => {
+      const stage = useSession.getState().childStage ?? '3-5'
+      enterGate({ childId: id, stage })
+    },
+    [enterGate],
   )
 
   // M1：进入月亮门后检查未收尾会话（断线续传）+ 服务端时段窗口（就寝/超时，第 8 夜）
@@ -245,6 +258,22 @@ export function ChildHome() {
     }
   }, [phase, resolveBook])
 
+  /** v2：从桃书架打开一本内容域书 → 先取阅读进度，再进自研阅读器 */
+  const openShelfBook = useCallback(
+    async (book: ContentBookDto) => {
+      if (!token || !childId) return
+      try {
+        const res = await api.contentProgress(book.id, childId, token)
+        const startChapter = res.progress.finished ? 1 : res.progress.chapterOrder
+        setPhase({ kind: 'reading', book, startChapter })
+      } catch {
+        // 进度读取失败不阻断：从第 1 章开始
+        setPhase({ kind: 'reading', book, startChapter: 1 })
+      }
+    },
+    [token, childId],
+  )
+
   function body() {
     switch (phase.kind) {
       case 'loading':
@@ -260,7 +289,7 @@ export function ChildHome() {
           />
         )
       case 'pick-child':
-        return <ChildPicker children={phase.children} onPick={(id) => enterGate(id)} />
+        return <ChildPicker children={phase.children} onPick={(c) => enterGate(c)} />
       case 'gate':
         return (
           <RitualGate
@@ -299,7 +328,7 @@ export function ChildHome() {
         )
       case 'wall':
         return token && childId ? (
-          <AchievementWall childId={childId} token={token} onBack={() => enterGate(childId)} />
+          <AchievementWall childId={childId} token={token} onBack={() => reEnterGate(childId)} />
         ) : null
       case 'select':
         return token ? (
@@ -324,7 +353,7 @@ export function ChildHome() {
             bookId={phase.bookId}
             title={phase.title}
             token={token}
-            onBack={() => (childId ? enterGate(childId) : undefined)}
+            onBack={() => (childId ? reEnterGate(childId) : undefined)}
           />
         ) : null
       case 'ready':
@@ -375,21 +404,68 @@ export function ChildHome() {
           />
         ) : null
       case 'celebrate':
-        return <CelebrationScreen unlocked={phase.unlocked} onBack={() => enterGate(childId ?? '')} />
+        return <CelebrationScreen unlocked={phase.unlocked} onBack={() => reEnterGate(childId ?? '')} />
+      case 'shelf':
+        return childId ? (
+          <BookShelf onBack={() => reEnterGate(childId)} onOpen={(book) => openShelfBook(book)} />
+        ) : null
+      case 'reading':
+        return (
+          <ReaderScreen
+            contentId={phase.book.id}
+            bookTitle={phase.book.title}
+            coverArt={phase.book.coverArt}
+            coverFrom={phase.book.coverFrom}
+            coverTo={phase.book.coverTo}
+            lang={phase.book.lang}
+            totalChapters={phase.book.chapterCount}
+            startChapter={phase.startChapter}
+            onExit={(finished) => {
+              if (finished && childId) {
+                // 读完触发收尾流：开共读会话（cbf: 前缀）再走既有 M4
+                void api
+                  .startCosession(childId, phase.book.bookId, token ?? '')
+                  .then((session) =>
+                    setPhase({
+                      kind: 'finish',
+                      sessionId: session.id,
+                      bookId: phase.book.bookId,
+                      title: phase.book.title,
+                    }),
+                  )
+                  .catch(() => setPhase({ kind: 'shelf' }))
+                return
+              }
+              // 中途退出：回到书架（不是月亮门，孩子的上下文还在选书里）
+              setPhase({ kind: 'shelf' })
+            }}
+          />
+        )
     }
   }
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">桃阅读</h1>
-        <button
-          type="button"
-          onClick={signOut}
-          className="min-h-touch cursor-pointer rounded-full border border-night-border px-5 text-base text-ink-secondary"
-        >
-          换一个家庭
-        </button>
+        <h1 className="bg-gradient-to-r from-peach-400 to-moon-400 bg-clip-text text-2xl font-bold text-transparent">
+          桃阅读
+        </h1>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setPhase({ kind: 'shelf' })}
+            className="min-h-touch cursor-pointer rounded-full bg-peach-gradient px-5 text-sm font-bold text-white shadow-md"
+          >
+            🍑 桃书架
+          </button>
+          <button
+            type="button"
+            onClick={signOut}
+            className="min-h-touch cursor-pointer rounded-full border border-night-border px-4 text-sm text-ink-secondary"
+          >
+            换家庭
+          </button>
+        </div>
       </div>
       <div className="flex flex-1 flex-col py-6">{body()}</div>
     </main>

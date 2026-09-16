@@ -11,6 +11,8 @@ import { createDb } from '../lib/db'
 import { tokenSecretFrom } from '../modules/family/service'
 import { createDemoGateway } from './mock-gateway'
 import { seedDemoFamily, DEMO_FAMILY_CODE } from './seed'
+import { seedAllPacks } from '../content/seed'
+import { ALL_PACKS } from '../content/packs'
 
 async function main(): Promise<void> {
   const config = loadConfig()
@@ -43,6 +45,9 @@ async function main(): Promise<void> {
   })
 
   const familyId = await seedDemoFamily(db, masterKey)
+
+  // v2 内容域：公版书库入库（幂等），演示即可读到正文
+  await seedAllPacks(db, ALL_PACKS)
 
   await app.listen({ port: config.PORT, host: '0.0.0.0' })
   console.log('')

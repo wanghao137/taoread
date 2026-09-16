@@ -14,6 +14,7 @@ import { invalidateSyncFingerprint } from './modules/weread/shelf'
 import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
+import { registerContentRoutes } from './content/routes'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
@@ -109,6 +110,12 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   registerReportsRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
+  })
+
+  // v2 内容域：公版书库 + 自研阅读器正文来源（docs/07）
+  registerContentRoutes(app, {
     db: options.db,
     tokenSecret: options.tokenSecret,
   })

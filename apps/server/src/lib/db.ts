@@ -20,6 +20,12 @@ export const WIPE_TABLES_SQL = [
   'DELETE FROM ChildProfile',
   'DELETE FROM Family',
   'DELETE FROM BookCache',
+  // v2 内容域：先清进度/块/章，再清书与台账（外键依赖序）
+  'DELETE FROM ReadingProgress',
+  'DELETE FROM Block',
+  'DELETE FROM Chapter',
+  'DELETE FROM RightsLedger',
+  'DELETE FROM Book',
 ] as const
 
 export async function wipeDb(db: PrismaClient): Promise<void> {

@@ -55,11 +55,20 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
           cosessionId: s.id,
           source: 'voice',
           text: dayOffset === 0 ? '第一晚的金句' : '第二晚的金句',
+          // 显式落进报告周内：默认 now() 会让用例随系统时钟漂移而失效（N12-001）
+          createdAt: new Date((T0 + dayOffset * 86_400 + 900) * 1000),
         },
       })
     }
     await db.achievement.create({
-      data: { familyId, childId, kind: 'night_lamp', value: 2 },
+      data: {
+        familyId,
+        childId,
+        kind: 'night_lamp',
+        value: 2,
+        // 同上：显式落进报告周（N12-001）
+        unlockedAt: new Date((T0 + 900) * 1000),
+      },
     })
   }
 

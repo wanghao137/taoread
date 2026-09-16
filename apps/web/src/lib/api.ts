@@ -276,6 +276,83 @@ export const api = {
     if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
     return res.text()
   },
+
+  // ── v2 内容域：公版书库 + 自研阅读器正文 ──
+
+  contentBooks: async (token: string, params: { stage?: string; childId?: string; lang?: string } = {}) => {
+    const qs = new URLSearchParams()
+    if (params.stage) qs.set('stage', params.stage)
+    if (params.childId) qs.set('childId', params.childId)
+    if (params.lang) qs.set('lang', params.lang)
+    const q = qs.toString()
+    return request<{ total: number; books: ContentBookDto[] }>(
+      `/api/content/books${q ? `?${q}` : ''}`,
+      { token },
+    )
+  },
+
+  contentChapter: (contentId: string, order: number, token: string) =>
+    request<{ chapter: ContentChapterDto }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/chapters/${order}`,
+      { token },
+    ),
+
+  contentChapterList: (contentId: string, token: string) =>
+    request<{ total: number; chapters: Array<{ order: number; title: string; art: string | null }> }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/chapters`,
+      { token },
+    ),
+
+  contentProgress: (contentId: string, childId: string, token: string) =>
+    request<{ progress: { chapterOrder: number; blockOrder: number; finished: boolean } }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/progress?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+
+  reportContentProgress: (
+    contentId: string,
+    childId: string,
+    body: { chapterOrder: number; blockOrder?: number },
+    token: string,
+  ) =>
+    request<{ chapterOrder: number; finished: boolean }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/progress`,
+      { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0 }, token },
+    ),
+}
+
+export interface ContentBookDto {
+  id: string
+  bookId: string
+  title: string
+  author: string | null
+  lang: string
+  category: string
+  ageStage: string
+  intro: string | null
+  coverArt: string
+  coverFrom: string | null
+  coverTo: string | null
+  words: number
+  chapterCount: number
+  progress: number
+  finished: boolean
+}
+
+export interface ContentChapterDto {
+  id: string
+  order: number
+  title: string
+  art: string | null
+  blocks: Array<{
+    id: string
+    order: number
+    kind: string
+    text: string
+    pinyin: string | null
+    translation: string | null
+    art: string | null
+  }>
 }
 
 export interface WeeklyReportDataDto {

@@ -17,6 +17,7 @@ import { generateReadingCard, type ReadingCard } from './readingCard'
 import { nightKeyOf } from './nights'
 import { asRecord, asString } from '../weread/shelf'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
+import { isContentBookId, toContentId } from '../../content/service'
 
 export interface CosessionDb {
   cosession: PrismaClient['cosession']
@@ -25,6 +26,7 @@ export interface CosessionDb {
   childProfile: PrismaClient['childProfile']
   parentPrompt: PrismaClient['parentPrompt']
   eventLog: PrismaClient['eventLog']
+  book: PrismaClient['book']
 }
 
 const PROGRESS_MARKS = new Set(['little', 'lot', 'done'])
@@ -386,7 +388,19 @@ export async function generateCardForSession(
   let title = session.paperTitle ?? ''
   let intro: string | null = null
   let topBookmarks: string[] = []
-  if (session.bookId) {
+  if (isContentBookId(session.bookId)) {
+    // v2 内容域书籍：书名/简介来自本地公版库，绝不出网（docs/07 §3）
+    const contentBook = await db.book.findUnique({
+      where: { id: toContentId(session.bookId) },
+      select: { title: true, intro: true },
+    })
+    if (contentBook) {
+      title = contentBook.title
+      intro = contentBook.intro
+    } else {
+      title = session.bookId
+    }
+  } else if (session.bookId) {
     // 书信息与热门划线走 WereadService（缓存 + 家庭隔离 + 限流）；
     // 预期内的失败（未绑定/网关/限流）退化为纯模板——共读卡永不因出网失败而不可用。
     // 非预期错误（编程缺陷）照常上抛，不做静默吞错（N2-002 教训）。

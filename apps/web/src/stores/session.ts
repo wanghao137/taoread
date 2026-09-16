@@ -9,8 +9,11 @@ export interface SessionState {
   role: DeviceRole | null
   /** 孩子档案（孩子端登录后选定/自动绑定；仪式流与共读记录的归属） */
   childId: string | null
+  /** 孩子年龄段（3-5 | 6-8 | 9-12；选孩子时写入，书架适龄过滤用） */
+  childStage: string | null
   signIn: (s: { token: string; familyId: string; familyCode: string; role: DeviceRole }) => void
   setChildId: (childId: string) => void
+  setChild: (child: { childId: string; stage: string }) => void
   signOut: () => void
 }
 
@@ -49,11 +52,13 @@ export const useSession = create<SessionState>()(
       familyCode: null,
       role: null,
       childId: null,
+      childStage: null,
       signIn: ({ token, familyId, familyCode, role }) =>
-        set({ token, familyId, familyCode, role, childId: null }),
+        set({ token, familyId, familyCode, role, childId: null, childStage: null }),
       setChildId: (childId) => set({ childId }),
+      setChild: ({ childId, stage }) => set({ childId, childStage: stage }),
       signOut: () =>
-        set({ token: null, familyId: null, familyCode: null, role: null, childId: null }),
+        set({ token: null, familyId: null, familyCode: null, role: null, childId: null, childStage: null }),
     }),
     {
       name: SESSION_KEY,
