@@ -6,6 +6,7 @@ import { keZhouQiuJian } from './story-fable'
 import { alice } from './tale-alice'
 import { peterPan } from './tale-peterpan'
 import { littleRedCap } from './tale-grimm'
+import { peterRabbit } from './tale-peterrabbit'
 
 /**
  * 全部内容包。新增书只需在此注册，seedAllPacks 幂等写入。
@@ -19,4 +20,5 @@ export const ALL_PACKS: PackBook[] = [
   alice,
   peterPan,
   littleRedCap,
+  peterRabbit,
 ]

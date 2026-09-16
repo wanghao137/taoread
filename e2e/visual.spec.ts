@@ -25,7 +25,18 @@ test.describe('交付视觉终扫', () => {
     await page.screenshot({ path: `${OUT}/child-picker.png`, fullPage: true })
     await page.getByRole('button', { name: /小桃/ }).click()
 
-    // 月亮门
+    // 月亮门（若有未收尾会话，先收尾再重新登录，保证截图是干净的门屏）
+    const resumeBtn = page.getByRole('button', { name: '继续去读' })
+    if (await resumeBtn.isVisible({ timeout: 4_000 }).catch(() => false)) {
+      await page.getByRole('button', { name: '去收尾' }).click()
+      await page.getByText('今晚读到哪儿啦？').waitFor({ timeout: 10_000 })
+      await page.getByRole('button', { name: '读完啦', exact: true }).click()
+      await page.getByRole('button', { name: '兴奋', exact: true }).click()
+      await page.getByRole('button', { name: /点亮夜灯/ }).click()
+      await page.getByText('稳稳收好啦').waitFor()
+      // 收尾庆祝页「回到月亮」重回门屏（会话已结束，门屏是干净的一晚）
+      await page.getByRole('button', { name: '回到月亮' }).click()
+    }
     await page.getByText('月亮升起来啦').waitFor()
     await page.screenshot({ path: `${OUT}/child-gate.png`, fullPage: true })
 

@@ -46,6 +46,8 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     // 中文/英文筛选
     await page.getByRole('button', { name: 'English', exact: true }).click()
     await expect(page.getByText('Alice in Wonderland')).toBeVisible()
+    // P0-8（docs/09 §4.2）：英文公版书扩容后新书《Peter Rabbit》必须在架
+    await expect(page.getByText('The Tale of Peter Rabbit')).toBeVisible()
     await page.screenshot({ path: 'test-results/v2-shelf-en.png', fullPage: true })
   })
 
@@ -54,6 +56,13 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: /桃书架/ }).click()
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).waitFor()
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).click()
+
+    // 详情页（A2）：适龄标签、难度星级、目录、「开始读」
+    await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
+    await expect(page.getByText('3-5 岁')).toBeVisible()
+    await expect(page.getByText(/★/)).toBeVisible()
+    await page.screenshot({ path: 'test-results/v2-detail.png', fullPage: true })
+    await page.getByRole('button', { name: /开始读/ }).click()
 
     // 阅读器顶栏
     await page.getByText('第 1 / 6 章').waitFor()
@@ -84,6 +93,10 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: /桃书架/ }).click()
     await page.getByRole('button', { name: '打开《西游记·美猴王出世》' }).waitFor()
     await page.getByRole('button', { name: '打开《西游记·美猴王出世》' }).click()
+
+    // 详情页 → 开始读
+    await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
+    await page.getByRole('button', { name: /开始读/ }).click()
 
     await page.getByRole('heading', { name: '第一章 · 石头里蹦出的猴子' }).waitFor()
     await expect(page.getByText('从前，东海边有一座花果山')).toBeVisible()
@@ -132,6 +145,8 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await loginAsChild(page, '小柚')
     await page.getByRole('button', { name: /桃书架/ }).click()
     await page.getByRole('button', { name: '打开《三字经·人之初》' }).click()
+    await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
+    await page.getByRole('button', { name: /开始读/ }).click()
     await expect(page.getByRole('heading', { name: '第一课 · 人之初' })).toBeVisible()
 
     const speakBtn = page.getByRole('button', { name: /朗读本章/ })
@@ -148,6 +163,8 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await loginAsChild(page, '小桃')
     await page.getByRole('button', { name: /桃书架/ }).click()
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).click()
+    await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
+    await page.getByRole('button', { name: /开始读/ }).click()
     await page.getByRole('heading', { name: '静夜思 · 李白' }).waitFor()
     await page.getByRole('button', { name: '下一章' }).click()
     await page.getByRole('heading', { name: '春晓 · 孟浩然' }).waitFor()
@@ -158,5 +175,18 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     const tangshiCard = page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' })
     await expect(tangshiCard.getByText(/读到 \d+%|已读完/)).toBeVisible()
     await page.screenshot({ path: 'test-results/v2-shelf-progress.png', fullPage: true })
+
+    // 收尾活动会话（C2 后进入阅读器即开会话；不收尾会污染后续用例的门屏）
+    await tangshiCard.click()
+    await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
+    await page.getByRole('button', { name: /接着读|开始读/ }).click()
+    // 唐诗 6 章，直接用目录跳到末章再收尾
+    await page.getByRole('button', { name: '章节目录' }).click()
+    await page.getByRole('button', { name: /第 6 章/ }).click()
+    await page.getByRole('button', { name: /读完啦/ }).click()
+    await page.getByRole('button', { name: '读完啦', exact: true }).click()
+    await page.getByRole('button', { name: '兴奋', exact: true }).click()
+    await page.getByRole('button', { name: /点亮夜灯/ }).click()
+    await page.getByText('稳稳收好啦').waitFor()
   })
 })

@@ -13,6 +13,7 @@ import { StarSea } from './child/StarSea'
 import { AchievementWall } from './child/AchievementWall'
 import { BedtimeScreen } from './child/BedtimeScreen'
 import { BookShelf } from './child/BookShelf'
+import { BookDetail } from './child/BookDetail'
 import { ReaderScreen } from './child/ReaderScreen'
 
 interface BookRef {
@@ -45,7 +46,8 @@ type Phase =
   | { kind: 'star-sea'; bookId: string; title: string }
   | { kind: 'resolving' } // 继续读：正在解析书名/链接
   | { kind: 'shelf' } // v2 桃书架
-  | { kind: 'reading'; book: ContentBookDto; startChapter: number } // v2 自研阅读器
+  | { kind: 'detail'; book: ContentBookDto } // v2 书籍详情页（A2）
+  | { kind: 'reading'; book: ContentBookDto; startChapter: number; startBlock: number } // v2 自研阅读器
 
 /** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
 export function ChildHome() {
@@ -258,18 +260,21 @@ export function ChildHome() {
     }
   }, [phase, resolveBook])
 
-  /** v2：从桃书架打开一本内容域书 → 先取阅读进度，再进自研阅读器 */
-  const openShelfBook = useCallback(
-    async (book: ContentBookDto) => {
+  /**
+   * v2：从详情页/书架打开一本内容域书，进入自研阅读器。
+   * C2：进入阅读器即开启共读会话，使收尾时 durationSec 记录真实阅读时长
+   * （原先只在「读完」时开会话，起止几乎同时，周报分钟数系统性漏掉工具内阅读）。
+   * startChapter/startBlock 由调用方决定（详情页「接着读」读真实进度，「试读」固定第 1 章）。
+   */
+  const openShelfBookAt = useCallback(
+    async (book: ContentBookDto, startChapter: number, startBlock: number) => {
       if (!token || !childId) return
       try {
-        const res = await api.contentProgress(book.id, childId, token)
-        const startChapter = res.progress.finished ? 1 : res.progress.chapterOrder
-        setPhase({ kind: 'reading', book, startChapter })
+        await api.startCosession(childId, book.bookId, token)
       } catch {
-        // 进度读取失败不阻断：从第 1 章开始
-        setPhase({ kind: 'reading', book, startChapter: 1 })
+        // 就寝窗口外/限流等：会话开不了也不阻断阅读，只是时长不入账
       }
+      setPhase({ kind: 'reading', book, startChapter, startBlock })
     },
     [token, childId],
   )
@@ -407,7 +412,35 @@ export function ChildHome() {
         return <CelebrationScreen unlocked={phase.unlocked} onBack={() => reEnterGate(childId ?? '')} />
       case 'shelf':
         return childId ? (
-          <BookShelf onBack={() => reEnterGate(childId)} onOpen={(book) => openShelfBook(book)} />
+          <BookShelf
+            onBack={() => reEnterGate(childId)}
+            onOpen={(book) => setPhase({ kind: 'detail', book })}
+          />
+        ) : null
+      case 'detail':
+        return childId ? (
+          <BookDetail
+            book={phase.book}
+            onBack={() => setPhase({ kind: 'shelf' })}
+            onStart={(startChapter) => {
+              // 「接着读」时取真实块位置恢复（C3）；目录直点某章则从该章顶部开始
+              if (!token || startChapter !== 0) {
+                void openShelfBookAt(phase.book, startChapter, 0)
+                return
+              }
+              api
+                .contentProgress(phase.book.id, childId, token)
+                .then((res) => {
+                  const ch = res.progress.finished ? 1 : res.progress.chapterOrder
+                  const blk = res.progress.finished ? 0 : res.progress.blockOrder
+                  void openShelfBookAt(phase.book, ch, blk)
+                })
+                .catch(() => void openShelfBookAt(phase.book, 1, 0))
+            }}
+            onPreview={() => {
+              void openShelfBookAt(phase.book, 1, 0)
+            }}
+          />
         ) : null
       case 'reading':
         return (
@@ -420,6 +453,7 @@ export function ChildHome() {
             lang={phase.book.lang}
             totalChapters={phase.book.chapterCount}
             startChapter={phase.startChapter}
+            startBlock={phase.startBlock}
             onExit={(finished) => {
               if (finished && childId) {
                 // 读完触发收尾流：开共读会话（cbf: 前缀）再走既有 M4

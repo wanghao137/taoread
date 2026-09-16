@@ -45,12 +45,16 @@ describe('内容域 /api/content/books', () => {
     })
     expect(res.statusCode).toBe(200)
     const body = res.json()
-    expect(body.total).toBeGreaterThanOrEqual(7)
+    expect(body.total).toBeGreaterThanOrEqual(8)
     const alice = body.books.find((b: { id: string }) => b.id === 'alice-wonderland')
     expect(alice).toBeDefined()
     expect(alice.bookId).toBe('cbf:alice-wonderland')
-    expect(alice.chapterCount).toBe(1)
+    // P0-8：英文公版书扩至 3 章（docs/09 §4.2）
+    expect(alice.chapterCount).toBe(3)
     expect(alice.coverArt).toBe('alice-rabbit')
+    const peterRabbit = body.books.find((b: { id: string }) => b.id === 'peter-rabbit')
+    expect(peterRabbit).toBeDefined()
+    expect(peterRabbit.chapterCount).toBe(3)
   })
 
   it('3-5 岁孩子过滤掉 6-8 岁书目', async () => {

@@ -14,6 +14,8 @@ interface ReaderProps {
   lang: string
   totalChapters: number
   startChapter: number
+  /** C3：续读时恢复到的块下标（来自 readingProgress.blockOrder） */
+  startBlock?: number
   onExit: (finished: boolean) => void
 }
 
@@ -30,6 +32,7 @@ const FONT_SIZES = [18, 20, 22, 24, 26, 28]
 export function ReaderScreen(props: ReaderProps) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
+  const role = useSession((s) => s.role)
 
   const [chapter, setChapter] = useState<ContentChapterDto | null>(null)
   const [titles, setTitles] = useState<Array<{ order: number; title: string }>>([])
@@ -45,15 +48,30 @@ export function ReaderScreen(props: ReaderProps) {
   const [ttsError, setTtsError] = useState<string | null>(null)
   const [voicePanel, setVoicePanel] = useState(false)
   const [voices, setVoices] = useState<TtsVoiceInfo[]>([])
+  /** 哄睡定时关闭（A1）：剩余分钟数；null=未设定 */
+  const [sleepMinutes, setSleepMinutes] = useState<number | null>(null)
+  const [sleepPanel, setSleepPanel] = useState(false)
+  const sleepLeftRef = useRef<number>(0)
+  const [sleepLeft, setSleepLeft] = useState<number>(0)
+  /** B1 共读脚手架：家长向引导浮层（孩子端默认不显示，避免打断阅读节奏） */
+  const [scaffold, setScaffold] = useState<{
+    tellPoints: string[]
+    questions: string[]
+    hook: string
+  } | null>(null)
+  const [scaffoldOpen, setScaffoldOpen] = useState(false)
+  const [scaffoldLoading, setScaffoldLoading] = useState(false)
 
   const theme_ = THEMES[theme]
   const fontSize = FONT_SIZES[fontIdx] ?? 22
   const blockRefs = useRef<Map<string, HTMLDivElement | null>>(new Map())
   const lastReport = useRef(0)
+  /** C3：进入章节时待恢复的块下标（由 ChildHome 从 progress.blockOrder 传入） */
+  const restoredRef = useRef<number>(props.startBlock ?? 0)
 
   /* ── 章节加载 ── */
   const loadChapter = useCallback(
-    async (target: number) => {
+    async (target: number, restoreBlock?: number) => {
       if (!token) return
       setLoading(true)
       setError(null)
@@ -61,14 +79,28 @@ export function ReaderScreen(props: ReaderProps) {
         const res = await api.contentChapter(props.contentId, target, token)
         setChapter(res.chapter)
         setOrder(target)
-        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-        // 进度上报（节流：同一章 5s 内不重复写）
+        // C3：恢复到上次读到的块；无记录时回章节顶
+        const wantBlock = restoreBlock ?? restoredRef.current
+        restoredRef.current = 0
+        if (wantBlock > 0) {
+          // 等 DOM 渲染完再滚动
+          requestAnimationFrame(() => {
+            const blocks = res.chapter.blocks
+            const hit = blocks[Math.min(wantBlock, blocks.length - 1)]
+            const el = hit ? blockRefs.current.get(hit.id) : null
+            if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' })
+            else window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+          })
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+        }
+        // 进度上报（节流：同一章 5s 内不重复写；C3 带上 blockOrder）
         if (childId) {
           const now = Date.now()
           if (now - lastReport.current > 5000) {
             lastReport.current = now
             void api
-              .reportContentProgress(props.contentId, childId, { chapterOrder: target }, token)
+              .reportContentProgress(props.contentId, childId, { chapterOrder: target, blockOrder: wantBlock }, token)
               .catch(() => {})
           }
         }
@@ -82,8 +114,10 @@ export function ReaderScreen(props: ReaderProps) {
   )
 
   useEffect(() => {
-    void loadChapter(props.startChapter)
-  }, [loadChapter, props.startChapter])
+    void loadChapter(props.startChapter, props.startBlock ?? 0)
+    // 仅在挂载时用一次 startBlock；后续翻章不再回弹
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // 章节标题列表（目录用；与首章并行加载）
   useEffect(() => {
@@ -139,6 +173,92 @@ export function ReaderScreen(props: ReaderProps) {
       if (tts.isSpeaking) tts.stop()
     }
   }, [])
+
+  /* ── C3：滚动时节流上报当前块下标，作为续读恢复点 ── */
+  useEffect(() => {
+    const onScroll = () => {
+      if (!chapter || !childId || !token) return
+      const now = Date.now()
+      if (now - lastReport.current < 5000) return
+      // 找到视口顶部之下第一个可见块
+      const probe = 120
+      let idx = 0
+      for (let i = 0; i < chapter.blocks.length; i++) {
+        const el = blockRefs.current.get(chapter.blocks[i]!.id)
+        if (el && el.getBoundingClientRect().top > probe) {
+          idx = Math.max(0, i - 1)
+          break
+        }
+        idx = i
+      }
+      lastReport.current = now
+      void api
+        .reportContentProgress(props.contentId, childId, { chapterOrder: order, blockOrder: idx }, token)
+        .catch(() => {})
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [chapter, childId, token, order, props.contentId])
+
+  /* ── A1：哄睡定时关闭。到点温和停止朗读，不催促、不警告（Scholastic：唠叨毁动机） ── */
+  useEffect(() => {
+    if (sleepMinutes === null) {
+      sleepLeftRef.current = 0
+      setSleepLeft(0)
+      return
+    }
+    sleepLeftRef.current = sleepMinutes * 60
+    setSleepLeft(sleepMinutes * 60)
+    const timer = setInterval(() => {
+      sleepLeftRef.current -= 1
+      if (sleepLeftRef.current <= 0) {
+        clearInterval(timer)
+        tts.stop()
+        setSpeaking(false)
+        setHighlight(null)
+        setSleepMinutes(null)
+        setSleepPanel(false)
+        setTtsError('时间到啦，今晚的故事先到这里，晚安 🌙')
+      } else {
+        setSleepLeft(sleepLeftRef.current)
+      }
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [sleepMinutes])
+
+  /** B1：家长打开「今晚怎么讲」——按当前章节取脚手架，只在家长角色下可用 */
+  const openScaffold = useCallback(async () => {
+    if (!token) return
+    if (scaffold) {
+      setScaffoldOpen(true)
+      return
+    }
+    setScaffoldLoading(true)
+    try {
+      const res = await api.contentScaffold(props.contentId, order, token)
+      setScaffold({
+        tellPoints: res.card.tellPoints,
+        questions: res.card.questions,
+        hook: res.card.hook,
+      })
+      setScaffoldOpen(true)
+    } catch {
+      setTtsError('脚手架暂时没拿到，共读可以先开始')
+    } finally {
+      setScaffoldLoading(false)
+    }
+  }, [token, scaffold, props.contentId, order])
+
+  // B1：章节切换后清掉旧脚手架，下次打开按新章正文取
+  useEffect(() => {
+    setScaffold(null)
+    setScaffoldOpen(false)
+  }, [order])
+
+  const sleepLabel =
+    sleepMinutes === null
+      ? '定时'
+      : `⏲ ${Math.floor(sleepLeft / 60)}:${String(sleepLeft % 60).padStart(2, '0')}`
 
   /** 朗读当前章节：拼接所有文本块 */
   const speakChapter = useCallback(() => {
@@ -196,7 +316,7 @@ export function ReaderScreen(props: ReaderProps) {
     if (speaking) stopTts()
     if (childId && token) {
       void api
-        .reportContentProgress(props.contentId, childId, { chapterOrder: props.totalChapters }, token)
+        .reportContentProgress(props.contentId, childId, { chapterOrder: props.totalChapters, blockOrder: 0 }, token)
         .catch(() => {})
     }
     props.onExit(true)
@@ -287,6 +407,18 @@ export function ReaderScreen(props: ReaderProps) {
         >
           Aa
         </button>
+        {role === 'parent' ? (
+          <button
+            type="button"
+            onClick={() => void openScaffold()}
+            disabled={scaffoldLoading}
+            className="flex min-h-touch h-10 items-center justify-center rounded-full px-3 text-xs font-medium"
+            style={{ color: theme_.text, border: `1px solid ${theme_.border}` }}
+            aria-label="今晚怎么讲"
+          >
+            {scaffoldLoading ? '…' : '讲什么'}
+          </button>
+        ) : null}
       </header>
 
       {/* ── 正文 ── */}
@@ -493,6 +625,21 @@ export function ReaderScreen(props: ReaderProps) {
               {voices.find((v) => v.voiceURI === tts.config.voiceURI)?.name?.split(' ').slice(0, 2).join(' ') ?? '声音'}
             </button>
           ) : null}
+          {tts.isSupported ? (
+            <button
+              type="button"
+              onClick={() => setSleepPanel(true)}
+              className="flex min-h-touch flex-shrink-0 items-center rounded-full px-3 text-xs font-medium"
+              style={{
+                color: sleepMinutes !== null ? '#FFFFFF' : theme_.text,
+                background: sleepMinutes !== null ? '#5C6BC0' : 'transparent',
+                border: `1px solid ${sleepMinutes !== null ? '#5C6BC0' : theme_.border}`,
+              }}
+              aria-label="哄睡定时"
+            >
+              {sleepLabel}
+            </button>
+          ) : null}
         </div>
         {ttsError ? (
           <p className="mt-1 text-center text-xs" style={{ color: '#E57373' }}>
@@ -579,6 +726,111 @@ export function ReaderScreen(props: ReaderProps) {
                 </button>
               ))}
             </div>
+          </Sheet>
+        ) : null}
+      </AnimatePresence>
+
+      {/* ── B1 共读脚手架（家长向） ── */}
+      <AnimatePresence>
+        {scaffoldOpen && scaffold ? (
+          <Sheet onClose={() => setScaffoldOpen(false)} theme_={theme_} title="今晚怎么讲">
+            <p className="mb-1 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
+              讲什么
+            </p>
+            <ul className="mb-4 flex flex-col gap-2">
+              {scaffold.tellPoints.map((t, i) => (
+                <li
+                  key={i}
+                  className="rounded-xl p-3 text-sm leading-relaxed"
+                  style={{ background: theme_.text + '10', color: theme_.text }}
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <p className="mb-1 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
+              可以问
+            </p>
+            <ul className="mb-4 flex flex-col gap-2">
+              {scaffold.questions.map((q, i) => (
+                <li
+                  key={i}
+                  className="rounded-xl p-3 text-sm leading-relaxed"
+                  style={{ background: theme_.text + '10', color: theme_.text }}
+                >
+                  {q}
+                </li>
+              ))}
+            </ul>
+            <p className="mb-1 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
+              聊什么
+            </p>
+            <p
+              className="rounded-xl p-3 text-sm leading-relaxed"
+              style={{ background: theme_.text + '10', color: theme_.text }}
+            >
+              {scaffold.hook}
+            </p>
+            <p className="mt-3 text-xs leading-relaxed opacity-60" style={{ color: theme_.text }}>
+              不用每题都问，挑一个孩子接得住的就好。读不完也没关系。
+            </p>
+          </Sheet>
+        ) : null}
+      </AnimatePresence>
+
+      {/* ── A1 哄睡定时 ── */}
+      <AnimatePresence>
+        {sleepPanel ? (
+          <Sheet onClose={() => setSleepPanel(false)} theme_={theme_} title="哄睡定时">
+            <p className="mb-4 text-sm leading-relaxed opacity-70" style={{ color: theme_.text }}>
+              朗读到时间会轻轻停下，不说「该睡觉了」，只留一句晚安。
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: '读完本章', value: null },
+                { label: '10 分钟', value: 10 },
+                { label: '20 分钟', value: 20 },
+                { label: '30 分钟', value: 30 },
+              ].map((opt) => (
+                <button
+                  key={String(opt.value)}
+                  type="button"
+                  onClick={() => {
+                    setSleepMinutes(opt.value)
+                    // 「读完本章」：让 onEnd 自然停止（不设定时器）
+                    if (opt.value === null && tts.isSpeaking) {
+                      // 标记本章读完即停：复用 onEnd 监听一次
+                      const off = tts.onEnd(() => {
+                        off()
+                        setSleepMinutes(null)
+                      })
+                    }
+                    setSleepPanel(false)
+                  }}
+                  className="min-h-touch rounded-2xl px-4 py-3 text-sm font-medium"
+                  style={{
+                    background: sleepMinutes === opt.value ? theme_.text : theme_.panel,
+                    color: sleepMinutes === opt.value ? theme_.bg : theme_.text,
+                    border: `1px solid ${theme_.border}`,
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+            {sleepMinutes !== null ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setSleepMinutes(null)
+                  setSleepPanel(false)
+                }}
+                className="mt-4 min-h-touch w-full rounded-full px-4 text-sm font-medium"
+                style={{ color: theme_.text, border: `1px solid ${theme_.border}` }}
+              >
+                取消定时
+              </button>
+            ) : null}
           </Sheet>
         ) : null}
       </AnimatePresence>

@@ -319,6 +319,37 @@ export const api = {
       `/api/content/books/${encodeURIComponent(contentId)}/progress`,
       { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0 }, token },
     ),
+
+  /** 家长端内容域视图：桃书库进度汇总 + 屏蔽状态（docs/09 C4） */
+  contentFamily: (token: string) =>
+    request<{ children: Array<{ id: string; nickname: string; stage: string }>; books: ContentFamilyBookDto[] }>(
+      '/api/content/family',
+      { token },
+    ),
+
+  /** 内容域单书屏蔽（docs/09 C9） */
+  setContentBlocked: (contentId: string, blocked: boolean, token: string) =>
+    request<{ ok: boolean; bookId: string; blocked: boolean }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/blocked`,
+      { method: 'PUT', body: { blocked }, token },
+    ),
+
+  /** 阅读中共读脚手架（docs/09 B1）：本章的讲什么/问什么 */
+  contentScaffold: (contentId: string, chapterOrder: number, token: string) =>
+    request<{
+      card: {
+        bookTitle: string
+        stage: string
+        tellPoints: string[]
+        questions: string[]
+        hook: string
+        genType: 'template'
+      }
+      chapterOrder: number | null
+    }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/scaffold?chapterOrder=${chapterOrder}`,
+      { token },
+    ),
 }
 
 export interface ContentBookDto {
@@ -337,6 +368,13 @@ export interface ContentBookDto {
   chapterCount: number
   progress: number
   finished: boolean
+  /** 家长是否屏蔽（docs/09 C9；孩子端列表里被屏蔽的书不返回） */
+  blocked: boolean
+}
+
+/** 家长端内容域视图（docs/09 C4） */
+export interface ContentFamilyBookDto extends ContentBookDto {
+  readers: Array<{ childId: string; progress: number; finished: boolean }>
 }
 
 export interface ContentChapterDto {

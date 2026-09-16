@@ -1,7 +1,7 @@
 import type { PackBook } from '../types'
 
 /**
- * Peter Pan — opening excerpt (English reader).
+ * Peter Pan — Chapters 1–3 excerpted (English reader).
  * Text: Project Gutenberg eBook #16 (J.M. Barrie, "Peter and Wendy", 1911).
  * Public domain in the US (pre-1929). Excerpted verbatim; quotation marks
  * modernized to curly form only.
@@ -60,6 +60,98 @@ export const peterPan: PackBook = {
         {
           kind: 'text',
           text: 'When he saw she was a grown-up, he gnashed the little pearls at her. And then — slam! — the window shut behind him, and something stayed outside in the dark: it was Peter’s shadow, and the window had snapped it right off!',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 2 · The Shadow in the Drawer',
+      art: 'peter-shadow',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Mrs. Darling screamed, and, as if in answer to a bell, the door opened, and Nana entered, returned from her evening out. She growled and sprang at the boy, who leapt lightly through the window.',
+        },
+        {
+          kind: 'image',
+          art: 'peter-shadow',
+          text: 'The window snapped shut — and Peter’s shadow stayed outside!',
+        },
+        {
+          kind: 'text',
+          text: 'Mrs. Darling returned to the nursery, and found Nana with something in her mouth, which proved to be the boy’s shadow. As he leapt at the window Nana had closed it quickly, too late to catch him, but his shadow had not had time to get out; slam went the window and snapped it off.',
+        },
+        {
+          kind: 'text',
+          text: 'You may be sure Mrs. Darling examined the shadow carefully, but it was quite the ordinary kind.',
+        },
+        {
+          kind: 'text',
+          text: 'Nana had no doubt of what was the best thing to do with this shadow. She hung it out at the window, meaning "He is sure to come back for it; let us put it where he can get it easily without disturbing the children."',
+        },
+        {
+          kind: 'note',
+          text: 'New word: shadow — the dark shape your body makes on the ground when a light shines behind you.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But unfortunately Mrs. Darling could not leave it hanging out at the window, it looked so like the washing and lowered the whole tone of the house. She decided to roll the shadow up and put it away carefully in a drawer, until a fitting opportunity came for telling her husband.',
+        },
+        {
+          kind: 'text',
+          text: 'The opportunity came a week later, on that never-to-be-forgotten Friday. Of course it was a Friday.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 3 · Sewn On Again',
+      art: 'fairy-dust',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'There was another light in the room now, a thousand times brighter than the night-lights. When it came to rest for a second you saw it was a fairy, no longer than your hand, but still growing. It was a girl called Tinker Bell, exquisitely gowned in a skeleton leaf.',
+        },
+        {
+          kind: 'image',
+          art: 'fairy-dust',
+          text: 'Tinker Bell, the fairy, flashing about the nursery like a little light.',
+        },
+        {
+          kind: 'text',
+          text: 'A moment after the fairy’s entrance the window was blown open by the breathing of the little stars, and Peter dropped in. He had carried Tinker Bell part of the way, and his hand was still messy with the fairy dust.',
+        },
+        {
+          kind: 'text',
+          text: 'In a moment he had recovered his shadow, and in his delight he forgot that he had shut Tinker Bell up in the drawer.',
+        },
+        {
+          kind: 'text',
+          text: 'Wendy saw the shadow on the floor, looking so draggled, and she was frightfully sorry for Peter. "How awful!" she said, but she could not help smiling when she saw that he had been trying to stick it on with soap. How exactly like a boy!',
+        },
+        {
+          kind: 'note',
+          text: 'New word: soap — the slippery thing you wash your hands with. It does NOT stick shadows on!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"It must be sewn on," she said. "I shall sew it on for you, my little man," she said, and she got out her housewife, and sewed the shadow on to Peter’s foot.',
+        },
+        {
+          kind: 'text',
+          text: '"I daresay it will hurt a little," she warned him. "Oh, I shan’t cry," said Peter. And he clenched his teeth and did not cry, and soon his shadow was behaving properly, though still a little creased.',
+        },
+        {
+          kind: 'text',
+          text: 'He was now jumping about in the wildest glee. "How clever I am!" he crowed rapturously, "oh, the cleverness of me!" — for he had already forgotten that Wendy had sewn it on.',
+        },
+        {
+          kind: 'text',
+          text: '"Wendy," he said, "don’t withdraw. I can’t help crowing, Wendy, when I’m pleased with myself. Wendy, one girl is more use than twenty boys."',
+        },
+        {
+          kind: 'text',
+          text: '"Second to the right," said Peter, "and then straight on till morning." "What a funny address!" said Wendy.',
         },
       ],
     },

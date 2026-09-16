@@ -39,7 +39,16 @@ test.describe('家长端', () => {
     // ── 设置：护眼预设 + 添加孩子 ──
     await page.getByRole('button', { name: '设置', exact: true }).click()
     await page.getByRole('button', { name: '21:00', exact: true }).click()
+    // 选中态落盘：preset 按钮变为 primary 渐变底（确认 updateSettings 生效）
+    await expect(
+      page.getByRole('button', { name: '21:00', exact: true }),
+    ).toHaveClass(/bg-peach-gradient/)
     await page.getByText('小桃（6-8）').waitFor()
+    // 还原为「跟随默认」：否则 21:00 后的就寝窗会锁住后续孩子端 e2e（workers:1 串行共享同一库）
+    await page.getByRole('button', { name: '跟随默认', exact: true }).click()
+    await expect(
+      page.getByRole('button', { name: '跟随默认', exact: true }),
+    ).toHaveClass(/bg-peach-gradient/)
 
   })
 })

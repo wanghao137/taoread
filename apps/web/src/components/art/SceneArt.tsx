@@ -511,6 +511,165 @@ const SCENES: Record<string, () => React.ReactNode> = {
       <rect x="0" y="80" width="100" height="20" fill="#263238" />
     </>
   ),
+  // Alice 第二章：变大变小，哭出一池眼泪
+  'pool-tears': () => (
+    <>
+      <Cloud x={26} y={16} s={0.8} color="#EDE7F6" />
+      <Cloud x={76} y={12} s={0.6} color="#EDE7F6" />
+      <ellipse cx="50" cy="76" rx="46" ry="16" fill="#B39DDB" opacity={0.85} />
+      <ellipse cx="50" cy="74" rx="36" ry="11" fill="#D1C4E9" />
+      <path d="M28 62 Q 30 72 28 78" stroke="#7E57C2" strokeWidth="2" fill="none" />
+      <path d="M50 58 Q 53 70 50 78" stroke="#7E57C2" strokeWidth="2" fill="none" />
+      <path d="M72 62 Q 74 72 72 78" stroke="#7E57C2" strokeWidth="2" fill="none" />
+      <g transform="translate(50 40)">
+        <path d="M-2 18 Q -10 4 -6 -8 Q 0 -16 6 -8 Q 10 4 2 18 Z" fill="#B3E5FC" />
+        <circle cx="0" cy="-10" r="5" fill="#FFE0B2" />
+        <circle cx="-1.8" cy="-11" r="1" fill="#4E342E" />
+        <circle cx="1.8" cy="-11" r="1" fill="#4E342E" />
+        <path d="M-2 -6 Q 0 -4 2 -6" stroke="#4E342E" strokeWidth="0.9" fill="none" />
+      </g>
+    </>
+  ),
+  // Alice 第七章：疯帽匠的茶会（茶杯 + 怀表）
+  'mad-tea': () => (
+    <>
+      <Sun x={78} y={18} />
+      <Cloud x={24} y={14} s={0.8} />
+      <Ground color="#8D6E63" y={74} />
+      <g transform="translate(50 58)">
+        <path d="M-16 2 L-13 -14 Q 0 -20 13 -14 L16 2 Z" fill="#EF9A9A" />
+        <rect x="-16" y="2" width="32" height="6" rx="3" fill="#E57373" />
+        <path d="M16 -8 Q 26 -8 26 -2 Q 26 4 16 3" fill="none" stroke="#E57373" strokeWidth="3" />
+        <ellipse cx="0" cy="-12" rx="9" ry="4" fill="#FFCCBC" />
+        <path d="M-4 -20 Q 0 -26 4 -20" fill="none" stroke="#CE93D8" strokeWidth="2.4" />
+      </g>
+      <g transform="translate(24 46)">
+        <circle cx="0" cy="0" r="7" fill="#FFE082" />
+        <circle cx="0" cy="0" r="4.4" fill="#FFB300" />
+        <path d="M0 -7 L0 -13" stroke="#8D6E63" strokeWidth="2" />
+      </g>
+    </>
+  ),
+  // Peter Pan：影子被窗户夹断，卷进抽屉
+  'peter-shadow': () => (
+    <>
+      <Moon x={76} y={14} r={10} />
+      <Stars count={16} seed={9} />
+      <g transform="translate(50 50)">
+        <rect x="-24" y="-30" width="48" height="60" rx="4" fill="#37474F" />
+        <rect x="-20" y="-26" width="40" height="52" rx="2" fill="#4FC3F7" />
+        <line x1="0" y1="-26" x2="0" y2="26" stroke="#37474F" strokeWidth="2.4" />
+        <line x1="-20" y1="0" x2="20" y2="0" stroke="#37474F" strokeWidth="2.4" />
+        <path
+          d="M14 -24 Q 26 -18 26 -6 Q 26 8 18 14"
+          fill="none"
+          stroke="#1A237E"
+          strokeWidth="3"
+          opacity="0.55"
+        />
+      </g>
+      <rect x="0" y="80" width="100" height="20" fill="#263238" />
+    </>
+  ),
+  // 仙女尘：塔克贝尔的一小团光
+  'fairy-dust': () => (
+    <>
+      <Moon x={80} y={16} r={9} />
+      <Stars count={20} seed={11} />
+      <Cloud x={26} y={40} s={0.9} color="#E8EAF6" />
+      {[
+        [44, 30],
+        [56, 40],
+        [62, 54],
+        [50, 62],
+      ].map(([cx, cy], i) => (
+        <circle key={i} cx={cx} cy={cy} r={2.6 - i * 0.4} fill="#FFF59D" opacity={1 - i * 0.16} />
+      ))}
+      <circle cx="40" cy="26" r="4.4" fill="#FFF9C4" />
+      <circle cx="40" cy="26" r="2" fill="#FBC02D" />
+    </>
+  ),
+  // 小红帽第二章：大灰狼扮成奶奶躺在床上
+  'wolf-bed': () => (
+    <>
+      <Moon x={76} y={16} r={9} />
+      <Stars count={12} seed={12} />
+      <Ground color="#5D4037" y={70} />
+      <g transform="translate(50 56)">
+        <rect x="-26" y="-6" width="52" height="20" rx="6" fill="#8D6E63" />
+        <rect x="-26" y="-12" width="14" height="10" rx="3" fill="#EF9A9A" />
+        <path d="M-12 -12 Q -10 -24 0 -24 Q 10 -24 12 -12 Z" fill="#C62828" />
+        <circle cx="0" cy="-18" r="5.4" fill="#A1887F" />
+        <circle cx="-2" cy="-19.4" r="1" fill="#FFF3E0" />
+        <circle cx="2" cy="-19.4" r="1" fill="#FFF3E0" />
+        <path d="M-3.4 -15.4 Q 0 -13 3.4 -15.4 L 4.4 -12 L -4.4 -12 Z" fill="#FAFAFA" />
+        <path d="M-8 -8 L-16 -16 M 8 -8 L 16 -16" stroke="#90A4AE" strokeWidth="2.4" />
+      </g>
+    </>
+  ),
+  // Peter Rabbit：McGregor 的菜园
+  'mcgregor-garden': () => (
+    <>
+      <Sun x={76} y={18} />
+      <Cloud x={24} y={14} s={0.8} />
+      <Ground color="#6D4C41" y={68} />
+      <g transform="translate(50 78)">
+        <rect x="-34" y="-8" width="68" height="8" rx="4" fill="#8D6E63" />
+        <rect x="-30" y="-4" width="60" height="4" rx="2" fill="#A1887F" />
+      </g>
+      {[
+        [20, 62],
+        [36, 58],
+        [62, 60],
+        [80, 64],
+      ].map(([cx, cy], i) => (
+        <g key={i} transform={`translate(${cx} ${cy})`}>
+          <circle cx="0" cy="0" r="6" fill="#66BB6A" />
+          <circle cx="0" cy="-2" r="3" fill="#A5D6A7" />
+        </g>
+      ))}
+      <g transform="translate(82 44)">
+        <line x1="0" y1="0" x2="0" y2="22" stroke="#8D6E63" strokeWidth="3" />
+        <path d="M-10 2 L10 2 M-8 8 L8 8" stroke="#BDBDBD" strokeWidth="2.6" />
+      </g>
+    </>
+  ),
+  // Peter Rabbit：工具棚里的浇水罐
+  'tool-shed': () => (
+    <>
+      <Cloud x={30} y={14} s={0.8} />
+      <Cloud x={74} y={10} s={0.6} />
+      <Ground color="#7CB342" y={70} />
+      <g transform="translate(44 54)">
+        <path d="M-12 8 Q -14 -4 -4 -8 Q 6 -10 10 -2 Q 14 6 6 10 Q -4 14 -12 8 Z" fill="#7CB342" />
+        <path d="M-8 4 Q -4 -4 2 -2 Q 8 0 4 6 Q -2 10 -8 4 Z" fill="#A5D6A7" />
+        <circle cx="12" cy="-6" r="4" fill="#FFE0B2" />
+        <circle cx="13.4" cy="-7" r="1" fill="#4E342E" />
+      </g>
+      <g transform="translate(72 56)">
+        <path d="M-10 10 L-8 -4 Q 0 -10 8 -4 L10 10 Z" fill="#4FC3F7" />
+        <path d="M10 -2 L18 -8 L20 -4 L12 2 Z" fill="#29B6F6" />
+        <path d="M-8 10 L-10 16 M8 10 L10 16" stroke="#0288D1" strokeWidth="2.4" />
+      </g>
+    </>
+  ),
+  // Peter Rabbit：沙堤下的小窝（结局）
+  'sand-bank': () => (
+    <>
+      <Sun x={24} y={20} />
+      <Cloud x={74} y={12} s={0.8} />
+      <Ground color="#A1887F" y={72} />
+      <g transform="translate(50 56)">
+        <path d="M0 -26 L-30 16 L30 16 Z" fill="#2E7D32" />
+        <path d="M0 -18 L-20 12 L20 12 Z" fill="#388E3C" />
+        <rect x="-2" y="12" width="4" height="10" fill="#6D4C41" />
+      </g>
+      <g transform="translate(50 74)">
+        <path d="M-14 6 Q -14 -6 0 -6 Q 14 -6 14 6 Z" fill="#D7CCC8" />
+        <path d="M-14 6 L14 6" stroke="#8D6E63" strokeWidth="2" />
+      </g>
+    </>
+  ),
   // 通用
   'lamp-hint': () => (
     <>
@@ -540,6 +699,100 @@ const SCENES: Record<string, () => React.ReactNode> = {
       </g>
     </>
   ),
+  // 空书架：桃树刚发芽，书还没长出来（docs/09 §5.2 空状态不用 emoji）
+  'empty-sprout': () => (
+    <>
+      <Sun x={78} y={20} />
+      <Cloud x={24} y={14} s={0.8} />
+      <Ground color="#8D6E63" y={76} />
+      <g transform="translate(50 70)">
+        <rect x="-3" y="-26" width="6" height="26" rx="3" fill="#8D6E63" />
+        <path d="M0 -18 Q -12 -24 -14 -12 Q -4 -8 0 -14 Z" fill="#66BB6A" />
+        <path d="M0 -22 Q 12 -28 14 -16 Q 4 -12 0 -18 Z" fill="#81C784" />
+        <circle cx={0} cy={-30} r={4} fill="#FF8E75" />
+      </g>
+    </>
+  ),
+  // 加载态：月亮 + 飘动的星星（与月亮门主题一致）
+  'loading-moon': () => (
+    <>
+      <Moon x={50} y={30} r={14} />
+      <Stars count={20} seed={7} />
+      <Cloud x={20} y={18} s={0.7} color="#E3E7F5" />
+      <Cloud x={82} y={24} s={0.6} color="#E3E7F5" />
+      <Ground color="#2A3B6E" y={80} h={20} />
+    </>
+  ),
+}
+
+/**
+ * IP 吉祥物「小桃」（docs/09 §5.1）。
+ * 一颗圆滚滚的桃子，两片叶子，眨眼笑脸。贯穿月亮门→选书→收尾→夜灯墙做引导，
+ * 定位是「陪伴者」而非「监工」——只庆祝、不催促（Scholastic：唠叨毁动机）。
+ * size 为 viewBox 单位下的近似高度；mood 切换表情。
+ */
+export function TaoMascot({
+  mood = 'happy',
+  className,
+  style,
+}: {
+  mood?: 'happy' | 'sleepy' | 'excited' | 'hint'
+  className?: string
+  style?: React.CSSProperties
+}) {
+  const eyes =
+    mood === 'sleepy' ? (
+      <>
+        <path d="M-6 -2 Q -3 -5 0 -2" stroke="#5D4037" strokeWidth={1.4} fill="none" strokeLinecap="round" />
+        <path d="M3 -2 Q 6 -5 9 -2" stroke="#5D4037" strokeWidth={1.4} fill="none" strokeLinecap="round" />
+      </>
+    ) : mood === 'excited' ? (
+      <>
+        <path d="M-7 -3 L-4 -7 L-1 -3 Z" fill="#5D4037" />
+        <path d="M2 -3 L5 -7 L8 -3 Z" fill="#5D4037" />
+      </>
+    ) : (
+      <>
+        <circle cx={-4.5} cy={-3} r={1.8} fill="#5D4037" />
+        <circle cx={4.5} cy={-3} r={1.8} fill="#5D4037" />
+        <circle cx={-4} cy={-3.6} r={0.6} fill="#FFFFFF" />
+        <circle cx={5} cy={-3.6} r={0.6} fill="#FFFFFF" />
+      </>
+    )
+  const mouth =
+    mood === 'hint' ? (
+      <path d="M-3 3 Q 0 1.5 3 3" stroke="#5D4037" strokeWidth={1.4} fill="none" strokeLinecap="round" />
+    ) : mood === 'sleepy' ? (
+      <ellipse cx={0} cy={3.5} rx={3} ry={1.6} fill="#5D4037" opacity={0.75} />
+    ) : (
+      <path d="M-4 2.5 Q 0 6.5 4 2.5" stroke="#5D4037" strokeWidth={1.6} fill="none" strokeLinecap="round" />
+    )
+  return (
+    <svg viewBox="-16 -18 32 36" role="img" aria-label="小桃" data-art="tao-mascot" className={className} style={style}>
+      {/* 叶子 */}
+      <path d="M-2 -12 Q -9 -15 -11 -9 Q -6 -7 -2 -10 Z" fill="#66BB6A" />
+      <path d="M2 -12 Q 9 -15 11 -9 Q 6 -7 2 -10 Z" fill="#81C784" />
+      {/* 桃身：两颗重叠圆 + 尖下巴 */}
+      <path
+        d="M-9 -4
+           Q -11 -10 -5 -11
+           Q 0 -13 5 -11
+           Q 11 -10 9 -4
+           Q 8 6 0 12
+           Q -8 6 -9 -4 Z"
+        fill="#FF8E75"
+      />
+      {/* 高光 */}
+      <ellipse cx={-4} cy={-5} rx={2.4} ry={3.4} fill="#FFB3A0" opacity={0.85} />
+      {/* 中缝 */}
+      <path d="M0 -9 Q -1.5 0 0 10" stroke="#E57362" strokeWidth={1} fill="none" opacity={0.6} />
+      {eyes}
+      {mouth}
+      {/* 腮红 */}
+      <circle cx={-7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
+      <circle cx={7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
+    </svg>
+  )
 }
 
 /** 默认渐变色（场景未指定时按 lang/category 回落） */

@@ -20,3 +20,15 @@ docs/reports/
 # Playwright 产物
 test-results/
 playwright-report/
+
+# 调研原始产物：报告（report-*.md）入库作证据，以下大件留本地
+research/node_modules/
+research/montages/
+research/montages2/
+research/shots/
+research/*.txt
+research/s.html
+
+# 环境产物（Python 残留，非项目文件）
+Lib/
+scripts/pip*.exe

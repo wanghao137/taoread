@@ -104,34 +104,37 @@ export function pickVoice(lang: string, preferred?: string | null): TtsVoiceInfo
 }
 
 /**
- * 文本分句：按中文标点（。！？；，）与英文句号/问号/感叹号切分，保留标点。
- * 空白与超长无标点串（如拼音行）按词数兜底切分，避免一句话念不完。
+ * 文本分句：按中文标点（。！？；）与英文句点/问号/感叹号切分，保留标点。
+ * 诗歌/儿歌的换行先切成行再逐行处理（唐诗块用 \n 排版，折叠成空格会连读）。
+ * 超长无标点串（如拼音行）按词数兜底切分，避免一句话念不完。
  */
 export function splitSentences(text: string, maxLen = 40): string[] {
-  const clean = text.replace(/\s+/g, ' ').trim()
-  if (!clean) return []
+  // 先按换行切段（保留诗歌节奏），段内空白再折叠
+  const lines = text.split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter((l) => l.length > 0)
   const parts: string[] = []
-  // 命中标点即切（标点留在当前句末）
-  let buf = ''
-  for (const ch of clean) {
-    buf += ch
-    if (/[。！？!?；;。\n]/.test(ch)) {
-      parts.push(buf.trim())
-      buf = ''
-    }
-    // 超长无标点：在逗号或空格处兜底切
-    else if (buf.length >= maxLen) {
-      const cutAt = Math.max(buf.lastIndexOf('，'), buf.lastIndexOf(' '), buf.lastIndexOf('、'))
-      if (cutAt > 8) {
-        parts.push(buf.slice(0, cutAt + 1).trim())
-        buf = buf.slice(cutAt + 1)
-      } else {
+  for (const line of lines) {
+    // 命中标点即切（标点留在当前句末）；含 ASCII 句点（docs/09 C5：原正则漏了 .，英文不切分）
+    let buf = ''
+    for (const ch of line) {
+      buf += ch
+      if (/[。！？!?；;.]/.test(ch)) {
         parts.push(buf.trim())
         buf = ''
       }
+      // 超长无标点：在逗号或空格处兜底切
+      else if (buf.length >= maxLen) {
+        const cutAt = Math.max(buf.lastIndexOf('，'), buf.lastIndexOf(' '), buf.lastIndexOf('、'))
+        if (cutAt > 8) {
+          parts.push(buf.slice(0, cutAt + 1).trim())
+          buf = buf.slice(cutAt + 1)
+        } else {
+          parts.push(buf.trim())
+          buf = ''
+        }
+      }
     }
+    if (buf.trim()) parts.push(buf.trim())
   }
-  if (buf.trim()) parts.push(buf.trim())
   return parts.filter((p) => p.length > 0)
 }
 

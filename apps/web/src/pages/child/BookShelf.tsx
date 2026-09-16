@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { api, ApiError, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
-import { SceneArt } from '../../components/art/SceneArt'
+import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 
 interface BookShelfProps {
   onOpen: (book: ContentBookDto) => void
@@ -99,7 +99,10 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
   if (books.length === 0) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 py-20 text-center">
-        <div className="text-5xl">📚</div>
+        <div className="relative h-40 w-40 overflow-hidden rounded-3xl shadow-lg ring-1 ring-white/10">
+          <SceneArt scene="empty-sprout" from="#1E2A5A" to="#4A5FBF" lang="zh" />
+        </div>
+        <TaoMascot mood="hint" className="h-12 w-12" />
         <p className="text-base text-ink-primary">书架还是空的</p>
         <p className="max-w-xs text-sm text-ink-secondary">
           桃树上的书还在长呢。让爸爸妈妈先在设置里检查一下应用版本哦。
@@ -207,7 +210,7 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                   {book.title}
                 </p>
                 <p className="mt-0.5 line-clamp-1 text-xs text-ink-secondary">
-                  {book.author ?? book.lang === 'en' ? book.author ?? 'English' : ''}
+                  {book.author ?? (book.lang === 'en' ? 'English' : '佚名')}
                 </p>
                 <p className="text-[10px] text-ink-secondary opacity-70">
                   {book.chapterCount} 章 · 约 {book.words} {book.lang === 'zh' ? '字' : '词'}

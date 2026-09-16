@@ -9,6 +9,8 @@ export default tseslint.config(
       '**/coverage/**',
       '**/node_modules/**',
       'docs/**',
+      // 调研期一次性脚本（竞品截图拼图等），非产品代码
+      'research/**',
     ],
   },
   {

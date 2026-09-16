@@ -9,6 +9,7 @@ import type { PrismaClient } from '@prisma/client'
 import { NotFoundError } from '../../lib/errors'
 import { weekStartDate, weekStartFromParts } from '../../lib/week'
 import { nightKeyOf } from '../cosession/nights'
+import { isContentBookId, toContentId } from '../../content/service'
 
 export interface ReportDb {
   family: PrismaClient['family']
@@ -18,6 +19,8 @@ export interface ReportDb {
   weeklyReport: PrismaClient['weeklyReport']
   childProfile: PrismaClient['childProfile']
   bookCache: PrismaClient['bookCache']
+  /** v2 内容域公版书表（cbf: 前缀会话的书名解析来源） */
+  book: PrismaClient['book']
 }
 
 export interface WeeklyReportData {
@@ -36,6 +39,26 @@ export interface WeeklyReportData {
  * 构造【本地午夜】时刻作为窗口，使窗口与 nights.ts 的本地夜桶在任意 TZ 下对齐。
  * 直接用规范化值当物理时刻会在 TZ≠UTC 时漂移出 ±8h 的错周带（复审 N10-004）。
  */
+/**
+ * 会话书名解析（docs/09 C1）。
+ * 优先级：weread BookCache → cbf: 内容域公版书表 → 纸书标题 → 兜底文案。
+ * 内容域书绝不能把 `cbf:xxx` 原始 id 暴露给家长；微信读书书在缓存未命中时
+ * （同步前的旧会话）保留原始 bookId 兜底——比显示「今晚的故事」更接近事实。
+ */
+function resolveSessionTitle(
+  session: { bookId: string | null; paperTitle: string | null },
+  titleByBookId: Map<string, string>,
+  titleByContentId: Map<string, string>,
+): string | null {
+  if (session.bookId && isContentBookId(session.bookId)) {
+    return titleByContentId.get(toContentId(session.bookId)) ?? '桃书架的故事'
+  }
+  if (session.bookId) {
+    return titleByBookId.get(session.bookId) ?? session.bookId
+  }
+  return session.paperTitle ?? null
+}
+
 /** 金句按文本去重（不同晚划同一句只展示一次，计数同步） */
 function dedupeByText(items: Array<{ text: string; source: string }>): Array<{ text: string; source: string }> {
   const seen = new Set<string>()
@@ -102,15 +125,25 @@ export async function generateWeeklyReport(
     }),
   ])
 
-  // 书名解析：weread 书走 BookCache（绑定同步/详情时落库），纸书用 paperTitle，兜底 bookId
-  const wereadBookIds = [
+  // 书名解析：weread 书走 BookCache（绑定同步/详情时落库）；cbf: 内容域书走本地公版书表
+  // （docs/09 C1：原来 cbf: 会话在 BookCache 必然 miss，回退把原始 id 当书名展示给家长）
+  const bookIds = [
     ...new Set(sessions.map((s) => s.bookId).filter((b): b is string => b !== null)),
   ]
-  const cachedBooks = await db.bookCache.findMany({
-    where: { bookId: { in: wereadBookIds } },
-    select: { bookId: true, title: true },
-  })
+  const wereadBookIds = bookIds.filter((b) => !isContentBookId(b))
+  const contentBookIds = bookIds.filter(isContentBookId).map(toContentId)
+  const [cachedBooks, contentBooks] = await Promise.all([
+    db.bookCache.findMany({
+      where: { bookId: { in: wereadBookIds } },
+      select: { bookId: true, title: true },
+    }),
+    db.book.findMany({
+      where: { id: { in: contentBookIds } },
+      select: { id: true, title: true },
+    }),
+  ])
   const titleByBookId = new Map(cachedBooks.map((b) => [b.bookId, b.title]))
+  const titleByContentId = new Map(contentBooks.map((b) => [b.id, b.title]))
 
   const nightKeys = new Set<string>()
   const bookMap = new Map<string, string>()
@@ -119,8 +152,7 @@ export async function generateWeeklyReport(
     nightKeys.add(nightKeyOf(Math.floor(s.startedAt.getTime() / 1000)))
     if (s.durationSec && s.durationSec > 0) totalSec += s.durationSec
     const key = s.bookId ?? `paper:${s.paperTitle ?? ''}`
-    const title =
-      (s.bookId ? titleByBookId.get(s.bookId) : null) ?? s.paperTitle ?? s.bookId ?? '今晚的故事'
+    const title = resolveSessionTitle(s, titleByBookId, titleByContentId)
     if (title) bookMap.set(key, title)
   }
 

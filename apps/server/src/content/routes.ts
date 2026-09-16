@@ -13,6 +13,7 @@ import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
+import { generateReadingCard } from '../modules/cosession/readingCard'
 import * as svc from './service'
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
@@ -55,7 +56,9 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       request.query,
     )
     if (query.childId) await assertOwnChild(request, query.childId)
+    if (!request.auth) throw new UnauthorizedError()
     const books = await svc.listBooks(db, {
+      familyId: request.auth.fid,
       ...(query.childId ? { childId: query.childId } : {}),
       ...(query.stage ? { stage: query.stage } : {}),
       ...(query.lang ? { lang: query.lang } : {}),
@@ -132,6 +135,99 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       await assertOwnChild(request, query.childId)
       const progress = await svc.getProgress(db, query.childId, request.params.id)
       return reply.send({ progress: progress ?? { chapterOrder: 1, blockOrder: 0, finished: false } })
+    },
+  )
+
+  // ── 家长端内容域视图（docs/09 C4）：桃书库进度汇总 + 屏蔽（家长角色） ──
+  app.get('/api/content/family', { preHandler: requireAuth(tokenSecret, { roles: ['parent'] }) }, async (request, reply) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const children = await db.childProfile.findMany({
+      where: { familyId: request.auth.fid },
+      select: { id: true, nickname: true, stage: true },
+    })
+    const books = await svc.listBooksForParent(db, request.auth.fid, children.map((c) => c.id))
+    return reply.send({ children, books })
+  })
+
+  app.put<{ Params: { id: string } }>(
+    '/api/content/books/:id/blocked',
+    { preHandler: requireAuth(tokenSecret, { roles: ['parent'] }) },
+    async (request, reply) => {
+      if (!request.auth) throw new UnauthorizedError()
+      const body = parse(z.object({ blocked: z.boolean() }), request.body ?? {})
+      const exists = await db.book.findUnique({ where: { id: request.params.id }, select: { title: true } })
+      if (!exists) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      await db.shelfSnapshot.upsert({
+        where: { familyId_bookId_kind: { familyId: request.auth.fid, bookId: request.params.id, kind: 'cbf' } },
+        create: {
+          familyId: request.auth.fid,
+          bookId: request.params.id,
+          kind: 'cbf',
+          title: exists.title,
+          blocked: body.blocked,
+        },
+        update: { blocked: body.blocked },
+      })
+      return reply.send({ ok: true, bookId: request.params.id, blocked: body.blocked })
+    },
+  )
+
+  /**
+   * 阅读中共读脚手架（docs/09 B1）：把「讲什么、问什么」从收尾后的一次性卡片
+   * 前移到阅读过程中。家长在孩子阅读时打开即可看到本章可聊的话题。
+   * 内容域书按章节正文摘要生成，无网络依赖。
+   */
+  app.get<{ Params: { id: string } }>(
+    '/api/content/books/:id/scaffold',
+    { preHandler: requireAuth(tokenSecret, { roles: ['parent'] }) },
+    async (request, reply) => {
+      if (!request.auth) throw new UnauthorizedError()
+      const query = parse(
+        z.object({ chapterOrder: z.coerce.number().int().min(1).max(999).optional() }),
+        request.query,
+      )
+      const book = await db.book.findUnique({
+        where: { id: request.params.id },
+        select: { id: true, title: true, intro: true, ageStage: true },
+      })
+      if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      const children = await db.childProfile.findMany({
+        where: { familyId: request.auth.fid },
+        select: { id: true, stage: true },
+      })
+      // 脚手架按家庭里最年幼孩子的阶段出题（共读通常围着最小的孩子）
+      const stageRank: Record<string, number> = { '3-5': 1, '6-8': 2, '9-12': 3 }
+      const stage =
+        children.length > 0
+          ? children.reduce(
+              (a, c) => ((stageRank[c.stage] ?? 3) < (stageRank[a.stage] ?? 3) ? c : a),
+              children[0]!,
+            ).stage
+          : '6-8'
+      // 本章正文摘要（前 60 字）作为 intro，让问题贴合正在读的内容
+      let chapterIntro: string | null = null
+      if (query.chapterOrder) {
+        const chapter = await db.chapter.findFirst({
+          where: { bookId: book.id, order: query.chapterOrder },
+          include: { blocks: { orderBy: { order: 'asc' }, take: 3 } },
+        })
+        if (chapter) {
+          const text = chapter.blocks
+            .filter((b) => b.kind === 'text' || b.kind === 'poem')
+            .map((b) => b.text)
+            .join(' ')
+            .replace(/\s+/g, ' ')
+          chapterIntro = text.length > 0 ? text.slice(0, 60) : null
+        }
+      }
+      const card = generateReadingCard({
+        bookTitle: book.title,
+        childStage: stage,
+        childId: children[0]?.id ?? 'family',
+        intro: chapterIntro ?? book.intro,
+        topBookmarks: [],
+      })
+      return reply.send({ card, chapterOrder: query.chapterOrder ?? null })
     },
   )
 }

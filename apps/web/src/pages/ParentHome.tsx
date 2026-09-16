@@ -7,8 +7,9 @@ import { ShelfManager } from './parent/ShelfManager'
 import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
+import { ContentLibrary } from './parent/ContentLibrary'
 
-const TABS = ['今晚', '书架', '周报', '设置'] as const
+const TABS = ['今晚', '书架', '桃书库', '周报', '设置'] as const
 
 type FamilyState =
   | { kind: 'loading' }
@@ -58,6 +59,8 @@ export function ParentHome() {
       )
     if (tab === '书架')
       return <ShelfManager familyId={familyId ?? ''} token={token ?? ''} />
+    if (tab === '桃书库')
+      return <ContentLibrary familyId={familyId ?? ''} token={token ?? ''} />
     return (
       <SettingsPanel
         familyId={familyId ?? ''}

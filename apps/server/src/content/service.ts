@@ -35,6 +35,8 @@ export interface BookSummaryDto {
   chapterCount: number
   progress: number // 0-100，当前孩子在此书上的百分比
   finished: boolean
+  /** 家长是否屏蔽了这本内容域书（docs/09 C9） */
+  blocked: boolean
 }
 
 export interface ChapterDto {
@@ -59,6 +61,7 @@ function summarize(
   },
   progressPct: number,
   finished: boolean,
+  blocked: boolean,
 ): BookSummaryDto {
   return {
     id: book.id,
@@ -76,6 +79,7 @@ function summarize(
     chapterCount: book.chapters.length,
     progress: progressPct,
     finished,
+    blocked,
   }
 }
 
@@ -85,7 +89,7 @@ function summarize(
  */
 export async function listBooks(
   db: PrismaClient,
-  options: { childId?: string; stage?: string | null; lang?: string | null } = {},
+  options: { childId?: string; familyId?: string; stage?: string | null; lang?: string | null } = {},
 ): Promise<BookSummaryDto[]> {
   const where: { lang?: string } = {}
   if (options.lang) where.lang = options.lang
@@ -115,9 +119,17 @@ export async function listBooks(
     }
   }
 
-  return filtered.map((b) => {
+  // 家长屏蔽（docs/09 C9）：屏蔽行存 ShelfSnapshot(kind='cbf')，孩子端书架不展示
+  const blockedRows = await db.shelfSnapshot.findMany({
+    where: { familyId: options.familyId, kind: 'cbf', blocked: true },
+    select: { bookId: true },
+  })
+  const blockedIds = new Set(blockedRows.map((r) => r.bookId))
+  const visible = filtered.filter((b) => !blockedIds.has(b.id))
+
+  return visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false }
-    return summarize(b, p.pct, p.finished)
+    return summarize(b, p.pct, p.finished, false)
   })
 }
 
@@ -127,7 +139,44 @@ export async function getBook(db: PrismaClient, contentId: string): Promise<Book
     include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
   })
   if (!book) return null
-  return summarize(book, 0, false)
+  return summarize(book, 0, false, false)
+}
+
+/**
+ * 家长端内容域视图（docs/09 C4）：全家孩子在公版库上的进度汇总，
+ * 附带屏蔽状态。家长看得见孩子在桃书库里读了什么。
+ */
+export async function listBooksForParent(
+  db: PrismaClient,
+  familyId: string,
+  childrenIds: string[],
+): Promise<Array<BookSummaryDto & { readers: Array<{ childId: string; progress: number; finished: boolean }> }>> {
+  const books = await db.book.findMany({
+    include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
+    orderBy: [{ lang: 'asc' }, { category: 'asc' }, { title: 'asc' }],
+  })
+  const blockedRows = await db.shelfSnapshot.findMany({
+    where: { familyId, kind: 'cbf' },
+    select: { bookId: true, blocked: true },
+  })
+  const blockedMap = new Map(blockedRows.map((r) => [r.bookId, r.blocked]))
+  const progressRows = await db.readingProgress.findMany({
+    where: { childId: { in: childrenIds } },
+    select: { childId: true, bookId: true, chapterOrder: true, finished: true },
+  })
+  return books.map((b) => {
+    const total = b.chapters.length
+    const readers = progressRows
+      .filter((r) => r.bookId === b.id)
+      .map((r) => {
+        const pct = total > 0 ? Math.min(100, Math.round((r.chapterOrder / total) * 100)) : 0
+        return { childId: r.childId, progress: r.finished ? 100 : pct, finished: r.finished }
+      })
+    return {
+      ...summarize(b, readers.length > 0 ? Math.max(...readers.map((r) => r.progress)) : 0, readers.some((r) => r.finished), blockedMap.get(b.id) ?? false),
+      readers,
+    }
+  })
 }
 
 /**

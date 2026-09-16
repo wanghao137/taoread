@@ -12,6 +12,8 @@ import { wipeDb } from '../src/lib/db'
 const probeOk = async () => 'active' as const
 import { generateWeeklyReport, isSundayEveningRun, renderShareCardSvg } from '../src/modules/reports/service'
 import { weekStartFromParts } from '../src/lib/week'
+import { seedAllPacks } from '../src/content/seed'
+import { ALL_PACKS } from '../src/content/packs'
 
 // 2026-09-07（周一）20:00 本地
 const T0 = new Date(2026, 8, 7, 20, 0).getTime() / 1000
@@ -101,6 +103,33 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     await generateWeeklyReport(db, f.familyId, weekStart)
     await generateWeeklyReport(db, f.familyId, weekStart)
     expect(await db.weeklyReport.count({ where: { familyId: f.familyId } })).toBe(1)
+  })
+
+  it('内容域会话显示真实书名，绝不暴露 cbf: 原始 id（docs/09 C1）', async () => {
+    await seedAllPacks(db, ALL_PACKS)
+    const f = await createFamilyAsParent(h.app)
+    const childId = await createChild(h.app, f.token, f.familyId)
+    // 模拟 v2 真实路径：在桃书架读了一本公版书，会话带 cbf: 前缀
+    const pack = ALL_PACKS[0]!
+    await db.cosession.create({
+      data: {
+        familyId: f.familyId,
+        childId,
+        bookId: `cbf:${pack.id}`,
+        startedAt: new Date(T0 * 1000),
+        endedAt: new Date((T0 + 1200) * 1000),
+        durationSec: 1200,
+        progressMark: 'lot',
+      },
+    })
+    const report = await generateWeeklyReport(db, f.familyId, weekStartFromParts(2026, 9, 7))
+    expect(report.totalMinutes).toBe(20) // 1200s = 20min，内容域时长确实入账
+    expect(report.books).toHaveLength(1)
+    expect(report.books[0]!.title).toBe(pack.title)
+    // 红线：原始 id 不得出现在任何展示字段
+    expect(report.books[0]!.title).not.toContain('cbf:')
+    const svg = renderShareCardSvg(report)
+    expect(svg).not.toContain('cbf:')
   })
 
   it('越权与参数：跨家庭 404 / 非法日期 404（含分量回绕 N10-003）', async () => {
