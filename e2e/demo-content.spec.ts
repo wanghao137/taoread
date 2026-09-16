@@ -189,4 +189,60 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: /点亮夜灯/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
   })
+
+  // docs/11 P0-1：书架搜索（书名/作者/章节标题）
+  test('书架搜索：输入「静夜」命中唐诗集，乱词给正向空态', async ({ page }) => {
+    await loginAsChild(page, '小桃')
+    await page.getByRole('button', { name: /桃书架/ }).click()
+    await page.getByRole('button', { name: '打开《三字经·人之初》' }).waitFor()
+
+    const search = page.locator('#shelf-search')
+    // 孩子记的是诗名而非集子名：搜「静夜」必须命中《唐诗三百首·星星篇》
+    await search.fill('静夜')
+    await expect(page.getByText('唐诗三百首·星星篇')).toBeVisible({ timeout: 8_000 })
+    await expect(page.getByText('三字经·人之初')).not.toBeVisible()
+    await page.screenshot({ path: 'test-results/v3-search-hit.png', fullPage: true })
+
+    // 无结果：正向引导 + 一键清空
+    await search.fill('zzzz')
+    await expect(page.getByText('小桃没找到这本书')).toBeVisible({ timeout: 8_000 })
+    await page.getByRole('button', { name: '清空搜索' }).click()
+    await expect(page.getByText('三字经·人之初')).toBeVisible()
+  })
+
+  // docs/11 P0-6：阅读器专注模式
+  test('阅读器专注模式：点正文收起工具栏，再点恢复', async ({ page }) => {
+    await loginAsChild(page, '小柚')
+    await page.getByRole('button', { name: /桃书架/ }).click()
+    await page.getByRole('button', { name: '打开《三字经·人之初》' }).click()
+    // 前序用例可能已留下进度，按钮文案为「接着读」
+    await page.getByRole('button', { name: /开始读|接着读/ }).click()
+    await page.getByRole('heading', { name: '第一课 · 人之初' }).waitFor()
+
+    // 朗读栏先可见
+    const speakBtn = page.getByRole('button', { name: /朗读本章|停止朗读/ })
+    await expect(speakBtn).toBeVisible()
+
+    // 点正文区留白（段落文字本身）：进入专注模式
+    await page.getByText('人之初，性本善').click()
+    await expect(speakBtn).not.toBeVisible()
+    // 顶栏目录按钮也一起藏起来
+    await expect(page.getByRole('button', { name: '章节目录' })).not.toBeVisible()
+    await page.screenshot({ path: 'test-results/v3-focus-mode.png', fullPage: true })
+
+    // 再点一次正文：工具栏回来
+    await page.getByText('人之初，性本善').click()
+    await expect(speakBtn).toBeVisible()
+  })
+
+  // docs/11 P0-8：孩子端「换家庭」误触防护
+  test('换家庭需二次确认：取消后仍在孩子端', async ({ page }) => {
+    await loginAsChild(page, '小桃')
+    await page.getByRole('button', { name: '换家庭' }).click()
+    await expect(page.getByText('要换一个家庭吗？')).toBeVisible()
+    await page.getByRole('button', { name: '我按错啦' }).click()
+    // 取消后仍在孩子端：桃书架入口还在
+    await expect(page.getByRole('button', { name: /桃书架/ })).toBeVisible()
+    await page.screenshot({ path: 'test-results/v3-switch-confirm.png', fullPage: true })
+  })
 })

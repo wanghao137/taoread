@@ -38,6 +38,15 @@ export interface TtsOptions {
   pitch?: number
 }
 
+/**
+ * iOS 26 防御（docs/11 P0-2 / TTS G-03）：WebKit 的 SpeechSynthesis 在朗读
+ * 含 `<` 或 `>` 的中文文本时会崩溃。公版正文本身不含尖括号，但 BYOK 导入的
+ * 书名/笔记可能含。送入 utterance 前一律把尖括号转成全角，朗读听感不变。
+ */
+export function sanitizeForSpeech(text: string): string {
+  return text.replace(/</g, '＜').replace(/>/g, '＞')
+}
+
 /** 神经语音名特征（命中即视为在线神经语音） */
 const NEURAL_PATTERNS = [
   /google/i,
@@ -157,12 +166,21 @@ class TtsEngine {
   private errorListeners = new Set<ErrorListener>()
 
   constructor() {
-    if (typeof speechSynthesis !== 'undefined') {
-      this.synth = speechSynthesis
-      // 语音列表异步加载（Chrome 首次为空，onvoiceschanged 后才有）
-      this.synth.onvoiceschanged = () => {
-        /* 列表已就绪，下次 pickVoice 即可拿到 */
+    if (typeof speechSynthesis === 'undefined') return
+    this.synth = speechSynthesis
+    // 语音列表异步加载（Chrome 首次为空，onvoiceschanged 后才有）
+    this.synth.onvoiceschanged = () => {
+      /* 列表已就绪，下次 pickVoice 即可拿到 */
+    }
+    // 语速偏好持久化（docs/11 P0-2）：隐私模式下静默降级
+    try {
+      const saved = globalThis.localStorage?.getItem('taoread-tts-rate')
+      if (saved) {
+        const n = Number(saved)
+        if (Number.isFinite(n) && n >= 0.5 && n <= 2) this.rate = n
       }
+    } catch {
+      /* 无存储权限时用默认语速 */
     }
   }
 
@@ -191,7 +209,15 @@ class TtsEngine {
   configure(options: TtsOptions & { lang?: string }): void {
     if (options.lang) this.lang = options.lang
     if (options.voiceURI) this.voiceURI = options.voiceURI
-    if (typeof options.rate === 'number') this.rate = options.rate
+    if (typeof options.rate === 'number') {
+      this.rate = options.rate
+      // 持久化语速偏好（docs/11 P0-2）
+      try {
+        globalThis.localStorage?.setItem('taoread-tts-rate', String(options.rate))
+      } catch {
+        /* 隐私模式下静默降级 */
+      }
+    }
     if (typeof options.pitch === 'number') this.pitch = options.pitch
   }
 
@@ -236,7 +262,7 @@ class TtsEngine {
       this.finish()
       return
     }
-    const utter = new SpeechSynthesisUtterance(sentence)
+    const utter = new SpeechSynthesisUtterance(sanitizeForSpeech(sentence))
     utter.lang = this.lang === 'zh' ? 'zh-CN' : 'en-US'
     utter.rate = this.rate
     utter.pitch = this.pitch

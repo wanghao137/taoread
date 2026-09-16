@@ -279,11 +279,15 @@ export const api = {
 
   // ── v2 内容域：公版书库 + 自研阅读器正文 ──
 
-  contentBooks: async (token: string, params: { stage?: string; childId?: string; lang?: string } = {}) => {
+  contentBooks: async (
+    token: string,
+    params: { stage?: string; childId?: string; lang?: string; q?: string } = {},
+  ) => {
     const qs = new URLSearchParams()
     if (params.stage) qs.set('stage', params.stage)
     if (params.childId) qs.set('childId', params.childId)
     if (params.lang) qs.set('lang', params.lang)
+    if (params.q && params.q.trim()) qs.set('q', params.q.trim())
     const q = qs.toString()
     return request<{ total: number; books: ContentBookDto[] }>(
       `/api/content/books${q ? `?${q}` : ''}`,

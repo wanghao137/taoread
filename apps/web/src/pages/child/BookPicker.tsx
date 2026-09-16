@@ -178,7 +178,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
               <button
                 type="button"
                 onClick={() => setShowAll((v) => !v)}
-                className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-peach-400"
+                className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-peach-400"
               >
                 {showAll ? '收起' : '展开全部'}
               </button>
@@ -209,7 +209,8 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
 
       {feed.shelf.length === 0 && recommends.length === 0 && (
         <EmptyState
-          emoji="📚"
+          art="bookshelf"
+          mood="hint"
           title="书架还空着"
           hint="请爸爸妈妈先在微信读书里把童书放进书架"
         />

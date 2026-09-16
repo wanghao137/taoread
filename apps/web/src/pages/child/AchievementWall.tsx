@@ -51,7 +51,8 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
     if (lampCount === 0 && booksCount === 0) {
       return (
         <EmptyState
-          emoji="🕯️"
+          art="lamp-first"
+          mood="hint"
           title="第一盏夜灯等着今晚点亮"
           hint="完成一次共读，墙上就有第一格光"
         />
@@ -102,7 +103,7 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
         <button
           type="button"
           onClick={onBack}
-          className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-ink-secondary"
+          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-secondary"
         >
           ← 回到月亮
         </button>

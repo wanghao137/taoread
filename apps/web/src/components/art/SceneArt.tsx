@@ -723,6 +723,36 @@ const SCENES: Record<string, () => React.ReactNode> = {
       <Ground color="#2A3B6E" y={80} h={20} />
     </>
   ),
+  // 星海空态：一颗大星星独自亮着，其余还在睡觉（StarSea 空态，docs/11 P0-3）
+  'star-sea': () => (
+    <>
+      <Moon x={24} y={22} r={9} />
+      <g transform="translate(52 40) rotate(-8)">
+        <path
+          d="M0 -20 L5.5 -6 L20 -4 L9 4 L12 19 L0 11 L-12 19 L-9 4 L-20 -4 L-5.5 -6 Z"
+          fill="#FFE08A"
+          stroke="#FFC04D"
+          strokeWidth={1.2}
+        />
+      </g>
+      <Stars count={14} seed={11} />
+      <Ground color="#2A3B6E" y={82} h={18} />
+      <Cloud x={80} y={70} s={0.7} color="#3A4C86" />
+    </>
+  ),
+  // 夜灯墙空态：第一盏灯还没点亮（AchievementWall，docs/11 P0-3）
+  'lamp-first': () => (
+    <>
+      <Moon x={74} y={20} r={10} />
+      <Stars count={10} seed={3} />
+      <g transform="translate(50 52)">
+        <path d="M-7 4 L-7 -6 Q -7 -14 0 -14 Q 7 -14 7 -6 L7 4 Z" fill="#FFE9B8" stroke="#E0A93E" strokeWidth={1.2} />
+        <rect x="-9" y={4} width={18} height={5} rx={2.5} fill="#8D6E63" />
+        <circle cx={0} cy={-7} r={2.6} fill="#FFF3C4" />
+      </g>
+      <Ground color="#2A3B6E" y={80} h={18} />
+    </>
+  ),
 }
 
 /**

@@ -35,23 +35,34 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<Filter>('all')
+  const [query, setQuery] = useState('')
 
-  const load = useCallback(() => {
-    if (!token) return
-    setLoading(true)
-    setError(null)
-    api
-      .contentBooks(token, { ...(stage ? { stage } : {}), ...(childId ? { childId } : {}) })
-      .then((res) => setBooks(res.books))
-      .catch((err: unknown) => {
-        setError(err instanceof ApiError ? err.message : '书架还在梳洗打扮…')
-      })
-      .finally(() => setLoading(false))
-  }, [token, stage, childId])
+  const load = useCallback(
+    (q: string) => {
+      if (!token) return
+      setLoading(true)
+      setError(null)
+      api
+        .contentBooks(token, {
+          ...(stage ? { stage } : {}),
+          ...(childId ? { childId } : {}),
+          ...(q.trim() ? { q } : {}),
+        })
+        .then((res) => setBooks(res.books))
+        .catch((err: unknown) => {
+          setError(err instanceof ApiError ? err.message : '书架还在梳洗打扮…')
+        })
+        .finally(() => setLoading(false))
+    },
+    [token, stage, childId],
+  )
 
+  // 搜索：输入词后防抖 300ms 走服务端 q；清空时立即拉回全量（docs/11 P0-1）
   useEffect(() => {
-    load()
-  }, [load])
+    const trimmed = query.trim()
+    const timer = setTimeout(() => load(trimmed), trimmed ? 300 : 0)
+    return () => clearTimeout(timer)
+  }, [query, load])
 
   const visible = books.filter((b) => {
     if (filter === 'all') return true
@@ -87,7 +98,7 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         <p className="text-base text-ink-primary">{error}</p>
         <button
           type="button"
-          onClick={load}
+          onClick={() => load(query.trim())}
           className="min-h-touch rounded-full bg-peach-gradient px-6 text-sm font-bold text-white"
         >
           再试一次
@@ -97,23 +108,40 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
   }
 
   if (books.length === 0) {
+    const searching = query.trim().length > 0
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 py-20 text-center">
         <div className="relative h-40 w-40 overflow-hidden rounded-3xl shadow-lg ring-1 ring-white/10">
-          <SceneArt scene="empty-sprout" from="#1E2A5A" to="#4A5FBF" lang="zh" />
+          <SceneArt scene={searching ? 'lamp-hint' : 'empty-sprout'} from="#1E2A5A" to="#4A5FBF" lang="zh" />
         </div>
-        <TaoMascot mood="hint" className="h-12 w-12" />
-        <p className="text-base text-ink-primary">书架还是空的</p>
+        <TaoMascot mood={searching ? 'hint' : 'sleepy'} className="h-12 w-12" />
+        <p className="text-base text-ink-primary">{searching ? '小桃没找到这本书' : '书架还是空的'}</p>
         <p className="max-w-xs text-sm text-ink-secondary">
-          桃树上的书还在长呢。让爸爸妈妈先在设置里检查一下应用版本哦。
+          {searching ? (
+            <>
+              换个词试试？比如「<button type="button" onClick={() => setQuery('静夜')} className="font-bold text-peach-300 underline-offset-2 hover:underline">静夜</button>」或者「<button type="button" onClick={() => setQuery('Peter')} className="font-bold text-peach-300 underline-offset-2 hover:underline">Peter</button>」
+            </>
+          ) : (
+            '桃树上的书还在长呢。让爸爸妈妈先在设置里检查一下应用版本哦。'
+          )}
         </p>
-        <button
-          type="button"
-          onClick={onBack}
-          className="min-h-touch rounded-full border border-night-border px-6 text-sm text-ink-secondary"
-        >
-          回到月亮
-        </button>
+        {searching ? (
+          <button
+            type="button"
+            onClick={() => setQuery('')}
+            className="min-h-touch rounded-full bg-peach-gradient px-6 text-sm font-bold text-white"
+          >
+            清空搜索
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onBack}
+            className="min-h-touch rounded-full border border-night-border px-6 text-sm text-ink-secondary"
+          >
+            回到月亮
+          </button>
+        )}
       </div>
     )
   }
@@ -133,6 +161,45 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         <span className="rounded-full bg-peach-gradient px-3 py-1 text-xs font-bold text-white">
           {sorted.length} 本
         </span>
+      </div>
+
+      {/* 搜索框（docs/11 P0-1：孩子找书不靠翻分类） */}
+      <div className="relative mt-4">
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-secondary"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2.2}
+          strokeLinecap="round"
+        >
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="M15.5 15.5 L21 21" />
+        </svg>
+        <label htmlFor="shelf-search" className="sr-only">
+          搜索书名或作者
+        </label>
+        <input
+          id="shelf-search"
+          type="search"
+          inputMode="search"
+          enterKeyHint="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="找一本书…"
+          className="min-h-touch w-full rounded-full border border-night-border bg-night-700/60 pl-11 pr-10 text-sm text-ink-primary placeholder:text-ink-secondary/70 focus:border-peach-400 focus:outline-none"
+        />
+        {query ? (
+          <button
+            type="button"
+            onClick={() => setQuery('')}
+            aria-label="清空搜索"
+            className="absolute right-2 top-1/2 flex min-h-touch w-10 -translate-y-1/2 items-center justify-center text-base text-ink-secondary"
+          >
+            ✕
+          </button>
+        ) : null}
       </div>
 
       {/* 筛选条 */}

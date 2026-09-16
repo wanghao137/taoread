@@ -52,6 +52,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         lang: z.enum(['zh', 'en']).optional(),
         stage: z.enum(['3-5', '6-8', '9-12']).optional(),
         childId: z.string().min(1).max(64).optional(),
+        q: z.string().trim().min(1).max(64).optional(),
       }),
       request.query,
     )
@@ -62,6 +63,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       ...(query.childId ? { childId: query.childId } : {}),
       ...(query.stage ? { stage: query.stage } : {}),
       ...(query.lang ? { lang: query.lang } : {}),
+      ...(query.q ? { q: query.q } : {}),
     })
     return reply.send({ total: books.length, books })
   })

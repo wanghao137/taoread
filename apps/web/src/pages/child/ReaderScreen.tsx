@@ -29,6 +29,17 @@ const THEMES: Record<Theme, { bg: string; text: string; panel: string; border: s
 
 const FONT_SIZES = [18, 20, 22, 24, 26, 28]
 
+/**
+ * 朗读语速档位（docs/11 P0-2）。默认 0.92 = 引擎出厂值（略慢、适合跟读）。
+ * 档位刻意只给 4 个：孩子不需要无极滑杆，家长一眼能选完。
+ */
+const RATE_STEPS: Array<{ label: string; value: number }> = [
+  { label: '慢一点', value: 0.8 },
+  { label: '刚好', value: 0.92 },
+  { label: '稍快', value: 1.1 },
+  { label: '快一点', value: 1.25 },
+]
+
 export function ReaderScreen(props: ReaderProps) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
@@ -61,6 +72,12 @@ export function ReaderScreen(props: ReaderProps) {
   } | null>(null)
   const [scaffoldOpen, setScaffoldOpen] = useState(false)
   const [scaffoldLoading, setScaffoldLoading] = useState(false)
+  /**
+   * 专注模式（docs/11 P0-6 / RD-8）：点正文区收起顶栏与朗读栏，把屏幕还给共读。
+   * Reich 2016：平台控件越不抢眼，亲子对话越容易围绕书本身展开。
+   */
+  const [focused, setFocused] = useState(false)
+  const [focusHint, setFocusHint] = useState(false)
 
   const theme_ = THEMES[theme]
   const fontSize = FONT_SIZES[fontIdx] ?? 22
@@ -303,6 +320,30 @@ export function ReaderScreen(props: ReaderProps) {
     [props.lang, speaking, highlight, stopTts],
   )
 
+  /** 语速档位：写入引擎并持久化，朗读中改对下一句生效（docs/11 P0-2） */
+  const pickRate = useCallback((rate: number) => {
+    tts.configure({ rate, lang: props.lang })
+    setVoicePanel(false)
+  }, [props.lang])
+
+  /**
+   * 专注模式切换：只有点击在正文留白/段落上才触发，
+   * 落在按钮、图片、链接上的点击一律不吞（避免误触退出朗读）。
+   */
+  const toggleFocus = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement | null
+    if (target?.closest('button, a, figure, input, textarea, [data-no-focus]')) return
+    setFocused((prev) => {
+      const next = !prev
+      // 首次进入专注模式时给一次提示，告诉孩子怎么回来
+      if (next && !focusHint) {
+        setFocusHint(true)
+        setTimeout(() => setFocusHint(false), 2600)
+      }
+      return next
+    })
+  }, [focusHint])
+
   const isLastChapter = order >= props.totalChapters
 
   const goPrev = useCallback(() => {
@@ -369,8 +410,11 @@ export function ReaderScreen(props: ReaderProps) {
     <div className="fixed inset-0 z-50 flex flex-col" style={{ background: theme_.bg }}>
       {/* ── 顶栏（z-20 盖住底部栏的渐变蒙层，避免返回按钮被遮挡） ── */}
       <header
-        className="relative z-20 flex items-center gap-3 px-4 py-3"
+        className={`relative z-20 flex items-center gap-3 px-4 py-3 transition-all duration-200 ${
+          focused ? '-translate-y-2 opacity-0' : 'opacity-100'
+        }`}
         style={{ background: theme_.panel, borderBottom: `1px solid ${theme_.border}` }}
+        aria-hidden={focused}
       >
         <button
           type="button"
@@ -421,8 +465,9 @@ export function ReaderScreen(props: ReaderProps) {
         ) : null}
       </header>
 
-      {/* ── 正文 ── */}
+      {/* ── 正文（点击留白处切换专注模式，docs/11 P0-6） ── */}
       <main
+        onClick={toggleFocus}
         className="flex-1 overflow-y-auto px-6 pb-40 pt-6"
         style={{ scrollPaddingTop: 80 }}
       >
@@ -577,12 +622,35 @@ export function ReaderScreen(props: ReaderProps) {
         </div>
       </main>
 
+      {/* 专注模式首次提示：2.6 秒后自动消失，不打断阅读 */}
+      <AnimatePresence>
+        {focused && focusHint ? (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2 }}
+            className="pointer-events-none absolute inset-x-0 top-4 z-30 flex justify-center"
+          >
+            <span
+              className="rounded-full px-4 py-2 text-xs font-medium shadow-lg backdrop-blur-sm"
+              style={{ background: `${theme_.panel}ee`, color: theme_.text, border: `1px solid ${theme_.border}` }}
+            >
+              专心读故事吧 · 再点一下屏幕，工具就回来啦
+            </span>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
       {/* ── 底部朗读栏 ── */}
       <footer
-        className="absolute inset-x-0 bottom-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2"
+        className={`absolute inset-x-0 bottom-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 transition-all duration-200 ${
+          focused ? 'pointer-events-none translate-y-2 opacity-0' : 'opacity-100'
+        }`}
         style={{
           background: `linear-gradient(180deg, ${theme_.bg}00 0%, ${theme_.bg}cc 30%, ${theme_.bg} 100%)`,
         }}
+        aria-hidden={focused}
       >
         <div
           className="mx-auto flex max-w-2xl items-center gap-3 rounded-full p-2 shadow-xl"
@@ -877,9 +945,33 @@ export function ReaderScreen(props: ReaderProps) {
                 ))}
               </div>
             )}
-            <p className="mt-3 text-xs leading-relaxed opacity-60" style={{ color: theme_.text }}>
-              带「自然语音」标记的是云端神经网络语音，发音更像真人。推荐使用 Chrome 或 Edge 浏览器获得最佳效果。
-            </p>
+            {/* 语速档位（docs/11 P0-2 / RD-5）：引擎早已支持 rate，这里补上 UI */}
+            <div className="mt-5 border-t pt-4" style={{ borderColor: theme_.border }}>
+              <p className="mb-2 text-sm opacity-70" style={{ color: theme_.text }}>
+                朗读语速
+              </p>
+              <div className="flex gap-2">
+                {RATE_STEPS.map((r) => (
+                  <button
+                    key={r.value}
+                    type="button"
+                    onClick={() => pickRate(r.value)}
+                    aria-pressed={tts.config.rate === r.value}
+                    className="flex min-h-touch flex-1 items-center justify-center rounded-full text-sm font-medium"
+                    style={{
+                      background: tts.config.rate === r.value ? theme_.text : 'transparent',
+                      color: tts.config.rate === r.value ? theme_.bg : theme_.text,
+                      border: `1px solid ${tts.config.rate === r.value ? theme_.text : theme_.border}`,
+                    }}
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-3 text-xs leading-relaxed opacity-60" style={{ color: theme_.text }}>
+                带「自然语音」标记的是云端神经网络语音，发音更像真人。推荐使用 Chrome 或 Edge 浏览器获得最佳效果。
+              </p>
+            </div>
           </Sheet>
         ) : null}
       </AnimatePresence>
@@ -922,7 +1014,8 @@ function Sheet({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-lg"
+            // 触达红线 ≥64px（docs/11 P0-4）：36px 的叉号对孩子手指太小
+            className="flex h-16 w-16 items-center justify-center rounded-full text-xl"
             style={{ color: theme_.text }}
             aria-label="关闭"
           >

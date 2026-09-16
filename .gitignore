@@ -28,6 +28,18 @@ research/montages2/
 research/shots/
 research/*.txt
 research/s.html
+# 第三轮调研：只保留 iter3-report-*.md 结论，原始抓取产物（搜索引擎页/JSON/HTML）不入库
+research/so_*
+research/*.json
+research/*.html
+research/i3/
+research/itunes_apps/
+research/extract.mjs
+research/extract.py
+research/itunes_dump.py
+# 根目录调研残留
+gh1.json
+gh_readme.md
 
 # 环境产物（Python 残留，非项目文件）
 Lib/

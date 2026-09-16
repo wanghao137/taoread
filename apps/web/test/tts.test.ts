@@ -4,7 +4,7 @@
  * tts 单例的浏览器分支由 isSupported 守卫，不在此测；测的是可复用的纯函数。
  */
 import { describe, expect, it } from 'vitest'
-import { splitSentences, listVoices, pickVoice } from '../src/lib/tts'
+import { splitSentences, listVoices, pickVoice, sanitizeForSpeech } from '../src/lib/tts'
 
 describe('splitSentences（分句）', () => {
   it('空串与纯空白返回空数组', () => {
@@ -70,5 +70,23 @@ describe('listVoices / pickVoice（无 speechSynthesis 时的降级）', () => {
     expect(pickVoice('zh')).toBeNull()
     expect(pickVoice('zh', 'Microsoft 晓晓')).toBeNull()
     expect(pickVoice('en', 'Google US English')).toBeNull()
+  })
+})
+
+// docs/11 P0-2：iOS 26 朗读含尖括号的中文文本会崩溃，送入 utterance 前必须消毒
+describe('sanitizeForSpeech（iOS 防御）', () => {
+  it('尖括号转全角，其余字符不动', () => {
+    expect(sanitizeForSpeech('床前明月光')).toBe('床前明月光')
+    expect(sanitizeForSpeech('<b>加粗</b>')).toBe('＜b＞加粗＜/b＞')
+    expect(sanitizeForSpeech('a<b>c')).toBe('a＜b＞c')
+  })
+
+  it('分句结果消毒后仍能按标点切分', () => {
+    const parts = splitSentences(sanitizeForSpeech('<引子> 从前有座山。山里有座庙。'))
+    expect(parts).toEqual(['＜引子＞ 从前有座山。', '山里有座庙。'])
+  })
+
+  it('英文书名含尖括号也被转义', () => {
+    expect(sanitizeForSpeech('Alice <in> Wonderland')).toBe('Alice ＜in＞ Wonderland')
   })
 })

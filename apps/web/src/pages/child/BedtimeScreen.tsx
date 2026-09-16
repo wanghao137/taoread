@@ -36,7 +36,7 @@ export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
         <button
           type="button"
           onClick={onFinish}
-          className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-ink-secondary underline underline-offset-4"
+          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-secondary underline underline-offset-4"
         >
           先把今晚的故事收好
         </button>

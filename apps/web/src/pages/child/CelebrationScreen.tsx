@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import type { UnlockDto } from '../../lib/api'
 import { UNLOCK_EMOJI, unlockCopy } from '../../lib/finish'
 import { TaCard, TaButton } from '../../components/ui'
+import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 
 export interface CelebrationScreenProps {
   unlocked: UnlockDto[]
@@ -13,15 +14,16 @@ export interface CelebrationScreenProps {
 export function CelebrationScreen({ unlocked, onBack }: CelebrationScreenProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-      <motion.span
+      <motion.div
         aria-hidden
-        className="text-7xl"
+        className="relative h-28 w-28 overflow-hidden rounded-full shadow-[0_0_60px_rgba(255,217,122,0.4)]"
         initial={{ rotate: -20, scale: 0.5, opacity: 0 }}
         animate={{ rotate: 0, scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 200, damping: 14 }}
       >
-        🌙
-      </motion.span>
+        <SceneArt scene="loading-moon" />
+      </motion.div>
+      <TaoMascot mood="excited" className="h-12 w-12" />
 
       <h2 className="text-2xl font-bold leading-relaxed">
         今晚的故事

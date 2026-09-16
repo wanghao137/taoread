@@ -104,7 +104,7 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
       </div>
 
       {items.length === 0 ? (
-        <EmptyState emoji="📚" title={PARTITION_META[partition].empty} />
+        <EmptyState art="bookshelf" mood="hint" title={PARTITION_META[partition].empty} />
       ) : (
         <div className="flex flex-col gap-2">
           {items.map((b) => (

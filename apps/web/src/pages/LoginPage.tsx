@@ -5,6 +5,7 @@ import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
 import { TaButton, TaCard, TaSticker } from '../components/ui'
+import { SceneArt, TaoMascot } from '../components/art/SceneArt'
 
 function deviceId(): string {
   // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
@@ -74,13 +75,16 @@ export function LoginPage() {
       <header className="mb-10 text-center">
         <motion.div
           aria-hidden
-          className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-moon-300 text-4xl shadow-[0_0_50px_rgba(255,217,122,0.35)]"
-          animate={{ rotate: [0, -6, 0, 6, 0] }}
+          className="relative mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full shadow-[0_0_50px_rgba(255,217,122,0.35)]"
+          animate={{ rotate: [0, -3, 0, 3, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         >
-          🌙
+          <SceneArt scene="loading-moon" />
         </motion.div>
-        <h1 className="text-3xl font-bold tracking-wide">桃阅读</h1>
+        <div className="flex items-center justify-center gap-2">
+          <TaoMascot mood="happy" className="h-9 w-9" />
+          <h1 className="text-3xl font-bold tracking-wide">桃阅读</h1>
+        </div>
         <p className="mt-2 text-ink-secondary">每晚一个故事，和最爱的人一起</p>
       </header>
 

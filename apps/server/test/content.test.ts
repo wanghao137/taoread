@@ -77,6 +77,73 @@ describe('内容域 /api/content/books', () => {
     expect(res.statusCode).toBe(401)
   })
 
+  // docs/11 P0-1：书名/作者/章节标题子串搜索（孩子记的是「静夜思」这首诗，不是集子名）
+  it('q 参数按书名子串过滤', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?q=%E9%9D%99%E5%A4%9C',
+      headers: authHeaders(token),
+    })
+    expect(res.statusCode).toBe(200)
+    const body = res.json()
+    expect(body.total).toBeGreaterThan(0)
+    // 命中章节标题的算命中：唐诗集子里有「静夜思」
+    expect(body.books.map((b: { id: string }) => b.id)).toContain('tangshi-300')
+  })
+
+  it('q 匹配书名本身', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?q=%E8%A5%BF%E6%B8%B8',
+      headers: authHeaders(token),
+    })
+    expect(res.json().books.map((b: { id: string }) => b.id)).toContain('xiyou-journey')
+  })
+
+  it('q 参数匹配作者且大小写无关', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?q=carroll',
+      headers: authHeaders(token),
+    })
+    const body = res.json()
+    expect(body.books.map((b: { id: string }) => b.id)).toContain('alice-wonderland')
+  })
+
+  it('q 无结果时返回空数组而非报错', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?q=zzzz-none',
+      headers: authHeaders(token),
+    })
+    expect(res.statusCode).toBe(200)
+    expect(res.json().total).toBe(0)
+  })
+
+  it('q 搜索结果仍受家庭屏蔽约束', async () => {
+    // 先屏蔽 alice（家长端 PUT /blocked 的副作用：孩子端书架不可见）
+    await harness.app.inject({
+      method: 'PUT',
+      url: '/api/content/books/alice-wonderland/blocked',
+      headers: authHeaders(token),
+      payload: { blocked: true },
+    })
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?q=alice',
+      headers: authHeaders(token),
+    })
+    const body = res.json()
+    expect(body.books.find((b: { id: string }) => b.id === 'alice-wonderland')).toBeUndefined()
+    // 解除屏蔽，避免污染后续用例
+    await harness.app.inject({
+      method: 'PUT',
+      url: '/api/content/books/alice-wonderland/blocked',
+      headers: authHeaders(token),
+      payload: { blocked: false },
+    })
+  })
+
   it('章节正文按顺序返回块', async () => {
     const res = await harness.app.inject({
       method: 'GET',

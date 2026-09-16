@@ -54,7 +54,8 @@ export function StarSea({ bookId, title, token, onBack }: StarSeaProps) {
     if (state.kind === 'empty')
       return (
         <EmptyState
-          emoji="⭐"
+          art="star-sea"
+          mood="hint"
           title={bookId ? '这颗星球的第一颗星星等着被点亮' : '选一本书，来看看大家在划哪句'}
         />
       )

@@ -92,7 +92,8 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
   if (books.length === 0) {
     return (
       <EmptyState
-        emoji="🍑"
+        art="empty-sprout"
+        mood="happy"
         title="桃书库还没有书"
         hint="公版书库由应用统一维护，孩子端书架会自动出现。"
       />

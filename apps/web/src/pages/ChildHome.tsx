@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ChildDto, type ContentBookDto, type CosessionDto, type UnlockDto } from '../lib/api'
 import { useSession } from '../stores/session'
-import { Loading, ErrorState, EmptyState } from '../components/ui'
+import { Loading, ErrorState, EmptyState, TaSheet, TaButton } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
 import { RitualGate } from './child/RitualGate'
 import { BookPicker } from './child/BookPicker'
@@ -57,6 +57,8 @@ export function ChildHome() {
   const signOut = useSession((s) => s.signOut)
 
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
+  /** 换家庭确认层（docs/11 P0-8） */
+  const [confirmSwitch, setConfirmSwitch] = useState(false)
 
   // 门屏双通道防连点（N7-006，延续 BookPicker 的 busyRef 模式）
   const gateBusyRef = useRef(false)
@@ -288,7 +290,8 @@ export function ChildHome() {
       case 'no-children':
         return (
           <EmptyState
-            emoji="🍼"
+            art="nursery-window"
+            mood="sleepy"
             title="还没有小读者档案"
             hint="请爸爸妈妈先在家长端添加，然后回来点亮月亮"
           />
@@ -343,7 +346,7 @@ export function ChildHome() {
               onClick={() =>
                 setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
               }
-              className="min-h-[3rem] cursor-pointer self-start rounded-xl px-3 text-base text-ink-secondary"
+              className="min-h-touch cursor-pointer self-start rounded-xl px-3 text-base text-ink-secondary"
             >
               ← 回到月亮
             </button>
@@ -494,7 +497,8 @@ export function ChildHome() {
           </button>
           <button
             type="button"
-            onClick={signOut}
+            // 孩子误触会丢掉整个会话：先弹确认层（docs/11 P0-8 / MC-4 容错）
+            onClick={() => setConfirmSwitch(true)}
             className="min-h-touch cursor-pointer rounded-full border border-night-border px-4 text-sm text-ink-secondary"
           >
             换家庭
@@ -502,6 +506,25 @@ export function ChildHome() {
         </div>
       </div>
       <div className="flex flex-1 flex-col py-6">{body()}</div>
+
+      {/* 换家庭确认：把「不可逆」变成「可取消」 */}
+      <TaSheet open={confirmSwitch} onClose={() => setConfirmSwitch(false)} title="要换一个家庭吗？">
+        <p className="text-sm leading-relaxed text-ink-secondary">
+          回到登录页以后，今晚读到一半的故事会先保存在云端，下次进来还能接着读。
+        </p>
+        <div className="mt-5 flex gap-3">
+          <TaButton
+            variant="secondary"
+            className="flex-1"
+            onClick={() => setConfirmSwitch(false)}
+          >
+            我按错啦
+          </TaButton>
+          <TaButton className="flex-1" onClick={signOut}>
+            确认换家庭
+          </TaButton>
+        </div>
+      </TaSheet>
     </main>
   )
 }

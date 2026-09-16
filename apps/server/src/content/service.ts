@@ -87,21 +87,51 @@ function summarize(
  * 书库列表。stage 为孩子年龄段时做适龄过滤：
  * 3-5 只收 3-5；6-8 收 3-5+6-8；9-12 全收（含 9-12）。
  */
+/**
+ * 归一化匹配键：大小写折叠 + 去空白。中文不做拼音转换（v3 只做子串匹配，
+ * 拼音索引留 P1——需要全量拼音表，且孩子更可能直接念出书名而非打字）。
+ */
+function matchKey(s: string | null | undefined): string {
+  return (s ?? '').toLowerCase().replace(/\s+/g, '')
+}
+
 export async function listBooks(
   db: PrismaClient,
-  options: { childId?: string; familyId?: string; stage?: string | null; lang?: string | null } = {},
+  options: {
+    childId?: string
+    familyId?: string
+    stage?: string | null
+    lang?: string | null
+    /**
+     * 搜索（docs/11 P0-1）：匹配书名、作者，以及**章节标题**。
+     * 孩子脑子里记的是「静夜思」这首诗，而不是它收在哪本集子里——
+     * 只搜书名会让孩子搜不到自己真正想读的东西。
+     */
+    q?: string | null
+  } = {},
 ): Promise<BookSummaryDto[]> {
   const where: { lang?: string } = {}
   if (options.lang) where.lang = options.lang
+  const needle = matchKey(options.q)
   const books = await db.book.findMany({
     where,
-    include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
+    // q 非空时需要章节标题参与匹配；否则只取 id 计数，省掉多余字段
+    include: {
+      chapters: { select: { id: true, ...(needle ? { title: true } : {}) }, orderBy: { order: 'asc' } },
+    },
     orderBy: [{ lang: 'asc' }, { category: 'asc' }, { title: 'asc' }],
   })
 
   const stageRank: Record<string, number> = { '3-5': 1, '6-8': 2, '9-12': 3 }
   const maxRank = options.stage ? (stageRank[options.stage] ?? 3) : 3
-  const filtered = books.filter((b) => (stageRank[b.ageStage] ?? 3) <= maxRank)
+  const filtered = books.filter((b) => {
+    if ((stageRank[b.ageStage] ?? 3) > maxRank) return false
+    if (needle.length > 0) {
+      const inChapters = b.chapters.some((c) => matchKey(c.title).includes(needle))
+      return matchKey(b.title).includes(needle) || matchKey(b.author).includes(needle) || inChapters
+    }
+    return true
+  })
 
   // 进度批量查询（无 childId 时一律 0）
   const progressMap: Map<string, { pct: number; finished: boolean }> = new Map()

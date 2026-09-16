@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { TaCard, TaButton, Loading } from '../../components/ui'
+import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 import type { CosessionDto } from '../../lib/api'
 
 export interface RitualGateProps {
@@ -36,12 +37,14 @@ export function RitualGate({
     <div className="flex flex-1 flex-col justify-center gap-8">
       <motion.div
         aria-hidden
-        className="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-moon-300 text-7xl shadow-[0_0_80px_rgba(255,217,122,0.45)]"
+        className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[0_0_80px_rgba(255,217,122,0.45)]"
         animate={{ y: [6, -10, 6] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
-        🌙
+        <SceneArt scene="loading-moon" />
       </motion.div>
+      {/* 吉祥物小桃守在月亮边：有未收尾会话时眨眼提示，否则打瞌睡等你（docs/11 P0-5） */}
+      <TaoMascot mood={active ? 'hint' : 'sleepy'} className="mx-auto h-14 w-14" />
 
       {active ? (
         <TaCard className="text-center">
