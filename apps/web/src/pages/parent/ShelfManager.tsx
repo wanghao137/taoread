@@ -12,12 +12,11 @@ type ShelfState =
   | { kind: 'error'; message?: string }
   | { kind: 'ready'; dto: ShelfDto }
 
-type Partition = 'books' | 'albums' | 'mp'
+type Partition = 'books' | 'albums'
 
 const PARTITION_META: Record<Partition, { title: string; empty: string }> = {
   books: { title: '📖 图书', empty: '书架上还没有图书' },
   albums: { title: '🎧 听书', empty: '还没有听书专辑' },
-  mp: { title: '📰 文章收藏', empty: '还没有文章收藏' },
 }
 
 /** 书架管理（第 9 夜）：三分区 + 家长逐条屏蔽（孩子端即刻不可见） */
@@ -79,10 +78,9 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
   const partitions: Record<Partition, Array<{ bookId: string; title?: string; blocked: boolean }>> = {
     books: (dto.books ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: isBlocked('book', b.bookId) })),
     albums: (dto.albums ?? []).map((b) => ({ bookId: b.bookId, title: b.title, blocked: isBlocked('album', b.bookId) })),
-    mp: [],
   }
   const items = partitions[partition] ?? []
-  const kindOf: Record<Partition, string> = { books: 'book', albums: 'album', mp: 'book' }
+  const kindOf: Record<Partition, string> = { books: 'book', albums: 'album' }
 
   return (
     <div className="flex flex-col gap-4">
@@ -91,7 +89,7 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
       </p>
 
       <div className="flex gap-2">
-        {(Object.keys(PARTITION_META) as Partition[]).filter((p) => p !== 'mp').map((p) => (
+        {(Object.keys(PARTITION_META) as Partition[]).map((p) => (
           <TaButton
             key={p}
             size="md"

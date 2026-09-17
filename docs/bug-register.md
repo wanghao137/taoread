@@ -129,3 +129,9 @@
 | N11-008 | 2026-09-12 | P2 | e2e/demo-parent.spec.ts | 家长 e2e 末步注销删除共享演示家庭，后续 visual spec 无家可入（测试顺序耦合） | fixed（注销流拆至字母序末位 zz-teardown spec；家长 spec 保持非破坏性） | 交付日 |
 | N11-009 | 2026-09-12 | P2 | server/modules/reports/service.ts | 周报金句列表重复文本（种子轮换+不同晚划同句），演示观感差 | fixed（展示按文本去重，计数同步 dedupeByText） | 交付日 |
 | N11-R1 | 2026-09-12 | P3 | e2e/playwright.config.ts | 首版 npm 脚本 unlink e2e.db 在 Windows 文件占用下静默失败，跨运行状态污染（症状：登录即见续传卡） | fixed（改唯一时间戳库 e2e-run-*.db，零清理零竞争） | 交付日 |
+| N12-001 | 2026-09-16 | P0 | web/lib/api.ts | ttsVoices/ttsPreview/videoGenerate/videoStatus 四处未传 token → request 不带 Bearer → 401 → 全局 signOut 把孩子踢回登录页（一打开阅读器即触发） | fixed（request 增加会话令牌回退：显式 token 优先，未传时回退 useSession.token；登录前接口无会话时正确不带 Bearer；+3 回归测试） | 第 12 夜 |
+| N12-002 | 2026-09-16 | P0 | web/lib/haptics.ts | navigator.vibrate 解耦引用未绑 this → Chromium 抛 Illegal invocation；haptic('chapter') 跑在 loadChapter 之前，同步抛出中断翻章（e2e 4 处失败的共同根因；node 单测无 navigator 抓不到，只有 e2e 能抓） | fixed（.bind(navigator) + try/catch 兜底；+1 回归测试断言「抛错时不中断调用方」） | 第 12 夜 |
+| N12-003 | 2026-09-16 | P1 | server/modules/media/routes.ts | MIME 表无 .mp4 → 生成的章节动画以 octet-stream 下发，浏览器 <video> 拒播或触发下载（视频链路唯一跑通的那一次就翻车） | fixed（补 'video/mp4'） | 第 12 夜 |
+| N12-004 | 2026-09-16 | P2 | server/scripts/label-art.mjs | 用法注释写 `node scripts/label-art.mjs`，实跑 ERR_MODULE_NOT_FOUND（import 的是 TS 源）；且 join(process.cwd(), rel) 在仓库根跑报 32 个假「文件缺失」 | fixed（注释改 npx tsx；路径改从 import.meta.url 解析，cwd 无关；docs/14 复现命令同步） | 第 12 夜 |
+| N12-005 | 2026-09-16 | P2 | server/test/reports.test.ts | 调度器测例固定睡眠 60ms 等 setInterval(10ms) 落库，机器高负载定时器饥饿时误报失败 | fixed（改 untilCount 轮询条件，时序依赖变确定性断言） | 第 12 夜 |
+| N12-006 | 2026-09-16 | P2 | server/vitest.config.ts | argon2+SQLite 用例高负载偶发 4-6s 超默认 5s 门，全量门偶发误报 | fixed（testTimeout: 20_000 并注明原因） | 第 12 夜 |

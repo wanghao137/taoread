@@ -64,6 +64,52 @@ describe('createVideoTask 建任务', () => {
     await createVideoTask({ ...DEPS, fetch: fetchFn }, { prompt: 'x', seconds: 1 })
     expect((sent as { seconds: string }).seconds).toBe('4')
   })
+
+  it('队列满（503）时退避重试，最终成功（2026-09-17 探针实证：第 4 次重试建成）', async () => {
+    let calls = 0
+    const delays: number[] = []
+    const fetchFn = (() => {
+      calls += 1
+      if (calls < 4) {
+        return Promise.resolve(
+          new Response(JSON.stringify({ code: 'video_queue_full', message: 'queue is full' }), { status: 503 }),
+        )
+      }
+      return Promise.resolve(fakeOk({ video_id: 'task_after_retry' }))
+    }) as unknown as typeof fetch
+    const id = await createVideoTask(
+      { ...DEPS, fetch: fetchFn, sleep: (ms) => { delays.push(ms); return Promise.resolve() } },
+      { prompt: 'x' },
+    )
+    expect(id).toBe('task_after_retry')
+    expect(calls).toBe(4)
+    // 退避递增：12s → 24s → 36s
+    expect(delays).toEqual([12_000, 24_000, 36_000])
+  })
+
+  it('队列满重试 5 次仍失败 → 抛 VideoError（温柔文案，不泄漏内部码）', async () => {
+    let calls = 0
+    const fetchFn = (() => {
+      calls += 1
+      return Promise.resolve(new Response(JSON.stringify({ code: 'video_queue_full' }), { status: 503 }))
+    }) as unknown as typeof fetch
+    await expect(
+      createVideoTask({ ...DEPS, fetch: fetchFn, sleep: () => Promise.resolve() }, { prompt: 'x' }),
+    ).rejects.toThrow('视频排队太满了，请稍后再试一次')
+    expect(calls).toBe(5)
+  })
+
+  it('参数错误（400）不重试，立即抛出（重试无用）', async () => {
+    let calls = 0
+    const fetchFn = (() => {
+      calls += 1
+      return Promise.resolve(fakeOk({ detail: 'size must be 720P' }, 400))
+    }) as unknown as typeof fetch
+    await expect(
+      createVideoTask({ ...DEPS, fetch: fetchFn, sleep: () => Promise.resolve() }, { prompt: 'x' }),
+    ).rejects.toThrow('视频服务返回 400')
+    expect(calls).toBe(1)
+  })
 })
 
 describe('queryVideoTask 状态查询', () => {

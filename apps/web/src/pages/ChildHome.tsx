@@ -294,6 +294,8 @@ export function ChildHome() {
             mood="sleepy"
             title="还没有小读者档案"
             hint="请爸爸妈妈先在家长端添加，然后回来点亮月亮"
+            // 不能是死路：孩子拿着设备时，唯一可行的出口是退回登录页让家长加入（P1-1）
+            action={{ label: '回到登录页', onClick: () => useSession.getState().signOut() }}
           />
         )
       case 'pick-child':

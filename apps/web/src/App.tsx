@@ -76,7 +76,8 @@ export default function App() {
               </RequireRole>
             }
           />
-          <Route path="/dev/kitchen-sink" element={<KitchenSink />} />
+          {/* 设计系统调试页：只在开发构建开放，生产构建不挂路由（含 emoji 字典等内部素材） */}
+          {import.meta.env.DEV && <Route path="/dev/kitchen-sink" element={<KitchenSink />} />}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

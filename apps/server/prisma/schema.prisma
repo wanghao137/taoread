@@ -248,7 +248,7 @@ model VideoAsset {
   scene     String   @unique // chapter:book:order 等，与 ArtAsset 同键空间
   kind      String // chapter | cover
   taskId    String // agnes video_id，轮询用
-  status    String // queued | rendering | completed | failed
+  status    String // queued | pending | in_progress | completed | failed
   prompt    String
   seconds   Int      @default(5)
   urlPath   String? // 完成后：/api/media/videos/xxx.mp4

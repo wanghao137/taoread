@@ -14,6 +14,33 @@ type WallState =
   | { kind: 'error'; message?: string }
   | { kind: 'ready'; data: AchievementsDto }
 
+/** 一盏夜灯：SVG 绘制（P0-6 情绪屏零裸 emoji——不用 🕯️ 字符，各平台渲染不一致） */
+function LampDot({ delay }: { delay: number }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, type: 'spring', stiffness: 260, damping: 20 }}
+      className="inline-block h-7 w-7"
+      aria-hidden
+    >
+      <svg viewBox="0 0 24 24" className="h-full w-full">
+        {/* 灯暖光晕 */}
+        <circle cx="12" cy="13" r="9" fill="url(#lamp-glow)" />
+        {/* 灯芯火苗：水滴形 + 高光 */}
+        <path d="M12 6c2.2 2.4 3.4 4 3.4 5.6a3.4 3.4 0 1 1-6.8 0c0-1.6 1.2-3.2 3.4-5.6z" fill="#F6C453" />
+        <ellipse cx="10.6" cy="10.6" rx="1" ry="1.6" fill="#FFF3D6" opacity="0.9" />
+        <defs>
+          <radialGradient id="lamp-glow" cx="50%" cy="55%" r="60%">
+            <stop offset="0%" stopColor="#FFE9A8" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#FFE9A8" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+      </svg>
+    </motion.span>
+  )
+}
+
 /** 夜灯成就墙（第 8 夜）：纪念式展示，无锁定的阴影机制——每一格都是已发生的骄傲 */
 export function AchievementWall({ childId, token, onBack }: AchievementWallProps) {
   const [state, setState] = useState<WallState>({ kind: 'loading' })
@@ -64,17 +91,9 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
         <TaCard>
           <h3 className="mb-3 text-base font-bold text-ink-secondary">夜灯</h3>
           <p className="text-3xl font-bold text-moon-400">{lampCount} 晚</p>
-          <div className="mt-3 flex flex-wrap gap-1.5" aria-hidden>
+          <div className="mt-3 flex flex-wrap gap-1.5">
             {Array.from({ length: Math.min(lampCount, 24) }).map((_, i) => (
-              <motion.span
-                key={i}
-                className="text-xl"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.04 }}
-              >
-                🕯️
-              </motion.span>
+              <LampDot key={i} delay={i * 0.05} />
             ))}
           </div>
           <p className="mt-3 text-base text-ink-secondary">
