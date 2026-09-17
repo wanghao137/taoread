@@ -37,6 +37,8 @@ export interface BookSummaryDto {
   finished: boolean
   /** 家长是否屏蔽了这本内容域书（docs/09 C9） */
   blocked: boolean
+  /** AI 插画 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
+  coverArtUrl: string | null
 }
 
 export interface ChapterDto {
@@ -44,6 +46,8 @@ export interface ChapterDto {
   order: number
   title: string
   art: string | null
+  /** AI 题图 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
+  artUrl: string | null
   blocks: Array<{
     id: string
     order: number
@@ -55,6 +59,29 @@ export interface ChapterDto {
   }>
 }
 
+/**
+ * 批量取场景→AI 插画 URL 的映射（docs/13 P0-A）。
+ * 一次查询覆盖一本书的封面+各章题图，避免 N+1。
+ */
+async function artUrlMap(db: PrismaClient, scenes: string[]): Promise<Map<string, string>> {
+  if (scenes.length === 0) return new Map()
+  const rows = await db.artAsset.findMany({
+    where: { scene: { in: scenes } },
+    select: { scene: true, urlPath: true },
+  })
+  return new Map(rows.map((r) => [r.scene, r.urlPath]))
+}
+
+/** 封面场景键约定（与 artRoutes 生成时一致） */
+export function coverScene(bookId: string): string {
+  return `cover:${bookId}`
+}
+
+/** 章节题图场景键约定：优先用章节自带的 art 键，否则按 book:order 派生 */
+export function chapterScene(bookId: string, order: number, art: string | null | undefined): string {
+  return art && art.length > 0 ? art : `chapter:${bookId}:${order}`
+}
+
 function summarize(
   book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words'> & {
     chapters: unknown[]
@@ -62,6 +89,7 @@ function summarize(
   progressPct: number,
   finished: boolean,
   blocked: boolean,
+  coverArtUrl: string | null,
 ): BookSummaryDto {
   return {
     id: book.id,
@@ -80,6 +108,7 @@ function summarize(
     progress: progressPct,
     finished,
     blocked,
+    coverArtUrl,
   }
 }
 
@@ -157,9 +186,10 @@ export async function listBooks(
   const blockedIds = new Set(blockedRows.map((r) => r.bookId))
   const visible = filtered.filter((b) => !blockedIds.has(b.id))
 
+  const artMap = await artUrlMap(db, visible.map((b) => coverScene(b.id)))
   return visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false }
-    return summarize(b, p.pct, p.finished, false)
+    return summarize(b, p.pct, p.finished, false, artMap.get(coverScene(b.id)) ?? null)
   })
 }
 
@@ -169,7 +199,8 @@ export async function getBook(db: PrismaClient, contentId: string): Promise<Book
     include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
   })
   if (!book) return null
-  return summarize(book, 0, false, false)
+  const artMap = await artUrlMap(db, [coverScene(book.id)])
+  return summarize(book, 0, false, false, artMap.get(coverScene(book.id)) ?? null)
 }
 
 /**
@@ -194,6 +225,7 @@ export async function listBooksForParent(
     where: { childId: { in: childrenIds } },
     select: { childId: true, bookId: true, chapterOrder: true, finished: true },
   })
+  const artMap = await artUrlMap(db, books.map((b) => coverScene(b.id)))
   return books.map((b) => {
     const total = b.chapters.length
     const readers = progressRows
@@ -203,7 +235,13 @@ export async function listBooksForParent(
         return { childId: r.childId, progress: r.finished ? 100 : pct, finished: r.finished }
       })
     return {
-      ...summarize(b, readers.length > 0 ? Math.max(...readers.map((r) => r.progress)) : 0, readers.some((r) => r.finished), blockedMap.get(b.id) ?? false),
+      ...summarize(
+        b,
+        readers.length > 0 ? Math.max(...readers.map((r) => r.progress)) : 0,
+        readers.some((r) => r.finished),
+        blockedMap.get(b.id) ?? false,
+        artMap.get(coverScene(b.id)) ?? null,
+      ),
       readers,
     }
   })
@@ -223,11 +261,14 @@ export async function getChapter(
     include: { blocks: { orderBy: { order: 'asc' } } },
   })
   if (!chapter) return null
+  const scene = chapterScene(contentId, order, chapter.art)
+  const artMap = await artUrlMap(db, [scene])
   return {
     id: chapter.id,
     order: chapter.order,
     title: chapter.title,
     art: chapter.art,
+    artUrl: artMap.get(scene) ?? null,
     blocks: chapter.blocks.map((b: Block) => ({
       id: b.id,
       order: b.order,

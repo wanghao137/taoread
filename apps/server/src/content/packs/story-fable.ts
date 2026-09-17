@@ -14,6 +14,7 @@ export const keZhouQiuJian: PackBook = {
   ageStage: '6-8',
   intro: '剑掉进河里，却在船帮上刻记号——这样的找法，能找到剑吗？',
   coverArt: 'river-boat',
+  coverArtPrompt: '一幅中国古代江景：一叶小木舟停在江面上，水面泛着波纹，远处是青山和落日，船桨旁隐约有一把剑的剪影，江水静静流淌',
   coverFrom: '#00838F',
   coverTo: '#4DD0E1',
   source: '公版典籍（《吕氏春秋·察今》）白话改写',

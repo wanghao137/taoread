@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { TaCard, TaButton } from '../../components/ui'
+import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 
 export interface ReadyScreenProps {
   title: string
@@ -15,15 +16,15 @@ export interface ReadyScreenProps {
 export function ReadyScreen({ title, cover, bookId, onDepart, onStarSea }: ReadyScreenProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-      <motion.span
+      <motion.div
         aria-hidden
-        className="text-7xl"
+        className="h-24 w-24"
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 18 }}
       >
-        🌟
-      </motion.span>
+        <TaoMascot mood="excited" className="h-24 w-24" />
+      </motion.div>
 
       <h2 className="text-2xl font-bold leading-relaxed">
         选好啦！
@@ -36,9 +37,7 @@ export function ReadyScreen({ title, cover, bookId, onDepart, onStarSea }: Ready
           {cover ? (
             <img src={cover} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.visibility = 'hidden' }} />
           ) : (
-            <span aria-hidden className="flex h-full w-full items-center justify-center text-5xl">
-              📖
-            </span>
+            <SceneArt scene="bookshelf" className="h-full w-full" />
           )}
         </div>
         <TaButton className="w-full" onClick={onDepart}>
@@ -46,10 +45,10 @@ export function ReadyScreen({ title, cover, bookId, onDepart, onStarSea }: Ready
         </TaButton>
         {bookId && onStarSea && (
           <TaButton variant="ghost" size="md" className="mt-2 w-full" onClick={onStarSea}>
-            🌟 去金句星球看看
+            去金句星球看看
           </TaButton>
         )}
-        <p className="mt-3 text-base text-ink-secondary">和爸爸妈妈说一声，一起读吧 🍑</p>
+        <p className="mt-3 text-base text-ink-secondary">和爸爸妈妈说一声，一起读吧</p>
       </TaCard>
     </div>
   )

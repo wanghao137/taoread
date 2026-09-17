@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { TaoMascot } from '../../components/art/SceneArt'
 
 export interface BedtimeScreenProps {
   /** 有未收尾会话时给出期待感提示（不催促） */
@@ -13,11 +14,11 @@ export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
       <motion.div
         aria-hidden
-        className="flex h-32 w-32 items-center justify-center rounded-full bg-night-700 text-7xl shadow-inner"
+        className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-night-700 shadow-inner"
         animate={{ opacity: [1, 0.75, 1] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
-        😴
+        <TaoMascot mood="sleepy" className="h-24 w-24" />
       </motion.div>
 
       <h2 className="text-2xl font-bold leading-relaxed">

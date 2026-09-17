@@ -224,6 +224,43 @@ model Block {
   @@index([chapterId])
 }
 
+/// AI 生图产物（docs/13 P0-A）：把 SVG 场景键升级为绘本风插画。
+/// scene 与 Book.coverArt / Chapter.art / Block.art 同键；前端优先取 ArtAsset，
+/// 无记录时回退 SceneArt SVG（不阻断、不降级体验）。
+model ArtAsset {
+  id        String   @id @default(cuid())
+  scene     String   @unique // cover:<bookSlug> | chapter:<bookSlug>:<order> | mascot:<name>
+  kind      String // cover | chapter | mascot
+  urlPath   String // /api/media/art/...（媒体静态服务直取）
+  width     Int
+  height    Int
+  bytes     Int
+  prompt    String // 生成所用 prompt（留痕可审计）
+  model     String // 生图模型标识
+  createdAt DateTime @default(now())
+}
+
+/// AI 视频产物（docs/13 P0-E）：把章节场景变成 5 秒动画。
+/// 异步任务：先建行（queued），轮询到结果后回填 urlPath。
+/// scene 与 ArtAsset 同键，一个场景一个视频（重生成覆盖）。
+model VideoAsset {
+  id        String   @id @default(cuid())
+  scene     String   @unique // chapter:book:order 等，与 ArtAsset 同键空间
+  kind      String // chapter | cover
+  taskId    String // agnes video_id，轮询用
+  status    String // queued | rendering | completed | failed
+  prompt    String
+  seconds   Int      @default(5)
+  urlPath   String? // 完成后：/api/media/videos/xxx.mp4
+  width     Int      @default(0)
+  height    Int      @default(0)
+  bytes     Int      @default(0)
+  model     String
+  error     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 /// 权利台账（docs/07 §2 修改三）：只录公版或自有内容，字段留痕可审计
 model RightsLedger {
   id              String   @id @default(cuid())

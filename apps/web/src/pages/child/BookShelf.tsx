@@ -1,8 +1,12 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { api, ApiError, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
+import { BookCover } from '../../components/art/BookCover'
+import { audioPlayer } from '../../lib/audioPlayer'
+import { tts } from '../../lib/tts'
+import { previewText } from '../../lib/preview'
 
 interface BookShelfProps {
   onOpen: (book: ContentBookDto) => void
@@ -36,6 +40,55 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<Filter>('all')
   const [query, setQuery] = useState('')
+  /** 正在试听的书 id（docs/13 P0-4：书架卡片「试听一下」） */
+  const [previewing, setPreviewing] = useState<string | null>(null)
+  const previewTextCache = useRef<Map<string, string>>(new Map())
+
+  const stopPreview = useCallback(() => {
+    audioPlayer.stop()
+    tts.stop()
+    setPreviewing(null)
+  }, [])
+
+  // 服务端朗读结束 → 试听态自动复位；离开书架时停掉试听
+  useEffect(() => audioPlayer.onEnd(() => setPreviewing(null)), [])
+  useEffect(() => () => stopPreview(), [stopPreview])
+
+  const togglePreview = useCallback(
+    async (book: ContentBookDto) => {
+      if (previewing === book.id) {
+        stopPreview()
+        return
+      }
+      audioPlayer.stop()
+      tts.stop()
+      if (!token) return
+      let text = previewTextCache.current.get(book.id)
+      if (!text) {
+        try {
+          const res = await api.contentChapter(book.id, 1, token)
+          const raw = res.chapter.blocks
+            .filter((b) => b.kind === 'text' || b.kind === 'poem')
+            .map((b) => b.text)
+            .join('\n')
+          text = previewText(raw)
+          if (text) previewTextCache.current.set(book.id, text)
+        } catch {
+          return
+        }
+      }
+      if (!text) return
+      const lang: 'zh' | 'en' = book.lang === 'en' ? 'en' : 'zh'
+      setPreviewing(book.id)
+      const ok = await audioPlayer.speak(text, { lang })
+      if (!ok) {
+        // 服务端 TTS 不可用时静默回退 Web Speech（与阅读器同一套降级口径）
+        if (tts.speak(text, { lang })) setPreviewing(book.id)
+        else setPreviewing(null)
+      }
+    },
+    [previewing, token, stopPreview],
+  )
 
   const load = useCallback(
     (q: string) => {
@@ -83,9 +136,8 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
-          className="text-5xl"
         >
-          🍑
+          <TaoMascot mood="happy" className="h-14 w-14" />
         </motion.div>
         <p className="text-sm text-ink-secondary">小桃正在搬书…</p>
       </div>
@@ -227,26 +279,31 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           const meta = CATEGORY_META[book.category] ?? { label: book.category, emoji: '📖' }
           const continuing = book.progress > 0 && !book.finished
           return (
-            <motion.button
+            <motion.div
               key={book.id}
-              type="button"
-              onClick={() => onOpen(book)}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(i * 0.05, 0.4), duration: 0.35 }}
-              whileTap={{ scale: 0.96 }}
-              className="group flex flex-col gap-2 text-left"
-              aria-label={`打开《${book.title}》`}
+              className="group relative flex flex-col gap-2 text-left"
             >
+              <motion.button
+                type="button"
+                onClick={() => onOpen(book)}
+                whileTap={{ scale: 0.96 }}
+                className="flex flex-1 cursor-pointer flex-col gap-2 text-left"
+                aria-label={`打开《${book.title}》`}
+              >
               {/* 封面 */}
               <div
                 className="relative aspect-[3 / 4] overflow-hidden rounded-2xl shadow-lg ring-1 ring-white/10 transition-shadow group-hover:shadow-2xl"
               >
-                <SceneArt
+                <BookCover
+                  urlPath={book.coverArtUrl}
                   scene={book.coverArt}
                   from={book.coverFrom}
                   to={book.coverTo}
                   lang={book.lang}
+                  alt={`《${book.title}》封面`}
                 />
                 {/* 分类角标 */}
                 <span className="absolute left-2 top-2 rounded-full bg-black/35 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
@@ -283,7 +340,22 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                   {book.chapterCount} 章 · 约 {book.words} {book.lang === 'zh' ? '字' : '词'}
                 </p>
               </div>
-            </motion.button>
+              </motion.button>
+
+              {/* 试听一下（docs/13 P0-4）：不识字孩子的发现入口——按一下就响 */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  void togglePreview(book)
+                }}
+                disabled={previewing !== null && previewing !== book.id}
+                aria-label={previewing === book.id ? `停止试听《${book.title}》` : `试听《${book.title}》`}
+                className="absolute bottom-2 right-2 flex min-h-touch items-center gap-1 rounded-full bg-night-900/70 px-3 text-xs font-bold text-moon-300 backdrop-blur-sm disabled:opacity-30"
+              >
+                {previewing === book.id ? '■ 停止' : '▶ 试听'}
+              </button>
+            </motion.div>
           )
         })}
       </div>

@@ -394,3 +394,34 @@
 - `useEffect` 里做 idle 预取别放到 render 期（HomeRedirect 里直接调函数会重复执行）
 
 **遗留：** P1 未启动（继续读大卡片、排版开关）；v4 服务端 TTS（docs/11 §6 路线已定）。交付报告见 docs/12-第三次迭代交付报告.md。
+
+---
+
+## 2026-09-16 第四轮迭代收官（AI 媒介管线 + UX/UE 差距卡 + 合规）
+
+**上半场 AI 媒介管线：**
+- 生图 `agnes-image-2.5-flash`：32 张章节/封面插画，DB 32/32 全新模型（用户要求切换，已验证 0 残留）
+- TTS `stepaudio-3-gen-preview`：服务端 SSE 流式分句 + 4 档语速持久化 + iOS 尖括号防御
+- 视频 `agnes-video-2.5-flash`：题图「让画面动起来」异步任务 + 轮询 + 服务端缓存。**如实记录：云端两次都在 45 分钟超时失败（免费档排队上限），非代码缺陷**；模块覆盖全部状态，未配置时按钮永久隐藏
+- 降级链全部落地：503 → SVG 封面 / Web Speech / 隐藏按钮，无一崩
+
+**下半场差距卡 P0 8/8：** P0-1 就寝时段默认 night 主题（10 单测）｜P0-2 Loading 吉祥物+错误态再试一次｜P0-3 翻章/盖章/成就轻振动（7 单测）｜P0-4 书架试听小喇叭（17 单测）｜P0-5 英文听这个词｜P0-6 六屏 emoji 清零｜P0-7 Wake Lock 屏幕常亮（9 单测）｜P0-8 AI 隐式标识 + 协议（9 单测，32 张回填）
+
+**合规：** 《AI 生成合成内容标识办法》第五条隐式标识 32/32（`--check` 验证）+ 第八条协议明示；第十七条不触发（虚构角色）
+
+**质量门：** audit 0 违规｜typecheck 通过｜lint 0 error｜单测 **367**（276+91，较上轮 +105）｜e2e **14/14**
+
+**本轮修掉的真实缺陷（两个 P0）：**
+1. **漏带 token → 401 → 全局登出把孩子踢回登录页**：`ttsVoices/ttsPreview/videoGenerate/videoStatus` 四处未传 token。修：`request()` 加会话令牌回退（显式优先）+ 3 条回归测试
+2. **`navigator.vibrate` 解耦调用抛 Illegal invocation，同步中断翻章**：这是 e2e 剩余 4 处失败的**共同根因**（章节不推进 → 进度持久化/家长端/视觉截图全挂）。修：`.bind(navigator)` + try/catch + 回归测。**教训：跨多测试的失败先找共同上游，别逐个修现象**
+
+**测试脆弱性加固（非产品缺陷）：**
+- `night9` argon2+SQLite 高负载偶发 4-6s 超 5s 默认门 → `testTimeout: 20_000`
+- `reports` 调度器固定睡眠 60ms 等落库，定时器饥饿时误报 → `untilCount` 轮询条件
+
+**坑（本轮新踩，供复用）：**
+- **sharp 写 WebP 静默丢弃 `ExifIFD.UserComment`**；改写 `IFD0.ImageDescription` 后 JSON 载荷完整 round-trip
+- 从全局取 `navigator.vibrate` / `window.matchMedia` 这类**方法引用**必须绑 this，否则 Chromium 抛 Illegal invocation（且只在真实浏览器复现，node 单测测不到——e2e 才是唯一能抓它的网）
+- React StrictMode dev 下 effect 跑两遍 → SceneVideo 对每个场景发 2 次 503 探测，是设计内的降级噪音不是 bug
+
+**遗留：** P1 八项（首次引导/底部导航/继续读大卡/桃树生长/周报兴趣/就寝调暗/庆祝音/音节拆分）不阻塞 9-20 验收。交付报告见 docs/14-第四次迭代交付报告.md。

@@ -2,8 +2,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { api, ApiError, type ContentChapterDto } from '../../lib/api'
 import { tts, listVoices, type TtsVoiceInfo, type TtsProgress } from '../../lib/tts'
-import { SceneArt } from '../../components/art/SceneArt'
+import { audioPlayer, type VoiceOption, type AudioProgress } from '../../lib/audioPlayer'
+import { BookCover } from '../../components/art/BookCover'
+import { SceneVideo } from '../../components/art/SceneVideo'
+import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 import { useSession } from '../../stores/session'
+import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
+import { haptic } from '../../lib/haptics'
+import { extractNoteWord } from '../../lib/preview'
+import { acquireWakeLock, releaseWakeLock, wakeLockSupported } from '../../lib/wakeLock'
 
 interface ReaderProps {
   contentId: string
@@ -19,7 +26,7 @@ interface ReaderProps {
   onExit: (finished: boolean) => void
 }
 
-type Theme = 'paper' | 'night' | 'sepia'
+type Theme = ReadingTheme
 
 const THEMES: Record<Theme, { bg: string; text: string; panel: string; border: string; artFrom: string; artTo: string }> = {
   paper: { bg: '#FFFDF8', text: '#3E3A33', panel: '#FFFFFF', border: '#E8E0D0', artFrom: '#FFF3E0', artTo: '#FFE0B2' },
@@ -50,7 +57,8 @@ export function ReaderScreen(props: ReaderProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [order, setOrder] = useState(props.startChapter)
-  const [theme, setTheme] = useState<Theme>('paper')
+  // P0-1：默认主题按本地时段推导——安静时段（20:00~06:00）直接给夜空，不让孩子在暗夜里盯一块白屏
+  const [theme, setTheme] = useState<Theme>(() => defaultReadingTheme())
   const [fontIdx, setFontIdx] = useState(2)
   const [showSettings, setShowSettings] = useState(false)
   const [showChapters, setShowChapters] = useState(false)
@@ -72,6 +80,15 @@ export function ReaderScreen(props: ReaderProps) {
   } | null>(null)
   const [scaffoldOpen, setScaffoldOpen] = useState(false)
   const [scaffoldLoading, setScaffoldLoading] = useState(false)
+  /**
+   * 服务端朗读（docs/13 P0-C）：stepaudio 状态与选择。
+   * serverReady=null 表示尚未探测；true 时朗读栏优先走服务端合成。
+   */
+  const [serverReady, setServerReady] = useState<boolean | null>(null)
+  const [serverVoices, setServerVoices] = useState<VoiceOption[]>([])
+  const [serverVoice, setServerVoice] = useState<string | null>(null)
+  const [serverSpeed, setServerSpeed] = useState<number>(0.92)
+  const serverHighlightRef = useRef<AudioProgress | null>(null)
   /**
    * 专注模式（docs/11 P0-6 / RD-8）：点正文区收起顶栏与朗读栏，把屏幕还给共读。
    * Reich 2016：平台控件越不抢眼，亲子对话越容易围绕书本身展开。
@@ -184,10 +201,62 @@ export function ReaderScreen(props: ReaderProps) {
     setHighlight(null)
   }, [])
 
-  // 退出时停止朗读
+  /** 停止服务端朗读（与 Web Speech 引擎互斥，两者不会同时出声） */
+  const stopServer = useCallback(() => {
+    audioPlayer.stop()
+  }, [])
+
+  /* ── 服务端 TTS 探测 + 事件订阅（docs/13 P0-C）── */
+  useEffect(() => {
+    // 异步探测；失败/不支持时静默回退（serverReady=false 走 Web Speech）
+    void audioPlayer.probe().then((ok) => {
+      setServerReady(ok)
+      if (ok) {
+        setServerVoices(audioPlayer.voiceList)
+        // 语速偏好复用 Web Speech 引擎已持久化的档位
+        try {
+          const saved = globalThis.localStorage?.getItem('taoread-tts-rate')
+          if (saved) {
+            const n = Number(saved)
+            if (Number.isFinite(n) && n >= 0.5 && n <= 2) setServerSpeed(n)
+          }
+        } catch {
+          /* 隐私模式无存储 */
+        }
+      }
+    })
+    const offP = audioPlayer.onProgress((p) => {
+      serverHighlightRef.current = p
+      setHighlight({
+        index: p.index,
+        total: p.total,
+        text: p.text,
+        ...(p.charIndex >= 0 ? { charIndex: p.charIndex } : {}),
+      })
+    })
+    const offE = audioPlayer.onEnd(() => {
+      setSpeaking(false)
+      setHighlight(null)
+      serverHighlightRef.current = null
+    })
+    const offErr = audioPlayer.onError((msg) => {
+      setSpeaking(false)
+      setHighlight(null)
+      serverHighlightRef.current = null
+      setTtsError(msg)
+    })
+    return () => {
+      offP()
+      offE()
+      offErr()
+    }
+  }, [])
+
+  // 退出时停止朗读（两个引擎都停）
   useEffect(() => {
     return () => {
       if (tts.isSpeaking) tts.stop()
+      audioPlayer.stop()
     }
   }, [])
 
@@ -230,7 +299,9 @@ export function ReaderScreen(props: ReaderProps) {
       sleepLeftRef.current -= 1
       if (sleepLeftRef.current <= 0) {
         clearInterval(timer)
+        // 渐弱停止（Tonies 范式）：突然安静会惊醒半睡的孩子
         tts.stop()
+        audioPlayer.fadeOutAndStop()
         setSpeaking(false)
         setHighlight(null)
         setSleepMinutes(null)
@@ -277,21 +348,73 @@ export function ReaderScreen(props: ReaderProps) {
       ? '定时'
       : `⏲ ${Math.floor(sleepLeft / 60)}:${String(sleepLeft % 60).padStart(2, '0')}`
 
-  /** 朗读当前章节：拼接所有文本块 */
+  /**
+   * 朗读当前章节（docs/13 P0-C）。
+   * 优先服务端 stepaudio（拟人化、整章流式、字级时间轴），
+   * 不可用时回退浏览器 Web Speech（按句高亮）。
+   * 两条路径共用 speaking/highlight 状态，UI 无感知差异。
+   */
   const speakChapter = useCallback(() => {
     if (!chapter) return
     setTtsError(null)
     if (speaking) {
+      stopServer()
       stopTts()
       return
     }
-    const text = chapter.blocks
-      .filter((b) => b.kind === 'text' || b.kind === 'poem')
-      .map((b) => b.text)
-      .join('\n')
-    const started = tts.speak(text, { lang: props.lang })
-    if (started) setSpeaking(true)
-  }, [chapter, speaking, props.lang, stopTts])
+    // 用户手势入口：如果服务端队列被自动播放策略拦下（paused），从这里恢复
+    void (async () => {
+      if (serverReady) {
+        const resumed = await audioPlayer.resumeQueue()
+        if (resumed) {
+          setSpeaking(true)
+          return
+        }
+      }
+      // 先探测服务端 TTS；未就绪/失败时同步回退 Web Speech
+      let started = false
+      const lang: 'zh' | 'en' = props.lang === 'en' ? 'en' : 'zh'
+      try {
+        if (serverReady) {
+          started = await audioPlayer.speakChapter(
+            props.contentId,
+            order,
+            { bookTitle: props.bookTitle, title: chapter.title },
+            { lang, ...(serverVoice ? { voiceId: serverVoice } : {}), speed: serverSpeed },
+          )
+        }
+      } catch {
+        started = false
+      }
+      if (started) {
+        setSpeaking(true)
+        return
+      }
+      // 回退：浏览器语音
+      const text = chapter.blocks
+        .filter((b) => b.kind === 'text' || b.kind === 'poem')
+        .map((b) => b.text)
+        .join('\n')
+      const fallbackStarted = tts.speak(text, { lang: props.lang })
+      if (fallbackStarted) setSpeaking(true)
+    })()
+  }, [chapter, speaking, props.lang, props.contentId, props.bookTitle, order, serverReady, serverVoice, serverSpeed, stopTts, stopServer])
+
+  // P0-7：朗读时屏幕常亮（Wake Lock），停读/离开阅读器时释放
+  // iOS 18.4 以前不支持——拿不到锁时给一句温和提示，不阻塞朗读
+  const [wakeHint, setWakeHint] = useState(false)
+  useEffect(() => {
+    if (speaking) {
+      if (!wakeLockSupported()) setWakeHint(true)
+      void acquireWakeLock()
+    } else {
+      setWakeHint(false)
+      void releaseWakeLock()
+    }
+    return () => {
+      void releaseWakeLock()
+    }
+  }, [speaking])
 
   // 高亮句所在块滚动到视野
   useEffect(() => {
@@ -320,11 +443,38 @@ export function ReaderScreen(props: ReaderProps) {
     [props.lang, speaking, highlight, stopTts],
   )
 
-  /** 语速档位：写入引擎并持久化，朗读中改对下一句生效（docs/11 P0-2） */
-  const pickRate = useCallback((rate: number) => {
-    tts.configure({ rate, lang: props.lang })
-    setVoicePanel(false)
-  }, [props.lang])
+  /** 服务端音色选择（docs/13 P0-C）：写入播放器，朗读中切换则重播当前段 */
+  const pickServerVoice = useCallback(
+    (voiceId: string) => {
+      setServerVoice(voiceId)
+      setVoicePanel(false)
+      if (speaking && serverReady) {
+        const current = serverHighlightRef.current
+        audioPlayer.stop()
+        setSpeaking(false)
+        setHighlight(null)
+        if (current && current.text) {
+          const lang: 'zh' | 'en' = props.lang === 'en' ? 'en' : 'zh'
+          setTimeout(() => {
+            void audioPlayer.speak(current.text, { voiceId, speed: serverSpeed, lang }).then((ok) => {
+              if (ok) setSpeaking(true)
+            })
+          }, 120)
+        }
+      }
+    },
+    [speaking, serverReady, serverSpeed, props.lang],
+  )
+
+  /** 语速档位：写入两个引擎并持久化，朗读中改对下一段生效 */
+  const pickRate = useCallback(
+    (rate: number) => {
+      tts.configure({ rate, lang: props.lang })
+      setServerSpeed(rate)
+      setVoicePanel(false)
+    },
+    [props.lang],
+  )
 
   /**
    * 专注模式切换：只有点击在正文留白/段落上才触发，
@@ -346,14 +496,32 @@ export function ReaderScreen(props: ReaderProps) {
 
   const isLastChapter = order >= props.totalChapters
 
+  /**
+   * 动画画面描述（docs/13 P0-E）：用章节标题 + 书名拼一段画面描述，
+   * 与插画 prompt 同源，让动起来的是同一幅画。诗意章节用标题本身最有画面感。
+   */
+  const videoDescription = useMemo(() => {
+    const t = chapter?.title ?? ''
+    // 标题里的「· 作者」后缀去掉，只要画面本身
+    const main = t.split('·')[0]?.trim() || t
+    return `${props.bookTitle}·${main}：与诗意相符的安静优美画面`
+  }, [chapter?.title, props.bookTitle])
+
   const goPrev = useCallback(() => {
-    if (order > 1) void loadChapter(order - 1)
+    if (order > 1) {
+      haptic('chapter')
+      void loadChapter(order - 1)
+    }
   }, [order, loadChapter])
   const goNext = useCallback(() => {
-    if (!isLastChapter) void loadChapter(order + 1)
+    if (!isLastChapter) {
+      haptic('chapter')
+      void loadChapter(order + 1)
+    }
   }, [isLastChapter, order, loadChapter])
 
   const finish = useCallback(() => {
+    haptic('stamp')
     if (speaking) stopTts()
     if (childId && token) {
       void api
@@ -362,6 +530,16 @@ export function ReaderScreen(props: ReaderProps) {
     }
     props.onExit(true)
   }, [speaking, stopTts, childId, token, props])
+
+  /** P0-5：朗读英文 note 里的生词。服务端 TTS 优先，不可用时回退 Web Speech */
+  const speakNoteWord = useCallback(
+    async (word: string) => {
+      stopTts()
+      const ok = await audioPlayer.speak(word, { lang: 'en' })
+      if (!ok) tts.speak(word, { lang: 'en' })
+    },
+    [stopTts],
+  )
 
   const blocks = chapter?.blocks ?? []
   const speakingBlockId = useMemo(() => {
@@ -391,17 +569,31 @@ export function ReaderScreen(props: ReaderProps) {
   if (error) {
     return (
       <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 px-8" style={{ background: theme_.bg }}>
+        {/* S-12：网络闪一下不该把孩子踢出阅读器——先给「再试一次」，退出是次要操作 */}
+        <div aria-hidden>
+          <TaoMascot mood="hint" className="h-20 w-20" />
+        </div>
         <p style={{ color: theme_.text }} className="text-lg">
           {error}
         </p>
-        <button
-          type="button"
-          onClick={() => props.onExit(false)}
-          className="min-h-touch rounded-full px-6 text-base font-medium"
-          style={{ background: theme_.text, color: theme_.bg }}
-        >
-          回到书架
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => void loadChapter(order)}
+            className="min-h-touch rounded-full px-6 text-base font-bold"
+            style={{ background: theme_.text, color: theme_.bg }}
+          >
+            再试一次
+          </button>
+          <button
+            type="button"
+            onClick={() => props.onExit(false)}
+            className="min-h-touch rounded-full px-5 text-base font-medium"
+            style={{ border: `1px solid ${theme_.border}`, color: theme_.text }}
+          >
+            回到书架
+          </button>
+        </div>
       </div>
     )
   }
@@ -472,17 +664,27 @@ export function ReaderScreen(props: ReaderProps) {
         style={{ scrollPaddingTop: 80 }}
       >
         <div className="mx-auto max-w-2xl">
-          {/* 章节题图 */}
-          {chapter?.art && (
-            <div className="mb-6 overflow-hidden rounded-3xl shadow-lg" style={{ aspectRatio: '16 / 9' }}>
-              <SceneArt
+          {/* 章节题图（docs/13 P0-D：优先 AI 插画，回退 SVG 场景；P0-E：可生成 5 秒动画） */}
+          {chapter?.art ? (
+            <div className="mb-6">
+              <SceneVideo
                 scene={chapter.art}
-                from={theme === 'night' ? theme_.artFrom : props.coverFrom}
-                to={theme === 'night' ? theme_.artTo : props.coverTo}
-                lang={props.lang}
-              />
+                description={videoDescription}
+                aspectRatio="16:9"
+              >
+                <div className="overflow-hidden rounded-3xl shadow-lg" style={{ aspectRatio: '16 / 9' }}>
+                  <BookCover
+                    urlPath={chapter.artUrl}
+                    scene={chapter.art}
+                    from={theme === 'night' ? theme_.artFrom : props.coverFrom}
+                    to={theme === 'night' ? theme_.artTo : props.coverTo}
+                    lang={props.lang}
+                    alt={`${chapter.title}题图`}
+                  />
+                </div>
+              </SceneVideo>
             </div>
-          )}
+          ) : null}
           <h2
             className="mb-6 text-center text-2xl font-bold"
             style={{ color: theme_.text, fontFamily: props.lang === 'zh' ? 'serif' : 'inherit' }}
@@ -514,6 +716,8 @@ export function ReaderScreen(props: ReaderProps) {
               )
             }
             if (b.kind === 'note') {
+              // P0-5：英文 note 切出生词，孩子可以点喇叭听发音（切不出时不渲染按钮）
+              const noteWord = extractNoteWord(b.text)
               return (
                 <div
                   key={b.id}
@@ -524,9 +728,22 @@ export function ReaderScreen(props: ReaderProps) {
                   <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl">
                     <SceneArt scene={b.art ?? 'lamp-hint'} from={theme_.artFrom} to={theme_.artTo} lang={props.lang} />
                   </div>
-                  <p className="text-sm leading-relaxed" style={{ color: theme_.text }}>
-                    {b.text}
-                  </p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm leading-relaxed" style={{ color: theme_.text }}>
+                      {b.text}
+                    </p>
+                    {noteWord ? (
+                      <button
+                        type="button"
+                        onClick={() => void speakNoteWord(noteWord)}
+                        className="mt-2 flex min-h-touch items-center gap-1.5 rounded-full px-3 text-xs font-bold"
+                        style={{ border: `1px solid ${theme_.border}`, color: theme_.text }}
+                        aria-label={`听 ${noteWord} 的发音`}
+                      >
+                        ▶ 听这个词
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               )
             }
@@ -607,7 +824,7 @@ export function ReaderScreen(props: ReaderProps) {
                 onClick={finish}
                 className="min-h-touch rounded-full bg-peach-gradient px-6 text-sm font-bold text-white shadow-lg"
               >
-                读完啦 🍑
+                读完啦
               </button>
             ) : (
               <button
@@ -679,21 +896,29 @@ export function ReaderScreen(props: ReaderProps) {
                 className="flex w-full min-h-touch items-center gap-2 rounded-full px-2 text-left text-sm"
                 style={{ color: theme_.text }}
               >
-                <span className="opacity-60">{tts.isSupported ? '点击选择声音' : '当前浏览器不支持朗读'}</span>
+                <span className="opacity-60">
+                  {serverReady
+                    ? serverVoices.find((v) => v.id === serverVoice)?.label ?? '桃桃声库 · 拟人朗读'
+                    : tts.isSupported
+                      ? '点击选择声音'
+                      : '当前浏览器不支持朗读'}
+                </span>
               </button>
             )}
           </div>
-          {tts.isSupported ? (
+          {tts.isSupported || serverReady ? (
             <button
               type="button"
               onClick={() => setVoicePanel(true)}
               className="min-h-touch rounded-full px-3 text-xs"
               style={{ color: theme_.text, border: `1px solid ${theme_.border}` }}
             >
-              {voices.find((v) => v.voiceURI === tts.config.voiceURI)?.name?.split(' ').slice(0, 2).join(' ') ?? '声音'}
+              {serverReady
+                ? serverVoices.find((v) => v.id === serverVoice)?.label ?? '声音'
+                : voices.find((v) => v.voiceURI === tts.config.voiceURI)?.name?.split(' ').slice(0, 2).join(' ') ?? '声音'}
             </button>
           ) : null}
-          {tts.isSupported ? (
+          {tts.isSupported || serverReady ? (
             <button
               type="button"
               onClick={() => setSleepPanel(true)}
@@ -712,6 +937,11 @@ export function ReaderScreen(props: ReaderProps) {
         {ttsError ? (
           <p className="mt-1 text-center text-xs" style={{ color: '#E57373' }}>
             {ttsError}
+          </p>
+        ) : null}
+        {wakeHint ? (
+          <p className="mt-1 text-center text-xs" style={{ color: theme_.text, opacity: 0.7 }}>
+            这台设备管不住屏幕，请帮小读者保持屏幕亮着
           </p>
         ) : null}
       </footer>
@@ -907,42 +1137,91 @@ export function ReaderScreen(props: ReaderProps) {
       <AnimatePresence>
         {voicePanel ? (
           <Sheet onClose={() => setVoicePanel(false)} theme_={theme_} title="选择朗读声音">
+            {/* 服务端音色（docs/13 P0-C）：拟人化，优先展示 */}
+            {serverReady && serverVoices.length > 0 ? (
+              <div className="mb-5">
+                <p className="mb-2 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
+                  桃桃声库 · 拟人朗读
+                </p>
+                <div className="flex flex-col gap-1">
+                  {serverVoices.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => pickServerVoice(v.id)}
+                      className="min-h-touch flex items-center gap-3 rounded-xl px-4 py-3 text-left"
+                      style={{
+                        background: serverVoice === v.id ? theme_.text + '18' : 'transparent',
+                      }}
+                    >
+                      <span
+                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-base"
+                        style={{ background: '#FF8E7533' }}
+                      >
+                        🎙️
+                      </span>
+                      <span className="flex-1">
+                        <span className="block text-sm font-medium" style={{ color: theme_.text }}>
+                          {v.label}
+                        </span>
+                        <span className="block text-xs opacity-60" style={{ color: theme_.text }}>
+                          {v.description}
+                        </span>
+                      </span>
+                      {serverVoice === v.id ? (
+                        <span
+                          className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                          style={{ background: '#FF6D54' }}
+                        >
+                          在用
+                        </span>
+                      ) : null}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             {voices.length === 0 ? (
               <p className="py-6 text-center text-sm opacity-70" style={{ color: theme_.text }}>
                 正在加载浏览器声音列表…
               </p>
             ) : (
-              <div className="flex max-h-64 flex-col gap-1 overflow-y-auto">
-                {voices.map((v) => (
-                  <button
-                    key={v.voiceURI}
-                    type="button"
-                    onClick={() => pickVoice(v.voiceURI)}
-                    className="min-h-touch flex items-center gap-3 rounded-xl px-4 py-3 text-left"
-                    style={{
-                      background: tts.config.voiceURI === v.voiceURI ? theme_.text + '18' : 'transparent',
-                    }}
-                  >
-                    <span className="flex-1 text-sm" style={{ color: theme_.text }}>
-                      {v.name}
-                    </span>
-                    {v.neural ? (
-                      <span
-                        className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
-                        style={{ background: '#7C4DFF' }}
-                      >
-                        自然语音
+              <div>
+                <p className="mb-2 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
+                  浏览器语音
+                </p>
+                <div className="flex max-h-48 flex-col gap-1 overflow-y-auto">
+                  {voices.map((v) => (
+                    <button
+                      key={v.voiceURI}
+                      type="button"
+                      onClick={() => pickVoice(v.voiceURI)}
+                      className="min-h-touch flex items-center gap-3 rounded-xl px-4 py-3 text-left"
+                      style={{
+                        background: tts.config.voiceURI === v.voiceURI ? theme_.text + '18' : 'transparent',
+                      }}
+                    >
+                      <span className="flex-1 text-sm" style={{ color: theme_.text }}>
+                        {v.name}
                       </span>
-                    ) : (
-                      <span
-                        className="rounded-full px-2 py-0.5 text-[10px]"
-                        style={{ background: theme_.text + '22', color: theme_.text }}
-                      >
-                        标准
-                      </span>
-                    )}
-                  </button>
-                ))}
+                      {v.neural ? (
+                        <span
+                          className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                          style={{ background: '#7C4DFF' }}
+                        >
+                          自然语音
+                        </span>
+                      ) : (
+                        <span
+                          className="rounded-full px-2 py-0.5 text-[10px]"
+                          style={{ background: theme_.text + '22', color: theme_.text }}
+                        >
+                          标准
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {/* 语速档位（docs/11 P0-2 / RD-5）：引擎早已支持 rate，这里补上 UI */}
@@ -956,12 +1235,12 @@ export function ReaderScreen(props: ReaderProps) {
                     key={r.value}
                     type="button"
                     onClick={() => pickRate(r.value)}
-                    aria-pressed={tts.config.rate === r.value}
+                    aria-pressed={serverSpeed === r.value || tts.config.rate === r.value}
                     className="flex min-h-touch flex-1 items-center justify-center rounded-full text-sm font-medium"
                     style={{
-                      background: tts.config.rate === r.value ? theme_.text : 'transparent',
-                      color: tts.config.rate === r.value ? theme_.bg : theme_.text,
-                      border: `1px solid ${tts.config.rate === r.value ? theme_.text : theme_.border}`,
+                      background: serverSpeed === r.value || tts.config.rate === r.value ? theme_.text : 'transparent',
+                      color: serverSpeed === r.value || tts.config.rate === r.value ? theme_.bg : theme_.text,
+                      border: `1px solid ${serverSpeed === r.value || tts.config.rate === r.value ? theme_.text : theme_.border}`,
                     }}
                   >
                     {r.label}
@@ -969,7 +1248,9 @@ export function ReaderScreen(props: ReaderProps) {
                 ))}
               </div>
               <p className="mt-3 text-xs leading-relaxed opacity-60" style={{ color: theme_.text }}>
-                带「自然语音」标记的是云端神经网络语音，发音更像真人。推荐使用 Chrome 或 Edge 浏览器获得最佳效果。
+                {serverReady
+                  ? '「桃桃声库」是服务器合成的拟人朗读，发音自然、可以锁屏继续听。下面是浏览器自带的语音，不需要网络也能用。'
+                  : '带「自然语音」标记的是云端神经网络语音，发音更像真人。推荐使用 Chrome 或 Edge 浏览器获得最佳效果。'}
               </p>
             </div>
           </Sheet>

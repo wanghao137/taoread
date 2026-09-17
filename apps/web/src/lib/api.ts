@@ -31,7 +31,10 @@ interface ErrorBody {
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = {}
   if (options.body !== undefined) headers['Content-Type'] = 'application/json'
-  if (options.token) headers['Authorization'] = `Bearer ${options.token}`
+  // 显式 token 优先；未传时回退会话令牌——调用方不可能「忘记带 token」
+  // （tts/voices 等接口曾漏带，触发 401 → 全局登出把孩子踢回登录页，docs/14）
+  const bearer = options.token ?? useSession.getState().token
+  if (bearer) headers['Authorization'] = `Bearer ${bearer}`
 
   let response: Response
   try {
@@ -354,6 +357,145 @@ export const api = {
       `/api/content/books/${encodeURIComponent(contentId)}/scaffold?chapterOrder=${chapterOrder}`,
       { token },
     ),
+
+  // ── 第四轮（docs/13 P0-B）：服务端 TTS ──
+
+  ttsVoices: () =>
+    request<{
+      voices: Array<{ id: string; label: string; lang: string; description: string }>
+      defaultSpeed: number
+      available: boolean
+    }>('/api/tts/voices'),
+
+  ttsPreview: (body: { text: string; voiceId?: string; speed?: number; lang: 'zh' | 'en' }) =>
+    request<{
+      audioUrl: string
+      format: string
+      durationMs: number
+      chars: Array<{ char: string; start: number; end: number }>
+      cached: boolean
+    }>('/api/tts/preview', { method: 'POST', body }),
+
+  /**
+   * 整章流式合成：SSE 逐段下推。收到一段播一段，不等情况。
+   * 不走通用 request()（那是 JSON 往返），这里直接解 ReadableStream。
+   */
+  ttsChapterStream: (
+    contentId: string,
+    chapterOrder: number,
+    body: { voiceId?: string; speed?: number; lang: 'zh' | 'en' },
+    handlers: {
+      onSegment: (seg: {
+        index: number
+        text: string
+        audioUrl: string
+        durationMs: number
+        chars: Array<{ char: string; start: number; end: number }>
+        cached: boolean
+      }) => void
+      onError: (message: string) => void
+      onDone: () => void
+    },
+  ) => fetchSseChapter(contentId, chapterOrder, body, handlers),
+
+  // ── 第四轮（docs/13 P0-E）：AI 视频 ──
+
+  videoGenerate: (body: {
+    scene: string
+    description: string
+    seconds?: number
+    aspectRatio?: '16:9' | '9:16' | '1:1' | '3:4' | '4:3' | '21:9'
+  }) =>
+    request<{
+      scene: string
+      status: 'queued' | 'pending' | 'completed'
+      taskId?: string
+      videoUrl?: string
+      cached: boolean
+    }>('/api/video/generate', { method: 'POST', body }),
+
+  videoStatus: (scene: string) =>
+    request<{
+      scene: string
+      status: 'queued' | 'pending' | 'in_progress' | 'completed' | 'failed'
+      progress?: number
+      videoUrl?: string | null
+      error?: string | null
+    }>(`/api/video/${encodeURIComponent(scene)}`),
+}
+
+/** SSE 解码：读 /api/tts/chapter 的流，按事件名分派（docs/13 P0-C） */
+async function fetchSseChapter(
+  contentId: string,
+  chapterOrder: number,
+  body: { voiceId?: string; speed?: number; lang: 'zh' | 'en' },
+  handlers: {
+    onSegment: (seg: {
+      index: number
+      text: string
+      audioUrl: string
+      durationMs: number
+      chars: Array<{ char: string; start: number; end: number }>
+      cached: boolean
+    }) => void
+    onError: (message: string) => void
+    onDone: () => void
+  },
+): Promise<void> {
+  const session = useSession.getState()
+  const res = await fetch(
+    `${API_BASE}/api/tts/chapter/${encodeURIComponent(contentId)}/${chapterOrder}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(session.token ? { Authorization: `Bearer ${session.token}` } : {}),
+      },
+      body: JSON.stringify(body),
+    },
+  )
+  if (!res.ok || !res.body) {
+    const text = await res.text().catch(() => '')
+    throw new ApiError(res.status, 'TTS_FAILED', text || '整章朗读没准备好，可以一段一段听')
+  }
+
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  let buf = ''
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buf += decoder.decode(value, { stream: true })
+    // SSE 事件以空行分隔
+    const events = buf.split('\n\n')
+    buf = events.pop() ?? ''
+    for (const ev of events) {
+      const lines = ev.split('\n')
+      let eventName = 'message'
+      let data = ''
+      for (const line of lines) {
+        if (line.startsWith('event:')) eventName = line.slice(6).trim()
+        else if (line.startsWith('data:')) data += line.slice(5).trim()
+      }
+      if (!data) continue
+      if (eventName === 'segment') {
+        try {
+          handlers.onSegment(JSON.parse(data))
+        } catch {
+          /* 单段解析失败跳过，不中断整章 */
+        }
+      } else if (eventName === 'error') {
+        try {
+          handlers.onError((JSON.parse(data) as { message?: string }).message ?? '这一段朗读没成功')
+        } catch {
+          handlers.onError('这一段朗读没成功')
+        }
+      } else if (eventName === 'done') {
+        handlers.onDone()
+      }
+    }
+  }
+  handlers.onDone()
 }
 
 export interface ContentBookDto {
@@ -366,6 +508,8 @@ export interface ContentBookDto {
   ageStage: string
   intro: string | null
   coverArt: string
+  /** AI 封面插画 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
+  coverArtUrl: string | null
   coverFrom: string | null
   coverTo: string | null
   words: number
@@ -386,6 +530,8 @@ export interface ContentChapterDto {
   order: number
   title: string
   art: string | null
+  /** AI 题图 URL（docs/13 P0-A）；无则 null */
+  artUrl: string | null
   blocks: Array<{
     id: string
     order: number

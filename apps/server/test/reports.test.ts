@@ -18,6 +18,17 @@ import { ALL_PACKS } from '../src/content/packs'
 // 2026-09-07（周一）20:00 本地
 const T0 = new Date(2026, 8, 7, 20, 0).getTime() / 1000
 
+/** 调度器跑在真实 setInterval 上：固定睡眠在高负载机器上会因定时器饥饿而误报，
+ * 轮询条件直到满足或超时，把时序依赖变成确定性断言（2026-09-16 全量门偶发失败） */
+async function untilCount(count: () => Promise<number>, expected: number, timeoutMs = 3000): Promise<void> {
+  const deadline = Date.now() + timeoutMs
+  while (Date.now() < deadline) {
+    if ((await count()) === expected) return
+    await new Promise((r) => setTimeout(r, 25))
+  }
+  throw new Error(`调度器在 ${timeoutMs}ms 内未达到预期 ${expected}（实际 ${await count()}）`)
+}
+
 describe('周报域（第 10 夜 M-B 收官）', () => {
   let h: TestHarness
   let db: PrismaClient
@@ -192,15 +203,14 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
       intervalMs: 10,
       now: () => tickNow,
     })
-    // 等两轮 tick
-    await new Promise((r) => setTimeout(r, 60))
-    expect(await db.weeklyReport.count({ where: { familyId: f.familyId } })).toBe(1)
+    // 等调度器真正落库（轮询而非固定睡眠，避免高负载定时器饥饿）
+    await untilCount(() => db.weeklyReport.count({ where: { familyId: f.familyId } }), 1)
     // 同日再 tick 不重复（lastRunDay 标记 + upsert 双保险）
-    await new Promise((r) => setTimeout(r, 40))
+    await new Promise((r) => setTimeout(r, 100))
     expect(await db.weeklyReport.count()).toBe(1)
     // 非周日不触发
     tickNow = new Date(2026, 8, 7, 19, 0) // 周一
-    await new Promise((r) => setTimeout(r, 40))
+    await new Promise((r) => setTimeout(r, 100))
     expect(await db.weeklyReport.count()).toBe(1)
     handle.stop()
     // 时间推进验证：注入时钟变化后 isSundayEveningRun 语义（窗口 19:00–20:00，N10-R10）

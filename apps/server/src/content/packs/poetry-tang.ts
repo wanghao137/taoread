@@ -15,6 +15,7 @@ export const tangShi: PackBook = {
   ageStage: '3-5',
   intro: '最短的唐诗，最好听的韵脚。每首旁边都有一幅小画，和一句大白话解释。',
   coverArt: 'poetry-moon',
+  coverArtPrompt: '一幅星空下的唐诗画卷：深蓝色夜空中挂着一轮明月，月光下有古代亭子、竹林和小石桌，桌上摊开一卷古诗书卷，萤火虫在四周飞舞',
   coverFrom: '#1E2A5A',
   coverTo: '#4A5FBF',
   source: '公版古诗（唐代）精选，自撰注音与白话译文',

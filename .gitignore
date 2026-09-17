@@ -44,3 +44,6 @@ gh_readme.md
 # 环境产物（Python 残留，非项目文件）
 Lib/
 scripts/pip*.exe
+media/
+!.tao-tmp
+.tao-tmp/

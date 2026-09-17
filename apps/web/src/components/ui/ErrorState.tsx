@@ -1,4 +1,5 @@
 import { TaButton } from './TaButton'
+import { SceneArt, TaoMascot } from '../art/SceneArt'
 
 export interface ErrorStateProps {
   /** 服务端返回的中文 message；未传时用通用文案 */
@@ -6,13 +7,19 @@ export interface ErrorStateProps {
   onRetry?: () => void
 }
 
-/** 错误态（design-system §7）：零指责文案 + 重试 */
+/** 错误态（design-system §7 + docs/13 P0-2）：零指责文案 + 重试
+ *
+ * 不用 emoji（☁️ 对不识字孩子信息量为零）：吉祥物困惑表情 + 灯笼场景画，
+ * 孩子看到「小桃在想办法」而不是「一个奇怪的符号」。 */
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <div role="alert" className="flex flex-col items-center gap-4 py-16 text-center">
-      <span aria-hidden className="text-5xl">
-        ☁️
-      </span>
+      <div aria-hidden className="relative">
+        <SceneArt scene="lamp-hint" className="h-20 w-20" />
+        <div className="absolute -bottom-1 -right-1">
+          <TaoMascot mood="hint" className="h-10 w-10" />
+        </div>
+      </div>
       <div>
         <p className="text-lg font-bold">{message ?? '星星眨了眨眼，好像走神了'}</p>
         <p className="mt-1 text-ink-secondary">再试一次，故事还在等着我们</p>

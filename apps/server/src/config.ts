@@ -33,6 +33,18 @@ const schema = z
         return n
       }),
     WEREAD_API_KEY: z.string().optional(),
+    // ── 第四轮（docs/13）：AI 生图 + 服务端 TTS + AI 视频 ──
+    TAO_IMAGE_BASE: z.string().url().optional(),
+    TAO_IMAGE_KEY: z.string().optional(),
+    TAO_IMAGE_MODEL: z.string().default('agnes-image-2.5-flash'),
+    // agnes-video：异步任务，key 只入 .env
+    TAO_VIDEO_BASE: z.string().url().optional(),
+    TAO_VIDEO_KEY: z.string().optional(),
+    TAO_VIDEO_MODEL: z.string().default('agnes-video-2.5-flash'),
+    // 阶跃星辰 stepaudio：限时免费期使用，base/key/model 三件套
+    TTS_BASE: z.string().url().optional(),
+    TTS_API_KEY: z.string().optional(),
+    TTS_MODEL: z.string().default('stepaudio-3-gen-preview'),
   })
   .superRefine((cfg, ctx) => {
     if (cfg.NODE_ENV === 'prod' && cfg.TAO_ALLOWED_ORIGIN === '*') {
@@ -44,6 +56,21 @@ const schema = z
   })
 
 export type AppConfig = z.infer<typeof schema>
+
+/** 服务端 TTS 是否可用（缺 base/key 时朗读降级为浏览器 Web Speech，docs/13 P0-B） */
+export function ttsAvailable(cfg: AppConfig): boolean {
+  return Boolean(cfg.TTS_BASE && cfg.TTS_API_KEY)
+}
+
+/** AI 生图是否可用（缺 base/key 时封面回退 SVG 场景，docs/13 P0-A） */
+export function imageGenAvailable(cfg: AppConfig): boolean {
+  return Boolean(cfg.TAO_IMAGE_BASE && cfg.TAO_IMAGE_KEY)
+}
+
+/** AI 视频是否可用（缺 base/key 时「让画面动起来」按钮不展示，docs/13 P0-E） */
+export function videoGenAvailable(cfg: AppConfig): boolean {
+  return Boolean(cfg.TAO_VIDEO_BASE && cfg.TAO_VIDEO_KEY)
+}
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const result = schema.safeParse(env)

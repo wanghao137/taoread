@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { api, ApiError, type AchievementsDto } from '../../lib/api'
 import { Loading, ErrorState, EmptyState, TaCard } from '../../components/ui'
@@ -18,7 +18,7 @@ type WallState =
 export function AchievementWall({ childId, token, onBack }: AchievementWallProps) {
   const [state, setState] = useState<WallState>({ kind: 'loading' })
 
-  const load = () => {
+  const load = useCallback(() => {
     let alive = true
     setState({ kind: 'loading' })
     api
@@ -35,9 +35,9 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
     return () => {
       alive = false
     }
-  }
+  }, [childId, token])
 
-  useEffect(() => load(), [childId, token])
+  useEffect(() => load(), [childId, token, load])
 
   function body() {
     if (state.kind === 'loading') return <Loading label="夜灯一盏盏亮起来…" />

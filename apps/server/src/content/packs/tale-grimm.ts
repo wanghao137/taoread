@@ -16,6 +16,7 @@ export const littleRedCap: PackBook = {
   ageStage: '3-5',
   intro: 'A little girl in a red hood goes to visit her grandmother. But someone is waiting on the path…',
   coverArt: 'red-riding-hood',
+  coverArtPrompt: 'a little girl in a red hooded cape walking along a forest path carrying a basket of flowers, tall green trees, soft golden sunlight through the leaves, a friendly squirrel on a branch',
   coverFrom: '#C62828',
   coverTo: '#EF9A9A',
   source: 'Project Gutenberg eBook #2591, public domain (Grimm brothers d. 1859/1863)',

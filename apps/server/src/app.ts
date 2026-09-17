@@ -1,5 +1,6 @@
 import Fastify, { type FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
+import { join } from 'node:path'
 import type { PrismaClient } from '@prisma/client'
 import {
   AppError,
@@ -15,6 +16,13 @@ import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
 import { registerContentRoutes } from './content/routes'
+import { registerTtsRoutes } from './modules/tts/routes'
+import type { TtsClientDeps } from './modules/tts/client'
+import { registerMediaRoutes } from './modules/media/routes'
+import { registerArtRoutes } from './modules/media/artRoutes'
+import { registerVideoRoutes } from './modules/media/videoRoutes'
+import type { ImageGenDeps } from './modules/media/imagegen'
+import type { VideoGenDeps } from './modules/media/video'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
@@ -42,6 +50,14 @@ export interface BuildAppOptions {
   ritualNowMin?: () => number
   allowedOrigin?: string | boolean
   logger?: boolean
+  /** 媒体目录（AI 插画 + TTS 音频缓存落地，docs/13） */
+  mediaDir?: string
+  /** stepaudio 客户端依赖；为空时 TTS 路由返回 503 由前端降级（docs/13 P0-B） */
+  ttsDeps?: TtsClientDeps | null
+  /** AI 生图依赖；为空时插画路由返回 503，封面回退 SVG 场景（docs/13 P0-A） */
+  imageDeps?: ImageGenDeps | null
+  /** AI 视频依赖；为空时不展示「让画面动起来」（docs/13 P0-E） */
+  videoDeps?: VideoGenDeps | null
 }
 
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
@@ -118,6 +134,31 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   registerContentRoutes(app, {
     db: options.db,
     tokenSecret: options.tokenSecret,
+  })
+
+  // 第四轮（docs/13）：媒体静态服务 + 服务端 TTS
+  const mediaDir = options.mediaDir ?? join(process.cwd(), 'media')
+  registerMediaRoutes(app, { mediaDir })
+  const ttsDeps: TtsClientDeps | null = options.ttsDeps ?? null
+  registerTtsRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
+    ttsDeps,
+    mediaDir,
+  })
+  const imageDeps: ImageGenDeps | null = options.imageDeps ?? null
+  registerArtRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
+    mediaDir,
+    imageDeps,
+  })
+  const videoDeps: VideoGenDeps | null = options.videoDeps ?? null
+  registerVideoRoutes(app, {
+    db: options.db,
+    tokenSecret: options.tokenSecret,
+    mediaDir,
+    videoDeps,
   })
 
   // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；

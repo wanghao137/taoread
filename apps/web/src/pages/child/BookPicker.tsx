@@ -8,6 +8,7 @@ import {
   topRecommendations,
 } from '../../lib/ritual'
 import { TaCard, TaButton, Loading, ErrorState, EmptyState } from '../../components/ui'
+import { SceneArt } from '../../components/art/SceneArt'
 
 export interface BookPickerProps {
   token: string
@@ -261,11 +262,8 @@ function BookCard({
             }}
           />
         ) : (
-          <span
-            aria-hidden
-            className="flex h-20 w-16 shrink-0 items-center justify-center rounded-lg bg-night-700 text-3xl"
-          >
-            📖
+          <span aria-hidden className="block h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-night-700">
+            <SceneArt scene="bookshelf" className="h-full w-full" />
           </span>
         )}
         <span className="min-w-0 flex-1">

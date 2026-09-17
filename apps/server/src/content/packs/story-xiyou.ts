@@ -14,6 +14,7 @@ export const xiYouJi: PackBook = {
   ageStage: '6-8',
   intro: '花果山上的一块石头，吸收了日精月华，蹦出一只石猴！它会爬树、会游泳，还当上了猴子王。',
   coverArt: 'mountain-monkey',
+  coverArtPrompt: '一只可爱的小石猴站在花果山顶的巨石上，身穿虎皮小裙，背后是云海和仙山瀑布，桃树开着粉色的花，天空是黄昏的暖橙色',
   coverFrom: '#2E7D32',
   coverTo: '#66BB6A',
   source: '公版名著（明·吴承恩）白话改写',

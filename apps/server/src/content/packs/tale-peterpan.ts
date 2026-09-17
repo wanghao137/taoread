@@ -15,6 +15,7 @@ export const peterPan: PackBook = {
   ageStage: '6-8',
   intro: 'The boy who never grows up. One night he flies in through an open window, looking for his shadow…',
   coverArt: 'peter-pan',
+  coverArtPrompt: 'a joyful boy in a green tunic and pointed hat flying over a pirate ship at sunset, golden fairy dust trailing behind him, a big moon and clouds in an orange and purple sky',
   coverFrom: '#1565C0',
   coverTo: '#64B5F6',
   source: 'Project Gutenberg eBook #16, public domain (published 1911)',

@@ -4,8 +4,9 @@ import { motion } from 'framer-motion'
 import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
-import { TaButton, TaCard, TaSticker } from '../components/ui'
+import { TaButton, TaCard, TaSheet, TaSticker } from '../components/ui'
 import { SceneArt, TaoMascot } from '../components/art/SceneArt'
+import { AiContentAgreement } from './AiContentAgreement'
 
 function deviceId(): string {
   // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
@@ -31,6 +32,7 @@ export function LoginPage() {
   const [role, setRole] = useState<DeviceRole>('parent')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [agreementOpen, setAgreementOpen] = useState(false)
   const [createdCode, setCreatedCode] = useState<string | null>(null)
 
   async function enter(path: '/child' | '/parent', session: { token: string; familyId: string; familyCode: string }) {
@@ -194,6 +196,23 @@ export function LoginPage() {
           家庭码只在自己家人之间使用，请放心输入
         </p>
       )}
+
+      {/* 合规（第八条）：使用前可见的 AI 生成内容标识说明 */}
+      <div className="mt-6 text-center">
+        <button
+          type="button"
+          onClick={() => setAgreementOpen(true)}
+          className="text-sm text-ink-secondary underline underline-offset-2"
+        >
+          AI 生成内容标识说明
+        </button>
+      </div>
+      <TaSheet open={agreementOpen} onClose={() => setAgreementOpen(false)} title="AI 生成内容标识说明">
+        <AiContentAgreement />
+        <TaButton className="mt-6 w-full" onClick={() => setAgreementOpen(false)}>
+          知道啦
+        </TaButton>
+      </TaSheet>
     </main>
   )
 }

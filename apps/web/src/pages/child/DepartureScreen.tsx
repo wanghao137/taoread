@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TaCard, TaButton } from '../../components/ui'
+import { SceneArt } from '../../components/art/SceneArt'
 
 export interface DepartureScreenProps {
   title: string
@@ -53,7 +54,7 @@ export function DepartureScreen({ title, cover, deepLink, isPaper = false, onFin
               {cover ? (
                 <img src={cover} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none' }} />
               ) : (
-                <span className="text-6xl">📖</span>
+                <SceneArt scene="bookshelf" className="h-full w-full" />
               )}
             </motion.div>
           )}
@@ -86,7 +87,7 @@ export function DepartureScreen({ title, cover, deepLink, isPaper = false, onFin
           )}
           {isPaper && (
             <div className="min-h-touch flex w-full items-center justify-center rounded-2xl border border-night-border bg-night-700 text-lg font-bold">
-              📖 翻开纸书吧
+              翻开纸书吧
             </div>
           )}
           {!isPaper && !deepLink && (
@@ -100,7 +101,7 @@ export function DepartureScreen({ title, cover, deepLink, isPaper = false, onFin
         </TaCard>
 
         <p className="mt-4 text-base text-ink-secondary">
-          读完回到这里，今晚的收尾小仪式等着你 🌟
+          读完回到这里，今晚的收尾小仪式等着你
         </p>
       </motion.div>
     </div>

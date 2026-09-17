@@ -15,6 +15,7 @@ export const peterRabbit: PackBook = {
   ageStage: '3-5',
   intro: 'Four little rabbits live under a big fir-tree. Three are good — and one is Peter, who runs straight to Mr. McGregor’s garden!',
   coverArt: 'mcgregor-garden',
+  coverArtPrompt: 'a small brown rabbit in a blue jacket tiptoeing through a garden of carrot and cabbage rows, a wooden watering can and a tiny red wheelbarrow nearby, soft morning light',
   coverFrom: '#558B2F',
   coverTo: '#AED581',
   source: 'Project Gutenberg eBook #14838, public domain (Potter d. 1943)',

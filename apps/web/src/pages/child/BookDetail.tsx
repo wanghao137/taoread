@@ -8,7 +8,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { api, ApiError, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
-import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
+import { TaoMascot } from '../../components/art/SceneArt'
+import { BookCover } from '../../components/art/BookCover'
 
 interface BookDetailProps {
   book: ContentBookDto
@@ -104,7 +105,14 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
       <div className="mt-4 flex gap-4">
         {/* 大封面 */}
         <div className="relative aspect-[3 / 4] w-32 flex-shrink-0 overflow-hidden rounded-2xl shadow-xl ring-1 ring-white/10 sm:w-36">
-          <SceneArt scene={book.coverArt} from={book.coverFrom} to={book.coverTo} lang={book.lang} />
+          <BookCover
+            urlPath={book.coverArtUrl}
+            scene={book.coverArt}
+            from={book.coverFrom}
+            to={book.coverTo}
+            lang={book.lang}
+            alt={`《${book.title}》封面`}
+          />
           {book.finished ? (
             <span className="absolute right-2 top-2 rounded-full bg-green-500/85 px-2 py-0.5 text-[10px] font-bold text-white">
               已读完

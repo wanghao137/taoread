@@ -7,6 +7,7 @@ import {
   PROGRESS_OPTIONS,
 } from '../../lib/finish'
 import { TaCard, TaButton, TaSticker, Loading, ErrorState } from '../../components/ui'
+import { haptic } from '../../lib/haptics'
 
 export interface FinishScreenProps {
   sessionId: string
@@ -89,6 +90,8 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
         token,
       )
       onFinished(result.unlocked ?? [])
+      // 盖章成功：确认感振动（iOS 静默降级）；解锁了新成就用更长的一下
+      haptic((result.unlocked ?? []).length > 0 ? 'achievement' : 'stamp')
     } catch (err) {
       setError(err instanceof ApiError ? err.message : '收尾没有成功，再试一次')
       setFinishing(false)

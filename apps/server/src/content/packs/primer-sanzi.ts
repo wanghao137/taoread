@@ -15,6 +15,7 @@ export const sanziJing: PackBook = {
   ageStage: '3-5',
   intro: '三字一句，朗朗上口。古时候的小朋友，就是从这本书开始认字的。',
   coverArt: 'primer-scroll',
+  coverArtPrompt: '一幅古代学堂场景：木质书桌上摊开一卷三字经竹简，旁边放着毛笔和砚台，窗外是桃花和远山，温暖的自然光洒进来',
   coverFrom: '#FFE0B2',
   coverTo: '#FFB74D',
   source: '公版古籍（南宋·王应麟）节选，逐字注音',

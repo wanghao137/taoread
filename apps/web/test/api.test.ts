@@ -112,4 +112,34 @@ describe('request / api 客户端', () => {
     await api.joinFamily('  ab12cd34  '.trim().toUpperCase(), 'parent', 'd')
     expect(JSON.parse(String(calls[0]!.init?.body)).familyCode).toBe('AB12CD34')
   })
+
+  describe('会话令牌回退（P0-C/P0-E 漏带 token 的回归护栏）', () => {
+    it('未传 token 时回退会话令牌，仍带 Bearer 头', async () => {
+      const { useSession } = await import('../src/stores/session')
+      useSession
+        .getState()
+        .signIn({ token: 'session-tok', familyId: 'f', familyCode: 'ABCD2345', role: 'child' })
+      const { calls } = mockFetch(async () => jsonResponse(200, { voices: [], defaultSpeed: 0.92, available: false }))
+      await api.ttsVoices()
+      expect(calls[0]!.init?.headers).toMatchObject({ Authorization: 'Bearer session-tok' })
+    })
+
+    it('显式 token 优先于会话令牌', async () => {
+      const { useSession } = await import('../src/stores/session')
+      useSession
+        .getState()
+        .signIn({ token: 'session-tok', familyId: 'f', familyCode: 'ABCD2345', role: 'child' })
+      const { calls } = mockFetch(async () => jsonResponse(200, { ok: true }))
+      await request('/api/anything', { token: 'explicit-tok' })
+      expect(calls[0]!.init?.headers).toMatchObject({ Authorization: 'Bearer explicit-tok' })
+    })
+
+    it('无会话且未传 token 时不带 Bearer 头（登录前接口照常可用）', async () => {
+      const { useSession } = await import('../src/stores/session')
+      useSession.getState().signOut()
+      const { calls } = mockFetch(async () => jsonResponse(200, { ok: true }))
+      await request('/api/family/join')
+      expect(calls[0]!.init?.headers).not.toHaveProperty('Authorization')
+    })
+  })
 })

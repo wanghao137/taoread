@@ -11,6 +11,8 @@ export default tseslint.config(
       'docs/**',
       // 调研期一次性脚本（竞品截图拼图等），非产品代码
       'research/**',
+      // 临时脚本目录（调研抓取、一次性转换），非产品代码
+      '.tao-tmp/**',
     ],
   },
   {

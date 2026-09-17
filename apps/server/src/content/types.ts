@@ -28,6 +28,8 @@ export interface PackBlock {
 export interface PackChapter {
   title: string
   art?: string
+  /** AI 题图的画面描述（docs/13 P0-A）；缺省时由章节标题派生 */
+  artPrompt?: string
   blocks: PackBlock[]
 }
 
@@ -55,6 +57,8 @@ export interface PackBook {
   intro?: string
   /** 封面 SVG 场景键 */
   coverArt: string
+  /** AI 封面插画的画面描述（docs/13 P0-A）；缺省时回退 intro */
+  coverArtPrompt?: string
   coverFrom?: string
   coverTo?: string
   source: string

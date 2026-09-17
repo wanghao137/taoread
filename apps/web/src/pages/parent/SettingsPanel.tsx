@@ -213,6 +213,21 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           </div>
         </TaCard>
 
+        <TaCard>
+          <h3 className="mb-2 text-lg font-bold">AI 生成内容说明</h3>
+          <p className="mb-3 text-base text-ink-secondary">
+            桃阅读中的绘本插画、拟人化朗读配音和「让画面动起来」动画由人工智能生成，文本内容为公版书籍原文。
+          </p>
+          <ul className="flex flex-col gap-1.5 text-base text-ink-secondary">
+            <li>· 插画：AI 绘画模型生成，每幅画在生成时已标注来源</li>
+            <li>· 朗读：AI 语音合成，非真人录音</li>
+            <li>· 动画：AI 视频模型生成</li>
+          </ul>
+          <p className="mt-3 text-sm text-ink-secondary/70">
+            依据《人工智能生成合成内容标识办法》（2025 年 9 月 1 日起施行），我们在家长侧向您披露上述内容由人工智能生成。
+          </p>
+        </TaCard>
+
         <TaCard className="border-peach-500/40">
           <h3 className="mb-2 text-lg font-bold">注销家庭</h3>
           <p className="mb-3 text-base text-ink-secondary">

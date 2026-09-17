@@ -15,6 +15,7 @@ export const alice: PackBook = {
   ageStage: '6-8',
   intro: 'A little girl follows a talking White Rabbit down a hole — and finds a world where nothing behaves the way it should.',
   coverArt: 'alice-rabbit',
+  coverArtPrompt: 'a little girl in a blue dress and white apron following a white rabbit in a waistcoat down a rabbit hole, surrounded by floating clocks, teacups and playing cards, whimsical dreamy garden',
   coverFrom: '#7B5EA7',
   coverTo: '#C9A6E8',
   source: 'Project Gutenberg eBook #11, public domain (Carroll d. 1898)',
