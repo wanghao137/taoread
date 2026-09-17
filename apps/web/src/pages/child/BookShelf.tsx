@@ -7,6 +7,7 @@ import { BookCover } from '../../components/art/BookCover'
 import { audioPlayer } from '../../lib/audioPlayer'
 import { tts } from '../../lib/tts'
 import { previewText } from '../../lib/preview'
+import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
 
 interface BookShelfProps {
   onOpen: (book: ContentBookDto) => void
@@ -129,6 +130,11 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
     const pb = b.progress > 0 && !b.finished ? 1 : 0
     return pb - pa
   })
+
+  // 大卡片用的那一本：进度最高且未读完（进度相同时取字数少的，孩子更快看到「读完」）
+  const continueBook = sorted
+    .filter((b) => b.progress > 0 && !b.finished)
+    .sort((a, b) => b.progress - a.progress || a.words - b.words)[0]
 
   if (loading) {
     return (
@@ -254,6 +260,47 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         ) : null}
       </div>
 
+      {/* 「继续读」大卡片（docs/13 P1-3）：首屏最大的入口，只在没有搜索/筛选时出现 */}
+      {!query.trim() && filter === 'all' && continueBook ? (
+        <motion.button
+          type="button"
+          onClick={() => onOpen(continueBook)}
+          whileTap={{ scale: 0.98 }}
+          aria-label={`接着读《${continueBook.title}》`}
+          className="mt-4 flex min-h-touch items-center gap-4 rounded-3xl p-4 text-left shadow-lg ring-1 ring-white/10"
+          style={{ background: 'linear-gradient(135deg, #3A2A6B 0%, #4A3580 100%)' }}
+        >
+          <div className="h-20 w-14 flex-shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-white/15">
+            <BookCover
+              urlPath={continueBook.coverArtUrl}
+              scene={continueBook.coverArt}
+              from={continueBook.coverFrom}
+              to={continueBook.coverTo}
+              lang={continueBook.lang}
+              alt={`《${continueBook.title}》封面`}
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-medium text-peach-300">接着读</p>
+            <p className="mt-0.5 truncate text-base font-bold text-ink-primary">{continueBook.title}</p>
+            <p className="mt-1 text-xs text-ink-secondary">
+              已读 {continueBook.progress}% · 剩 {continueBook.chapterCount - Math.max(1, Math.round(continueBook.chapterCount * continueBook.progress / 100))} 章 · {minutesLabel(remainingMinutes(continueBook))}
+            </p>
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-night-900/50">
+              <div
+                className="h-full rounded-full bg-peach-gradient"
+                style={{ width: `${continueBook.progress}%` }}
+              />
+            </div>
+          </div>
+          <span className="flex-shrink-0 text-peach-300" aria-hidden>
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h13M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        </motion.button>
+      ) : null}
+
       {/* 筛选条 */}
       <div className="-mx-5 flex gap-2 overflow-x-auto px-5 py-4">
         {FILTERS.map((f) => (
@@ -277,7 +324,6 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
       <div className="grid grid-cols-2 gap-4 pb-8 sm:grid-cols-3">
         {sorted.map((book, i) => {
           const meta = CATEGORY_META[book.category] ?? { label: book.category, emoji: '📖' }
-          const continuing = book.progress > 0 && !book.finished
           return (
             <motion.div
               key={book.id}
@@ -330,14 +376,17 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
               {/* 标题 */}
               <div className="px-1">
                 <p className="line-clamp-2 text-sm font-bold leading-tight text-ink-primary">
-                  {continuing ? '🔖 ' : ''}
                   {book.title}
                 </p>
                 <p className="mt-0.5 line-clamp-1 text-xs text-ink-secondary">
                   {book.author ?? (book.lang === 'en' ? 'English' : '佚名')}
                 </p>
                 <p className="text-[10px] text-ink-secondary opacity-70">
-                  {book.chapterCount} 章 · 约 {book.words} {book.lang === 'zh' ? '字' : '词'}
+                  {/* 有进度的书：封面已有进度条+「读到 N%」，这里只补章数，不重复 */}
+                  {/* 没进度的书：显示「几分钟读完」分区标签（P1-3） */}
+                  {book.progress > 0
+                    ? `${book.chapterCount} 章`
+                    : `${minutesLabel(remainingMinutes(book))}读完`}
                 </p>
               </div>
               </motion.button>

@@ -21,6 +21,20 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
   } catch {
     /* 单孩直进门屏 */
   }
+  // 首次运行引导（P1-1）：三步，看完或跳过；每个用例独立上下文都会弹
+  const tour = page.getByRole('button', { name: /出发，去听故事|下一步/ })
+  try {
+    await tour.first().waitFor({ timeout: 8_000 })
+    // 走完三步（两次「下一步」+ 一次「出发」）
+    for (let i = 0; i < 3; i++) {
+      const btn = page.getByRole('button', { name: /出发，去听故事|下一步|跳过/ }).first()
+      await btn.click({ timeout: 5_000 }).catch(() => {
+        /* 跳过钮兜底 */
+      })
+    }
+  } catch {
+    /* localStorage 残留标记（同浏览器上下文重用）则不弹，正常进门 */
+  }
   // 门屏：等主按钮或夜灯入口出现即视为登录成功（文案细节不绑定）
   await page
     .getByRole('button', { name: /点亮月亮|继续去读|我的夜灯/ })
@@ -28,11 +42,16 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
     .waitFor({ timeout: 15_000 })
 }
 
+/** 底部导航「书架」tab（P1-2：替代原顶部「🍑 桃书架」按钮） */
+async function openShelf(page: Page): Promise<void> {
+  await page.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '书架' }).click()
+}
+
 test.describe('v2 桃书架 + 自研阅读器', () => {
   test('书架列出公版书，含古诗/蒙学/故事/童话四类与进度条', async ({ page }) => {
     await loginAsChild(page, '小桃')
 
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《三字经·人之初》' }).waitFor()
     // 每张书卡都必须带封面插画（图文并茂，不得有空白封面）
     const covers = page.getByRole('button', { name: /^打开《/ }).locator('svg[data-art]')
@@ -53,7 +72,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
   test('打开《静夜思》章节：正文/拼音/译文/插图渲染', async ({ page }) => {
     await loginAsChild(page, '小柚')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).waitFor()
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).click()
 
@@ -90,7 +109,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
   test('西游记章节：连续正文与插图，末章显示「读完啦」', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《西游记·美猴王出世》' }).waitFor()
     await page.getByRole('button', { name: '打开《西游记·美猴王出世》' }).click()
 
@@ -143,7 +162,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
   test('朗读按钮存在且不报错（TTS 不可用时降级提示）', async ({ page }) => {
     await loginAsChild(page, '小柚')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《三字经·人之初》' }).click()
     await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
     await page.getByRole('button', { name: /开始读/ }).click()
@@ -161,7 +180,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
   test('阅读进度跨章节持久：再进书架显示进度条', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《唐诗三百首·星星篇》' }).click()
     await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
     await page.getByRole('button', { name: /开始读/ }).click()
@@ -193,7 +212,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
   // docs/11 P0-1：书架搜索（书名/作者/章节标题）
   test('书架搜索：输入「静夜」命中唐诗集，乱词给正向空态', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《三字经·人之初》' }).waitFor()
 
     const search = page.locator('#shelf-search')
@@ -213,7 +232,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
   // docs/11 P0-6：阅读器专注模式
   test('阅读器专注模式：点正文收起工具栏，再点恢复', async ({ page }) => {
     await loginAsChild(page, '小柚')
-    await page.getByRole('button', { name: /桃书架/ }).click()
+    await openShelf(page)
     await page.getByRole('button', { name: '打开《三字经·人之初》' }).click()
     // 前序用例可能已留下进度，按钮文案为「接着读」
     await page.getByRole('button', { name: /开始读|接着读/ }).click()
@@ -241,8 +260,10 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: '换家庭' }).click()
     await expect(page.getByText('要换一个家庭吗？')).toBeVisible()
     await page.getByRole('button', { name: '我按错啦' }).click()
-    // 取消后仍在孩子端：桃书架入口还在
-    await expect(page.getByRole('button', { name: /桃书架/ })).toBeVisible()
+    // 取消后仍在孩子端：底部导航「书架」入口还在
+    await expect(
+      page.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '书架' }),
+    ).toBeVisible()
     await page.screenshot({ path: 'test-results/v3-switch-confirm.png', fullPage: true })
   })
 })

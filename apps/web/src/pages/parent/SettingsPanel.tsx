@@ -4,6 +4,7 @@ import { api, ApiError, type ChildDto, type FamilySettingsDto } from '../../lib/
 import { useSession } from '../../stores/session'
 import { TaCard, TaButton, Loading, ErrorState } from '../../components/ui'
 import { BindWizard } from './BindWizard'
+import { resetOnboarding } from '../child/OnboardingTour'
 
 export interface SettingsPanelProps {
   familyId: string
@@ -211,6 +212,23 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               </TaButton>
             ))}
           </div>
+        </TaCard>
+
+        <TaCard>
+          <h3 className="mb-1 text-lg font-bold">孩子端引导</h3>
+          <p className="mb-3 text-base text-ink-secondary">
+            第一次打开桃阅读时，孩子会看到三步小引导（月亮、书架、喇叭）。想让孩子再看一遍，按下面这个按钮。
+          </p>
+          <TaButton
+            size="md"
+            variant="secondary"
+            onClick={() => {
+              resetOnboarding()
+              setMessage('下次孩子打开时，会重新看到引导')
+            }}
+          >
+            重新播放引导
+          </TaButton>
         </TaCard>
 
         <TaCard>

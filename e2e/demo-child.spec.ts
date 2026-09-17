@@ -23,6 +23,22 @@ async function loginAsChild(page: Page): Promise<string> {
   } catch {
     // 若未来种子改为单孩则直进门屏
   }
+  // 首次运行引导（P1-1）：三步走完
+  const tourBtn = page.getByRole('button', { name: /出发，去听故事|下一步/ })
+  try {
+    await tourBtn.first().waitFor({ timeout: 8_000 })
+    for (let i = 0; i < 3; i++) {
+      await page
+        .getByRole('button', { name: /出发，去听故事|下一步|跳过/ })
+        .first()
+        .click({ timeout: 5_000 })
+        .catch(() => {
+          /* 已走完 */
+        })
+    }
+  } catch {
+    /* 上下文重用时不弹引导，直接进门屏 */
+  }
   await page.getByText('月亮升起来啦').waitFor()
   return '小桃'
 }

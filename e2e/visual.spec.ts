@@ -37,6 +37,20 @@ test.describe('交付视觉终扫', () => {
       // 收尾庆祝页「回到月亮」重回门屏（会话已结束，门屏是干净的一晚）
       await page.getByRole('button', { name: '回到月亮' }).click()
     }
+    // 首次运行引导（P1-1）：先走完三步，再截干净的门屏
+    const tourBtn = page.getByRole('button', { name: /出发，去听故事|下一步/ })
+    if (await tourBtn.first().isVisible({ timeout: 6_000 }).catch(() => false)) {
+      await page.screenshot({ path: `${OUT}/child-onboarding.png`, fullPage: true })
+      for (let i = 0; i < 3; i++) {
+        await page
+          .getByRole('button', { name: /出发，去听故事|下一步|跳过/ })
+          .first()
+          .click({ timeout: 5_000 })
+          .catch(() => {
+            /* 已走完 */
+          })
+      }
+    }
     await page.getByText('月亮升起来啦').waitFor()
     await page.screenshot({ path: `${OUT}/child-gate.png`, fullPage: true })
 

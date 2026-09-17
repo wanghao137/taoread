@@ -10,6 +10,8 @@ import { DepartureScreen } from './child/DepartureScreen'
 import { FinishScreen } from './child/FinishScreen'
 import { CelebrationScreen } from './child/CelebrationScreen'
 import { StarSea } from './child/StarSea'
+import { OnboardingTour, onboardingSeen } from './child/OnboardingTour'
+import { ChildTabBar } from '../components/ui/ChildTabBar'
 import { AchievementWall } from './child/AchievementWall'
 import { BedtimeScreen } from './child/BedtimeScreen'
 import { BookShelf } from './child/BookShelf'
@@ -49,6 +51,19 @@ type Phase =
   | { kind: 'detail'; book: ContentBookDto } // v2 书籍详情页（A2）
   | { kind: 'reading'; book: ContentBookDto; startChapter: number; startBlock: number } // v2 自研阅读器
 
+/**
+ * 底部导航只在这些阶段展示（P1-2）。
+ * 阅读/收尾/庆祝是全屏沉浸流程，自带导航，钉一条 bar 会遮挡画面。
+ */
+const SHOW_TAB_BAR_PHASES = new Set<Phase['kind']>([
+  'gate',
+  'bedtime',
+  'wall',
+  'shelf',
+  'detail',
+  'resolving',
+])
+
 /** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
 export function ChildHome() {
   const token = useSession((s) => s.token)
@@ -59,6 +74,10 @@ export function ChildHome() {
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' })
   /** 换家庭确认层（docs/11 P0-8） */
   const [confirmSwitch, setConfirmSwitch] = useState(false)
+  /** 首次运行引导（docs/13 P1-1）：看过一次就不再弹，localStorage 标记 */
+  const [showOnboarding, setShowOnboarding] = useState(false)
+  /** 夜灯墙亮灯数（底部导航角标；0 时不显示角标） */
+  const [lampTotal, setLampTotal] = useState(0)
 
   // 门屏双通道防连点（N7-006，延续 BookPicker 的 busyRef 模式）
   const gateBusyRef = useRef(false)
@@ -79,10 +98,11 @@ export function ChildHome() {
         // childId 经 getState 读取（N6-009）：选择孩子属本地 phase 切换，不触发重拉
         const storedChildId = useSession.getState().childId
         const stored = storedChildId && kids.some((k) => k.id === storedChildId) ? storedChildId : null
-        if (stored) {
-          setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
-        } else if (kids.length === 1 && kids[0]) {
-          setChild({ childId: kids[0].id, stage: kids[0].stage })
+        if (stored || (kids.length === 1 && kids[0])) {
+          // 单娃或记忆中的孩子直接进门屏；选孩子那一步在 pick-child 里
+          if (!stored && kids[0]) setChild({ childId: kids[0].id, stage: kids[0].stage })
+          // 第一次进孩子端先看三步引导（P1-1），看完再进门屏
+          if (!onboardingSeen()) setShowOnboarding(true)
           setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
         } else {
           setPhase({ kind: 'pick-child', children: kids })
@@ -102,6 +122,8 @@ export function ChildHome() {
   const enterGate = useCallback(
     (child: { childId: string; stage: string }) => {
       setChild(child)
+      // 选孩子这条路也要引导（P1-1）：多孩家庭第一次进同样没看过
+      if (!onboardingSeen()) setShowOnboarding(true)
       setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
     },
     [setChild],
@@ -118,6 +140,21 @@ export function ChildHome() {
 
   // M1：进入月亮门后检查未收尾会话（断线续传）+ 服务端时段窗口（就寝/超时，第 8 夜）
   const childId = useSession((s) => s.childId)
+
+  // 夜灯总数（底部导航角标用；失败静默，角标不亮总比报错强）
+  useEffect(() => {
+    if (!token || !childId) return
+    let alive = true
+    api
+      .achievements(childId, token)
+      .then((a) => alive && setLampTotal(a.nightLamps.length))
+      .catch(() => {
+        // 角标是锦上添花，失败绝不打断主流程
+      })
+    return () => {
+      alive = false
+    }
+  }, [token, childId])
   useEffect(() => {
     if (phase.kind !== 'gate' || !phase.checking || !token || !childId) return
     let alive = true
@@ -302,16 +339,22 @@ export function ChildHome() {
         return <ChildPicker children={phase.children} onPick={(c) => enterGate(c)} />
       case 'gate':
         return (
-          <RitualGate
-            checking={phase.checking}
-            active={phase.active}
-            activeTitle={phase.activeTitle}
-            overtime={phase.overtime}
-            onStart={() => setPhase({ kind: 'select' })}
-            onResume={() => void handleResume()}
-            onFinish={() => void handleFinishEntry()}
-            onWall={() => setPhase({ kind: 'wall' })}
-          />
+          <>
+            {showOnboarding ? (
+              <OnboardingTour onDone={() => setShowOnboarding(false)} />
+            ) : (
+              <RitualGate
+                checking={phase.checking}
+                active={phase.active}
+                activeTitle={phase.activeTitle}
+                overtime={phase.overtime}
+                onStart={() => setPhase({ kind: 'select' })}
+                onResume={() => void handleResume()}
+                onFinish={() => void handleFinishEntry()}
+                onWall={() => setPhase({ kind: 'wall' })}
+              />
+            )}
+          </>
         )
       case 'bedtime':
         return (
@@ -489,25 +532,29 @@ export function ChildHome() {
         <h1 className="bg-gradient-to-r from-peach-400 to-moon-400 bg-clip-text text-2xl font-bold text-transparent">
           桃阅读
         </h1>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setPhase({ kind: 'shelf' })}
-            className="min-h-touch cursor-pointer rounded-full bg-peach-gradient px-5 text-sm font-bold text-white shadow-md"
-          >
-            🍑 桃书架
-          </button>
-          <button
-            type="button"
-            // 孩子误触会丢掉整个会话：先弹确认层（docs/11 P0-8 / MC-4 容错）
-            onClick={() => setConfirmSwitch(true)}
-            className="min-h-touch cursor-pointer rounded-full border border-night-border px-4 text-sm text-ink-secondary"
-          >
-            换家庭
-          </button>
-        </div>
+        <button
+          type="button"
+          // 孩子误触会丢掉整个会话：先弹确认层（docs/11 P0-8 / MC-4 容错）
+          onClick={() => setConfirmSwitch(true)}
+          className="min-h-touch cursor-pointer rounded-full border border-night-border px-4 text-sm text-ink-secondary"
+        >
+          换家庭
+        </button>
       </div>
       <div className="flex flex-1 flex-col py-6">{body()}</div>
+
+      {/* 持久底部导航（P1-2）：只在非沉浸阶段展示，阅读器/收尾/庆祝自己有导航 */}
+      {SHOW_TAB_BAR_PHASES.has(phase.kind) ? (
+        <ChildTabBar
+          active={phase.kind === 'wall' ? 'wall' : phase.kind === 'shelf' || phase.kind === 'detail' ? 'shelf' : 'moon'}
+          lampCount={lampTotal}
+          onSelect={(tab) => {
+            if (tab === 'moon') reEnterGate(useSession.getState().childId ?? '')
+            else if (tab === 'shelf') setPhase({ kind: 'shelf' })
+            else if (tab === 'wall' && useSession.getState().childId) setPhase({ kind: 'wall' })
+          }}
+        />
+      ) : null}
 
       {/* 换家庭确认：把「不可逆」变成「可取消」 */}
       <TaSheet open={confirmSwitch} onClose={() => setConfirmSwitch(false)} title="要换一个家庭吗？">
