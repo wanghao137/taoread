@@ -3,6 +3,7 @@
  * 每一步收集 console error / failed request / 坏图 / 横向溢出 / 死按钮。
  * 用法：npm run demo 已在跑 → node scripts/adversarial-sweep.mjs
  */
+/* global getComputedStyle */
 import { chromium } from 'playwright'
 import { mkdirSync, writeFileSync } from 'fs'
 
@@ -68,7 +69,7 @@ async function main() {
     await page.getByRole('button', { name: '进入桃阅读' }).click({ timeout })
   })
   // 选孩子
-  await go('03-picker', async ({ timeout }) => {
+  await go('03-picker', async () => {
     // 小桃（6-8）：新书多为 6-8 适龄，书架按孩子年龄段过滤
     await page.getByRole('button', { name: '小桃' }).click({ timeout: 10_000 })
   })
@@ -83,7 +84,7 @@ async function main() {
     await page.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '书架' }).click({ timeout })
   })
   // 打开新书：四季诗选
-  await go('06-open-new-book', async ({ timeout }) => {
+  await go('06-open-new-book', async () => {
     await page.getByRole('button', { name: /打开《四季诗选/ }).click({ timeout: 12_000 })
   })
   await go('07-start-reading', async ({ timeout }) => {
@@ -95,7 +96,7 @@ async function main() {
     await page.getByRole('button', { name: /下一章|继续读/ }).click({ timeout })
   })
   // 退出阅读器（顶部返回）
-  await go('10-exit-reader', async ({ timeout }) => {
+  await go('10-exit-reader', async () => {
     await page.locator('header button, [aria-label*="返回" i]').first().click({ timeout: 5000 })
   })
   // 收藏一本书

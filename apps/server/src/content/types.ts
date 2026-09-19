@@ -40,8 +40,9 @@ export interface RightsInfo {
   authorDeathYear?: number
   translator?: string
   jurisdiction: 'CN' | 'US' | 'EU'
-  /** pd-70（伯尔尼公约/中国 50 年）| pd-us（美国 1929 前）| original（自撰）| adapted（公版改编） */
-  basis: 'pd-70' | 'pd-us' | 'original' | 'adapted'
+  /** pd-70（伯尔尼公约/中国 50 年）| pd-us（美国 1929 前）| original（自撰）
+   *  | adapted（公版改编）| cc-by（CC-BY-4.0 开放授权绘本，docs/25） */
+  basis: 'pd-70' | 'pd-us' | 'original' | 'adapted' | 'cc-by'
   sourceUrl?: string
   note?: string
 }
