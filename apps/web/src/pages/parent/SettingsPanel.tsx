@@ -34,6 +34,7 @@ const CAP_PRESETS = [
 export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision }: SettingsPanelProps) {
   const navigate = useNavigate()
   const signOut = useSession((s) => s.signOut)
+  const setCalmMode = useSession((s) => s.setCalmMode)
   const [view, setView] = useState<FamilyView>({ kind: 'loading' })
   const [settings, setSettings] = useState<FamilySettingsDto | null>(null)
   const [newNickname, setNewNickname] = useState('')
@@ -98,7 +99,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     return (
       <div className="flex flex-col gap-4">
         {view.view.binding ? (
-          <p className="text-base text-ink-secondary" data-testid="binding-status">
+          <p className="text-base text-ink-700" data-testid="binding-status">
             微信读书已绑定（{view.view.binding.maskedTail}）
             {view.view.binding.status === 'unverified' && ' · 待验证'}
           </p>
@@ -113,7 +114,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               {view.view.children.map((c: ChildDto) => (
                 <div
                   key={c.id}
-                  className="flex min-h-touch items-center justify-between rounded-2xl border border-night-border bg-night-700/50 px-4"
+                  className="flex min-h-touch items-center justify-between rounded-2xl border border-paper-border bg-paper-300/60 px-4"
                 >
                   <span className="text-base">
                     {c.nickname}（{c.stage}）
@@ -141,13 +142,13 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               onChange={(e) => setNewNickname(e.target.value)}
               placeholder="昵称"
               maxLength={20}
-              className="h-12 w-32 rounded-xl border border-night-border bg-night-700 px-3 text-base"
+              className="h-12 w-32 rounded-xl border border-paper-border bg-paper-300 px-3 text-base"
             />
             <select
               value={newStage}
               onChange={(e) => setNewStage(e.target.value)}
               aria-label="年龄段"
-              className="h-12 rounded-xl border border-night-border bg-night-700 px-3 text-base"
+              className="h-12 rounded-xl border border-paper-border bg-paper-300 px-3 text-base"
             >
               <option value="3-5">3-5 岁</option>
               <option value="6-8">6-8 岁</option>
@@ -177,7 +178,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
         <TaCard>
           <h3 className="mb-1 text-lg font-bold">护眼设置</h3>
-          <p className="mb-3 text-base text-ink-secondary">到点后月亮会去睡觉，孩子端进入晚安模式</p>
+          <p className="mb-3 text-base text-ink-700">到点后月亮会去睡觉，孩子端进入晚安模式</p>
           <div className="flex flex-wrap items-center gap-2">
             {BEDTIME_PRESETS.map((p) => (
               <TaButton
@@ -215,8 +216,41 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         </TaCard>
 
         <TaCard>
+          <h3 className="mb-1 text-lg font-bold">安静模式</h3>
+          <p className="mb-3 text-base text-ink-700">
+            开启后，孩子端所有翻页、摇晃、弹跳都会变成最轻柔的淡入淡出。适合容易晕动或对动态画面敏感的孩子，
+            关闭后恢复原来的活泼效果。
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { value: false, label: '保持活泼' },
+              { value: true, label: '安静模式' },
+            ].map((p) => (
+              <TaButton
+                key={p.label}
+                size="md"
+                variant={(settings?.calmMode ?? false) === p.value ? 'primary' : 'secondary'}
+                disabled={busy}
+                onClick={() =>
+                  void run(() => api.updateSettings(familyId, token, { calmMode: p.value })).then(
+                    (r) => {
+                      if (r) {
+                        setSettings(r)
+                        setCalmMode(r.calmMode === true)
+                      }
+                    },
+                  )
+                }
+              >
+                {p.label}
+              </TaButton>
+            ))}
+          </div>
+        </TaCard>
+
+        <TaCard>
           <h3 className="mb-1 text-lg font-bold">孩子端引导</h3>
-          <p className="mb-3 text-base text-ink-secondary">
+          <p className="mb-3 text-base text-ink-700">
             第一次打开桃阅读时，孩子会看到三步小引导（月亮、书架、喇叭）。想让孩子再看一遍，按下面这个按钮。
           </p>
           <TaButton
@@ -233,22 +267,22 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
         <TaCard>
           <h3 className="mb-2 text-lg font-bold">AI 生成内容说明</h3>
-          <p className="mb-3 text-base text-ink-secondary">
+          <p className="mb-3 text-base text-ink-700">
             桃阅读中的绘本插画、拟人化朗读配音和「让画面动起来」动画由人工智能生成，文本内容为公版书籍原文。
           </p>
-          <ul className="flex flex-col gap-1.5 text-base text-ink-secondary">
+          <ul className="flex flex-col gap-1.5 text-base text-ink-700">
             <li>· 插画：AI 绘画模型生成，每幅画在生成时已标注来源</li>
             <li>· 朗读：AI 语音合成，非真人录音</li>
             <li>· 动画：AI 视频模型生成</li>
           </ul>
-          <p className="mt-3 text-sm text-ink-secondary/70">
+          <p className="mt-3 text-sm text-ink-700/70">
             依据《人工智能生成合成内容标识办法》（2025 年 9 月 1 日起施行），我们在家长侧向您披露上述内容由人工智能生成。
           </p>
         </TaCard>
 
-        <TaCard className="border-peach-500/40">
+        <TaCard className="border-terra-300">
           <h3 className="mb-2 text-lg font-bold">注销家庭</h3>
-          <p className="mb-3 text-base text-ink-secondary">
+          <p className="mb-3 text-base text-ink-700">
             删除全部家庭数据（书架记录、共读记录、成就），不可恢复
           </p>
           <TaButton variant="secondary" disabled={busy} onClick={() => void handleDeleteFamily()}>
@@ -257,7 +291,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         </TaCard>
 
         {message && (
-          <p role="status" aria-live="polite" className="text-center text-base text-moon-400">
+          <p role="status" aria-live="polite" className="text-center text-base text-terra-600">
             {message}
           </p>
         )}

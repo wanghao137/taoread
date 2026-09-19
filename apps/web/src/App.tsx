@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import { useSession } from './stores/session'
+import { api } from './lib/api'
 import { LoginPage } from './pages/LoginPage'
 import { Loading } from './components/ui'
 
@@ -53,9 +54,38 @@ function HomeRedirect() {
   return <Navigate to={role === 'child' ? '/child' : '/parent'} replace />
 }
 
+/**
+ * 安静模式引导（docs/15 P1-C）：会话存在时拉一次家庭设置，把 calmMode 写进会话 store。
+ * 孩子端通常拿不到系统辅助功能开关，家庭级开关是唯一能让「动效可关闭」落地的路径；
+ * GET 接口对家长/孩子角色都开放（只读，PATCH 仍限家长）。
+ */
+function CalmModeBootstrap() {
+  const token = useSession((s) => s.token)
+  const familyId = useSession((s) => s.familyId)
+  const setCalmMode = useSession((s) => s.setCalmMode)
+  useEffect(() => {
+    if (!token || !familyId) return
+    let alive = true
+    void api
+      .getSettings(familyId, token)
+      .then((dto) => {
+        if (alive) setCalmMode(dto.calmMode === true)
+      })
+      .catch(() => {
+        /* 拉取失败时保持当前态，不阻塞进应用 */
+      })
+    return () => {
+      alive = false
+    }
+  }, [token, familyId, setCalmMode])
+  return null
+}
+
 export default function App() {
+  const calmMode = useSession((s) => s.calmMode)
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion={calmMode ? 'always' : 'user'}>
+      <CalmModeBootstrap />
       <Suspense fallback={<Loading label="桃阅读正在开门…" />}>
         <Routes>
           <Route path="/" element={<HomeRedirect />} />

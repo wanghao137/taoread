@@ -77,12 +77,12 @@ export function ParentHome() {
       <header className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">桃阅读 · 家长端</h1>
-          <p className="text-base text-ink-secondary">每晚半小时，一起把故事讲完</p>
+          <p className="text-base text-ink-700">每晚半小时，一起把故事讲完</p>
         </div>
         <button
           type="button"
           onClick={signOut}
-          className="min-h-[3rem] cursor-pointer rounded-full border border-night-border px-4 text-base text-ink-secondary"
+          className="min-h-[3rem] cursor-pointer rounded-full border border-paper-border px-4 text-base text-ink-700"
         >
           退出
         </button>
@@ -93,9 +93,9 @@ export function ParentHome() {
       )}
 
       {tab === '今晚' && (
-        <p className="mb-4 rounded-2xl border border-night-border bg-night-800/60 px-4 py-3 text-base text-ink-secondary">
+        <p className="mb-4 rounded-2xl border border-paper-border bg-paper-200/60 px-4 py-3 text-base text-ink-700">
           家庭码{' '}
-          <span data-testid="family-code" className="font-bold tracking-widest text-moon-400">
+          <span data-testid="family-code" className="font-bold tracking-widest text-terra-600">
             {familyCode ?? '········'}
           </span>
           ，在小读者的设备上输入即可加入
@@ -106,7 +106,7 @@ export function ParentHome() {
 
       <nav
         aria-label="家长端导航"
-        className="fixed inset-x-0 bottom-0 z-40 mx-auto flex max-w-2xl justify-around border-t border-night-border bg-night-900/95 py-2 backdrop-blur"
+        className="fixed inset-x-0 bottom-0 z-40 mx-auto flex max-w-2xl justify-around border-t border-paper-border bg-paper-100/95 py-2 backdrop-blur"
       >
         {TABS.map((t) => (
           <button
@@ -115,7 +115,7 @@ export function ParentHome() {
             onClick={() => setTab(t)}
             aria-current={tab === t}
             className={`min-h-[3rem] cursor-pointer rounded-xl px-5 text-base ${
-              tab === t ? 'font-bold text-peach-400' : 'text-ink-secondary'
+              tab === t ? 'font-bold text-terra-600' : 'text-ink-700'
             }`}
           >
             {t}

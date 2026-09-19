@@ -116,8 +116,13 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     expect(await db.weeklyReport.count({ where: { familyId: f.familyId } })).toBe(1)
   })
 
-  it('内容域会话显示真实书名，绝不暴露 cbf: 原始 id（docs/09 C1）', async () => {
-    await seedAllPacks(db, ALL_PACKS)
+  it(
+    '内容域会话显示真实书名，绝不暴露 cbf: 原始 id（docs/09 C1）',
+    // 本条要 seedAllPacks 全量 52 本书（文件内最重 IO）；
+    // 与并发的媒体重生成抢资源时 20s 默认门偶发超时，放宽到 60s（N12-006 同类）
+    { timeout: 60_000 },
+    async () => {
+      await seedAllPacks(db, ALL_PACKS)
     const f = await createFamilyAsParent(h.app)
     const childId = await createChild(h.app, f.token, f.familyId)
     // 模拟 v2 真实路径：在桃书架读了一本公版书，会话带 cbf: 前缀
@@ -139,9 +144,10 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     expect(report.books[0]!.title).toBe(pack.title)
     // 红线：原始 id 不得出现在任何展示字段
     expect(report.books[0]!.title).not.toContain('cbf:')
-    const svg = renderShareCardSvg(report)
-    expect(svg).not.toContain('cbf:')
-  })
+      const svg = renderShareCardSvg(report)
+      expect(svg).not.toContain('cbf:')
+    },
+  )
 
   it('越权与参数：跨家庭 404 / 非法日期 404（含分量回绕 N10-003）', async () => {
     const f = await createFamilyAsParent(h.app)

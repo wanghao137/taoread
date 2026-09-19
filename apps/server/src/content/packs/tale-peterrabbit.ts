@@ -23,6 +23,7 @@ export const peterRabbit: PackBook = {
     {
       title: 'Chapter 1 · Four Little Rabbits',
       art: 'sand-bank',
+      artPrompt: 'a big fir tree on a mossy sand-bank, a mother rabbit in a shawl talking to four little bunnies at the burrow door, soft morning light',
       blocks: [
         {
           kind: 'text',
@@ -63,6 +64,7 @@ export const peterRabbit: PackBook = {
     {
       title: 'Chapter 2 · Stop Thief!',
       art: 'mcgregor-garden',
+      artPrompt: 'a small brown rabbit in a blue jacket dashing between cabbage and potato rows, one shoe lost behind him, a farmer chasing with a rake',
       blocks: [
         {
           kind: 'text',
@@ -116,6 +118,7 @@ export const peterRabbit: PackBook = {
     {
       title: 'Chapter 3 · Safe at Last',
       art: 'tool-shed',
+      artPrompt: 'a little rabbit peeping over a wheelbarrow in a garden, a white cat watching goldfish in a pond nearby, a gate to the wood in the distance',
       blocks: [
         {
           kind: 'text',

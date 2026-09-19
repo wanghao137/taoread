@@ -6,6 +6,9 @@
  * 内容包里 coverArt / chapter.art / block.art 的键名对应这里的场景。
  */
 
+import { motion } from 'framer-motion'
+import { MOTION, useReducedMotion } from '../../lib/motion'
+
 /* ── 通用元件 ── */
 
 function Stars({ count = 14, seed = 1 }: { count?: number; seed?: number }) {
@@ -176,11 +179,11 @@ const SCENES: Record<string, () => React.ReactNode> = {
     <>
       <Moon x={78} y={20} r={13} />
       <Stars count={18} seed={2} />
-      <Cloud x={24} y={22} s={0.9} color="#E3E7F5" />
-      <rect x="0" y="68" width="100" height="32" fill="#1E2A5A" opacity={0.55} />
+      <Cloud x={24} y={22} s={0.9} color="#F2E4CE" />
+      <rect x="0" y="68" width="100" height="32" fill="#3A2814" opacity={0.55} />
       <g transform="translate(26 54)">
-        <rect x="-14" y="-16" width="28" height="24" rx="3" fill="#2A3B6E" />
-        <rect x="-11" y="-13" width="22" height="18" rx="2" fill="#4A5FBF" />
+        <rect x="-14" y="-16" width="28" height="24" rx="3" fill="#4A3418" />
+        <rect x="-11" y="-13" width="22" height="18" rx="2" fill="#8A5A28" />
       </g>
     </>
   ),
@@ -189,12 +192,12 @@ const SCENES: Record<string, () => React.ReactNode> = {
       <Moon x={74} y={22} r={12} />
       <Stars count={14} seed={4} />
       <g transform="translate(50 50)">
-        <rect x="-20" y="-26" width="40" height="52" rx="4" fill="#3E4E8C" />
-        <rect x="-16" y="-22" width="32" height="44" rx="2" fill="#5C6FC9" />
-        <line x1="0" y1="-22" x2="0" y2="22" stroke="#3E4E8C" strokeWidth="2" />
-        <line x1="-16" y1="0" x2="16" y2="0" stroke="#3E4E8C" strokeWidth="2" />
+        <rect x="-20" y="-26" width="40" height="52" rx="4" fill="#5C4322" />
+        <rect x="-16" y="-22" width="32" height="44" rx="2" fill="#A07030" />
+        <line x1="0" y1="-22" x2="0" y2="22" stroke="#5C4322" strokeWidth="2" />
+        <line x1="-16" y1="0" x2="16" y2="0" stroke="#5C4322" strokeWidth="2" />
       </g>
-      <rect x="0" y="76" width="100" height="24" fill="#2A3B6E" />
+      <rect x="0" y="76" width="100" height="24" fill="#4A3418" />
     </>
   ),
   'spring-bird': () => (
@@ -675,7 +678,7 @@ const SCENES: Record<string, () => React.ReactNode> = {
     <>
       <Moon x={78} y={16} r={9} />
       <Stars count={10} seed={8} />
-      <Ground color="#3949AB" y={76} />
+      <Ground color="#5C4322" y={76} />
       <g transform="translate(50 54)">
         <path d="M-9 6 L-11 -14 Q -11 -20 0 -20 Q 11 -20 11 -14 L9 6 Z" fill="#FFD54F" />
         <rect x="-4" y="6" width="8" height="10" fill="#8D6E63" />
@@ -718,9 +721,9 @@ const SCENES: Record<string, () => React.ReactNode> = {
     <>
       <Moon x={50} y={30} r={14} />
       <Stars count={20} seed={7} />
-      <Cloud x={20} y={18} s={0.7} color="#E3E7F5" />
-      <Cloud x={82} y={24} s={0.6} color="#E3E7F5" />
-      <Ground color="#2A3B6E" y={80} h={20} />
+      <Cloud x={20} y={18} s={0.7} color="#F2E4CE" />
+      <Cloud x={82} y={24} s={0.6} color="#F2E4CE" />
+      <Ground color="#4A3418" y={80} h={20} />
     </>
   ),
   // 星海空态：一颗大星星独自亮着，其余还在睡觉（StarSea 空态，docs/11 P0-3）
@@ -736,7 +739,7 @@ const SCENES: Record<string, () => React.ReactNode> = {
         />
       </g>
       <Stars count={14} seed={11} />
-      <Ground color="#2A3B6E" y={82} h={18} />
+      <Ground color="#4A3418" y={82} h={18} />
       <Cloud x={80} y={70} s={0.7} color="#3A4C86" />
     </>
   ),
@@ -750,7 +753,7 @@ const SCENES: Record<string, () => React.ReactNode> = {
         <rect x="-9" y={4} width={18} height={5} rx={2.5} fill="#8D6E63" />
         <circle cx={0} cy={-7} r={2.6} fill="#FFF3C4" />
       </g>
-      <Ground color="#2A3B6E" y={80} h={18} />
+      <Ground color="#4A3418" y={80} h={18} />
     </>
   ),
 }
@@ -798,7 +801,15 @@ export function TaoMascot({
       <path d="M-4 2.5 Q 0 6.5 4 2.5" stroke="#5D4037" strokeWidth={1.6} fill="none" strokeLinecap="round" />
     )
   return (
-    <svg viewBox="-16 -18 32 36" role="img" aria-label="小桃" data-art="tao-mascot" className={className} style={style}>
+    <motion.svg
+      viewBox="-16 -18 32 36"
+      role="img"
+      aria-label="小桃"
+      data-art="tao-mascot"
+      className={className}
+      style={style}
+      {...(useReducedMotion() ? {} : MOTION.breathe)}
+    >
       {/* 叶子 */}
       <path d="M-2 -12 Q -9 -15 -11 -9 Q -6 -7 -2 -10 Z" fill="#66BB6A" />
       <path d="M2 -12 Q 9 -15 11 -9 Q 6 -7 2 -10 Z" fill="#81C784" />
@@ -821,14 +832,14 @@ export function TaoMascot({
       {/* 腮红 */}
       <circle cx={-7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
       <circle cx={7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
-    </svg>
+    </motion.svg>
   )
 }
 
 /** 默认渐变色（场景未指定时按 lang/category 回落） */
 const DEFAULT_GRADIENTS: Record<string, [string, string]> = {
-  zh: ['#1E2A5A', '#4A5FBF'],
-  en: ['#1565C0', '#64B5F6'],
+  zh: ['#3A2814', '#8A5A28'],
+  en: ['#4A3418', '#A07030'],
 }
 
 /**

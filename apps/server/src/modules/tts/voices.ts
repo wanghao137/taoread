@@ -45,6 +45,48 @@ export const VOICE_PRESETS: VoicePreset[] = [
     description: '老年男性，声音慈祥浑厚，带着讲了一辈子故事的味道，语速慢而有韵味',
     instruction: '像老爷爷摇着蒲扇讲故事，长句拖一点韵味，关键词加重',
   },
+  {
+    id: 'sister-bright',
+    label: '开朗姐姐',
+    lang: 'both',
+    description: '青年女性，声音明亮清透，像幼儿园老师早晨问好，带着笑意和活力，吐字干净',
+    instruction: '像亲切的姐姐带小朋友读书，重点字词稍微夸张一点，保持欢快',
+  },
+  {
+    id: 'brother-sunshine',
+    label: '阳光哥哥',
+    lang: 'both',
+    description: '青年男性，声音干净爽朗不低沉，像户外活动老师，语速轻快有节奏感',
+    instruction: '像大哥哥讲冒险故事，节奏轻快，遇到动作描写稍微加快',
+  },
+  {
+    id: 'grandma-kind',
+    label: '慈祥奶奶',
+    lang: 'zh',
+    description: '老年女性，声音温柔沙软，语速很慢，像奶奶在灯下慢慢摇着蒲扇哄睡觉',
+    instruction: '极慢极柔，像哄入睡，每句结尾轻轻落下，没有大起伏',
+  },
+  {
+    id: 'teacher-clear',
+    label: '朗诵老师',
+    lang: 'zh',
+    description: '青年女性，播音科班出身，字正腔圆，吐字清晰有力，适合古诗朗诵',
+    instruction: '按朗诵腔处理：韵脚拖长，句读分明，庄重但不生硬',
+  },
+  {
+    id: 'en-storyteller',
+    label: 'English Storyteller',
+    lang: 'en',
+    description: 'Adult female native English speaker, warm and expressive storytelling voice, clear diction, gentle steady rhythm',
+    instruction: 'Read as a bedtime story for a young child: steady pace, stress on content words, warm tone',
+  },
+  {
+    id: 'en-kid',
+    label: 'English Kid',
+    lang: 'en',
+    description: 'Seven-year-old child voice, bright and curious, slightly higher pitch, natural pauses between short sentences',
+    instruction: 'Sound like a child reading aloud to a friend: short phrases, playful, rising intonation on questions',
+  },
 ]
 
 export const DEFAULT_VOICE_ID = 'mom-warm'

@@ -30,6 +30,13 @@ export interface TtsProgress {
   total: number
   /** 当前句文本 */
   text: string
+  /**
+   * 当前字符在句内的下标（docs/17 P0-1）。
+   * 服务端 TTS 返回字级时间轴 chars: [{char,start,end}]，audioPlayer 用
+   * rAF + 二分查找逐帧定位。-1 表示句刚开始尚未定位到字符（Web Speech 回退路径恒为 -1）。
+   * 粒度策略由 ReaderScreen 按 ageStage 决定：3-5 岁只用逐句高亮，6-8 岁才逐字加粗。
+   */
+  charIndex: number
 }
 
 export interface TtsOptions {
@@ -272,14 +279,15 @@ class TtsEngine {
     if (voice) utter.voice = voice
 
     utter.onboundary = (event: SpeechSynthesisEvent) => {
-      // 句内边界：推进高亮位置（阅读器按字符偏移细化）
+      // 句内边界：推进高亮位置。event.charIndex 是引擎给的字符偏移——
+      // 中文引擎的边界粒度不稳定（有的只按句切），拿不到时 -1，UI 回退逐句（docs/17 P0-1）
       if (this.cancelled) return
       this.progressListeners.forEach((fn) =>
         fn({
           index: this.currentIndex,
           total: this.queue.length,
           text: this.queue[this.currentIndex] ?? '',
-          ...(typeof event.charIndex === 'number' ? { charIndex: event.charIndex } : {}),
+          charIndex: typeof event.charIndex === 'number' ? event.charIndex : -1,
         }),
       )
     }
@@ -321,6 +329,8 @@ class TtsEngine {
         index: this.currentIndex,
         total: this.queue.length,
         text: this.queue[this.currentIndex] ?? '',
+        // 无 boundary 事件时不知道句内位置：-1，UI 回退到逐句高亮（docs/17 P0-1）
+        charIndex: -1,
       }),
     )
   }

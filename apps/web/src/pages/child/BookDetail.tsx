@@ -5,6 +5,7 @@
  * 难度星级由 stageRank + 章节数 + 字数推导，不在内容包里硬编码（可随书库扩展自动适配）。
  */
 import { useCallback, useEffect, useState } from 'react'
+import { IconMoon, IconBook, IconHeart, IconSparkle } from '../../components/ui/icons'
 import { motion } from 'framer-motion'
 import { api, ApiError, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
@@ -23,11 +24,11 @@ interface BookDetailProps {
   onPreview: () => void
 }
 
-const CATEGORY_META: Record<string, { label: string; emoji: string }> = {
-  poetry: { label: '古诗', emoji: '🌙' },
-  primer: { label: '蒙学', emoji: '📜' },
-  story: { label: '故事', emoji: '🍑' },
-  tale: { label: '童话', emoji: '✨' },
+const CATEGORY_META: Record<string, { label: string; icon: (p: { size?: number }) => JSX.Element }> = {
+  poetry: { label: '古诗', icon: IconMoon },
+  primer: { label: '蒙学', icon: IconBook },
+  story: { label: '故事', icon: IconHeart },
+  tale: { label: '童话', icon: IconSparkle },
 }
 
 const STAGE_LABEL: Record<string, string> = {
@@ -83,7 +84,7 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
     onStart(0)
   }, [onStart])
 
-  const meta = CATEGORY_META[book.category] ?? { label: book.category, emoji: '📖' }
+  const meta = CATEGORY_META[book.category] ?? { label: book.category, icon: IconBook }
   const stars = difficultyStars(book)
   const continuing = book.progress > 0 && !book.finished
 
@@ -94,17 +95,17 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
         <button
           type="button"
           onClick={onBack}
-          className="min-h-touch rounded-full border border-night-border px-4 text-sm text-ink-secondary"
+          className="min-h-touch rounded-full border border-paper-border px-4 text-sm text-ink-700"
         >
           ← 书架
         </button>
-        <h2 className="flex-1 truncate text-xl font-bold text-ink-primary">书籍详情</h2>
+        <h2 className="flex-1 truncate text-xl font-bold text-ink-900">书籍详情</h2>
         <TaoMascot mood="hint" className="h-9 w-9 flex-shrink-0" />
       </div>
 
       <div className="mt-4 flex gap-4">
         {/* 大封面 */}
-        <div className="relative aspect-[3 / 4] w-32 flex-shrink-0 overflow-hidden rounded-2xl shadow-xl ring-1 ring-white/10 sm:w-36">
+        <div className="relative aspect-[3 / 4] w-32 flex-shrink-0 overflow-hidden rounded-2xl shadow-xl ring-1 ring-paper-border sm:w-36">
           <BookCover
             urlPath={book.coverArtUrl}
             scene={book.coverArt}
@@ -122,16 +123,16 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
 
         {/* 标题信息 */}
         <div className="flex min-w-0 flex-1 flex-col gap-2">
-          <h3 className="text-lg font-bold leading-tight text-ink-primary">{book.title}</h3>
-          <p className="text-sm text-ink-secondary">{book.author ?? (book.lang === 'en' ? 'English' : '佚名')}</p>
+          <h3 className="text-lg font-bold leading-tight text-ink-900">{book.title}</h3>
+          <p className="text-sm text-ink-700">{book.author ?? (book.lang === 'en' ? 'English' : '佚名')}</p>
           <div className="flex flex-wrap gap-1.5">
-            <span className="rounded-full bg-peach-gradient px-2.5 py-0.5 text-[10px] font-bold text-white">
+            <span className="rounded-full bg-terra px-2.5 py-0.5 text-[10px] font-bold text-white">
               {STAGE_LABEL[book.ageStage] ?? book.ageStage}
             </span>
-            <span className="rounded-full border border-night-border px-2.5 py-0.5 text-[10px] text-ink-secondary">
-              {meta.emoji} {meta.label}
+            <span className="rounded-full border border-paper-border px-2.5 py-0.5 text-[10px] text-ink-700">
+              <meta.icon size={14} /> {meta.label}
             </span>
-            <span className="rounded-full border border-night-border px-2.5 py-0.5 text-[10px] text-ink-secondary">
+            <span className="rounded-full border border-paper-border px-2.5 py-0.5 text-[10px] text-ink-700">
               {book.lang === 'en' ? 'English' : '中文'}
             </span>
           </div>
@@ -140,33 +141,33 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
             <span className="text-xs text-amber-300" aria-hidden>
               {'★'.repeat(Math.floor(stars))}
               {stars % 1 !== 0 ? '⯪' : ''}
-              <span className="text-ink-secondary/40">{'★'.repeat(5 - Math.ceil(stars))}</span>
+              <span className="text-ink-700/40">{'★'.repeat(5 - Math.ceil(stars))}</span>
             </span>
-            <span className="text-[10px] text-ink-secondary opacity-70">
+            <span className="text-[10px] text-ink-700 opacity-70">
               {stars.toFixed(1)} / 5 · {book.chapterCount} 章 · 约 {book.words} {book.lang === 'zh' ? '字' : '词'}
             </span>
           </div>
           {continuing ? (
-            <p className="text-[11px] font-medium text-peach-300">🔖 读到 {book.progress}%，可以从这里接着读</p>
+            <p className="text-[11px] font-medium text-terra-600">🔖 读到 {book.progress}%，可以从这里接着读</p>
           ) : null}
         </div>
       </div>
 
       {/* 简介 */}
       {book.intro ? (
-        <div className="mt-5 rounded-2xl border border-night-border bg-panel/60 p-4">
-          <p className="text-sm font-bold text-ink-primary">这本书讲了什么</p>
-          <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{book.intro}</p>
+        <div className="mt-5 rounded-2xl border border-paper-border bg-panel/60 p-4">
+          <p className="text-sm font-bold text-ink-900">这本书讲了什么</p>
+          <p className="mt-2 text-sm leading-relaxed text-ink-700">{book.intro}</p>
         </div>
       ) : null}
 
       {/* 章节目录 */}
       <div className="mt-5">
-        <p className="mb-2 text-sm font-bold text-ink-primary">章节目录</p>
+        <p className="mb-2 text-sm font-bold text-ink-900">章节目录</p>
         {loading ? (
-          <p className="py-4 text-center text-xs text-ink-secondary opacity-70">目录正在翻开…</p>
+          <p className="py-4 text-center text-xs text-ink-700 opacity-70">目录正在翻开…</p>
         ) : error ? (
-          <p className="py-4 text-center text-xs text-ink-secondary">{error}</p>
+          <p className="py-4 text-center text-xs text-ink-700">{error}</p>
         ) : (
           <div className="flex flex-col gap-1">
             {titles.map((t) => (
@@ -176,10 +177,10 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
                 onClick={() => onStart(t.order)}
                 className="flex min-h-touch items-center gap-3 rounded-xl px-3 py-2 text-left text-sm transition-colors hover:bg-white/5"
               >
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-peach-gradient text-[10px] font-bold text-white">
+                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-terra text-[10px] font-bold text-white">
                   {t.order}
                 </span>
-                <span className="flex-1 truncate text-ink-primary">{t.title}</span>
+                <span className="flex-1 truncate text-ink-900">{t.title}</span>
               </button>
             ))}
           </div>
@@ -187,11 +188,11 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
       </div>
 
       {/* 底部双按钮 */}
-      <div className="sticky bottom-0 mt-6 flex gap-3 bg-gradient-to-t from-night-bg via-night-bg/95 to-transparent pb-2 pt-4">
+      <div className="sticky bottom-0 mt-6 flex gap-3 bg-gradient-to-t from-paper-100 via-paper-100/95 to-transparent pb-2 pt-4">
         <button
           type="button"
           onClick={onPreview}
-          className="min-h-touch flex-1 rounded-full border border-night-border px-4 text-sm font-medium text-ink-secondary"
+          className="min-h-touch flex-1 rounded-full border border-paper-border px-4 text-sm font-medium text-ink-700"
         >
           试读第一章
         </button>
@@ -199,7 +200,7 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
           type="button"
           onClick={handleStart}
           whileTap={{ scale: 0.97 }}
-          className="min-h-touch flex-1 rounded-full bg-peach-gradient px-4 text-sm font-bold text-white shadow-lg"
+          className="min-h-touch flex-1 rounded-full bg-terra px-4 text-sm font-bold text-white shadow-lg"
         >
           {continuing ? `接着读 · ${book.progress}%` : book.finished ? '再读一遍' : '开始读'}
         </motion.button>

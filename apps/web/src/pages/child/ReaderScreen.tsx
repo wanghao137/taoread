@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { IconPlay, IconPause, IconVolume } from '../../components/ui/icons'
 import { AnimatePresence, motion } from 'framer-motion'
+import { MOTION, useReducedMotion } from '../../lib/motion'
 import { api, ApiError, type ContentChapterDto } from '../../lib/api'
 import { tts, listVoices, type TtsVoiceInfo, type TtsProgress } from '../../lib/tts'
 import { audioPlayer, type VoiceOption, type AudioProgress } from '../../lib/audioPlayer'
@@ -31,7 +33,9 @@ type Theme = ReadingTheme
 const THEMES: Record<Theme, { bg: string; text: string; panel: string; border: string; artFrom: string; artTo: string }> = {
   paper: { bg: '#FFFDF8', text: '#3E3A33', panel: '#FFFFFF', border: '#E8E0D0', artFrom: '#FFF3E0', artTo: '#FFE0B2' },
   sepia: { bg: '#F5EEDC', text: '#4E3B28', panel: '#FAF4E6', border: '#E3D5BB', artFrom: '#FFE0B2', artTo: '#D7CCC8' },
-  night: { bg: '#141B33', text: '#E8EAF6', panel: '#1E2748', border: '#32406B', artFrom: '#1E2A5A', artTo: '#3949AB' },
+  // 暖夜主题（docs/21 §0 / docs/22）：从冷靛蓝换深暖棕 + 琥珀强调——
+  // 儿童褪黑素对蓝光的敏感度是成人 2 倍，睡前正文页必须压低蓝光成分
+  night: { bg: '#211810', text: '#F2E4CE', panel: '#2E2118', border: '#52402C', artFrom: '#5A3E1E', artTo: '#8A5A28' },
 }
 
 const FONT_SIZES = [18, 20, 22, 24, 26, 28]
@@ -51,6 +55,7 @@ export function ReaderScreen(props: ReaderProps) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   const role = useSession((s) => s.role)
+  const childStage = useSession((s) => s.childStage)
 
   const [chapter, setChapter] = useState<ContentChapterDto | null>(null)
   const [titles, setTitles] = useState<Array<{ order: number; title: string }>>([])
@@ -64,6 +69,13 @@ export function ReaderScreen(props: ReaderProps) {
   const [showChapters, setShowChapters] = useState(false)
   const [speaking, setSpeaking] = useState(false)
   const [highlight, setHighlight] = useState<TtsProgress | null>(null)
+  /**
+   * 朗读高亮粒度（docs/17 P0-1）。
+   * 「跟随年龄」：6-8 岁逐字加粗（识字敏感期），3-5 岁只逐句（前读写者逐词证据缺失）。
+   * 家长可在设置抽屉强制改三档——Wang & Huang 2015（n=185）：线索粒度必须匹配解码水平，
+   * 熟练读者加线索无收益，所以允许关闭。
+   */
+  const [highlightMode, setHighlightMode] = useState<'auto' | 'word' | 'sentence' | 'off'>('auto')
   const [ttsError, setTtsError] = useState<string | null>(null)
   const [voicePanel, setVoicePanel] = useState(false)
   const [voices, setVoices] = useState<TtsVoiceInfo[]>([])
@@ -78,6 +90,17 @@ export function ReaderScreen(props: ReaderProps) {
     questions: string[]
     hook: string
   } | null>(null)
+  /**
+   * 翻页方向（docs/15 动效）：上一章时正文从左进、下一章时从右进，
+   * 复刻纸质书的翻页方向暗示。reduced-motion 时归零位移。
+   */
+  const [pageDir, setPageDir] = useState<1 | -1>(1)
+  const reduced = useReducedMotion()
+  const pageMotion = reduced
+    ? MOTION.pageFade
+    : pageDir === 1
+      ? MOTION.pageForward
+      : MOTION.pageBackward
   const [scaffoldOpen, setScaffoldOpen] = useState(false)
   const [scaffoldLoading, setScaffoldLoading] = useState(false)
   /**
@@ -231,7 +254,7 @@ export function ReaderScreen(props: ReaderProps) {
         index: p.index,
         total: p.total,
         text: p.text,
-        ...(p.charIndex >= 0 ? { charIndex: p.charIndex } : {}),
+        charIndex: p.charIndex,
       })
     })
     const offE = audioPlayer.onEnd(() => {
@@ -306,7 +329,7 @@ export function ReaderScreen(props: ReaderProps) {
         setHighlight(null)
         setSleepMinutes(null)
         setSleepPanel(false)
-        setTtsError('时间到啦，今晚的故事先到这里，晚安 🌙')
+        setTtsError('时间到啦，今晚的故事先到这里，晚安')
       } else {
         setSleepLeft(sleepLeftRef.current)
       }
@@ -510,12 +533,14 @@ export function ReaderScreen(props: ReaderProps) {
   const goPrev = useCallback(() => {
     if (order > 1) {
       haptic('chapter')
+      setPageDir(-1)
       void loadChapter(order - 1)
     }
   }, [order, loadChapter])
   const goNext = useCallback(() => {
     if (!isLastChapter) {
       haptic('chapter')
+      setPageDir(1)
       void loadChapter(order + 1)
     }
   }, [isLastChapter, order, loadChapter])
@@ -541,6 +566,26 @@ export function ReaderScreen(props: ReaderProps) {
     [stopTts],
   )
 
+  /** 生词本（docs/15 P1-B）：本章节已收录的词，用于按钮态 */
+  const [collectedWords, setCollectedWords] = useState<Set<string>>(new Set())
+
+  const collectWord = useCallback(
+    async (word: string) => {
+      if (!childId || !token) return
+      setCollectedWords((prev) => new Set(prev).add(word))
+      try {
+        await api.addWord(
+          childId,
+          { word, lang: props.lang === 'en' ? 'en' : 'zh', bookId: props.contentId, context: chapter?.title },
+          token,
+        )
+      } catch {
+        // 收失败不撤回界面状态：词可能已收录过（幂等），下次进来仍显示已收
+      }
+    },
+    [childId, token, props.lang, props.contentId, chapter?.title],
+  )
+
   const blocks = chapter?.blocks ?? []
   const speakingBlockId = useMemo(() => {
     if (!highlight || !chapter) return null
@@ -548,13 +593,57 @@ export function ReaderScreen(props: ReaderProps) {
     return hit?.id ?? null
   }, [highlight, chapter])
 
+  /**
+   * 实际生效的高亮粒度（docs/17 P0-1）。
+   * auto 按年龄段落定；charIndex===-1（Web Speech 回退）时永远只逐句，不假装逐字。
+   */
+  const effectiveHighlight = useMemo<'word' | 'sentence' | 'off'>(() => {
+    if (highlightMode === 'off') return 'off'
+    if (highlightMode === 'auto') {
+      // 6-8 / 9-12 岁识字敏感期才逐字；3-5 岁前读写者只逐句
+      return childStage === '6-8' || childStage === '9-12' ? 'word' : 'sentence'
+    }
+    return highlightMode
+  }, [highlightMode, childStage])
+
+  /** 当前句的字级高亮下标；非逐字模式或无时间轴时为 -1 */
+  const activeCharIdx = useMemo(() => {
+    if (effectiveHighlight !== 'word' || !highlight) return -1
+    if (highlight.charIndex < 0) return -1
+    return highlight.charIndex
+  }, [effectiveHighlight, highlight])
+
+  /**
+   * 渲染正在朗读的那一句（docs/17 P0-1）。
+   * 逐字模式：当前字深色加粗，已读字略深、未读字略淡——karaoke 式但不用颜色区分
+   * （色盲友好：靠字重与透明度，不靠红绿）。逐句模式：整句底色柔和高亮。
+   * 高亮与音频同步连续推进，不触发停顿、不弹窗（Bus 2025：打断故事流程的交互无效）。
+   */
+  function renderSpeakingText(text: string): React.ReactNode {
+    if (effectiveHighlight === 'off' || activeCharIdx < 0) return text
+    const chars = Array.from(text)
+    return chars.map((ch, i) => (
+      <span
+        key={i}
+        style={{
+          fontWeight: i === activeCharIdx ? 800 : 'inherit',
+          color: i < activeCharIdx ? theme_.text : `${theme_.text}99`,
+          transition: 'color 0.15s, font-weight 0.15s',
+        }}
+      >
+        {ch}
+      </span>
+    ))
+  }
+
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: theme_.bg }}>
         <div className="flex flex-col items-center gap-3">
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 1.6, ease: 'linear' }}
+            // docs/17 P0-4：加载圈是「进度指示」非装饰动效，保留旋转；reduced 时降为脉冲
+            animate={reduced ? { opacity: [0.4, 1, 0.4] } : { rotate: 360 }}
+            transition={reduced ? MOTION.twinkle.transition : { repeat: Infinity, duration: 1.6, ease: 'linear' }}
             className="h-12 w-12 rounded-full border-4 border-t-transparent"
             style={{ borderColor: `${theme_.text}33`, borderTopColor: theme_.text }}
           />
@@ -664,6 +753,12 @@ export function ReaderScreen(props: ReaderProps) {
         style={{ scrollPaddingTop: 80 }}
       >
         <div className="mx-auto max-w-2xl">
+          {/*
+            翻页动效（docs/15）：key 随 order 变化即触发重挂载，正文按翻页方向滑入。
+            不用 AnimatePresence exit——章节加载会先走全屏 loading，exit 动画会被打断；
+            只播进场，足够给出方向暗示又不增加等待。
+          */}
+          <motion.div key={order} {...pageMotion}>
           {/* 章节题图（docs/13 P0-D：优先 AI 插画，回退 SVG 场景；P0-E：可生成 5 秒动画） */}
           {chapter?.art ? (
             <div className="mb-6">
@@ -693,15 +788,19 @@ export function ReaderScreen(props: ReaderProps) {
           </h2>
           {blocks.map((b) => {
             const isSpeaking = speakingBlockId === b.id
+            const isSpeakingBlock = isSpeaking && effectiveHighlight !== 'off'
             if (b.kind === 'image') {
               return (
                 <figure key={b.id} className="my-6">
                   <div className="overflow-hidden rounded-3xl shadow-lg" style={{ aspectRatio: '16 / 9' }}>
-                    <SceneArt
+                    {/* docs/24：图片块优先 AI 插画（与章节题图同管线），无记录回退 SVG 场景 */}
+                    <BookCover
+                      urlPath={b.artUrl}
                       scene={b.art ?? chapter?.art ?? 'bookshelf'}
                       from={theme === 'night' ? theme_.artFrom : props.coverFrom}
                       to={theme === 'night' ? theme_.artTo : props.coverTo}
                       lang={props.lang}
+                      alt={b.text ?? `${chapter?.title ?? ''}插图`}
                     />
                   </div>
                   {b.text ? (
@@ -723,7 +822,7 @@ export function ReaderScreen(props: ReaderProps) {
                   key={b.id}
                   ref={(el) => blockRefs.current.set(b.id, el)}
                   className="my-5 flex gap-3 rounded-2xl p-4"
-                  style={{ background: theme === 'night' ? '#22304F' : '#FFF8E7', border: `1px solid ${theme_.border}` }}
+                  style={{ background: theme === 'night' ? '#3A2B1C' : '#FFF8E7', border: `1px solid ${theme_.border}` }}
                 >
                   <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl">
                     <SceneArt scene={b.art ?? 'lamp-hint'} from={theme_.artFrom} to={theme_.artTo} lang={props.lang} />
@@ -733,15 +832,31 @@ export function ReaderScreen(props: ReaderProps) {
                       {b.text}
                     </p>
                     {noteWord ? (
-                      <button
-                        type="button"
-                        onClick={() => void speakNoteWord(noteWord)}
-                        className="mt-2 flex min-h-touch items-center gap-1.5 rounded-full px-3 text-xs font-bold"
-                        style={{ border: `1px solid ${theme_.border}`, color: theme_.text }}
-                        aria-label={`听 ${noteWord} 的发音`}
-                      >
-                        ▶ 听这个词
-                      </button>
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => void speakNoteWord(noteWord)}
+                          className="flex min-h-touch items-center gap-1.5 rounded-full px-3 text-xs font-bold"
+                          style={{ border: `1px solid ${theme_.border}`, color: theme_.text }}
+                          aria-label={`听 ${noteWord} 的发音`}
+                        >
+                          <IconPlay size={12} /> 听这个词
+                        </button>
+                        {/* 生词本（docs/15 P1-B）：收下这个词，回头在生词本里翻看 */}
+                        <button
+                          type="button"
+                          onClick={() => void collectWord(noteWord)}
+                          aria-label={`把 ${noteWord} 收进生词本`}
+                          className="flex min-h-touch items-center gap-1.5 rounded-full px-3 text-xs font-bold"
+                          style={{
+                            border: `1px solid ${collectedWords.has(noteWord) ? theme_.text : theme_.border}`,
+                            color: theme_.text,
+                            background: collectedWords.has(noteWord) ? `${theme_.text}18` : 'transparent',
+                          }}
+                        >
+                          {collectedWords.has(noteWord) ? '✓ 已收下' : '☆ 收下这个词'}
+                        </button>
+                      </div>
                     ) : null}
                   </div>
                 </div>
@@ -754,7 +869,7 @@ export function ReaderScreen(props: ReaderProps) {
                   ref={(el) => blockRefs.current.set(b.id, el)}
                   className="my-6 rounded-3xl p-6 text-center"
                   style={{
-                    background: theme === 'night' ? '#1B2544' : '#FFFDF6',
+                    background: theme === 'night' ? '#2A1F14' : '#FFFDF6',
                     border: `1px solid ${theme_.border}`,
                     transition: 'box-shadow 0.3s',
                     boxShadow: isSpeaking ? `0 0 0 2px ${theme_.text}55` : 'none',
@@ -762,9 +877,16 @@ export function ReaderScreen(props: ReaderProps) {
                 >
                   <p
                     className="whitespace-pre-line text-lg leading-loose"
-                    style={{ color: theme_.text, fontFamily: 'serif', fontSize: fontSize * 0.95 }}
+                    style={{
+                      color: theme_.text,
+                      fontFamily: 'serif',
+                      fontSize: fontSize * 0.95,
+                      // docs/17 P0-3：Hakvoort 2017（JECP）——增大字间距提升阅读准确率，
+                      // 且该效应非阅读障碍儿童特有，典型发展儿童同样获益，故作为默认排版基线
+                      letterSpacing: '0.04em',
+                    }}
                   >
-                    {b.text}
+                    {isSpeakingBlock ? renderSpeakingText(b.text) : b.text}
                   </p>
                   {b.pinyin ? (
                     <p
@@ -796,13 +918,15 @@ export function ReaderScreen(props: ReaderProps) {
                   fontSize,
                   lineHeight: 1.9,
                   textIndent: props.lang === 'zh' ? '2em' : '0',
+                  // docs/17 P0-3：同上，字间距普适基线；英文用 wordSpacing 更自然
+                  letterSpacing: props.lang === 'zh' ? '0.04em' : '0.01em',
                   fontFamily: props.lang === 'zh' ? 'serif' : 'inherit',
                   transition: 'box-shadow 0.3s',
                   borderRadius: 12,
                   boxShadow: isSpeaking ? `0 0 0 2px ${theme_.text}44` : 'none',
                 }}
               >
-                {b.text}
+                {isSpeakingBlock ? renderSpeakingText(b.text) : b.text}
               </p>
             )
           })}
@@ -822,7 +946,7 @@ export function ReaderScreen(props: ReaderProps) {
               <button
                 type="button"
                 onClick={finish}
-                className="min-h-touch rounded-full bg-peach-gradient px-6 text-sm font-bold text-white shadow-lg"
+                className="min-h-touch rounded-full bg-terra px-6 text-sm font-bold text-white shadow-lg"
               >
                 读完啦
               </button>
@@ -830,12 +954,13 @@ export function ReaderScreen(props: ReaderProps) {
               <button
                 type="button"
                 onClick={goNext}
-                className="min-h-touch rounded-full bg-peach-gradient px-6 text-sm font-bold text-white shadow-lg"
+                className="min-h-touch rounded-full bg-terra px-6 text-sm font-bold text-white shadow-lg"
               >
                 下一章 →
               </button>
             )}
           </nav>
+          </motion.div>
         </div>
       </main>
 
@@ -878,10 +1003,10 @@ export function ReaderScreen(props: ReaderProps) {
             onClick={speakChapter}
             disabled={!chapter}
             className="flex min-h-touch h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-xl text-white shadow-md"
-            style={{ background: speaking ? '#7E57C2' : 'linear-gradient(135deg, #FF8E75 0%, #FF6D54 100%)' }}
+            style={{ background: speaking ? '#C15F3C' : '#D97757' }}
             aria-label={speaking ? '停止朗读' : '朗读本章'}
           >
-            {speaking ? '⏸' : '🔊'}
+            {speaking ? <IconPause size={22} /> : <IconVolume size={22} />}
           </button>
           <div className="min-w-0 flex-1">
             {speaking && highlight ? (
@@ -925,8 +1050,8 @@ export function ReaderScreen(props: ReaderProps) {
               className="flex min-h-touch flex-shrink-0 items-center rounded-full px-3 text-xs font-medium"
               style={{
                 color: sleepMinutes !== null ? '#FFFFFF' : theme_.text,
-                background: sleepMinutes !== null ? '#5C6BC0' : 'transparent',
-                border: `1px solid ${sleepMinutes !== null ? '#5C6BC0' : theme_.border}`,
+                background: sleepMinutes !== null ? '#B07A2E' : 'transparent',
+                border: `1px solid ${sleepMinutes !== null ? '#B07A2E' : theme_.border}`,
               }}
               aria-label="哄睡定时"
             >
@@ -995,6 +1120,41 @@ export function ReaderScreen(props: ReaderProps) {
                 </button>
               ))}
             </div>
+            <p className="mb-2 mt-6 text-sm opacity-70" style={{ color: theme_.text }}>
+              朗读跟着读
+            </p>
+            <div className="mb-2 flex gap-2">
+              {([
+                { v: 'auto', label: '跟着年龄' },
+                { v: 'word', label: '逐字' },
+                { v: 'sentence', label: '逐句' },
+                { v: 'off', label: '关掉' },
+              ] as const).map((o) => (
+                <button
+                  key={o.v}
+                  type="button"
+                  onClick={() => setHighlightMode(o.v)}
+                  aria-pressed={highlightMode === o.v}
+                  className="min-h-touch flex-1 rounded-full text-sm font-medium"
+                  style={{
+                    background: highlightMode === o.v ? theme_.text : theme_.panel,
+                    color: highlightMode === o.v ? theme_.bg : theme_.text,
+                    border: `1px solid ${highlightMode === o.v ? theme_.text : theme_.border}`,
+                  }}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs opacity-60" style={{ color: theme_.text }}>
+              {highlightMode === 'auto'
+                ? `按年龄自动：${childStage === '6-8' || childStage === '9-12' ? '识字期，逐字跟着读' : '年龄小，整句高亮'}`
+                : highlightMode === 'off'
+                  ? '朗读时文字不变化'
+                  : highlightMode === 'word'
+                    ? '读到哪个字，哪个字变深'
+                    : '读到哪句，哪句整体高亮'}
+            </p>
           </Sheet>
         ) : null}
       </AnimatePresence>
@@ -1207,7 +1367,7 @@ export function ReaderScreen(props: ReaderProps) {
                       {v.neural ? (
                         <span
                           className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
-                          style={{ background: '#7C4DFF' }}
+                          style={{ background: '#B07A2E' }}
                         >
                           自然语音
                         </span>

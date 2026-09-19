@@ -66,7 +66,7 @@ export function TaSheet({ open, onClose, title, children }: TaSheetProps) {
         <div className="fixed inset-0 z-50">
           <motion.button
             aria-label="关闭弹层"
-            className="absolute inset-0 w-full cursor-default bg-night-900/70 backdrop-blur-sm"
+            className="absolute inset-0 w-full cursor-default bg-ink-900/30 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -78,13 +78,13 @@ export function TaSheet({ open, onClose, title, children }: TaSheetProps) {
             aria-modal="true"
             aria-label={title}
             tabIndex={-1}
-            className="absolute inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-4xl border-t border-night-border bg-night-800 p-5 pb-10 outline-none"
+            className="absolute inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-4xl border-t border-paper-border bg-paper-100 p-5 pb-10 shadow-lift outline-none"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 380, damping: 38 }}
           >
-            <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-night-border" aria-hidden />
+            <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-paper-border-strong" aria-hidden />
             <h2 className="mb-4 text-center text-xl font-bold leading-tight">{title}</h2>
             {children}
           </motion.div>

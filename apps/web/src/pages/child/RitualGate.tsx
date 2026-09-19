@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { IconLamp } from '../../components/ui/icons'
 import { TaCard, TaButton, Loading } from '../../components/ui'
 import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 import type { CosessionDto } from '../../lib/api'
@@ -37,7 +38,7 @@ export function RitualGate({
     <div className="flex flex-1 flex-col justify-center gap-8">
       <motion.div
         aria-hidden
-        className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[0_0_80px_rgba(255,217,122,0.45)]"
+        className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[0_0_60px_rgba(217,119,87,0.25)]"
         animate={{ y: [6, -10, 6] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -53,7 +54,7 @@ export function RitualGate({
             <br />
             {overtime ? '故事讲完啦' : '还没讲完呢'}
           </p>
-          <p className="mt-1 text-ink-secondary">
+          <p className="mt-1 text-ink-700">
             {overtime ? '把这一晚好好收进纪念册' : '故事在老地方等你'}
           </p>
           <div className="mt-4 flex flex-col gap-3">
@@ -76,10 +77,10 @@ export function RitualGate({
         </TaCard>
       ) : (
         <div className="text-center">
-          <h2 className="mb-2 text-2xl font-bold leading-relaxed">
+          <h2 className="mb-2 font-display text-2xl font-bold leading-relaxed">
             月亮升起来啦
             <br />
-            <span className="text-moon-400">今晚读什么？</span>
+            <span className="text-terra-600">今晚读什么？</span>
           </h2>
           <TaButton className="mx-auto mt-4" onClick={onStart}>
             点亮月亮，去选书
@@ -88,7 +89,7 @@ export function RitualGate({
       )}
 
       <TaButton variant="ghost" size="md" className="mx-auto" onClick={onWall}>
-        ✨ 我的夜灯
+        <IconLamp size={18} /> 我的夜灯
       </TaButton>
     </div>
   )

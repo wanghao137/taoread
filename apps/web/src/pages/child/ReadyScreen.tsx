@@ -29,12 +29,13 @@ export function ReadyScreen({ title, cover, bookId, onDepart, onStarSea }: Ready
       <h2 className="text-2xl font-bold leading-relaxed">
         选好啦！
         <br />
-        <span className="text-moon-400">《{title}》</span>
+        <span className="text-terra-600">《{title}》</span>
       </h2>
 
       <TaCard className="w-full">
-        <div className="mx-auto mb-4 h-28 w-24 overflow-hidden rounded-xl bg-night-700">
-          {cover ? (
+        <div className="mx-auto mb-4 h-28 w-24 overflow-hidden rounded-xl bg-paper-300">
+          {/* 只渲染本站媒体封面（外链 CDN 会被 ORB 拦成坏图且泄露孩子 IP），否则 SVG 回退 */}
+          {cover && cover.startsWith('/api/') ? (
             <img src={cover} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.visibility = 'hidden' }} />
           ) : (
             <SceneArt scene="bookshelf" className="h-full w-full" />
@@ -48,7 +49,7 @@ export function ReadyScreen({ title, cover, bookId, onDepart, onStarSea }: Ready
             去金句星球看看
           </TaButton>
         )}
-        <p className="mt-3 text-base text-ink-secondary">和爸爸妈妈说一声，一起读吧</p>
+        <p className="mt-3 text-base text-ink-700">和爸爸妈妈说一声，一起读吧</p>
       </TaCard>
     </div>
   )

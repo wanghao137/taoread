@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type ContentFamilyBookDto } from '../../lib/api'
 import { Loading, ErrorState, EmptyState } from '../../components/ui'
 import { SceneArt } from '../../components/art/SceneArt'
+import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
 
 export interface ContentLibraryProps {
   familyId: string
@@ -104,8 +105,8 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-base font-bold text-ink-primary">桃书库 · 孩子的阅读进度</h3>
-          <p className="mt-0.5 text-xs text-ink-secondary">
+          <h3 className="text-base font-bold text-ink-900">桃书库 · 孩子的阅读进度</h3>
+          <p className="mt-0.5 text-xs text-ink-700">
             共 {books.length} 本公版书 · {blockedCount > 0 ? `${blockedCount} 本已被屏蔽` : '未屏蔽任何书'}
           </p>
         </div>
@@ -113,7 +114,7 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
           <button
             type="button"
             onClick={() => setShowBlocked((v) => !v)}
-            className="min-h-touch rounded-full border border-night-border px-4 text-xs text-ink-secondary"
+            className="min-h-touch rounded-full border border-paper-border px-4 text-xs text-ink-700"
           >
             {showBlocked ? '只看在读' : `看被屏蔽的 ${blockedCount} 本`}
           </button>
@@ -129,30 +130,35 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
           return (
             <div
               key={book.id}
-              className="flex gap-3 rounded-2xl border border-night-border bg-panel/60 p-3"
+              className="flex gap-3 rounded-2xl border border-paper-border bg-panel/60 p-3"
             >
               {/* 小封面 */}
-              <div className="aspect-[3 / 4] h-20 flex-shrink-0 overflow-hidden rounded-lg shadow-md ring-1 ring-white/10">
+              <div className="aspect-[3 / 4] h-20 flex-shrink-0 overflow-hidden rounded-lg shadow-md ring-1 ring-paper-border">
                 <SceneArt scene={book.coverArt} from={book.coverFrom} to={book.coverTo} lang={book.lang} />
               </div>
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <p className="truncate text-sm font-bold text-ink-primary">{book.title}</p>
+                  <p className="truncate text-sm font-bold text-ink-900">{book.title}</p>
                   {book.blocked ? (
                     <span className="flex-shrink-0 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-bold text-red-300">
                       已屏蔽
                     </span>
                   ) : null}
                 </div>
-                <p className="text-[10px] text-ink-secondary opacity-80">
+                <p className="text-[10px] text-ink-700 opacity-80">
                   {CATEGORY_LABEL[book.category] ?? book.category} · {book.lang === 'en' ? '英文' : '中文'} · {book.ageStage} · {book.chapterCount} 章
+                </p>
+                {/* docs/17 P0-2：预计时长只给家长看——Common Sense Media 点名这类数字
+                    会给慢读者压力，所以从孩子端书架移到了这里，帮家长选书 */}
+                <p className="text-[10px] text-ink-700/70">
+                  预计 {minutesLabel(remainingMinutes(book))} · 约 {book.words} 字
                 </p>
                 {readers.length > 0 ? (
                   <div className="mt-1 flex flex-col gap-1">
                     {readers.map((r) => (
                       <div key={r.name} className="flex items-center gap-2">
-                        <span className="w-10 flex-shrink-0 text-[10px] text-ink-secondary">{r.name}</span>
-                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-night-border/50">
+                        <span className="w-10 flex-shrink-0 text-[10px] text-ink-700">{r.name}</span>
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-paper-border/50">
                           <div
                             className="h-full rounded-full"
                             style={{
@@ -161,14 +167,14 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
                             }}
                           />
                         </div>
-                        <span className="w-14 flex-shrink-0 text-right text-[10px] text-ink-secondary">
+                        <span className="w-14 flex-shrink-0 text-right text-[10px] text-ink-700">
                           {r.finished ? '读完' : `${r.progress}%`}
                         </span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="mt-1 text-[10px] text-ink-secondary opacity-60">还没开始读</p>
+                  <p className="mt-1 text-[10px] text-ink-700 opacity-60">还没开始读</p>
                 )}
                 <div className="mt-auto pt-1">
                   <button
@@ -189,7 +195,7 @@ export function ContentLibrary({ token }: ContentLibraryProps) {
           )
         })}
       </div>
-      <p className="text-[10px] leading-relaxed text-ink-secondary opacity-60">
+      <p className="text-[10px] leading-relaxed text-ink-700 opacity-60">
         屏蔽后，孩子端的桃书架会立刻隐藏这本书，且不会有任何提示——孩子不会感到被否定。
       </p>
     </div>

@@ -22,6 +22,7 @@ export const xiYouJi: PackBook = {
     {
       title: '第一章 · 石头里蹦出的猴子',
       art: 'magic-stone',
+      artPrompt: '花果山顶一块巨石裂开，一只圆滚滚的小石猴从中蹦出，金光四射，四周桃树繁花，云海翻涌',
       blocks: [
         {
           kind: 'text',
@@ -49,6 +50,7 @@ export const xiYouJi: PackBook = {
     {
       title: '第二章 · 水帘洞探宝',
       art: 'waterfall-cave',
+      artPrompt: '一道白色大瀑布从山崖倾泻而下，小石猴纵身跳进水帘，身后群猴在岸边探头张望，水花飞溅',
       blocks: [
         {
           kind: 'text',
@@ -76,6 +78,7 @@ export const xiYouJi: PackBook = {
     {
       title: '第三章 · 拜师学本领',
       art: 'master-fan',
+      artPrompt: '云雾缭绕的仙洞里，孙悟空双膝跪地恭恭敬敬向须菩提祖师行礼，祖师手持拂尘含笑点头，案上摆着经卷',
       blocks: [
         {
           kind: 'text',
@@ -97,7 +100,7 @@ export const xiYouJi: PackBook = {
         {
           kind: 'note',
           text: '十万八千里，差不多要绕地球转上一圈半呢。',
-          art: 'cloud-flight',
+          art: 'lamp-hint',
         },
         {
           kind: 'text',

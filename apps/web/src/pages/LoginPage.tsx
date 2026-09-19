@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
+import { useReducedMotion } from '../lib/motion'
 import { TaButton, TaCard, TaSheet, TaSticker } from '../components/ui'
 import { SceneArt, TaoMascot } from '../components/art/SceneArt'
 import { AiContentAgreement } from './AiContentAgreement'
@@ -27,6 +28,7 @@ type Mode = 'choose' | 'join' | 'create'
 export function LoginPage() {
   const navigate = useNavigate()
   const signIn = useSession((s) => s.signIn)
+  const reduced = useReducedMotion()
   const [mode, setMode] = useState<Mode>('choose')
   const [code, setCode] = useState('')
   const [role, setRole] = useState<DeviceRole>('parent')
@@ -74,31 +76,39 @@ export function LoginPage() {
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center px-5 py-10">
+      {/* 纸与桃：柔和有机色块氛围层（docs/22），纯 CSS 零加载、reduced 友好 */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-paper-100">
+        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-terra-50 blur-3xl" />
+        <div className="absolute -right-20 top-1/3 h-60 w-60 rounded-full bg-kraft-300/25 blur-3xl" />
+        <div className="absolute -bottom-24 left-1/4 h-64 w-64 rounded-full bg-terra-100/70 blur-3xl" />
+      </div>
       <header className="mb-10 text-center">
         <motion.div
           aria-hidden
-          className="relative mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full shadow-[0_0_50px_rgba(255,217,122,0.35)]"
-          animate={{ rotate: [0, -3, 0, 3, 0] }}
+          className="relative mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full shadow-[0_0_40px_rgba(217,119,87,0.22)]"
+          animate={reduced ? undefined : { rotate: [0, -3, 0, 3, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         >
           <SceneArt scene="loading-moon" />
         </motion.div>
         <div className="flex items-center justify-center gap-2">
           <TaoMascot mood="happy" className="h-9 w-9" />
-          <h1 className="text-3xl font-bold tracking-wide">桃阅读</h1>
+          <h1 className="bg-terra-gradient bg-clip-text font-display text-3xl font-bold tracking-wide text-transparent">
+            桃阅读
+          </h1>
         </div>
-        <p className="mt-2 text-ink-secondary">每晚一个故事，和最爱的人一起</p>
+        <p className="mt-2 text-ink-700">每晚一个故事，和最爱的人一起</p>
       </header>
 
       {createdCode ? (
         <TaCard aria-live="polite">
           <h2 className="text-center text-xl font-bold">家庭创建好啦</h2>
-          <p className="mt-2 text-center text-ink-secondary">
+          <p className="mt-2 text-center text-ink-700">
             把家庭码念给家里的另一台设备，就能一起加入
           </p>
           <p
             data-testid="family-code"
-            className="my-6 text-center text-4xl font-bold tracking-[0.3em] text-moon-400"
+            className="my-6 text-center font-display text-4xl font-bold tracking-[0.3em] text-terra-600"
           >
             {createdCode}
           </p>
@@ -110,7 +120,7 @@ export function LoginPage() {
         <div className="flex flex-col gap-4">
           <TaCard>
             <h2 className="mb-1 text-xl font-bold">我来说是…</h2>
-            <p className="mb-4 text-base text-ink-secondary">选择今晚的故事从谁开始</p>
+            <p className="mb-4 text-base text-ink-700">选择今晚的故事从谁开始</p>
             <div className="flex gap-3">
               {(Object.keys(ROLE_LABEL) as DeviceRole[]).map((r) => (
                 <button
@@ -120,8 +130,8 @@ export function LoginPage() {
                   aria-pressed={role === r}
                   className={`flex-1 cursor-pointer rounded-2xl border p-4 text-center transition-colors ${
                     role === r
-                      ? 'border-peach-400 bg-peach-400/15'
-                      : 'border-night-border bg-night-700/50'
+                      ? 'border-terra-500 bg-terra-50'
+                      : 'border-paper-border bg-paper-300/60'
                   }`}
                 >
                   <span aria-hidden className="block text-3xl">
@@ -142,7 +152,7 @@ export function LoginPage() {
       ) : mode === 'join' ? (
         <TaCard>
           <h2 className="text-xl font-bold">输入家庭码</h2>
-          <p className="mt-1 text-base text-ink-secondary">8 位家庭码在创建家庭的设备上</p>
+          <p className="mt-1 text-base text-ink-700">8 位家庭码在创建家庭的设备上</p>
           <label htmlFor="family-code" className="sr-only">
             家庭码
           </label>
@@ -153,14 +163,14 @@ export function LoginPage() {
             maxLength={8}
             autoComplete="off"
             placeholder="ABCD2345"
-            className="mt-4 h-16 w-full rounded-2xl border border-night-border bg-night-700 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-secondary/70"
+            className="mt-4 h-16 w-full rounded-2xl border border-paper-border bg-paper-300 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-700/70"
           />
           <div className="mt-4 flex justify-center gap-2">
             <TaSticker emoji="👨‍👩‍👧" label="爸爸妈妈" active={role === 'parent'} onClick={() => setRole('parent')} />
             <TaSticker emoji="🧒" label="小朋友" active={role === 'child'} onClick={() => setRole('child')} />
           </div>
           {error && (
-            <p role="alert" className="mt-4 text-center text-base text-peach-300">
+            <p role="alert" className="mt-4 text-center text-base text-terra-600">
               {error}
             </p>
           )}
@@ -174,11 +184,11 @@ export function LoginPage() {
       ) : (
         <TaCard>
           <h2 className="text-xl font-bold">创建新家庭</h2>
-          <p className="mt-1 text-base text-ink-secondary">
+          <p className="mt-1 text-base text-ink-700">
             创建后会得到一个 8 位家庭码，家里的平板、手机都能加入
           </p>
           {error && (
-            <p role="alert" className="mt-4 text-center text-base text-peach-300">
+            <p role="alert" className="mt-4 text-center text-base text-terra-600">
               {error}
             </p>
           )}
@@ -192,7 +202,7 @@ export function LoginPage() {
       )}
 
       {mode === 'choose' && (
-        <p className="mt-8 text-center text-base text-ink-secondary">
+        <p className="mt-8 text-center text-base text-ink-700">
           家庭码只在自己家人之间使用，请放心输入
         </p>
       )}
@@ -202,7 +212,7 @@ export function LoginPage() {
         <button
           type="button"
           onClick={() => setAgreementOpen(true)}
-          className="text-sm text-ink-secondary underline underline-offset-2"
+          className="text-sm text-ink-700 underline underline-offset-2"
         >
           AI 生成内容标识说明
         </button>

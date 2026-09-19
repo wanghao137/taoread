@@ -89,26 +89,26 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
     return (
       <div className="flex flex-col gap-4">
         <TaCard>
-          <h3 className="mb-3 text-base font-bold text-ink-secondary">夜灯</h3>
-          <p className="text-3xl font-bold text-moon-400">{lampCount} 晚</p>
+          <h3 className="mb-3 text-base font-bold text-ink-700">夜灯</h3>
+          <p className="font-display text-3xl font-bold text-terra-600">{lampCount} 晚</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {Array.from({ length: Math.min(lampCount, 24) }).map((_, i) => (
               <LampDot key={i} delay={i * 0.05} />
             ))}
           </div>
-          <p className="mt-3 text-base text-ink-secondary">
+          <p className="mt-3 text-base text-ink-700">
             第 {lampCount + 1} 盏夜灯，等着今晚的故事
           </p>
         </TaCard>
 
         <div className="grid grid-cols-2 gap-4">
           <TaCard className="text-center">
-            <p className="text-3xl font-bold text-moon-400">{bestStreak}</p>
-            <p className="mt-1 text-base text-ink-secondary">最长连续（晚）</p>
+            <p className="font-display text-3xl font-bold text-terra-600">{bestStreak}</p>
+            <p className="mt-1 text-base text-ink-700">最长连续（晚）</p>
           </TaCard>
           <TaCard className="text-center">
-            <p className="text-3xl font-bold text-moon-400">{booksCount}</p>
-            <p className="mt-1 text-base text-ink-secondary">读完（本）</p>
+            <p className="font-display text-3xl font-bold text-terra-600">{booksCount}</p>
+            <p className="mt-1 text-base text-ink-700">读完（本）</p>
           </TaCard>
         </div>
       </div>
@@ -122,7 +122,7 @@ export function AchievementWall({ childId, token, onBack }: AchievementWallProps
         <button
           type="button"
           onClick={onBack}
-          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-secondary"
+          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-700"
         >
           ← 回到月亮
         </button>

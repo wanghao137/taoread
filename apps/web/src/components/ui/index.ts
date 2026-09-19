@@ -1,4 +1,5 @@
 export { TaButton } from './TaButton'
+export * from './icons'
 export { TaCard } from './TaCard'
 export { TaSheet } from './TaSheet'
 export { TaSticker } from './TaSticker'

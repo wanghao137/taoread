@@ -38,7 +38,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       url: `/api/family/${f.familyId}/settings`,
       headers: authHeaders(f.token),
     })
-    expect(initial.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null })
+    expect(initial.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: null })
 
     const patch = await h.app.inject({
       method: 'PATCH',
@@ -47,7 +47,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { bedtimeMin: 1320, overtimeCapSec: 600 },
     })
     expect(patch.statusCode).toBe(200)
-    expect(patch.json()).toEqual({ bedtimeMin: 1320, overtimeCapSec: 600 })
+    expect(patch.json()).toEqual({ bedtimeMin: 1320, overtimeCapSec: 600, calmMode: null })
   })
 
   it('设置边界：越界拒绝（bedtime 1440 / cap 59），null 显式回落', async () => {
@@ -70,7 +70,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { bedtimeMin: null, overtimeCapSec: null },
     })
     expect(reset.statusCode).toBe(200)
-    expect(reset.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null })
+    expect(reset.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: null })
   })
 
   it('设置越权：孩子令牌 403 / 跨家庭家长 403', async () => {
@@ -86,6 +86,58 @@ describe('家庭设置与注销（第 9 夜）', () => {
       })
       expect(res.statusCode).toBe(403)
     }
+  })
+
+  it('安静模式：家长可开关并持久化，孩子令牌可读不可写（docs/15 P1-C）', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await joinFamily(h.app, f.familyCode, 'child')
+    const url = `/api/family/${f.familyId}/settings`
+    const parentHeaders = authHeaders(f.token)
+
+    // 孩子设备必须能读到家庭级开关——这是 calmMode 在孩子端生效的唯一路径
+    const childRead = await h.app.inject({
+      method: 'GET',
+      url,
+      headers: { authorization: `Bearer ${child.token}` },
+    })
+    expect(childRead.statusCode).toBe(200)
+    expect(childRead.json().calmMode).toBeNull()
+
+    const on = await h.app.inject({
+      method: 'PATCH',
+      url,
+      headers: parentHeaders,
+      payload: { calmMode: true },
+    })
+    expect(on.statusCode).toBe(200)
+    expect(on.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: true })
+
+    // 孩子端再读已能拿到开闸后的值
+    const childReadOn = await h.app.inject({
+      method: 'GET',
+      url,
+      headers: { authorization: `Bearer ${child.token}` },
+    })
+    expect(childReadOn.json().calmMode).toBe(true)
+
+    const off = await h.app.inject({
+      method: 'PATCH',
+      url,
+      headers: parentHeaders,
+      payload: { calmMode: false },
+    })
+    expect(off.json().calmMode).toBe(false)
+
+    // 非布尔值被 zod 挡下，不会写入
+    const bad = await h.app.inject({
+      method: 'PATCH',
+      url,
+      headers: parentHeaders,
+      payload: { calmMode: 'yes' },
+    })
+    expect(bad.statusCode).toBe(400)
+    const afterBad = await h.app.inject({ method: 'GET', url, headers: parentHeaders })
+    expect(afterBad.json().calmMode).toBe(false)
   })
 
   it('家庭级 bedtimeMin 覆盖环境默认：设置 1320 后 21:30 可开课', async () => {

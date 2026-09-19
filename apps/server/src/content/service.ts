@@ -39,6 +39,8 @@ export interface BookSummaryDto {
   blocked: boolean
   /** AI 插画 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
   coverArtUrl: string | null
+  /** 孩子是否收藏了这本书（docs/15 P1-A） */
+  favorite: boolean
 }
 
 export interface ChapterDto {
@@ -90,6 +92,7 @@ function summarize(
   finished: boolean,
   blocked: boolean,
   coverArtUrl: string | null,
+  favorite: boolean,
 ): BookSummaryDto {
   return {
     id: book.id,
@@ -109,6 +112,7 @@ function summarize(
     finished,
     blocked,
     coverArtUrl,
+    favorite,
   }
 }
 
@@ -187,9 +191,10 @@ export async function listBooks(
   const visible = filtered.filter((b) => !blockedIds.has(b.id))
 
   const artMap = await artUrlMap(db, visible.map((b) => coverScene(b.id)))
+  const favIds = options.childId ? await listFavoriteIds(db, options.childId) : new Set<string>()
   return visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false }
-    return summarize(b, p.pct, p.finished, false, artMap.get(coverScene(b.id)) ?? null)
+    return summarize(b, p.pct, p.finished, false, artMap.get(coverScene(b.id)) ?? null, favIds.has(b.id))
   })
 }
 
@@ -200,7 +205,7 @@ export async function getBook(db: PrismaClient, contentId: string): Promise<Book
   })
   if (!book) return null
   const artMap = await artUrlMap(db, [coverScene(book.id)])
-  return summarize(book, 0, false, false, artMap.get(coverScene(book.id)) ?? null)
+  return summarize(book, 0, false, false, artMap.get(coverScene(book.id)) ?? null, false)
 }
 
 /**
@@ -241,6 +246,7 @@ export async function listBooksForParent(
         readers.some((r) => r.finished),
         blockedMap.get(b.id) ?? false,
         artMap.get(coverScene(b.id)) ?? null,
+        false,
       ),
       readers,
     }
@@ -262,7 +268,11 @@ export async function getChapter(
   })
   if (!chapter) return null
   const scene = chapterScene(contentId, order, chapter.art)
-  const artMap = await artUrlMap(db, [scene])
+  // 图片块也用 AI 插画：收集所有 image/note 块的场景键批量解析（docs/24 图片严格对齐）
+  const blockScenes = chapter.blocks
+    .map((b: Block) => b.art)
+    .filter((a: string | null): a is string => Boolean(a) && a !== 'lamp-hint')
+  const artMap = await artUrlMap(db, [scene, ...new Set(blockScenes)])
   return {
     id: chapter.id,
     order: chapter.order,
@@ -277,6 +287,7 @@ export async function getChapter(
       pinyin: b.pinyin,
       translation: b.translation,
       art: b.art,
+      artUrl: b.art && b.art !== 'lamp-hint' ? (artMap.get(b.art) ?? null) : null,
     })),
   }
 }
@@ -327,4 +338,96 @@ export async function getProgress(
     select: { chapterOrder: true, blockOrder: true, finished: true },
   })
   return row ?? null
+}
+
+// ── 收藏（docs/15 P1-A）──
+
+export async function setFavorite(
+  db: PrismaClient,
+  childId: string,
+  contentId: string,
+  favorite: boolean,
+): Promise<{ favorite: boolean }> {
+  if (favorite) {
+    await db.bookFavorite.upsert({
+      where: { childId_bookId: { childId, bookId: contentId } },
+      create: { childId, bookId: contentId },
+      update: {},
+    })
+  } else {
+    await db.bookFavorite
+      .deleteMany({ where: { childId, bookId: contentId } })
+      .catch(() => {})
+  }
+  return { favorite }
+}
+
+export async function listFavoriteIds(db: PrismaClient, childId: string): Promise<Set<string>> {
+  const rows = await db.bookFavorite.findMany({ where: { childId }, select: { bookId: true } })
+  return new Set(rows.map((r) => r.bookId))
+}
+
+// ── 生词本（docs/15 P1-B）──
+
+export interface WordCardDto {
+  id: string
+  word: string
+  lang: string
+  bookId: string | null
+  bookTitle: string | null
+  context: string | null
+  createdAt: string
+}
+
+export async function addWord(
+  db: PrismaClient,
+  childId: string,
+  params: { word: string; lang: string; bookId?: string | null; context?: string | null },
+): Promise<WordCardDto> {
+  const word = params.word.trim()
+  if (word.length === 0 || word.length > 64) throw new Error('WORD_INVALID')
+  const lang: 'zh' | 'en' = params.lang === 'en' ? 'en' : 'zh'
+  const row = await db.wordCard.upsert({
+    where: { childId_word: { childId, word } },
+    create: {
+      childId,
+      word,
+      lang,
+      ...(params.bookId ? { bookId: params.bookId } : {}),
+      ...(params.context ? { context: params.context.slice(0, 200) } : {}),
+    },
+    // 已收录过：不覆盖原出处（第一次遇见的地方最有记忆价值）
+    update: {},
+    include: { book: { select: { title: true } } },
+  })
+  return {
+    id: row.id,
+    word: row.word,
+    lang: row.lang,
+    bookId: row.bookId,
+    bookTitle: row.book?.title ?? null,
+    context: row.context,
+    createdAt: row.createdAt.toISOString(),
+  }
+}
+
+export async function listWords(db: PrismaClient, childId: string): Promise<WordCardDto[]> {
+  const rows = await db.wordCard.findMany({
+    where: { childId },
+    orderBy: { createdAt: 'desc' },
+    include: { book: { select: { title: true } } },
+  })
+  return rows.map((row) => ({
+    id: row.id,
+    word: row.word,
+    lang: row.lang,
+    bookId: row.bookId,
+    bookTitle: row.book?.title ?? null,
+    context: row.context,
+    createdAt: row.createdAt.toISOString(),
+  }))
+}
+
+export async function removeWord(db: PrismaClient, childId: string, wordId: string): Promise<void> {
+  await db.wordCard.deleteMany({ where: { id: wordId, childId } })
 }

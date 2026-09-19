@@ -23,6 +23,7 @@ export const alice: PackBook = {
     {
       title: 'Chapter 1 · Down the Rabbit Hole',
       art: 'rabbit-hole',
+      artPrompt: 'a little girl in a blue dress peeks over a riverbank as a white rabbit in a waistcoat checks its pocket watch, daisy chains and summer meadow, whimsical storybook style',
       blocks: [
         {
           kind: 'text',
@@ -79,6 +80,7 @@ export const alice: PackBook = {
     {
       title: 'Chapter 2 · The Pool of Tears',
       art: 'pool-tears',
+      artPrompt: 'a tiny girl wades waist-deep in a glittering pool of tears inside a vast hall, a golden key on the floor, a white rabbit hurrying away with gloves and a fan',
       blocks: [
         {
           kind: 'text',
@@ -135,6 +137,7 @@ export const alice: PackBook = {
     {
       title: 'Chapter 3 · A Mad Tea-Party',
       art: 'mad-tea',
+      artPrompt: 'a long tea table under a gnarled tree, the top-hatted Hatter and the March Hare pour tea while a sleepy Dormouse dozes between them, cups and clocks everywhere',
       blocks: [
         {
           kind: 'text',

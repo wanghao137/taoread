@@ -22,6 +22,7 @@ export const keZhouQiuJian: PackBook = {
     {
       title: '刻舟求剑',
       art: 'river-boat',
+      artPrompt: '江面上一叶木舟，一个楚国人蹲在船边，正用小刀在船帮上刻记号，远处青山落日，江水静静流淌',
       blocks: [
         {
           kind: 'text',

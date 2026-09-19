@@ -8,6 +8,7 @@ import {
   topRecommendations,
 } from '../../lib/ritual'
 import { TaCard, TaButton, Loading, ErrorState, EmptyState } from '../../components/ui'
+import { IconCheck, IconClock, IconSparkle } from '../../components/ui/icons'
 import { SceneArt } from '../../components/art/SceneArt'
 
 export interface BookPickerProps {
@@ -120,12 +121,12 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-center text-2xl font-bold">
-        今晚读<span className="text-moon-400">什么</span>？
+        今晚读<span className="font-display text-terra-600">什么</span>？
       </h2>
 
       {continueBook && (
         <section aria-labelledby="continue-title">
-          <h3 id="continue-title" className="mb-2 text-base font-bold text-ink-secondary">
+          <h3 id="continue-title" className="mb-2 text-base font-bold text-ink-700">
             接着读
           </h3>
           <BookCard
@@ -141,7 +142,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
 
       {recommends.length > 0 && (
         <section aria-labelledby="rec-title">
-          <h3 id="rec-title" className="mb-2 text-base font-bold text-ink-secondary">
+          <h3 id="rec-title" className="mb-2 text-base font-bold text-ink-700">
             今晚的推荐
           </h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -164,7 +165,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
         loading={diceRolling}
         aria-label="掷骰子随机选一本"
       >
-        🎲 掷骰子，抽一本惊喜
+        <IconSparkle size={18} /> 掷骰子，抽一本惊喜
       </TaButton>
 
       <SearchBox token={token} busy={anyDisabled} onSelect={select} />
@@ -172,14 +173,14 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
       {feed.shelf.length > 0 && (
         <section aria-labelledby="shelf-title">
           <div className="mb-2 flex items-center justify-between">
-            <h3 id="shelf-title" className="text-base font-bold text-ink-secondary">
+            <h3 id="shelf-title" className="text-base font-bold text-ink-700">
               我的书架（{feed.shelf.length} 本）
             </h3>
             {feed.shelf.length > 6 && (
               <button
                 type="button"
                 onClick={() => setShowAll((v) => !v)}
-                className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-peach-400"
+                className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-terra-600"
               >
                 {showAll ? '收起' : '展开全部'}
               </button>
@@ -218,7 +219,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
       )}
 
       {error && (
-        <p role="alert" className="text-center text-base text-peach-300">
+        <p role="alert" className="text-center text-base text-terra-600">
           {error}
         </p>
       )}
@@ -241,8 +242,12 @@ function BookCard({
   note?: string
   highlight?: boolean
 }) {
+  // 封面策略（对抗审查修复）：只渲染本站媒体（/api/media/...）的封面。
+  // 微信书等外部 CDN 封面会因 ORB 拦截变成坏图，还向第三方泄露孩子 IP——
+  // 一律不出 <img>，走本地 SVG 场景回退，孩子端界面零外链。
+  const localCover = book.cover?.startsWith('/api/') ? book.cover : null
   return (
-    <TaCard className={highlight ? 'border-peach-400/60' : ''}>
+    <TaCard className={highlight ? 'border-terra-300' : ''}>
       <motion.button
         type="button"
         whileTap={disabled ? undefined : { scale: 0.97 }}
@@ -251,9 +256,9 @@ function BookCard({
         className="flex min-h-touch w-full cursor-pointer items-center gap-4 text-left disabled:cursor-not-allowed"
         aria-label={`选《${book.title}》今晚读`}
       >
-        {book.cover ? (
+        {localCover ? (
           <img
-            src={book.cover}
+            src={localCover}
             alt=""
             loading="lazy"
             className="h-20 w-16 shrink-0 rounded-lg object-cover"
@@ -262,19 +267,19 @@ function BookCard({
             }}
           />
         ) : (
-          <span aria-hidden className="block h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-night-700">
+          <span aria-hidden className="block h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-paper-300">
             <SceneArt scene="bookshelf" className="h-full w-full" />
           </span>
         )}
         <span className="min-w-0 flex-1">
           <span className="block truncate text-lg font-bold leading-snug">{book.title}</span>
           {book.author && (
-            <span className="mt-0.5 block truncate text-base text-ink-secondary">{book.author}</span>
+            <span className="mt-0.5 block truncate text-base text-ink-700">{book.author}</span>
           )}
-          {note && <span className="mt-1 block text-base text-moon-400">{note}</span>}
+          {note && <span className="mt-1 block text-base text-terra-600">{note}</span>}
         </span>
-        <span aria-hidden className="shrink-0 text-2xl text-peach-400">
-          {busy ? '⏳' : '✓'}
+        <span aria-hidden className="shrink-0 text-terra-600">
+          {busy ? <IconClock size={22} /> : <IconCheck size={22} />}
         </span>
       </motion.button>
     </TaCard>
@@ -313,7 +318,7 @@ function SearchBox({
 
   return (
     <section aria-labelledby="search-title">
-      <h3 id="search-title" className="mb-2 text-base font-bold text-ink-secondary">
+      <h3 id="search-title" className="mb-2 text-base font-bold text-ink-700">
         找一本想读的书
       </h3>
       <TaCard>
@@ -327,19 +332,19 @@ function SearchBox({
             placeholder="输入书名或作者"
             maxLength={60}
             aria-label="搜索书名或作者"
-            className="h-12 min-w-0 flex-1 rounded-xl border border-night-border bg-night-700 px-4 text-base"
+            className="h-12 min-w-0 flex-1 rounded-xl border border-paper-border bg-paper-300 px-4 text-base"
           />
           <TaButton size="md" disabled={keyword.trim().length < 1} loading={searching} onClick={() => void run()}>
             搜一搜
           </TaButton>
         </div>
         {error && (
-          <p role="alert" className="mt-2 text-base text-peach-300">
+          <p role="alert" className="mt-2 text-base text-terra-600">
             {error}
           </p>
         )}
         {hits !== null && hits.length === 0 && (
-          <p className="mt-3 text-base text-ink-secondary">
+          <p className="mt-3 text-base text-ink-700">
             没找到「{keyword}」，换个词试试，或者从上面的书架里挑一本
           </p>
         )}
@@ -351,13 +356,13 @@ function SearchBox({
                   type="button"
                   disabled={busy}
                   onClick={() => onSelect(b)}
-                  className="flex min-h-touch w-full cursor-pointer items-center justify-between rounded-2xl border border-night-border bg-night-700/50 px-4 text-left disabled:cursor-not-allowed"
+                  className="flex min-h-touch w-full cursor-pointer items-center justify-between rounded-2xl border border-paper-border bg-paper-300/60 px-4 text-left disabled:cursor-not-allowed"
                 >
                   <span className="truncate text-base">
                     《{b.title}》
-                    {b.author && <span className="ml-2 text-ink-secondary">{b.author}</span>}
+                    {b.author && <span className="ml-2 text-ink-700">{b.author}</span>}
                   </span>
-                  <span aria-hidden className="ml-2 shrink-0 text-peach-400">
+                  <span aria-hidden className="ml-2 shrink-0 text-terra-600">
                     ✓
                   </span>
                 </button>

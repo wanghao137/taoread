@@ -20,10 +20,10 @@ export function FootprintBar({ familyId, token }: { familyId: string; token: str
   return (
     <div
       data-testid="footprint-bar"
-      className="mb-4 rounded-2xl border border-night-border bg-night-800/60 px-4 py-3 text-base text-ink-secondary"
+      className="mb-4 rounded-2xl border border-paper-border bg-paper-200/60 px-4 py-3 text-base text-ink-700"
     >
-      本周足迹：共读 <span className="font-bold text-moon-400">{report.nights}</span> 晚 ·{' '}
-      <span className="font-bold text-moon-400">{report.totalMinutes}</span> 分钟
+      本周足迹：共读 <span className="font-bold text-terra-600">{report.nights}</span> 晚 ·{' '}
+      <span className="font-bold text-terra-600">{report.totalMinutes}</span> 分钟
     </div>
   )
 }

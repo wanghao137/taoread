@@ -9,8 +9,8 @@ export interface TaStickerProps {
 export function TaSticker({ emoji, label, active = false, onClick }: TaStickerProps) {
   const base = `inline-flex items-center gap-2 rounded-full border px-4 py-2 text-base transition-colors ${
     active
-      ? 'border-peach-400 bg-peach-400/20 text-ink-primary'
-      : 'border-night-border bg-night-700/60 text-ink-secondary'
+      ? 'border-terra-500 bg-terra-50 text-terra-700'
+      : 'border-paper-border bg-paper-100 text-ink-700'
   }`
   if (!onClick) {
     return (

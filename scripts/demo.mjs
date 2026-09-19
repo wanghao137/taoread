@@ -1,5 +1,5 @@
 /**
- * `npm run demo` 一键演示：拉起演示服务端（mock 网关 + DEMO8888 种子）与前端 dev server。
+ * `npm run demo` 一键演示：拉起演示服务端（mock 网关 + PEACH888 种子）与前端 dev server。
  * Ctrl+C 一并退出。端口占用时先清理提示。
  */
 import { spawn } from 'node:child_process'
@@ -77,7 +77,7 @@ const timer = setInterval(async () => {
       console.log('')
       console.log('✅ 演示已就绪（首次启动 vite 需要几秒编译）')
       console.log(`   👉 浏览器打开  http://localhost:${WEB_PORT}`)
-      console.log('   👉 登录页输入家庭码  DEMO8888')
+      console.log('   👉 登录页输入家庭码  PEACH888')
       console.log('      · 选「爸爸妈妈」看 共读卡/书架管理/周报/设置')
       console.log('      · 选「小朋友」走 选书→出发→收尾→夜灯 完整仪式流')
       console.log('   Ctrl+C 退出演示')

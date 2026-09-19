@@ -8,7 +8,7 @@
 export function AiBadge({ label = 'AI 绘制' }: { label?: string }) {
   return (
     <span
-      className="pointer-events-none absolute bottom-2 right-2 rounded-full bg-night-900/70 px-2 py-0.5 text-[10px] font-medium text-moon-300 backdrop-blur-sm"
+      className="pointer-events-none absolute bottom-2 right-2 rounded-full bg-ink-900/70 px-2 py-0.5 text-[10px] font-medium text-paper-100 backdrop-blur-sm"
       aria-hidden="true"
     >
       {label}

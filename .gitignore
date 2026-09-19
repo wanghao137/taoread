@@ -47,3 +47,9 @@ scripts/pip*.exe
 media/
 !.tao-tmp
 .tao-tmp/
+
+# docs/24 提交清理：爬取的第三方原始数据与设计稿大图留本地
+research/ui-mockups/
+apps/server/.research/
+apps/web/public/mockups/
+apps/web/public/mockups-bg/

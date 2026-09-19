@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { IconBookOpen } from '../../components/ui/icons'
 import { api, ApiError, type ChildDto, type ReadingCardDto } from '../../lib/api'
 import { Loading, ErrorState, TaCard, TaSticker } from '../../components/ui'
 
@@ -76,7 +77,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
 
   if (childrenList.length === 0) {
     return (
-      <p className="text-base text-ink-secondary">
+      <p className="text-base text-ink-700">
         还没有小读者档案——去设置里添加，今晚就能开始
       </p>
     )
@@ -85,11 +86,11 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-bold text-ink-secondary">今晚的共读卡</h3>
+        <h3 className="text-base font-bold text-ink-700">今晚的共读卡</h3>
         <button
           type="button"
           onClick={reload}
-          className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-peach-400"
+          className="min-h-[3rem] cursor-pointer rounded-xl px-4 text-base text-terra-600"
         >
           刷新
         </button>
@@ -103,16 +104,16 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
           {row.state === 'loading' && <Loading label="看一眼今晚…" />}
           {row.state === 'error' && <ErrorState message={row.message} onRetry={reload} />}
           {row.state === 'idle' && (
-            <p className="text-base text-ink-secondary">
+            <p className="text-base text-ink-700">
               今晚还没开始——请小读者在他们的设备上点亮月亮
             </p>
           )}
           {row.state === 'reading' && row.card && (
             <div className="flex flex-col gap-3 text-base leading-relaxed">
-              <p className="font-bold text-moon-400">《{row.card.bookTitle}》</p>
+              <p className="font-bold text-terra-600">《{row.card.bookTitle}》</p>
               <div>
-                <p className="font-bold">📖 讲什么</p>
-                <ul className="mt-1 list-disc pl-5 text-ink-secondary">
+                <p className="flex items-center gap-1.5 font-bold"><IconBookOpen size={16} /> 讲什么</p>
+                <ul className="mt-1 list-disc pl-5 text-ink-700">
                   {row.card.tellPoints.map((t) => (
                     <li key={t}>{t}</li>
                   ))}
@@ -120,7 +121,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
               </div>
               <div>
                 <p className="font-bold">💬 问什么</p>
-                <ul className="mt-1 list-disc pl-5 text-ink-secondary">
+                <ul className="mt-1 list-disc pl-5 text-ink-700">
                   {row.card.questions.map((q) => (
                     <li key={q}>{q}</li>
                   ))}
@@ -129,7 +130,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
               {row.card.hook && (
                 <div>
                   <p className="font-bold">🍵 聊什么</p>
-                  <p className="mt-1 text-ink-secondary">{row.card.hook}</p>
+                  <p className="mt-1 text-ink-700">{row.card.hook}</p>
                 </div>
               )}
               <div className="flex flex-wrap gap-2 pt-1">

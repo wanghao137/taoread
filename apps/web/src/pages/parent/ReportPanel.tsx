@@ -97,18 +97,18 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
     return (
       <div className="flex flex-col gap-4">
         <TaCard className="text-center">
-          <p className="text-5xl font-bold text-moon-400">{report.nights}</p>
-          <p className="mt-1 text-base text-ink-secondary">个共读的夜晚</p>
-          <p className="mt-3 text-base text-ink-secondary">
+          <p className="font-display text-5xl font-bold text-terra-600">{report.nights}</p>
+          <p className="mt-1 text-base text-ink-700">个共读的夜晚</p>
+          <p className="mt-3 text-base text-ink-700">
             累计 {report.totalMinutes} 分钟 · 读完 {report.books.length} 本 · 收金句 {report.highlightsTotal} 句
             {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
           </p>
-          <p className="mt-2 text-base text-ink-secondary">{report.nextWeekHint}</p>
+          <p className="mt-2 text-base text-ink-700">{report.nextWeekHint}</p>
         </TaCard>
 
         {report.books.length > 0 && (
           <TaCard>
-            <h3 className="mb-2 text-base font-bold text-ink-secondary">这一周读过的书</h3>
+            <h3 className="mb-2 text-base font-bold text-ink-700">这一周读过的书</h3>
             <ul className="list-disc pl-5 text-base leading-relaxed">
               {report.books.map((b) => (
                 <li key={b.key}>《{b.title}》</li>
@@ -119,10 +119,10 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
 
         {report.highlights.length > 0 && (
           <TaCard>
-            <h3 className="mb-2 text-base font-bold text-ink-secondary">收进来的金句</h3>
+            <h3 className="mb-2 text-base font-bold text-ink-700">收进来的金句</h3>
             <ul className="flex flex-col gap-2 text-base leading-relaxed">
               {report.highlights.map((h, i) => (
-                <li key={i} className="text-ink-primary">
+                <li key={i} className="text-ink-900">
                   「{h.text}」
                 </li>
               ))}
@@ -131,7 +131,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
         )}
 
         {exportError && (
-          <p role="alert" className="text-center text-base text-peach-300">
+          <p role="alert" className="text-center text-base text-terra-600">
             {exportError}
           </p>
         )}

@@ -19,11 +19,13 @@ import { BookDetail } from './child/BookDetail'
 import { ReaderScreen } from './child/ReaderScreen'
 
 interface BookRef {
-  /** 会话/书籍归属的微信读书 bookId（纸质书会话为空） */
+  /** 会话/书籍归属的微信读书 bookId（纸质书会话为空；cbf: 前缀 = 自研公版书） */
   bookId?: string
   title: string
   deepLink?: string
   cover?: string
+  /** 自研书内容包（cbf: 书专有）：出发屏「开始阅读」直达阅读器 */
+  content?: ContentBookDto
 }
 
 type Phase =
@@ -185,11 +187,23 @@ export function ChildHome() {
     }
   }, [phase, token, childId])
 
-  /** 解析会话/书籍的书名、封面与 deepLink（bookInfo 失败返回 null，不阻断） */
+  /** 解析会话/书籍的书名、封面与 deepLink（bookInfo 失败返回 null，不阻断）
+   *  对抗审查修复：cbf: 前缀是自研公版书，走内容域接口；
+   *  之前一律打微信书 info 接口，自研书必 404（噪音 + 多余往返）。 */
   const resolveBook = useCallback(
     async (bookId: string): Promise<BookRef | null> => {
       if (!token) return null
       try {
+        if (bookId.startsWith('cbf:')) {
+          const contentId = bookId.slice(4)
+          const info = await api.contentBook(contentId, token)
+          return {
+            bookId,
+            title: info.title,
+            ...(info.coverArtUrl ? { cover: info.coverArtUrl } : {}),
+            content: info,
+          }
+        }
         const info = await api.bookInfo(bookId, token)
         return {
           bookId,
@@ -391,7 +405,7 @@ export function ChildHome() {
               onClick={() =>
                 setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
               }
-              className="min-h-touch cursor-pointer self-start rounded-xl px-3 text-base text-ink-secondary"
+              className="min-h-touch cursor-pointer self-start rounded-xl px-3 text-base text-ink-700"
             >
               ← 回到月亮
             </button>
@@ -436,6 +450,12 @@ export function ChildHome() {
             cover={phase.book.cover}
             deepLink={phase.book.deepLink}
             isPaper={phase.isPaper}
+            /* 自研公版书：出发屏直达阅读器（对抗审查修复：原来只会提示「去微信读书找」，死路） */
+            onStartReader={
+              phase.book.content
+                ? () => void openShelfBookAt(phase.book.content!, 1, 0)
+                : undefined
+            }
             onFinish={() =>
               setPhase({
                 kind: 'finish',
@@ -529,14 +549,14 @@ export function ChildHome() {
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="bg-gradient-to-r from-peach-400 to-moon-400 bg-clip-text text-2xl font-bold text-transparent">
+        <h1 className="bg-terra-gradient bg-clip-text font-display text-2xl font-bold text-transparent">
           桃阅读
         </h1>
         <button
           type="button"
           // 孩子误触会丢掉整个会话：先弹确认层（docs/11 P0-8 / MC-4 容错）
           onClick={() => setConfirmSwitch(true)}
-          className="min-h-touch cursor-pointer rounded-full border border-night-border px-4 text-sm text-ink-secondary"
+          className="min-h-touch cursor-pointer rounded-full border border-paper-border px-4 text-sm text-ink-700"
         >
           换家庭
         </button>
@@ -558,7 +578,7 @@ export function ChildHome() {
 
       {/* 换家庭确认：把「不可逆」变成「可取消」 */}
       <TaSheet open={confirmSwitch} onClose={() => setConfirmSwitch(false)} title="要换一个家庭吗？">
-        <p className="text-sm leading-relaxed text-ink-secondary">
+        <p className="text-sm leading-relaxed text-ink-700">
           回到登录页以后，今晚读到一半的故事会先保存在云端，下次进来还能接着读。
         </p>
         <div className="mt-5 flex gap-3">

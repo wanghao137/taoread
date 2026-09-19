@@ -26,7 +26,7 @@ export function EmptyState({ emoji = '⭐', art, mood = 'hint', title, hint, act
     <div className="flex flex-col items-center gap-3 py-14 text-center">
       {art ? (
         <>
-          <div className="relative h-36 w-36 overflow-hidden rounded-3xl shadow-lg ring-1 ring-white/10">
+          <div className="relative h-36 w-36 overflow-hidden rounded-3xl shadow-lg ring-1 ring-paper-border">
             <SceneArt scene={art} />
           </div>
           <TaoMascot mood={mood} className="h-11 w-11" />
@@ -37,7 +37,7 @@ export function EmptyState({ emoji = '⭐', art, mood = 'hint', title, hint, act
         </span>
       )}
       <p className="text-lg font-bold leading-relaxed">{title}</p>
-      {hint && <p className="text-ink-secondary">{hint}</p>}
+      {hint && <p className="text-ink-700">{hint}</p>}
       {action && (
         <div className="mt-2">
           <TaButton size="lg" variant="primary" onClick={action.onClick}>

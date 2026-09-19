@@ -95,13 +95,13 @@ export function OnboardingTour({ onDone }: OnboardingTourProps) {
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="flex flex-col items-center gap-4"
         >
-          <div className="relative h-44 w-44 overflow-hidden rounded-3xl shadow-xl ring-1 ring-white/10">
+          <div className="relative h-44 w-44 overflow-hidden rounded-3xl shadow-xl ring-1 ring-paper-border">
             <SceneArt scene={current.art} />
           </div>
           <TaoMascot mood={current.mood} className="h-12 w-12" />
           <div className="text-center">
-            <p className="text-xl font-bold leading-relaxed text-ink-primary">{current.title}</p>
-            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{current.hint}</p>
+            <p className="text-xl font-bold leading-relaxed text-ink-900">{current.title}</p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-700">{current.hint}</p>
           </div>
         </motion.div>
       </AnimatePresence>
@@ -111,7 +111,7 @@ export function OnboardingTour({ onDone }: OnboardingTourProps) {
         {STEPS.map((_, i) => (
           <span
             key={i}
-            className={`h-2 rounded-full transition-all ${i === step ? 'w-6 bg-peach-400' : 'w-2 bg-night-border'}`}
+            className={`h-2 rounded-full transition-all ${i === step ? 'w-6 bg-terra-500' : 'w-2 bg-paper-border'}`}
           />
         ))}
       </div>
@@ -119,7 +119,7 @@ export function OnboardingTour({ onDone }: OnboardingTourProps) {
       <button
         type="button"
         onClick={next}
-        className="min-h-touch w-full max-w-xs rounded-full bg-peach-gradient px-6 text-base font-bold text-white shadow-lg"
+        className="min-h-touch w-full max-w-xs rounded-full bg-terra px-6 text-base font-bold text-white shadow-lg"
       >
         {isLast ? '出发，去听故事' : '下一步'}
       </button>
@@ -135,7 +135,7 @@ export function OnboardingTour({ onDone }: OnboardingTourProps) {
             }
             onDone()
           }}
-          className="min-h-touch px-4 text-sm text-ink-secondary"
+          className="min-h-touch px-4 text-sm text-ink-700"
         >
           跳过
         </button>

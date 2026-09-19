@@ -9,6 +9,7 @@
  * 未配置视频服务时按钮根本不展示（后端 503 → 前端 probe 后隐藏）。
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { IconPlay } from '../ui/icons'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AiBadge } from './AiBadge'
 import { api, ApiError } from '../../lib/api'
@@ -156,7 +157,7 @@ export function SceneVideo({ scene, description, children, aspectRatio = '16:9' 
             playsInline
             preload="metadata"
             className="w-full rounded-3xl shadow-lg"
-            style={{ aspectRatio: aspectRatio.replace(':', ' / '), backgroundColor: '#0E1A38' }}
+            style={{ aspectRatio: aspectRatio.replace(':', ' / '), backgroundColor: '#201810' }}
           />
           <AiBadge label="AI 动画" />
         </>
@@ -172,12 +173,12 @@ export function SceneVideo({ scene, description, children, aspectRatio = '16:9' 
             onClick={() => void startGeneration()}
             disabled={phase === 'creating' || phase === 'waiting'}
             className="flex min-h-touch items-center gap-1.5 rounded-full px-3 text-xs font-bold text-white shadow-lg backdrop-blur-sm disabled:opacity-80"
-            style={{ background: 'rgba(110, 84, 200, 0.85)' }}
+            style={{ background: 'rgba(193, 95, 60, 0.92)' }}
             aria-label="让画面动起来"
           >
             {phase === 'idle' || phase === 'error' ? (
               <>
-                <span className="text-sm">▶</span> 让画面动起来
+                <IconPlay size={13} /> 让画面动起来
               </>
             ) : phase === 'creating' ? (
               <>正在排队…</>
@@ -186,6 +187,7 @@ export function SceneVideo({ scene, description, children, aspectRatio = '16:9' 
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 1.4, ease: 'linear' }}
+                  aria-hidden
                   className="inline-block h-3.5 w-3.5 rounded-full border-2 border-white/40 border-t-white"
                 />
                 小画家在画动画…

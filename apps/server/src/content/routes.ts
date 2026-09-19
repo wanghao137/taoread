@@ -232,4 +232,72 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       return reply.send({ card, chapterOrder: query.chapterOrder ?? null })
     },
   )
+
+  // ── 收藏（docs/15 P1-A）：孩子主动表达偏好，书架置顶 ──
+
+  app.put<{ Params: { id: string } }>(
+    '/api/content/books/:id/favorite',
+    { preHandler: auth },
+    async (request, reply) => {
+      const body = parse(z.object({ childId: z.string().min(1).max(64), favorite: z.boolean() }), request.body ?? {})
+      await assertOwnChild(request, body.childId)
+      const exists = await db.book.findUnique({ where: { id: request.params.id }, select: { id: true } })
+      if (!exists) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      const result = await svc.setFavorite(db, body.childId, request.params.id, body.favorite)
+      return reply.send({ ok: true, ...result })
+    },
+  )
+
+  // ── 生词本（docs/15 P1-B）──
+
+  app.post(
+    '/api/content/words',
+    { preHandler: auth },
+    async (request, reply) => {
+      const body = parse(
+        z.object({
+          childId: z.string().min(1).max(64),
+          word: z.string().trim().min(1).max(64),
+          lang: z.enum(['zh', 'en']),
+          bookId: z.string().trim().min(1).max(64).optional(),
+          context: z.string().trim().min(1).max(200).optional(),
+        }),
+        request.body ?? {},
+      )
+      await assertOwnChild(request, body.childId)
+      if (body.bookId) {
+        const book = await db.book.findUnique({ where: { id: body.bookId }, select: { id: true } })
+        if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      }
+      const card = await svc.addWord(db, body.childId, {
+        word: body.word,
+        lang: body.lang,
+        bookId: body.bookId ?? null,
+        context: body.context ?? null,
+      })
+      return reply.send({ card })
+    },
+  )
+
+  app.get(
+    '/api/content/words',
+    { preHandler: auth },
+    async (request, reply) => {
+      const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+      await assertOwnChild(request, query.childId)
+      const cards = await svc.listWords(db, query.childId)
+      return reply.send({ total: cards.length, cards })
+    },
+  )
+
+  app.delete<{ Params: { wordId: string } }>(
+    '/api/content/words/:wordId',
+    { preHandler: auth },
+    async (request, reply) => {
+      const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+      await assertOwnChild(request, query.childId)
+      await svc.removeWord(db, query.childId, request.params.wordId)
+      return reply.send({ ok: true })
+    },
+  )
 }

@@ -237,6 +237,8 @@ export async function deleteChild(
 export interface FamilySettings {
   bedtimeMin: number | null
   overtimeCapSec: number | null
+  /** 安静模式（docs/15 P1-C）：null/false=跟随系统 reduced-motion */
+  calmMode: boolean | null
 }
 
 const BEDTIME_RANGE = { min: 0, max: 1439 } as const
@@ -244,7 +246,11 @@ const CAP_RANGE = { min: 60, max: 3600 } as const
 
 export async function getSettings(db: FamilyDb, familyId: string): Promise<FamilySettings> {
   const family = await assertFamilyExists(db, familyId)
-  return { bedtimeMin: family.bedtimeMin, overtimeCapSec: family.overtimeCapSec }
+  return {
+    bedtimeMin: family.bedtimeMin,
+    overtimeCapSec: family.overtimeCapSec,
+    calmMode: family.calmMode,
+  }
 }
 
 export async function updateSettings(
@@ -253,7 +259,11 @@ export async function updateSettings(
   input: Partial<FamilySettings>,
 ): Promise<FamilySettings> {
   await assertFamilyExists(db, familyId)
-  const data: { bedtimeMin?: number | null; overtimeCapSec?: number | null } = {}
+  const data: {
+    bedtimeMin?: number | null
+    overtimeCapSec?: number | null
+    calmMode?: boolean | null
+  } = {}
   if (input.bedtimeMin !== undefined) {
     if (input.bedtimeMin !== null && (input.bedtimeMin < BEDTIME_RANGE.min || input.bedtimeMin > BEDTIME_RANGE.max)) {
       throw new ValidationError('睡前时刻需要在 0-1439 分钟之间')
@@ -265,6 +275,9 @@ export async function updateSettings(
       throw new ValidationError('单次共读时长需要在 1-60 分钟之间')
     }
     data.overtimeCapSec = input.overtimeCapSec
+  }
+  if (input.calmMode !== undefined) {
+    data.calmMode = input.calmMode
   }
   await db.family.update({ where: { id: familyId }, data })
   return getSettings(db, familyId)

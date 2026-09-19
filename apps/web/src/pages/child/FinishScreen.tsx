@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { IconStar } from '../../components/ui/icons'
 import { motion } from 'framer-motion'
 import { api, ApiError, type BestBookmarksDto, type UnlockDto } from '../../lib/api'
 import {
@@ -104,12 +105,12 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
     <div className="flex flex-col gap-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold">读完好啦！</h2>
-        <p className="mt-1 text-base text-ink-secondary">今晚的《{title}》到这里，盖个章吧</p>
+        <p className="mt-1 text-base text-ink-700">今晚的《{title}》到这里，盖个章吧</p>
       </div>
 
       {/* 进度三档 */}
       <section aria-labelledby="progress-title">
-        <h3 id="progress-title" className="mb-2 text-base font-bold text-ink-secondary">
+        <h3 id="progress-title" className="mb-2 text-base font-bold text-ink-700">
           今晚读到哪儿啦？
         </h3>
         <div className="flex flex-wrap gap-3">
@@ -127,7 +128,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
 
       {/* 心情贴纸 */}
       <section aria-labelledby="mood-title">
-        <h3 id="mood-title" className="mb-2 text-base font-bold text-ink-secondary">
+        <h3 id="mood-title" className="mb-2 text-base font-bold text-ink-700">
           现在的心情
         </h3>
         <div className="flex flex-wrap gap-3">
@@ -145,7 +146,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
 
       {/* 金句两来源 */}
       <section aria-labelledby="highlight-title">
-        <h3 id="highlight-title" className="mb-2 text-base font-bold text-ink-secondary">
+        <h3 id="highlight-title" className="mb-2 text-base font-bold text-ink-700">
           收一句金句（选做）
         </h3>
         <div className="mb-3 flex gap-2">
@@ -170,7 +171,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
             {bookmarks.kind === 'loading' && <Loading label="大家在划哪句…" />}
             {bookmarks.kind === 'error' && <ErrorState onRetry={loadBookmarks} />}
             {bookmarks.kind === 'ready' && bookmarks.items.length === 0 && (
-              <p className="py-4 text-center text-ink-secondary">
+              <p className="py-4 text-center text-ink-700">
                 这本书还没有热门划线，试试「自己说」吧
               </p>
             )}
@@ -192,12 +193,12 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
                         }
                         className={`min-h-touch w-full cursor-pointer rounded-2xl border p-4 text-left transition-colors ${
                           added
-                            ? 'border-peach-400 bg-peach-400/15'
-                            : 'border-night-border bg-night-700/50 hover:border-peach-400/60'
+                            ? 'border-terra-500 bg-terra-50'
+                            : 'border-paper-border bg-paper-300/60 hover:border-terra-300'
                         }`}
                       >
                         <span className="block text-base leading-relaxed">「{item.text}」</span>
-                        <span className="mt-1 block text-base text-moon-400">
+                        <span className="mt-1 block text-base text-terra-600">
                           {added
                             ? '✓ 已收进今晚的金句'
                             : item.count
@@ -215,7 +216,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
 
         {tab === 'voice' && (
           <TaCard>
-            <label htmlFor="voice-highlight" className="mb-2 block text-base text-ink-secondary">
+            <label htmlFor="voice-highlight" className="mb-2 block text-base text-ink-700">
               把你最喜欢的一句说给爸爸妈妈听，打字收进来
             </label>
             <textarea
@@ -224,7 +225,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
               onChange={(e) => setVoiceText(e.target.value)}
               maxLength={500}
               rows={3}
-              className="w-full rounded-2xl border border-night-border bg-night-700 p-4 text-base leading-relaxed"
+              className="w-full rounded-2xl border border-paper-border bg-paper-300 p-4 text-base leading-relaxed"
               placeholder="比如：小王子说，重要的东西用眼睛是看不见的"
             />
             <TaButton
@@ -242,14 +243,14 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
         )}
 
         {addedTexts.length > 0 && (
-          <p className="mt-3 text-base text-moon-400" aria-live="polite">
-            今晚已经收了 {addedTexts.length} 句金句 ⭐
+          <p className="mt-3 text-base text-terra-600" aria-live="polite">
+            今晚已经收了 {addedTexts.length} 句金句 <IconStar size={14} className="inline align-[-2px]" />
           </p>
         )}
       </section>
 
       {error && (
-        <p role="alert" className="text-center text-base text-peach-300">
+        <p role="alert" className="text-center text-base text-terra-600">
           {error}
         </p>
       )}

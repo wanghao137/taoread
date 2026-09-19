@@ -282,6 +282,15 @@ export const api = {
 
   // ── v2 内容域：公版书库 + 自研阅读器正文 ──
 
+  /** 单书概览（cbf: 会话解析书名/封面用；对抗审查修复：不再错走微信书 info 接口） */
+  contentBook: async (contentId: string, token: string) => {
+    const res = await request<{ book: ContentBookDto }>(
+      `/api/content/books/${encodeURIComponent(contentId)}`,
+      { token },
+    )
+    return res.book
+  },
+
   contentBooks: async (
     token: string,
     params: { stage?: string; childId?: string; lang?: string; q?: string } = {},
@@ -325,6 +334,43 @@ export const api = {
     request<{ chapterOrder: number; finished: boolean }>(
       `/api/content/books/${encodeURIComponent(contentId)}/progress`,
       { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0 }, token },
+    ),
+
+  /** 收藏 / 取消收藏（docs/15 P1-A） */
+  setFavorite: (
+    contentId: string,
+    childId: string,
+    favorite: boolean,
+    token: string,
+  ) =>
+    request<{ ok: boolean; favorite: boolean }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/favorite`,
+      { method: 'PUT', body: { childId, favorite }, token },
+    ),
+
+  /** 生词本：收录一个词（docs/15 P1-B） */
+  addWord: (
+    childId: string,
+    body: { word: string; lang: 'zh' | 'en'; bookId?: string; context?: string },
+    token: string,
+  ) =>
+    request<{ card: WordCardDto }>(
+      '/api/content/words',
+      { method: 'POST', body: { childId, ...body }, token },
+    ),
+
+  /** 生词本：列表 */
+  listWords: (childId: string, token: string) =>
+    request<{ total: number; cards: WordCardDto[] }>(
+      `/api/content/words?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+
+  /** 生词本：删除一个词 */
+  removeWord: (wordId: string, childId: string, token: string) =>
+    request<{ ok: boolean }>(
+      `/api/content/words/${encodeURIComponent(wordId)}?childId=${encodeURIComponent(childId)}`,
+      { method: 'DELETE', token },
     ),
 
   /** 家长端内容域视图：桃书库进度汇总 + 屏蔽状态（docs/09 C4） */
@@ -518,6 +564,19 @@ export interface ContentBookDto {
   finished: boolean
   /** 家长是否屏蔽（docs/09 C9；孩子端列表里被屏蔽的书不返回） */
   blocked: boolean
+  /** 孩子是否收藏（docs/15 P1-A） */
+  favorite: boolean
+}
+
+/** 生词本卡片（docs/15 P1-B） */
+export interface WordCardDto {
+  id: string
+  word: string
+  lang: string
+  bookId: string | null
+  bookTitle: string | null
+  context: string | null
+  createdAt: string
 }
 
 /** 家长端内容域视图（docs/09 C4） */
@@ -540,6 +599,8 @@ export interface ContentChapterDto {
     pinyin: string | null
     translation: string | null
     art: string | null
+    /** 图片块的 AI 插画 URL（docs/24）；无则 null，前端回退 SVG 场景 */
+    artUrl: string | null
   }>
 }
 
@@ -557,6 +618,8 @@ export interface WeeklyReportDataDto {
 export interface FamilySettingsDto {
   bedtimeMin: number | null
   overtimeCapSec: number | null
+  /** 安静模式（docs/15 P1-C）：开启即应用内强制 reducedMotion，覆盖系统设置 */
+  calmMode: boolean | null
 }
 
 export interface ReadingCardDto {

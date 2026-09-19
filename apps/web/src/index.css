@@ -4,32 +4,56 @@
 
 @layer base {
   html {
-    @apply bg-night-900 text-ink-primary antialiased;
+    @apply bg-paper-100 text-ink-900 antialiased;
     font-size: 16px; /* 审查红线：基准字号 */
   }
   body {
-    @apply min-h-dvh font-sans;
-    background-image: linear-gradient(180deg, #0e1a38 0%, #16244c 100%);
+    @apply min-h-dvh bg-paper-100 font-sans;
+    /* 暖米白微渐变：模拟纸面的自然明暗，顶部亮、下部微沉 */
+    background-image: linear-gradient(180deg, #fbfaf6 0%, #f7f5ee 100%);
     background-attachment: fixed;
   }
-  /* 可访问性：键盘焦点环（对比度达标） */
+  /* 纸纹颗粒：极低对比的噪点覆盖层，给「手工纸」质感（纯装饰） */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.03'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+  /* 可访问性：键盘焦点环（赤陶橙，对比度达标） */
   :focus-visible {
-    outline: 3px solid theme('colors.moon.400');
+    outline: 3px solid theme('colors.terra.500');
     outline-offset: 2px;
     border-radius: 0.5rem;
   }
   ::selection {
-    background: theme('colors.peach.500');
-    color: theme('colors.night.900');
+    background: theme('colors.terra.100');
+    color: theme('colors.ink.900');
   }
 }
 
 @layer utilities {
-  /* 夜空→晨雾渐变主视觉（按钮/横幅用） */
-  .bg-peach-gradient {
-    background-image: linear-gradient(135deg, theme('colors.peach.400') 0%, theme('colors.peach.500') 100%);
+  /* 赤陶实底主行动色（Cowork 风：纯色不渐变） */
+  .bg-terra {
+    background-color: theme('colors.terra.500');
   }
-  .bg-night-gradient {
-    background-image: linear-gradient(180deg, #0e1a38 0%, #16244c 100%);
+  /* 赤陶渐变：只用于品牌字（bg-clip-text） */
+  .bg-terra-gradient {
+    background-image: linear-gradient(120deg, theme('colors.terra.300') 0%, theme('colors.terra.600') 100%);
+  }
+  /* 强调浅底横幅/徽章 */
+  .bg-terra-tint {
+    background-color: theme('colors.terra.50');
+  }
+  /* 标题衬线 */
+  .font-display {
+    font-family: theme('fontFamily.display');
   }
 }

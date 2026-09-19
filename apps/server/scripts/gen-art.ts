@@ -1,7 +1,7 @@
 /**
  * 批量生成 AI 插画（docs/13 P0-A/P0-D）。
  *
- * 用法：cd apps/server && node --import tsx scripts/gen-art.mjs [--covers-only] [--book <slug>]
+ * 用法：cd apps/server && node --import tsx scripts/gen-art.mjs [--covers-only] [--book <slug>] [--regenerate]
  *
  * 行为：
  *  - 遍历 ALL_PACKS，为每本书生成封面 + 各章题图
@@ -23,6 +23,8 @@ import { join } from 'node:path'
 
 const args = new Set(process.argv.slice(2))
 const coversOnly = args.has('--covers-only')
+// docs/19 N13-003：prompt/档位升级后强制重生成已存在场景（默认幂等跳过，只补缺失项）
+const regenerate = args.has('--regenerate')
 const onlyBook = [...args].find((a) => a.startsWith('--book='))?.slice('--book='.length) ?? null
 
 async function main(): Promise<void> {
@@ -70,12 +72,24 @@ async function main(): Promise<void> {
           description: ch.artPrompt ?? `${pack.title}·${ch.title}：与内容相符的安静优美画面`,
           label: `${pack.title}·${ch.title}`,
         })
+        // docs/24：章节内 image 块各自有独立场景键时也生成（共用章节键的天然被上一条覆盖）
+        for (const b of ch.blocks) {
+          if (b.kind !== 'image' || !b.art) continue
+          if (b.art === ch.art) continue // 共用章节题图，不重复
+          if (scenes.some((s) => s.scene === b.art)) continue
+          scenes.push({
+            kind: 'chapter',
+            scene: b.art,
+            description: `${pack.title}·${ch.title}：${b.text}（与图注相符的安静优美画面）`,
+            label: `${pack.title}·${ch.title}·插图`,
+          })
+        }
       }
     }
 
     for (const s of scenes) {
       const existing = await db.artAsset.findUnique({ where: { scene: s.scene }, select: { id: true } })
-      if (existing) {
+      if (existing && !regenerate) {
         skip++
         console.log(`  ⏭  ${s.scene}（已存在）`)
         continue

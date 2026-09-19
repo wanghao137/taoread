@@ -7,8 +7,10 @@
  * 加载失败时（网络/文件损坏）静默回退 SVG，不给孩子看错误态。
  */
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { SceneArt } from './SceneArt'
 import { AiBadge } from './AiBadge'
+import { useReducedMotion } from '../../lib/motion'
 
 export interface BookCoverProps {
   /** AI 插画 URL；null/undefined 时用 SVG 场景 */
@@ -25,20 +27,36 @@ export interface BookCoverProps {
 export function BookCover({ urlPath, scene, from, to, lang, alt, className }: BookCoverProps) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImage = Boolean(urlPath) && !imgFailed
+  const reduced = useReducedMotion()
 
   if (!showImage) {
     return <SceneArt scene={scene} from={from} to={to} lang={lang} />
   }
   return (
-    <div className="relative h-full w-full">
-      <img
+    <div className="relative h-full w-full overflow-hidden">
+      {/*
+        Ken Burns 极慢摇移（Vooks 式「活起来的画」）：14 秒一个周期，缩放只有 6%、
+        平移只有 3%。慢到孩子意识不到镜头在动，但画面始终是「活的」。
+        前庭敏感 / 晕动症孩子开启系统「减少动态效果」时完全静止。
+      */}
+      <motion.img
         src={urlPath as string}
         alt={alt}
         loading="lazy"
         decoding="async"
-        // 与 SceneArt 同样的填充方式：容器 aspect 固定，object-cover 裁掉超出的部分
         className={`h-full w-full object-cover ${className ?? ''}`}
         onError={() => setImgFailed(true)}
+        {...(reduced
+          ? {}
+          : {
+              animate: { scale: [1.04, 1.1, 1.04], x: ['-1.5%', '1.5%', '-1.5%'] },
+              transition: {
+                duration: 14,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatType: 'mirror' as const,
+              },
+            })}
       />
       <AiBadge />
     </div>

@@ -23,6 +23,7 @@ export const peterPan: PackBook = {
     {
       title: 'Chapter 1 · The Boy Who Never Grew Up',
       art: 'nursery-window',
+      artPrompt: 'a nursery room at night with an open window, a boy in a green tunic floats in surrounded by a glow of golden fairy dust, a mother waking in a rocking chair',
       blocks: [
         {
           kind: 'text',
@@ -67,6 +68,7 @@ export const peterPan: PackBook = {
     {
       title: 'Chapter 2 · The Shadow in the Drawer',
       art: 'peter-shadow',
+      artPrompt: 'a nursery window snapping shut while a boy’s shadow stays caught outside, a worried mother holding the shadow, moonlight and curtains',
       blocks: [
         {
           kind: 'text',
@@ -107,6 +109,7 @@ export const peterPan: PackBook = {
     {
       title: 'Chapter 3 · Sewn On Again',
       art: 'fairy-dust',
+      artPrompt: 'a tiny glowing fairy darting around a nursery, a boy holding a rolled-up shadow while a girl sews it onto his foot with a needle and thread',
       blocks: [
         {
           kind: 'text',

@@ -22,7 +22,7 @@ export function ErrorState({ message, onRetry }: ErrorStateProps) {
       </div>
       <div>
         <p className="text-lg font-bold">{message ?? '星星眨了眨眼，好像走神了'}</p>
-        <p className="mt-1 text-ink-secondary">再试一次，故事还在等着我们</p>
+        <p className="mt-1 text-ink-700">再试一次，故事还在等着我们</p>
       </div>
       {onRetry && (
         <TaButton variant="secondary" size="md" onClick={onRetry}>

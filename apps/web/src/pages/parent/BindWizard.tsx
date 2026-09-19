@@ -33,7 +33,7 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
     <TaCard>
       <h3 className="mb-3 text-lg font-bold">绑定微信读书</h3>
       {step === 1 && (
-        <div className="flex flex-col gap-3 text-base text-ink-secondary">
+        <div className="flex flex-col gap-3 text-base text-ink-700">
           <p>第一步：在自己手机上打开「微信读书」App → 我 → 设置</p>
           <p>第二步：找到「账号与安全」里的 API Key（需要先开启）</p>
           <p>第三步：复制 wrk- 开头的钥匙，回到这里粘贴</p>
@@ -44,7 +44,7 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
       )}
       {step === 2 && (
         <div className="flex flex-col gap-3">
-          <label htmlFor="api-key" className="text-base text-ink-secondary">
+          <label htmlFor="api-key" className="text-base text-ink-700">
             粘贴 wrk- 开头的钥匙（只在本机保存，页面上只显示尾 4 位）
           </label>
           <input
@@ -54,11 +54,11 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
             onChange={(e) => setApiKey(e.target.value)}
             autoComplete="off"
             placeholder="wrk-…"
-            className="h-14 w-full rounded-2xl border border-night-border bg-night-700 px-4 text-base"
+            className="h-14 w-full rounded-2xl border border-paper-border bg-paper-300 px-4 text-base"
           />
-          <p className="text-base text-ink-secondary">钥匙输入时会隐藏显示，防止旁人看到</p>
+          <p className="text-base text-ink-700">钥匙输入时会隐藏显示，防止旁人看到</p>
           {error && (
-            <p role="alert" className="text-base text-peach-300">
+            <p role="alert" className="text-base text-terra-600">
               {error}
             </p>
           )}

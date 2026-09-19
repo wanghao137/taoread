@@ -50,8 +50,3 @@ export function unlockCopy(unlock: UnlockDto): string {
   }
 }
 
-export const UNLOCK_EMOJI: Record<string, string> = {
-  night_lamp: '🕯️',
-  streak_best: '🔥',
-  book_done: '📚',
-}

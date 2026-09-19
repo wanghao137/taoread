@@ -21,6 +21,10 @@ model Family {
   /// 家庭级护眼设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s）
   bedtimeMin     Int?
   overtimeCapSec Int?
+  /// 安静模式（docs/15 P1-C）：家长在应用内开启即强制 reducedMotion，覆盖系统设置。
+  /// 学龄前儿童找不到系统辅助功能开关，这是 WCAG 2.3.3「交互动效可被禁用」
+  /// 在儿童产品里的正确实现形式。null/false=跟随系统。
+  calmMode       Boolean?
 
   children     ChildProfile[]
   binding      WereadBinding?
@@ -46,6 +50,8 @@ model ChildProfile {
   highlights   HighlightStar[]
   achievements Achievement[]
   reading      ReadingProgress[]
+  favorites    BookFavorite[]
+  wordCards    WordCard[]
 
   @@index([familyId])
 }
@@ -192,6 +198,8 @@ model Book {
   createdAt DateTime          @default(now())
   chapters  Chapter[]
   progress  ReadingProgress[]
+  favorites BookFavorite[]
+  wordCards WordCard[]
 
   @@index([lang, category])
 }
@@ -302,4 +310,37 @@ model EventLog {
   ts       DateTime @default(now())
 
   @@index([familyId, ts]) // 最左前缀已覆盖 familyId 查询
+}
+
+/// 孩子收藏的书（docs/15 P1-A）。
+/// 收藏是孩子表达偏好的唯一主动手段：书架把收藏置顶，周报据此推荐同类。
+/// 不与任何奖励/解锁机制挂钩（合规红线：无积分商城、无阅读解锁娱乐）。
+model BookFavorite {
+  id        String       @id @default(cuid())
+  childId   String
+  child     ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+
+  @@unique([childId, bookId])
+  @@index([childId])
+}
+
+/// 生词本（docs/15 P1-B）：孩子朗读时遇到的生词，一键收下。
+/// 中文收多音字/生僻字，英文收 note 块切出的 New word。
+/// 只在孩子主动点「收下」时写入——不做任何自动抓取，阅读流不被打断。
+model WordCard {
+  id        String       @id @default(cuid())
+  childId   String
+  child     ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  word      String // 收录的词/字
+  lang      String // zh | en
+  bookId    String?
+  book      Book?        @relation(fields: [bookId], references: [id], onDelete: SetNull)
+  context   String? // 出处原句，帮孩子回忆「在哪本书里见过」
+  createdAt DateTime     @default(now())
+
+  @@unique([childId, word])
+  @@index([childId])
 }

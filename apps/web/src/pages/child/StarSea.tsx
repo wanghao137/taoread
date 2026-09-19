@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { IconStar } from '../../components/ui/icons'
 import { motion } from 'framer-motion'
 import { api, ApiError } from '../../lib/api'
 import { Loading, ErrorState, EmptyState, TaCard, TaButton } from '../../components/ui'
@@ -70,8 +71,8 @@ export function StarSea({ bookId, title, token, onBack }: StarSeaProps) {
           >
             <TaCard>
               <p className="text-base leading-relaxed">「{item.text}」</p>
-              <p className="mt-2 text-base text-moon-400">
-                ⭐ {item.count?.toLocaleString() ?? '很多'} 位小读者划过这句
+              <p className="mt-2 text-base text-terra-600">
+                <IconStar size={14} className="inline align-[-2px]" /> {item.count?.toLocaleString() ?? '很多'} 位小读者划过这句
               </p>
             </TaCard>
           </motion.li>
@@ -88,7 +89,7 @@ export function StarSea({ bookId, title, token, onBack }: StarSeaProps) {
           ← 回到月亮
         </TaButton>
       </div>
-      {title && <p className="mb-3 text-base text-ink-secondary">《{title}》的星星海</p>}
+      {title && <p className="mb-3 text-base text-ink-700">《{title}》的星星海</p>}
       {body()}
     </div>
   )

@@ -23,6 +23,7 @@ export const sanziJing: PackBook = {
     {
       title: '第一课 · 人之初',
       art: 'sunrise-hills',
+      artPrompt: '清晨的远山前一轮红日刚刚升起，几个扎小髻的孩子坐在学堂门槛上捧着竹简跟读，朝霞洒在山头',
       blocks: [
         {
           kind: 'poem',
@@ -46,6 +47,7 @@ export const sanziJing: PackBook = {
     {
       title: '第二课 · 昔孟母',
       art: 'mother-loom',
+      artPrompt: '古代屋内，孟母坐在织布机前，手中剪刀正剪断织了一半的布，小孟子站在一旁低头认错，窗外有竹子',
       blocks: [
         {
           kind: 'poem',
@@ -69,6 +71,7 @@ export const sanziJing: PackBook = {
     {
       title: '第三课 · 养不教',
       art: 'teacher-fan',
+      artPrompt: '一位老先生拿着戒尺坐在书案前，案上摆着一块未雕琢的璞玉和刻刀，一个孩子恭敬地站着听课',
       blocks: [
         {
           kind: 'poem',
@@ -91,7 +94,7 @@ export const sanziJing: PackBook = {
         {
           kind: 'note',
           text: '「琢」是雕刻玉石。「义」是做人的道理和规矩。',
-          art: 'jade-stone',
+          art: 'lamp-hint',
         },
       ],
     },

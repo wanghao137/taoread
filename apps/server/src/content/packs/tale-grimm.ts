@@ -24,6 +24,7 @@ export const littleRedCap: PackBook = {
     {
       title: 'Chapter 1 · The Path Through the Wood',
       art: 'forest-path',
+      artPrompt: 'a little girl in a red velvet cap walks along a sunny forest path carrying a basket, a grey wolf walking beside her, wildflowers and tall green trees',
       blocks: [
         {
           kind: 'text',
@@ -72,6 +73,7 @@ export const littleRedCap: PackBook = {
     {
       title: 'Chapter 2 · What Big Eyes You Have',
       art: 'wolf-bed',
+      artPrompt: 'a cottage bedroom where a girl in a red cap talks to a wolf wearing a grandmother’s cap and glasses in a big bed, sundrenched window behind her',
       blocks: [
         {
           kind: 'text',
@@ -131,7 +133,8 @@ export const littleRedCap: PackBook = {
     },
     {
       title: 'Chapter 3 · Never Leave the Path Again',
-      art: 'forest-path',
+      art: 'red-cap-path',
+      artPrompt: 'a safe forest path with flowers on both sides, a girl in a red cap walking bravely while a wolf peeks down from a cottage roof, a stone trough below',
       blocks: [
         {
           kind: 'text',

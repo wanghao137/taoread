@@ -22,7 +22,8 @@ export const tangShi: PackBook = {
   chapters: [
     {
       title: '静夜思 · 李白',
-      art: 'moon-window',
+      art: 'tangshi-moon-window',
+      artPrompt: '安静的深夜，一个古代小诗人坐在木床边，月光把窗纸照得亮亮的，地上像铺了一层白霜，他抬头望着窗外的大圆月亮',
       blocks: [
         {
           kind: 'poem',
@@ -40,6 +41,7 @@ export const tangShi: PackBook = {
     {
       title: '春晓 · 孟浩然',
       art: 'spring-bird',
+      artPrompt: '春天的清晨，一个孩子从被窝里探出头，窗外桃花开了满树，两只小鸟站在枝头叽叽喳喳，地上落了一层花瓣',
       blocks: [
         {
           kind: 'poem',
@@ -51,7 +53,8 @@ export const tangShi: PackBook = {
     },
     {
       title: '咏鹅 · 骆宾王',
-      art: 'goose-pond',
+      art: 'tangshi-goose-pond',
+      artPrompt: '村边的池塘里，一只大白鹅弯着脖子朝天欢叫，雪白羽毛浮在绿水上，红红的脚掌拨出圆圆的波纹，岸边柳条低垂',
       blocks: [
         {
           kind: 'poem',
@@ -69,6 +72,7 @@ export const tangShi: PackBook = {
     {
       title: '登鹳雀楼 · 王之涣',
       art: 'tower-view',
+      artPrompt: '高高的鹳雀楼上，一个孩子扶着栏杆远眺，一轮红日正落向群山，黄河水闪闪发亮地流向远方的大海',
       blocks: [
         {
           kind: 'poem',
@@ -81,6 +85,7 @@ export const tangShi: PackBook = {
     {
       title: '悯农 · 李绅',
       art: 'rice-field',
+      artPrompt: '正午烈日下的稻田里，一位戴着草帽的农民伯伯弯腰锄地，汗水滴落在泥土里，田埂上放着一壶凉茶',
       blocks: [
         {
           kind: 'poem',
@@ -91,13 +96,14 @@ export const tangShi: PackBook = {
         {
           kind: 'note',
           text: '「悯」是心疼、同情的意思。读完这首诗，吃饭时会更珍惜粮食哦。',
-          art: 'rice-bowl',
+          art: 'lamp-hint',
         },
       ],
     },
     {
       title: '望庐山瀑布 · 李白',
       art: 'waterfall-mountain',
+      artPrompt: '阳光照在香炉峰上升起淡淡紫烟，一道白色瀑布从高高的山崖直冲而下，水雾弥漫，像银河从九天倾落',
       blocks: [
         {
           kind: 'poem',

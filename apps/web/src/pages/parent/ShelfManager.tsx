@@ -15,7 +15,7 @@ type ShelfState =
 type Partition = 'books' | 'albums'
 
 const PARTITION_META: Record<Partition, { title: string; empty: string }> = {
-  books: { title: '📖 图书', empty: '书架上还没有图书' },
+  books: { title: '图书', empty: '书架上还没有图书' },
   albums: { title: '🎧 听书', empty: '还没有听书专辑' },
 }
 
@@ -84,7 +84,7 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-base text-ink-secondary">
+      <p className="text-base text-ink-700">
         屏蔽的书会立刻从孩子的世界里消失（推荐流也不会再出现）
       </p>
 
@@ -108,11 +108,11 @@ export function ShelfManager({ familyId, token }: ShelfManagerProps) {
           {items.map((b) => (
             <div
               key={b.bookId}
-              className="flex min-h-touch items-center gap-3 rounded-2xl border border-night-border bg-night-800/70 px-4"
+              className="flex min-h-touch items-center gap-3 rounded-2xl border border-paper-border bg-paper-200/70 px-4"
             >
               <span className="min-w-0 flex-1 truncate text-base">
                 {b.title}
-                {b.blocked && <span className="ml-2 text-peach-300">已屏蔽</span>}
+                {b.blocked && <span className="ml-2 text-terra-600">已屏蔽</span>}
               </span>
               <TaButton
                 size="md"

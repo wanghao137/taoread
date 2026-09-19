@@ -226,9 +226,11 @@ export function registerFamilyRoutes(
     return null
   })
 
-  // ── 家庭设置（第 9 夜，仅家长）：就寝时刻 / 软封顶秒数；null=回落服务端默认 ──
+  // ── 家庭设置（第 9 夜）：就寝时刻 / 软封顶秒数 / 安静模式；null=回落服务端默认。
+  // 读取对家长与孩子都开放（只读）：安静模式必须能在孩子设备上生效（docs/15 P1-C），
+  // 学龄前儿童找不到系统辅助功能开关，只有应用内家庭级开关这一条落地路径。
   app.get('/api/family/:familyId/settings', {
-    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+    preHandler: requireAuth(tokenSecret, { roles: ['parent', 'child'] }),
   }, async (request) => {
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
@@ -244,6 +246,7 @@ export function registerFamilyRoutes(
       z.object({
         bedtimeMin: z.number().int().nullable().optional(),
         overtimeCapSec: z.number().int().nullable().optional(),
+        calmMode: z.boolean().nullable().optional(),
       }),
       request.body ?? {},
     )

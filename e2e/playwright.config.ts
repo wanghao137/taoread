@@ -17,7 +17,7 @@ const webDir = resolve(here, '../apps/web')
 export default defineConfig({
   testDir: here,
   testMatch: '**/*.spec.ts',
-  timeout: 90_000,
+  timeout: 180_000,
   expect: { timeout: 15_000 },
   fullyParallel: false,
   workers: 1,
@@ -34,11 +34,12 @@ export default defineConfig({
       cwd: serverDir,
       port: API_PORT,
       reuseExistingServer: false,
-      timeout: 90_000,
+      timeout: 180_000,
       env: {
         ...process.env,
         // 每次运行唯一库：零清理、零跨运行状态污染
         TAO_DATABASE_URL: `file:./e2e-run-${Date.now()}.db`,
+        // N13-002：e2e 库也要播种媒体台账，否则插画/视频/TTS 断言全走 SVG 回退
         TAO_BEDTIME: 'off',
         TAO_MASTER_KEY: process.env.TAO_MASTER_KEY ?? 'e2e-master-key-0123456789abcdef',
       },

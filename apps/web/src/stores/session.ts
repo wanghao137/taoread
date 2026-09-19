@@ -11,9 +11,13 @@ export interface SessionState {
   childId: string | null
   /** 孩子年龄段（3-5 | 6-8 | 9-12；选孩子时写入，书架适龄过滤用） */
   childStage: string | null
+  /** 安静模式（docs/15 P1-C）：家庭级开关，开启后本机所有动效减速到最柔。
+   * 由 App 启动时拉取家庭设置写入；家长端改完立即生效，孩子端下次启动生效。 */
+  calmMode: boolean
   signIn: (s: { token: string; familyId: string; familyCode: string; role: DeviceRole }) => void
   setChildId: (childId: string) => void
   setChild: (child: { childId: string; stage: string }) => void
+  setCalmMode: (calmMode: boolean) => void
   signOut: () => void
 }
 
@@ -53,12 +57,22 @@ export const useSession = create<SessionState>()(
       role: null,
       childId: null,
       childStage: null,
+      calmMode: false,
       signIn: ({ token, familyId, familyCode, role }) =>
         set({ token, familyId, familyCode, role, childId: null, childStage: null }),
       setChildId: (childId) => set({ childId }),
       setChild: ({ childId, stage }) => set({ childId, childStage: stage }),
+      setCalmMode: (calmMode) => set({ calmMode }),
       signOut: () =>
-        set({ token: null, familyId: null, familyCode: null, role: null, childId: null, childStage: null }),
+        set({
+          token: null,
+          familyId: null,
+          familyCode: null,
+          role: null,
+          childId: null,
+          childStage: null,
+          calmMode: false,
+        }),
     }),
     {
       name: SESSION_KEY,

@@ -14,7 +14,7 @@ export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
     <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
       <motion.div
         aria-hidden
-        className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-night-700 shadow-inner"
+        className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-paper-300 shadow-inner"
         animate={{ opacity: [1, 0.75, 1] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -24,10 +24,10 @@ export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
       <h2 className="text-2xl font-bold leading-relaxed">
         月亮睡觉啦
         <br />
-        <span className="text-ink-secondary">星星也打了个哈欠</span>
+        <span className="text-ink-700">星星也打了个哈欠</span>
       </h2>
 
-      <p className="text-base text-ink-secondary">
+      <p className="text-base text-ink-700">
         {hasActive
           ? '今晚的故事先睡在这里，明晚接着讲'
           : '明晚同一时间，我们继续读书'}
@@ -37,13 +37,13 @@ export function BedtimeScreen({ hasActive, onFinish }: BedtimeScreenProps) {
         <button
           type="button"
           onClick={onFinish}
-          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-secondary underline underline-offset-4"
+          className="min-h-touch cursor-pointer rounded-xl px-4 text-base text-ink-700 underline underline-offset-4"
         >
           先把今晚的故事收好
         </button>
       )}
 
-      <p className="text-sm text-ink-secondary">晚安，做个有故事的好梦 🌙</p>
+      <p className="text-sm text-ink-700">晚安，做个有故事的好梦</p>
     </div>
   )
 }

@@ -135,3 +135,20 @@
 | N12-004 | 2026-09-16 | P2 | server/scripts/label-art.mjs | 用法注释写 `node scripts/label-art.mjs`，实跑 ERR_MODULE_NOT_FOUND（import 的是 TS 源）；且 join(process.cwd(), rel) 在仓库根跑报 32 个假「文件缺失」 | fixed（注释改 npx tsx；路径改从 import.meta.url 解析，cwd 无关；docs/14 复现命令同步） | 第 12 夜 |
 | N12-005 | 2026-09-16 | P2 | server/test/reports.test.ts | 调度器测例固定睡眠 60ms 等 setInterval(10ms) 落库，机器高负载定时器饥饿时误报失败 | fixed（改 untilCount 轮询条件，时序依赖变确定性断言） | 第 12 夜 |
 | N12-006 | 2026-09-16 | P2 | server/vitest.config.ts | argon2+SQLite 用例高负载偶发 4-6s 超默认 5s 门，全量门偶发误报 | fixed（testTimeout: 20_000 并注明原因） | 第 12 夜 |
+| N13-001 | 2026-09-18 | P1 | scripts/demo.mjs | N11-105/N11-006 登记为 fixed 的「DEMO8888→PEACH888 注释漂移」实际只改了 seed.ts/main.ts，启动脚本 demo.mjs 第 2/80 行仍是 DEMO8888。用户照横幅输入被正则 `/^[A-HJ-NP-Z2-9]{8}$/` 拒掉（字母 O 被排除），报「家庭码格式不正确」无法进入演示 | fixed（两处改 PEACH888；curl 验证 /api/family/join 返回 200） | 第 13 夜 |
+| N13-002 | 2026-09-18 | P0 | server/demo/main.ts | 演示入口只接了 mock 网关，ttsDeps/imageDeps/videoDeps/mediaDir 四个参数全缺：TTS 降级 Web Speech（机器人声）、封面题图回退 SVG 矢量图、「让画面动起来」按钮不渲染。用户验收打 0 分的直接原因 | fixed（按配置可用性接线 + 新增 seed-media.ts 从 dev.db 幂等播种 +279 插画/+200 视频；实测书架 40 张 AI 插画、阅读器真实 video、TTS 返回 200 带字级时间轴） | 第 13 夜 |
+| N13-003 | 2026-09-18 | P0 | server/modules/media/imagegen.ts | STYLE 四个反模式：强制夜景压暗白天场景 / 水彩+彩铅混媒材发糊 / 反向词「no text」走正向通道诱导文字 / 主体居中大片留白；且 1K 档清晰度不足 | fixed（单一水彩+清晰线稿、按描述关键词分流夜景、正向表述 wordless、构图改饱满分层、档位 1K→2K；亮度 133→165 客观验证） | 第 13 夜 |
+| N13-004 | 2026-09-18 | P2 | web/pages/child/BookShelf.tsx + LoginPage.tsx | 书架顶栏与登录页缺乏品牌氛围；登录页月亮徽章裸循环无 reduced-motion 门控 | fixed（星光装饰层+毛玻璃按钮、蜜桃渐变标题、reduced 门控） | 第 13 夜 |
+| N13-005 | 2026-09-18 | P1 | web/pages/child/BookShelf.tsx | 收藏按钮 h-10 只有 40px，违反孩子端 ≥64px 触达红线，52 个书卡全部违规（DOM 实测发现） | fixed（min-h-touch w-16，实测 64px） | 第 13 夜 |
+| N14-001 | 2026-09-18 | P1 | web/pages/ChildHome.tsx + web/pages/child/DepartureScreen.tsx | 出发屏对 cbf: 自研书显示「请爸爸妈妈在微信读书里找到这本」——自研书不在微信读书，M2 选书流/超时续读无进阅读器通道（产品级死路，N7-001 同型） | fixed（DepartureScreen 增 onStartReader 通道，cbf: 书「开始阅读」直达阅读器） | 2026-09-18 |
+| N14-002 | 2026-09-18 | P1 | web/pages/ChildHome.tsx + web/lib/api.ts | 自研书书名解析错走微信书 info 接口（cbf: 前缀必 404）；contentBook 回包 {book} 包裹未拆包，出发屏书名渲染成空《》 | fixed（cbf: 前缀分流走 /api/content/books/:id + 拆包） | 2026-09-18 |
+| N14-003 | 2026-09-18 | P1 | web/pages/child/BookPicker.tsx + ReadyScreen.tsx + DepartureScreen.tsx | 孩子端裸渲染微信 CDN 外链封面（book.cover），ORB 拦截成 5 张坏图，且向第三方 CDN 泄露孩子 IP（隐私红线） | fixed（只挂载 /api/ 本站封面，外链一律本地 SVG 场景回退，孩子端零外链） | 2026-09-18 |
+| N14-004 | 2026-09-18 | P2 | web/pages/child/BookDetail.tsx | 吸底渐变引用不存在的 night-bg 令牌（tailwind 从未定义），渐变静默失效 | fixed（paper-100 渐变） | 2026-09-18 |
+| N14-005 | 2026-09-18 | P2 | web/pages/child/ReaderScreen.tsx | 朗读主按钮紫色 #7E57C2 / 旧蜜桃渐变，与色板严重脱节（历次换肤漏网） | fixed（赤陶纯色 #D97757 / #C15F3C） | 2026-09-18 |
+| N14-006 | 2026-09-18 | P3 | server/modules/media/videoRoutes.ts | /api/video/:scene 对无记录场景回 404，SceneVideo 每章探测打 404 进 console 噪音 | fixed（回 200 {status:'none'}，前端静默回退） | 2026-09-18 |
+| N15-001 | 2026-09-19 | P1 | 旧包 25 个文件（poetry-tang/libai/dufu/wangwei/children/songci、primer-*、tale-* 等） | 105 个章节缺 artPrompt，gen-art 只能退化成通用提示词，插画与章节内容对不上 | fixed（逐章按内容补写画面描述，15-40 字） | 2026-09-19 |
+| N15-002 | 2026-09-19 | P1 | primer-sanzi/dizigui/qianziwen/baijiaxing/zengguang、poetry-tang、tale-pooh、original-cottoncandy | 6 组 art 场景键跨书复用（primer-scroll 被五本蒙学书共当封面），两本书共用同一张生成图 | fixed（逐个改键 + 重新生成） | 2026-09-19 |
+| N15-003 | 2026-09-19 | P1 | web/pages/child/ReaderScreen.tsx | 正文 image 块只走 40 张手绘 SVG 场景库，新书 400+ image 块绝大多数回退成通用「书架」图——图片与书库严重不对齐 | fixed（block DTO 增 artUrl；image 块改用 BookCover 与封面同管线；gen-art 遍历块级场景生成；663 张插画逐一核对 0 缺失） | 2026-09-19 |
+| N15-004 | 2026-09-19 | P3 | primer-sanzi/poetry-tang/story-xiyou | 3 个 note 块用独立 art 键（jade-stone/rice-bowl/cloud-flight），与其余 note 块的 lamp-hint 约定不一致 | fixed（统一 lamp-hint） | 2026-09-19 |
+| N15-005 | 2026-09-19 | P3 | tale-grimm/tale-junglebook | 两个章节对象缺 art 键，章节题图回退派生键 | fixed（补 red-cap-path / red-dogs-river） | 2026-09-19 |
+| N15-006 | 2026-09-19 | P3 | server/test/content.test.ts | 书库扩到 103 本后 beforeAll 的 seed 耗时超 vitest 默认 10s hook 超时，content 测试整套假失败 | fixed（beforeAll 显式 120s 超时） | 2026-09-19 |

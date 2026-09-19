@@ -19,7 +19,7 @@ export function ChildPicker({
       >
         今天是谁的故事时间？
       </motion.h2>
-      <p className="mb-6 text-center text-ink-secondary">点点你的名字，月亮就亮啦</p>
+      <p className="mb-6 text-center text-ink-700">点点你的名字，月亮就亮啦</p>
       <div className="flex flex-col gap-3">
         {children.map((c, i) => (
           <motion.div
@@ -34,8 +34,12 @@ export function ChildPicker({
                 onClick={() => onPick({ childId: c.id, stage: c.stage })}
                 className="min-h-touch flex w-full cursor-pointer items-center justify-center gap-3 rounded-3xl text-xl font-bold"
               >
-                <span aria-hidden className="text-3xl">
-                  {c.stage === '3-5' ? '🧒' : c.stage === '6-8' ? '👧' : '👦'}
+                {/* 首字头像：暖色底 + 昵称首字，替代 emoji（跨平台渲染一致） */}
+                <span
+                  aria-hidden
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-terra-50 font-display text-lg text-terra-600"
+                >
+                  {c.nickname.slice(0, 1)}
                 </span>
                 {c.nickname}
               </button>
