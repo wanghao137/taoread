@@ -24,7 +24,7 @@ type FeedState =
 
 const nowSec = () => Math.floor(Date.now() / 1000)
 
-/** M2「今晚读什么」：接着读 / 今晚的推荐 / 掷骰子 / 我的书架 */
+/** M2「今天读什么」：接着读 / 今天的推荐 / 掷骰子 / 我的书架 */
 export function BookPicker({ token, onPick }: BookPickerProps) {
   const [feed, setFeed] = useState<FeedState>({ kind: 'loading' })
   const [showAll, setShowAll] = useState(false)
@@ -98,7 +98,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
     if (feed.kind !== 'ready' || busyRef.current || diceRolling) return
     const book = pickRandom(feed.shelf)
     if (!book) {
-      setError('书架还是空的，先看看今晚的推荐吧')
+      setError('书架还是空的，先看看今天的推荐吧')
       return
     }
     setDiceRolling(true)
@@ -121,7 +121,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-center text-2xl font-bold">
-        今晚读<span className="font-display text-terra-600">什么</span>？
+        今天读<span className="font-display text-terra-600">什么</span>？
       </h2>
 
       {continueBook && (
@@ -143,7 +143,7 @@ export function BookPicker({ token, onPick }: BookPickerProps) {
       {recommends.length > 0 && (
         <section aria-labelledby="rec-title">
           <h3 id="rec-title" className="mb-2 text-base font-bold text-ink-700">
-            今晚的推荐
+            今天的推荐
           </h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {recommends.map((b) => (
@@ -254,7 +254,7 @@ function BookCard({
         disabled={disabled}
         onClick={() => onSelect(book)}
         className="flex min-h-touch w-full cursor-pointer items-center gap-4 text-left disabled:cursor-not-allowed"
-        aria-label={`选《${book.title}》今晚读`}
+        aria-label={`选《${book.title}》去读`}
       >
         {localCover ? (
           <img

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { TaButton, TaCard, TaSheet, TaSticker, Loading, ErrorState, EmptyState } from '../components/ui'
-import { IconMoon, IconBook, IconStar, IconLamp, IconHeart, IconPlay } from '../components/ui/icons'
+import { IconMoon, IconBook, IconStar, IconLamp, IconHeart, IconPlay, IconSun, IconSparkle } from '../components/ui/icons'
 
 const MOODS = [
-  { emoji: '😄', label: '开心' },
-  { emoji: '🤩', label: '兴奋' },
-  { emoji: '😌', label: '平静' },
-  { emoji: '🥱', label: '困困' },
-  { emoji: '🤔', label: '在想' },
+  { icon: <IconSun size={20} />, label: '开心' },
+  { icon: <IconSparkle size={20} />, label: '兴奋' },
+  { icon: <IconHeart size={20} />, label: '平静' },
+  { icon: <IconMoon size={20} />, label: '困困' },
+  { icon: <IconBook size={20} />, label: '在想' },
 ]
 
 /** 组件演示页（视觉走查基线，验收前移除入口；design-system §10） */
@@ -63,7 +63,7 @@ export function KitchenSink() {
               {MOODS.map((m) => (
                 <TaSticker
                   key={m.label}
-                  emoji={m.emoji}
+                  icon={m.icon}
                   label={m.label}
                   active={mood === m.label}
                   onClick={() => setMood(m.label)}
@@ -86,7 +86,7 @@ export function KitchenSink() {
           <h2 id="ks-states" className="mb-3 text-xl font-bold">状态：加载 / 错误 / 空态</h2>
           <TaCard>
             <Loading />
-            <ErrorState message="网络好像睡着了" onRetry={() => {}} />
+            <ErrorState message="网络开小差了" onRetry={() => {}} />
             <EmptyState emoji="📚" title="书架还空着" hint="第一本故事正在路上" />
           </TaCard>
         </section>
@@ -95,25 +95,33 @@ export function KitchenSink() {
           <h2 id="ks-tokens" className="mb-3 text-xl font-bold">色板 Tokens（纸与桃 v2）</h2>
           <TaCard className="grid grid-cols-4 gap-3 text-center text-xs text-ink-700">
             {[
-              ['paper.100', '#FAF9F5', 'bg-paper-100'],
-              ['paper.200', '#F5F3EC', 'bg-paper-200'],
-              ['paper.300', '#EFEBE0', 'bg-paper-300'],
-              ['paper.border', '#E5E1D5', 'bg-paper-border'],
-              ['ink.900', '#1F1E1B', 'bg-ink-900'],
-              ['ink.700', '#54524B', 'bg-ink-700'],
-              ['ink.500', '#8A877C', 'bg-ink-500'],
-              ['ink.300', '#C9C5B8', 'bg-ink-300'],
-              ['terra.50', '#FBF1EB', 'bg-terra-50'],
-              ['terra.100', '#F6E2D6', 'bg-terra-100'],
-              ['terra.300', '#E89B7D', 'bg-terra-300'],
-              ['terra.500', '#D97757', 'bg-terra-500'],
-              ['terra.600', '#C15F3C', 'bg-terra-600'],
-              ['kraft.300', '#EBCFA8', 'bg-kraft-300'],
+              ['paper.100', '#FFF4DD', 'bg-paper-100'],
+              ['paper.200', '#FFFDF7', 'bg-paper-200'],
+              ['paper.300', '#FFF0BD', 'bg-paper-300'],
+              ['paper.border', '#E8DCC3', 'bg-paper-border'],
+              ['ink.900', '#26201A', 'bg-ink-900'],
+              ['ink.700', '#5C5347', 'bg-ink-700'],
+              ['ink.500', '#877B6B', 'bg-ink-500'],
+              ['ink.300', '#26201A1A', 'bg-ink-300'],
+              ['terra.50', '#FFEFE7', 'bg-terra-50'],
+              ['terra.100', '#FFD9C9', 'bg-terra-100'],
+              ['terra.300', '#FFB07A', 'bg-terra-300'],
+              ['terra.500', '#FF5C2B', 'bg-terra-500'],
+              ['terra.600', '#EE4518', 'bg-terra-600'],
+              ['terra.700', '#C23A10', 'bg-terra-700'],
+              ['sun', '#FFD84D', 'bg-sun'],
+              ['rose', '#FFB9CC', 'bg-rose'],
+              ['sky', '#A5DCFF', 'bg-sky'],
+              ['mint', '#B9E6A6', 'bg-mint'],
+              ['peach', '#FFB07A', 'bg-peach'],
+              ['kraft.300', '#F1E3C4', 'bg-kraft-300'],
               ['kraft.400', '#D4A27F', 'bg-kraft-400'],
-              ['moss.500', '#7A8A5A', 'bg-moss-500'],
+              ['kraft.500', '#B9835C', 'bg-kraft-500'],
+              ['moss.500', '#5F8F46', 'bg-moss-500'],
+              ['moss.100', '#E4F1D9', 'bg-moss-100'],
             ].map(([name, hex, cls]) => (
               <div key={name}>
-                <div aria-hidden className={`h-12 rounded-xl border border-paper-border ${cls}`} />
+                <div aria-hidden className={`h-12 rounded-xl border-ink border-2 ${cls}`} />
                 <p className="mt-1">{name}</p>
                 <p>{hex}</p>
               </div>
@@ -122,7 +130,7 @@ export function KitchenSink() {
         </section>
       </div>
 
-      <TaSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="今晚的共读卡（示意）">
+      <TaSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="今天的共读卡（示意）">
         <div className="flex flex-col gap-3 text-ink-700">
           <p>讲什么：三个讲述要点会出现在这里</p>
           <p>问什么：按年龄段分层的三个开放问题</p>

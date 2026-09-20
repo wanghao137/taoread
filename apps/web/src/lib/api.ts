@@ -209,7 +209,7 @@ export const api = {
       { token },
     ),
 
-  /** 仪式时段窗口（服务端权威）：bedtime=月亮睡了；overtime=温和引导收尾 */
+  /** 仪式时段窗口（服务端权威）：bedtime=休息时间；overtime=温和引导收尾 */
   ritualWindow: (childId: string, token: string) =>
     request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, {
       token,
@@ -254,7 +254,7 @@ export const api = {
   deleteChildDoc: (familyId: string, token: string, childId: string) =>
     request<void>(`/api/children/${encodeURIComponent(childId)}`, { method: 'DELETE', token }),
 
-  /** 今晚共读卡（按活跃/最近会话生成，讲什么/问什么/聊什么） */
+  /** 这次共读卡（按活跃/最近会话生成，讲什么/问什么/聊什么） */
   readingCard: (sessionId: string, token: string) =>
     request<ReadingCardDto>(`/api/cosession/${encodeURIComponent(sessionId)}/reading-card`, {
       method: 'POST',

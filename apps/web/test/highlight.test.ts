@@ -73,10 +73,10 @@ describe('朗读高亮粒度（docs/17 P0-1）', () => {
   })
 
   it('emoji 与代理对字符按用户感知字符计数（Array.from 拆分）', () => {
-    // 🌙 是代理对，String.prototype.length 会算成 2，Array.from 才是 1
-    const parts = splitForHighlight('月亮🌙', 2)
+    // 🍑 是代理对，String.prototype.length 会算成 2，Array.from 才是 1
+    const parts = splitForHighlight('桃子🍑', 2)
     expect(parts.length).toBe(3)
-    expect(parts[2]?.ch).toBe('🌙')
+    expect(parts[2]?.ch).toBe('🍑')
     expect(parts[2]?.active).toBe(true)
   })
 })

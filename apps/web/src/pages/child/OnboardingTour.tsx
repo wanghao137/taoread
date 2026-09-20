@@ -4,8 +4,8 @@
  * 回答第四轮的第一性问题：「一个 4 岁、不识字的孩子第一次被塞了一台设备，
  * 有人教他吗？」之前答案是「没有」——无档案是死路，有档案直接进仪式闸门。
  *
- * 三步：月亮（今晚的故事在这里开始）→ 封面（点书架选书，不识字可以按小喇叭试听）
- *       → 喇叭（每一页都能听，听到睡着也没关系）。
+ * 三步：首页（每天的故事在这里开始）→ 封面（点书架选书，不识字可以按小喇叭试听）
+ *       → 喇叭（每一页都能听，听着听着睡着也没关系）。
  * localStorage 标记一次性，再进不烦；家长在设置里可重看（清标记）。
  *
  * 文案刻意零焦虑：不提「任务」「打卡」「必须」，只说「可以」「试试」。
@@ -43,10 +43,10 @@ interface Step {
 
 const STEPS: Step[] = [
   {
-    art: 'moon-gate',
-    mood: 'sleepy',
+    art: 'sunrise-hills',
+    mood: 'happy',
     title: '欢迎来到桃阅读',
-    hint: '每个晚上，这里都会有一段故事等着你',
+    hint: '每天打开这里，都有一段新故事等着你',
   },
   {
     art: 'nursery-window',
@@ -58,7 +58,7 @@ const STEPS: Step[] = [
     art: 'lamp-first',
     mood: 'excited',
     title: '翻开书，每一页都可以听',
-    hint: '听着听着睡着了也没事，月亮会帮你记着读到哪里',
+    hint: '听着睡着了也没事，小桃会帮你记着读到哪里',
   },
 ]
 
@@ -119,7 +119,7 @@ export function OnboardingTour({ onDone }: OnboardingTourProps) {
       <button
         type="button"
         onClick={next}
-        className="min-h-touch w-full max-w-xs rounded-full bg-terra px-6 text-base font-bold text-white shadow-lg"
+        className="min-h-touch w-full max-w-xs rounded-full border-2 border-ink bg-terra px-6 text-base font-bold text-white shadow-card"
       >
         {isLast ? '出发，去听故事' : '下一步'}
       </button>

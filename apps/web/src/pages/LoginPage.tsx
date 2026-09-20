@@ -5,8 +5,9 @@ import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
 import { useReducedMotion } from '../lib/motion'
+import { IconFamily, IconPeach } from '../components/ui/icons'
 import { TaButton, TaCard, TaSheet, TaSticker } from '../components/ui'
-import { SceneArt, TaoMascot } from '../components/art/SceneArt'
+import { TaoMascot } from '../components/art/SceneArt'
 import { AiContentAgreement } from './AiContentAgreement'
 
 function deviceId(): string {
@@ -83,21 +84,21 @@ export function LoginPage() {
         <div className="absolute -bottom-24 left-1/4 h-64 w-64 rounded-full bg-terra-100/70 blur-3xl" />
       </div>
       <header className="mb-10 text-center">
-        <motion.div
-          aria-hidden
-          className="relative mx-auto mb-4 h-24 w-24 overflow-hidden rounded-full shadow-[0_0_40px_rgba(217,119,87,0.22)]"
+        {/* 品牌桃子 logo 贴纸：硬墨线 + 硬偏移阴影（neobrutalism 视觉锚点） */}
+        <motion.img
+          src="/brand/logo-256.png"
+          alt="桃阅读"
+          className="mx-auto mb-4 h-20 w-20 rounded-3xl border-2 border-ink shadow-card"
           animate={reduced ? undefined : { rotate: [0, -3, 0, 3, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <SceneArt scene="loading-moon" />
-        </motion.div>
+        />
         <div className="flex items-center justify-center gap-2">
           <TaoMascot mood="happy" className="h-9 w-9" />
           <h1 className="bg-terra-gradient bg-clip-text font-display text-3xl font-bold tracking-wide text-transparent">
             桃阅读
           </h1>
         </div>
-        <p className="mt-2 text-ink-700">每晚一个故事，和最爱的人一起</p>
+        <p className="mt-2 text-ink-700">孩子的阅读游乐园，白天晚上都能读</p>
       </header>
 
       {createdCode ? (
@@ -120,7 +121,7 @@ export function LoginPage() {
         <div className="flex flex-col gap-4">
           <TaCard>
             <h2 className="mb-1 text-xl font-bold">我来说是…</h2>
-            <p className="mb-4 text-base text-ink-700">选择今晚的故事从谁开始</p>
+            <p className="mb-4 text-base text-ink-700">选择这次的故事从谁开始</p>
             <div className="flex gap-3">
               {(Object.keys(ROLE_LABEL) as DeviceRole[]).map((r) => (
                 <button
@@ -128,14 +129,14 @@ export function LoginPage() {
                   type="button"
                   onClick={() => setRole(r)}
                   aria-pressed={role === r}
-                  className={`flex-1 cursor-pointer rounded-2xl border p-4 text-center transition-colors ${
+                  className={`flex-1 cursor-pointer rounded-2xl border-2 p-4 text-center transition-colors ${
                     role === r
-                      ? 'border-terra-500 bg-terra-50'
-                      : 'border-paper-border bg-paper-300/60'
+                      ? 'border-terra-500 bg-terra-50 shadow-card'
+                      : 'border-ink bg-paper-200'
                   }`}
                 >
                   <span aria-hidden className="block text-3xl">
-                    {r === 'parent' ? '👨‍👩‍👧' : '🧒'}
+                    {r === 'parent' ? <IconFamily size={30} /> : <IconPeach size={30} />}
                   </span>
                   <span className="mt-2 block text-lg font-bold">{ROLE_LABEL[r]}</span>
                 </button>
@@ -163,11 +164,11 @@ export function LoginPage() {
             maxLength={8}
             autoComplete="off"
             placeholder="ABCD2345"
-            className="mt-4 h-16 w-full rounded-2xl border border-paper-border bg-paper-300 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-700/70"
+            className="mt-4 h-16 w-full rounded-2xl border-2 border-ink bg-paper-200 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-700/70 focus:outline-none focus:ring-2 focus:ring-terra-500"
           />
           <div className="mt-4 flex justify-center gap-2">
-            <TaSticker emoji="👨‍👩‍👧" label="爸爸妈妈" active={role === 'parent'} onClick={() => setRole('parent')} />
-            <TaSticker emoji="🧒" label="小朋友" active={role === 'child'} onClick={() => setRole('child')} />
+            <TaSticker icon={<IconFamily size={22} />} label="爸爸妈妈" active={role === 'parent'} onClick={() => setRole('parent')} />
+            <TaSticker icon={<IconPeach size={22} />} label="小朋友" active={role === 'child'} onClick={() => setRole('child')} />
           </div>
           {error && (
             <p role="alert" className="mt-4 text-center text-base text-terra-600">

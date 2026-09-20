@@ -5,40 +5,45 @@ export default {
     extend: {
       colors: {
         /**
-         * 「纸与桃」设计语言（docs/23，参照 claude.com/product/cowork 的暖编辑风）：
-         * 暖米白纸感底色 + 赤陶橙单强调 + 墨色正文 + 细线边框。
-         * 睡前适配：全程无蓝光波长（暖白/赤陶/琥珀），亮度可由阅读器夜间主题进一步压低。
+         * 「贴纸绘本」设计语言（docs/26，参照 codex-resets.com 的暖纸 neobrutalism）：
+         * 暖纸底 + 高饱和贴纸色 + 2px 墨线描边 + 硬偏移阴影 + 圆胖字体。
+         * 全天候阅读：白天是主场景（阳光黄/天空蓝/蜜桃橙），夜间只是可选模式。
          */
         paper: {
-          100: '#FAF9F5', // 应用底：暖米白
-          200: '#F5F3EC', // 卡片底：浅奶油
-          300: '#EFEBE0', // 内嵌区/输入底
-          border: '#E5E1D5', // 细线边框
-          'border-strong': '#D6D1C2',
+          100: '#FFF4DD', // 应用底：暖纸黄
+          200: '#FFFDF7', // 卡片底：奶白
+          300: '#FFF0BD', // 内嵌区/高亮纸
+          border: '#E8DCC3', // 纸面细线（结构线仍用 ink）
+          'border-strong': '#D9CBAE',
         },
         ink: {
-          900: '#1F1E1B', // 主文字：暖黑
-          700: '#54524B', // 次级文字
-          500: '#8A877C', // 辅助文字/占位
-          300: '#C9C5B8', // 禁用/极浅
+          900: '#26201A', // 墨色：文字 + 描边 + 硬阴影
+          700: '#5C5347',
+          500: '#877B6B',
+          300: '#26201A1A', // 点缀墨（10% 透明）
         },
         terra: {
-          50: '#FBF1EB', // 强调浅底（徽章/选中态）
-          100: '#F6E2D6',
-          300: '#E89B7D',
-          500: '#D97757', // 主强调：赤陶橙（CTA/选中/进度）
-          600: '#C15F3C', // hover/按下
-          700: '#A34E30',
+          50: '#FFEFE7',
+          100: '#FFD9C9',
+          300: '#FFB07A', // 蜜桃橙
+          500: '#FF5C2B', // 主强调：橘红（CTA/选中/进度）
+          600: '#EE4518', // hover
+          700: '#C23A10',
         },
-        /** 插画辅色：牛皮纸黄与杏色，只用于装饰层，不参与按钮 */
+        /** 贴纸色板：章节卡片/徽章/分类色，装饰与分类用，按钮只用 terra */
+        sun: { DEFAULT: '#FFD84D', light: '#FFE070', deep: '#675015' },
+        rose: { DEFAULT: '#FFB9CC', deep: '#8B3D1F' },
+        sky: { DEFAULT: '#A5DCFF', deep: '#1D5A7A' },
+        mint: { DEFAULT: '#B9E6A6', deep: '#3D6B2A' },
+        peach: { DEFAULT: '#FFB07A', deep: '#8B3D1F' },
         kraft: {
-          300: '#EBCFA8',
+          300: '#F1E3C4', // 空状态纸
           400: '#D4A27F',
           500: '#B9835C',
         },
         moss: {
-          500: '#7A8A5A', // 成功/完成（低饱和橄榄绿，不刺眼）
-          100: '#EEF0E4',
+          500: '#5F8F46', // 成功/完成
+          100: '#E4F1D9',
         },
       },
       borderRadius: {
@@ -47,10 +52,16 @@ export default {
         '3xl': '1.25rem',
         '4xl': '1.75rem',
       },
+      borderWidth: {
+        ink: '2px', // 墨线描边默认宽度
+      },
       boxShadow: {
-        /** Cowork 风：边框承担结构，阴影只做一层极轻的浮起 */
-        card: '0 1px 2px rgba(31,30,27,0.05)',
-        lift: '0 8px 24px rgba(31,30,27,0.08)',
+        /** neobrutalism：实心墨色偏移阴影，按下位移归零（按压感） */
+        card: '4px 4px 0 #26201A',
+        sm: '3px 3px 0 #26201A',
+        xs: '2px 2px 0 #26201A',
+        lift: '8px 8px 0 #26201A',
+        none: '0 0 0 #26201A',
       },
       fontFamily: {
         sans: [
@@ -61,14 +72,17 @@ export default {
           'Microsoft YaHei',
           'sans-serif',
         ],
-        /** 衬线展示字体：标题/大字（编辑排版气质） */
+        /** 圆胖展示体：标题/大字（玩具感、孩子气） */
         display: [
-          'Tiempos Headline',
-          'Georgia',
-          'Source Han Serif SC',
-          'Songti SC',
-          'SimSun',
-          'serif',
+          'Baloo 2',
+          'Arial Rounded MT Bold',
+          'Yuanti SC',
+          'YouYuan',
+          '幼圆',
+          'PingFang SC',
+          'Hiragino Sans GB',
+          'Microsoft YaHei',
+          'sans-serif',
         ],
         /** 楷体：儿童阅读正文（语文课本标准字体，利于识字） */
         kai: ['KaiTi', 'Kaiti SC', 'STKaiti', 'DFKai-SB', 'serif'],

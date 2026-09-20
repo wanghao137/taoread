@@ -19,7 +19,7 @@ export function ChildPicker({
       >
         今天是谁的故事时间？
       </motion.h2>
-      <p className="mb-6 text-center text-ink-700">点点你的名字，月亮就亮啦</p>
+      <p className="mb-6 text-center text-ink-700">点点你的名字，故事就开始啦</p>
       <div className="flex flex-col gap-3">
         {children.map((c, i) => (
           <motion.div

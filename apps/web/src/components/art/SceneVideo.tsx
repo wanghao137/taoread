@@ -25,16 +25,20 @@ export interface SceneVideoProps {
   children: React.ReactNode
   /** 画幅，与题图容器一致 */
   aspectRatio?: '16:9' | '9:16' | '1:1' | '3:4' | '4:3'
+  /** 静态插画 URL：作为视频加载期 poster，避免黑帧（docs/26） */
+  poster?: string | null
 }
 
 const POLL_INTERVAL_MS = 6000
 const MAX_POLLS = 60 // 6 分钟仍未完成则提示
 
-export function SceneVideo({ scene, description, children, aspectRatio = '16:9' }: SceneVideoProps) {
+export function SceneVideo({ scene, description, children, aspectRatio = '16:9', poster }: SceneVideoProps) {
   const [phase, setPhase] = useState<Phase>('idle')
   const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [enabled, setEnabled] = useState<boolean | null>(null)
+  const [paused, setPaused] = useState(false)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
   const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pollCount = useRef(0)
 
@@ -148,17 +152,48 @@ export function SceneVideo({ scene, description, children, aspectRatio = '16:9' 
 
   return (
     <div className="relative">
-      {/* 视频 ready 后替换静态题图 */}
+      {/* 视频 ready 后替换静态题图：自动静音循环（动起来的插画），点击画面暂停/继续，不用原生控件 */}
       {phase === 'ready' && videoUrl ? (
         <>
-          <video
-            src={videoUrl}
-            controls
-            playsInline
-            preload="metadata"
-            className="w-full rounded-3xl shadow-lg"
-            style={{ aspectRatio: aspectRatio.replace(':', ' / '), backgroundColor: '#201810' }}
-          />
+          <button
+            type="button"
+            aria-label={paused ? '继续播放' : '暂停动画'}
+            onClick={() => {
+              const v = videoRef.current
+              if (!v) return
+              if (v.paused) {
+                void v.play()
+                setPaused(false)
+              } else {
+                v.pause()
+                setPaused(true)
+              }
+            }}
+            className="relative block w-full cursor-pointer overflow-hidden rounded-3xl border-ink border-2 shadow-card"
+          >
+            <video
+              ref={videoRef}
+              src={videoUrl}
+              poster={poster ?? undefined}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full"
+              style={{ aspectRatio: aspectRatio.replace(':', ' / '), backgroundColor: '#FFF0BD' }}
+            />
+            {paused ? (
+              <span
+                aria-hidden
+                className="absolute inset-0 flex items-center justify-center bg-ink-300/30"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border-ink border-2 bg-paper-200 shadow-sm">
+                  <IconPlay size={22} />
+                </span>
+              </span>
+            ) : null}
+          </button>
           <AiBadge label="AI 动画" />
         </>
       ) : (

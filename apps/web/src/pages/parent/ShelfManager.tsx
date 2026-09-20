@@ -16,7 +16,7 @@ type Partition = 'books' | 'albums'
 
 const PARTITION_META: Record<Partition, { title: string; empty: string }> = {
   books: { title: '图书', empty: '书架上还没有图书' },
-  albums: { title: '🎧 听书', empty: '还没有听书专辑' },
+  albums: { title: '听书', empty: '还没有听书专辑' },
 }
 
 /** 书架管理（第 9 夜）：三分区 + 家长逐条屏蔽（孩子端即刻不可见） */

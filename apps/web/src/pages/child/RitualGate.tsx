@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { IconLamp } from '../../components/ui/icons'
+import { IconPeach } from '../../components/ui/icons'
 import { TaCard, TaButton, Loading } from '../../components/ui'
 import { SceneArt, TaoMascot } from '../../components/art/SceneArt'
 import type { CosessionDto } from '../../lib/api'
@@ -15,11 +15,15 @@ export interface RitualGateProps {
   onResume: () => void
   /** 有未收尾会话：读完啦，直接收尾（第 7 夜 M4） */
   onFinish: () => void
-  /** 打开夜灯成就墙 */
+  /** 打开桃子成就墙 */
   onWall: () => void
 }
 
-/** M1 仪式入口：月亮升起。有未收尾会话时给出「继续去读 / 读完收尾」双通道 */
+/**
+ * 阅读家园入口（docs/26 重构）：白天是主场景——太阳、山丘、随时出发。
+ * 旧的「月亮仪式门」把阅读锚定在睡前；阅读本就不挑时间，这里改成全天候欢迎屏。
+ * 有未收尾会话时给出「继续去读 / 读完收尾」双通道。
+ */
 export function RitualGate({
   active,
   activeTitle,
@@ -31,31 +35,31 @@ export function RitualGate({
   onWall,
 }: RitualGateProps) {
   if (checking) {
-    return <Loading label="看看昨晚的故事…" />
+    return <Loading label="看看上次读到哪儿…" />
   }
 
   return (
     <div className="flex flex-1 flex-col justify-center gap-8">
       <motion.div
         aria-hidden
-        className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[0_0_60px_rgba(217,119,87,0.25)]"
+        className="relative mx-auto h-32 w-32 overflow-hidden rounded-3xl border-ink border-2 shadow-card"
         animate={{ y: [6, -10, 6] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <SceneArt scene="loading-moon" />
+        <SceneArt scene="sunrise-hills" />
       </motion.div>
-      {/* 吉祥物小桃守在月亮边：有未收尾会话时眨眼提示，否则打瞌睡等你（docs/11 P0-5） */}
-      <TaoMascot mood={active ? 'hint' : 'sleepy'} className="mx-auto h-14 w-14" />
+      {/* 吉祥物小桃：有未收尾会话时眨眼提示，否则开心等着（docs/11 P0-5） */}
+      <TaoMascot mood={active ? 'hint' : 'happy'} className="mx-auto h-14 w-14" />
 
       {active ? (
         <TaCard className="text-center">
           <p className="text-lg font-bold leading-relaxed">
-            {activeTitle ? `《${activeTitle}》` : '今晚的那本书'}
+            {activeTitle ? `《${activeTitle}》` : '上次那本书'}
             <br />
             {overtime ? '故事讲完啦' : '还没讲完呢'}
           </p>
           <p className="mt-1 text-ink-700">
-            {overtime ? '把这一晚好好收进纪念册' : '故事在老地方等你'}
+            {overtime ? '把这次阅读好好收进纪念册' : '故事在老地方等你'}
           </p>
           <div className="mt-4 flex flex-col gap-3">
             {overtime ? (
@@ -78,18 +82,18 @@ export function RitualGate({
       ) : (
         <div className="text-center">
           <h2 className="mb-2 font-display text-2xl font-bold leading-relaxed">
-            月亮升起来啦
+            今天读什么故事？
             <br />
-            <span className="text-terra-600">今晚读什么？</span>
+            <span className="text-terra-600">挑一本，马上出发</span>
           </h2>
           <TaButton className="mx-auto mt-4" onClick={onStart}>
-            点亮月亮，去选书
+            去选书
           </TaButton>
         </div>
       )}
 
       <TaButton variant="ghost" size="md" className="mx-auto" onClick={onWall}>
-        <IconLamp size={18} /> 我的夜灯
+        <IconPeach size={18} /> 我的桃子
       </TaButton>
     </div>
   )

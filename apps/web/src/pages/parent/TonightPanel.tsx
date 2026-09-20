@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { IconBookOpen } from '../../components/ui/icons'
 import { api, ApiError, type ChildDto, type ReadingCardDto } from '../../lib/api'
-import { Loading, ErrorState, TaCard, TaSticker } from '../../components/ui'
+import { Loading, ErrorState, TaCard } from '../../components/ui'
 
 export interface TonightPanelProps {
   token: string
@@ -15,7 +15,7 @@ interface ChildTonight {
   message?: string
 }
 
-/** 今晚页（第 9 夜）：每个孩子今晚的共读状态 + 家长侧共读卡（讲什么/问什么/聊什么） */
+/** 今天页：每个孩子今天的共读状态 + 家长侧共读卡（讲什么/问什么/聊什么） */
 export function TonightPanel({ token, childrenList }: TonightPanelProps) {
   const [rows, setRows] = useState<ChildTonight[]>(
     childrenList.map((child) => ({ child, state: 'loading' })),
@@ -78,7 +78,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
   if (childrenList.length === 0) {
     return (
       <p className="text-base text-ink-700">
-        还没有小读者档案——去设置里添加，今晚就能开始
+        还没有小读者档案——去设置里添加，马上就能开始
       </p>
     )
   }
@@ -86,7 +86,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-bold text-ink-700">今晚的共读卡</h3>
+        <h3 className="text-base font-bold text-ink-700">今天的共读卡</h3>
         <button
           type="button"
           onClick={reload}
@@ -101,11 +101,11 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
           <p className="mb-2 text-lg font-bold">
             {row.child.nickname}（{row.child.stage}）
           </p>
-          {row.state === 'loading' && <Loading label="看一眼今晚…" />}
+          {row.state === 'loading' && <Loading label="看一眼今天…" />}
           {row.state === 'error' && <ErrorState message={row.message} onRetry={reload} />}
           {row.state === 'idle' && (
             <p className="text-base text-ink-700">
-              今晚还没开始——请小读者在他们的设备上点亮月亮
+              今天还没开始——请小读者在自己的设备上按「去选书」
             </p>
           )}
           {row.state === 'reading' && row.card && (
@@ -120,7 +120,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
                 </ul>
               </div>
               <div>
-                <p className="font-bold">💬 问什么</p>
+                <p className="font-bold">问什么</p>
                 <ul className="mt-1 list-disc pl-5 text-ink-700">
                   {row.card.questions.map((q) => (
                     <li key={q}>{q}</li>
@@ -129,12 +129,14 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
               </div>
               {row.card.hook && (
                 <div>
-                  <p className="font-bold">🍵 聊什么</p>
+                  <p className="font-bold">聊什么</p>
                   <p className="mt-1 text-ink-700">{row.card.hook}</p>
                 </div>
               )}
               <div className="flex flex-wrap gap-2 pt-1">
-                <TaSticker emoji="🌿" label="讲完就可以收尾啦" />
+                <span className="inline-block -rotate-2 rounded-lg border-ink border-[1.5px] bg-mint px-1.5 py-0.5 text-xs font-bold text-ink-900">
+                  讲完就可以收尾啦
+                </span>
               </div>
             </div>
           )}

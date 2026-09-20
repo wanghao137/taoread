@@ -21,9 +21,9 @@ describe('isValidHighlightText（与服务端 1-500 字口径一致）', () => {
 })
 
 describe('unlockCopy（纪念式成就文案，红线：正向无兑换）', () => {
-  it('夜灯/最长连续/读完第 N 本', () => {
-    expect(unlockCopy({ kind: 'night_lamp', value: 7 })).toBe('夜灯点亮！第 7 晚')
-    expect(unlockCopy({ kind: 'streak_best', value: 3 })).toBe('连续 3 晚，全家的最棒纪录')
+  it('桃子/最长连续/读完第 N 本', () => {
+    expect(unlockCopy({ kind: 'night_lamp', value: 7 })).toBe('收下一颗桃子！第 7 次共读')
+    expect(unlockCopy({ kind: 'streak_best', value: 3 })).toBe('连续 3 天，全家的最棒纪录')
     expect(unlockCopy({ kind: 'book_done', value: 2 })).toBe('第 2 本读完啦！')
   })
 

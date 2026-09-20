@@ -66,7 +66,7 @@ const SHOW_TAB_BAR_PHASES = new Set<Phase['kind']>([
   'resolving',
 ])
 
-/** 孩子端仪式流：绑定档案 → M1 月亮门 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
+/** 孩子端阅读流：绑定档案 → M1 首页 → M2 选书 → M3 出发 → M4 收尾 → 庆祝 */
 export function ChildHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
@@ -78,7 +78,7 @@ export function ChildHome() {
   const [confirmSwitch, setConfirmSwitch] = useState(false)
   /** 首次运行引导（docs/13 P1-1）：看过一次就不再弹，localStorage 标记 */
   const [showOnboarding, setShowOnboarding] = useState(false)
-  /** 夜灯墙亮灯数（底部导航角标；0 时不显示角标） */
+  /** 桃子墙可收桃子数（底部导航角标；0 时不显示角标） */
   const [lampTotal, setLampTotal] = useState(0)
 
   // 门屏双通道防连点（N7-006，延续 BookPicker 的 busyRef 模式）
@@ -140,10 +140,10 @@ export function ChildHome() {
     [enterGate],
   )
 
-  // M1：进入月亮门后检查未收尾会话（断线续传）+ 服务端时段窗口（就寝/超时，第 8 夜）
+  // M1：进入首页后检查未收尾会话（断线续传）+ 服务端时段窗口（就寝/超时，第 8 夜）
   const childId = useSession((s) => s.childId)
 
-  // 夜灯总数（底部导航角标用；失败静默，角标不亮总比报错强）
+  // 桃子总数（底部导航角标用；失败静默，角标不亮总比报错强）
   useEffect(() => {
     if (!token || !childId) return
     let alive = true
@@ -231,7 +231,7 @@ export function ChildHome() {
         if (session.bookId) {
           const resolved = await resolveBook(session.bookId)
           if (!resolved) {
-            throw new ApiError(409, 'SESSION_ACTIVE', '今晚的故事已经开始啦，先把这本读完吧')
+            throw new ApiError(409, 'SESSION_ACTIVE', '这本书已经开始啦，先把这本读完吧')
           }
           setPhase({ kind: 'ready', book: resolved, sessionId: session.id })
           return
@@ -239,7 +239,7 @@ export function ChildHome() {
         // 会话是纸质书：确认屏走纸书出发分支
         setPhase({
           kind: 'ready',
-          book: { title: session.paperTitle ?? '今晚的故事' },
+          book: { title: session.paperTitle ?? '这次的故事' },
           sessionId: session.id,
         })
         return
@@ -270,7 +270,7 @@ export function ChildHome() {
         // 纸质书会话：无 deepLink，出发卡走纸书分支
         setPhase({
           kind: 'departure',
-          book: { title: paperTitle ?? '今晚的故事' },
+          book: { title: paperTitle ?? '这次的故事' },
           sessionId,
           isPaper: true,
         })
@@ -297,7 +297,7 @@ export function ChildHome() {
       const { bookId, paperTitle } = phase.active
       const sessionId = phase.active.id
       if (!bookId) {
-        setPhase({ kind: 'finish', sessionId, bookId: null, title: paperTitle ?? '今晚的故事' })
+        setPhase({ kind: 'finish', sessionId, bookId: null, title: paperTitle ?? '这次的故事' })
         return
       }
       setPhase({ kind: 'resolving' })
@@ -306,7 +306,7 @@ export function ChildHome() {
         kind: 'finish',
         sessionId,
         bookId,
-        title: resolved?.title ?? paperTitle ?? '今晚的故事',
+        title: resolved?.title ?? paperTitle ?? '这次的故事',
       })
     } finally {
       gateBusyRef.current = false
@@ -335,7 +335,7 @@ export function ChildHome() {
   function body() {
     switch (phase.kind) {
       case 'loading':
-        return <Loading label="月亮正在升起…" />
+        return <Loading label="小桃正在准备…" />
       case 'load-error':
         return <ErrorState message={phase.message} onRetry={loadChildren} />
       case 'no-children':
@@ -344,7 +344,7 @@ export function ChildHome() {
             art="nursery-window"
             mood="sleepy"
             title="还没有小读者档案"
-            hint="请爸爸妈妈先在家长端添加，然后回来点亮月亮"
+            hint="请爸爸妈妈先在家长端添加，然后回来选书"
             // 不能是死路：孩子拿着设备时，唯一可行的出口是退回登录页让家长加入（P1-1）
             action={{ label: '回到登录页', onClick: () => useSession.getState().signOut() }}
           />
@@ -378,7 +378,7 @@ export function ChildHome() {
               const s = phase.session
               if (!s) return
               if (!s.bookId) {
-                setPhase({ kind: 'finish', sessionId: s.id, bookId: null, title: s.paperTitle ?? '今晚的故事' })
+                setPhase({ kind: 'finish', sessionId: s.id, bookId: null, title: s.paperTitle ?? '这次的故事' })
                 return
               }
               setPhase({ kind: 'resolving' })
@@ -387,7 +387,7 @@ export function ChildHome() {
                   kind: 'finish',
                   sessionId: s.id,
                   bookId: s.bookId,
-                  title: resolved?.title ?? s.paperTitle ?? '今晚的故事',
+                  title: resolved?.title ?? s.paperTitle ?? '这次的故事',
                 })
               })
             }}
@@ -407,7 +407,7 @@ export function ChildHome() {
               }
               className="min-h-touch cursor-pointer self-start rounded-xl px-3 text-base text-ink-700"
             >
-              ← 回到月亮
+              ← 回到首页
             </button>
             <BookPicker token={token} onPick={handlePick} />
           </div>
@@ -538,7 +538,7 @@ export function ChildHome() {
                   .catch(() => setPhase({ kind: 'shelf' }))
                 return
               }
-              // 中途退出：回到书架（不是月亮门，孩子的上下文还在选书里）
+              // 中途退出：回到书架（不是首页，孩子的上下文还在选书里）
               setPhase({ kind: 'shelf' })
             }}
           />
@@ -566,10 +566,10 @@ export function ChildHome() {
       {/* 持久底部导航（P1-2）：只在非沉浸阶段展示，阅读器/收尾/庆祝自己有导航 */}
       {SHOW_TAB_BAR_PHASES.has(phase.kind) ? (
         <ChildTabBar
-          active={phase.kind === 'wall' ? 'wall' : phase.kind === 'shelf' || phase.kind === 'detail' ? 'shelf' : 'moon'}
-          lampCount={lampTotal}
+          active={phase.kind === 'wall' ? 'wall' : phase.kind === 'shelf' || phase.kind === 'detail' ? 'shelf' : 'home'}
+          peachCount={lampTotal}
           onSelect={(tab) => {
-            if (tab === 'moon') reEnterGate(useSession.getState().childId ?? '')
+            if (tab === 'home') reEnterGate(useSession.getState().childId ?? '')
             else if (tab === 'shelf') setPhase({ kind: 'shelf' })
             else if (tab === 'wall' && useSession.getState().childId) setPhase({ kind: 'wall' })
           }}
@@ -579,7 +579,7 @@ export function ChildHome() {
       {/* 换家庭确认：把「不可逆」变成「可取消」 */}
       <TaSheet open={confirmSwitch} onClose={() => setConfirmSwitch(false)} title="要换一个家庭吗？">
         <p className="text-sm leading-relaxed text-ink-700">
-          回到登录页以后，今晚读到一半的故事会先保存在云端，下次进来还能接着读。
+          回到登录页以后，这次读到一半的故事会先保存在云端，下次进来还能接着读。
         </p>
         <div className="mt-5 flex gap-3">
           <TaButton

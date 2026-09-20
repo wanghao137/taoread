@@ -3,7 +3,7 @@ import { extractNoteWord, previewText, splitSentences } from '../src/lib/preview
 
 describe('splitSentences（按句末标点切句）', () => {
   it('中文句号切分并保留标点', () => {
-    expect(splitSentences('月亮升起来了。星星也醒了。')).toEqual(['月亮升起来了。', '星星也醒了。'])
+    expect(splitSentences('太阳升起来了。小鸟也醒了。')).toEqual(['太阳升起来了。', '小鸟也醒了。'])
   })
   it('感叹号问号也切', () => {
     expect(splitSentences('快看！那是什么？')).toEqual(['快看！', '那是什么？'])
@@ -21,16 +21,16 @@ describe('splitSentences（按句末标点切句）', () => {
     expect(splitSentences('从前有座山')).toEqual(['从前有座山'])
   })
   it('空白段被丢弃', () => {
-    expect(splitSentences('月亮。   。星星。')).toEqual(['月亮。', '星星。'])
+    expect(splitSentences('太阳。   。星星。')).toEqual(['太阳。', '星星。'])
   })
 })
 
 describe('previewText（取开头若干句）', () => {
   it('中文取 2 句', () => {
-    expect(previewText('月亮升起来了。星星也醒了。夜深了。')).toBe('月亮升起来了。星星也醒了。')
+    expect(previewText('太阳升起来了。小鸟也醒了。天亮了。')).toBe('太阳升起来了。小鸟也醒了。')
   })
   it('只有 1 句时返回 1 句', () => {
-    expect(previewText('月亮升起来了。')).toBe('月亮升起来了。')
+    expect(previewText('太阳升起来了。')).toBe('太阳升起来了。')
   })
   it('空文本返回空串', () => {
     expect(previewText('')).toBe('')

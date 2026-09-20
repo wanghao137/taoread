@@ -35,9 +35,9 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
   } catch {
     /* localStorage 残留标记（同浏览器上下文重用）则不弹，正常进门 */
   }
-  // 门屏：等主按钮或夜灯入口出现即视为登录成功（文案细节不绑定）
+  // 门屏：等主按钮或桃子入口出现即视为登录成功（文案细节不绑定）
   await page
-    .getByRole('button', { name: /点亮月亮|继续去读|我的夜灯/ })
+    .getByRole('button', { name: /去选书|继续去读|我的桃子/ })
     .first()
     .waitFor({ timeout: 15_000 })
 }
@@ -96,7 +96,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
     // 设置：字号 + 主题
     await page.getByRole('button', { name: '阅读设置' }).click()
-    await page.getByText('护眼').click()
+    await page.getByText('护眼', { exact: true }).click()
     await page.screenshot({ path: 'test-results/v2-reader-sepia.png', fullPage: true })
     await page.getByRole('button', { name: '关闭' }).click()
 
@@ -151,13 +151,13 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
 
     // 读完 → 进入收尾流
     await page.getByRole('button', { name: /读完啦/ }).click()
-    await page.getByText('今晚读到哪儿啦？').waitFor()
+    await page.getByText(/读到哪儿啦/).waitFor()
     await page.screenshot({ path: 'test-results/v2-reader-finish.png', fullPage: true })
 
     // 收尾闭环：进度 + 心情 + 盖章 → 庆祝（走完才关闭会话，避免遗留未收尾会话污染后续用例）
     await page.getByRole('button', { name: '读完啦', exact: true }).click()
     await page.getByRole('button', { name: '兴奋', exact: true }).click()
-    await page.getByRole('button', { name: /点亮夜灯/ }).click()
+    await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
   })
 
@@ -239,7 +239,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: /读完啦/ }).click()
     await page.getByRole('button', { name: '读完啦', exact: true }).click()
     await page.getByRole('button', { name: '兴奋', exact: true }).click()
-    await page.getByRole('button', { name: /点亮夜灯/ }).click()
+    await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
   })
 
@@ -326,7 +326,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await expect(page.getByRole('button', { name: /取消收藏《弟子规·入则孝》/ })).toBeVisible()
 
     // 重开书架（重新拉列表）：favorite 仍为 true，且排在未收藏的书之前
-    await page.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '月亮' }).click()
+    await page.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '首页' }).click()
     await openShelf(page)
     await expect(page.getByRole('button', { name: /取消收藏《弟子规·入则孝》/ })).toBeVisible()
 
@@ -375,7 +375,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     // 删除第一个词
     await wordItems.locator('button', { name: /^删除/ }).first().click()
 
-    // 收尾活动会话（进阅读器即开会话；不收尾会污染后续用例的门屏与家长端「今晚」）
+    // 收尾活动会话（进阅读器即开会话；不收尾会污染后续用例的门屏与家长端「今天」）
     await page.getByRole('button', { name: '关闭生词本' }).click()
     await page.getByRole('button', { name: '打开《The Tale of Peter Rabbit》' }).click()
     await expect(page.getByRole('heading', { name: '书籍详情' })).toBeVisible()
@@ -386,7 +386,7 @@ test.describe('v2 桃书架 + 自研阅读器', () => {
     await page.getByRole('button', { name: /读完啦/ }).click()
     await page.getByRole('button', { name: '读完啦', exact: true }).click()
     await page.getByRole('button', { name: '兴奋', exact: true }).click()
-    await page.getByRole('button', { name: /点亮夜灯/ }).click()
+    await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
   })
 })

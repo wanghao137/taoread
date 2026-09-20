@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test'
 
 /**
- * 家长端 e2e（演示模式）：登录 → 今晚共读卡 → 书架管理屏蔽 → 设置 → 周报 + 分享卡规格。
+ * 家长端 e2e（演示模式）：登录 → 今天共读卡 → 书架管理屏蔽 → 设置 → 周报 + 分享卡规格。
  */
 const CODE = 'PEACH888'
 
 test.describe('家长端', () => {
-  test('登录 → 今晚足迹/共读卡 → 书架屏蔽 → 周报 → 设置', async ({ page }) => {
+  test('登录 → 今天足迹/共读卡 → 书架屏蔽 → 周报 → 设置', async ({ page }) => {
     await page.goto('/login')
     await page.getByRole('button', { name: /输入家庭码加入/ }).click()
     await page.locator('#family-code').fill(CODE)
@@ -14,9 +14,9 @@ test.describe('家长端', () => {
     await page.getByRole('button', { name: /进入桃阅读/ }).click()
     await page.getByText('家长端').waitFor()
 
-    // ── 今晚：足迹条 + 家庭码 + 孩子状态（种子小桃有历史账本但无 active 会话）──
+    // ── 今天：足迹条 + 家庭码 + 孩子状态（种子小桃有历史账本但无 active 会话）──
     await page.getByTestId('footprint-bar').getByText(/本周足迹/).waitFor()
-    await page.getByText(/今晚还没开始/).first().waitFor()
+    await page.getByText(/今天还没开始/).first().waitFor()
 
     // ── 书架：分区与屏蔽切换 ──
     await page.getByRole('button', { name: '书架', exact: true }).click()
@@ -30,7 +30,7 @@ test.describe('家长端', () => {
 
     // ── 周报：本周有数据（种子跨两周，本周至少 1 晚）+ 分享卡规格 ──
     await page.getByRole('button', { name: '周报', exact: true }).click()
-    await page.getByText('个共读的夜晚').waitFor()
+    await page.getByText('次共读').waitFor()
     const download = page.waitForEvent('download', { timeout: 15_000 })
     await page.getByRole('button', { name: /保存分享卡/ }).click()
     const dl = await download
@@ -44,7 +44,7 @@ test.describe('家长端', () => {
       page.getByRole('button', { name: '21:00', exact: true }),
     ).toHaveClass(/bg-terra/)
     await page.getByText('小桃（6-8）').waitFor()
-    // 还原为「跟随默认」：否则 21:00 后的就寝窗会锁住后续孩子端 e2e（workers:1 串行共享同一库）
+    // 还原为「跟随默认」：否则 21:00 后的休息时间会锁住后续孩子端 e2e（workers:1 串行共享同一库）
     await page.getByRole('button', { name: '跟随默认', exact: true }).click()
     await expect(
       page.getByRole('button', { name: '跟随默认', exact: true }),

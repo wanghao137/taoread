@@ -30,6 +30,27 @@ export function IconMoon(p: IconProps) {
   )
 }
 
+/** 太阳：白天阅读主场景（docs/26），替代月亮成为首页入口图标 */
+export function IconSun(p: IconProps) {
+  return (
+    <svg {...base(p)}>
+      <circle cx="12" cy="12" r="4.2" />
+      <path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7" />
+    </svg>
+  )
+}
+
+/** 桃子：品牌吉祥物图标（taostudio 品牌桃），成就收藏隐喻 */
+export function IconPeach(p: IconProps) {
+  return (
+    <svg {...base(p)}>
+      <path d="M12 8.5c-1.2-1.5-3-2.3-4.6-1.6-2.1.9-3 3.6-1.9 6.2 1.1 2.7 3.6 5.4 6.5 6.9 2.9-1.5 5.4-4.2 6.5-6.9 1.1-2.6.2-5.3-1.9-6.2-1.6-.7-3.4.1-4.6 1.6Z" />
+      <path d="M12 8.5c.2-2.2 1.4-3.9 3.6-4.8" />
+      <path d="M15.6 3.7c1.8-.4 3.2 0 4.4 1-1.2 1.1-2.6 1.5-4.4 1-.3-.6-.3-1.3 0-2Z" />
+    </svg>
+  )
+}
+
 export function IconMoonStar(p: IconProps) {
   return (
     <svg {...base(p)}>

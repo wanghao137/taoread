@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { IconStar } from '../../components/ui/icons'
+import { IconStar, IconSparkle, IconPeach, IconSun, IconHeart, IconMoon, IconBook } from '../../components/ui/icons'
 import { motion } from 'framer-motion'
 import { api, ApiError, type BestBookmarksDto, type UnlockDto } from '../../lib/api'
 import {
@@ -26,6 +26,19 @@ type BookmarksState =
   | { kind: 'ready'; items: Array<{ text: string; count?: number }> }
 
 /** M4 收尾流：进度三档 → 心情贴纸 → 金句两来源（挑一句/自己说）→ 盖章完成 */
+
+/** 贴纸图标映射（docs/26：UI 红线不用 emoji 字形，用线性图标） */
+const STICKER_ICONS = {
+  sprout: IconSparkle,
+  star: IconStar,
+  peach: IconPeach,
+  sun: IconSun,
+  sparkle: IconSparkle,
+  heart: IconHeart,
+  moon: IconMoon,
+  book: IconBook,
+} as const
+
 export function FinishScreen({ sessionId, bookId, title, token, onFinished }: FinishScreenProps) {
   const [progress, setProgress] = useState<string | null>(null)
   const [mood, setMood] = useState<string | null>(null)
@@ -105,19 +118,19 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
     <div className="flex flex-col gap-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold">读完好啦！</h2>
-        <p className="mt-1 text-base text-ink-700">今晚的《{title}》到这里，盖个章吧</p>
+        <p className="mt-1 text-base text-ink-700">这次的《{title}》到这里，盖个章吧</p>
       </div>
 
       {/* 进度三档 */}
       <section aria-labelledby="progress-title">
         <h3 id="progress-title" className="mb-2 text-base font-bold text-ink-700">
-          今晚读到哪儿啦？
+          这次读到哪儿啦？
         </h3>
         <div className="flex flex-wrap gap-3">
           {PROGRESS_OPTIONS.map((p) => (
             <TaSticker
               key={p.value}
-              emoji={p.emoji}
+              icon={(() => { const I = STICKER_ICONS[p.icon as keyof typeof STICKER_ICONS]; return <I size={20} /> })()}
               label={p.label}
               active={progress === p.value}
               onClick={() => setProgress(p.value)}
@@ -135,7 +148,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
           {MOOD_OPTIONS.map((m) => (
             <TaSticker
               key={m.value}
-              emoji={m.emoji}
+              icon={(() => { const I = STICKER_ICONS[m.icon as keyof typeof STICKER_ICONS]; return <I size={20} /> })()}
               label={m.label}
               active={mood === m.value}
               onClick={() => setMood(m.value)}
@@ -191,19 +204,19 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
                             ...(item.count !== undefined ? { markCount: item.count } : {}),
                           })
                         }
-                        className={`min-h-touch w-full cursor-pointer rounded-2xl border p-4 text-left transition-colors ${
+                        className={`min-h-touch w-full cursor-pointer rounded-2xl border-2 p-4 text-left shadow-card transition-colors ${
                           added
                             ? 'border-terra-500 bg-terra-50'
-                            : 'border-paper-border bg-paper-300/60 hover:border-terra-300'
+                            : 'border-ink bg-paper-200 hover:bg-paper-300/60'
                         }`}
                       >
                         <span className="block text-base leading-relaxed">「{item.text}」</span>
                         <span className="mt-1 block text-base text-terra-600">
                           {added
-                            ? '✓ 已收进今晚的金句'
+                            ? '✓ 已收进这次的金句'
                             : item.count
                               ? `${item.count.toLocaleString()} 人划过这句`
-                              : '收进今晚的金句'}
+                              : '收进这次的金句'}
                         </span>
                       </button>
                     </li>
@@ -225,7 +238,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
               onChange={(e) => setVoiceText(e.target.value)}
               maxLength={500}
               rows={3}
-              className="w-full rounded-2xl border border-paper-border bg-paper-300 p-4 text-base leading-relaxed"
+              className="w-full rounded-2xl border-2 border-ink bg-paper-200 p-4 text-base leading-relaxed"
               placeholder="比如：小王子说，重要的东西用眼睛是看不见的"
             />
             <TaButton
@@ -237,14 +250,14 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
                 void addHighlight({ source: 'voice', text: voiceText.trim() })
               }
             >
-              收进今晚的金句
+              收进这次的金句
             </TaButton>
           </TaCard>
         )}
 
         {addedTexts.length > 0 && (
           <p className="mt-3 text-base text-terra-600" aria-live="polite">
-            今晚已经收了 {addedTexts.length} 句金句 <IconStar size={14} className="inline align-[-2px]" />
+            这次已经收了 {addedTexts.length} 句金句 <IconStar size={14} className="inline align-[-2px]" />
           </p>
         )}
       </section>
@@ -263,7 +276,7 @@ export function FinishScreen({ sessionId, bookId, title, token, onFinished }: Fi
           disabled={finishing}
           onClick={() => void handleFinish()}
         >
-          {progress === 'done' ? '宣布读完，点亮夜灯' : '盖今晚的章'}
+          {progress === 'done' ? '宣布读完，收一颗桃子' : '盖这次的章'}
         </TaButton>
       </motion.div>
     </div>

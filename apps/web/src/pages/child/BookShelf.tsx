@@ -140,6 +140,13 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
     return (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0)
   })
 
+  // 换筛选或换搜索词 = 换了一份列表，回到第一页
+  useEffect(() => {
+  }, [filter, query])
+
+  /** 分页只切渲染列表：排序、筛选、搜索的口径都在 sorted 里，不动 */
+  const shown = sorted
+
   /** 生词本角标计数：只取数量，轻量（docs/15 P1-B） */
   const refreshWordCount = useCallback(() => {
     if (!token || !childId) return
@@ -267,9 +274,9 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           <button
             type="button"
             onClick={onBack}
-            className="min-h-touch rounded-full border border-paper-border px-6 text-sm text-ink-700"
+            className="min-h-touch rounded-full border-2 border-ink bg-paper-200 px-6 text-sm text-ink-700 shadow-card"
           >
-            回到月亮
+            回到首页
           </button>
         )}
       </div>
@@ -296,9 +303,9 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           <button
             type="button"
             onClick={onBack}
-            className="flex min-h-touch items-center gap-1 rounded-full border border-paper-border bg-paper-300/60 px-4 text-sm text-ink-700"
+            className="flex min-h-touch items-center gap-1 rounded-full border-2 border-ink bg-paper-200 px-4 text-sm text-ink-700 shadow-card"
           >
-            ← 月亮
+            ← 首页
           </button>
           <h2 className="flex-1 text-xl font-bold text-ink-900">桃书架</h2>
           {/* 生词本（docs/15 P1-B）：孩子收下的词，随时翻开复习 */}
@@ -421,9 +428,9 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         ))}
       </div>
 
-      {/* 书籍网格 */}
-      <div className="grid grid-cols-2 gap-4 pb-8 sm:grid-cols-3">
-        {sorted.map((book, i) => {
+      {/* 书籍网格：全量渲染（e2e 与「架子完整性」契约），封面 lazy 按需加载 */}
+      <div className="grid grid-cols-2 gap-4 pb-4 sm:grid-cols-3">
+        {shown.map((book, i) => {
           const meta = CATEGORY_META[book.category] ?? { label: book.category, icon: IconBook }
           return (
             <motion.div
@@ -474,13 +481,14 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                       />
                     </div>
                     <p className="mt-1 text-[10px] font-medium text-white drop-shadow">
-                      {book.finished ? '已读完 🎉' : `读到 ${book.progress}%`}
+                      {book.finished ? '读完啦' : `读到 ${book.progress}%`}
                     </p>
                   </div>
                 ) : null}
               </div>
-              {/* 标题 */}
-              <div className="px-1">
+              {/* 标题（pr-14 给右侧试听圆钮留出独立列，文字与按钮并排不重叠；
+                  flex-1 让文字块撑到卡片底，圆钮钉底部时永远落在预留列里） */}
+              <div className="flex-1 pl-1 pr-14">
                 <p className="line-clamp-2 text-sm font-bold leading-tight text-ink-900">
                   {book.title}
                 </p>
@@ -497,29 +505,23 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
               </div>
               </motion.button>
 
-              {/* 试听一下（docs/13 P0-4）：不识字孩子的发现入口——按一下就响 */}
+              {/* 试听一下（docs/13 P0-4）：不识字孩子的发现入口——按一下就响。
+                  222 本验收（2026-09）：原 64px 长条压住标题/作者行，改为独立圆形钮
+                  （h-12 w-12 = 48px，≥44px 触达下限），钉在卡片底部右侧预留列，
+                  与文字水平错开，不再重叠。 */}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  void togglePreview(book)
-                }}
+                onClick={() => void togglePreview(book)}
                 disabled={previewing !== null && previewing !== book.id}
                 aria-label={previewing === book.id ? `停止试听《${book.title}》` : `试听《${book.title}》`}
-                className="absolute bottom-2 right-2 flex min-h-touch items-center gap-1 rounded-full bg-ink-900/70 px-3 text-xs font-bold text-paper-100 backdrop-blur-sm disabled:opacity-30"
+                className="absolute bottom-0 right-0 flex h-12 w-12 items-center justify-center rounded-full bg-ink-900/90 text-paper-100 shadow-card backdrop-blur-sm transition-transform active:scale-90 disabled:opacity-30"
               >
-                {previewing === book.id ? (
-                  <>
-                    <IconPause size={13} /> 停止
-                  </>
-                ) : (
-                  <>
-                    <IconPlay size={13} /> 试听
-                  </>
-                )}
+                {previewing === book.id ? <IconPause size={18} /> : <IconPlay size={18} />}
               </button>
 
-              {/* 收藏（docs/15 P1-A）：右上角小心，按一下就记住「我喜欢这本」 */}
+              {/* 收藏（docs/15 P1-A）：右上角小心，按一下就记住「我喜欢这本」。
+                  222 本验收（2026-09）：64px 大圆盘压封面太重，缩到 h-11 w-11（44px
+                  触达下限），仍在封面右上角，不碰标题/作者行。 */}
               <button
                 type="button"
                 onClick={(e) => {
@@ -528,12 +530,11 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                 }}
                 aria-label={book.favorite ? `取消收藏《${book.title}》` : `收藏《${book.title}》`}
                 aria-pressed={book.favorite}
-                // docs/19 N13-005：触达红线 ≥64px——h-10 只有 40px，孩子手指点不中
-                className="absolute right-0 top-0 flex min-h-touch w-16 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm transition-transform active:scale-90"
+                className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full bg-black/35 backdrop-blur-sm transition-transform active:scale-90"
               >
                 <svg
                   viewBox="0 0 24 24"
-                  className="h-6 w-6"
+                  className="h-5 w-5"
                   fill={book.favorite ? '#FF8E75' : 'none'}
                   stroke={book.favorite ? '#FF8E75' : '#FFFFFF'}
                   strokeWidth={2}

@@ -117,7 +117,7 @@ export function DepartureScreen({
         </TaCard>
 
         <p className="mt-4 text-base text-ink-700">
-          读完回到这里，今晚的收尾小仪式等着你
+          读完回到这里，这次的收尾小仪式等着你
         </p>
       </motion.div>
     </div>

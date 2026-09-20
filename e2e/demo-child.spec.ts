@@ -1,8 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 
 /**
- * 孩子端全闭环 e2e（演示模式）：登录 → 多孩选择 → 月亮门 → 选书（推荐/骰子/搜索）
- * → 选定 → 出发 → 收尾（进度/心情/金句）→ 庆祝 → 夜灯墙 → 续传清零。
+ * 孩子端全闭环 e2e（演示模式）：登录 → 多孩选择 → 欢迎屏（门屏）→ 选书（推荐/骰子/搜索）
+ * → 选定 → 出发 → 收尾（进度/心情/金句）→ 庆祝 → 桃子墙 → 续传清零。
  * 种子数据：PEACH888 家庭，小桃(6-8)/小柚(3-5)，历史账本 11 晚。
  */
 
@@ -15,7 +15,7 @@ async function loginAsChild(page: Page): Promise<string> {
   await page.locator('#family-code').fill(CODE)
   await page.getByRole('button', { name: '小朋友' }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
-  // 演示家庭是双孩子：先过孩子选择屏（选小桃），再到月亮门
+  // 演示家庭是双孩子：先过孩子选择屏（选小桃），再到门屏
   const picker = page.getByText('今天是谁的故事时间？')
   try {
     await picker.waitFor({ timeout: 8_000 })
@@ -39,19 +39,19 @@ async function loginAsChild(page: Page): Promise<string> {
   } catch {
     /* 上下文重用时不弹引导，直接进门屏 */
   }
-  await page.getByText('月亮升起来啦').waitFor()
+  await page.getByText('今天读什么故事').waitFor()
   return '小桃'
 }
 
 test.describe('孩子端完整仪式流', () => {
-  test('登录 → 选书 → 出发 → 收尾 → 庆祝 → 夜灯墙 → 续传清零', async ({ page }) => {
+  test('登录 → 选书 → 出发 → 收尾 → 庆祝 → 桃子墙 → 续传清零', async ({ page }) => {
     await loginAsChild(page)
 
     // ── M2 选书：接着读/推荐/搜索三入口存在 ──
-    await page.getByRole('button', { name: /点亮月亮/ }).click()
-    await page.getByText('今晚读').waitFor()
+    await page.getByRole('button', { name: /去选书/ }).click()
+    await page.getByText(/今[晚天]读什么/).waitFor()
     await expect(page.getByRole('button', { name: /掷骰子随机选一本/ })).toBeVisible()
-    await page.getByText('今晚的推荐').waitFor()
+    await page.getByText(/今[晚天]的推荐/).waitFor()
 
     // 搜索：输入演示目录中的书名关键词
     await page.getByLabel('搜索书名或作者').fill('小王子')
@@ -65,11 +65,11 @@ test.describe('孩子端完整仪式流', () => {
 
     // ── 金句星球入口（有 bookId）──
     await page.getByRole('button', { name: /去金句星球看看/ }).click()
-    await page.getByText('金句星球').first().waitFor()
+    await page.getByText(/金句(星球|桃子雨)/).first().waitFor()
     await page.getByText(/位小读者划过这句/).first().waitFor()
     await page.screenshot({ path: 'test-results/star-sea.png', fullPage: true })
-    await page.getByRole('button', { name: /回到月亮/ }).click()
-    // 小王子会话 active（未收尾）→ 门屏正确显示续传卡而非全新月亮
+    await page.getByRole('button', { name: /回到首页/ }).click()
+    // 小王子会话 active（未收尾）→ 门屏正确显示续传卡而非全新欢迎屏
     await page.getByText('还没讲完呢').waitFor()
     await page.getByRole('button', { name: /继续去读/ }).click()
     await page.getByText('出发').waitFor()
@@ -85,23 +85,23 @@ test.describe('孩子端完整仪式流', () => {
     await page.getByRole('button', { name: /兴奋/ }).click()
     await page.getByRole('button', { name: '自己说' }).click()
     await page.locator('#voice-highlight').fill('e2e 演示金句：星星在眨眼')
-    await page.getByRole('button', { name: /收进今晚的金句/ }).click()
+    await page.getByRole('button', { name: /收进这(?:次|晚[上天])的金句/ }).click()
     await page.getByText(/已经收了 1 句金句/).waitFor()
 
-    // ── 盖章 → 庆祝（历史账本之上应解锁新夜灯）──
-    await page.getByRole('button', { name: /盖今晚的章|点亮夜灯/ }).click()
+    // ── 盖章 → 庆祝（历史账本之上应解锁新桃子）──
+    await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
     await page.screenshot({ path: 'test-results/m4-celebrate.png', fullPage: true })
 
-    // ── 夜灯墙：种子 11 盏 + 本次 1 盏 = 12 晚 ──
-    await page.getByRole('button', { name: /回到月亮/ }).click()
-    await page.getByRole('button', { name: /我的夜灯/ }).click()
-    await page.getByText(/12 晚/).waitFor()
+    // ── 桃子墙：种子 11 颗 + 本次 1 颗 = 12 颗 ──
+    await page.getByRole('button', { name: /回到首页/ }).click()
+    await page.getByRole('button', { name: /我的桃子/ }).click()
+    await page.getByText(/12 晚|12 颗/).waitFor()
     await page.screenshot({ path: 'test-results/achievement-wall.png', fullPage: true })
 
     // ── 续传清零 ──
-    await page.getByRole('button', { name: /回到月亮/ }).click()
-    await page.getByText('月亮升起来啦').waitFor()
+    await page.getByRole('button', { name: /回到首页/ }).click()
+    await page.getByText('今天读什么故事').waitFor()
     await expect(page.getByText('还没讲完呢')).toHaveCount(0)
   })
 

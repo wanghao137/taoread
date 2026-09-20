@@ -673,16 +673,25 @@ const SCENES: Record<string, () => React.ReactNode> = {
       </g>
     </>
   ),
-  // 通用
+  // 通用提示：白天草丘上的一颗小桃子 + 「!」气泡（原夜灯提示，键名为稳定键，保留「提示」语义）
   'lamp-hint': () => (
     <>
-      <Moon x={78} y={16} r={9} />
-      <Stars count={10} seed={8} />
-      <Ground color="#5C4322" y={76} />
-      <g transform="translate(50 54)">
-        <path d="M-9 6 L-11 -14 Q -11 -20 0 -20 Q 11 -20 11 -14 L9 6 Z" fill="#FFD54F" />
-        <rect x="-4" y="6" width="8" height="10" fill="#8D6E63" />
-        <ellipse cx="0" cy="-12" rx="5" ry="6" fill="#FFF9C4" />
+      <Sun x={80} y={16} r={9} />
+      <Cloud x={24} y={14} s={0.7} />
+      <Ground color="#A5D6A7" y={76} />
+      <g transform="translate(50 52)">
+        {/* 叶子 */}
+        <path d="M-2 -12 Q -9 -15 -11 -9 Q -6 -7 -2 -10 Z" fill="#66BB6A" />
+        <path d="M2 -12 Q 9 -15 11 -9 Q 6 -7 2 -10 Z" fill="#81C784" />
+        {/* 桃身：橙粉圆（与 TaoMascot 同画法） */}
+        <circle cx={0} cy={0} r={11} fill="#FF8E75" />
+        <ellipse cx={-4} cy={-4} rx={3} ry={4.5} fill="#FFB3A0" opacity={0.85} />
+      </g>
+      {/* 提示气泡：墨线贴纸风，不用 emoji */}
+      <g transform="translate(72 42)">
+        <circle cx={0} cy={0} r={7} fill="#FFD84D" stroke="#26201A" strokeWidth={1.6} />
+        <rect x={-1.2} y={-4.2} width={2.4} height={5.4} rx={1.2} fill="#26201A" />
+        <circle cx={0} cy={3.4} r={1.4} fill="#26201A" />
       </g>
     </>
   ),
@@ -716,51 +725,66 @@ const SCENES: Record<string, () => React.ReactNode> = {
       </g>
     </>
   ),
-  // 加载态：月亮 + 飘动的星星（与月亮门主题一致）
+  // 加载态：白天草丘 + 太阳（白天是主场景；键名为数据库稳定键，沿用历史名）
   'loading-moon': () => (
     <>
-      <Moon x={50} y={30} r={14} />
-      <Stars count={20} seed={7} />
-      <Cloud x={20} y={18} s={0.7} color="#F2E4CE" />
-      <Cloud x={82} y={24} s={0.6} color="#F2E4CE" />
-      <Ground color="#4A3418" y={80} h={20} />
+      <Sun x={50} y={28} r={13} />
+      <Cloud x={20} y={16} s={0.7} />
+      <Cloud x={82} y={22} s={0.6} />
+      <Hills colors={['#A5D6A7', '#7CB342']} />
+      <Ground color="#558B2F" y={80} h={20} />
     </>
   ),
-  // 星海空态：一颗大星星独自亮着，其余还在睡觉（StarSea 空态，docs/11 P0-3）
+  // 桃园空态：白天桃园，一颗颗桃子还挂在树上（原「星海」空态，键名为稳定键；docs/11 P0-3）
   'star-sea': () => (
     <>
-      <Moon x={24} y={22} r={9} />
-      <g transform="translate(52 40) rotate(-8)">
-        <path
-          d="M0 -20 L5.5 -6 L20 -4 L9 4 L12 19 L0 11 L-12 19 L-9 4 L-20 -4 L-5.5 -6 Z"
-          fill="#FFE08A"
-          stroke="#FFC04D"
-          strokeWidth={1.2}
-        />
+      <Sun x={24} y={20} r={9} />
+      <Cloud x={76} y={16} s={0.7} />
+      <Hills colors={['#A5D6A7', '#7CB342']} />
+      <Ground color="#558B2F" y={82} h={18} />
+      {/* 一棵挂满桃子的桃树 */}
+      <g transform="translate(58 62)">
+        <path d="M-4 16 L-3 -8 Q 0 -11 3 -8 L4 16 Z" fill="#8D6E63" />
+        <circle cx={-11} cy={-12} r={9} fill="#66BB6A" />
+        <circle cx={11} cy={-12} r={9} fill="#81C784" />
+        <circle cx={0} cy={-19} r={10} fill="#7CC47F" />
+        <circle cx={-6} cy={-8} r={3.4} fill="#FF8E75" />
+        <circle cx={7} cy={-13} r={3.4} fill="#FF8E75" />
+        <circle cx={0} cy={-22} r={3.4} fill="#FF8E75" />
       </g>
-      <Stars count={14} seed={11} />
-      <Ground color="#4A3418" y={82} h={18} />
-      <Cloud x={80} y={70} s={0.7} color="#3A4C86" />
+      {/* 草丘上先落下来的两颗 */}
+      <circle cx={26} cy={76} r={4.5} fill="#FF8E75" />
+      <circle cx={36} cy={79} r={3.5} fill="#FFB07A" />
     </>
   ),
-  // 夜灯墙空态：第一盏灯还没点亮（AchievementWall，docs/11 P0-3）
+  // 桃子墙空态：第一颗桃子还挂在树上（原「夜灯墙」空态，键名为稳定键；AchievementWall，docs/11 P0-3）
   'lamp-first': () => (
     <>
-      <Moon x={74} y={20} r={10} />
-      <Stars count={10} seed={3} />
-      <g transform="translate(50 52)">
-        <path d="M-7 4 L-7 -6 Q -7 -14 0 -14 Q 7 -14 7 -6 L7 4 Z" fill="#FFE9B8" stroke="#E0A93E" strokeWidth={1.2} />
-        <rect x="-9" y={4} width={18} height={5} rx={2.5} fill="#8D6E63" />
-        <circle cx={0} cy={-7} r={2.6} fill="#FFF3C4" />
+      <Sun x={78} y={18} r={10} />
+      <Cloud x={22} y={14} s={0.7} />
+      <Hills colors={['#A5D6A7', '#7CB342']} />
+      <Ground color="#558B2F" y={80} h={20} />
+      <g transform="translate(50 62)">
+        {/* 树干 */}
+        <path d="M-4 14 L-3 -10 Q 0 -13 3 -10 L4 14 Z" fill="#8D6E63" />
+        {/* 树冠 */}
+        <circle cx={-10} cy={-14} r={9} fill="#66BB6A" />
+        <circle cx={10} cy={-14} r={9} fill="#81C784" />
+        <circle cx={0} cy={-20} r={10} fill="#7CC47F" />
+        {/* 挂着的那一颗：橙粉桃子 + 小叶子 */}
+        <g transform="translate(0 -7)">
+          <path d="M-1 -5.5 Q -4.5 -7.5 -5.5 -4 Q -3 -2.5 -1 -4 Z" fill="#4CAF50" />
+          <circle cx={0} cy={0} r={5} fill="#FF8E75" />
+          <ellipse cx={-1.6} cy={-1.6} rx={1.2} ry={1.8} fill="#FFB3A0" opacity={0.85} />
+        </g>
       </g>
-      <Ground color="#4A3418" y={80} h={18} />
     </>
   ),
 }
 
 /**
  * IP 吉祥物「小桃」（docs/09 §5.1）。
- * 一颗圆滚滚的桃子，两片叶子，眨眼笑脸。贯穿月亮门→选书→收尾→夜灯墙做引导，
+ * 一颗圆滚滚的桃子，两片叶子，眨眼笑脸。贯穿首页→选书→收尾→桃子墙做引导，
  * 定位是「陪伴者」而非「监工」——只庆祝、不催促（Scholastic：唠叨毁动机）。
  * size 为 viewBox 单位下的近似高度；mood 切换表情。
  */

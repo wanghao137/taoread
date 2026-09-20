@@ -25,17 +25,17 @@ test.describe('交付视觉终扫', () => {
     await page.screenshot({ path: `${OUT}/child-picker.png`, fullPage: true })
     await page.getByRole('button', { name: /小桃/ }).click()
 
-    // 月亮门（若有未收尾会话，先收尾再重新登录，保证截图是干净的门屏）
+    // 门屏（若有未收尾会话，先收尾再重新登录，保证截图是干净的门屏）
     const resumeBtn = page.getByRole('button', { name: '继续去读' })
     if (await resumeBtn.isVisible({ timeout: 4_000 }).catch(() => false)) {
       await page.getByRole('button', { name: '去收尾' }).click()
-      await page.getByText('今晚读到哪儿啦？').waitFor({ timeout: 10_000 })
+      await page.getByText(/读到哪儿啦？/).waitFor({ timeout: 10_000 })
       await page.getByRole('button', { name: '读完啦', exact: true }).click()
       await page.getByRole('button', { name: '兴奋', exact: true }).click()
-      await page.getByRole('button', { name: /点亮夜灯/ }).click()
+      await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
       await page.getByText('稳稳收好啦').waitFor()
-      // 收尾庆祝页「回到月亮」重回门屏（会话已结束，门屏是干净的一晚）
-      await page.getByRole('button', { name: '回到月亮' }).click()
+      // 收尾庆祝页「回到首页」重回门屏（会话已结束，门屏是干净的一次）
+      await page.getByRole('button', { name: /回到首页/ }).click()
     }
     // 首次运行引导（P1-1）：先走完三步，再截干净的门屏
     const tourBtn = page.getByRole('button', { name: /出发，去听故事|下一步/ })
@@ -51,12 +51,12 @@ test.describe('交付视觉终扫', () => {
           })
       }
     }
-    await page.getByText('月亮升起来啦').waitFor()
+    await page.getByText(/今天读什么故事/).waitFor()
     await page.screenshot({ path: `${OUT}/child-gate.png`, fullPage: true })
 
     // 选书（推荐 + 搜索）
-    await page.getByRole('button', { name: /点亮月亮/ }).click()
-    await page.getByText('今晚读').waitFor()
+    await page.getByRole('button', { name: /去选书/ }).click()
+    await page.getByText(/今[晚天]读什么/).waitFor()
     await page.waitForTimeout(600)
     await page.screenshot({ path: `${OUT}/child-select.png`, fullPage: true })
     await page.getByLabel('搜索书名或作者').fill('小王子')
@@ -71,7 +71,7 @@ test.describe('交付视觉终扫', () => {
     await page.getByRole('button', { name: /去金句星球看看/ }).click()
     await page.getByText(/位小读者划过这句/).first().waitFor()
     await page.screenshot({ path: `${OUT}/child-star-sea.png`, fullPage: true })
-    await page.getByRole('button', { name: /回到月亮/ }).click()
+    await page.getByRole('button', { name: /回到首页/ }).click()
 
     // 出发（续传卡 → 继续去读）
     await page.getByText('还没讲完呢').waitFor()
@@ -86,14 +86,14 @@ test.describe('交付视觉终扫', () => {
     await page.getByRole('button', { name: /读完啦/ }).first().click()
     await page.getByRole('button', { name: /兴奋/ }).click()
     await page.screenshot({ path: `${OUT}/child-finish.png`, fullPage: true })
-    await page.getByRole('button', { name: /盖今晚的章|点亮夜灯/ }).click()
+    await page.getByRole('button', { name: /盖这次的章|宣布读完/ }).click()
     await page.getByText('稳稳收好啦').waitFor()
     await page.screenshot({ path: `${OUT}/child-celebrate.png`, fullPage: true })
 
-    // 夜灯墙（种子 11 盏 + 本次 = 12 晚）
-    await page.getByRole('button', { name: /回到月亮/ }).click()
-    await page.getByRole('button', { name: /我的夜灯/ }).click()
-    await page.getByText(/12 晚/).waitFor()
+    // 桃子墙（种子 11 颗 + 本次 = 12 颗）
+    await page.getByRole('button', { name: /回到首页/ }).click()
+    await page.getByRole('button', { name: /我的桃子/ }).click()
+    await page.getByText(/12 晚|12 颗/).waitFor()
     await page.screenshot({ path: `${OUT}/child-wall.png`, fullPage: true })
   })
 
@@ -111,11 +111,11 @@ test.describe('交付视觉终扫', () => {
     await page.screenshot({ path: `${OUT}/parent-shelf.png`, fullPage: true })
 
     await page.getByRole('button', { name: '周报', exact: true }).click()
-    await page.getByText('个共读的夜晚').waitFor()
+    await page.getByText(/次共读/).waitFor()
     await page.screenshot({ path: `${OUT}/parent-report.png`, fullPage: true })
 
     await page.getByRole('button', { name: '设置', exact: true }).click()
-    await page.getByText(/护眼设置/).waitFor()
+    await page.getByText(/休息时间/).waitFor()
     await page.screenshot({ path: `${OUT}/parent-settings.png`, fullPage: true })
 
     // 登录页（独立无会话上下文）

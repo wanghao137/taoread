@@ -152,3 +152,5 @@
 | N15-004 | 2026-09-19 | P3 | primer-sanzi/poetry-tang/story-xiyou | 3 个 note 块用独立 art 键（jade-stone/rice-bowl/cloud-flight），与其余 note 块的 lamp-hint 约定不一致 | fixed（统一 lamp-hint） | 2026-09-19 |
 | N15-005 | 2026-09-19 | P3 | tale-grimm/tale-junglebook | 两个章节对象缺 art 键，章节题图回退派生键 | fixed（补 red-cap-path / red-dogs-river） | 2026-09-19 |
 | N15-006 | 2026-09-19 | P3 | server/test/content.test.ts | 书库扩到 103 本后 beforeAll 的 seed 耗时超 vitest 默认 10s hook 超时，content 测试整套假失败 | fixed（beforeAll 显式 120s 超时） | 2026-09-19 |
+| N16-001 | 2026-09-20 | P2 | server demo seed（mood 枚举值） | 收尾屏心情按钮渲染 🌱🌟🏆 等数据库 emoji 枚举值（前端已换线性图标，数据层仍是 emoji），违反「UI 不用 emoji」红线的数据半区 | open（改 mood 枚举需迁移 demo.db+server 枚举+e2e 断言，单独窗口处理） | docs/26 |
+| N16-002 | 2026-09-20 | P2 | apps/server/scripts/gen-video.ts | 云端免费档视频队列经常满（一次 20 单全拒），1393 场景视频覆盖率仅 19%；插画已 100% 兜底不影响阅读 | open（写幂等循环分批重试；或升级付费档） | docs/26 |

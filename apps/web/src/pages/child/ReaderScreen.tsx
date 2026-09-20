@@ -62,7 +62,8 @@ export function ReaderScreen(props: ReaderProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [order, setOrder] = useState(props.startChapter)
-  // P0-1：默认主题按本地时段推导——安静时段（20:00~06:00）直接给夜空，不让孩子在暗夜里盯一块白屏
+  // P0-1：默认主题按本地时段推导——安静时段（20:00~06:00）默认给夜间护眼主题（护眼工具，白天仍默认纸白），
+  // 不让孩子在暗夜里盯一块白屏
   const [theme, setTheme] = useState<Theme>(() => defaultReadingTheme())
   const [fontIdx, setFontIdx] = useState(2)
   const [showSettings, setShowSettings] = useState(false)
@@ -329,7 +330,7 @@ export function ReaderScreen(props: ReaderProps) {
         setHighlight(null)
         setSleepMinutes(null)
         setSleepPanel(false)
-        setTtsError('时间到啦，今晚的故事先到这里，晚安')
+        setTtsError('时间到啦，这次的故事先到这里，下次见')
       } else {
         setSleepLeft(sleepLeftRef.current)
       }
@@ -337,7 +338,7 @@ export function ReaderScreen(props: ReaderProps) {
     return () => clearInterval(timer)
   }, [sleepMinutes])
 
-  /** B1：家长打开「今晚怎么讲」——按当前章节取脚手架，只在家长角色下可用 */
+  /** B1：家长打开「这次怎么讲」——按当前章节取脚手架，只在家长角色下可用 */
   const openScaffold = useCallback(async () => {
     if (!token) return
     if (scaffold) {
@@ -739,7 +740,7 @@ export function ReaderScreen(props: ReaderProps) {
             disabled={scaffoldLoading}
             className="flex min-h-touch h-10 items-center justify-center rounded-full px-3 text-xs font-medium"
             style={{ color: theme_.text, border: `1px solid ${theme_.border}` }}
-            aria-label="今晚怎么讲"
+            aria-label="这次怎么讲"
           >
             {scaffoldLoading ? '…' : '讲什么'}
           </button>
@@ -766,6 +767,7 @@ export function ReaderScreen(props: ReaderProps) {
                 scene={chapter.art}
                 description={videoDescription}
                 aspectRatio="16:9"
+                poster={chapter.artUrl}
               >
                 <div className="overflow-hidden rounded-3xl shadow-lg" style={{ aspectRatio: '16 / 9' }}>
                   <BookCover
@@ -1112,7 +1114,7 @@ export function ReaderScreen(props: ReaderProps) {
                   }}
                 >
                   <span className="text-xs" style={{ color: THEMES[t].text }}>
-                    {t === 'paper' ? '纸白' : t === 'sepia' ? '护眼' : '夜空'}
+                    {t === 'paper' ? '纸白' : t === 'sepia' ? '护眼' : '夜间护眼'}
                   </span>
                   <span className="text-[10px] opacity-60" style={{ color: THEMES[t].text }}>
                     abc 桃
@@ -1191,7 +1193,7 @@ export function ReaderScreen(props: ReaderProps) {
       {/* ── B1 共读脚手架（家长向） ── */}
       <AnimatePresence>
         {scaffoldOpen && scaffold ? (
-          <Sheet onClose={() => setScaffoldOpen(false)} theme_={theme_} title="今晚怎么讲">
+          <Sheet onClose={() => setScaffoldOpen(false)} theme_={theme_} title="这次怎么讲">
             <p className="mb-1 text-xs font-bold opacity-70" style={{ color: theme_.text }}>
               讲什么
             </p>
@@ -1241,7 +1243,7 @@ export function ReaderScreen(props: ReaderProps) {
         {sleepPanel ? (
           <Sheet onClose={() => setSleepPanel(false)} theme_={theme_} title="哄睡定时">
             <p className="mb-4 text-sm leading-relaxed opacity-70" style={{ color: theme_.text }}>
-              朗读到时间会轻轻停下，不说「该睡觉了」，只留一句晚安。
+              朗读到时间会轻轻停下，不说「该休息了」，只道一声下次见。
             </p>
             <div className="grid grid-cols-2 gap-3">
               {[
