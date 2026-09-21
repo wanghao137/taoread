@@ -41,10 +41,11 @@ research/itunes_dump.py
 gh1.json
 gh_readme.md
 
-# 环境产物（Python 残留，非项目文件）
-Lib/
+# 环境产物（Python 残留，非项目文件）：仅根目录，避免误伤 apps/web/src/lib/ 等源码
+/Lib/
 scripts/pip*.exe
-media/
+# 媒体运行产物（AI 生成插画/视频/TTS 缓存）仅根目录 apps/server/media/
+/apps/server/media/
 !.tao-tmp
 .tao-tmp/
 
