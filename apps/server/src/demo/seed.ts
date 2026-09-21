@@ -1,11 +1,11 @@
 /**
- * 演示家庭种子（`npm run demo`）：家庭 PEACH888 + 两个孩子（小桃有历史账本；小柚为空账本，用于演示新孩子空态） + 过去两周的共读账本
+ * 演示家庭种子（`npm run demo`）：家庭 123456 + 两个孩子（小桃有历史账本；小柚为空账本，用于演示新孩子空态） + 过去两周的共读账本
  * （夜灯/最长连续/读完成就、金句、心情、进度），数据经真实业务路径落库。
  */
 import type { PrismaClient } from '@prisma/client'
 import { encryptSecret } from '../lib/crypto'
 
-export const DEMO_FAMILY_CODE = 'PEACH888'
+export const DEMO_FAMILY_CODE = '123456'
 const DEMO_KEY = 'wrk-demo-key-0001'
 
 /** 今天 20:30 起，向前推 n 晚的 startedAt */

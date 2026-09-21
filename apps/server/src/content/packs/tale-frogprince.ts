@@ -149,6 +149,138 @@ export const frogPrince: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Magic Porridge Pot',
+      art: 'frog-porridge',
+      artPrompt: 'a small wooden pot bubbling over with creamy porridge on a little stove, a girl and her mother smiling by a tiny cottage window, a wise old woman at the door, warm firelight',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'In a little village there lived a poor girl and her mother. One day they had nothing at all to eat, so the girl went into the wood to look for berries. There she met a kind old woman. "Here is a little pot for you," she said. "When you are hungry, say: Cook, little pot, cook. And when you have had enough, say: Stop, little pot, stop."',
+        },
+        {
+          kind: 'image',
+          art: 'frog-porridge',
+          text: 'The little pot cooks sweet porridge for the girl and her mother.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: porridge — a soft, warm food made of oats and milk, eaten with a spoon.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'The girl thanked her and ran home. The pot cooked and cooked, and the girl and her mother ate sweet porridge every day, and were never hungry again.',
+        },
+        {
+          kind: 'text',
+          text: 'But one day the mother wanted porridge while her daughter was out. "Cook, little pot, cook!" she said. The pot cooked, and cooked, and kept on cooking — porridge filled the kitchen, and then the whole house, and then the whole street, until every house in the town was full!',
+        },
+        {
+          kind: 'text',
+          text: 'At last the girl came running home. "Stop, little pot, stop!" she cried — and the pot stopped at once. But everyone who wanted to come back into the town had to eat their way through the porridge first. And from that day on, anyone who wanted a bowl of sweet porridge had to ask the little girl first.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Elves and the Shoemaker',
+      art: 'frog-shoemaker',
+      artPrompt: 'two tiny smiling elves in nightshirts sewing fine leather shoes by candlelight on a cobbler’s table, scraps of leather and an awl, a snug workshop at midnight',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A shoemaker and his wife were very poor. All he had left was one piece of leather — enough for one last pair of shoes. He cut it out at night and went to bed. In the morning, the shoes stood finished on his table, sewn so finely that they sold for a good price that very day.',
+        },
+        {
+          kind: 'image',
+          art: 'frog-shoemaker',
+          text: 'The little elves sew the shoes by candlelight.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: elf — a tiny, quick, clever person from old stories.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'With the money he bought leather for two pairs. In the morning — two finished pairs again! And so it went on. Whoever bought his shoes could not wear them out, and the shoemaker grew rich.',
+        },
+        {
+          kind: 'text',
+          text: '"Someone is helping us," said his wife. "We must thank them." So that night they made tiny coats and tiny trousers and little red shoes, and laid them on the table, and hid behind the door.',
+        },
+        {
+          kind: 'text',
+          text: 'At midnight, two little elves hopped up to work — but there on the table lay beautiful tiny clothes! They dressed themselves, singing, "Now we are smart little men, no more we work for you!" And they danced over the chairs and out of the door, and the shoemaker never saw them again. But his good luck stayed with him, and he was happy all his life.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Wolf and the Seven Little Kids',
+      art: 'frog-kids',
+      artPrompt: 'a wolf with a flour-white paw stretched through a cottage window while seven little goats hide behind chairs and a clock case inside, a cosy kitchen, afternoon light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A mother goat had seven little kids, and she loved them as any mother loves her children. One day she had to go into the wood for food. "Beware of the wolf!" she said. "He has a rough voice and black paws. If you hear his voice, or see his black paws, do not open the door!"',
+        },
+        {
+          kind: 'image',
+          art: 'frog-kids',
+          text: 'The kids see a white paw on the window-sill — but the voice is rough.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: chalk — a soft white stone for writing; the wolf chewed it to make his voice sweet.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Soon there came a knock. "Open, children! It is your mother!" — but it was the rough voice of the wolf. "We will not open!" cried the kids. So the wolf chewed a piece of white chalk till his voice was sweet, and knocked again. But the kids saw his black paw on the window-sill. "You are the wolf! Our mother has no black paws!" Then the wolf rolled his paws in white flour till they were quite white, and knocked a third time.',
+        },
+        {
+          kind: 'text',
+          text: 'The kids saw the white paws and opened the door — in jumped the wolf! The seven little kids ran and hid: one under the table, one in the bed, one in the oven, one in the cupboard, one behind the door, one in the clock-case. The wolf found six of them and swallowed them down whole. But the youngest, in the clock-case, was not found, and so he was saved.',
+        },
+        {
+          kind: 'text',
+          text: 'When the mother goat came home, the youngest kid told her everything, and she wept. Out in the meadow lay the wolf under a tree, fast asleep and snoring — and something moved inside his big belly! Quickly and carefully the mother snipped it open, and out jumped all six little kids, alive and well. They filled the wolf’s belly with big smooth stones instead, and sewed it up neatly. When the wolf woke and tried to run, the stones were so heavy that he staggered away into the deep wood, groaning — and he never troubled the goats again.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Star Money',
+      art: 'frog-star',
+      artPrompt: 'a small girl in a simple nightdress standing alone on a moonlit hillside with bare arms open wide, golden stars falling like silver rain around her, tiny shining coins on the grass',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'There was once a little girl whose father and mother had died. She was so poor that she had no room to sleep in and no bed, and all she had in the world were the clothes she wore and one piece of bread. But she was kind and good.',
+        },
+        {
+          kind: 'image',
+          art: 'frog-star',
+          text: 'The stars fall down like silver coins around the little girl.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: give away — to give something to someone who needs it more than you do.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'She met a hungry man and gave him her bread. Then she gave her cap to a cold child, and her jacket to another, and in the dark wood she gave away her dress too. Now she had nothing left at all, and she stood in the night, in her little under-dress, looking up at the stars.',
+        },
+        {
+          kind: 'text',
+          text: 'And the stars began to fall! Down they came like silver rain, and where they touched the ground they turned into shining coins. And the little girl found she was wearing a new dress of the finest linen, warm and soft.',
+        },
+        {
+          kind: 'text',
+          text: 'So the little girl was rich at last — and all her life long she kept on giving, for she had learned that what you give away with a kind heart always comes back to you.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: "Grimm's Fairy Tales — The Frog Prince",

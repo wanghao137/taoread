@@ -26,6 +26,7 @@ export interface BookCoverProps {
 
 export function BookCover({ urlPath, scene, from, to, lang, alt, className }: BookCoverProps) {
   const [imgFailed, setImgFailed] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
   const showImage = Boolean(urlPath) && !imgFailed
   const reduced = useReducedMotion()
 
@@ -33,7 +34,14 @@ export function BookCover({ urlPath, scene, from, to, lang, alt, className }: Bo
     return <SceneArt scene={scene} from={from} to={to} lang={lang} />
   }
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden bg-paper-300">
+      {/* 占位底：插画懒加载/加载中时也是「有设计的一格」，不出白板 */}
+      <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+        <svg viewBox="0 0 24 24" className="h-1/3 w-1/3 text-kraft-400/50" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z" />
+          <path d="M8 7h7M8 11h6" />
+        </svg>
+      </div>
       {/*
         Ken Burns 极慢摇移（Vooks 式「活起来的画」）：14 秒一个周期，缩放只有 6%、
         平移只有 3%。慢到孩子意识不到镜头在动，但画面始终是「活的」。
@@ -46,6 +54,7 @@ export function BookCover({ urlPath, scene, from, to, lang, alt, className }: Bo
         decoding="async"
         className={`h-full w-full object-cover ${className ?? ''}`}
         onError={() => setImgFailed(true)}
+        onLoad={() => setImgLoaded(true)}
         {...(reduced
           ? {}
           : {
@@ -58,7 +67,8 @@ export function BookCover({ urlPath, scene, from, to, lang, alt, className }: Bo
               },
             })}
       />
-      <AiBadge />
+      {/* AI 标识只在插画真实加载后出现（UI 复盘：懒加载占位不挂标），并降噪为轻量胶囊 */}
+      {imgLoaded ? <AiBadge /> : null}
     </div>
   )
 }

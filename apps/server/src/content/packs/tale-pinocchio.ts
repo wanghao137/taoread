@@ -165,6 +165,138 @@ export const pinocchio: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Talking Cricket',
+      art: 'talking-cricket',
+      artPrompt: 'a wooden puppet boy sitting on a stool in a tiny cozy kitchen at night, a little green cricket talking to him from the wall, an old man asleep in the corner, warm firelight',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'The night before school was to begin, Geppetto fell fast asleep. But Pinocchio could not sleep at all, for he was very, very hungry. And oh dear — he had gone to sleep with his feet resting on a stove, and in the morning his wooden feet had burnt away, like two little sticks!',
+        },
+        {
+          kind: 'image',
+          art: 'talking-cricket',
+          text: 'The little green cricket, who lived in Geppetto’s room and knew everything.',
+        },
+        {
+          kind: 'text',
+          text: '"Father! Father!" cried Pinocchio. Geppetto sat down at his bench at once and carved him two fine new feet. "Tomorrow you will go to school and learn, won\'t you?" said Geppetto. "Yes, yes, of course," said Pinocchio — but he was still terribly hungry.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: woe — great sadness and trouble. The cricket said that trouble comes to boys who will not study.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Then a little green cricket spoke to him from the wall. "Woe to those boys who will not go to school," said the cricket. "They grow up into donkeys, and everyone laughs at them." Pinocchio did not like that one bit. He threw a wooden hammer at the wall — and the poor cricket fell down, still and silent.',
+        },
+        {
+          kind: 'text',
+          text: 'Pinocchio felt sorry at once. But he was too hungry to be sorry for long. Geppetto woke up and gave him his own breakfast — three pears — and Pinocchio ate them all, even the skins. "Boys are always hungry," said Geppetto. Then he went out to sell his coat, so that his puppet could have a spelling book.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Field of Miracles',
+      art: 'field-miracles',
+      artPrompt: 'a wooden puppet boy burying gold coins in a ploughed field at night, a sly fox in fine clothes and a blind cat watching from behind a wooden fence, a green parrot laughing above, moonlight over the furrows',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'The Fox and the Cat led Pinocchio to the Field of Miracles, where the Fox said every bush grew gold. Pinocchio dug a little hole in the ploughed field and buried his gold pieces, and watered the spot, and put a stone on top, just as he was told.',
+        },
+        {
+          kind: 'image',
+          art: 'field-miracles',
+          text: 'The Field of Miracles at night, with a green parrot laughing on the fence.',
+        },
+        {
+          kind: 'text',
+          text: '"Wait twenty minutes," said the Fox, "and your gold tree will grow." So Pinocchio went away, singing, and counted the minutes. But when he came back, there was no tree at all. He dug and dug — the gold was gone! A green parrot on the fence laughed and laughed at him.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: greedy — wanting money so much that you forget to think. The Fox and the Cat were very greedy indeed.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Pinocchio ran to the town to tell the Judge about his stolen gold. But the Judge was a great old ape, and he did not catch the thieves at all. "A silly boy who buries gold in a field," said the Judge, "must go to prison for four months."',
+        },
+        {
+          kind: 'text',
+          text: 'So Pinocchio sat in the dark prison for four long months. It was a hard, cold lesson. "When I get out," he said to himself, "I will be good and go home to my father." And this time he truly meant it — for a while.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Watchdog',
+      art: 'pinocchio-watchdog',
+      artPrompt: 'a wooden puppet boy with a big iron collar sitting in a dark wooden doghouse in a moonlit farmyard, grapevines and a farmhouse around, hens asleep in a henhouse, stars in the sky',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'When Pinocchio came out of prison, he was hungrier than ever. He ran through a green field with grapevines, and he was just reaching for two lovely purple grapes — when SNAP! A trap for weasels had caught him by the legs.',
+        },
+        {
+          kind: 'image',
+          art: 'pinocchio-watchdog',
+          text: 'Pinocchio the watchdog, in his dark doghouse under the stars.',
+        },
+        {
+          kind: 'text',
+          text: 'A farmer came running with a lantern. "Thief!" he shouted. But Pinocchio told the truth at last. "I did not take your hens," he said. "I was only hungry, and I am so sorry." "Very well," said the farmer. "You shall be my watchdog, and guard my henhouse at night."',
+        },
+        {
+          kind: 'note',
+          text: 'New word: honest — telling the truth, even when you are afraid. Being honest saved Pinocchio from trouble.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'So Pinocchio sat in the dark doghouse with a heavy iron collar round his neck, and he felt very small indeed. Then, in the middle of the night, he heard soft little steps — four weasels were creeping towards the henhouse to steal the chickens!',
+        },
+        {
+          kind: 'text',
+          text: '"Not tonight," said Pinocchio, and he barked like a real watchdog — Woof! Woof! Woof! The weasels fled, and the farmer came running with his lantern. "You are a good watchdog," he said, and took off the iron collar. Pinocchio shook his hand, and walked home free.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · A Gift for the Fairy',
+      art: 'fairy-snail',
+      artPrompt: 'a wooden puppet boy in a fine new blue suit giving gold coins to a little snail with a green shell on a sunny doorstep, a pretty white cottage with rose bushes behind, bright morning light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One day Pinocchio ran all the way home, because he wanted to see the Blue Fairy again. But the way was long, and when he got there, a little snail was sitting on the doorstep — very slow, and very tired. "Please go and tell the Fairy I am here," said Pinocchio, and he waited a long, long time.',
+        },
+        {
+          kind: 'image',
+          art: 'fairy-snail',
+          text: 'The kind snail, carrying Pinocchio’s gold coins to the Blue Fairy.',
+        },
+        {
+          kind: 'text',
+          text: 'The snail went, and came back so slowly that Pinocchio had time to fall asleep twice on the step. "The Fairy is ill," said the snail at last, "and she has not one penny to buy her supper." Pinocchio had gold pieces in his pocket. He had promised the Fairy he would not spend them on sweets.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: gift — something you give because you love someone. Pinocchio gave away all his money and never asked for it back.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'He did not think for even one minute. "Here," he said, "take her all my gold, every penny, and go as fast as you can." And the snail carried the coins away, slowly, in her little shell.',
+        },
+        {
+          kind: 'text',
+          text: 'That night Pinocchio slept on a stone, dreaming of the Fairy, kind and smiling. In the morning came the happy news: the Fairy had taken the gold, and she was well again. Pinocchio clapped his hands with joy. He had no money left at all — and he had never in his life felt richer.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Adventures of Pinocchio',

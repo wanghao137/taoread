@@ -154,6 +154,130 @@ export const anneAvonlea: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Wood Nymph',
+      art: 'avonlea-wood-nymph',
+      artPrompt: 'a boy with a suitcase and wide grey eyes looking up from a country lane at a young teacher with red braids reading a book beneath tall white birches, dappled spring sunlight, orchards and Prince Edward Island fields behind, fresh morning glow',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Mrs. Rachel Lynde came to live at Green Gables that spring, so that Marilla had company while Anne taught. And it was well the school was ready for surprises, for the biggest one walked in one Monday morning with a suitcase and a serious face: a new boy named Paul Irving, who had come from the great world beyond to live with his grandmother in Avonlea.',
+        },
+        {
+          kind: 'image',
+          art: 'avonlea-wood-nymph',
+          text: 'Paul beholds the wood nymph of the birches — who turns out to be the new teacher.',
+        },
+        {
+          kind: 'text',
+          text: 'Paul had a story to tell before he could even sit down. The day he arrived, his carriage had passed a grove of white birches, and there in the green shadows stood a girl with red hair, reading — "a wood nymph," Paul said solemnly. He had believed in fairies since he was small, and now he knew they lived in Avonlea. Anne, who had once believed the very same thing with her whole heart, did not laugh at him at all.',
+        },
+        {
+          kind: 'note',
+          text: 'A friend who sees the world your way is a rare treasure. Paul found a teacher who kept his dreams safe; Anne found a pupil who kept hers.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Paul turned out to be the best scholar in the school and the worst speller, and his essays were so full of fancy that Anne read them aloud on Friday afternoons. Under the birches at recess he planned stories with her, and they agreed that Avonlea, looked at rightly, was as full of wonder as any kingdom in a book.',
+        },
+        {
+          kind: 'text',
+          text: '"He is a kindred spirit," Anne wrote in her diary that night, and underlined it twice — for a kindred spirit, she had good reason to know, might be met in the oddest places: a lane, a schoolhouse, or the green shadows of a birch wood.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Davy and the Caramels',
+      art: 'avonlea-caramels',
+      artPrompt: 'a guilty gap-toothed boy holding small scissors beside a weeping little girl with half-cut curls in a farmhouse kitchen, a paper sack of chocolate caramels open on the table, a young woman with red braids torn between scolding and laughter, evening lamplight',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'If Paul was the joy of Anne\'s school, Davy Keith was the joy and terror of her home. One Sunday he came back from Sunday school with two chocolate caramels, and Dora came back with four. Davy ate his two at once. Then he looked at Dora\'s four for a long time, and asked for them, and Dora — who had been told to save them — said no.',
+        },
+        {
+          kind: 'image',
+          art: 'avonlea-caramels',
+          text: 'The moment nobody could undo, with the scissors still in Davy\'s hand.',
+        },
+        {
+          kind: 'text',
+          text: 'What happened next was quick as a flash: Davy found the scissors, and Dora\'s beautiful curls fell to the floor. The whole house was in an uproar. Davy was sorry — sorry all over — but sorry could not sew hair back on, and he was sent to bed knowing that being good must begin somewhere.',
+        },
+        {
+          kind: 'note',
+          text: 'When you have done a wrong thing, being sorry is the first step and mending it is the second. Davy did both, in his own gap-toothed way.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'That night Marilla went up to say prayers with the twins and heard Davy\'s own: "Please make me good — but not just yet." She came downstairs shaking with laughter she had to bury in her handkerchief, and even Marilla\'s eyes were wet — with laughing, of course.',
+        },
+        {
+          kind: 'text',
+          text: 'In a day or two Davy had given Dora all his marbles and his best jackknife by way of mending things, and peace came back to Green Gables. "He IS terrible," Anne wrote in her diary. "And I could not love him more."',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Echo Lodge',
+      art: 'avonlea-echo-lodge',
+      artPrompt: 'a mossy stone arbor in an overgrown garden full of old roses and wisteria, a small white-haired lady in soft white greeting two young women who have just come through a wood, golden summer dusk, distant grey farmhouse',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One golden July day Anne and Diana walked through the fields to a place people whispered about — Echo Lodge, an old garden gone soft and wild, with a stone arbor in the middle of it. Living there alone was Miss Lavender Lewis, a small lady with white hair and laughing eyes, whom the neighbors called odd because she talked to the echo.',
+        },
+        {
+          kind: 'image',
+          art: 'avonlea-echo-lodge',
+          text: 'Miss Lavender Lewis, the dreaming lady of Echo Lodge, welcomes Anne and Diana.',
+        },
+        {
+          kind: 'text',
+          text: '"An echo answers everybody," Miss Lavender said, "which is more than most people do." Anne and the odd, dear lady became friends that very afternoon, and came again and again. At last Miss Lavender told her story: long ago she had loved a young man, and a foolish quarrel had parted them, and she had stayed here ever after, talking to the echo because it would not answer back.',
+        },
+        {
+          kind: 'note',
+          text: 'Lonely people are often just people whose talk has gone unanswered a long time. Sitting and listening is a kind of gift anyone can give.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Then came a wonder. A gentleman called at the gate one evening — Mr. Irving, home across the sea, and Paul Irving\'s father. The echo had kept her secrets all those years, but it could not keep this one: he and Miss Lavender stood looking at each other as if the long ago had come back wearing today\'s light.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Wedding at Echo Lodge',
+      art: 'avonlea-wedding',
+      artPrompt: 'a garden wedding under a flowering cherry at an old lodge, a small white-haired bride in soft white and a tall brown-eyed gentleman holding hands, a happy boy scattering rose petals, guests on the lawn, a young teacher with red braids smiling in the front row, bright summer morning',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Of course there was a wedding — a summer wedding in the old garden at Echo Lodge, where the roses had been waiting, so it seemed, for years. Paul Irving walked up the mossy path with his heart thumping like a drum, for the bride was his dearest friend and the groom was his own father, and both his worlds were becoming one.',
+        },
+        {
+          kind: 'image',
+          art: 'avonlea-wedding',
+          text: 'The vows under the cherry tree, with the echo applauding from the garden wall.',
+        },
+        {
+          kind: 'text',
+          text: 'The vows were said under the cherry tree, and when the little company clapped, the echo clapped back, which made Miss Lavender laugh and cry at once. Paul thought it was the finest thing that had ever happened in the history of the world, and nobody present was prepared to argue with him.',
+        },
+        {
+          kind: 'note',
+          text: 'Some quarrels can be mended, even after many years — the door is never quite locked. And sometimes a wish a child has wished quietly comes true, because grown-ups finally talk.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Anne walked home through the September evening with the golden light in the lanes, thinking that her year of firsts — first pupils, first twins, first hall gone blue — had ended with a wedding. Whatever else growing up might be, she decided, it was not a thing to be afraid of.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Anne of Avonlea',

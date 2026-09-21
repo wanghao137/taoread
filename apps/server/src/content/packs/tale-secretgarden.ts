@@ -220,6 +220,64 @@ export const secretGarden: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 7 · The Magic',
+      art: 'magic-rose-tree',
+      artPrompt: 'a rose tree in full pink bloom in a walled garden, a thin boy standing upright beneath it with his arms flung wide and his eyes shut, a moor boy and a girl standing close with clasped hands, a fox and a lamb and a squirrel sitting still on the grass, a robin singing on a branch, warm morning light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Colin had a new science now. "We shall make an experiment," he said. "I am the first boy who ever tried it. We shall call it Magic." So every morning, while the garden was still full of birds, the three children came in at the green door, and Colin stood up on his own two feet beneath the rose tree.',
+        },
+        {
+          kind: 'image',
+          art: 'colin-magic-chant',
+          text: 'Colin chants under the rose tree: "The Magic is in me!"',
+        },
+        {
+          kind: 'note',
+          text: 'New word: chant — to say the same words over and over, soft and slow, like a little song.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Dickon sang first, in his moor voice, and the fox and the lamb and the squirrel came and sat quite still to listen. Then Colin threw back his head and chanted: "The Magic is in me! The Magic is making me strong! The sun is shining, and the Magic is in the garden, and in Dickon, and in Mary, and in me!" They said it again and again, till Colin burst out laughing - and laughter, they found, was the best medicine of all.',
+        },
+        {
+          kind: 'text',
+          text: 'After that, Colin walked a little farther every day, and dug in the earth with his own hands, and ate like a farmer, and his big eyes grew bright as stars. "We are all Magic together," said Mary. And the garden seemed to hear them, for it put out new roses every single week.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · Mrs. Sowerby',
+      art: 'sowerby-garden-basket',
+      artPrompt: 'a sturdy rosy-cheeked countrywoman in a sunbonnet with a covered basket on her arm and a lamb frisking at her heels, standing among roses in a walled garden, a tall boy and two children gathered round her, warm bread and a jug of new milk in her hands, golden afternoon light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One golden afternoon, a sturdy woman came across the moor to the secret garden, with a covered basket on her arm and a lamb frisking at her heels. It was Mrs. Sowerby, Dickon\'s mother, who had a houseful of children and never much money, but a heart as warm as an oven.',
+        },
+        {
+          kind: 'image',
+          art: 'milk-and-buns',
+          text: 'Fresh milk and warm buns, and a story of Colin\'s mother.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: bun — in Yorkshire, a little round loaf of sweet bread, best when it is still warm from the oven.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'She brought new milk and warm buns, and the children ate in the sunshine till the basket was empty. Colin looked up into her kind brown face. "Thou art the young master," she said softly, "and thou hast thy mother\'s eyes. I knew her well." And she told him how his mother had loved this very garden, and had tended these very roses, in the years before the door was locked.',
+        },
+        {
+          kind: 'text',
+          text: 'Colin\'s eyes filled with tears, and then with light. "Where you tend a rose, my lad," said Mrs. Sowerby, "a thistle cannot grow." And he understood at last. He stood up straight among the roses, the young master of Misselthwaite, tall and glad, and the robins sang round him - for the garden had given him his life, as it had given his mother hers.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Secret Garden',

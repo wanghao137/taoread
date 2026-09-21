@@ -154,6 +154,130 @@ export const rebeccaSunnybrook: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Flag on the Schoolhouse',
+      art: 'rebecca-flag',
+      artPrompt: 'a one-room schoolhouse with a new flag flying from a tall pole on the roof, a girl reading verses from a paper to a crowd of villagers under red maple trees, boys sitting on the fence, bright autumn morning',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'News ran through Riverboro like wind through wheat: the town was going to raise a flag over the schoolhouse — a real flag, with a pole and a ceremony and songs. And when the school needed someone to write verses for the great day, every eye turned toward Rebecca, whose verses had already made Emma Jane Perkins sure she would be famous.',
+        },
+        {
+          kind: 'image',
+          art: 'rebecca-flag',
+          text: 'The great day: the flag goes up, and Rebecca reads her verses to Riverboro.',
+        },
+        {
+          kind: 'text',
+          text: 'Rebecca wrote by candlelight all that week, and crumpled more paper than she kept, and recited lines to the cows until even the cows seemed tired of them. Emma Jane kept watch at the window and said every draft was perfect, which is what true friends are for.',
+        },
+        {
+          kind: 'note',
+          text: 'Being asked to stand up in front of everyone is frightening — and saying yes anyway is how courage is practiced, one trembling verse at a time.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'On the great day the flag went up against the sky and the crowd hushed. Rebecca\'s voice shook at first and then rang clear as a bell across the common, and when she finished, Riverboro cheered and cheered.',
+        },
+        {
+          kind: 'text',
+          text: 'Word of it even traveled to the city, where a young man with laughing eyes read the verses twice and smiled, and showed them to his friends as a curiosity from the country — though he kept the paper, which was not a thing a person does with a mere curiosity.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Trouble at Sunnybrook',
+      art: 'rebecca-fever',
+      artPrompt: 'a girl with braids carrying a covered tray up a dark farmhouse stair toward a bedroom door with lamplight under it, a doctor\'s bag by the kitchen door below, rain streaking the window, night-time care',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Then came a letter with dark news: scarlet fever had crept into Sunnybrook Farm, and Rebecca\'s mother, worn out with the little ones, could not manage alone. Rebecca read it twice and was already packing. The brick house had a thousand rules, but Aunt Miranda\'s voice, stiff as it was, said the right thing at last: "Go, child. Family is family."',
+        },
+        {
+          kind: 'image',
+          art: 'rebecca-fever',
+          text: 'Nurse, cook and comforter, up and down the Sunnybrook stairs all night long.',
+        },
+        {
+          kind: 'text',
+          text: 'For weeks Rebecca was nurse, cook and comforter, carrying trays up the stairs and keeping the little ones quiet, brave and washed. She wrote letters home that made Aunt Jane laugh, and in one place made her cry quietly into her handkerchief.',
+        },
+        {
+          kind: 'note',
+          text: 'Families show love by showing up. Miles are just miles when somebody needs you — pack your courage along with your toothbrush.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'When the fever had passed and the house was quiet, Rebecca came back to Riverboro thinner and browner and somehow taller. Aunt Miranda asked after the fever every day after that, though she pretended to be merely interested in the weather.',
+        },
+        {
+          kind: 'text',
+          text: 'And Rebecca understood that under the stiff black dress, someone had been counting the days.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Softest Words',
+      art: 'rebecca-sickroom',
+      artPrompt: 'a tall thin elderly woman propped on pillows in a dim best bedroom, a girl with braids reading aloud from a book by lamplight, a small soft elderly woman keeping watch by the window, blue winter dusk through lace curtains',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'The next winter Aunt Miranda fell ill — so ill that the stiff, exact lady took to her bed and the whole brick house went quiet. It was Rebecca who read to her by lamplight, Rebecca who ran through the snow for the doctor, Rebecca who was never once late with the medicine.',
+        },
+        {
+          kind: 'image',
+          art: 'rebecca-sickroom',
+          text: 'Reading aloud in the best bedroom, where even the shadows seem to listen.',
+        },
+        {
+          kind: 'text',
+          text: 'One evening Aunt Miranda beckoned, and took the girl\'s brown hand in her thin one. "You have been a good girl to me, Rebecca," she said — she, who praised so seldom that the words seemed almost another language. Rebecca went down to the kitchen after that and cried into a dish towel, and Aunt Jane pretended not to see.',
+        },
+        {
+          kind: 'note',
+          text: 'Some people speak love in actions all their lives and only find the words at the end. Learn to hear both languages — the words and the doing.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'When the lilacs bloomed again, Aunt Miranda\'s chair stood empty. She had gone quietly in her sleep, and all Riverboro came to the brick house, even the people she had scolded hardest — for stiffness like hers had been a kind of honesty, and honesty is loved when it is gone.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Pink of Perfection',
+      art: 'rebecca-wareham',
+      artPrompt: 'a girl with braids standing at a garden gate holding a pink silk parasol, waving to a young man in a fine coat beside a waiting carriage, a small soft elderly woman watching from the parlor window, summer morning with white clouds',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'The brick house learned new customs that year. Rebecca and Aunt Jane kept it together now, two chairs at the table and laughter allowed after supper. And in the spring a carriage stopped at the gate, and out stepped Mr. Aladdin — Adam Ladd, the young man who had once bought fifty cakes of soap for the pleasure of Rebecca\'s conversation.',
+        },
+        {
+          kind: 'image',
+          art: 'rebecca-wareham',
+          text: 'The last morning at the gate, with the pink parasol open against the sky.',
+        },
+        {
+          kind: 'text',
+          text: 'He had a plan: Rebecca was to go away to school, to books and classes and a bigger world. Aunt Jane packed her trunk with a brave face and wet eyes, and tucked in at the very bottom a strip of rose-colored ribbon, the exact shade of a certain parasol.',
+        },
+        {
+          kind: 'note',
+          text: 'Growing up does not mean leaving love behind. Home walks with you, folded at the bottom of a trunk.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'On the morning she left, Rebecca opened the pink parasol one last time in the sun. "The pink of perfection," she said to the brick house, to the elms, to Aunt Jane in the doorway — and went down the road toward her future, with Riverboro\'s whole heart going with her.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Rebecca of Sunnybrook Farm',

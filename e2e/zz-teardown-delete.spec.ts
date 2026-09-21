@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 /**
  * 注销家庭流（字母序最后执行——注销会删除共享演示家庭，必须放在全部 spec 之后）。
  */
-const CODE = 'PEACH888'
+const CODE = '123456'
 
 test('注销：二次确认 → 数据物理删除 → 旧凭据失效', async ({ page }) => {
   test.setTimeout(120_000)

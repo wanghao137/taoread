@@ -109,7 +109,7 @@ async function main() {
   await go('02-join', async ({ timeout }) => {
     await page.getByRole('button', { name: '小朋友' }).click({ timeout })
     await page.getByRole('button', { name: '输入家庭码加入' }).click({ timeout })
-    await page.getByPlaceholder('ABCD2345').fill('PEACH888')
+    await page.getByPlaceholder('ABCD2345').fill('123456')
     await page.getByRole('button', { name: '进入桃阅读' }).click({ timeout })
   })
   // 选孩子

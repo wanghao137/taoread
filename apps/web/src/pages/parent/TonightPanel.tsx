@@ -96,8 +96,10 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
         </button>
       </div>
 
+      {/* 宽屏：每个孩子一张卡，两列排开；移动端保持一列 */}
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
       {rows.map((row) => (
-        <TaCard key={row.child.id}>
+        <TaCard key={row.child.id} className="shadow-xs">
           <p className="mb-2 text-lg font-bold">
             {row.child.nickname}（{row.child.stage}）
           </p>
@@ -114,16 +116,16 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
               <div>
                 <p className="flex items-center gap-1.5 font-bold"><IconBookOpen size={16} /> 讲什么</p>
                 <ul className="mt-1 list-disc pl-5 text-ink-700">
-                  {row.card.tellPoints.map((t) => (
-                    <li key={t}>{t}</li>
+                  {row.card.tellPoints.map((t, i) => (
+                    <li key={i}>{t.trim()}</li>
                   ))}
                 </ul>
               </div>
               <div>
                 <p className="font-bold">问什么</p>
                 <ul className="mt-1 list-disc pl-5 text-ink-700">
-                  {row.card.questions.map((q) => (
-                    <li key={q}>{q}</li>
+                  {row.card.questions.map((q, i) => (
+                    <li key={i}>{q.trim()}</li>
                   ))}
                 </ul>
               </div>
@@ -142,6 +144,7 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
           )}
         </TaCard>
       ))}
+      </div>
     </div>
   )
 }

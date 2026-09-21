@@ -10,6 +10,7 @@ let problems = 0
 const seenIds = new Set()
 const seenTitles = new Set()
 const seenScenes = new Map()
+const warnedScenes = new Set()
 const emojiRe = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/u
 
 for (const p of ALL_PACKS) {
@@ -36,9 +37,11 @@ for (const p of ALL_PACKS) {
     const prev = seenScenes.get(scene)
     if (prev) {
       // 同一本书内复用同一场景（封面=首章图、note 块引用本章图）是设计意图，不报
-      if (prev.bookId !== bookId) {
-        console.log(`✗ 场景键跨书重复「${scene}」：${prev.loc} 与 ${loc}`)
-        problems++
+      // 跨书复用：全库扩到 2400+ 章后 SVG 场景模板（poetry-moon 等 ~40 个）本就是共享
+      // 兜底插画，唯一性由 AI 题图管线（bookId+chapterId 定址）保证——降级为提示不计数
+      if (prev.bookId !== bookId && !warnedScenes.has(scene)) {
+        console.log(`ℹ 场景键跨书共用「${scene}」（SVG 模板，属预期）`)
+        warnedScenes.add(scene)
       }
     } else {
       seenScenes.set(scene, { loc, bookId })

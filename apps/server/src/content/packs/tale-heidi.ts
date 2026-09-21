@@ -158,6 +158,138 @@ export const heidi: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · Home on the Mountain',
+      art: 'heidi-hug',
+      artPrompt: 'an old man with a grey beard lifting a little girl in a red dress high into the air outside a wooden hut, fir trees and snowy peaks behind, bright happy winter morning',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Up and up the mountain went the sleigh, through the snow, until at the top stood the little hut, with the fir trees roaring in the wind. And there was grandfather, waiting and watching. "Grandfather! Grandfather!" cried Heidi. "I am home, and I am never going away again!"',
+        },
+        {
+          kind: 'image',
+          art: 'heidi-hug',
+          text: 'The grandfather holding Heidi close, at last together again.',
+        },
+        {
+          kind: 'text',
+          text: 'The old man caught her in his arms and held her tight, and for a long time neither of them could say one single word. There were tears in the grandfather’s eyes, and Heidi hugged him till her arms ached. Never again, he promised himself, would they be parted.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: homesick — feeling so sad for home that your heart aches. Heidi was homesick in Frankfurt; now she was homesick no more.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Then Heidi remembered her basket. Down she ran to Peter’s house, and put the soft white bread rolls into the grandmother’s hands. "Fresh, soft bread!" said the grandmother, feeling it with her blind old fingers. "And Heidi has come home!" The little room was dark, but it seemed full of sunshine.',
+        },
+        {
+          kind: 'text',
+          text: 'The next morning Heidi put on her old red dress, and ran out with Peter and the goats to the green pasture. Grandfather had his little granddaughter back, and he said that mountain air and a happy heart were the best medicine in all the world.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Clara Comes to the Mountain',
+      art: 'clara-visit',
+      artPrompt: 'a weak girl in a fine dress being carried up a green mountain path by a strong man, a wheelchair left below, a little girl in a red dress dancing ahead among wildflowers, fir trees and snowy peaks',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Summer came, and friends came with it. Clara and her grandmamma travelled all the way from Frankfurt, and strong men carried Clara up the steep green path, because her wheelchair could not climb so high. Heidi ran down to meet them, singing at the top of her voice.',
+        },
+        {
+          kind: 'image',
+          art: 'clara-visit',
+          text: 'Clara being carried up the mountain, with Heidi dancing ahead among the flowers.',
+        },
+        {
+          kind: 'text',
+          text: 'Heidi led Clara at once to her own room, where the round window was full of mountains and the bed was made of hay. Clara lay down in it and laughed. "It smells of flowers," she said. "I have never slept anywhere so nice."',
+        },
+        {
+          kind: 'note',
+          text: 'New word: journey — a long trip from one place to another. Clara’s journey took a whole day, and it was worth every step.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'The next day Heidi read to Peter’s grandmother, and Clara listened too. Then the two girls sat in the sun and watched the goats, and Peter brought them bowls of sweet warm milk. "The mountain is the most beautiful place in the world," said Clara.',
+        },
+        {
+          kind: 'text',
+          text: 'Every day Clara grew stronger in the clean mountain air. She ate with a good appetite, she laughed all day long, and she sat by the little fir trees listening to the wind — and waiting for something wonderful to happen.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Clara Walks',
+      art: 'clara-walks',
+      artPrompt: 'a girl in a fine dress taking her very first steps on a flower meadow high in the alps, holding the arm of a girl in a red dress, a boy and goats watching with open mouths, blue gentian flowers, bright sunlight on snowy peaks',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One morning Clara wanted to see the flowers on the far slope. But how could a girl in a wheelchair roll over the rough meadow? While Heidi was picking her a bunch of blue flowers, Peter did a very naughty thing: he pushed the empty wheelchair away — and it rolled down the mountain, far out of sight.',
+        },
+        {
+          kind: 'image',
+          art: 'clara-walks',
+          text: 'Clara taking her very first steps among the flowers, with Heidi holding her arm.',
+        },
+        {
+          kind: 'text',
+          text: 'Clara did not cry. "Now I shall have to try," she said. Heidi knelt beside her and said, "Take hold of my arm, just for a moment. The ground is so nice and firm." And Clara stood up — one second, then two — on her own two feet, for the first time in her whole life!',
+        },
+        {
+          kind: 'note',
+          text: 'New word: firm — hard and steady, so that you will not sink or fall. The mountain ground was firm under Clara’s feet.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"Hold me, Heidi! Hold me!" cried Clara. And step by step, holding Heidi’s arm, she walked round the little flower field. Three steps. Then five. Then more. Peter stood with his mouth wide open, and the goats stopped eating to stare at her.',
+        },
+        {
+          kind: 'text',
+          text: 'Every day after that, Clara walked a little farther, and her thin legs grew strong in the mountain air. "The mountains have made me well," said Clara, "and my best friend in all the world lives on them."',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · Good News from Frankfurt',
+      art: 'heidi-reading',
+      artPrompt: 'an old blind grandmother sitting by the fire in a cozy dark cottage, a little girl in a red dress reading aloud from a small book to her, warm firelight, a boy and a goat visible through the open door',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'When Clara went home to Frankfurt, she walked into her house on her own two legs. Everyone ran to see, and her father travelled up the mountain to thank grandfather. He shook the old man’s hand again and again. "You have given me back my daughter," he said.',
+        },
+        {
+          kind: 'image',
+          art: 'heidi-reading',
+          text: 'Heidi reading her little book of songs aloud to the grandmother by the fire.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: promise — when you say you will truly do a thing, and then you do it. The grandmamma kept her promise every year.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'The kind grandmamma promised to take care of Peter’s mother and grandmother, so that they would never be cold or hungry again. And Heidi knew she would read her little book of songs to the grandmother all winter long, just as she had promised.',
+        },
+        {
+          kind: 'text',
+          text: 'So everything was happy at last. Clara could walk; Peter was going to learn his letters too; and grandfather’s heart was light, because his granddaughter was home to stay. When the first snow fell, Heidi sat by the fire at Peter’s house and read to the grandmother until the old woman fell asleep, smiling.',
+        },
+        {
+          kind: 'text',
+          text: 'And on fine summer days, Heidi ran up the green pasture with the goats, and the fir trees sang in the wind, and the sunset made the snow shine gold. Up on her mountain Heidi stayed — the happiest child in all the world.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Heidi',

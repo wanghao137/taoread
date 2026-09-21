@@ -106,5 +106,6 @@ export function generateFamilyCode(random: (n: number) => Buffer = randomBytes):
 }
 
 export function isValidFamilyCode(code: string): boolean {
-  return /^[A-HJ-NP-Z2-9]{8}$/.test(code)
+  // 6-8 位（自动生成码仍为 8 位旧字符集；演示家庭码 123456 为 6 位全数字）
+  return /^[0-9A-HJ-NP-Z]{6,8}$/.test(code)
 }

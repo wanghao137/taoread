@@ -95,8 +95,8 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
     if (error) return <ErrorState message={error} onRetry={load} />
     if (!report) return null
     return (
-      <div className="flex flex-col gap-4">
-        <TaCard className="text-center">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
+        <TaCard className="text-center shadow-xs lg:col-span-2">
           <p className="font-display text-5xl font-bold text-terra-600">{report.nights}</p>
           <p className="mt-1 text-base text-ink-700">次共读</p>
           <p className="mt-3 text-base text-ink-700">
@@ -107,7 +107,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
         </TaCard>
 
         {report.books.length > 0 && (
-          <TaCard>
+          <TaCard className="shadow-xs">
             <h3 className="mb-2 text-base font-bold text-ink-700">这一周读过的书</h3>
             <ul className="list-disc pl-5 text-base leading-relaxed">
               {report.books.map((b) => (
@@ -118,7 +118,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
         )}
 
         {report.highlights.length > 0 && (
-          <TaCard>
+          <TaCard className="shadow-xs">
             <h3 className="mb-2 text-base font-bold text-ink-700">收进来的金句</h3>
             <ul className="flex flex-col gap-2 text-base leading-relaxed">
               {report.highlights.map((h, i) => (
@@ -131,11 +131,11 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
         )}
 
         {exportError && (
-          <p role="alert" className="text-center text-base text-terra-600">
+          <p role="alert" className="text-center text-base text-terra-600 lg:col-span-2">
             {exportError}
           </p>
         )}
-        <TaButton className="w-full" onClick={() => void downloadPng()} loading={exporting}>
+        <TaButton className="w-full lg:col-span-2" onClick={() => void downloadPng()} loading={exporting}>
           保存分享卡（1080×1440）
         </TaButton>
       </div>

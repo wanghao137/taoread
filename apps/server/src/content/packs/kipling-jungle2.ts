@@ -154,6 +154,134 @@ export const jungleBook2: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · How Fear Came',
+      art: 'jungle2-peace-pool',
+      artPrompt: 'a shrinking jungle pool under a pale dry sky crowded with drinking animals of every kind — deer, buffalo, boar, a tiger sitting apart in the shadows, a great grey elephant standing tall and telling a story, cracked earth and grey leaves',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'There came a year when the rain did not fall. The leaves hung grey, the pools turned to mud, and at last the great river shrank to one quiet pool. All the Jungle People came there to drink — deer and boar, buffalo and wild dogs, bear and tiger — for there is a law older than any tooth: at the Peace Pool, no one may kill.',
+        },
+        {
+          kind: 'image',
+          art: 'jungle2-peace-pool',
+          text: 'All the Jungle People drink together at the Peace Pool in the year of drought.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: drought — a long, long time with no rain.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Night after night they waited together, thin and quiet. And the oldest of them all, Hathi the great grey elephant, told them how fear first came into the jungle. "In the beginning," he said, "Tha the First of the Elephants made the jungle green and full, and there was no hunger and no fear, for no beast ate another. Then one beast, in a dark hour, broke the peace and took a life — and from that killing came hunger, and from hunger came fear, and every creature has carried fear ever since."',
+        },
+        {
+          kind: 'text',
+          text: '"And the one who killed first?" they asked. "He wears the mark of it still," said Hathi, "and he walks alone." The Tiger sat apart in the shadow and said nothing. "So remember," said Hathi, "whoever keeps the peace at the pool keeps the jungle kind; and whoever breaks it lets the fear loose again." And the water stayed quiet, and every beast drank without fear till morning.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Miracle of Purun Bhagat',
+      art: 'jungle2-bhagat',
+      artPrompt: 'a gentle holy man in a simple cotton cloth sitting by a small fire outside a tiny wooden shrine in pine-clad mountains, a deer with great antlers and a shaggy old bear and two jackals resting trustingly around him, evening light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'In a great city there lived a wise man called Sir Purun Dass. He was a prime minister, with fine houses and honours and servants. But one day he took a staff and a wooden bowl, put on a simple cotton cloth, and walked out of his palace gate for ever. "I have done with riches," he said. He became Purun Bhagat, a holy man, and lived in a little shrine of wood and stone in the pine forests of the high hills.',
+        },
+        {
+          kind: 'image',
+          art: 'jungle2-bhagat',
+          text: 'Purun Bhagat shares his evening fire with his forest friends.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: shrine — a small, quiet holy place in the woods.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'There he sat still, day after day. And one by one the wild things came to him: a fine deer with great antlers, a shaggy old bear, a family of jackals, and the monkeys of the pines. They found that no hand was ever lifted against them there, so they lay by his fire and begged from his bowl, and he called them his people.',
+        },
+        {
+          kind: 'text',
+          text: 'One night the mountain muttered and groaned. The deer tugged at his blanket and the bear clawed at the door, and Purun Bhagat understood. "The hill above us is going to fall!" He woke the sleeping village below with cries of warning, and the people ran out into the storm — and in the night the whole hillside came down and crushed the little shrine to splinters. Not one villager was lost.',
+        },
+        {
+          kind: 'text',
+          text: '"It was a miracle!" they cried, and they built him a new shrine on safer ground. But Purun Bhagat only smiled, and walked on alone into the farther hills with his staff and his bowl — for he had learned that when a man sits quietly, the wild things will tell him everything they know.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The White Seal',
+      art: 'jungle2-white-seal',
+      artPrompt: 'a snowy-white seal pup swimming through green-blue sea water between rocky islands with white surf and wheeling gulls, distant fog banks, sunlight sparkling on the waves',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'On a beach in the far cold sea, where the waves roll in white foam, the sea seals gather every year. And on that beach, one spring, a seal pup was born as white as fresh snow. His name was Kotick, and there had been no white seal for ten thousand years.',
+        },
+        {
+          kind: 'image',
+          art: 'jungle2-white-seal',
+          text: 'Kotick swims from island to island, looking for a beach with no men.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: pup — a baby seal.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Kotick grew strong and quick, and one day he saw something terrible: men coming down the beach with long clubs, driving the young seals away. The old seals only shrugged. "It has always been so." "Then it need not always be so," said Kotick. And he set off round all the seas to find a beach where no man ever came.',
+        },
+        {
+          kind: 'text',
+          text: 'He swam for years — past islands of sea-lions and turtles, through fogs and drifting ice. And at last, guided by a wise old Sea Cow, he found a hidden beach behind green islands, with a warm lagoon, and soft grass, and no path for any boat, and no man within a thousand miles.',
+        },
+        {
+          kind: 'text',
+          text: 'Kotick swam home and told the young seals, and the next spring he led them there by thousands. And no man has ever found that beach to this day. There the white seal dances in the foam with all his people, safe and free.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · Quiquern',
+      art: 'jungle2-quiquern',
+      artPrompt: 'a boy in fur clothes and a sled dog following a tall strange two-headed shape striding over moonlit sea-ice, jagged ice ridges and drifting snow, green northern lights in a dark sky',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Far, far to the north, where the sea freezes and the sun does not rise for months, a boy named Kotuko lived with his people through the long white winter. That year the seals stayed away, and the dogs howled with hunger, and the old people told tales of Quiquern, a giant spirit with two heads, who walks the ice in the starving time.',
+        },
+        {
+          kind: 'image',
+          art: 'jungle2-quiquern',
+          text: 'Kotuko and his dog follow the strange two-headed shape across the ice.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: spirit — a strange shape out of old tales, that people say walks in wild places.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'At last Kotuko’s own dogs were let loose to find food for themselves, for there was nothing left to feed them. And one evening, out on the frozen sea, Kotuko saw it: a tall two-headed shape, striding over the ice! He called his strongest dog, and together they followed it — over the rough ice and the snow-drifts, all night long.',
+        },
+        {
+          kind: 'text',
+          text: 'In the grey morning light they came up close — and Quiquern was no spirit at all! It was two lost dogs, thin as shadows, walking one behind the other, so close that from far away they looked like one strange creature. The dogs were glad to be caught, and glad of a share of the little food there was.',
+        },
+        {
+          kind: 'text',
+          text: 'Then the two lost dogs lifted their noses to the wind and trotted inland, and Kotuko followed, and beyond a ridge of sea-ice they found a great herd of deer feeding on a strip of spring grass. Kotuko ran home with the news, and the hunters came with their spears, and the village had food and hope again. And no one ever feared Quiquern any more — for help had come, after all, on four legs.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Second Jungle Book',

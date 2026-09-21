@@ -154,7 +154,8 @@ describe('内容域 /api/content/books', () => {
     expect(res.statusCode).toBe(200)
     const ch = res.json().chapter
     expect(ch.title).toContain('人之初')
-    expect(ch.blocks.length).toBe(3)
+    // 全本《三字经》：一课一章，整课诗文为一个带拼音的 poem 块
+    expect(ch.blocks.length).toBe(1)
     expect(ch.blocks[0].kind).toBe('poem')
     expect(ch.blocks[0].pinyin).toContain('rén zhī chū')
   })
@@ -202,7 +203,8 @@ describe('内容域 /api/content/books', () => {
       headers: authHeaders(token),
       payload: { childId, chapterOrder: 99, blockOrder: 0 },
     })
-    expect(res.json().chapterOrder).toBe(3)
+    // 全本《三字经》共 17 课，越界钳到末章
+    expect(res.json().chapterOrder).toBe(17)
     expect(res.json().finished).toBe(true)
   })
 
@@ -391,9 +393,10 @@ describe('内容域 seed 幂等性', () => {
     await seedAllPacks(db, ALL_PACKS)
     await seedAllPacks(db, ALL_PACKS)
     const count = await db.chapter.count({ where: { bookId: 'sanzi-jing' } })
-    expect(count).toBe(3)
+    // 全本《三字经》：17 课 × 每课 1 个整课诗文块
+    expect(count).toBe(17)
     const blocks = await db.block.count({ where: { chapter: { bookId: 'sanzi-jing' } } })
-    expect(blocks).toBe(10)
+    expect(blocks).toBe(17)
   }, 60_000)
 
   it('版权台账一书一行', async () => {

@@ -153,6 +153,138 @@ export const pollyanna: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · Jimmy Bean Wants a Home',
+      art: 'pollyanna-jimmy',
+      artPrompt: 'a small girl with sunny braids standing on a chair speaking earnestly to a circle of kind matronly ladies in a church hall with lace curtains, a ragged hopeful boy peeking around the doorway, bright midday light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One day Pollyanna heard about Jimmy Bean. He was a boy with no home and no mother and no father. He slept in a barn loft and wished and wished for a family of his own.',
+        },
+        {
+          kind: 'image',
+          art: 'pollyanna-jimmy',
+          text: 'Pollyanna pleads Jimmy\'s case before the Ladies\' Aid.',
+        },
+        {
+          kind: 'text',
+          text: 'So Pollyanna went to the Ladies\' Aid. The ladies were meeting to talk about helping poor little boys far, far away. "But there is a boy right HERE," said Pollyanna. "A whole boy, all ready to love! Please, couldn\'t one of you want him?"',
+        },
+        {
+          kind: 'note',
+          text: 'It is good to be kind to people far away. It is also good to look right next door. Who near you needs a friend?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'The ladies sighed and shook their heads. Taking a boy was a very big thing. Pollyanna\'s eyes filled up. But she did not stop playing the game for Jimmy. She told him stories. She saved him apples.',
+        },
+        {
+          kind: 'text',
+          text: 'And then, one day, the old gentleman in the big house by the common said a strange thing: "That boy of yours — send him to me. A house is better with a boy in it." And that is how Jimmy Bean got a home at last.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Kitten and the Dog',
+      art: 'pollyanna-pets',
+      artPrompt: 'a small girl with braids kneeling on a porch step with a fluffy wet kitten and a shaggy dog, a stiff elderly lady looking down from the top step with the very smallest smile, a maid in an apron in the doorway, bright morning',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One rainy morning Pollyanna heard a tiny sound in the hedge. It was a kitten — wet, hungry, and alone. Of course she brought it home. A few days later, a shaggy dog followed her all the way from town. Of course he came in too.',
+        },
+        {
+          kind: 'image',
+          art: 'pollyanna-pets',
+          text: 'Two wet strays, one tall aunt, and the smallest smile in Beldingsville.',
+        },
+        {
+          kind: 'text',
+          text: 'Aunt Polly drew herself up very tall. "We do not keep animals in this house," she said. Pollyanna thought hard. Then she played the game. "Glad the kitten is so soft, and the dog is so glad — I mean, so happy!"',
+        },
+        {
+          kind: 'note',
+          text: 'Making room for one small creature is good practice. Hearts are like that: they grow bigger every time you make room.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Aunt Polly looked at the little wet kitten. She looked a long time. "They may sleep in the kitchen," she said at last, very stiffly. Nancy the maid grinned all day.',
+        },
+        {
+          kind: 'text',
+          text: 'That night the dog slept by the stove and the kitten slept on the doormat, and the big still house felt a little warmer than before.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Mr. Pendleton\'s Secret',
+      art: 'pollyanna-portrait',
+      artPrompt: 'a lonely elderly gentleman in a shadowed library holding an old framed portrait of a gentle smiling young lady, a small girl looking up at it, one shaft of afternoon light across the bookshelves, quiet wistful mood',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Mr. Pendleton, the old gentleman who was cross no more, had a secret. One day he said, "Pollyanna, come and live with ME. Be my little girl. I am rich, and you shall have lovely things."',
+        },
+        {
+          kind: 'image',
+          art: 'pollyanna-portrait',
+          text: 'The portrait in the library, and a secret a long time old.',
+        },
+        {
+          kind: 'text',
+          text: 'Pollyanna loved him. But she loved Aunt Polly best of anybody, and a heart cannot be in two houses. "I can\'t," she said softly. "Aunt Polly needs me. And I need her."',
+        },
+        {
+          kind: 'text',
+          text: 'So the old gentleman told his secret at last. Long, long ago, he had loved a young lady. But she married another man, a missionary, and went far away. The young lady in the portrait was Pollyanna\'s own mother.',
+        },
+        {
+          kind: 'note',
+          text: 'A cross face is often a sad story wearing a mask. Pollyanna looked under the mask, and found a lonely heart that had waited a long time for kindness.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'After that, Pollyanna went to see him almost every day. She brought him flowers and glad words, and he began to laugh the way lonely people do when their door finally opens.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · A Glad House at Last',
+      art: 'pollyanna-chilton',
+      artPrompt: 'a small girl with braids throwing rose petals on a garden path before a tall lady in white and a kind grey-eyed doctor, a maid in an apron and neighbors smiling on the lawn of a big white house, golden autumn light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Pollyanna learned something new that summer. Long ago, Aunt Polly had a dear friend, Dr. Chilton. They had a quarrel, many years back, and had not spoken since. Proud people can stay cross a very long time.',
+        },
+        {
+          kind: 'image',
+          art: 'pollyanna-chilton',
+          text: 'The garden wedding, where the whole town came to play.',
+        },
+        {
+          kind: 'text',
+          text: 'But when Pollyanna was hurt, pride suddenly felt very small. Aunt Polly put it down like a heavy stone, and sent for Dr. Chilton. He came. He helped make Pollyanna well. And he and Aunt Polly looked at each other the way people do when the quarrel is over at last.',
+        },
+        {
+          kind: 'note',
+          text: 'Pride is heavy. Putting it down is hard — and it lets the love come back in. Is there a sorry you have been carrying?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'That autumn, before the snow flew, Aunt Polly and Dr. Chilton were married in the garden. Pollyanna wore a white dress and carried flowers, and the whole town came.',
+        },
+        {
+          kind: 'text',
+          text: 'It was the gladdest game of all, the one where everybody wins.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Pollyanna',

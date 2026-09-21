@@ -65,7 +65,7 @@ async function apiPost(path, body, token) {
 }
 const sessionScript = (childToken, familyId, role) =>
   JSON.stringify({
-    state: { token: childToken, familyId, familyCode: 'PEACH888', role, childId: null },
+    state: { token: childToken, familyId, familyCode: '123456', role, childId: null },
     version: 0,
   })
 
@@ -77,8 +77,8 @@ async function main() {
     await waitFor(`${API}/api/health`)
     await waitFor(BASE)
 
-    const family = await apiPost('/api/family/join', { familyCode: 'PEACH888', role: 'parent', deviceId: 'final-p' })
-    const child = await apiPost('/api/family/join', { familyCode: 'PEACH888', role: 'child', deviceId: 'final-c' })
+    const family = await apiPost('/api/family/join', { familyCode: '123456', role: 'parent', deviceId: 'final-p' })
+    const child = await apiPost('/api/family/join', { familyCode: '123456', role: 'child', deviceId: 'final-c' })
 
     const browser = await chromium.launch()
 

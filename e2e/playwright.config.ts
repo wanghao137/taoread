@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 /**
  * 桃阅读 e2e（第 11 夜 M-C）：对【演示模式】跑全闭环——
- * demo 服务端（mock 网关 + PEACH888 种子）+ vite dev（/api 代理已配）。
+ * demo 服务端（mock 网关 + 123456 种子）+ vite dev（/api 代理已配）。
  * 全程零真实出网、零真实 key，任意环境可重放。
  */
 const API_PORT = 8787

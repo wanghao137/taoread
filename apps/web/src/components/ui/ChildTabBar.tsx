@@ -30,7 +30,7 @@ export function ChildTabBar({ active, peachCount = 0, onSelect }: ChildTabBarPro
   return (
     <nav
       aria-label="孩子端导航"
-      className="sticky bottom-0 z-30 -mx-5 flex items-stretch gap-1 border-t-ink border-t-2 bg-paper-100/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1.5 backdrop-blur-md"
+      className="sticky bottom-0 z-30 -mx-5 flex items-stretch gap-1 border-t-ink border-t-2 bg-paper-100/95 px-3 lg:mx-auto lg:mb-5 lg:max-w-xl lg:rounded-3xl lg:border-2 lg:shadow-card pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md"
     >
       {TABS.map((t) => {
         const isActive = active === t.key
@@ -48,17 +48,17 @@ export function ChildTabBar({ active, peachCount = 0, onSelect }: ChildTabBarPro
             <span className={`text-[11px] font-bold ${isActive ? 'text-terra-600' : 'text-ink-500'}`}>
               {t.label}
             </span>
-            {/* 选中态：橘红圆点（贴纸感，不抢画面） */}
+            {/* 选中态：图标下方短线（内嵌 dock，不再悬在 dock 顶边之外——UI 复盘 P2） */}
             {isActive ? (
               <motion.span
                 layoutId="child-tab-active"
-                className="absolute top-0 h-1 w-8 rounded-full bg-terra-500"
+                className="absolute bottom-1 h-1 w-8 rounded-full bg-terra-500"
                 transition={{ type: 'spring', stiffness: 380, damping: 30 }}
               />
             ) : null}
             {/* 桃子角标：有可收桃子才亮，没有就不显示（空态不诱导） */}
             {t.key === 'wall' && peachCount > 0 ? (
-              <span className="absolute right-3 top-1.5 flex min-w-[18px] items-center justify-center rounded-full border-ink border-[1.5px] bg-sun px-1 text-[10px] font-bold text-ink-900">
+              <span className="absolute right-3 top-1 flex min-w-[18px] items-center justify-center rounded-full border-ink border-[1.5px] bg-sun px-1 text-[10px] font-bold text-ink-900">
                 {peachCount > 99 ? '99+' : peachCount}
               </span>
             ) : null}

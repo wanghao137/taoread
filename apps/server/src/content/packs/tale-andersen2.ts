@@ -168,6 +168,142 @@ export const andersenMore: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Wild Swans',
+      art: 'andersen2-swans',
+      artPrompt: 'a gentle girl with long braided hair kneeling on a rocky shore under a sunset sky, eleven great white swans flying down from rosy clouds to land around her, the sea sparkling gold',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A king had eleven sons and one daughter, Eliza. But their new stepmother was wicked. She sent little Eliza away to a farm in the country, and she turned her eleven brothers into wild swans, and they flew away over the sea, crying sadly.',
+        },
+        {
+          kind: 'image',
+          art: 'andersen2-swans',
+          text: 'The eleven wild swans fly down to Eliza at sunset.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: nettle — a tall wild plant with a little sting; its threads can be spun into linen.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Eliza grew up and came home — and one day, at sunset, eleven white swans flew down to her and became her brothers until sunrise. "We fly all day," they said, "and we may only be ourselves for one short hour." The swans carried Eliza over the wide sea to a warm country, and she did not sleep until they had landed safely.',
+        },
+        {
+          kind: 'text',
+          text: 'Then Eliza had a dream. "Weave eleven shirts of nettle-linen," the dream said, "and throw them over the swans, and the spell will break. But from this day until it is done, you must not speak one word." So Eliza gathered nettles with her bare hands, and her hands stung and burned, but she never stopped spinning and weaving.',
+        },
+        {
+          kind: 'text',
+          text: 'In that country a young king found her and loved her, and they were married. But Eliza never spoke, and the people whispered that she must be a witch, for they had found nettles in her room. At last they seized her, one morning, and carried her away to be judged.',
+        },
+        {
+          kind: 'text',
+          text: 'On the road, eleven white swans came down out of the sky and settled around her cart. Eliza threw the shirts over them — ten, eleven! — and the swans stood up as princes, her brothers alive and well. Only the youngest kept one swan’s wing, for one sleeve was not finished. "Now I may speak!" cried Eliza, and she told them everything, and all the people wept for joy. The king took her hand, and there was peace in the kingdom for ever after.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Shepherdess and the Chimney-Sweep',
+      art: 'andersen2-shepherdess',
+      artPrompt: 'two small porcelain figures, a shepherdess in a pink dress with a crook and a chimney-sweep with a tiny ladder, standing side by side on a carved wooden mantelpiece above a stove, warm evening light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'On an old mantelpiece stood pretty carved figures: an old Chinaman nodding his head, a proud general with a goat’s leg — and, standing close together, a little porcelain shepherdess and a little chimney-sweep with his ladder. They loved each other dearly.',
+        },
+        {
+          kind: 'image',
+          art: 'andersen2-shepherdess',
+          text: 'The shepherdess and the chimney-sweep, close together on the mantelpiece.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: porcelain — fine white clay shaped and baked till it shines like a shell; it breaks easily.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But the old Chinaman had made up his mind. "The shepherdess shall marry the general," he said. "He keeps a grand house of his own." The shepherdess began to cry, but the chimney-sweep stood firm. "Do not be afraid," he said. "We will run away together." And he set his ladder against the wall, and up they climbed, and out through the dark pipe of the great stove.',
+        },
+        {
+          kind: 'text',
+          text: 'From the roof they looked out at the whole wide world. It was so big, and they were so small, and there was so much sky. "I cannot," whispered the shepherdess. "It is all too much. Take me home." So home they climbed, back through the stove pipe — and in their fright they knocked the old Chinaman off the table. Crack! He broke into three pieces.',
+        },
+        {
+          kind: 'text',
+          text: 'Everyone glued him together again, but the joint showed at his neck, and after that he never again said whom the shepherdess must marry. And there the little shepherdess and the little chimney-sweep stand to this day, side by side, loving each other with all their small porcelain hearts.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Snow Man',
+      art: 'andersen2-snowman',
+      artPrompt: 'a big friendly snowman with coal eyes and a tin saucepan hat in a snowy yard at dusk, gazing at the warm red glow of a stove shining from a cottage window, a yard dog sitting beside him, pale moonlight',
+      blocks: [
+        {
+          kind: 'text',
+          text: '"Hurrah!" cried the boys. It was a bright frosty morning, and they had rolled the snow into a big round man, with coals for his eyes and an old tin saucepan for his hat. "What a beautiful world," said the snow man, looking about. "And what is that bright thing in the sky?" "That is the moon," said the yard dog. "It rose just now. Yesterday you could see the sun."',
+        },
+        {
+          kind: 'image',
+          art: 'andersen2-snowman',
+          text: 'The snow man gazes at the warm red glow in the window.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: stove — a big iron box with a fire inside, that keeps a house warm.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"What is that red glow in the window?" asked the snow man. "That is the stove," said the dog. "It shines just like that at night." "How it shines," said the snow man. "I long for it so." "Not a good wish," said the dog, who had once slept by a stove in its warm corner. "You cannot go in. If the fire came near you, you would not be a snow man any more."',
+        },
+        {
+          kind: 'text',
+          text: 'But all that day the snow man looked at the window, and he thought of nothing else but the stove. The next day was milder, and the day after was milder still. The snow man drooped a little, and said nothing at all.',
+        },
+        {
+          kind: 'text',
+          text: 'Then one morning there was only a puddle on the grass where the snow man had stood, and the broom-stick he had been built around lying quietly beside it. "Ah," said the yard dog gently. "He loved the fire, and fire is not a friend to snow. Love melts faster than ice." And when the next winter came, the boys built a new snow man on the very same spot.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Darning Needle',
+      art: 'andersen2-needle',
+      artPrompt: 'a long slender darning needle with a shining black wax head lying proud and glittering in a sunlit puddle by a gutter, a fish bone and a small eggshell beside it, bubbles and golden light on the water',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'There was once a darning needle who thought herself so fine that she believed she was a sewing needle. "Mind you hold me properly!" she said whenever she was taken out. "I am made of steel, and I belong in a fine lady’s work-basket."',
+        },
+        {
+          kind: 'image',
+          art: 'andersen2-needle',
+          text: 'The darning needle floats along the gutter, proud as a queen.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: darning needle — a long, thin steel pin for mending holes in stockings.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But one day the cook’s hand slipped, and — plink! — the needle fell into the sink, and from the sink into the gutter. "Now I am travelling into the wide world!" she said, and floated along quite proudly, past sticks and straws and bits of leaf. A fish bone floated by and stared at her. "Do not come so close," she said. "You might think we are alike. We are not. I am far too fine for this world."',
+        },
+        {
+          kind: 'text',
+          text: 'At last she was washed into a dark corner where an old eggshell lay. "I am too fine for the world," she told the eggshell. "I shall break before I bend!" And when, one day, the cook poured hot water out into the corner, the steaming water crept round the needle. Her shining wax melted away, she grew soft and small — crack! — and she broke in two.',
+        },
+        {
+          kind: 'text',
+          text: 'Nobody ever picked her up again. For a thing that is too proud to be useful is soon forgotten. She only lay there thinking, "I was too fine for the world," very quietly, ever after.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Nightingale and Other Tales',

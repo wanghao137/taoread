@@ -405,7 +405,7 @@ export function ChildHome() {
               onClick={() =>
                 setPhase({ kind: 'gate', checking: true, active: null, activeTitle: null })
               }
-              className="min-h-touch cursor-pointer self-start rounded-xl px-3 text-base text-ink-700"
+              className="min-h-touch cursor-pointer self-start rounded-full border-2 border-ink bg-paper-200 px-4 text-sm font-bold text-ink-700 shadow-xs"
             >
               ← 回到首页
             </button>
@@ -547,21 +547,30 @@ export function ChildHome() {
   }
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8">
+    <main className="relative mx-auto flex min-h-dvh w-full max-w-md flex-col px-5 py-8 md:max-w-2xl lg:max-w-7xl lg:px-10">
+      {/* 宽屏侧翼氛围层（任务1：PC 两侧不再空置）——纯装饰，小屏隐藏 */}
+      <div aria-hidden className="pointer-events-none fixed inset-y-0 left-0 right-0 hidden xl:block">
+        <div className="absolute -left-32 top-24 h-96 w-96 rounded-full bg-terra-50 blur-3xl" />
+        <div className="absolute -right-40 bottom-10 h-[28rem] w-[28rem] rounded-full bg-sun/20 blur-3xl" />
+        <div className="absolute left-16 top-1/3 h-6 w-6 rotate-12 rounded-xl border-2 border-ink bg-sun shadow-xs" />
+        <div className="absolute left-24 top-[45%] h-4 w-4 rounded-full border-2 border-ink bg-sky" />
+        <div className="absolute right-20 top-28 h-5 w-5 rounded-full border-2 border-ink bg-rose" />
+        <div className="absolute right-28 top-[42%] h-7 w-7 rotate-6 rounded-xl border-2 border-ink bg-mint shadow-xs" />
+      </div>
       <div className="flex items-center justify-between">
-        <h1 className="bg-terra-gradient bg-clip-text font-display text-2xl font-bold text-transparent">
+        <h1 className="bg-terra-gradient bg-clip-text font-display text-2xl font-bold text-transparent lg:text-3xl">
           桃阅读
         </h1>
         <button
           type="button"
           // 孩子误触会丢掉整个会话：先弹确认层（docs/11 P0-8 / MC-4 容错）
           onClick={() => setConfirmSwitch(true)}
-          className="min-h-touch cursor-pointer rounded-full border border-paper-border px-4 text-sm text-ink-700"
+          className="min-h-touch cursor-pointer rounded-full border-2 border-ink bg-paper-200 px-4 text-sm font-bold text-ink-700 shadow-xs"
         >
           换家庭
         </button>
       </div>
-      <div className="flex flex-1 flex-col py-6">{body()}</div>
+      <div className="flex flex-1 flex-col py-6 pb-28 lg:pb-24">{body()}</div>
 
       {/* 持久底部导航（P1-2）：只在非沉浸阶段展示，阅读器/收尾/庆祝自己有导航 */}
       {SHOW_TAB_BAR_PHASES.has(phase.kind) ? (

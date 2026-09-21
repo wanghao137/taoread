@@ -153,6 +153,138 @@ export const bremenMusicians: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Hare and the Hedgehog',
+      art: 'bremen-hedgehog',
+      artPrompt: 'a hedgehog and his wife, who looks exactly like him, standing at the two ends of a long ploughed furrow in a bright field, a dizzy hare sitting exhausted between them, Sunday morning sunshine',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One sunny Sunday morning a hare stood at the end of a field, boasting. "I am the fastest animal in the world!" he cried. By the fence sat a hedgehog. "I could race you," he said, "and win." The hare laughed and laughed. "Done!" he cried. "A golden coin on Sunday morning!"',
+        },
+        {
+          kind: 'image',
+          art: 'bremen-hedgehog',
+          text: 'The hedgehog stands at his end of the furrow, calm as can be.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: furrow — a long, straight line of earth a farmer digs for planting.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But the hedgehog had a plan. His wife looked just like him. "Run to the far end of the field," he told her, "and stand in the next furrow. When the hare comes, call out: I am here already!" And that is just what she did.',
+        },
+        {
+          kind: 'text',
+          text: 'One — two — three! The hare ran like the wind down the furrow, while the hedgehog took two steps and sat down again. At the far end the hare found — the hedgehog’s wife! "I am here already!" she called. The hare ran back — and at the start stood the hedgehog himself, saying, "I am here already!" Up and down, up and down he ran, till his legs shook and his breath was gone.',
+        },
+        {
+          kind: 'text',
+          text: '"I give up!" gasped the hare, and he tumbled down on the grass, quite out of breath. The hedgehog picked up his golden coin and walked home with his wife for their Sunday breakfast. And the hare never again said he was the fastest animal in the world.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Hans in Luck',
+      art: 'bremen-luck',
+      artPrompt: 'a cheerful young man skipping along a country road swinging his empty hands, a small stone splashing into a stone well beside him, his face bright with joy, rolling fields and a distant village',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Hans had worked for his master for seven years. "You have been faithful," said the master. "Here are your wages." And he gave Hans a lump of gold as big as his own head. Hans wrapped it in a cloth, put it on his shoulder, and set off home to his mother, feeling like the luckiest man alive.',
+        },
+        {
+          kind: 'image',
+          art: 'bremen-luck',
+          text: 'Hans walks home light of heart, having traded gold for happiness.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: wages — the pay you get for your work.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Soon the gold felt heavy. A rider went by, and Hans called out, "What luck you have, sitting so easily! I will trade you my gold for your horse!" And he did, and he was glad. But the horse threw him into a ditch, so he was glad again to trade it for a cow. "Milk for my mother every morning — what luck!" Then the cow would not be milked, so he traded her for a goose. "A goose lays eggs — what luck!"',
+        },
+        {
+          kind: 'text',
+          text: 'In the town a knife-grinder spun his wheel. "Trade me your goose for my whetstone," he said, "and you will never be poor." But soon the stone was too heavy too. At the well Hans took a long, cool drink, and — plop! — he let the stone drop in. Then he sprang up, free and easy, with tears of joy in his eyes. "How light I feel! How happy I am! Nobody on earth is as lucky as I am."',
+        },
+        {
+          kind: 'text',
+          text: 'And he ran the rest of the way home to his mother, with nothing in his hands and everything in his heart.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Straw, the Coal, and the Bean',
+      art: 'bremen-bean',
+      artPrompt: 'a long straw laid across a little brook like a bridge, a small red-hot coal walking over it, a round bean watching from the grassy bank, a tiny tailor with needle and thread nearby, storybook meadow',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Once an old woman meant to cook a supper of beans. She threw some straw on the fire, and a bean jumped out of the pan and landed on the floor — and there it met a piece of straw that had slipped out of the hearth, and a red-hot coal that had leapt out too. "We are all three lucky escapees," said the coal. "Let us travel the world together!" And so they set off, side by side.',
+        },
+        {
+          kind: 'image',
+          art: 'bremen-bean',
+          text: 'The coal walks across the straw, and the bean watches in fear.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: brook — a little stream, small enough to step over — almost.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Soon they came to a brook. "I will lie across it like a bridge," said the long straw. So the coal walked over first — but he was still red-hot, and halfway across he hissed and burned the straw right through. The straw broke in two and slipped into the water, and the coal hissed out like a little black star.',
+        },
+        {
+          kind: 'text',
+          text: 'The bean, who had waited on the bank, saw it all and laughed and laughed — till she split her sides! There she lay, unable to move, until a friendly young tailor came walking by. He took out his needle and thread and sewed her up again, kind as could be.',
+        },
+        {
+          kind: 'text',
+          text: 'And that is why, to this very day, every bean has a little black seam down its middle.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Queen Bee',
+      art: 'bremen-bee',
+      artPrompt: 'a kind young man gently holding his brothers back from a beehive in an old tree, a golden bee resting on a sleeping princess’ lips in a moonlit castle room below in the same scene, soft gold and green light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Two brothers set out to see the world — and their youngest brother, whom everyone called Simpleton, asked to go too. "You are too simple," said the brothers. But he came along. On the way they found an ant hill. "Let me knock it over for fun!" said one brother. "No," said Simpleton, "leave the little people in peace." Then they found two ducks that could not fly, and wanted to catch them — "No, leave them in peace." And when they came to a bee hive full of honey, the brothers wanted to smoke the bees out, but Simpleton stopped them. "Leave the little people in peace," he said.',
+        },
+        {
+          kind: 'image',
+          art: 'bremen-bee',
+          text: 'Simpleton keeps his brothers from harming the ant hill and the bees.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: in peace — left alone, untroubled and safe.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'At last they came to a silent grey castle. In the stable stood stone horses, in the hall sat stone men, and upstairs slept three princesses on their beds. A little voice in the air said: "This castle is enchanted. Three tasks will set it free: gather a thousand pearls from the dark wood, fetch a golden key up from the deep lake, and tell which of the sleeping princesses is the true and kind one."',
+        },
+        {
+          kind: 'text',
+          text: 'The brothers tried and failed. But when Simpleton’s turn came, the ants he had saved came marching and gathered every single pearl by morning. The two ducks he had saved dived and brought up the golden key. And for the last task, the queen bee he had saved flew in and settled on the lips of the third princess — for she had never done an unkind thing in her life.',
+        },
+        {
+          kind: 'text',
+          text: 'The spell was broken. The stone horses stamped, the stone men laughed, and the castle filled with music. Simpleton married the kind princess and ruled the castle well — and his brothers were the first to cheer, for they had learned to leave the little people in peace.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: "Grimm's Fairy Tales — The Town Musicians of Bremen",

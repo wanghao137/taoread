@@ -834,10 +834,22 @@ export function TaoMascot({
       style={style}
       {...(useReducedMotion() ? {} : MOTION.breathe)}
     >
-      {/* 叶子 */}
-      <path d="M-2 -12 Q -9 -15 -11 -9 Q -6 -7 -2 -10 Z" fill="#66BB6A" />
-      <path d="M2 -12 Q 9 -15 11 -9 Q 6 -7 2 -10 Z" fill="#81C784" />
-      {/* 桃身：两颗重叠圆 + 尖下巴 */}
+      <defs>
+        {/* 品牌桃子渐变（对齐 taostudio logo：蜜桃橙→粉，左上受光） */}
+        <radialGradient id="tao-body" cx="0.34" cy="0.3" r="0.95">
+          <stop offset="0" stopColor="#FFD1B8" />
+          <stop offset="0.45" stopColor="#FF9E7A" />
+          <stop offset="1" stopColor="#F06A56" />
+        </radialGradient>
+        <linearGradient id="tao-leaf" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#8BC34A" />
+          <stop offset="1" stopColor="#558B2F" />
+        </linearGradient>
+      </defs>
+      {/* 叶子：两片对生，深浅两色 */}
+      <path d="M-1.5 -11.5 Q -8.5 -15.5 -11.5 -9.5 Q -6.5 -6.5 -1.5 -9.5 Z" fill="url(#tao-leaf)" />
+      <path d="M1.5 -11.5 Q 8.5 -15.5 11.5 -9.5 Q 6.5 -6.5 1.5 -9.5 Z" fill="#9CCC65" />
+      {/* 桃身：品牌渐变 + 描边 */}
       <path
         d="M-9 -4
            Q -11 -10 -5 -11
@@ -845,17 +857,21 @@ export function TaoMascot({
            Q 11 -10 9 -4
            Q 8 6 0 12
            Q -8 6 -9 -4 Z"
-        fill="#FF8E75"
+        fill="url(#tao-body)"
+        stroke="#D95A44"
+        strokeWidth={0.9}
+        strokeLinejoin="round"
       />
-      {/* 高光 */}
-      <ellipse cx={-4} cy={-5} rx={2.4} ry={3.4} fill="#FFB3A0" opacity={0.85} />
+      {/* 高光：左上大块柔光 + 小亮点 */}
+      <ellipse cx={-4.2} cy={-5.2} rx={2.8} ry={3.8} fill="#FFE3D2" opacity={0.75} />
+      <circle cx={-2.2} cy={-8} r={0.9} fill="#FFF4E8" opacity={0.9} />
       {/* 中缝 */}
-      <path d="M0 -9 Q -1.5 0 0 10" stroke="#E57362" strokeWidth={1} fill="none" opacity={0.6} />
+      <path d="M0 -9.5 Q -1.6 0 0 10.5" stroke="#D95A44" strokeWidth={1.1} fill="none" opacity={0.45} strokeLinecap="round" />
       {eyes}
       {mouth}
       {/* 腮红 */}
-      <circle cx={-7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
-      <circle cx={7} cy={2} r={1.6} fill="#FF5C8A" opacity={0.35} />
+      <circle cx={-7} cy={2} r={1.8} fill="#FF5C8A" opacity={0.32} />
+      <circle cx={7} cy={2} r={1.8} fill="#FF5C8A" opacity={0.32} />
     </motion.svg>
   )
 }

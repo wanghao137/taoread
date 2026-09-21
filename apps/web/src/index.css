@@ -9,9 +9,8 @@
   }
   body {
     @apply min-h-dvh bg-paper-100 font-sans;
-    /* 暖米白微渐变：模拟纸面的自然明暗，顶部亮、下部微沉 */
-    background-image: linear-gradient(180deg, #fbfaf6 0%, #f7f5ee 100%);
-    background-attachment: fixed;
+    /* 纸面用单色底：带 fixed 渐变会在长页面滚动/整页渲染时出现「上下两截」的硬断层 */
+    background-color: #fbf7ec;
   }
   /* 纸纹颗粒：极低对比的噪点覆盖层，给「手工纸」质感（纯装饰） */
   body::before {

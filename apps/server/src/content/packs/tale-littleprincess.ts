@@ -220,6 +220,64 @@ export const littlePrincess: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 7 · Little Lottie',
+      art: 'lottie-schoolroom',
+      artPrompt: 'a tall Victorian schoolroom with maps on the walls, a tiny four-year-old girl in a red pinafore lying on the floor kicking and screaming, older girls covering their ears, a dark-haired girl with big green eyes sitting down quietly beside her on the floor',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Of all the little girls at Miss Minchin\'s, none cried louder than Lottie Legh. She was four years old, she had lost her mother, and when anything went wrong she flung herself on the schoolroom floor and screamed till the walls rang. The teachers could do nothing at all with her.',
+        },
+        {
+          kind: 'image',
+          art: 'sara-lottie-floor',
+          text: 'Sara sits down beside the screaming Lottie, quiet as a queen.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: adopt — to take someone into your heart and into your family, and love them as your own forever.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'One day, in the middle of the loudest tantrum ever heard, Sara sat down quietly on the floor beside her. "Lottie," she said, "if you cry and scream, you cannot hear my story." The little girl\'s sobs grew smaller and smaller. "I have no mamma either," Sara went on softly. "So I shall adopt you, and be your mamma, and tell you stories every single day." And Lottie stopped crying and put her arms round Sara\'s neck.',
+        },
+        {
+          kind: 'text',
+          text: 'From that day Lottie followed Sara everywhere and called her "my own mamma," and Sara drove her tears away with tales of princes and angels and far-off palaces. "You must be a princess too," said Sara. "Princesses do not scream, even when they are sad." And Lottie believed every word - for with Sara, the pretending always came true.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Feast in the Attic',
+      art: 'attic-feast-night',
+      artPrompt: 'a candle-lit attic under the eaves at night, four girls sitting round an open hamper on the floor with buns and tarts and a big jam cake, blankets on their shoulders, a small black stove glowing, one girl laughing with her head thrown back',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One rainy evening Ermengarde climbed up to the attic, staggering under a heavy hamper. It was packed with good things - a pot of meat, buns and tarts, and a great jam cake. "Let us have a feast," she said, "a real one, this very night." So Sara fetched Becky in from behind her curtain, and Lottie came too, and they made a palace of the Bastille.',
+        },
+        {
+          kind: 'image',
+          art: 'ermengarde-basket',
+          text: 'Ermengarde opens the hamper, and there is a feast in the Bastille.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: hamper — a big covered basket, packed so full of good food that the lid can hardly shut.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But laughter carries in an old house. Miss Minchin flew up the stairs and burst in upon the feast. "What is the meaning of this? Extravagant, wicked children! And Becky - upstairs from the kitchen!" Becky shrank into her corner, and Lottie began to cry. Then Ermengarde stood up, red and stammering, but brave. "The feast is mine," she said. "I brought the basket. Sara is the cleverest girl in this school and my best friend, and if you are cruel to her, I shall tell my papa and never come back."',
+        },
+        {
+          kind: 'text',
+          text: 'Miss Minchin drew back a step, for Ermengarde\'s papa paid well for his daughter\'s schooling. The feast was cleared away, but nobody could take away what the friends had found. And Sara, in her ragged black dress, sat by the stove that night and smiled to herself. A princess keeps her feast in her heart, she thought - even when the candles are blown out.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'A Little Princess',

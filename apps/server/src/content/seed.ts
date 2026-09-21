@@ -56,30 +56,37 @@ export async function seedPack(db: PrismaClient, pack: PackBook): Promise<void> 
     },
   })
 
-  // 章节是「写定即不可变」的结构：先按 bookId 清空再重排，保证 order 严格连续
+  // 章节是「写定即不可变」的结构：先按 bookId 清空再重排，保证 order 严格连续。
+  // 全库扩到 200+ 书 / 4000+ 章后逐条 create 会把 seed 拖过分钟级，改批量 createMany：
+  // 章节一批写入，再按 order 取回 id，全部块一批评入（单书 3 次往返）。
   await db.chapter.deleteMany({ where: { bookId: pack.id } })
-  for (let ci = 0; ci < pack.chapters.length; ci++) {
-    const ch = pack.chapters[ci]
-    if (!ch) continue
-    const chapter = await db.chapter.create({
-      data: {
-        bookId: pack.id,
-        order: ci + 1,
-        title: ch.title,
-        ...(ch.art ? { art: ch.art } : {}),
-      },
-    })
-    await db.block.createMany({
-      data: ch.blocks.map((b, bi) => ({
-        chapterId: chapter.id,
-        order: bi + 1,
-        kind: b.kind,
-        text: b.text,
-        ...(b.pinyin ? { pinyin: b.pinyin } : {}),
-        ...(b.translation ? { translation: b.translation } : {}),
-        ...(b.art ? { art: b.art } : {}),
-      })),
-    })
+  const chapterRows = pack.chapters.map((ch, ci) => ({
+    bookId: pack.id,
+    order: ci + 1,
+    title: ch.title,
+    ...(ch.art ? { art: ch.art } : {}),
+  }))
+  await db.chapter.createMany({ data: chapterRows })
+  const stored = await db.chapter.findMany({
+    where: { bookId: pack.id },
+    select: { id: true, order: true },
+  })
+  const idByOrder = new Map(stored.map((row) => [row.order, row.id]))
+  const blockRows = pack.chapters.flatMap((ch, ci) => {
+    const chapterId = idByOrder.get(ci + 1)
+    if (!chapterId) return []
+    return ch.blocks.map((b, bi) => ({
+      chapterId,
+      order: bi + 1,
+      kind: b.kind,
+      text: b.text,
+      ...(b.pinyin ? { pinyin: b.pinyin } : {}),
+      ...(b.translation ? { translation: b.translation } : {}),
+      ...(b.art ? { art: b.art } : {}),
+    }))
+  })
+  if (blockRows.length > 0) {
+    await db.block.createMany({ data: blockRows })
   }
 
   // 权利台账：一书一行，留痕可审计

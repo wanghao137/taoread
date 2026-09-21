@@ -220,6 +220,64 @@ export const treasureIsland: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 7 · The Fight in the Rigging',
+      art: 'night-cut-adrift',
+      artPrompt: 'a great wooden sailing ship drifting at night under a sliver of moon, a small figure at her bow sawing through a thick hawser rope, dark tropical cliffs rising ahead, white water breaking on rocks under the rail, a lantern burning low',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Jim slipped aboard the sleeping Hispaniola and cut her adrift, and the tide carried her slowly out of the bay. But the night was warm, and the boy was worn out, and he dozed at his post - and woke to find the ship driving straight for the cliffs of the north inlet. On deck sat Israel Hands, the fiercest pirate left aboard, with murder in his eye.',
+        },
+        {
+          kind: 'image',
+          art: 'jim-hands-mast',
+          text: 'Israel Hands climbs the rigging after Jim, a long knife in his teeth.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: rigging - all the ropes of a ship that hold up the masts and pull the sails. Up in the rigging, a one-legged man climbs slowly.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Jim scrambled up the rigging, out of a lame man\'s reach. "Now, matey," said Hands, soft as oil, "no more nonsense. Strike your flag." And up he began to climb, a long knife held in his teeth, hand over hand. Jim cocked his two pistols and waited, with the dark sea heaving far below.',
+        },
+        {
+          kind: 'text',
+          text: 'The knife flew and pinned Jim\'s sleeve to the mast. He tore himself free - one pistol spoke, and then the other. Israel Hands staggered, let go the rigging, and fell into the sea. Then Jim slid down, bleeding but alive, and the Hispaniola was his. One boy, alone in the night, had won back the whole ship.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Black Spot',
+      art: 'black-spot-circle',
+      artPrompt: 'the smoky interior of a log stockade at dawn, rough seamen in a ring around a one-legged man leaning on his crutch, a round black paper circle held out on a grimy palm, a boy in a red cap watching by the cabin door, the union flag down and a black pirate flag up',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'When Jim tried to slip back to his friends, he walked straight into the stockade - and found it full of pirates. Long John Silver stood among them, and his eye gleamed when he saw the boy. Young George Merry growled that the prisoner should be done away with at once. But Silver rapped on the table. "I\'m captain here," he said. "No man touches that boy but me."',
+        },
+        {
+          kind: 'image',
+          art: 'silver-bible-page',
+          text: 'Silver turns the black spot over - and finds a page of the Bible.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: black spot - a round black paper given to a pirate when his crew turns against him. It means: we judge you unfit to lead.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Next morning the pirates came sullenly to Silver and gave him the black spot. But Silver was cool as a cricket. "Look what you\'ve cut it from," he said, turning the paper over - and it was a page of the Bible, and the pirates went pale as flour. Then he showed them the chart with the red cross, which the doctor had traded him. "Follow me," said Silver, "and you shall all dig gold."',
+        },
+        {
+          kind: 'text',
+          text: 'So the black spot was wiped out, and soon Dr. Livesey himself came under a white flag to tend the sick men. "Why didn\'t you run away, Jim?" the doctor asked quietly. "Because I gave my word to Silver," said Jim, "and I must keep it." The doctor sighed and looked long at the one-legged cook - and went back to his friends to wait for the morning of the dig.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Treasure Island',

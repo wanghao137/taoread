@@ -14,7 +14,7 @@ export const winniePooh: PackBook = {
   lang: 'en',
   category: 'tale',
   ageStage: '3-5',
-  intro: 'Winnie-the-Pooh is a bear of very little brain — and a very big appetite for honey. Here are four of his silliest adventures.',
+  intro: 'Winnie-the-Pooh is a bear of very little brain — and a very big appetite for honey. Here are eight of his silliest adventures.',
   coverArt: 'pooh-honey',
   coverArtPrompt: 'a round golden teddy bear in a little red shirt standing under a big oak tree, holding a honey pot with a bee buzzing above him, sunny hundred-acre-wood meadow',
   coverFrom: '#D84315',
@@ -166,6 +166,138 @@ export const winniePooh: PackBook = {
         {
           kind: 'text',
           text: 'Eeyore swished his tail from side to side, this way and that. He was so happy that he almost smiled. And Pooh went home for a little something to refresh himself, because bears do a lot of hard thinking.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 5 · Eeyore’s Birthday',
+      art: 'eeyore-birthday',
+      artPrompt: 'a sad old grey donkey standing alone in a thistly grassy corner, a round golden bear in a red shirt and a small pink pig hurrying along the path carrying an empty honey pot and a burst red balloon, little blue flowers by the stream',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'It was Eeyore’s birthday, and Eeyore stood alone in his thistly corner of the Forest, looking gloomily at his own feet. "Many happy returns of the day, Eeyore!" said Pooh. "Is that Me?" said Eeyore. "I did not know it was My birthday." He had had no present, no party, and no nice surprise at all.',
+        },
+        {
+          kind: 'image',
+          art: 'eeyore-birthday',
+          text: 'Eeyore in his thistly corner, quite forgetting it was his own birthday.',
+        },
+        {
+          kind: 'text',
+          text: 'Pooh ran home for a pot of honey, and Piglet hurried off to blow up a big red balloon. But on the way, Pooh began to feel hungry. He looked at the honey. He looked away. Then — well — he ate every last drop. "How funny," he said, licking the pot. "Where has all the honey gone?"',
+        },
+        {
+          kind: 'note',
+          text: 'New word: present — something you give to a friend on a happy day. This present was an empty pot with a big surprise inside!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Owl wrote A HAPPY BIRTHDAY on the pot, to make it a present again. And Piglet? He tripped on a root, sat on the balloon, and BANG — he burst it. All he had left was a small, flat, broken balloon. So he rolled it up and popped it inside the pot.',
+        },
+        {
+          kind: 'text',
+          text: 'Eeyore looked inside the pot, and lifted out the burst balloon, and shook it flat, and put it back in. "A Useful Pot," he said, "with something in it." Pooh and Piglet looked at each other, and grinned. It was the nicest birthday Eeyore had ever had — and he had never had one before.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Kanga and Roo Come to the Forest',
+      art: 'kanga-roo-bath',
+      artPrompt: 'a tall kind kangaroo holding a big yellow soap beside a wooden bathtub in a sunny forest clearing, a small joey watching with wide eyes, a little pig sitting shyly in the bubbly water, a round bear in a red shirt and a rabbit whispering behind a pine tree',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Two strangers came to the Forest: Kanga, a large kind kangaroo, and her baby, Roo, who jumped about and fell into things. "Here comes a Stranger!" said Rabbit, and he made a plan. "We will take baby Roo away," he said, "and then Kanga will go home, and the Forest will be quiet again."',
+        },
+        {
+          kind: 'image',
+          art: 'kanga-roo-bath',
+          text: 'Kanga’s bath time in the Forest — with soap, and one very surprised Piglet.',
+        },
+        {
+          kind: 'text',
+          text: 'Pooh and Piglet did not like the plan much, but they began it all the same. Piglet hid inside Kanga’s cupboard, holding his breath. Then out he jumped. "Aha!" cried Piglet, hopping about. "Aha!" said Pooh from the doorway. "Now we have got you, Baby Roo!"',
+        },
+        {
+          kind: 'note',
+          text: 'New word: hop — a little jump, up and down. Kangas hop, Roos hop, and Piglets hop too — but only one of them says Aha!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'But Kanga was not frightened at all. She looked at the hopping, squeaking little animal, and said, kindly, "It is bath time." And before Piglet could say a word, she popped him into warm water and washed him with yellow soap, till he was cleaner than he had ever been in all his life.',
+        },
+        {
+          kind: 'text',
+          text: '"Aha!" said Kanga at last, drying Piglet’s ears very gently. "It was only a joke," said Pooh, "a Clever Trick — and it did not work." So Kanga and Roo stayed in the Forest after all, and became friends with everyone. And Piglet found that he did not mind a warm bath one bit.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Piglet and the Flood',
+      art: 'piglet-flood',
+      artPrompt: 'a tiny pink pig floating on a little armchair in brown flood water beside a green bottle with a cork, a round bear in a red shirt and a boy paddling a big blue umbrella held upside down like a boat, treetops above the water, soft grey rainy sky',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'It rained and rained and rained, for days and days, until the whole Forest was under water. Piglet sat on a chair in his little house, safe and dry — until the water came in at the window, and the chair began to float, and Piglet floated out, out, out into the big grey flood.',
+        },
+        {
+          kind: 'image',
+          art: 'piglet-flood',
+          text: 'Piglet, entirely surrounded by water, floating away on his little chair.',
+        },
+        {
+          kind: 'text',
+          text: '"Help!" squeaked Piglet. But the Forest was quiet, and nobody heard. So Piglet found a bottle, and a cork, and a pencil, and he wrote in his best writing: "IT\'S PIGLET! HELP! HELP!" He pushed it into the bottle and sent it out to sail. Then he sat very still, and tried not to be frightened.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: float — to rest on top of the water and not sink. Chairs can float, bottles can float, and one small pig floated all the way to a Rescue.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Christopher Robin found the bottle by the bridge. "It\'s a Rescue!" he cried, and Pooh came running — rather slowly, for he had been fast asleep. They opened a big blue umbrella and held it upside down, like a boat, and paddled out into the flood to look for Piglet.',
+        },
+        {
+          kind: 'text',
+          text: 'Over the water they went, calling Piglet’s name. And there he was, on his little chair, waving his handkerchief in the rain. Piglet climbed aboard the umbrella-boat, and they paddled home together. "A Rescue," said Pooh, "is a very fine thing — especially when it works."',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The North Pole',
+      art: 'north-pole',
+      artPrompt: 'a boy holding up a long straight pine pole beside a sparkling forest stream, a round bear in a red shirt, a small pink pig, a grey donkey, an owl and a tiny kangaroo joey standing round cheering, bright sunny day in a green wood',
+      blocks: [
+        {
+          kind: 'text',
+          text: '"We are all going on an Expotition," said Christopher Robin, "to the North Pole, to discover it." Pooh told everybody about it, and spelled it a little wrong. They set off with provisions — that means honey, and haycorns, and thistles to eat on the way.',
+        },
+        {
+          kind: 'image',
+          art: 'north-pole',
+          text: 'The friends at the North Pole, just after the great discovery.',
+        },
+        {
+          kind: 'text',
+          text: 'On and on they marched, until they stopped by a stream for a little rest. Just then — splash! — little Roo fell in the water and sank down, down. But a long straight pole was lying on the bank, and Christopher Robin reached out with it quickly, and pulled Roo safely up by his coat.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: discover — to find something that nobody has found before. They found a long pole in the Forest, and named it the North Pole!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"This pole is a Very Important Thing," said Christopher Robin. "We have discovered it, and so it shall be the North Pole, for ever." They stuck it firmly in the ground by the stream, and cheered — and Eeyore was as proud as only a gloomy donkey can be.',
+        },
+        {
+          kind: 'text',
+          text: 'Then Christopher Robin gave a party, with honey and presents, and Eeyore made a speech to say thank you. And when the party was over, they all walked home through the evening light, together in the Forest — which is the very best way for a story to end.',
         },
       ],
     },

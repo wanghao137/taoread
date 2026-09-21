@@ -154,6 +154,138 @@ export const poohCorner: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · Tigger Is Unbounced',
+      art: 'poohcorner-mist',
+      artPrompt: 'a round golden bear in a red shirt, a small pink pig and a long-eared rabbit standing lost in thick white mist among dark pines, a stripey tiger cub bounding happily above the mist toward home, soft grey morning light',
+      blocks: [
+        {
+          kind: 'text',
+          text: '"Tiggers bounce on everyone," grumbled Rabbit, "and I am going to Unbounce him." So Rabbit led Tigger to a far dark corner of the Forest where nobody ever came, with Pooh and Piglet following behind. "Wait here," said Rabbit. "Tigger will be lost, and never bounce again." Then Rabbit hurried off home — and got lost in the mist.',
+        },
+        {
+          kind: 'image',
+          art: 'poohcorner-mist',
+          text: 'Lost in the mist, where Tiggers were not supposed to be.',
+        },
+        {
+          kind: 'text',
+          text: 'But the mist came down over everything, and Rabbit was the one who could not find his way! He walked round and round the same little clump of trees. Pooh and Piglet were lost too. Only Tigger was not lost — because Tiggers never get lost.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: mist — a soft grey cloud that comes down close to the ground, so that you cannot see very far.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"Lost? Lost?" called Tigger, bounding back out of the mist. "Tiggers never get lost! Follow me, everybody!" And he bounced away home, and Pooh and Piglet followed Tigger, and Rabbit followed Pooh, and at last they were all safe and warm again.',
+        },
+        {
+          kind: 'text',
+          text: 'On the way, Tigger bounced Rabbit once more — and then he said how very sorry he was, and that Tiggers would never, never bounce on Rabbit again. "So Tigger is Unbounced," said Rabbit, gloomily pleased, "which is exactly what I planned." And perhaps it was.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Owl\'s House Falls Down',
+      art: 'poohcorner-wind',
+      artPrompt: 'a tall old chestnut tree blown over by a great storm in a dark forest, a round golden bear in a red shirt holding one end of a long rope near the fallen trunk with a little round doorway high in the air, wind-blown leaves, night light',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One night a great wind blew through the Forest — a Wind-Before-a-Rain and a Rain-Before-a-Wind — and it blew and blew, until with a crack and a crash, Owl\'s tall chestnut tree fell over, with Owl and Piglet still inside it. Up in the air went the little round house, with its door over their heads!',
+        },
+        {
+          kind: 'image',
+          art: 'poohcorner-wind',
+          text: 'Owl\'s fallen tree, with the door high in the air where the ground used to be.',
+        },
+        {
+          kind: 'text',
+          text: '"We are up in the air," said Owl, quite cheerfully, "and I rather like it." But Piglet called out for help, in a very small, very brave voice. Pooh thought hard, and then he had an idea: a rope! Christopher Robin brought a long rope, and Pooh held one end as tight as a bear can hold.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: brave — Piglet was small and frightened, and he called out for help anyway. That is what brave means.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Christopher Robin climbed up to the little window, and lifted Owl out first, and then Piglet, and down they came to the safe dark garden below. They all stood together in the windy night, and watched the old tree lie still, and held each other\'s paws.',
+        },
+        {
+          kind: 'text',
+          text: '"Piglet was very brave," said Pooh. "Nearly brave," said Piglet, "in a small sort of way." And everyone agreed that nearly brave, in a small sort of way, was quite good enough — for a Very Small Animal.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Piglet Does a Very Grand Thing',
+      art: 'poohcorner-wolery',
+      artPrompt: 'a small pink pig standing proudly beside his tiny wood-and-brick house with a long grey donkey and a brown owl at the little door, a round golden bear in a red shirt and a boy clapping, sunny green forest clearing',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Owl had no house to live in, so Eeyore set out to find him one. Round and round the Forest went Eeyore, and at last he came back, very proud. "I have found a house for Owl," he said. "I call it the Wolery." But the house Eeyore had found — was Piglet\'s house!',
+        },
+        {
+          kind: 'image',
+          art: 'poohcorner-wolery',
+          text: 'Eeyore\'s fine find for Owl — which happened to be Piglet\'s very own house.',
+        },
+        {
+          kind: 'text',
+          text: 'Everyone looked at Piglet, and Piglet looked at his little house, with his own name over the little door. Then he stood up as tall as a Very Small Animal can stand, and said, quietly, that it was a grand house for an Owl, and that Owl should have it and be very happy there.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: grand — kind and generous, even when it is hard. Piglet did a Very Grand Thing.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"But where will Piglet live?" asked Pooh, in a sad sort of voice. "With me," said Christopher Robin at once. So Piglet packed up his things, and Owl moved into the house, and painted THE WOLERY on the door, where Piglet\'s name used to be.',
+        },
+        {
+          kind: 'text',
+          text: 'And Christopher Robin gave a party — a real party, with presents and honey and a speech all about Piglet — because somebody had done a Very Grand Thing, and grand things, said Christopher Robin, must never, ever be forgotten.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Enchanted Place',
+      art: 'poohcorner-farewell',
+      artPrompt: 'a boy and a round golden bear in a small red shirt sitting side by side on a grassy hilltop above the forest, looking at distant green trees and a bright evening sky, quiet golden light, small wild flowers around them',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One day Christopher Robin and Pooh went up to the top of the Forest, to their own special place, where the trees stand round in a circle and the sky comes right down to the grass. Nobody can be sad in that place, and it is enchanted.',
+        },
+        {
+          kind: 'image',
+          art: 'poohcorner-farewell',
+          text: 'The enchanted place at the top of the Forest, where the sky goes all the way down.',
+        },
+        {
+          kind: 'text',
+          text: '"Pooh," said Christopher Robin, "I am not going to do Nothing any more." He had to go away now, to school, and to all sorts of grown-up things. "Pooh, whatever happens, you will understand, won\'t you? You\'re the best bear in all the world."',
+        },
+        {
+          kind: 'note',
+          text: 'New word: enchanted — a little bit magic, in a quiet and happy way. A place where a friend is waiting is always enchanted.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: '"Am I?" said Pooh, in a very small voice. And Christopher Robin promised. And he hugged Pooh, and Pooh hugged him right back — though bears cannot promise out loud, not in bear language. But bears can remember, and Pooh never forgot.',
+        },
+        {
+          kind: 'text',
+          text: 'Then they walked home down the hill, side by side. And that is not quite the end of the story — because wherever they go, and whatever happens to them on the way, in that enchanted place on the top of the Forest, a little boy and his Bear will always be playing.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The House at Pooh Corner',

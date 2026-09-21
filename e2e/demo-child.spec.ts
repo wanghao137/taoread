@@ -3,10 +3,10 @@ import { expect, test, type Page } from '@playwright/test'
 /**
  * 孩子端全闭环 e2e（演示模式）：登录 → 多孩选择 → 欢迎屏（门屏）→ 选书（推荐/骰子/搜索）
  * → 选定 → 出发 → 收尾（进度/心情/金句）→ 庆祝 → 桃子墙 → 续传清零。
- * 种子数据：PEACH888 家庭，小桃(6-8)/小柚(3-5)，历史账本 11 晚。
+ * 种子数据：123456 家庭，小桃(6-8)/小柚(3-5)，历史账本 11 晚。
  */
 
-const CODE = 'PEACH888'
+const CODE = '123456'
 
 /** 以孩子身份建立会话并进入 /child */
 async function loginAsChild(page: Page): Promise<string> {

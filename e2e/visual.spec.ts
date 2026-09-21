@@ -9,7 +9,7 @@ const OUT = resolve(dirname(fileURLToPath(import.meta.url)), '../docs/screenshot
 async function loginAs(page: import('@playwright/test').Page, role: 'parent' | 'child'): Promise<void> {
   await page.goto('/login')
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()
-  await page.locator('#family-code').fill('PEACH888')
+  await page.locator('#family-code').fill('123456')
   await page.getByRole('button', { name: role === 'parent' ? '爸爸妈妈' : '小朋友' }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
 }
@@ -26,9 +26,17 @@ test.describe('交付视觉终扫', () => {
     await page.getByRole('button', { name: /小桃/ }).click()
 
     // 门屏（若有未收尾会话，先收尾再重新登录，保证截图是干净的门屏）
-    const resumeBtn = page.getByRole('button', { name: '继续去读' })
+    // 有未收尾会话（普通/超时两种卡）都先收尾，保证截图是干净的门屏。
+    // 门屏 checking 期间卡片未渲染：先等「干净门屏文案」或「收尾按钮」二者其一出现（20s）
+    await page
+      .getByRole('button', { name: /继续去读|去收尾|再多读一小段|读完啦，去收尾|下一步|跳过/ })
+      .first()
+      .or(page.getByText(/今天读什么故事/))
+      .first()
+      .waitFor({ timeout: 20_000 })
+    const resumeBtn = page.getByRole('button', { name: /继续去读|去收尾|读完啦，去收尾/ }).first()
     if (await resumeBtn.isVisible({ timeout: 4_000 }).catch(() => false)) {
-      await page.getByRole('button', { name: '去收尾' }).click()
+      await resumeBtn.click()
       await page.getByText(/读到哪儿啦？/).waitFor({ timeout: 10_000 })
       await page.getByRole('button', { name: '读完啦', exact: true }).click()
       await page.getByRole('button', { name: '兴奋', exact: true }).click()

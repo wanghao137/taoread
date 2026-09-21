@@ -34,13 +34,15 @@ const FILTERS: Array<{ key: Filter; label: string }> = [
   { key: 'story', label: '故事' },
 ]
 
-export function BookShelf({ onOpen, onBack }: BookShelfProps) {
+export function BookShelf({ onOpen }: BookShelfProps) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   const stage = useSession((s) => s.childStage)
   const reduced = useReducedMotion()
 
   const [books, setBooks] = useState<ContentBookDto[]>([])
+  /** 全量书单缓存：搜索结果太少时取来填「大家都在读」推荐位 */
+  const [recs, setRecs] = useState<ContentBookDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<Filter>('all')
@@ -110,7 +112,11 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           ...(childId ? { childId } : {}),
           ...(q.trim() ? { q } : {}),
         })
-        .then((res) => setBooks(res.books))
+        .then((res) => {
+          setBooks(res.books)
+          // 无搜索词的全量结果同时作为推荐池缓存
+          if (!q.trim()) setRecs(res.books)
+        })
         .catch((err: unknown) => {
           setError(err instanceof ApiError ? err.message : '书架还在梳洗打扮…')
         })
@@ -271,13 +277,7 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
             清空搜索
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={onBack}
-            className="min-h-touch rounded-full border-2 border-ink bg-paper-200 px-6 text-sm text-ink-700 shadow-card"
-          >
-            回到首页
-          </button>
+          <p className="text-sm text-ink-700">点下面的「首页」就能回去哦</p>
         )}
       </div>
     )
@@ -285,7 +285,8 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
 
   return (
     <div className="flex flex-1 flex-col">
-      {/* 顶部：标题 + 返回（docs/22：亮色氛围头图区，赤陶柔光渐变） */}
+      {/* 顶部：标题 + 生词本（docs/22：亮色氛围头图区，赤陶柔光渐变）。
+          首页入口由底部 dock 承担，「← 首页」重复按钮已移除（UI 复盘 P1）。 */}
       <div className="relative overflow-hidden rounded-3xl border border-paper-border bg-paper-200/60 p-4">
         <div
           aria-hidden
@@ -300,19 +301,16 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           <div className="absolute right-10 top-20 h-1.5 w-1.5 rounded-full bg-terra-300/60" />
         </div>
         <div className="relative flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onBack}
-            className="flex min-h-touch items-center gap-1 rounded-full border-2 border-ink bg-paper-200 px-4 text-sm text-ink-700 shadow-card"
-          >
-            ← 首页
-          </button>
-          <h2 className="flex-1 text-xl font-bold text-ink-900">桃书架</h2>
-          {/* 生词本（docs/15 P1-B）：孩子收下的词，随时翻开复习 */}
+          <h2 className="whitespace-nowrap text-xl font-bold text-ink-900 lg:text-2xl">桃书架</h2>
+          <span className="rounded-full bg-terra px-2.5 py-0.5 text-xs font-bold text-white">
+            {sorted.length} 本
+          </span>
+          <div className="flex-1" />
+          {/* 生词本（docs/15 P1-B）：孩子收下的词，随时翻开复习。与计数徽标同高留缝（UI 复盘） */}
           <button
             type="button"
             onClick={() => void openWordbook()}
-            className="flex min-h-touch items-center gap-1.5 rounded-full border border-paper-border bg-paper-300/60 px-4 text-sm text-ink-700"
+            className="flex min-h-touch items-center gap-1.5 rounded-full border-2 border-ink bg-paper-200 px-4 text-sm font-bold text-ink-700 shadow-xs"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z" />
@@ -323,9 +321,6 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
               <span className="rounded-full bg-terra px-1.5 text-[10px] font-bold text-white">{wordCount}</span>
             ) : null}
           </button>
-          <span className="rounded-full bg-terra px-3 py-1 text-xs font-bold text-white">
-            {sorted.length} 本
-          </span>
         </div>
       </div>
 
@@ -354,7 +349,7 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="找一本书…"
-          className="min-h-touch w-full rounded-full border border-paper-border bg-paper-300 pl-11 pr-10 text-sm text-ink-900 placeholder:text-ink-700/70 focus:border-terra-500 focus:outline-none"
+          className="min-h-touch w-full rounded-full border-[1.5px] border-ink bg-paper-200 pl-11 pr-10 text-sm text-ink-900 shadow-xs placeholder:text-ink-700/70 focus:border-terra-500 focus:outline-none"
         />
         {query ? (
           <button
@@ -368,15 +363,16 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         ) : null}
       </div>
 
-      {/* 「继续读」大卡片（docs/13 P1-3）：首屏最大的入口，只在没有搜索/筛选时出现 */}
+      {/* 「继续读」大卡（docs/13 P1-3）：首屏最大的入口，只在没有搜索/筛选时出现。
+          UI 复盘重设计：奶白底墨线卡（替换游离的香蕉黄），左封面/中信息/右 CTA 三段，
+          进度条限宽不横贯。 */}
       {!query.trim() && filter === 'all' && continueBook ? (
         <motion.button
           type="button"
           onClick={() => onOpen(continueBook)}
           {...(reduced ? {} : MOTION.tap)}
           aria-label={`接着读《${continueBook.title}》`}
-          className="mt-4 flex min-h-touch items-center gap-4 rounded-3xl p-4 text-left shadow-lg ring-1 ring-paper-border"
-          style={{ background: 'linear-gradient(135deg, #4A3418 0%, #5C4322 100%)' }}
+          className="mt-4 flex min-h-touch items-center gap-4 rounded-3xl border-ink border-2 bg-paper-200 p-4 text-left shadow-card"
         >
           <div className="h-20 w-14 flex-shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-paper-border">
             <BookCover
@@ -389,19 +385,28 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
             />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-medium text-terra-600">接着读</p>
+            <p className="text-xs font-bold text-terra-600">接着读</p>
             <p className="mt-0.5 truncate text-base font-bold text-ink-900">{continueBook.title}</p>
             <p className="mt-1 text-xs text-ink-700">
               已读 {continueBook.progress}% · 剩 {continueBook.chapterCount - Math.max(1, Math.round(continueBook.chapterCount * continueBook.progress / 100))} 章
             </p>
-            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-paper-100/50">
+            <div className="mt-2 h-1.5 max-w-[320px] overflow-hidden rounded-full bg-paper-300">
               <div
                 className="h-full rounded-full bg-terra"
                 style={{ width: `${continueBook.progress}%` }}
               />
             </div>
           </div>
-          <span className="flex-shrink-0 text-terra-600" aria-hidden>
+          <span
+            className="hidden flex-shrink-0 items-center gap-1 rounded-full bg-terra px-4 py-2 text-sm font-bold text-white shadow-xs sm:flex"
+            aria-hidden
+          >
+            继续读
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h13M13 6l6 6-6 6" />
+            </svg>
+          </span>
+          <span className="flex-shrink-0 text-terra-600 sm:hidden" aria-hidden>
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h13M13 6l6 6-6 6" />
             </svg>
@@ -409,29 +414,44 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
         </motion.button>
       ) : null}
 
-      {/* 筛选条 */}
-      <div className="-mx-5 flex gap-2 overflow-x-auto px-5 py-4">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            type="button"
-            onClick={() => setFilter(f.key)}
-            className="min-h-touch flex-shrink-0 rounded-full px-4 text-sm font-medium transition-colors"
-            style={{
-              background: filter === f.key ? 'linear-gradient(135deg, #FF8E75 0%, #FF6D54 100%)' : 'transparent',
-              color: filter === f.key ? '#FFFFFF' : '#CBB9A3',
-              border: filter === f.key ? 'none' : '1px solid #D6D1C2',
-            }}
-          >
-            {f.label}
-          </button>
-        ))}
+      {/* 筛选条（docs/26：贴纸 chips——选中橘红墨线，未选奶白+墨线细描边，米色底上清晰可辨） */}
+      <div className="relative -mx-5 px-5 py-4">
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {FILTERS.map((f) => {
+            const on = filter === f.key
+            return (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setFilter(f.key)}
+                className={
+                  'min-h-touch flex-shrink-0 rounded-full px-4 text-sm font-bold transition-all ' +
+                  (on
+                    ? 'border-ink border-2 bg-terra text-white shadow-xs'
+                    : 'border-[1.5px] border-ink bg-paper-200 text-ink-700')
+                }
+              >
+                {f.label}
+              </button>
+            )
+          })}
+        </div>
+        {/* 行尾渐隐提示可横滑 */}
+        <div aria-hidden className="pointer-events-none absolute inset-y-4 right-0 w-10 bg-gradient-to-l from-[#fbf7ec] to-transparent" />
       </div>
 
-      {/* 书籍网格：全量渲染（e2e 与「架子完整性」契约），封面 lazy 按需加载 */}
-      <div className="grid grid-cols-2 gap-4 pb-4 sm:grid-cols-3">
+      {/* 书籍网格：全量渲染（e2e 与「架子完整性」契约），封面 lazy 按需加载。
+          底部 padding 为悬浮 dock 让位，滚动到底不再遮挡最后排封面。 */}
+      {query.trim() ? (
+        <p className="-mt-1 pb-1 text-xs text-ink-700" aria-live="polite">
+          找到 {sorted.length} 本与「{query.trim()}」相关的书
+        </p>
+      ) : null}
+      <div className="grid grid-cols-2 gap-4 pb-28 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:pb-28">
         {shown.map((book, i) => {
           const meta = CATEGORY_META[book.category] ?? { label: book.category, icon: IconBook }
+          // 英文诗集不标「古诗」
+          const catLabel = book.category === 'poetry' && book.lang === 'en' ? '诗歌' : meta.label
           return (
             <motion.div
               key={book.id}
@@ -466,8 +486,7 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                 />
                 {/* 分类角标 */}
                 <span className="absolute left-2 top-2 rounded-full bg-black/35 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
-                  <meta.icon size={14} /> {meta.label}
-                </span>
+                  <meta.icon size={14} /> {catLabel}                </span>
                 {/* 进度条 */}
                 {book.progress > 0 ? (
                   <div className="absolute inset-x-2 bottom-2">
@@ -486,42 +505,42 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
                   </div>
                 ) : null}
               </div>
-              {/* 标题（pr-14 给右侧试听圆钮留出独立列，文字与按钮并排不重叠；
-                  flex-1 让文字块撑到卡片底，圆钮钉底部时永远落在预留列里） */}
-              <div className="flex-1 pl-1 pr-14">
-                <p className="line-clamp-2 text-sm font-bold leading-tight text-ink-900">
-                  {book.title}
-                </p>
-                <p className="mt-0.5 line-clamp-1 text-xs text-ink-700">
-                  {book.author ?? (book.lang === 'en' ? 'English' : '佚名')}
-                </p>
-                <p className="text-[10px] text-ink-700 opacity-70">
-                  {/* docs/17 P0-2：不向孩子展示「约 N 分钟读完」——Common Sense Media 明确点名
-                      Epic 的预计阅读时长给慢读者压力。孩子只需要知道「有几章」。 */}
-                  {book.progress > 0
-                    ? `${book.chapterCount} 章`
-                    : `${book.chapterCount} 小节`}
-                </p>
+              {/* 标题 + 作者 + 章节数，与试听钮同行底部对齐（UI 复盘：试听钮改为 flex 内联，
+                  文字区 min-w-0 截断，不再被绝对定位圆钮压住） */}
+              <div className="flex flex-1 items-end gap-2 pl-1">
+                <div className="min-w-0 flex-1">
+                  <p className="line-clamp-2 text-sm font-bold leading-tight text-ink-900">
+                    {book.title}
+                  </p>
+                  <p className="mt-0.5 truncate text-xs text-ink-700">
+                    {book.author ?? (book.lang === 'en' ? 'English' : '佚名')}
+                  </p>
+                  <p className="truncate text-[10px] text-ink-700 opacity-70">
+                    {/* docs/17 P0-2：不向孩子展示「约 N 分钟读完」——Common Sense Media 明确点名
+                        Epic 的预计阅读时长给慢读者压力。孩子只需要知道「有几章」。 */}
+                    {book.progress > 0
+                      ? `${book.chapterCount} 章`
+                      : `${book.chapterCount} 小节`}
+                  </p>
+                </div>
+                {/* 试听一下（docs/13 P0-4）：不识字孩子的发现入口——按一下就响。
+                    芒果黄贴纸小圆钮（44px 触达下限），播放中变橘红底白图标。 */}
+                <button
+                  type="button"
+                  onClick={() => void togglePreview(book)}
+                  disabled={previewing !== null && previewing !== book.id}
+                  aria-label={previewing === book.id ? `停止试听《${book.title}》` : `试听《${book.title}》`}
+                  className={`mb-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border-[1.5px] border-ink shadow-xs transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none disabled:opacity-30 ${
+                    previewing === book.id ? 'bg-terra text-white' : 'bg-sun text-ink-900'
+                  }`}
+                >
+                  {previewing === book.id ? <IconPause size={17} /> : <IconPlay size={17} />}
+                </button>
               </div>
               </motion.button>
 
-              {/* 试听一下（docs/13 P0-4）：不识字孩子的发现入口——按一下就响。
-                  222 本验收（2026-09）：原 64px 长条压住标题/作者行，改为独立圆形钮
-                  （h-12 w-12 = 48px，≥44px 触达下限），钉在卡片底部右侧预留列，
-                  与文字水平错开，不再重叠。 */}
-              <button
-                type="button"
-                onClick={() => void togglePreview(book)}
-                disabled={previewing !== null && previewing !== book.id}
-                aria-label={previewing === book.id ? `停止试听《${book.title}》` : `试听《${book.title}》`}
-                className="absolute bottom-0 right-0 flex h-12 w-12 items-center justify-center rounded-full bg-ink-900/90 text-paper-100 shadow-card backdrop-blur-sm transition-transform active:scale-90 disabled:opacity-30"
-              >
-                {previewing === book.id ? <IconPause size={18} /> : <IconPlay size={18} />}
-              </button>
-
               {/* 收藏（docs/15 P1-A）：右上角小心，按一下就记住「我喜欢这本」。
-                  222 本验收（2026-09）：64px 大圆盘压封面太重，缩到 h-11 w-11（44px
-                  触达下限），仍在封面右上角，不碰标题/作者行。 */}
+                  64px 大圆盘压封面太重，缩到 44px（触达下限），仍在封面右上角。 */}
               <button
                 type="button"
                 onClick={(e) => {
@@ -548,6 +567,43 @@ export function BookShelf({ onOpen, onBack }: BookShelfProps) {
           )
         })}
       </div>
+
+      {/* 搜索时结果下方补「大家都在读」推荐位（UI 复盘：结果稀少时不留大面积空白） */}
+      {query.trim() && recs.length > 0 ? (
+        <div className="pb-28 lg:pb-28">
+          <p className="mb-3 mt-2 text-sm font-bold text-ink-900">大家都在读</p>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            {recs
+              .filter((r) => !books.some((b) => b.id === r.id))
+              .slice(0, 6)
+              .map((r) => (
+                <motion.button
+                  key={r.id}
+                  type="button"
+                  onClick={() => onOpen(r)}
+                  {...(reduced ? {} : MOTION.tap)}
+                  className="flex cursor-pointer flex-col gap-2 text-left"
+                  aria-label={`打开《${r.title}》`}
+                >
+                  <div className="relative aspect-[3 / 4] overflow-hidden rounded-2xl shadow-md ring-1 ring-paper-border transition-shadow hover:shadow-lg">
+                    <BookCover
+                      urlPath={r.coverArtUrl}
+                      scene={r.coverArt}
+                      from={r.coverFrom}
+                      to={r.coverTo}
+                      lang={r.lang}
+                      alt={`《${r.title}》封面`}
+                    />
+                  </div>
+                  <div className="min-w-0 pl-1">
+                    <p className="line-clamp-2 text-sm font-bold leading-tight text-ink-900">{r.title}</p>
+                    <p className="mt-0.5 truncate text-xs text-ink-700">{r.author ?? (r.lang === 'en' ? 'English' : '佚名')}</p>
+                  </div>
+                </motion.button>
+              ))}
+          </div>
+        </div>
+      ) : null}
 
       {/* 生词本抽屉（docs/15 P1-B）：孩子收下的词，点喇叭能听、点叉能删 */}
       <AnimatePresence>

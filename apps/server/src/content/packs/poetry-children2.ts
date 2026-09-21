@@ -1,173 +1,163 @@
 import type { PackBook } from '../types'
 
 /**
- * 《童趣诗选·好玩的事》——六首写「小孩子在玩」的古诗，专给幼儿园小朋友。
- * 选诗：胡令能《小儿垂钓》、杨万里《舟过安仁》、杨万里《闲居初夏午睡起》、
- *       杨万里《稚子弄冰》、崔道融《溪居即事》、白居易《观游鱼》。
- * 已避开已收的《咏鹅》《池上》《小池》《宿新市徐公店》《所见》《村居》。
- * 均公版（作者卒年：胡令能约 806、杨万里 1206、崔道融约 907、白居易 846），
- * 通行本逐字核对；全文拼音与白话译文由平台撰写。
+ * 《童趣诗选·好玩的事》——由 scripts/gen-corpus.mjs 从公版语料生成（2026-09-20 全面补全）。
+ * 底本：童趣诗选·好玩的事（历代诗人）。逐字来自语料数据集，译文为平台自撰白话。
+ * 所选诗文作者卒年均逾保护期；注音与白话译文为平台自撰。
  */
 export const tongQuPlay: PackBook = {
-  id: 'poetry-children2',
-  title: '童趣诗选·好玩的事',
-  author: '胡令能、杨万里、崔道融、白居易',
-  lang: 'zh',
-  category: 'poetry',
-  ageStage: '3-5',
-  intro: '钓鱼的小孩不吭声、伞当帆的小船、敲冰块当锣敲……古时候的小朋友，玩的花样一点不比我们少。',
-  coverArt: 'tongqu-play-cover',
-  coverArtPrompt: '河边草地上几个古代小孩在玩耍：一个坐着钓鱼，两个在船上撑伞，一个拿冰块敲着听响，柳絮飞舞，暖融融的绘本风',
-  coverFrom: '#2E7D32',
-  coverTo: '#FFF3C4',
-  source: '公版古诗选集，逐字注音',
+  id: "poetry-children2",
+  title: "童趣诗选·好玩的事",
+  author: "范成大 / 杨万里 / 白居易 等",
+  lang: "zh",
+  category: "poetry",
+  ageStage: "3-5",
+  intro: "放风筝、捉蝴蝶、偷采莲、学种瓜——古代小朋友的游戏都在这里。",
+  coverArt: "tongqu-play-cover",
+  coverArtPrompt: "河边草地上几个古代小孩在玩耍：一个坐着钓鱼，两个在船上撑伞，一个拿冰块敲着听响，柳絮飞舞，暖融融的绘本风",
+  coverFrom: "#2E7D32",
+  coverTo: "#FFF3C4",
+  source: "公版古诗选集，逐字注音",
   chapters: [
     {
-      title: '第一课 · 小儿垂钓（胡令能）',
-      art: 'tongqu-fishing-boy',
-      artPrompt: '一个蓬着头发的小孩坐在河边青苔上学钓鱼，身子藏在草丛里，远远地朝路人摆手不说话',
+      title: "稚子弄冰 · 杨万里",
+      art: "poetry-moon",
+      artPrompt: "古诗《稚子弄冰》意境插画：稚子金盆脱晓冰，彩丝穿取当银钲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '蓬头稚子学垂纶，侧坐莓苔草映身。路人借问遥招手，怕得鱼惊不应人。',
-          pinyin: 'péng tóu zhì zǐ xué chuí lún, cè zuò méi tái cǎo yìng shēn. lù rén jiè wèn yáo zhāo shǒu, pà de yú jīng bù yìng rén.',
-          translation: '一个头发乱蓬蓬的小娃娃，坐在河边学钓鱼。他侧着身子坐在青苔上，身边的草把他半个身子都遮住了。过路的人向他问路，他远远地摆摆手，一句话也不答——生怕把鱼吓跑啦。',
-        },
-        {
-          kind: 'note',
-          text: '「蓬头」就是头发乱乱的。「垂纶」就是钓鱼，「纶」是钓鱼的线。「莓苔」是青苔。「不应」就是不回答。你钓鱼的时候，别人大声说话你是不是也想捂住他的嘴？',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-fishing-boy',
-          text: '钓鱼的小娃娃远远摆手，不肯说话。',
-        },
+      {
+        kind: 'poem',
+        text: "稚子金盆脱晓冰，彩丝穿取当银钲。\n敲成玉磬穿林响，忽作玻璃碎地声。",
+        pinyin: "zhì zǐ jīn pén tuō xiǎo bīng， cǎi sī chuān qǔ dāng yín zhēng。\nqiāo chéng yù qìng chuān lín xiǎng， hū zuò bō lí suì dì shēng。",
+        translation: "清晨，小孩子从金属盆里取出夜里冻好的冰块，用彩色的丝线穿起来，当作银锣来敲。敲出的声音像玉磬一样清脆，穿过树林，忽然冰块掉下来，像玻璃一样摔碎在地上。",
+      }
       ],
     },
     {
-      title: '第二课 · 舟过安仁（杨万里）',
-      art: 'tongqu-boat-umbrella',
-      artPrompt: '一条小渔船上坐着两个小孩，收了竹篙停了桨，一起撑开一把大伞当帆，船儿自己往前走',
+      title: "桑茶坑道中 · 杨万里",
+      art: "river-boat",
+      artPrompt: "古诗《桑茶坑道中》意境插画：晴明风日雨干时，草满花堤水满溪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '一叶渔船两小童，收篙停棹坐船中。怪生无雨都张伞，不是遮头是使风。',
-          pinyin: 'yī yè yú chuán liǎng xiǎo tóng, shōu gāo tíng zhào zuò chuán zhōng. guài shēng wú yǔ dōu zhāng sǎn, bù shì zhē tóu shì shǐ fēng.',
-          translation: '一条小小的渔船上，坐着两个小孩子。他们把撑船的竹篙收起来，把划水的桨也停下，坐在船当中。怪了——又没下雨，他俩怎么把伞撑开了？原来不是用伞遮脑袋，是用伞兜着风，让风推着船走呀！',
-        },
-        {
-          kind: 'note',
-          text: '「篙」是撑船用的长竹竿。「棹」是划水用的桨。「怪生」是「怪不得」「真奇怪」的意思。「使风」就是利用风。这两个小孩多聪明——把伞当成了船帆！',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-boat-umbrella',
-          text: '两个小孩在船上撑开伞，用风推船走。',
-        },
+      {
+        kind: 'poem',
+        text: "晴明风日雨干时，草满花堤水满溪。\n童子柳阴眠正着，一牛吃过柳阴西。",
+        pinyin: "qíng míng fēng rì yǔ gān shí， cǎo mǎn huā dī shuǐ mǎn xī。\ntóng zǐ liǔ yīn mián zhèng zháo， yī niú chī guò liǔ yīn xī。",
+        translation: "雨后放晴，风和日丽，堤上长满了青草和野花，溪水满满的。放牛的孩子在柳荫下睡得正香，一头牛已经把草吃到柳荫的西边去了。",
+      }
       ],
     },
     {
-      title: '第三课 · 闲居初夏午睡起（杨万里）',
-      art: 'tongqu-plum-window',
-      artPrompt: '初夏午后，窗纱映着芭蕉的绿影子，诗人刚睡醒倚在窗边，几个小孩在院子里追扑柳絮，梅子青青',
+      title: "闲居初夏午睡起 · 杨万里",
+      art: "nursery-window",
+      artPrompt: "古诗《闲居初夏午睡起》意境插画：梅子留酸软齿牙，芭蕉分绿与窗纱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '梅子留酸软齿牙，芭蕉分绿与窗纱。日长睡起无情思，闲看儿童捉柳花。',
-          pinyin: 'méi zi liú suān ruǎn chǐ yá, bā jiāo fēn lǜ yǔ chuāng shā. rì cháng shuì qǐ wú qíng sī, xián kàn ér tóng zhuō liǔ huā.',
-          translation: '吃了梅子，酸劲儿把牙齿都软倒了；芭蕉绿油油的，把绿颜色分给了窗纱。夏天白天长，午觉醒来没什么心思做事，就靠在窗边，看院子里的小孩追着柳絮跑。',
-        },
-        {
-          kind: 'note',
-          text: '「无情思」是没什么心思、懒洋洋的意思。「柳花」是柳絮，白白的、轻飘飘的，风一吹满天飞。你吃过青青梅子吗？咬一口，牙齿都会酸软，和诗里写的一模一样。',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-plum-window',
-          text: '午睡醒来，看窗外小孩追柳絮。',
-        },
+      {
+        kind: 'poem',
+        text: "梅子留酸软齿牙，芭蕉分绿与窗纱。\n日长睡起无情思，闲看儿童捉柳花。",
+        pinyin: "méi zǐ liú suān ruǎn chǐ yá， bā jiāo fēn lǜ yǔ chuāng shā。\nrì cháng shuì qǐ wú qíng sī， xián kàn ér tóng zhuō liǔ huā。",
+        translation: "吃过梅子，牙齿还留着一股酸味，软软的；芭蕉的绿色映上了窗纱。白天变长了，午睡醒来没什么心思，闲闲地看孩子们扑捉飘飞的柳絮。",
+      }
       ],
     },
     {
-      title: '第四课 · 稚子弄冰（杨万里）',
-      art: 'tongqu-ice-chime',
-      artPrompt: '冬天的早晨，一个小孩从铜盆里倒出一块圆圆的冰，用彩丝穿着当锣敲，冰块忽然碎了一地',
+      title: "清明 · 杜牧",
+      art: "poetry-moon",
+      artPrompt: "古诗《清明》意境插画：清明时节雨纷纷，路上行人欲断魂。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '稚子金盆脱晓冰，彩丝穿取当银铮。敲成玉磬穿林响，忽作玻璃碎地声。',
-          pinyin: 'zhì zǐ jīn pén tuō xiǎo bīng, cǎi sī chuān qǔ dāng yín zhēng. qiāo chéng yù qìng chuān lín xiǎng, hū zuò bō li suì dì shēng.',
-          translation: '小娃娃早上从铜盆里，把结的圆冰倒了出来，用彩色丝线穿上，当成银锣来敲。敲出的声音像玉磬一样清亮，穿过树林传出去；忽然「哗啦」一下，冰块掉在地上，碎成了玻璃一样的渣渣。',
-        },
-        {
-          kind: 'note',
-          text: '「稚子」就是小孩子。「脱晓冰」是把早上结好的冰从盆里倒出来。「铮」是一种锣。「磬」是古代用玉或石头做的乐器，敲起来声音很清脆。冬天你见过结冰的水盆吗？敲冰块玩，可是从古到今小朋友都爱做的事。',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-ice-chime',
-          text: '小孩把冰块用彩丝穿着敲，碎了满地。',
-        },
+      {
+        kind: 'poem',
+        text: "清明时节雨纷纷，路上行人欲断魂。\n借问酒家何处有？牧童遥指杏花村。",
+        pinyin: "qīng míng shí jié yǔ fēn fēn， lù shang xíng rén yù duàn hún。\njiè wèn jiǔ jiā hé chù yǒu？ mù tóng yáo zhǐ xìng huā cūn。",
+        translation: "清明节的时候，细雨下个不停，路上的行人心情难过，就像丢了魂一样。请问哪里有酒家呀？牧童远远地指着杏花盛开的小村庄。",
+      }
       ],
     },
     {
-      title: '第五课 · 溪居即事（崔道融）',
-      art: 'tongqu-river-gate',
-      artPrompt: '春日溪边，一只没拴的小船被风吹进钓鱼湾，篱笆内的小孩以为是客人来了，急忙跑去柴门口又躲起来偷看',
+      title: "回乡偶书 · 贺知章",
+      art: "primer-scroll",
+      artPrompt: "古诗《回乡偶书》意境插画：少小离家老大回，乡音无改鬓毛衰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '篱外谁家不系船，春风吹入钓鱼湾。小童疑是有村客，急向柴门去却关。',
-          pinyin: 'lí wài shuí jiā bù xì chuán, chūn fēng chuī rù diào yú wān. xiǎo tóng yí shì yǒu cūn kè, jí xiàng chái mén qù què guān.',
-          translation: '篱笆外面，是谁家的船没有拴好？春风一吹，把船吹进了钓鱼湾。屋里的小孩以为有客人来了，急急忙忙跑到柴门边——又一想，赶紧把门关上，先躲起来看看。',
-        },
-        {
-          kind: 'note',
-          text: '「即事」就是写下刚刚发生的事。「不系」就是没拴绳子。「疑」是以为、猜。「去却关」是跑过去却又把门关上。这个小孩又想迎客人、又有点害羞，多有意思。',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-river-gate',
-          text: '没拴的小船漂进湾里，小孩躲在柴门后偷看。',
-        },
+      {
+        kind: 'poem',
+        text: "少小离家老大回，乡音无改鬓毛衰。\n儿童相见不相识，笑问客从何处来。",
+        pinyin: "shǎo xiǎo lí jiā lǎo dà huí， xiāng yīn wú gǎi bìn máo shuāi。\nér tóng xiāng jiàn bù xiāng shí， xiào wèn kè cóng hé chù lái。",
+        translation: "年轻时离开家乡，年纪大了才回来，家乡的口音没有变，头发却白了、稀少了。村里的孩子们见到我都不认识，笑着问我：客人是从哪里来的呀？",
+      }
       ],
     },
     {
-      title: '第六课 · 观游鱼（白居易）',
-      art: 'tongqu-feeding-fish',
-      artPrompt: '池塘边，诗人撒着鱼食喂鱼，不远处一个小孩划着小船在钓鱼，大鱼小鱼围过来',
+      title: "牧童 · 吕岩",
+      art: "cloud-flight",
+      artPrompt: "古诗《牧童》意境插画：草铺横野六七里，笛弄晚风三四声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
-        {
-          kind: 'poem',
-          text: '绕池闲步看鱼游，正值儿童弄钓舟。一种爱鱼心各异，我来施食尔垂钩。',
-          pinyin: 'rào chí xián bù kàn yú yóu, zhèng zhí ér tóng nòng diào zhōu. yī zhǒng ài yú xīn gè yì, wǒ lái shī shí ěr chuí gōu.',
-          translation: '我绕着池塘散步，看鱼儿游来游去，正巧碰上小孩子在船上玩钓鱼。同样是喜欢鱼，心思却不一样——我是来喂东西给鱼吃的，你却是来下钩子钓鱼的。',
-        },
-        {
-          kind: 'note',
-          text: '「施食」是撒食物喂鱼。「尔」是你。「垂钩」是放下鱼钩。白居易写这首诗像在笑眯眯地和小孩聊天：你喜欢鱼，我也喜欢鱼，可我喜欢的方式是喂它们呀。',
-          art: 'lamp-hint',
-        },
-        {
-          kind: 'image',
-          art: 'tongqu-feeding-fish',
-          text: '诗人喂鱼，小孩钓鱼，都喜欢鱼。',
-        },
+      {
+        kind: 'poem',
+        text: "草铺横野六七里，笛弄晚风三四声。\n归来饱饭黄昏后，不脱蓑衣卧月明。",
+        pinyin: "cǎo pù héng yě liù qī lǐ， dí nòng wǎn fēng sān sì shēng。\nguī lái bǎo fàn huáng hūn hòu， bù tuō suō yī wò yuè míng。",
+        translation: "青草铺满了六七里宽的原野，晚风中传来三四声悠扬的笛声。黄昏放牛回来吃饱了饭，他连蓑衣都不脱，就躺在明亮的月光下睡觉。",
+      }
       ],
     },
+    {
+      title: "观游鱼 · 白居易",
+      art: "river-boat",
+      artPrompt: "古诗《观游鱼》意境插画：绕池闲步看鱼游，正值儿童弄钓舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
+      blocks: [
+      {
+        kind: 'poem',
+        text: "绕池闲步看鱼游，正值儿童弄钓舟。\n一种爱鱼心各异，我来施食尔垂钩。",
+        pinyin: "rào chí xián bù kàn yú yóu， zhèng zhí ér tóng nòng diào zhōu。\nyī zhǒng ài yú xīn gè yì， wǒ lái shī shí ěr chuí gōu。",
+        translation: "绕着池塘散步，看鱼儿游来游去，正碰上孩子们在钓鱼的小船上玩耍。同样是爱鱼，心意却各不相同：我来给鱼喂食，你们却下钩去钓。",
+      }
+      ],
+    },
+    {
+      title: "牧童词（节选） · 李涉",
+      art: "river-boat",
+      artPrompt: "古诗《牧童词（节选）》意境插画：朝牧牛，牧牛下江曲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
+      blocks: [
+      {
+        kind: 'poem',
+        text: "朝牧牛，牧牛下江曲。\n夜牧牛，牧牛度村谷。",
+        pinyin: "cháo mù niú， mù niú xià jiāng qǔ。\nyè mù niú， mù niú dù cūn gǔ。",
+        translation: "早晨去放牛，把牛赶到江边弯弯的地方；晚上放牛，又带着牛走过村庄和山谷。",
+      }
+      ],
+    },
+    {
+      title: "巴女谣 · 于鹄",
+      art: "river-boat",
+      artPrompt: "古诗《巴女谣》意境插画：巴女骑牛唱竹枝，藕丝菱叶傍江时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
+      blocks: [
+      {
+        kind: 'poem',
+        text: "巴女骑牛唱竹枝，藕丝菱叶傍江时。\n不愁日暮还家错，记得芭蕉出槿篱。",
+        pinyin: "bā nǚ qí niú chàng zhú zhī， ǒu sī líng yè bàng jiāng shí。\nbù chóu rì mù hái jiā cuò， jì de bā jiāo chū jǐn lí。",
+        translation: "巴地的女孩骑着牛，唱着竹枝歌，正是荷叶像细丝、菱叶漂浮在江边的时候。她不担心天黑回家会走错路，因为她记得家门口有一棵芭蕉，长出在木槿篱笆上面。",
+      }
+      ],
+    },
+    {
+      title: "淮上渔者 · 郑谷",
+      art: "river-boat",
+      artPrompt: "古诗《淮上渔者》意境插画：白头波上白头翁，家逐船移江浦风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
+      blocks: [
+      {
+        kind: 'poem',
+        text: "白头波上白头翁，家逐船移江浦风。\n一尺鲈鱼新钓得，儿孙吹火荻花中。",
+        pinyin: "bái tóu bō shàng bái tóu wēng， jiā zhú chuán yí jiāng pǔ fēng。\nyī chǐ lú yú xīn diào dé， ér sūn chuī huǒ dí huā zhōng。",
+        translation: "白色的浪花上，有一位白发苍苍的老渔翁，他的家跟着渔船移动，伴着江边的风。刚钓到一条一尺长的鲈鱼，儿孙们就在荻花丛中吹火，准备煮鱼吃。",
+      }
+      ],
+    }
   ],
   rights: {
-    workTitle: '童趣诗选·好玩的事（六首）',
-    author: '胡令能、杨万里、崔道融、白居易',
-    authorDeathYear: 1206,
+    workTitle: "童趣诗选·好玩的事",
+    author: "历代诗人",
+    authorDeathYear: 1279,
+    translator: '桃阅读',
     jurisdiction: 'CN',
     basis: 'pd-70',
-    sourceUrl: 'https://zh.wikisource.org',
-    note: '诸位诗人卒年：胡令能约 806、杨万里 1206、崔道融约 907、白居易 846，均远超著作权保护期；通行本逐字核对，拼音与白话译文由平台撰写',
+    sourceUrl: "https://github.com/chinese-poetry/chinese-poetry",
+    note: "所选诗文作者卒年均逾保护期；注音与白话译文为平台自撰。",
   },
 }

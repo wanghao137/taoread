@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 /**
  * 家长端 e2e（演示模式）：登录 → 今天共读卡 → 书架管理屏蔽 → 设置 → 周报 + 分享卡规格。
  */
-const CODE = 'PEACH888'
+const CODE = '123456'
 
 test.describe('家长端', () => {
   test('登录 → 今天足迹/共读卡 → 书架屏蔽 → 周报 → 设置', async ({ page }) => {

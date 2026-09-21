@@ -212,7 +212,13 @@ export async function finishSession(
   }
 
   const endedAtSec = nowSec()
-  const durationSec = Math.max(0, endedAtSec - Math.floor(session.startedAt.getTime() / 1000))
+  // 时长上限保护：会话开了忘记收尾（隔夜/换设备）时，按真实时差会记出「24 小时阅读」
+  // 污染周报。睡前共读单次不会超过 2 小时，超出部分视为会话搁置，不计入时长。
+  const DURATION_CAP_SEC = 2 * 60 * 60
+  const durationSec = Math.min(
+    DURATION_CAP_SEC,
+    Math.max(0, endedAtSec - Math.floor(session.startedAt.getTime() / 1000)),
+  )
   // 原子收尾（N4-001）：where 带 endedAt: null，并发双收尾只有先到者生效，后到者 count=0 重读走幂等分支
   const updated = await db.cosession.updateMany({
     where: { id: session.id, endedAt: null },

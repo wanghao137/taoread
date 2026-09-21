@@ -144,6 +144,138 @@ export const emperorsNewClothes: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Steadfast Tin Soldier',
+      art: 'emperor-soldier',
+      artPrompt: 'a small one-legged tin soldier standing straight and firm on a nursery table beside a paper castle with a paper ballerina dancing on one leg at its door, warm lamplight, a window blowing open behind',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'On his birthday a little boy unwrapped a box of tin soldiers. There were twenty-five, all alike — except one, who had only one leg, because he had been made last and the tin had run out. But he stood as straight and firm as any of the rest.',
+        },
+        {
+          kind: 'image',
+          art: 'emperor-soldier',
+          text: 'The little one-legged soldier stands firm by the paper castle.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: steadfast — standing firm and never giving up, whatever happens.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'On the table stood a paper castle, and at its little door danced a paper ballerina, poised on one leg with the other stretched high. "How like me she is," thought the tin soldier. "I should like to know her." But in the drawer a jack-in-the-box growled, "Stop staring at her!" The soldier said nothing. He only stood more firmly than ever.',
+        },
+        {
+          kind: 'text',
+          text: 'In the morning the window blew open, and — out he fell, three floors down to the street! Two boys found him, set him in a paper boat, and sent him sailing down the gutter. The boat rushed through dark pipes and under bridges, until a big fish came and swallowed him in one gulp, into the dark. The soldier held his musket tight and did not stir. He stood fast.',
+        },
+        {
+          kind: 'text',
+          text: 'Before long the fish was caught and sold at market — to the very same house! The cook cut it open and cried, "Why, here is the little tin soldier!" And she set him on the table, where the paper ballerina was dancing on her one leg. The little boy saw them and smiled. "You are both so brave and true," he said, "you shall stand side by side." So they stood together, firm and faithful, all the days of their lives.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Fir Tree',
+      art: 'emperor-fir',
+      artPrompt: 'a small fir tree in a sunny green forest looking up at tall dark trees, doves on the branches, golden light through the leaves',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Out in the deep wood stood a little fir tree. The sun was warm, the doves cooed, and the wind told him stories. But the little fir was not happy. "I want to be tall, like the great trees!" he said. "When I am tall, I shall be somebody at last."',
+        },
+        {
+          kind: 'image',
+          art: 'emperor-fir',
+          text: 'The little fir tree in the green wood dreams of growing tall.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: fir — a tree with green needles and brown cones that stays green all winter.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'Year after year he grew, till he was tall indeed. Then one winter the woodcutters came. "Here is a fine tree for Christmas!" they cried, and down he came. In a grand house they stood him up in a warm room and hung him with candles and gold stars, and the children danced around him. "Now, at last, is my finest hour!" thought the fir.',
+        },
+        {
+          kind: 'text',
+          text: 'But after the feast he was carried up to a dark loft, all alone. His needles began to fall, and he thought of the green wood, the warm sun, and the doves. "I never enjoyed anything," he sighed, "while I waited to be tall."',
+        },
+        {
+          kind: 'text',
+          text: 'In spring the gardener carried the old tree out and shook his brown cones, and from them fell hundreds of little winged seeds. They sailed over the garden fence and away into the deep green wood. The next spring, tiny fir trees came up there — the old tree’s own children, growing happy in the sun. "Enjoy every day as you find it," said the sun and the wind to the little trees. "Do not wait to be tall to be glad." And the little firs listened, and were glad every single day.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Flying Trunk',
+      art: 'emperor-trunk',
+      artPrompt: 'a young man in a feathered hat riding through the clouds inside a big flying wooden trunk with golden buckles, rooftops and church towers far below, a warm sunset sky',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A merchant’s son had once been rich, but he spent his last coin, and his friends forgot him. All that was left him was an old trunk. He packed it — and poof! Up flew the trunk, carrying him over rooftops and chimneys, over hills and clouds and the wide sea, to a far warm country.',
+        },
+        {
+          kind: 'image',
+          art: 'emperor-trunk',
+          text: 'The magic trunk flies the young man high above the clouds.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: trunk — a big, strong box for keeping clothes and treasures.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'There he flew to a high tower, where a princess sat alone, and he told her stories: of kings and robbers, of flying chests and talking tea-kettles. She laughed and clapped her hands, and the king himself came to listen. "If you can please the whole city with a story," said the king, "you shall marry my daughter."',
+        },
+        {
+          kind: 'text',
+          text: 'The whole city came to hear him, and they laughed and cried and clapped, and the king gave his blessing. There were feasts and lanterns, and people fired rockets into the sky in his honour.',
+        },
+        {
+          kind: 'text',
+          text: 'But one little spark came down — pff — right into the old trunk. The trunk burned like a dry leaf, and there were no more flying days for anyone. "Never mind," said the young man cheerfully. And he went from town to town telling his stories to everyone he met — and that is how the tale of the flying trunk came to be told at all.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · What the Old Man Does Is Always Right',
+      art: 'emperor-trade',
+      artPrompt: 'a kindly old farmer with a walking stick trading his horse for a cow with a smiling farmer on a sunny country road, a big sack of apples in a cart, rolling green fields',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A farmer and his wife lived on a little farm. "Take the horse to town and trade him for something useful," said the wife, "and come home safe. What you do is always right." So the old man kissed her, and set off down the road.',
+        },
+        {
+          kind: 'image',
+          art: 'emperor-trade',
+          text: 'The old man trades his horse for a cow on the sunny road to town.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: trade — to give a thing to someone and get another thing back.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'On the way he met a man leading a cow. "A cow gives milk every morning," thought the old man. "That is lucky for my wife!" And he traded. Then he met a man with a sheep — "wool for winter socks, that is lucky!" — then a goose — "eggs for pancakes, that is lucky!" — then a man with a great sack of apples — "apples for a pie, that is lucky for my wife!" And each time, he traded.',
+        },
+        {
+          kind: 'text',
+          text: 'At the inn, two rich travellers laughed till they cried. "Your wife will scold you from here to Sunday!" they said. "If she does not, we will give you a bag of gold." So they all walked together to the little farm.',
+        },
+        {
+          kind: 'text',
+          text: 'The old man told his wife everything, trade by trade. And she clapped her hands at every one. "Milk! Wool! Eggs! And apples for a pie — oh, what a good, clever man I married!" And she kissed him on the cheek. The travellers laughed louder than ever, counted out the gold, and cried, "It is true — what the old man does is always right!" And it was, for a kind word is worth more than a sack of gold.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Emperor’s New Clothes',

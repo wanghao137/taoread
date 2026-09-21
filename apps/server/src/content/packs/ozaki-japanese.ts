@@ -2,7 +2,7 @@ import type { PackBook } from '../types'
 
 /**
  * Japanese Fairy Tales — Yei Theodora Ozaki (1871–1932), first published 1908.
- * Four tales retold for young readers, one per chapter: Momotaro, or the Story
+ * Eight tales retold for young readers, one per chapter: Momotaro, or the Story
  * of the Son of a Peach; The Urashima Taro (retold with a gentler ending);
  * The Tongue-Cut Sparrow (the sparrow's mishap softened); and The Mouse's
  * Wedding. Plots follow the public-domain originals.
@@ -17,7 +17,7 @@ export const japaneseFairyTales: PackBook = {
   category: 'tale',
   ageStage: '6-8',
   intro:
-    'Four beloved Japanese tales: Momotaro, born from a peach, who marches to Oni Island with a dog, a monkey and a pheasant; the fisher Urashima Taro, who saves a tortoise and visits the Dragon Palace under the sea; a sparrow who repays an old man’s kindness; and the mouse parents who search the world for the mightiest son-in-law — and find him close to home.',
+    'Eight beloved Japanese tales: Momotaro, born from a peach, who marches to Oni Island with a dog, a monkey and a pheasant; the fisher Urashima Taro, who saves a tortoise and visits the Dragon Palace under the sea; a sparrow who repays an old man’s kindness; and the mouse parents who search the world for the mightiest son-in-law — and find him close to home.',
   coverArt: 'ozaki-peach',
   coverArtPrompt:
     'A giant glowing peach drifts down a sunlit mountain stream toward a smiling old washerwoman who kneels to catch it, pink blossom petals on the water; behind her, far hills, a torii gate and a little thatched farmhouse, peach trees in full bloom on the banks. Warm pink-and-gold spring light, joyful storybook style.',
@@ -161,6 +161,142 @@ export const japaneseFairyTales: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Happy Hunter and the Skillful Fisher',
+      art: 'ozaki-hunter',
+      artPrompt:
+        'A young man in country dress welcomed into a glowing underwater palace of coral and pearl, a kindly Sea King in white robes holding out a lost golden fish-hook on a shell cushion, golden fish circling like lanterns, luminous blue-green light, magnificent dreamy storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Long ago two brothers lived by the sea. The elder was the Skillful Fisher, and his line never came home empty. The younger was the Happy Hunter, who roamed the green mountains all day and came home singing.',
+        },
+        {
+          kind: 'text',
+          text: 'One day the Happy Hunter said, "Let us trade tools today — you take my bow, and I will take your fish-hook." But on the water the hook slipped from his hand and sank into the sea, and the Skillful Fisher was very angry. "My hook! Find it, or never come back!" And the Happy Hunter sat down by the shore and wept.',
+        },
+        {
+          kind: 'image',
+          art: 'ozaki-hunter',
+          text: 'The Dragon Palace under the sea, where the lost hook is found at last.',
+        },
+        {
+          kind: 'text',
+          text: 'Then an old man of the sea came by. "Why weep, my son? Go down to the Dragon Palace under the waves, and all will be well." So the Happy Hunter went down through the blue water, and the Sea King welcomed him and gave a feast, and his daughter led the dancers for joy.',
+        },
+        {
+          kind: 'text',
+          text: 'The Sea King called all the fish of the sea together, and there, in the throat of a great red fish, lay the lost hook! The Happy Hunter carried it home in triumph, gave it back with a hundred sorry words, and the two brothers fished and hunted side by side ever after.',
+        },
+        {
+          kind: 'note',
+          text: 'Ask your child: the Happy Hunter lost something that was not his. What did he do next? He said sorry — and made it right.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · The Jelly Fish and the Monkey',
+      art: 'ozaki-jellyfish',
+      artPrompt:
+        'A sad round jellyfish drifting before the Sea King’s coral throne while the crowned Sea King raises his trident in anger, a monkey high in a pine tree on a green island far above the water laughing and waving, blue-green sea light, gentle comic storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Far down under the sea, in a palace of coral, the Sea King and the Sea Queen lived happily — until the Queen fell ill. The Sea King sent for the wisest doctors of the deep, and they said, "Only one thing can cure her: the liver of a living monkey."',
+        },
+        {
+          kind: 'text',
+          text: 'Now, in those days the jelly fish had a fine hard shell, and he could swim to shore as well as paddle the deep. So off he went, and found a monkey in a pine tree on an island. "Come to the Dragon Palace!" said the jelly fish, and carried him out to sea on his broad back.',
+        },
+        {
+          kind: 'text',
+          text: 'Halfway over, the monkey asked what the visit was for. The jelly fish was too honest to tell a fib — and out came the truth about the liver. The monkey laughed. "Poor fish! I keep my liver hanging in a pine tree on the shore. Carry me back, and I will fetch it." And the moment the tree was reached, up leaped the monkey, safe in the branches, laughing at the trick.',
+        },
+        {
+          kind: 'image',
+          art: 'ozaki-jellyfish',
+          text: 'The empty-handed jelly fish faces the Sea King — and loses his bones for it.',
+        },
+        {
+          kind: 'text',
+          text: 'The Sea King was so angry that he beat the jelly fish until every bone and bit of shell was gone — and that is why, to this day, jelly fishes drift soft and boneless through the sea, like little umbrellas with nothing inside.',
+        },
+        {
+          kind: 'note',
+          text: 'This is a why-story: it tells why jelly fishes are soft today. The little jelly fish kept faith and told the truth — and Japan’s storytellers have loved him for it ever since.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · The Ogre of Rashomon',
+      art: 'ozaki-rashomon',
+      artPrompt:
+        'A huge weathered wooden city gate at twilight, a brave samurai with a drawn sword beside a great shaggy ogre arm lying on the stones, an old woman with a basket transforming into a winged ogre rising into storm clouds with an iron box, lantern glow, dramatic but friendly storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Long ago in the old capital there stood a great wooden gate called Rashomon — and after dark, everyone gave it a wide berth, for an ogre lived in the shadow of it and troubled the city.',
+        },
+        {
+          kind: 'text',
+          text: 'One evening a brave young warrior named Watanabe rode home past the gate. Suddenly a hairy hand reached out of the dark and gripped his helmet. Out flashed his sword — swish! — and the hand and arm dropped to the ground, while the ogre ran howling into the night. Watanabe carried the great arm home and locked it in a strong iron box, and everyone said, "What a hero!"',
+        },
+        {
+          kind: 'image',
+          art: 'ozaki-rashomon',
+          text: 'The old nurse asks to see the arm — just once.',
+        },
+        {
+          kind: 'text',
+          text: 'But the ogre wanted his arm back. One day an old woman came calling — Watanabe’s own old nurse. "Let me see the ogre’s arm," she begged, "just once!" And the moment the box was opened, she seized it, and grew tall, and terrible, and rose up through the roof into the sky on wings of storm.',
+        },
+        {
+          kind: 'text',
+          text: 'Watanabe was sad to lose his prize, but the tale says the ogre never dared come back to Rashomon again. And the warriors of the city learned this: after a victory, take care — for a trick may follow a triumph.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: triumph — a great victory. Ask your child: what was the old nurse really? And what should Watanabe have checked before he opened the box?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Old Man Who Made Withered Trees to Flower',
+      art: 'ozaki-blossom',
+      artPrompt:
+        'An old man scattering pale grey ash from a wooden box over bare cherry trees that burst into clouds of white blossom as it falls, a delighted lord and servants watching from a veranda, a scowling neighbour far off in the lane, spring morning light, joyful storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A kind old couple had one faithful friend — their dog Shiro, who went everywhere with the old man. One day Shiro scratched and barked at a corner of the field, crying "Dig here! Dig here!" And there, under the earth, the old man found a chest full of gold.',
+        },
+        {
+          kind: 'text',
+          text: 'A cross neighbour heard of it and borrowed Shiro. But under his cross digging there was no gold at all — only mud and old bones. He was so angry that he used the little dog so roughly that Shiro never came home again. The old pair wept, and buried their friend with tears under the garden pine.',
+        },
+        {
+          kind: 'text',
+          text: 'The pine grew tall and fine, and from its wood the old man made a little hand-mill. When rice was ground in it, gold dropped out instead! The neighbour borrowed that, too — but out came only filth, so he threw the mill on his fire. Then the old man gathered the ashes in a box.',
+        },
+        {
+          kind: 'image',
+          art: 'ozaki-blossom',
+          text: 'The magic ashes fall — and the bare trees burst into flower.',
+        },
+        {
+          kind: 'text',
+          text: 'Now it happened that the lord of the land was sad, for his cherry trees would not bloom. The old man scattered his ashes — and every withered tree burst into flower at once! The lord heaped gifts upon him. The greedy neighbour tried the very same trick, but his ashes only filled the great man’s eyes with dust, and he was driven from the road in disgrace.',
+        },
+        {
+          kind: 'note',
+          text: 'Ask your child: the same ashes made trees bloom for the kind man and only dust for the greedy one. Why, do you think?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Japanese Fairy Tales',
@@ -168,6 +304,6 @@ export const japaneseFairyTales: PackBook = {
     authorDeathYear: 1932,
     jurisdiction: 'US',
     basis: 'pd-us',
-    note: 'Four tales retold for young readers. Published 1908; US public domain (pre-1929) and PD in the EU (Ozaki d. 1932, 70y pma expired 2003). The Urashima Taro ending is softened to a gentle homecoming in the sea palace.',
+    note: 'Eight tales retold for young readers. Published 1908; US public domain (pre-1929) and PD in the EU (Ozaki d. 1932, 70y pma expired 2003). The Urashima Taro ending is softened to a gentle homecoming in the sea palace.',
   },
 }

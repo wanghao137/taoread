@@ -24,7 +24,7 @@ async function main() {
   // choose 模式 → 选小朋友角色 → 进 join 模式
   await page.getByRole('button', { name: '小朋友' }).click()
   await page.getByRole('button', { name: '输入家庭码加入' }).click()
-  await page.getByPlaceholder('ABCD2345').fill('PEACH888')
+  await page.getByPlaceholder('ABCD2345').fill('123456')
   await page.getByRole('button', { name: '进入桃阅读' }).click()
   await page.waitForTimeout(2500)
   // 多孩家庭：选小柚（空账本，书架无进度污染）

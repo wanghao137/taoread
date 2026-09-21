@@ -2,7 +2,7 @@ import type { PackBook } from '../types'
 
 /**
  * English Fairy Tales — Joseph Jacobs (1854–1916), first published 1890.
- * Four tales retold for young readers, one per chapter: Childe Rowland,
+ * Eight tales retold for young readers, one per chapter: Childe Rowland,
  * Cap o' Rushes, The Fish and the Ring, and The Red Etin. Frightening
  * episodes are played as clever escapes; plots follow the public-domain
  * originals.
@@ -17,7 +17,7 @@ export const englishFairyTales: PackBook = {
   category: 'tale',
   ageStage: '6-8',
   intro:
-    'Four old English tales of brave hearts and quick wits: a brother who walks round and round a barrow to reach the Dark Tower, a daughter turned away for loving too truly, a fortune written in a fish’s ring, and a youngest son who out-thinks a three-headed giant. Told as Jacobs told them — merry, plain and full of courage.',
+    'Eight old English tales of brave hearts and quick wits: a brother who walks round and round a barrow to reach the Dark Tower, a daughter turned away for loving too truly, a youngest son who out-thinks a three-headed giant, three pigs against the wolf, a boy who climbs the beanstalk, a name that must never be spoken, and a chicken who feared the sky was falling. Told as Jacobs told them — merry, plain and full of courage.',
   coverArt: 'engfair-tower',
   coverArtPrompt:
     'A moonlit fairy-tale scene: a young knight in a green tunic stands before a great grassy barrow hill where an antique stone tower rises into the stars, round-windowed and lantern-lit; a swirl of golden elf-light circles the mound, sheep pasture and hedges below, huge harvest moon. Deep blue-and-gold palette, mysterious but friendly, classic storybook style.',
@@ -161,6 +161,130 @@ export const englishFairyTales: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · The Story of the Three Little Pigs',
+      art: 'engfair-pigs',
+      artPrompt:
+        'Three cheerful pigs safe inside the doorway of a sturdy brick cottage, a big bad wolf tumbling headfirst from the chimney toward a great steaming kettle in the yard, the little straw house and stick house leaning sadly in the garden behind, bright comic storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'An old sow sent her three little pigs out into the world to seek their fortunes. The first pig met a man with a bundle of straw, and built himself a house of straw. The second pig met a man with a bundle of sticks, and built himself a house of sticks. But the third pig met a man with a load of bricks, and worked and worked till his house of bricks was done.',
+        },
+        {
+          kind: 'text',
+          text: 'By and by came a big bad wolf. He knocked at the straw house. "Little pig, let me come in!" "Not by the hair of my chinny-chin-chin!" "Then I’ll huff, and I’ll puff, and I’ll blow your house in!" And huff he did, and puff he did, and the straw house fell down. But the little pig was quick, and ran to his brother’s house of sticks.',
+        },
+        {
+          kind: 'image',
+          art: 'engfair-pigs',
+          text: 'Down the chimney comes the wolf — splash! — where the kettle waits.',
+        },
+        {
+          kind: 'text',
+          text: 'The wolf huffed and puffed that house down too — but the two pigs had already run to the brick house. There the wolf huffed and puffed till he was red in the face, and the house stood fast. So down the chimney he came — splash! — into a great kettle of water the pigs had set boiling. Up the hill went the wolf, howling, and he never troubled the three little pigs again.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: huff — to blow out air in a big angry breath. Ask your child: why did the third pig’s house stand fast? Because he did the slow, careful work first.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Jack and the Beanstalk',
+      art: 'engfair-beanstalk',
+      artPrompt:
+        'An enormous beanstalk winding up into the clouds, a boy climbing swiftly with a golden harp under his arm, far above a huge angry ogre roaring at a cloud-castle door, far below a tiny cottage with an axe leaning by the woodpile, early morning light, lively storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Jack and his mother were poor, and at last they had nothing left to sell but the cow. So Jack took her to market — and came home with five magic beans. His mother was so cross that she flung the beans out of the window. But in the morning a great beanstalk stood twisting up into the clouds, higher than the highest tree.',
+        },
+        {
+          kind: 'text',
+          text: 'Up Jack climbed, and at the top he came to a great house, and in it a great ogre’s wife, who hid him in the oven when the ogre came home. "Fee-fi-fo-fum, I smell the blood of an Englishman!" roared the ogre. But he did not find Jack, and Jack slipped away with a bag of gold.',
+        },
+        {
+          kind: 'image',
+          art: 'engfair-beanstalk',
+          text: 'Down the beanstalk with the singing harp, and the ogre thundering behind.',
+        },
+        {
+          kind: 'text',
+          text: 'Twice more he climbed — and brought back a hen that laid golden eggs, and a harp that sang most beautifully of its own accord. But the third time, the harp cried out "Master! Master!" and the ogre chased Jack down the stalk. "Mother! Bring the axe!" Down came the beanstalk, and down came the ogre — and that was the end of him. Then the golden hen made Jack and his mother rich, and the harp sang in their little house for ever after.',
+        },
+        {
+          kind: 'note',
+          text: 'Ask your child: which treasure helped Jack most — the bag of gold, the hen, or the harp? And what would you have done when the harp called out?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Tom Tit Tot',
+      art: 'engfair-tittot',
+      artPrompt:
+        'A small comical black creature spinning swiftly at a spinning wheel in a royal chamber by firelight, a tired young queen watching from her chair, eleven scratched tallies on the wall, one candle burning low, cosy moody storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'A girl said she could spin five skeins of thread a night — but that was only her mother’s boasting, and the king heard it. He married her, and then he told her the truth: she must spin five skeins every night, or leave the palace for ever. The poor queen sat crying in her chair, for she could not spin at all.',
+        },
+        {
+          kind: 'text',
+          text: 'Then there came a little knock, and in hopped a small, funny-looking black thing with a spinning wheel. "I’ll spin your five skeins every night," said he, "if you have three guesses every day to find my name. Fail at the month’s end, and you are mine." And each night her skeins were spun, and each day she guessed wrong.',
+        },
+        {
+          kind: 'image',
+          art: 'engfair-tittot',
+          text: 'The little black thing at the wheel, on the very last night of the month.',
+        },
+        {
+          kind: 'text',
+          text: 'On the last night the king himself came home and said he had heard a strange thing singing in the wood: "Nimmy nimmy not, my name’s Tom Tit Tot!" Then in hopped the little black thing. "Now, my lady, what is my name?" "Why," said she, sweet as honey, "TOM TIT TOT!" And the little thing gave an awful screech and flew off into the dark, and was never seen again.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: skein — a long, loosely wound length of thread. Ask your child: how did the queen learn the name? By listening — patiently, every single day.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · Henny Penny',
+      art: 'engfair-henny',
+      artPrompt:
+        'A comical line of farm birds — hen, rooster, duck, goose and turkey — trotting along a leafy autumn lane behind a flustered hen with an acorn still on her head, a sly fox with a thin smile peeking from a dark cave mouth in the hillside, dappled light, comic storybook style.',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'One day Henny Penny was pecking in the farmyard when an acorn fell — plump! — right on her head. "The sky is falling!" cried Henny Penny. "I must go and tell the king."',
+        },
+        {
+          kind: 'text',
+          text: 'So off she went, and on the way she met Cocky Locky. "Where are you going?" "To tell the king the sky is falling!" "I’ll come with you." Then came Ducky Daddles, then Goosey Loosey, then Turkey Lurkey, and at last a fine long line of birds went trotting down the lane.',
+        },
+        {
+          kind: 'text',
+          text: 'In the deep dark wood they met Foxy Loxy. "Going to the king?" said he, very smooth. "Come with me — I know the shortest way." And he led them straight to the mouth of his den.',
+        },
+        {
+          kind: 'image',
+          art: 'engfair-henny',
+          text: 'The fine long line of birds — and one fox who knows a shortcut.',
+        },
+        {
+          kind: 'text',
+          text: 'But Henny Penny peeped first, and saw bones and feathers in the dark. "Run!" she squawked, and the whole line of birds flew, flapped and waddled home faster than ever birds had gone before. And the sky never did fall — but Henny Penny always looked up, and looked twice, ever after.',
+        },
+        {
+          kind: 'note',
+          text: 'Ask your child: the sky was not falling — it was only an acorn. How could Henny Penny have found that out sooner?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'English Fairy Tales',
@@ -168,6 +292,6 @@ export const englishFairyTales: PackBook = {
     authorDeathYear: 1916,
     jurisdiction: 'US',
     basis: 'pd-us',
-    note: 'Four tales retold for young readers; frightening episodes played as clever escapes. Published 1890; US public domain and PD in the EU (Jacobs d. 1916, 70y pma expired 1987).',
+    note: 'Eight tales retold for young readers; frightening episodes played as clever escapes. Published 1890; US public domain and PD in the EU (Jacobs d. 1916, 70y pma expired 1987).',
   },
 }

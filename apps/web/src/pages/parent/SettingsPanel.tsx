@@ -97,17 +97,19 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     if (view.kind === 'error') return <ErrorState message={view.message} onRetry={onChanged} />
 
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
         {view.view.binding ? (
-          <p className="text-base text-ink-700" data-testid="binding-status">
+          <p className="text-base text-ink-700 lg:col-span-2" data-testid="binding-status">
             微信读书已绑定（{view.view.binding.maskedTail}）
             {view.view.binding.status === 'unverified' && ' · 待验证'}
           </p>
         ) : (
-          <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
+          <div className="lg:col-span-2">
+            <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
+          </div>
         )}
 
-        <TaCard>
+        <TaCard className="shadow-xs">
           <h3 className="mb-3 text-lg font-bold">小读者</h3>
           {view.view.children.length > 0 && (
             <div className="mb-4 flex flex-col gap-2">

@@ -213,6 +213,64 @@ export const tomSawyer: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 7 · David and Goliath',
+      art: 'sunday-school-tickets',
+      artPrompt: 'a small wooden Sunday school room with rows of children in stiff Sunday jackets, a boy standing red-faced before the superintendent holding a blue Bible above his head, a dignified judge with a golden-haired little girl in the front pew, red and yellow paper tickets scattered on a desk',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Tom\'s heart was never in his Bible verses, but he wanted the prize. A blue ticket was given for two verses learned, ten blue tickets made a red one, ten red made a yellow, and ten yellow made the grand prize - a beautiful Bible, given out by hand before the whole Sunday school.',
+        },
+        {
+          kind: 'image',
+          art: 'tom-bible-prize',
+          text: 'Tom marches up with his pockets full of tickets to win the Bible.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: disciple - one of the twelve friends who followed and learned from Jesus. Tom was asked to name the first two of them.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'So Tom traded. His fence-day treasures went for tickets, marble by marble, kite by kite, till his pockets were full. And that very morning a new judge, Mr. Thatcher, sat in the school with his lovely little daughter Becky, and Tom longed to stand in glory before her eyes. Up he marched, and Mr. Walters, the superintendent, could not believe his own spectacles. Tom Sawyer - the Bible prize!',
+        },
+        {
+          kind: 'text',
+          text: 'The judge shook his hand and asked him kindly: "Now, my boy, can you tell me the names of the first two disciples that were called?" Tom went white, then red, hung his head, and said at last: "David and Goliath!" The whole school bit its lips to keep from laughing. "Let him up," sighed the minister, "he is only a little boy." And Tom sat down in glory all the same.',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · The Torn Book',
+      art: 'torn-anatomy-book',
+      artPrompt: 'a strict village schoolroom with slanting wooden desks and a globe, a large book lying open on the schoolmaster\'s desk with one page torn out, a golden-haired girl standing pale beside it, a bald schoolmaster with a birch rod glowering, a boy springing up from his seat with his hand raised',
+      blocks: [
+        {
+          kind: 'text',
+          text: 'Mr. Dobbins, the schoolmaster, kept a mystery locked in his desk - a book he guarded like treasure. He was a foolish, kind-hearted man who dreamed of being a doctor, and the book was an anatomy, the book that shows what a person looks like inside. Every child in the school would have given anything for one peep at it.',
+        },
+        {
+          kind: 'image',
+          art: 'becky-page-tear',
+          text: 'Becky peeps into the forbidden book - and the page tears.',
+        },
+        {
+          kind: 'note',
+          text: 'New word: anatomy - a book that shows the inside of the human body, such as doctors study. To Mr. Dobbins it was his secret pride.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'text',
+          text: 'One noon, when the master was asleep, Becky found the desk unlocked. But just as she bent over the painted picture, Tom stood behind her - and she jumped, snatched at the book, and tore the page half across. She burst out crying. "Oh, Tom, you will tell!" she sobbed. "I won\'t tell," said Tom. "Let me take it for you, Becky."',
+        },
+        {
+          kind: 'text',
+          text: 'When Mr. Dobbins found the torn page he thundered, "Who tore this book?" and went down the rows, girl after boy, and none would speak. Then he came to Becky. She trembled and turned white - and Tom sprang to his feet and cried: "I done it!" He took the fierce whipping without a whimper, and afterwards Becky whispered, "Tom, how could you be so noble!" And Tom walked home happy, for he had won something better than a prize.',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'The Adventures of Tom Sawyer',
