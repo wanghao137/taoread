@@ -311,6 +311,7 @@ export async function reportProgress(
   contentId: string,
   chapterOrder: number,
   blockOrder: number,
+  completed = false,
 ): Promise<{ chapterOrder: number; finished: boolean }> {
   const book = await db.book.findUnique({
     where: { id: contentId },
@@ -319,7 +320,10 @@ export async function reportProgress(
   if (!book) throw new Error('BOOK_NOT_FOUND')
   const last = await db.chapter.count({ where: { bookId: contentId } })
   const clamped = Math.max(1, Math.min(chapterOrder, Math.max(last, 1)))
-  const finished = last > 0 && clamped >= last
+  // P0（V8 审计 A3.4）：位置上报 ≠ 完成动作。打开最后一章只表示「读到这里」；
+  // finished 仅由客户端在真实完成末章时的显式 completed=true 写入。
+  const atLast = last > 0 && clamped >= last
+  const finished = atLast && completed
   await db.readingProgress.upsert({
     where: { childId_bookId: { childId, bookId: contentId } },
     create: { childId, bookId: contentId, chapterOrder: clamped, blockOrder, finished },

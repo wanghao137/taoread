@@ -328,12 +328,12 @@ export const api = {
   reportContentProgress: (
     contentId: string,
     childId: string,
-    body: { chapterOrder: number; blockOrder?: number },
+    body: { chapterOrder: number; blockOrder?: number; completed?: boolean },
     token: string,
   ) =>
     request<{ chapterOrder: number; finished: boolean }>(
       `/api/content/books/${encodeURIComponent(contentId)}/progress`,
-      { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0 }, token },
+      { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0, completed: body.completed ?? false }, token },
     ),
 
   /** 收藏 / 取消收藏（docs/15 P1-A） */
@@ -609,6 +609,7 @@ export interface WeeklyReportDataDto {
   nights: number
   totalMinutes: number
   books: Array<{ key: string; title: string }>
+  booksCompleted: number
   highlights: Array<{ text: string; source: string }>
   highlightsTotal: number
   achievementsUnlocked: number

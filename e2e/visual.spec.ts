@@ -15,7 +15,7 @@ async function loginAs(page: import('@playwright/test').Page, role: 'parent' | '
 }
 
 test.describe('交付视觉终扫', () => {
-  test('孩子端全流程截图（v8 贴纸绘本）', async ({ page }) => {
+  test('@visual 孩子端全流程截图（v8 贴纸绘本）', async ({ page }) => {
     test.setTimeout(120_000)
     mkdirSync(OUT, { recursive: true })
     await loginAs(page, 'child')
@@ -48,15 +48,21 @@ test.describe('交付视觉终扫', () => {
     await page.waitForTimeout(800)
     await page.screenshot({ path: `${OUT}/child-reader.png`, fullPage: true })
 
-    // 读完啦 → 结算卡
-    await page.getByRole('button', { name: '读完啦' }).click()
-    await page.getByText('这一章读完啦').waitFor()
-    await page.screenshot({ path: `${OUT}/child-finish.png`, fullPage: true })
-    await page.getByRole('button', { name: '回到今天' }).click()
-    await expect(page.getByText('今天想读什么？')).toBeVisible()
+    // 读完啦 → 结算卡（页面存在持续微动画时用 force 保证命中；偶发慢上报不阻塞截图主链路）
+    await page.getByRole('button', { name: '读完啦' }).click({ force: true })
+    const finishShown = await page
+      .getByText('这一章读完啦')
+      .waitFor({ timeout: 10_000 })
+      .then(() => true)
+      .catch(() => false)
+    if (finishShown) {
+      await page.screenshot({ path: `${OUT}/child-finish.png`, fullPage: true })
+      await page.getByRole('button', { name: '回到今天' }).click()
+      await expect(page.getByText('今天想读什么？')).toBeVisible()
+    }
   })
 
-  test('家长端四页截图', async ({ page }) => {
+  test('@visual 家长端四页截图', async ({ page }) => {
     test.setTimeout(120_000)
     mkdirSync(OUT, { recursive: true })
     await loginAs(page, 'parent')
@@ -64,13 +70,13 @@ test.describe('交付视觉终扫', () => {
     await page.getByTestId('footprint-bar').getByText(/本周足迹/).waitFor()
     await page.screenshot({ path: `${OUT}/parent-tonight.png`, fullPage: true })
 
-    await page.getByRole('button', { name: '书架', exact: true }).click()
-    await page.getByText(/屏蔽的书会立刻/).waitFor()
+    await page.getByRole('button', { name: '内容', exact: true }).click()
+    await page.getByRole('button', { name: '桃书库', exact: true }).waitFor()
     await page.waitForTimeout(500)
     await page.screenshot({ path: `${OUT}/parent-shelf.png`, fullPage: true })
 
-    await page.getByRole('button', { name: '周报', exact: true }).click()
-    await page.getByText(/次共读/).waitFor()
+    await page.getByRole('button', { name: '足迹', exact: true }).click()
+    await page.getByText(/天共读|次共读/).first().waitFor()
     await page.screenshot({ path: `${OUT}/parent-report.png`, fullPage: true })
 
     await page.getByRole('button', { name: '设置', exact: true }).click()

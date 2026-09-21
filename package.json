@@ -19,7 +19,8 @@
     "dev:web": "npm run dev -w @taoread/web",
     "smoke:weread": "npm run smoke -w @taoread/server",
     "demo": "node scripts/demo.mjs",
-    "e2e": "playwright test -c e2e/playwright.config.ts"
+    "e2e": "playwright test -c e2e/playwright.config.ts --grep-invert @visual",
+    "e2e:visual": "playwright test -c e2e/playwright.config.ts --grep @visual"
   },
   "engines": {
     "node": ">=20"

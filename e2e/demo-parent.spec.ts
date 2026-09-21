@@ -18,19 +18,18 @@ test.describe('家长端', () => {
     await page.getByTestId('footprint-bar').getByText(/本周足迹/).waitFor()
     await page.getByText(/今天还没开始/).first().waitFor()
 
-    // ── 书架：分区与屏蔽切换 ──
-    await page.getByRole('button', { name: '书架', exact: true }).click()
-    await page.getByText(/屏蔽的书会立刻从孩子的世界里消失/).waitFor()
-    const blockBtn = page.getByRole('button', { name: '屏蔽', exact: true }).first()
-    await blockBtn.click()
-    await page.getByText('已屏蔽').first().waitFor()
+    // ── 内容（V8 Phase 6 统一入口）：桃书库屏蔽切换 ──
+    await page.getByRole('button', { name: '内容', exact: true }).click()
+    await page.getByRole('button', { name: '桃书库', exact: true }).waitFor()
+    await page.getByRole('button', { name: '屏蔽', exact: true }).first().click()
+    await page.getByRole('button', { name: '恢复显示', exact: true }).first().waitFor()
     // 再点恢复
-    await page.getByRole('button', { name: '取消屏蔽', exact: true }).first().click()
+    await page.getByRole('button', { name: '恢复显示', exact: true }).first().click()
     await page.getByRole('button', { name: '屏蔽', exact: true }).first().waitFor()
 
     // ── 周报：本周有数据（种子跨两周，本周至少 1 晚）+ 分享卡规格 ──
-    await page.getByRole('button', { name: '周报', exact: true }).click()
-    await page.getByText('次共读').waitFor()
+    await page.getByRole('button', { name: '足迹', exact: true }).click()
+    await page.getByText(/天共读|次共读/).first().waitFor()
     const download = page.waitForEvent('download', { timeout: 15_000 })
     await page.getByRole('button', { name: /保存分享卡/ }).click()
     const dl = await download

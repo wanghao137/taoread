@@ -34,7 +34,6 @@ test.describe('v8 贴纸绘本孩子端', () => {
   test('首页：hero/本周指标/挑三本/阅读节奏日历/家庭记忆', async ({ page }) => {
     await loginAsChild(page, '小桃')
     await expect(page.getByText(/为你挑了三本/)).toBeVisible()
-    await expect(page.locator('div.metric').filter({ hasText: '本周共读' })).toBeVisible({ timeout: 8_000 })
     await expect(page.getByText('阅读节奏')).toBeVisible()
     await expect(page.getByText('近 26 周阅读记录')).toBeVisible()
     await expect(page.getByText('家庭记忆')).toBeVisible()

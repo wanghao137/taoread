@@ -22,7 +22,7 @@ function lastMonday(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-/** 周报页：本周/上周切换 + 分享卡 PNG 下载（SVG 客户端栅格化，1080×1440） */
+/** 足迹页（原周报）：本周/上周切换 + 分享卡 PNG 下载（SVG 客户端栅格化，1080×1440） */
 export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [week, setWeek] = useState<string>(thisMonday())
   const [report, setReport] = useState<WeeklyReportDataDto | null>(null)
@@ -41,7 +41,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
         if (alive) setReport(r)
       })
       .catch((err: unknown) => {
-        if (alive) setError(err instanceof ApiError ? err.message : '周报生成失败，请稍后再试')
+        if (alive) setError(err instanceof ApiError ? err.message : '足迹报告生成失败，请稍后再试')
       })
       .finally(() => {
         if (alive) setLoading(false)
@@ -98,9 +98,12 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
         <TaCard className="text-center shadow-xs lg:col-span-2">
           <p className="font-display text-5xl font-bold text-terra-600">{report.nights}</p>
-          <p className="mt-1 text-base text-ink-700">次共读</p>
+          <p className="mt-1 text-base text-ink-700">天共读</p>
           <p className="mt-3 text-base text-ink-700">
-            累计 {report.totalMinutes} 分钟 · 读完 {report.books.length} 本 · 收金句 {report.highlightsTotal} 句
+            累计 {report.totalMinutes} 分钟 · 读过 {report.books.length} 本
+            {report.booksCompleted > 0 && ` · 真正读完 ${report.booksCompleted} 本`}
+            {' · '}
+            收金句 {report.highlightsTotal} 句
             {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
           </p>
           <p className="mt-2 text-base text-ink-700">{report.nextWeekHint}</p>

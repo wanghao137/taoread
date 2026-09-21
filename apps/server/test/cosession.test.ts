@@ -117,7 +117,7 @@ describe('共读域 API（第 4 夜）', () => {
       expect(first.json().reused).toBe(false)
       expect(first.json().bookId).toBe('B2001')
 
-      // 立刻再点一次（换了一本书/连点）：返回第一场会话，不产生新记录
+      // 立刻再点一次（换了一本书）：P0 整改后禁止跨书静默复用 → 409 ACTIVE_SESSION_OTHER_BOOK
       clockSec += 30
       const second = await h.app.inject({
         method: 'POST',
@@ -125,10 +125,20 @@ describe('共读域 API（第 4 夜）', () => {
         headers: authHeaders(f.token),
         payload: { childId, bookId: 'B9999' },
       })
-      expect(second.statusCode).toBe(201)
-      expect(second.json().reused).toBe(true)
-      expect(second.json().id).toBe(first.json().id)
-      expect(second.json().bookId).toBe('B2001')
+      expect(second.statusCode).toBe(409)
+      expect(second.json().code).toBe('ACTIVE_SESSION_OTHER_BOOK')
+
+      // 同书重复点击：仍幂等复用，不产生新记录
+      clockSec += 30
+      const sameBook = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B2001' },
+      })
+      expect(sameBook.statusCode).toBe(201)
+      expect(sameBook.json().reused).toBe(true)
+      expect(sameBook.json().id).toBe(first.json().id)
       expect(await db.cosession.count({ where: { childId } })).toBe(1)
 
       // 收尾后允许开新场

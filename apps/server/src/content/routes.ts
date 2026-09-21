@@ -109,6 +109,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           childId: z.string().min(1).max(64),
           chapterOrder: z.coerce.number().int().min(1).max(999),
           blockOrder: z.coerce.number().int().min(0).max(9999).default(0),
+          // P0（V8 审计 A3.4）：显式完成动作；打开末章不再自动 finished
+          completed: z.coerce.boolean().optional().default(false),
         }),
         request.body,
       )
@@ -121,6 +123,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         request.params.id,
         body.chapterOrder,
         body.blockOrder ?? 0,
+        body.completed,
       )
       return reply.send(result)
     },

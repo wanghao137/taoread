@@ -196,7 +196,8 @@ describe('内容域 /api/content/books', () => {
     expect(cross.statusCode).toBe(404)
   })
 
-  it('末章上报标记 finished，越界钳到末章', async () => {
+  it('末章上报：越界钳到末章；位置上报不再自动 finished，显式 completed 才标记', async () => {
+    // 位置上报（无 completed）：钳到末章但不算读完
     const res = await harness.app.inject({
       method: 'POST',
       url: '/api/content/books/sanzi-jing/progress',
@@ -205,7 +206,15 @@ describe('内容域 /api/content/books', () => {
     })
     // 全本《三字经》共 17 课，越界钳到末章
     expect(res.json().chapterOrder).toBe(17)
-    expect(res.json().finished).toBe(true)
+    expect(res.json().finished).toBe(false)
+    // 显式完成动作（真实读完末章）才标记 finished
+    const done = await harness.app.inject({
+      method: 'POST',
+      url: '/api/content/books/sanzi-jing/progress',
+      headers: authHeaders(token),
+      payload: { childId, chapterOrder: 17, blockOrder: 0, completed: true },
+    })
+    expect(done.json().finished).toBe(true)
   })
 
   it('cbf: 书籍可正常开启共读会话', async () => {

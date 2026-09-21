@@ -5,6 +5,7 @@
  */
 import type { PrismaClient } from '@prisma/client'
 import {
+  AppError,
   NotFoundError,
   NotBoundError,
   RateLimitedError,
@@ -27,6 +28,7 @@ export interface CosessionDb {
   parentPrompt: PrismaClient['parentPrompt']
   eventLog: PrismaClient['eventLog']
   book: PrismaClient['book']
+  readingProgress: PrismaClient['readingProgress']
 }
 
 const PROGRESS_MARKS = new Set(['little', 'lot', 'done'])
@@ -108,6 +110,12 @@ export async function startSession(
     orderBy: { startedAt: 'desc' },
   })
   if (active) {
+    // P0（V8 审计 A3.2）：禁止跨书静默复用——读 A 未收尾就开 B 会让 UI 与会话错位，
+    // 污染时长/共读卡/成就/周报。同书重开 → 幂等复用；异书 → 结构化错误，
+    // 前端据此提供「继续旧书 / 结束旧书改读新书 / 取消」。
+    if ((active.bookId ?? null) !== (bookId ?? null)) {
+      throw new AppError('上一本书还没收尾呢，先读完它或收个尾再换书', 'ACTIVE_SESSION_OTHER_BOOK', 409)
+    }
     return {
       id: active.id,
       startedAt: active.startedAt,
@@ -142,6 +150,10 @@ export async function startSession(
         orderBy: { startedAt: 'desc' },
       })
       if (raced) {
+        // 并发竞态兜底同样适用跨书守卫（P0 审计 A3.2）
+        if ((raced.bookId ?? null) !== (bookId ?? null)) {
+          throw new AppError('上一本书还没收尾呢，先读完它或收个尾再换书', 'ACTIVE_SESSION_OTHER_BOOK', 409)
+        }
         return {
           id: raced.id,
           startedAt: raced.startedAt,
@@ -287,6 +299,17 @@ async function evaluateAchievements(
       select: { kind: true, value: true },
     }),
   ])
+  // P0（V8 审计 A3.3）：book_done 只能代表「整本真实读完」（ReadingProgress.finished）。
+  // 仅对内容域书（cbf:）生效——微信读书书没有进度模型，progressMark=done 就是其完成信号。
+  // 会话 progressMark=done 而内容书进度未 finished（把章节收尾误报为 done）时，降级为 lot。
+  let effectiveMark = current.progressMark
+  if (effectiveMark === 'done' && current.bookId !== null && isContentBookId(current.bookId)) {
+    const prog = await db.readingProgress.findUnique({
+      where: { childId_bookId: { childId, bookId: current.bookId } },
+      select: { finished: true },
+    })
+    if (!prog?.finished) effectiveMark = 'lot'
+  }
   const plan = planUnlocks({
     past: pastSessions
       .filter((s) => s.endedAt !== null)
@@ -295,7 +318,7 @@ async function evaluateAchievements(
         bookId: s.bookId,
         progressMark: s.progressMark,
       })),
-    current,
+    current: { ...current, progressMark: effectiveMark },
     existing,
   })
   const unlocked: UnlockPlanItem[] = []

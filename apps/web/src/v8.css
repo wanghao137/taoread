@@ -36,3 +36,15 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:focus-visib
 /* 有真实 AI 插画时，隐藏 demo 画框的 CSS 装饰（圆/草丘），避免压在图上 */
 .book-cover.has-art:before,.book-cover.has-art:after,.reader-art.has-art:before,.reader-art.has-art:after{display:none}
 .reader-art img.cover-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ── Phase 7/8 整改：calmMode 覆盖 CSS 动效 + 儿童触达尺寸 ── */
+/* calmMode（家庭安静模式）：html[data-calm] 时停用所有 v8 过渡/旋转/浮动 */
+html[data-calm='1'] *,html[data-calm='1'] *:before,html[data-calm='1'] *:after{transition:none!important;animation:none!important}
+html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-cover,html[data-calm='1'] .side-card,html[data-calm='1'] .detail-cover{transform:none!important}
+/* 触达尺寸：主 CTA ≥56px，普通儿童操作 ≥48px，圆形小钮 ≥44px */
+.sticker-btn{min-height:56px}
+.filter,.tab,.mood{min-height:48px}
+.fav{width:44px;height:44px}
+.mood{padding:10px 16px}
+/* 中文字重稳定：mono 标签内的中文回退系统黑体（数字/英文保持等宽观感） */
+.mono-label,.cover-kicker,.brand p,.story-meta small,.chapter .num,.chapter em,.metric span,.info small,.finish-stats small{font-family:ui-monospace,"SFMono-Regular",Consolas,"PingFang SC","Microsoft YaHei",sans-serif}

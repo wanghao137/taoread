@@ -3,20 +3,20 @@ import { api, ApiError, type ChildDto, type FamilyViewDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState } from '../components/ui'
 import { TonightPanel } from './parent/TonightPanel'
-import { ShelfManager } from './parent/ShelfManager'
+import { ContentHub } from './parent/ContentHub'
 import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
-import { ContentLibrary } from './parent/ContentLibrary'
 
-const TABS = ['今天', '书架', '桃书库', '周报', '设置'] as const
+// V8 Phase 6：一级导航收敛为四项；书架/桃书库合并进「内容」
+const TABS = ['今天', '内容', '足迹', '设置'] as const
 
 type FamilyState =
   | { kind: 'loading' }
   | { kind: 'error'; message?: string }
   | { kind: 'ready'; view: FamilyViewDto }
 
-/** 家长端：今天共读卡 / 书架管理 / 设置 / 周报 */
+/** 家长端：今天共读卡 / 内容中心 / 阅读足迹 / 设置 */
 export function ParentHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
@@ -28,6 +28,9 @@ export function ParentHome() {
   const [revision, setRevision] = useState(0)
   // 家庭码复制反馈（1.5s 自动复位）
   const [copied, setCopied] = useState(false)
+  // 「今天」实时同步（V8）：15s 静默轮询计数，传给 TonightPanel 原地刷新
+  const [refreshKey, setRefreshKey] = useState(0)
+  const bumpRefresh = useCallback(() => setRefreshKey((n) => n + 1), [])
 
   const load = useCallback(() => {
     if (!token || !familyId) return
@@ -47,22 +50,46 @@ export function ParentHome() {
 
   useEffect(() => load(), [load, revision])
 
+  // 今天 tab 时每 15 秒静默轮询；document.hidden 时不轮询，恢复可见立即刷一次
+  useEffect(() => {
+    if (tab !== '今天') return
+    const POLL_MS = 15_000
+    let timer: number | null = null
+    const stopPolling = () => {
+      if (timer !== null) {
+        window.clearInterval(timer)
+        timer = null
+      }
+    }
+    const startPolling = () => {
+      if (timer === null) timer = window.setInterval(bumpRefresh, POLL_MS)
+    }
+    const onVisibility = () => {
+      if (document.hidden) {
+        stopPolling()
+      } else {
+        bumpRefresh()
+        startPolling()
+      }
+    }
+    if (!document.hidden) startPolling()
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      stopPolling()
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [tab, bumpRefresh])
+
   const childrenList: ChildDto[] = state.kind === 'ready' ? state.view.children : []
 
   function body() {
     if (state.kind === 'loading') return <Loading label="家庭信息赶来中…" />
     if (state.kind === 'error')
       return <ErrorState message={state.message} onRetry={() => setRevision((n) => n + 1)} />
-    if (tab === '周报')
-      return <ReportPanel familyId={familyId ?? ''} token={token ?? ''} />
     if (tab === '今天')
-      return (
-        <TonightPanel token={token ?? ''} childrenList={childrenList} />
-      )
-    if (tab === '书架')
-      return <ShelfManager familyId={familyId ?? ''} token={token ?? ''} />
-    if (tab === '桃书库')
-      return <ContentLibrary familyId={familyId ?? ''} token={token ?? ''} />
+      return <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
+    if (tab === '内容') return <ContentHub familyId={familyId ?? ''} token={token ?? ''} />
+    if (tab === '足迹') return <ReportPanel familyId={familyId ?? ''} token={token ?? ''} />
     return (
       <SettingsPanel
         familyId={familyId ?? ''}

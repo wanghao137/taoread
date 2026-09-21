@@ -43,7 +43,8 @@ describe('startSession P2002 恢复分支（并发双开的引擎级防线）', 
       db,
       'fam-1',
       'child',
-      { childId: 'child-1', bookId: 'B-NEW' },
+      // 竞态对手建的是同书会话（跨书场景现在会被 A3.2 守卫以 409 拒绝）
+      { childId: 'child-1', bookId: 'B-RACE' },
       () => 1_800_000_000,
     )
     expect(result.reused).toBe(true)

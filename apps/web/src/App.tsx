@@ -91,7 +91,10 @@ export default function App() {
           <Route path="/" element={<HomeRedirect />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/child"
+            /* 尾部 * 必须保留：ChildHome→V8App 用「后代 <Routes>」做子路由（/child/today、
+             * /child/book/:id…），父路由不带 * 时任何子路径都匹配失败、被兜底重定向回首页
+             * （React Router v6 会出 descendant-routes 警告，审计 e2e 抓到的回归） */
+            path="/child/*"
             element={
               <RequireRole role="child">
                 <ChildHome />

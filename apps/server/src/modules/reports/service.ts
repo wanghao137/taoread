@@ -21,13 +21,16 @@ export interface ReportDb {
   bookCache: PrismaClient['bookCache']
   /** v2 内容域公版书表（cbf: 前缀会话的书名解析来源） */
   book: PrismaClient['book']
+  /** 「真正读完」口径需要核对内容域书的阅读进度（A3.3/A3.6） */
+  readingProgress: PrismaClient['readingProgress']
 }
 
 export interface WeeklyReportData {
   weekStart: string // YYYY-MM-DD（周一）
   nights: number // 共读晚数（去重夜键）
   totalMinutes: number // 累计分钟（已收尾会话）
-  books: Array<{ key: string; title: string }> // 本周读过的书（去重）
+  books: Array<{ key: string; title: string }> // 本周读过的书（去重）——注意：读过 ≠ 读完
+  booksCompleted: number // 本周以 done 收尾（真实读完）的去重书数
   highlights: Array<{ text: string; source: string }> // 展示用至多 12 条
   highlightsTotal: number // 本周金句总数（计数与展示分离，N10-005）
   achievementsUnlocked: number // 本周解锁成就数
@@ -113,6 +116,8 @@ export async function generateWeeklyReport(
         durationSec: true,
         bookId: true,
         paperTitle: true,
+        progressMark: true,
+        childId: true,
       },
     }),
     db.highlightStar.findMany({
@@ -148,26 +153,47 @@ export async function generateWeeklyReport(
   const nightKeys = new Set<string>()
   const bookMap = new Map<string, string>()
   let totalSec = 0
+  /** done 收尾的（孩子|书）对：内容域书还需 ReadingProgress.finished 才算「真正读完」（A3.3/A3.6 统一口径） */
+  const donePairs: Array<{ childId: string; contentBookId: string | null; key: string; done: boolean }> = []
   for (const s of sessions) {
     nightKeys.add(nightKeyOf(Math.floor(s.startedAt.getTime() / 1000)))
     if (s.durationSec && s.durationSec > 0) totalSec += s.durationSec
     const key = s.bookId ?? `paper:${s.paperTitle ?? ''}`
     const title = resolveSessionTitle(s, titleByBookId, titleByContentId)
     if (title) bookMap.set(key, title)
+    if (s.progressMark === 'done' && s.bookId) {
+      if (isContentBookId(s.bookId)) {
+        donePairs.push({ childId: s.childId, contentBookId: toContentId(s.bookId), key: s.bookId, done: false })
+      } else {
+        donePairs.push({ childId: s.childId, contentBookId: null, key, done: true })
+      }
+    }
   }
+  if (donePairs.some((p) => p.contentBookId !== null)) {
+    const childIds = [...new Set(donePairs.filter((p) => p.contentBookId).map((p) => p.childId))]
+    const contentIds = [...new Set(donePairs.filter((p) => p.contentBookId).map((p) => p.contentBookId!))]
+    const finishedRows = await db.readingProgress.findMany({
+      where: { childId: { in: childIds }, bookId: { in: contentIds }, finished: true },
+      select: { childId: true, bookId: true },
+    })
+    const finishedSet = new Set(finishedRows.map((r) => `${r.childId}|${r.bookId}`))
+    for (const p of donePairs) if (p.contentBookId) p.done = finishedSet.has(`${p.childId}|${p.contentBookId}`)
+  }
+  const booksCompleted = new Set(donePairs.filter((p) => p.done).map((p) => p.key)).size
 
   const data: WeeklyReportData = {
     weekStart: weekStart.toISOString().slice(0, 10),
     nights: nightKeys.size,
     totalMinutes: Math.round(totalSec / 60),
     books: [...bookMap.entries()].map(([key, title]) => ({ key, title })),
+    booksCompleted,
     highlights: dedupeByText(highlights).slice(0, 12).map((h) => ({ text: h.text, source: h.source })),
     highlightsTotal: dedupeByText(highlights).length,
     achievementsUnlocked: achievements,
     nextWeekHint:
       nightKeys.size === 0
         ? '新的一周，第一页故事在等你'
-        : `本周共读了 ${nightKeys.size} 晚，下周继续点亮夜灯`,
+        : `本周共读了 ${nightKeys.size} 天，下周继续`,
   }
 
   // upsert 周报行（任意历史周可重生成；并发/重复生成以唯一约束兜底不产生重复行）
@@ -206,7 +232,7 @@ export function renderShareCardSvg(data: WeeklyReportData): string {
   <text x="540" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">${esc(data.weekStart)} 那一周</text>
   <text x="540" y="360" text-anchor="middle" font-family="system-ui, sans-serif" font-size="140" font-weight="bold" fill="#FFD97A">${data.nights}</text>
   <text x="540" y="430" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#B8C1E2">个共读的夜晚</text>
-  <text x="540" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">累计 ${data.totalMinutes} 分钟 · 读完 ${data.books.length} 本 · 金句 ${data.highlightsTotal} 句</text>
+  <text x="540" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#B8C1E2">累计 ${data.totalMinutes} 分钟 · 读过 ${data.books.length} 本 · 读完 ${data.booksCompleted} 本 · 金句 ${data.highlightsTotal} 句</text>
   ${bookLines.map((line, i) => `<text x="540" y="${bookY + i * 64}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#F4F1FF">${line}</text>`).join('\n  ')}
   ${highlightLines.map((line, i) => `<text x="540" y="${hlY + i * 56}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#FFD3C4">${line}</text>`).join('\n  ')}
   <text x="540" y="${hlY + highlightLines.length * 56 + 60}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" fill="#B8C1E2">${esc(data.nextWeekHint)}</text>

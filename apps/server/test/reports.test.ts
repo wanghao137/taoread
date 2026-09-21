@@ -96,7 +96,7 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     expect(report.books).toHaveLength(2)
     expect(report.highlights).toHaveLength(2)
     expect(report.achievementsUnlocked).toBe(1)
-    expect(report.nextWeekHint).toContain('2 晚')
+    expect(report.nextWeekHint).toContain('2 天') // Phase 7：夜晚叙事迁移（晚→天）
   })
 
   it('空周优雅：零值结构与正向提示', async () => {

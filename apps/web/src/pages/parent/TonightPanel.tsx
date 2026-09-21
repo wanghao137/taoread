@@ -6,6 +6,8 @@ import { Loading, ErrorState, TaCard } from '../../components/ui'
 export interface TonightPanelProps {
   token: string
   childrenList: ChildDto[]
+  /** 外部刷新计数（ParentHome 每 15s 静默轮询）：变化即原地重拉，不闪整页 loading */
+  refreshKey?: number
 }
 
 interface ChildTonight {
@@ -16,7 +18,7 @@ interface ChildTonight {
 }
 
 /** 今天页：每个孩子今天的共读状态 + 家长侧共读卡（讲什么/问什么/聊什么） */
-export function TonightPanel({ token, childrenList }: TonightPanelProps) {
+export function TonightPanel({ token, childrenList, refreshKey }: TonightPanelProps) {
   const [rows, setRows] = useState<ChildTonight[]>(
     childrenList.map((child) => ({ child, state: 'loading' })),
   )
@@ -24,52 +26,67 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
   // N9-201：挂载/刷新即拉取；卸载与刷新按钮触发时置 false，陈旧响应不再覆盖状态
   const aliveRef = useRef({ value: true })
 
-  const load = useCallback(() => {
-    aliveRef.current = { value: true }
-    const alive = aliveRef.current
-    setRows(childrenList.map((child) => ({ child, state: 'loading' })))
-    void Promise.all(
-      childrenList.map(async (child) => {
-        try {
-          const { session } = await api.activeCosession(child.id, token)
-          if (!alive.value) return
-          if (!session) {
+  const load = useCallback(
+    (opts?: { silent?: boolean }) => {
+      aliveRef.current = { value: true }
+      const alive = aliveRef.current
+      // 静默刷新（轮询）：不把行打回 loading，原地等新数据
+      if (!opts?.silent) setRows(childrenList.map((child) => ({ child, state: 'loading' })))
+      void Promise.all(
+        childrenList.map(async (child) => {
+          try {
+            const { session } = await api.activeCosession(child.id, token)
+            if (!alive.value) return
+            if (!session) {
+              setRows((prev) =>
+                prev.map((r) => (r.child.id === child.id ? { child, state: 'idle' } : r)),
+              )
+              return
+            }
+            const { card } = await api.readingCard(session.id, token)
+            if (!alive.value) return
             setRows((prev) =>
-              prev.map((r) => (r.child.id === child.id ? { child, state: 'idle' } : r)),
+              prev.map((r) => (r.child.id === child.id ? { child, state: 'reading', card } : r)),
             )
-            return
+          } catch (err) {
+            if (!alive.value) return
+            // 静默轮询失败不打断当前内容：保住上一轮数据，等下一轮再试
+            if (opts?.silent) return
+            setRows((prev) =>
+              prev.map((r) =>
+                r.child.id === child.id
+                  ? {
+                      child,
+                      state: 'error',
+                      message: err instanceof ApiError ? err.message : undefined,
+                    }
+                  : r,
+              ),
+            )
           }
-          const { card } = await api.readingCard(session.id, token)
-          if (!alive.value) return
-          setRows((prev) =>
-            prev.map((r) => (r.child.id === child.id ? { child, state: 'reading', card } : r)),
-          )
-        } catch (err) {
-          if (!alive.value) return
-          setRows((prev) =>
-            prev.map((r) =>
-              r.child.id === child.id
-                ? {
-                    child,
-                    state: 'error',
-                    message: err instanceof ApiError ? err.message : undefined,
-                  }
-                : r,
-            ),
-          )
-        }
-      }),
-    )
-  }, [childrenList, token])
+        }),
+      )
+    },
+    [childrenList, token],
+  )
 
   const loadRef = useRef(load)
   loadRef.current = load
+  // 首次挂载/孩子列表变化：全量加载（行级 loading）
   useEffect(() => {
     loadRef.current()
     return () => {
       aliveRef.current.value = false
     }
   }, [load])
+
+  // 外部静默轮询：跳过首挂，计数变化即原地重拉
+  const lastRefreshKey = useRef(refreshKey)
+  useEffect(() => {
+    if (refreshKey === undefined || refreshKey === lastRefreshKey.current) return
+    lastRefreshKey.current = refreshKey
+    loadRef.current({ silent: true })
+  }, [refreshKey])
 
   function reload() {
     load()
