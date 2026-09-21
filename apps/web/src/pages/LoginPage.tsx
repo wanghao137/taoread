@@ -155,7 +155,7 @@ export function LoginPage() {
       ) : mode === 'join' ? (
         <TaCard>
           <h2 className="text-xl font-bold">输入家庭码</h2>
-          <p className="mt-1 text-base text-ink-700">8 位家庭码在创建家庭的设备上</p>
+          <p className="mt-1 text-base text-ink-700">6-8 位家庭码在创建家庭的设备上</p>
           <label htmlFor="family-code" className="sr-only">
             家庭码
           </label>
@@ -177,7 +177,12 @@ export function LoginPage() {
               {error}
             </p>
           )}
-          <TaButton className="mt-5 w-full" loading={busy} disabled={code.trim().length !== 8} onClick={handleJoin}>
+          <TaButton
+            className="mt-5 w-full"
+            loading={busy}
+            disabled={!/^[0-9A-HJ-NP-Z]{6,8}$/.test(code.trim())}
+            onClick={handleJoin}
+          >
             进入桃阅读
           </TaButton>
           <TaButton variant="ghost" size="md" className="mt-2 w-full" onClick={() => setMode('choose')}>
