@@ -10,7 +10,7 @@
 ```bash
 npm install
 npm run demo
-# 打开 http://localhost:5173 ，家庭码输入 PEACH888
+# 打开 http://localhost:5173 ，家庭码输入 123456
 #   · 选「爸爸妈妈」：共读卡 / 书架管理 / 周报分享卡 / 设置
 #   · 选「小朋友」：月亮门 → 选书（推荐/搜索/骰子）→ 出发 → 收尾 → 夜灯墙
 ```

@@ -21,7 +21,7 @@ export const yueFu: PackBook = {
   chapters: [
     {
       title: "江南 · 汉乐府",
-      art: "river-boat",
+      art: 'poetry-yuefu:ch1',
       artPrompt: "古诗《江南》意境插画：江南可采莲，——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "长歌行 · 汉乐府",
-      art: "primer-scroll",
+      art: 'poetry-yuefu:ch2',
       artPrompt: "古诗《长歌行》意境插画：青青园中葵，朝露待日晞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "敕勒歌 · 北朝民歌",
-      art: "sunrise-hills",
+      art: 'poetry-yuefu:ch3',
       artPrompt: "古诗《敕勒歌》意境插画：敕勒川，阴山下。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "七步诗 · 曹植",
-      art: "poetry-moon",
+      art: 'poetry-yuefu:ch4',
       artPrompt: "古诗《七步诗》意境插画：煮豆持作羹，漉菽以为汁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "大风歌 · 刘邦",
-      art: "cloud-flight",
+      art: 'poetry-yuefu:ch5',
       artPrompt: "古诗《大风歌》意境插画：大风起兮云飞扬，——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "垓下歌 · 项羽",
-      art: "sunrise-hills",
+      art: 'poetry-yuefu:ch6',
       artPrompt: "古诗《垓下歌》意境插画：力拔山兮气盖世，时不利兮骓不逝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "易水歌 · 荆轲",
-      art: "nursery-window",
+      art: 'poetry-yuefu:ch7',
       artPrompt: "古诗《易水歌》意境插画：风萧萧兮易水寒，壮士一去兮不复还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "古朗月行（节选） · 李白",
-      art: "poetry-moon",
+      art: 'poetry-yuefu:ch8',
       artPrompt: "古诗《古朗月行（节选）》意境插画：小时不识月，呼作白玉盘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "长干行（节选） · 李白",
-      art: "nursery-window",
+      art: 'poetry-yuefu:ch9',
       artPrompt: "古诗《长干行（节选）》意境插画：郎骑竹马来，绕床弄青梅。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "十五从军征（节选） · 汉乐府",
-      art: "primer-scroll",
+      art: 'poetry-yuefu:ch10',
       artPrompt: "古诗《十五从军征（节选）》意境插画：十五从军征，八十始得归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "饮马长城窟行（节选） · 汉乐府",
-      art: "river-boat",
+      art: 'poetry-yuefu:ch11',
       artPrompt: "古诗《饮马长城窟行（节选）》意境插画：青青河畔草，绵绵思远道。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const yueFu: PackBook = {
     },
     {
       title: "上邪 · 汉乐府",
-      art: "poetry-moon",
+      art: 'poetry-yuefu:ch12',
       artPrompt: "古诗《上邪》意境插画：上邪！我欲与君相知，长命无绝衰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

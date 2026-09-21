@@ -97,9 +97,9 @@ export function TonightPanel({ token, childrenList }: TonightPanelProps) {
       </div>
 
       {/* 宽屏：每个孩子一张卡，两列排开；移动端保持一列 */}
-      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-stretch">
       {rows.map((row) => (
-        <TaCard key={row.child.id} className="shadow-xs">
+        <TaCard key={row.child.id} className="h-full shadow-xs">
           <p className="mb-2 text-lg font-bold">
             {row.child.nickname}（{row.child.stage}）
           </p>

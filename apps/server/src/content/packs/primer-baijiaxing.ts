@@ -21,7 +21,7 @@ export const baiJiaXing: PackBook = {
   chapters: [
     {
       title: "第一课 · 赵钱孙李 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch1',
       artPrompt: "《三字经》第1课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -39,7 +39,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第二课 · 费廉岑薛 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch2',
       artPrompt: "《三字经》第2课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -57,7 +57,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第三课 · 杜阮蓝闵 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch3',
       artPrompt: "《三字经》第3课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -75,7 +75,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第四课 · 程嵇邢滑 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch4',
       artPrompt: "《三字经》第4课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -93,7 +93,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第五课 · 叶幸司韶 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch5',
       artPrompt: "《三字经》第5课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -111,7 +111,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第六课 · 温别庄晏 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch6',
       artPrompt: "《三字经》第6课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -129,7 +129,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第七课 · 曾毋沙乜 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch7',
       artPrompt: "《三字经》第7课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -147,7 +147,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第八课 · 公孙仲孙 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch8',
       artPrompt: "《三字经》第8课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -165,7 +165,7 @@ export const baiJiaXing: PackBook = {
     },
     {
       title: "第九课 · 段干百里 · 佚名",
-      art: "primer-scroll",
+      art: 'baijiaxing-zhao:ch9',
       artPrompt: "《三字经》第9课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {

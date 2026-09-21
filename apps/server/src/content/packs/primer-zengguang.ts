@@ -21,7 +21,7 @@ export const zengGuang: PackBook = {
   chapters: [
     {
       title: " · 昔时贤文 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch1',
       artPrompt: "古诗《 · 昔时贤文》意境插画：昔时贤文，诲汝谆谆。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 相见易得 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch2',
       artPrompt: "古诗《 · 相见易得》意境插画：相见易得好，久住难为人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 古人不见 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch3',
       artPrompt: "古诗《 · 古人不见》意境插画：古人不见今时月，今月曾经照古人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 无钱休入 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch4',
       artPrompt: "古诗《 · 无钱休入》意境插画：无钱休入众，遭难莫寻亲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 欲求生富 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch5',
       artPrompt: "古诗《 · 欲求生富》意境插画：欲求生富贵，须下死工夫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 求财恨不 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch6',
       artPrompt: "古诗《 · 求财恨不》意境插画：求财恨不多，财多害自己。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 宁可直中 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch7',
       artPrompt: "古诗《 · 宁可直中》意境插画：宁可直中取，不可曲中求。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 深山毕竟 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch8',
       artPrompt: "古诗《 · 深山毕竟》意境插画：深山毕竟藏猛虎，大海终须纳细流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 念念有如 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch9',
       artPrompt: "古诗《 · 念念有如》意境插画：念念有如临敌日，心心常似过桥时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 时来风送 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch10',
       artPrompt: "古诗《 · 时来风送》意境插画：时来风送滕王阁，运去雷轰荐福碑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 螳螂捕蝉 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch11',
       artPrompt: "古诗《 · 螳螂捕蝉》意境插画：螳螂捕蝉，岂知黄雀在后？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 贞妇爱色 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch12',
       artPrompt: "古诗《 · 贞妇爱色》意境插画：贞妇爱色，纳之以礼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 光阴似箭 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch13',
       artPrompt: "古诗《 · 光阴似箭》意境插画：光阴似箭，日月如梭。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 知音说与 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch14',
       artPrompt: "古诗《 · 知音说与》意境插画：知音说与知音听，不是知音莫与谈。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 灭却心头 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch15',
       artPrompt: "古诗《 · 灭却心头》意境插画：灭却心头火，剔起佛前灯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 笋因落箨 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch16',
       artPrompt: "古诗《 · 笋因落箨》意境插画：笋因落箨方成竹，鱼为奔波始化龙。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 争他一脚 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch17',
       artPrompt: "古诗《 · 争他一脚》意境插画：争他一脚豚，反失一肘羊。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 千里送鹅 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch18',
       artPrompt: "古诗《 · 千里送鹅》意境插画：千里送鹅毛，礼轻情义重。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 命中只有 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch19',
       artPrompt: "古诗《 · 命中只有》意境插画：命中只有如许财，丝毫不可有闪失。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 父子和而 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch20',
       artPrompt: "古诗《 · 父子和而》意境插画：父子和而家不退，兄弟和而家不分。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 休念故乡 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch21',
       artPrompt: "古诗《 · 休念故乡》意境插画：休念故乡生处好，受恩深处便为家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 好学者则 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch22',
       artPrompt: "古诗《 · 好学者则》意境插画：好学者则庶民之子为公卿，不好学者则公卿之子为庶民。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 前人俗语 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch23',
       artPrompt: "古诗《 · 前人俗语》意境插画：前人俗语，言浅理深。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 祸与福同 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch24',
       artPrompt: "古诗《 · 祸与福同》意境插画：祸与福同门，利与害同城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 嫉妒人心 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch25',
       artPrompt: "古诗《 · 嫉妒人心》意境插画：嫉妒人心，骨肉更甚于外人！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 饱暖思淫 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch26',
       artPrompt: "古诗《 · 饱暖思淫》意境插画：饱暖思淫欲，饥寒起盗心！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 说长说短 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch27',
       artPrompt: "古诗《 · 说长说短》意境插画：说长说短，宁说人长莫说短；——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -372,7 +372,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 家无生活 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch28',
       artPrompt: "古诗《 · 家无生活》意境插画：家无生活计，坐吃如山崩。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -385,7 +385,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 天欲令其 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch29',
       artPrompt: "古诗《 · 天欲令其》意境插画：天欲令其灭亡，必先让其疯狂。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -398,7 +398,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 舌咬只为 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch30',
       artPrompt: "古诗《 · 舌咬只为》意境插画：舌咬只为揉，齿落皆因眶。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -411,7 +411,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 天生一人 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch31',
       artPrompt: "古诗《 · 天生一人》意境插画：天生一人，地生一穴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -424,7 +424,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 药补不如 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch32',
       artPrompt: "古诗《 · 药补不如》意境插画：药补不如肉补，肉补不如养补。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -437,7 +437,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 男无良友 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch33',
       artPrompt: "古诗《 · 男无良友》意境插画：男无良友不知己之有过，女无明镜不知面之精粗。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -450,7 +450,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 天下礼仪 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch34',
       artPrompt: "古诗《 · 天下礼仪》意境插画：天下礼仪无穷，一人知识有限。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -463,7 +463,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 宁卖现二 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch35',
       artPrompt: "古诗《 · 宁卖现二》意境插画：宁卖现二，莫卖赊三。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -476,7 +476,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 要知心腹 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch36',
       artPrompt: "古诗《 · 要知心腹》意境插画：要知心腹事，但听口中言。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -489,7 +489,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 鸟飞不尽 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch37',
       artPrompt: "古诗《 · 鸟飞不尽》意境插画：鸟飞不尽，话说不完。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -502,7 +502,7 @@ export const zengGuang: PackBook = {
     },
     {
       title: " · 要做长寿 · 佚名",
-      art: "primer-scroll",
+      art: 'zengguang-friends:ch38',
       artPrompt: "古诗《 · 要做长寿》意境插画：要做长寿人，莫做短命事。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

@@ -21,7 +21,7 @@ export const qianJiaShi: PackBook = {
   chapters: [
     {
       title: "春眠 · 孟浩然",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch1',
       artPrompt: "古诗《春眠》意境插画：春眠不觉晓，处处闻啼鸟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "访袁拾遗不遇 · 孟浩然",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch2',
       artPrompt: "古诗《访袁拾遗不遇》意境插画：洛阳访才子，江岭作流人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送郭司仓 · 王昌龄",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch3',
       artPrompt: "古诗《送郭司仓》意境插画：映门淮水绿，留骑主人心。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "洛阳道 · 储光羲",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch4',
       artPrompt: "古诗《洛阳道》意境插画：大道直如发，春来佳气多。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "独坐敬亭山 · 李白",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch5',
       artPrompt: "古诗《独坐敬亭山》意境插画：众鸟高飞尽，孤云独去闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "登鹳雀楼 · 王之涣",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch6',
       artPrompt: "古诗《登鹳雀楼》意境插画：白日依山尽，黄河入海流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "观永乐公主入番 · 孙逖",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch7',
       artPrompt: "古诗《观永乐公主入番》意境插画：边地莺花少，年来未觉新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "伊州歌 · 金昌绪",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch8',
       artPrompt: "古诗《伊州歌》意境插画：打起黄莺儿，莫教枝上啼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "左掖梨花 · 丘为",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch9',
       artPrompt: "古诗《左掖梨花》意境插画：冷艳全欺雪，余香乍入衣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "思君恩 · 令狐楚",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch10',
       artPrompt: "古诗《思君恩》意境插画：小苑莺歌歇，长门蝶舞多。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题袁氏别业 · 贺知章",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch11',
       artPrompt: "古诗《题袁氏别业》意境插画：主人不相识，偶坐为林泉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "夜送赵纵 · 杨炯",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch12',
       artPrompt: "古诗《夜送赵纵》意境插画：赵氏连城璧，由来天下传。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "竹里馆 · 王维",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch13',
       artPrompt: "古诗《竹里馆》意境插画：独坐幽篁里，弹琴复长啸。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送朱大入秦 · 王维",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch14',
       artPrompt: "古诗《送朱大入秦》意境插画：避人五陵去，宝剑值千金。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "长干行 · 崔颢",
-      art: "primer-scroll",
+      art: 'poetry-qianjia:ch15',
       artPrompt: "古诗《长干行》意境插画：君家在何处？妾住在横塘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "咏史 · 高适",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch16',
       artPrompt: "古诗《咏史》意境插画：尚有绨袍赠，应怜范叔寒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "罢相作 · 李适之",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch17',
       artPrompt: "古诗《罢相作》意境插画：避贤初罢相，乐圣且衔杯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "逢侠者 · 钱起",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch18',
       artPrompt: "古诗《逢侠者》意境插画：燕赵悲歌士，相逢剧孟家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "江行望匡庐 · 钱起",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch19',
       artPrompt: "古诗《江行望匡庐》意境插画：咫尺愁风雨，匡庐不可登。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答李浣 · 韦应物",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch20',
       artPrompt: "古诗《答李浣》意境插画：林中观易罢，溪上对鸥闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋风引 · 刘禹锡",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch21',
       artPrompt: "古诗《秋风引》意境插画：何处秋风至，萧萧送雁群。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋夜寄丘员外 · 韦应物",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch22',
       artPrompt: "古诗《秋夜寄丘员外》意境插画：怀君属秋夜，散步咏凉天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋日 · 耿𣲗",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch23',
       artPrompt: "古诗《秋日》意境插画：返照入闾巷，忧来谁共语。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋日湖上 · 薛莹",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch24',
       artPrompt: "古诗《秋日湖上》意境插画：落日五湖游，烟波处处愁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "宫中题 · 李昂",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch25',
       artPrompt: "古诗《宫中题》意境插画：辇路生秋草，上林花满枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "汾上惊秋 · 苏颋",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch26',
       artPrompt: "古诗《汾上惊秋》意境插画：北风吹白云，万里渡河汾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寻隐者不遇 · 贾岛",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch27',
       artPrompt: "古诗《寻隐者不遇》意境插画：松下问童子，言师采药去。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -372,7 +372,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "蜀道后期 · 张说",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch28',
       artPrompt: "古诗《蜀道后期》意境插画：客心争日月，来往预期程。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -385,7 +385,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "静夜思 · 李白",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch29',
       artPrompt: "古诗《静夜思》意境插画：床前明月光，疑是地上霜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -398,7 +398,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋浦歌 · 李白",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch30',
       artPrompt: "古诗《秋浦歌》意境插画：白发三千丈，离愁似个长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -411,7 +411,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "赠乔侍郎 · 陈子昂",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch31',
       artPrompt: "古诗《赠乔侍郎》意境插画：汉廷荣巧宦，云阁薄边功。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -424,7 +424,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答五陵太守 · 王昌龄",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch32',
       artPrompt: "古诗《答五陵太守》意境插画：仗剑行千里，微躯敢一言。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -437,7 +437,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "行军九日思长安故园 · 岑参",
-      art: "primer-scroll",
+      art: 'poetry-qianjia:ch33',
       artPrompt: "古诗《行军九日思长安故园》意境插画：强欲登高去，无人送酒来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -450,7 +450,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "婕妤怨 · 皇甫冉",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch34',
       artPrompt: "古诗《婕妤怨》意境插画：花枝出建章，凤管发昭阳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -463,7 +463,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题竹林寺 · 朱放",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch35',
       artPrompt: "古诗《题竹林寺》意境插画：岁月人间促，烟霞此地多。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -476,7 +476,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "过三闾庙 · 戴叔伦",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch36',
       artPrompt: "古诗《过三闾庙》意境插画：沅湘流不尽，屈子怨何深！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -489,7 +489,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "易水送别 · 骆宾王",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch37',
       artPrompt: "古诗《易水送别》意境插画：此地别燕丹，壮士发冲冠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -502,7 +502,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "别卢秦卿 · 司空曙",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch38',
       artPrompt: "古诗《别卢秦卿》意境插画：知有前期在，难分此夜中。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -515,7 +515,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答人 · 太上隐者",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch39',
       artPrompt: "古诗《答人》意境插画：偶来松树下，高枕石头眠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -528,7 +528,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "幸蜀回至剑门 · 李隆基",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch40',
       artPrompt: "古诗《幸蜀回至剑门》意境插画：剑阁横云峻，銮舆出狩回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -541,7 +541,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "和晋陵陆承相 · 杜审言",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch41',
       artPrompt: "古诗《和晋陵陆承相》意境插画：独有宦游人，偏惊物候新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -554,7 +554,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "蓬莱三殿侍宴奉敕咏终南山 · 杜审言",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch42',
       artPrompt: "古诗《蓬莱三殿侍宴奉敕咏终南山》意境插画：北斗挂城边，南山倚殿前。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -567,7 +567,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春夜别友人 · 陈子昂",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch43',
       artPrompt: "古诗《春夜别友人》意境插画：银烛吐青烟，金尊对绮筵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -580,7 +580,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "长宁公主东庄侍宴 · 李峤",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch44',
       artPrompt: "古诗《长宁公主东庄侍宴》意境插画：别业临青甸，鸣銮降紫霄。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -593,7 +593,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "恩赐丽正殿书院赐宴应制得林字 · 张说",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch45',
       artPrompt: "古诗《恩赐丽正殿书院赐宴应制得林字》意境插画：东壁图书府，西园翰墨林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -606,7 +606,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送友人 · 李白",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch46',
       artPrompt: "古诗《送友人》意境插画：青山横北郭，白水绕东城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -619,7 +619,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送友人入蜀 · 李白",
-      art: "rice-field",
+      art: 'poetry-qianjia:ch47',
       artPrompt: "古诗《送友人入蜀》意境插画：见说蚕丛路，崎岖不易行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -632,7 +632,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "次北固山下 · 王湾",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch48',
       artPrompt: "古诗《次北固山下》意境插画：客路青山外，行舟绿水前。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -645,7 +645,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "苏氏别业 · 祖咏",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch49',
       artPrompt: "古诗《苏氏别业》意境插画：别业居幽处，到来生隐心。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -658,7 +658,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春宿左省 · 杜甫",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch50',
       artPrompt: "古诗《春宿左省》意境插画：花隐掖垣暮，啾啾栖鸟过。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -671,7 +671,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题玄武禅师屋壁 · 杜甫",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch51',
       artPrompt: "古诗《题玄武禅师屋壁》意境插画：何年顾虎头，满壁画沧州。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -684,7 +684,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "终南山 · 王维",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch52',
       artPrompt: "古诗《终南山》意境插画：太乙近天都，连山到海隅。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -697,7 +697,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "登总持阁 · 岑参",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch53',
       artPrompt: "古诗《登总持阁》意境插画：高阁逼诸天，登临近日边。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -710,7 +710,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寄左省杜拾遗 · 岑参",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch54',
       artPrompt: "古诗《寄左省杜拾遗》意境插画：联步趋丹陛，分曹限紫薇。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -723,7 +723,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "登兖州城楼 · 杜甫",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch55',
       artPrompt: "古诗《登兖州城楼》意境插画：东郡趋庭日，南楼纵目初。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -736,7 +736,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "杜少府之任蜀州 · 王勃",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch56',
       artPrompt: "古诗《杜少府之任蜀州》意境插画：城阙辅三秦，风烟望五津。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -749,7 +749,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送崔融 · 杜审言",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch57',
       artPrompt: "古诗《送崔融》意境插画：君王行出将，书记远从征。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -762,7 +762,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "扈从登封途中作 · 宋之问",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch58',
       artPrompt: "古诗《扈从登封途中作》意境插画：帐殿郁崔嵬，仙游实壮哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -775,7 +775,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题义公禅房 · 孟浩然",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch59',
       artPrompt: "古诗《题义公禅房》意境插画：义公习禅寂，结宇依空林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -788,7 +788,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "醉后赠张九旭 · 高适",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch60',
       artPrompt: "古诗《醉后赠张九旭》意境插画：世上漫相识，此翁殊不然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -801,7 +801,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "玉台观 · 高适",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch61',
       artPrompt: "古诗《玉台观》意境插画：浩劫因王造，平台访古游。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -814,7 +814,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "观李固请司马弟山水图 · 杜甫",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch62',
       artPrompt: "古诗《观李固请司马弟山水图》意境插画：方丈浑连水，天台总映云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -827,7 +827,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "旅夜书怀 · 杜甫",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch63',
       artPrompt: "古诗《旅夜书怀》意境插画：细草微风岸，危樯独夜舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -840,7 +840,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "登岳阳楼 · 杜甫",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch64',
       artPrompt: "古诗《登岳阳楼》意境插画：昔闻洞庭水，今上岳阳楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -853,7 +853,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "江南旅情 · 祖咏",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch65',
       artPrompt: "古诗《江南旅情》意境插画：楚山不可极，归路但萧条。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -866,7 +866,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "宿龙兴寺 · 綦毋潜",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch66',
       artPrompt: "古诗《宿龙兴寺》意境插画：香刹夜忘归，松清古殿扉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -879,7 +879,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "破山寺后禅院 · 常建",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch67',
       artPrompt: "古诗《破山寺后禅院》意境插画：清晨入古寺，初日照高林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -892,7 +892,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题松汀驿 · 张佑",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch68',
       artPrompt: "古诗《题松汀驿》意境插画：山色远含空，苍茫泽国东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -905,7 +905,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "圣果寺 · 释处默",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch69',
       artPrompt: "古诗《圣果寺》意境插画：路自中峰上，盘回出薜萝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -918,7 +918,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "野望 · 王绩",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch70',
       artPrompt: "古诗《野望》意境插画：东皋薄暮望，徙倚欲何依。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -931,7 +931,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送著作佐郎崔融等从梁王东征 · 陈子昂",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch71',
       artPrompt: "古诗《送著作佐郎崔融等从梁王东征》意境插画：金天方肃杀，白露始专征。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -944,7 +944,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "携妓纳凉晚际遇雨（其一） · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch72',
       artPrompt: "古诗《携妓纳凉晚际遇雨（其一）》意境插画：落日放船好，轻风生浪迟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -957,7 +957,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "携妓纳凉晚际遇雨（其二） · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch73',
       artPrompt: "古诗《携妓纳凉晚际遇雨（其二）》意境插画：雨来沾席上，风急打船头。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -970,7 +970,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "宿云门寺阁 · 孙逖",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch74',
       artPrompt: "古诗《宿云门寺阁》意境插画：香阁东山下，烟花象外幽。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -983,7 +983,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋登宣城谢眺北楼 · 李白",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch75',
       artPrompt: "古诗《秋登宣城谢眺北楼》意境插画：江城如画里，山晚望晴空。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -996,7 +996,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "临洞庭 · 孟浩然",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch76',
       artPrompt: "古诗《临洞庭》意境插画：八月湖水平，涵虚混太清。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1009,7 +1009,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "过香积寺 · 王维",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch77',
       artPrompt: "古诗《过香积寺》意境插画：不知香积寺，数里入云峰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1022,7 +1022,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送郑侍御谪闽中 · 高适",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch78',
       artPrompt: "古诗《送郑侍御谪闽中》意境插画：谪去君无恨，闽中我旧过。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1035,7 +1035,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秦州杂诗 · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch79',
       artPrompt: "古诗《秦州杂诗》意境插画：凤林戈未息，鱼海路常难。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1048,7 +1048,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "禹庙 · 杜甫",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch80',
       artPrompt: "古诗《禹庙》意境插画：禹庙空山里，秋风落日斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1061,7 +1061,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "望秦川 · 李颀",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch81',
       artPrompt: "古诗《望秦川》意境插画：秦川朝望迥，日出正东峰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1074,7 +1074,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "同王征君洞庭有怀 · 张谓",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch82',
       artPrompt: "古诗《同王征君洞庭有怀》意境插画：八月洞庭秋，潇湘水北流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1087,7 +1087,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "渡扬子江 · 丁仙芝",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch83',
       artPrompt: "古诗《渡扬子江》意境插画：桂楫中流望，空波两岸明。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1100,7 +1100,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "幽州夜歌 · 张说",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch84',
       artPrompt: "古诗《幽州夜歌》意境插画：凉风吹夜雨，萧瑟动寒林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1113,7 +1113,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春日偶成 · 程颢",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch85',
       artPrompt: "古诗《春日偶成》意境插画：云淡风轻近午天，傍花随柳过前川。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1126,7 +1126,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春日 · 朱熹",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch86',
       artPrompt: "古诗《春日》意境插画：胜日寻芳泗水滨，无边光景一时新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1139,7 +1139,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春宵 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch87',
       artPrompt: "古诗《春宵》意境插画：春宵一刻值千金，花有清香月有阴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1152,7 +1152,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "城东早春 · 杨巨源",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch88',
       artPrompt: "古诗《城东早春》意境插画：诗家清景在新春，绿柳才黄半未匀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1165,7 +1165,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春夜 · 王安石",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch89',
       artPrompt: "古诗《春夜》意境插画：金炉香烬漏声残，剪剪轻风阵阵寒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1178,7 +1178,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "初春小雨 · 韩愈",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch90',
       artPrompt: "古诗《初春小雨》意境插画：天街小雨润如酥，草色遥看近却无。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1191,7 +1191,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "元日 · 王安石",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch91',
       artPrompt: "古诗《元日》意境插画：爆竹声中一岁除，春风送暖入屠苏。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1204,7 +1204,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "上元侍宴 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch92',
       artPrompt: "古诗《上元侍宴》意境插画：淡月疏星绕建章，仙风吹下御炉香。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1217,7 +1217,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "立春偶成 · 张栻",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch93',
       artPrompt: "古诗《立春偶成》意境插画：律回岁晚冰霜少，春到人间草木知。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1230,7 +1230,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "打球图 · 晁无咎",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch94',
       artPrompt: "古诗《打球图》意境插画：阊阖千门万户开，三郎沉醉打球回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1243,7 +1243,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "宫词（其一） · 林洪",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch95',
       artPrompt: "古诗《宫词（其一）》意境插画：金殿当头紫阁重，仙人掌上玉芙蓉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1256,7 +1256,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "宫词（其二） · 林洪",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch96',
       artPrompt: "古诗《宫词（其二）》意境插画：殿上衮衣明日月，砚中旗影动龙蛇。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1269,7 +1269,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "咏华清宫 · 王建",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch97',
       artPrompt: "古诗《咏华清宫》意境插画：行尽江南数十程，晓风残月入华清。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1282,7 +1282,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "清平调词 · 李白",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch98',
       artPrompt: "古诗《清平调词》意境插画：云想衣裳花想容，春风拂槛露华浓。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1295,7 +1295,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题邸间壁 · 郑会",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch99',
       artPrompt: "古诗《题邸间壁》意境插画：酴醿香梦怯春寒，翠掩重门燕子闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1308,7 +1308,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "绝句 · 杜甫",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch100',
       artPrompt: "古诗《绝句》意境插画：两个黄鹂鸣翠柳，一行白鹭上青天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1321,7 +1321,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "海棠 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch101',
       artPrompt: "古诗《海棠》意境插画：东风袅袅泛崇光，香雾空蒙月转廊。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1334,7 +1334,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "清明 · 王禹偁",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch102',
       artPrompt: "古诗《清明》意境插画：无花无酒过清明，兴味萧然似野僧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1347,7 +1347,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "清明 · 杜牧",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch103',
       artPrompt: "古诗《清明》意境插画：清明时节雨纷纷，路上行人欲断魂。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1360,7 +1360,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "社日 · 张演",
-      art: "goose-pond",
+      art: 'poetry-qianjia:ch104',
       artPrompt: "古诗《社日》意境插画：鹅湖山下稻粱肥，豚栅鸡栖对掩扉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1373,7 +1373,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寒食 · 韩翃",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch105',
       artPrompt: "古诗《寒食》意境插画：春城无处不飞花，寒食东风御柳斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1386,7 +1386,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "江南春 · 杜牧",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch106',
       artPrompt: "古诗《江南春》意境插画：千里莺啼绿映红，水村山郭酒旗风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1399,7 +1399,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "上高侍郎 · 高蟾",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch107',
       artPrompt: "古诗《上高侍郎》意境插画：天上碧桃和露种，日边红杏倚云栽。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1412,7 +1412,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "绝句 · 僧志安",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch108',
       artPrompt: "古诗《绝句》意境插画：古木阴中系短篷，杖藜扶我过桥东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1425,7 +1425,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "游小园不值 · 叶绍翁",
-      art: "primer-scroll",
+      art: 'poetry-qianjia:ch109',
       artPrompt: "古诗《游小园不值》意境插画：应嫌屐齿印苍苔，十扣柴扉九不开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1438,7 +1438,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "客中行 · 李白",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch110',
       artPrompt: "古诗《客中行》意境插画：兰陵美酒郁金香，玉碗盛来琥珀光。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1451,7 +1451,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题屏 · 刘季孙",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch111',
       artPrompt: "古诗《题屏》意境插画：呢喃燕子语梁间，底事来惊梦里闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1464,7 +1464,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "绝句漫兴 · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch112',
       artPrompt: "古诗《绝句漫兴》意境插画：肠断春江欲尽头，杖藜徐步立芳洲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1477,7 +1477,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "庆全庵桃花 · 谢枋得",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch113',
       artPrompt: "古诗《庆全庵桃花》意境插画：寻得桃源好避秦，桃红又是一年春。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1490,7 +1490,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "玄都观桃花 · 刘禹锡",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch114',
       artPrompt: "古诗《玄都观桃花》意境插画：紫陌红尘拂面来，无人不道看花回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1503,7 +1503,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "再游玄都观 · 刘禹锡",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch115',
       artPrompt: "古诗《再游玄都观》意境插画：百亩庭中半是苔，桃花净尽菜花开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1516,7 +1516,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "滁州西涧 · 韦应物",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch116',
       artPrompt: "古诗《滁州西涧》意境插画：独怜幽草涧边生，上有黄鹂深树鸣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1529,7 +1529,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "花影 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch117',
       artPrompt: "古诗《花影》意境插画：重重叠叠上瑶台，几度呼童扫不开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1542,7 +1542,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "北山 · 王安石",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch118',
       artPrompt: "古诗《北山》意境插画：北山输绿涨横陂，直堑回塘滟滟时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1555,7 +1555,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "湖上 · 徐元杰",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch119',
       artPrompt: "古诗《湖上》意境插画：花开红树乱莺啼，草长平湖白鹭飞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1568,7 +1568,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "漫兴 · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch120',
       artPrompt: "古诗《漫兴》意境插画：糁径杨花铺白毡，点溪荷叶叠青钱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1581,7 +1581,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春晴 · 王驾",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch121',
       artPrompt: "古诗《春晴》意境插画：雨前初见花间蕊，雨后全无叶底花。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1594,7 +1594,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春暮 · 曹豳",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch122',
       artPrompt: "古诗《春暮》意境插画：门外无人问落花，绿阴冉冉遍天涯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1607,7 +1607,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "落花 · 朱淑贞",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch123',
       artPrompt: "古诗《落花》意境插画：连理枝头花正开，妒花风雨便相催。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1620,7 +1620,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "春暮游小园 · 王淇",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch124',
       artPrompt: "古诗《春暮游小园》意境插画：一从梅粉褪残妆，涂抹新红上海棠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1633,7 +1633,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "莺梭 · 刘克庄",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch125',
       artPrompt: "古诗《莺梭》意境插画：掷柳迁乔太有情，交交时作弄机声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1646,7 +1646,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "暮春即事 · 叶采",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch126',
       artPrompt: "古诗《暮春即事》意境插画：双双瓦雀行书案，点点杨花入砚池。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1659,7 +1659,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "登山 · 李涉",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch127',
       artPrompt: "古诗《登山》意境插画：终日昏昏醉梦间，忽闻春尽强登山。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1672,7 +1672,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "蚕妇吟 · 谢枋得",
-      art: "rice-field",
+      art: 'poetry-qianjia:ch128',
       artPrompt: "古诗《蚕妇吟》意境插画：子规啼彻四更时，起视蚕稠怕叶稀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1685,7 +1685,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "晚春 · 韩愈",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch129',
       artPrompt: "古诗《晚春》意境插画：草木知春不久归，百般红紫斗芳菲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1698,7 +1698,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "伤春 · 杨万里",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch130',
       artPrompt: "古诗《伤春》意境插画：准拟今春乐事浓，依然枉却一东风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1711,7 +1711,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送春 · 王令",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch131',
       artPrompt: "古诗《送春》意境插画：三月残花落更开，小檐日日燕飞来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1724,7 +1724,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "三月晦日送春 · 贾岛",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch132',
       artPrompt: "古诗《三月晦日送春》意境插画：三月正当三十日，风光别我苦吟身。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1737,7 +1737,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "客中初夏 · 司马光",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch133',
       artPrompt: "古诗《客中初夏》意境插画：四月清和雨乍晴，南山当户转分明。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1750,7 +1750,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "有约 · 司马光",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch134',
       artPrompt: "古诗《有约》意境插画：黄梅时节家家雨，青草池塘处处蛙。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1763,7 +1763,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "初夏睡起 · 杨万里",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch135',
       artPrompt: "古诗《初夏睡起》意境插画：梅子流酸溅齿牙，芭蕉分绿上窗纱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1776,7 +1776,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "三衢道中 · 曾几",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch136',
       artPrompt: "古诗《三衢道中》意境插画：梅子黄时日日晴，小溪泛尽却山行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1789,7 +1789,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "即景 · 朱淑贞",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch137',
       artPrompt: "古诗《即景》意境插画：竹摇清影罩幽窗，两两时禽噪夕阳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1802,7 +1802,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "夏日 · 戴敏",
-      art: "goose-pond",
+      art: 'poetry-qianjia:ch138',
       artPrompt: "古诗《夏日》意境插画：乳鸭池塘水浅深，熟梅天气半晴阴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1815,7 +1815,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "晚楼闲坐 · 王安石",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch139',
       artPrompt: "古诗《晚楼闲坐》意境插画：四顾山光接水光，凭栏十里芰荷香。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1828,7 +1828,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "山居夏日 · 高骈",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch140',
       artPrompt: "古诗《山居夏日》意境插画：绿树阴浓夏日长，楼台倒影入池塘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1841,7 +1841,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "田家 · 范成大",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch141',
       artPrompt: "古诗《田家》意境插画：昼出耘田夜绩麻，村庄儿女各当家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1854,7 +1854,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "村居即事 · 范成大",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch142',
       artPrompt: "古诗《村居即事》意境插画：绿遍山原白满川，子规声里雨如烟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1867,7 +1867,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题榴花 · 朱熹",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch143',
       artPrompt: "古诗《题榴花》意境插画：五月榴花照眼明，枝间时见子初成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1880,7 +1880,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "村晚 · 雷震",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch144',
       artPrompt: "古诗《村晚》意境插画：草满池塘水满陂，山衔落日浸寒漪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1893,7 +1893,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "茅檐 · 王安石",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch145',
       artPrompt: "古诗《茅檐》意境插画：茅檐常扫净无苔，花木成蹊手自栽。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1906,7 +1906,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "乌衣巷 · 刘禹锡",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch146',
       artPrompt: "古诗《乌衣巷》意境插画：朱雀桥边野草花，乌衣巷口夕阳斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1919,7 +1919,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送元二使安西 · 王维",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch147',
       artPrompt: "古诗《送元二使安西》意境插画：渭城朝雨浥轻尘，客舍青青柳色新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1932,7 +1932,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "与史朗中饮听黄鹤楼上吹笛 · 李白",
-      art: "goose-pond",
+      art: 'poetry-qianjia:ch148',
       artPrompt: "古诗《与史朗中饮听黄鹤楼上吹笛》意境插画：一为迁客去长沙，西望长安不见家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1945,7 +1945,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题淮南寺 · 程颢",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch149',
       artPrompt: "古诗《题淮南寺》意境插画：南去北来休便休，白苹吹尽楚江秋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1958,7 +1958,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋月 · 程颢",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch150',
       artPrompt: "古诗《秋月》意境插画：清溪流过碧山头，空水澄鲜一色秋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1971,7 +1971,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "七夕 · 杨朴",
-      art: "star-sea",
+      art: 'poetry-qianjia:ch151',
       artPrompt: "古诗《七夕》意境插画：未会牵牛意若何，须邀织女弄金梭。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1984,7 +1984,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "立秋 · 刘翰",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch152',
       artPrompt: "古诗《立秋》意境插画：乳鸦啼散玉屏空，一枕新凉一扇风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1997,7 +1997,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋夕 · 杜牧",
-      art: "lamp-hint",
+      art: 'poetry-qianjia:ch153',
       artPrompt: "古诗《秋夕》意境插画：银烛秋光冷画屏，轻罗小扇扑流萤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2010,7 +2010,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "中秋月 · 杜牧",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch154',
       artPrompt: "古诗《中秋月》意境插画：暮云收尽溢清寒，银汉无声转玉盘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2023,7 +2023,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "江楼有感 · 赵嘏",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch155',
       artPrompt: "古诗《江楼有感》意境插画：独上江楼思渺然，月光如水水如天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2036,7 +2036,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题临安邸 · 林升",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch156',
       artPrompt: "古诗《题临安邸》意境插画：山外青山楼外楼，西湖歌舞几时休。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2049,7 +2049,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "西湖 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch157',
       artPrompt: "古诗《西湖》意境插画：毕竟西湖六月中，风光不与四时同。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2062,7 +2062,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "饮湖上初晴后雨 · 苏轼",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch158',
       artPrompt: "古诗《饮湖上初晴后雨》意境插画：水光潋滟晴方好，山色空蒙雨亦奇。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2075,7 +2075,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "入直召对选德殿赐茶而退 · 周必大",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch159',
       artPrompt: "古诗《入直召对选德殿赐茶而退》意境插画：绿槐夹道集昏鸦，敕使传宣坐赐茶。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2088,7 +2088,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "夏日登车盖亭 · 蔡确",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch160',
       artPrompt: "古诗《夏日登车盖亭》意境插画：纸屏石枕竹方床，手倦抛书午梦长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2101,7 +2101,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "真玉堂作 · 洪咨夔",
-      art: "rice-field",
+      art: 'poetry-qianjia:ch161',
       artPrompt: "古诗《真玉堂作》意境插画：禁门深锁寂无哗，浓墨淋漓两相麻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2114,7 +2114,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "竹楼 · 李嘉佑",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch162',
       artPrompt: "古诗《竹楼》意境插画：傲吏身闲笑五侯，西江取竹起高楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2127,7 +2127,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "直中书省 · 白居易",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch163',
       artPrompt: "古诗《直中书省》意境插画：丝纶阁下文章静，钟鼓楼中刻漏长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2140,7 +2140,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "观书有感 · 朱熹",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch164',
       artPrompt: "古诗《观书有感》意境插画：半亩方塘一鉴开，天光云影共徘徊。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2153,7 +2153,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "泛舟 · 朱熹",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch165',
       artPrompt: "古诗《泛舟》意境插画：昨夜江边春水生，艨艟巨舰一毛轻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2166,7 +2166,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "冷泉亭 · 林稹",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch166',
       artPrompt: "古诗《冷泉亭》意境插画：一泓清可沁诗脾，冷暖年来只自知。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2179,7 +2179,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "冬景 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch167',
       artPrompt: "古诗《冬景》意境插画：荷尽已无擎雨盖，菊残犹有傲霜枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2192,7 +2192,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "枫桥夜泊 · 张继",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch168',
       artPrompt: "古诗《枫桥夜泊》意境插画：月落乌啼霜满天，江枫渔火对愁眠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2205,7 +2205,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寒夜 · 杜小山",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch169',
       artPrompt: "古诗《寒夜》意境插画：寒夜客来茶当酒，竹炉汤沸火初红。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2218,7 +2218,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "霜月 · 李商隐",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch170',
       artPrompt: "古诗《霜月》意境插画：初闻征雁已无蝉，百尺楼台水接天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2231,7 +2231,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "梅 · 王淇",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch171',
       artPrompt: "古诗《梅》意境插画：不受尘埃半点侵，竹篱茅舍自甘心。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2244,7 +2244,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "早春 · 白玉蟾",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch172',
       artPrompt: "古诗《早春》意境插画：南枝才放两三花，雪里吟香弄粉些。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2257,7 +2257,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "雪梅（其一） · 卢梅坡",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch173',
       artPrompt: "古诗《雪梅（其一）》意境插画：梅雪争春未肯降，骚人阁笔费评章。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2270,7 +2270,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "雪梅（其二） · 卢梅坡",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch174',
       artPrompt: "古诗《雪梅（其二）》意境插画：有梅无雪不精神，有雪无诗俗了人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2283,7 +2283,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答钟弱翁 · 牧童",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch175',
       artPrompt: "古诗《答钟弱翁》意境插画：草铺横野六七里，笛弄晚风三四声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2296,7 +2296,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秦淮夜泊 · 杜牧",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch176',
       artPrompt: "古诗《秦淮夜泊》意境插画：烟笼寒水月笼沙，夜泊秦淮近酒家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2309,7 +2309,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "归雁 · 钱起",
-      art: "primer-scroll",
+      art: 'poetry-qianjia:ch177',
       artPrompt: "古诗《归雁》意境插画：潇湘何事等闲回，水碧沙明两岸苔。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2322,7 +2322,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "题壁 · 无名氏",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch178',
       artPrompt: "古诗《题壁》意境插画：一团茅草乱蓬蓬，蓦地烧天蓦地空。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2335,7 +2335,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "早朝大明宫 · 贾至",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch179',
       artPrompt: "古诗《早朝大明宫》意境插画：银烛朝天紫陌长，禁城春色晓苍苍。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2348,7 +2348,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "和贾舍人早朝 · 杜甫",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch180',
       artPrompt: "古诗《和贾舍人早朝》意境插画：五夜漏声催晓箭，九重春色醉仙桃。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2361,7 +2361,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "和贾舍人早朝 · 王维",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch181',
       artPrompt: "古诗《和贾舍人早朝》意境插画：绛帻鸡人报晓筹，尚衣方进翠云裘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2374,7 +2374,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "和贾舍人早朝 · 岑参",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch182',
       artPrompt: "古诗《和贾舍人早朝》意境插画：鸡鸣紫陌曙光寒，莺啭皇州春色阑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2387,7 +2387,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "上元应制 · 蔡襄",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch183',
       artPrompt: "古诗《上元应制》意境插画：高列千峰宝炬森，端门方喜翠华临。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2400,7 +2400,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "上元应制 · 王淇",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch184',
       artPrompt: "古诗《上元应制》意境插画：雪消华月满仙台，万烛当楼宝扇开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2413,7 +2413,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "侍宴 · 沈佺期",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch185',
       artPrompt: "古诗《侍宴》意境插画：皇家贵主好神仙，别业初开云汉边。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2426,7 +2426,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答丁元珍 · 欧阳修",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch186',
       artPrompt: "古诗《答丁元珍》意境插画：春风疑不到天涯，二月山城未见花。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2439,7 +2439,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "插花吟 · 邵雍",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch187',
       artPrompt: "古诗《插花吟》意境插画：头上花枝照酒卮，酒卮中有好花枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2452,7 +2452,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寓意 · 晏殊",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch188',
       artPrompt: "古诗《寓意》意境插画：油壁香车不再逢，峡云无迹任西东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2465,7 +2465,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "寒食书事 · 赵鼎",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch189',
       artPrompt: "古诗《寒食书事》意境插画：寂寂柴门村落里，也教插柳纪年华。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2478,7 +2478,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "清明 · 黄庭坚",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch190',
       artPrompt: "古诗《清明》意境插画：佳节清明桃李笑，野田荒冢只生愁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2491,7 +2491,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "清明 · 高菊卿",
-      art: "rice-field",
+      art: 'poetry-qianjia:ch191',
       artPrompt: "古诗《清明》意境插画：南北山头多墓田，清明祭扫各纷然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2504,7 +2504,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "郊行即事 · 程颢",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch192',
       artPrompt: "古诗《郊行即事》意境插画：芳原绿野恣行时，春入遥山碧四围。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2517,7 +2517,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋千 · 僧惠洪",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch193',
       artPrompt: "古诗《秋千》意境插画：画架双裁翠络偏，佳人春戏小楼前。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2530,7 +2530,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "曲江对酒（其一） · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch194',
       artPrompt: "古诗《曲江对酒（其一）》意境插画：一片花飞减却春，风飘万点正愁人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2543,7 +2543,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "曲江对酒（其二） · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch195',
       artPrompt: "古诗《曲江对酒（其二）》意境插画：朝回日日典春衣，每日江头尽醉归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2556,7 +2556,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "黄鹤楼 · 崔颢",
-      art: "goose-pond",
+      art: 'poetry-qianjia:ch196',
       artPrompt: "古诗《黄鹤楼》意境插画：昔人已乘黄鹤去，此地空余黄鹤楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2569,7 +2569,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "旅怀 · 崔涂",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch197',
       artPrompt: "古诗《旅怀》意境插画：水流花谢两无情，送尽东风过楚城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2582,7 +2582,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "答李儋 · 韦应物",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch198',
       artPrompt: "古诗《答李儋》意境插画：去年花里逢君别，今日花开又一年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2595,7 +2595,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "江村 · 杜甫",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch199',
       artPrompt: "古诗《江村》意境插画：清江一曲抱村流，长夏江村事事幽。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2608,7 +2608,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "夏日 · 张文潜",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch200',
       artPrompt: "古诗《夏日》意境插画：长夏江村风日清，檐牙燕雀已生成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2621,7 +2621,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "积雨辋川庄作 · 王维",
-      art: "forest-path",
+      art: 'poetry-qianjia:ch201',
       artPrompt: "古诗《积雨辋川庄作》意境插画：积雨空林烟火迟，蒸藜炊黍饷东菑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2634,7 +2634,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "新竹 · 陆游",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch202',
       artPrompt: "古诗《新竹》意境插画：插棘编篱谨护持，养成寒碧映涟漪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2647,7 +2647,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "偶成 · 程颢",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch203',
       artPrompt: "古诗《偶成》意境插画：闲来无事不从容，睡觉东窗日已红。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2660,7 +2660,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "表兄话旧 · 窦叔向",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch204',
       artPrompt: "古诗《表兄话旧》意境插画：夜合花开香满庭，夜深微雨醉初醒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2673,7 +2673,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "游月陂 · 程颢",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch205',
       artPrompt: "古诗《游月陂》意境插画：月坡堤上四徘徊，北有中天百尺台。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2686,7 +2686,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋兴八首（其一） · 杜甫",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch206',
       artPrompt: "古诗《秋兴八首（其一）》意境插画：千家山郭静朝晖，日日江楼坐翠微。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2699,7 +2699,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋兴八首（其二） · 杜甫",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch207',
       artPrompt: "古诗《秋兴八首（其二）》意境插画：蓬莱宫阙对南山，承露金茎霄汉间。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2712,7 +2712,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋兴八首（其三） · 杜甫",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch208',
       artPrompt: "古诗《秋兴八首（其三）》意境插画：玉露凋伤枫树林，巫山巫峡气萧森。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2725,7 +2725,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋兴八首（其四） · 杜甫",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch209',
       artPrompt: "古诗《秋兴八首（其四）》意境插画：昆明池水汉时功，武帝旌旗在眼中。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2738,7 +2738,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "月夜舟中 · 戴复古",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch210',
       artPrompt: "古诗《月夜舟中》意境插画：满船明月浸虚空，绿水无痕夜气冲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2751,7 +2751,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "长安秋望 · 赵嘏",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch211',
       artPrompt: "古诗《长安秋望》意境插画：云物凄凉拂署流，汉家宫阙动高秋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2764,7 +2764,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "新秋 · 杜甫",
-      art: "cloud-flight",
+      art: 'poetry-qianjia:ch212',
       artPrompt: "古诗《新秋》意境插画：火云犹未敛奇峰，欹枕初惊一叶风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2777,7 +2777,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "中秋 · 李朴",
-      art: "waterfall-cave",
+      art: 'poetry-qianjia:ch213',
       artPrompt: "古诗《中秋》意境插画：皓魄当空宝镜升，云间仙籁寂无声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2790,7 +2790,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "九日蓝耕会饮 · 杜甫",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch214',
       artPrompt: "古诗《九日蓝耕会饮》意境插画：老去悲秋强自宽，兴来今日尽君欢。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2803,7 +2803,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "秋思 · 陆游",
-      art: "river-boat",
+      art: 'poetry-qianjia:ch215',
       artPrompt: "古诗《秋思》意境插画：利欲驱人万火牛，江湖浪迹一沙鸥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2816,7 +2816,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "与朱山人 · 杜甫",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch216',
       artPrompt: "古诗《与朱山人》意境插画：锦里先生乌角巾，园收芋栗未全贫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2829,7 +2829,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "闻笛 · 赵嘏",
-      art: "tower-view",
+      art: 'poetry-qianjia:ch217',
       artPrompt: "古诗《闻笛》意境插画：谁家吹笛画楼中，断续声随断续风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2842,7 +2842,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "冬景 · 刘克庄",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch218',
       artPrompt: "古诗《冬景》意境插画：晴窗早觉爱朝曦，竹外秋声渐作威。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2855,7 +2855,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "冬至 · 杜甫",
-      art: "spring-bird",
+      art: 'poetry-qianjia:ch219',
       artPrompt: "古诗《冬至》意境插画：天时人事日相催，冬至阳生春又来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2868,7 +2868,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "梅花 · 林逋",
-      art: "nursery-window",
+      art: 'poetry-qianjia:ch220',
       artPrompt: "古诗《梅花》意境插画：众芳摇落独鲜妍，占断风情向小园。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2881,7 +2881,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "左迁至蓝关示侄孙湘 · 韩愈",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch221',
       artPrompt: "古诗《左迁至蓝关示侄孙湘》意境插画：一封朝奏九重天，夕贬潮阳路八千。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2894,7 +2894,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "干戈 · 王中",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch222',
       artPrompt: "古诗《干戈》意境插画：干戈未定欲何之，一事无成两鬓丝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2907,7 +2907,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "归隐 · 陈抟",
-      art: "sunrise-hills",
+      art: 'poetry-qianjia:ch223',
       artPrompt: "古诗《归隐》意境插画：十年踪迹走红尘，回首青山入梦频。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2920,7 +2920,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "山中寡妇 · 杜荀鹤",
-      art: "rice-field",
+      art: 'poetry-qianjia:ch224',
       artPrompt: "古诗《山中寡妇》意境插画：夫因兵乱守蓬茅，麻苎裙衫鬓发焦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2933,7 +2933,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送天师 · 朱权",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch225',
       artPrompt: "古诗《送天师》意境插画：霜落芝城柳影疏，殷勤送客出鄱湖。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2946,7 +2946,7 @@ export const qianJiaShi: PackBook = {
     },
     {
       title: "送毛伯温 · 明世宗",
-      art: "poetry-moon",
+      art: 'poetry-qianjia:ch226',
       artPrompt: "古诗《送毛伯温》意境插画：大将南征胆气豪，腰横秋水雁翎刀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

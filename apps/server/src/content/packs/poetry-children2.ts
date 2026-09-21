@@ -21,7 +21,7 @@ export const tongQuPlay: PackBook = {
   chapters: [
     {
       title: "稚子弄冰 · 杨万里",
-      art: "poetry-moon",
+      art: 'poetry-children2:ch1',
       artPrompt: "古诗《稚子弄冰》意境插画：稚子金盆脱晓冰，彩丝穿取当银钲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "桑茶坑道中 · 杨万里",
-      art: "river-boat",
+      art: 'poetry-children2:ch2',
       artPrompt: "古诗《桑茶坑道中》意境插画：晴明风日雨干时，草满花堤水满溪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "闲居初夏午睡起 · 杨万里",
-      art: "nursery-window",
+      art: 'poetry-children2:ch3',
       artPrompt: "古诗《闲居初夏午睡起》意境插画：梅子留酸软齿牙，芭蕉分绿与窗纱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "清明 · 杜牧",
-      art: "poetry-moon",
+      art: 'poetry-children2:ch4',
       artPrompt: "古诗《清明》意境插画：清明时节雨纷纷，路上行人欲断魂。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "回乡偶书 · 贺知章",
-      art: "primer-scroll",
+      art: 'poetry-children2:ch5',
       artPrompt: "古诗《回乡偶书》意境插画：少小离家老大回，乡音无改鬓毛衰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "牧童 · 吕岩",
-      art: "cloud-flight",
+      art: 'poetry-children2:ch6',
       artPrompt: "古诗《牧童》意境插画：草铺横野六七里，笛弄晚风三四声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "观游鱼 · 白居易",
-      art: "river-boat",
+      art: 'poetry-children2:ch7',
       artPrompt: "古诗《观游鱼》意境插画：绕池闲步看鱼游，正值儿童弄钓舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "牧童词（节选） · 李涉",
-      art: "river-boat",
+      art: 'poetry-children2:ch8',
       artPrompt: "古诗《牧童词（节选）》意境插画：朝牧牛，牧牛下江曲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "巴女谣 · 于鹄",
-      art: "river-boat",
+      art: 'poetry-children2:ch9',
       artPrompt: "古诗《巴女谣》意境插画：巴女骑牛唱竹枝，藕丝菱叶傍江时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const tongQuPlay: PackBook = {
     },
     {
       title: "淮上渔者 · 郑谷",
-      art: "river-boat",
+      art: 'poetry-children2:ch10',
       artPrompt: "古诗《淮上渔者》意境插画：白头波上白头翁，家逐船移江浦风。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

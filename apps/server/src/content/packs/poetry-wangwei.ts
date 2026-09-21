@@ -21,7 +21,7 @@ export const wangWei: PackBook = {
   chapters: [
     {
       title: "辋川集 鹿柴 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch1',
       artPrompt: "古诗《辋川集 鹿柴》意境插画：空山不见人，但闻人语响。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "辋川集 竹里馆 · 王维",
-      art: "forest-path",
+      art: 'wangwei-hills:ch2',
       artPrompt: "古诗《辋川集 竹里馆》意境插画：独坐幽篁里，弹琴复长啸。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "送别 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch3',
       artPrompt: "古诗《送别》意境插画：下马饮君酒，问君何所之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "相思 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch4',
       artPrompt: "古诗《相思》意境插画：红豆生南国，秋来发故枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "杂诗 · 王维",
-      art: "spring-bird",
+      art: 'wangwei-hills:ch5',
       artPrompt: "古诗《杂诗》意境插画：双燕初命子，五桃新作花。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "皇甫岳云溪杂题五首 鸟鸣涧 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch6',
       artPrompt: "古诗《皇甫岳云溪杂题五首 鸟鸣涧》意境插画：人闲桂花落，夜静春山空。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "山中示弟 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch7',
       artPrompt: "古诗《山中示弟》意境插画：山林吾丧我，冠带尔成人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "九月九日忆山东兄弟 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch8',
       artPrompt: "古诗《九月九日忆山东兄弟》意境插画：独在异乡为异客，每逢佳节倍思亲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "杂曲歌辞 少年行四首 一 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch9',
       artPrompt: "古诗《杂曲歌辞 少年行四首 一》意境插画：新丰美酒斗十千，咸阳游侠多少年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "使至塞上 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch10',
       artPrompt: "古诗《使至塞上》意境插画：单车欲问边，属国过居延。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "山居秋暝 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch11',
       artPrompt: "古诗《山居秋暝》意境插画：空山新雨后，天气晚来秋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "终南山 · 王维",
-      art: "river-boat",
+      art: 'wangwei-hills:ch12',
       artPrompt: "古诗《终南山》意境插画：太乙近天都，连山接海隅。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "汉江临泛 · 王维",
-      art: "river-boat",
+      art: 'wangwei-hills:ch13',
       artPrompt: "古诗《汉江临泛》意境插画：楚塞三湘接，荆门九派通。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "终南别业 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch14',
       artPrompt: "古诗《终南别业》意境插画：中岁颇好道，晚家南山陲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "酬张少府 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch15',
       artPrompt: "古诗《酬张少府》意境插画：晚年唯好静，万事不关心。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "辋川闲居赠裴秀才迪 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch16',
       artPrompt: "古诗《辋川闲居赠裴秀才迪》意境插画：寒山转苍翠，秋水日潺湲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "辋川集 白石滩 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch17',
       artPrompt: "古诗《辋川集 白石滩》意境插画：清浅白石滩，绿蒲向堪把。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "辋川集 辛夷坞 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch18',
       artPrompt: "古诗《辋川集 辛夷坞》意境插画：木末芙蓉花，山中发红萼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "辋川集 栾家濑 · 王维",
-      art: "primer-scroll",
+      art: 'wangwei-hills:ch19',
       artPrompt: "古诗《辋川集 栾家濑》意境插画：飒飒秋雨中，浅浅石溜泻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "杂曲歌辞 渭城曲 · 王维",
-      art: "spring-bird",
+      art: 'wangwei-hills:ch20',
       artPrompt: "古诗《杂曲歌辞 渭城曲》意境插画：谓城朝雨浥轻尘，客舍青青柳色春。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "皇甫岳云溪杂题五首 莲花坞 · 王维",
-      art: "river-boat",
+      art: 'wangwei-hills:ch21',
       artPrompt: "古诗《皇甫岳云溪杂题五首 莲花坞》意境插画：日日采莲去，洲长多暮归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "书事 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch22',
       artPrompt: "古诗《书事》意境插画：轻阴阁小雨，深院昼慵开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "过香积寺 · 王维",
-      art: "cloud-flight",
+      art: 'wangwei-hills:ch23',
       artPrompt: "古诗《过香积寺》意境插画：不知香积寺，数里入云峰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "青溪 · 王维",
-      art: "river-boat",
+      art: 'wangwei-hills:ch24',
       artPrompt: "古诗《青溪》意境插画：言入黄花川，每逐青溪水。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "积雨辋川庄作 · 王维",
-      art: "forest-path",
+      art: 'wangwei-hills:ch25',
       artPrompt: "古诗《积雨辋川庄作》意境插画：积雨空林烟火迟，蒸藜炊黍饷东菑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "秋夜独坐 · 王维",
-      art: "poetry-moon",
+      art: 'wangwei-hills:ch26',
       artPrompt: "古诗《秋夜独坐》意境插画：独坐悲双鬓，空堂欲二更。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "归嵩山作 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch27',
       artPrompt: "古诗《归嵩山作》意境插画：清川带长薄，车马去闲闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -372,7 +372,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "山居即事 · 王维",
-      art: "sunrise-hills",
+      art: 'wangwei-hills:ch28',
       artPrompt: "古诗《山居即事》意境插画：寂寞掩柴扉，苍茫对落晖。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -385,7 +385,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "酬郭给事 · 王维",
-      art: "waterfall-cave",
+      art: 'wangwei-hills:ch29',
       artPrompt: "古诗《酬郭给事》意境插画：洞门高阁霭余辉，桃李阴阴柳絮飞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -398,7 +398,7 @@ export const wangWei: PackBook = {
     },
     {
       title: "奉和圣制从蓬莱向兴庆阁道中留春雨中春望之作应制 · 王维",
-      art: "spring-bird",
+      art: 'wangwei-hills:ch30',
       artPrompt: "古诗《奉和圣制从蓬莱向兴庆阁道中留春雨中春望之作应制》意境插画：渭水自萦秦塞曲，黄山旧绕汉宫斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

@@ -1,7 +1,7 @@
 import type { PackBook } from '../types'
 
 /**
- * Sing-Song — ten nursery rhymes by Christina Rossetti (1872) for very young
+ * Sing-Song — nursery rhymes by Christina Rossetti (1872) for very young
  * readers.
  * Rossetti died 1894; the work is public domain worldwide (70y pma long
  * expired). The rhymes are quoted verbatim, kept short (most under 30 words;
@@ -129,6 +129,38 @@ export const singSong: PackBook = {
         {
           kind: 'note',
           text: 'From "The Moon" — the whole rhyme, quoted from the 1872 first edition. The moon grows (increases) and shrinks (wanes) all month, and both ways she is the Lady Moon. Look up tonight: which way are her horns pointing?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 4 · A House of Cards',
+      art: 'rossetti-singsong:ch4',
+      artPrompt: 'a tower of painted playing cards tumbling down across a nursery table while a child claps with delight, kings and queens scattering on the tablecloth, afternoon sun through lace curtains, storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'A house of cards\nIs neat and small:\nShake the table,\nIt must fall.\n\nFind the court cards,\nOne by one;\nRaise it, roof it,\nNow it\'s done;\n\nShake the table!\nThat\'s the fun.',
+        },
+        {
+          kind: 'note',
+          text: 'From "A House of Cards" — the whole rhyme, quoted from the 1872 first edition. Build it with court cards, roof it, done — and then shake the table and down it comes, which is the best part. Try a card tower, or a block tower with the same happy rule.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 5 · Sleep, Little Ladies',
+      art: 'rossetti-singsong:ch5',
+      artPrompt: 'two sleeping babies tucked side by side inside a great silver shell with a pink lining, resting on mossy grass under a kind crescent moon, tiny stars twinkling over still water, silver and rose night light, storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Minnie and Winnie\nSlept in a shell.\nSleep, little ladies!\nAnd they slept well.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Minnie and Winnie" — quoted from the 1872 first edition. Two little ladies sleep tucked up snug in a shell, pink inside and silver outside. A tiny rhyme to whisper at bedtime — who tucks YOU in as snug as a shell?',
           art: 'lamp-hint',
         },
       ],

@@ -21,7 +21,7 @@ export const zhuziJiaxun: PackBook = {
   chapters: [
     {
       title: "第一课 · 黎明即起 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch1',
       artPrompt: "《三字经》第1课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第二课 · 半丝半缕 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch2',
       artPrompt: "《三字经》第2课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第三课 · 器具质而 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch3',
       artPrompt: "《三字经》第3课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第四课 · 三姑六婆 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch4',
       artPrompt: "《三字经》第4课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第五课 · 祖宗虽远 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch5',
       artPrompt: "《三字经》第5课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第六课 · 勿贪意外 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch6',
       artPrompt: "《三字经》第6课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第七课 · 刻薄成家 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch7',
       artPrompt: "《三字经》第7课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第八课 · 长幼内外 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch8',
       artPrompt: "《三字经》第8课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第九课 · 嫁女择佳 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch9',
       artPrompt: "《三字经》第9课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十课 · 遇贫穷而 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch10',
       artPrompt: "《三字经》第10课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十一课 · 勿恃势力 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch11',
       artPrompt: "《三字经》第11课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十二课 · 狎昵恶少 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch12',
       artPrompt: "《三字经》第12课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十三课 · 因事相争 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch13',
       artPrompt: "《三字经》第13课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十四课 · 人有喜庆 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch14',
       artPrompt: "《三字经》第14课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十五课 · 恶恐人知 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch15',
       artPrompt: "《三字经》第15课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十六课 · 家门和顺 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch16',
       artPrompt: "《三字经》第16课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const zhuziJiaxun: PackBook = {
     },
     {
       title: "第十七课 · 为官心存 · 佚名",
-      art: "primer-scroll",
+      art: 'primer-zhuzi:ch17',
       artPrompt: "《三字经》第17课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {

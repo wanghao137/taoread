@@ -21,7 +21,7 @@ export const tongQu: PackBook = {
   chapters: [
     {
       title: "所见 · 袁枚",
-      art: "forest-path",
+      art: 'tongqu-animals:ch1',
       artPrompt: "古诗《所见》意境插画：牧童骑黄牛，歌声振林樾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "池上 · 白居易",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch2',
       artPrompt: "古诗《池上》意境插画：小娃撑小艇，偷采白莲回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "小儿垂钓 · 胡令能",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch3',
       artPrompt: "古诗《小儿垂钓》意境插画：蓬头稚子学垂纶，侧坐莓苔草映身。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "舟过安仁 · 杨万里",
-      art: "river-boat",
+      art: 'tongqu-animals:ch4',
       artPrompt: "古诗《舟过安仁》意境插画：一叶渔船两小童，收篙停棹坐船中。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "宿新市徐公店 · 杨万里",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch5',
       artPrompt: "古诗《宿新市徐公店》意境插画：篱落疏疏一径深，树头新绿未成阴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "村居 · 高鼎",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch6',
       artPrompt: "古诗《村居》意境插画：草长莺飞二月天，拂堤杨柳醉春烟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "夜书所见（节选） · 叶绍翁",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch7',
       artPrompt: "古诗《夜书所见（节选）》意境插画：萧萧梧叶送寒声，江上秋风动客情。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "幼女词 · 施肩吾",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch8',
       artPrompt: "古诗《幼女词》意境插画：幼女才六岁，未知巧与拙。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "与小女 · 韦庄",
-      art: "primer-scroll",
+      art: 'tongqu-animals:ch9',
       artPrompt: "古诗《与小女》意境插画：见人初解语呕哑，不肯归眠恋小车。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "夜宿山寺 · 李白",
-      art: "poetry-moon",
+      art: 'tongqu-animals:ch10',
       artPrompt: "古诗《夜宿山寺》意境插画：危楼高百尺，手可摘星辰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const tongQu: PackBook = {
     },
     {
       title: "溪居即事 · 崔道融",
-      art: "river-boat",
+      art: 'tongqu-animals:ch11',
       artPrompt: "古诗《溪居即事》意境插画：篱外谁家不系船，春风吹入钓鱼湾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

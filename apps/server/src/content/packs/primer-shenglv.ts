@@ -21,7 +21,7 @@ export const shenglvDong: PackBook = {
   chapters: [
     {
       title: "一 东 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch1',
       artPrompt: "《声律启蒙》一 东韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "二 冬 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch2',
       artPrompt: "《声律启蒙》二 冬韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "三 江 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch3',
       artPrompt: "《声律启蒙》三 江韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "四 支 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch4',
       artPrompt: "《声律启蒙》四 支韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "五 微 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch5',
       artPrompt: "《声律启蒙》五 微韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "六 鱼 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch6',
       artPrompt: "《声律启蒙》六 鱼韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "七 虞 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch7',
       artPrompt: "《声律启蒙》七 虞韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "八 齐 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch8',
       artPrompt: "《声律启蒙》八 齐韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "九 佳 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch9',
       artPrompt: "《声律启蒙》九 佳韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十 灰 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch10',
       artPrompt: "《声律启蒙》十 灰韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十一 真 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch11',
       artPrompt: "《声律启蒙》十一 真韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十二 文 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch12',
       artPrompt: "《声律启蒙》十二 文韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十三 元 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch13',
       artPrompt: "《声律启蒙》十三 元韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十四 寒 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch14',
       artPrompt: "《声律启蒙》十四 寒韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const shenglvDong: PackBook = {
     },
     {
       title: "十五 删 · 车万育",
-      art: "primer-scroll",
+      art: 'shenglv-east:ch15',
       artPrompt: "《声律启蒙》十五 删韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {

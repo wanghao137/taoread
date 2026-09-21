@@ -21,7 +21,7 @@ export const pastoralPoems: PackBook = {
   chapters: [
     {
       title: "归园田居（其三） · 陶渊明",
-      art: "rice-field",
+      art: 'poetry-pastoral:ch1',
       artPrompt: "古诗《归园田居（其三）》意境插画：种豆南山下，草盛豆苗稀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "饮酒（其五） · 陶渊明",
-      art: "poetry-moon",
+      art: 'poetry-pastoral:ch2',
       artPrompt: "古诗《饮酒（其五）》意境插画：结庐在人境，而无车马喧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "过故人庄 · 孟浩然",
-      art: "rice-field",
+      art: 'poetry-pastoral:ch3',
       artPrompt: "古诗《过故人庄》意境插画：故人具鸡黍，邀我至田家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "渭川田家 · 王维",
-      art: "rice-field",
+      art: 'poetry-pastoral:ch4',
       artPrompt: "古诗《渭川田家》意境插画：斜阳照墟落，穷巷牛羊归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "秋浦歌（其十五） · 李白",
-      art: "poetry-moon",
+      art: 'poetry-pastoral:ch5',
       artPrompt: "古诗《秋浦歌（其十五）》意境插画：白发三千丈，缘愁似个长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "乡村四月 · 翁卷",
-      art: "poetry-moon",
+      art: 'poetry-pastoral:ch6',
       artPrompt: "古诗《乡村四月》意境插画：绿遍山原白满川，子规声里雨如烟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "四时田园杂兴（其二十五） · 范成大",
-      art: "rice-field",
+      art: 'poetry-pastoral:ch7',
       artPrompt: "古诗《四时田园杂兴（其二十五）》意境插画：梅子金黄杏子肥，麦花雪白菜花稀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "四时田园杂兴（其三十一） · 范成大",
-      art: "poetry-moon",
+      art: 'poetry-pastoral:ch8',
       artPrompt: "古诗《四时田园杂兴（其三十一）》意境插画：昼出耘田夜绩麻，村庄儿女各当家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "江畔独步寻花（其六） · 杜甫",
-      art: "river-boat",
+      art: 'poetry-pastoral:ch9',
       artPrompt: "古诗《江畔独步寻花（其六）》意境插画：黄四娘家花满蹊，千朵万朵压枝低。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "水槛遣心二首（其一） · 杜甫",
-      art: "primer-scroll",
+      art: 'poetry-pastoral:ch10',
       artPrompt: "古诗《水槛遣心二首（其一）》意境插画：去郭轩楹敞，无村眺望赊。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "游山西村（节选） · 陆游",
-      art: "rice-field",
+      art: 'poetry-pastoral:ch11',
       artPrompt: "古诗《游山西村（节选）》意境插画：莫笑农家腊酒浑，丰年留客足鸡豚。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "社日 · 王驾",
-      art: "goose-pond",
+      art: 'poetry-pastoral:ch12',
       artPrompt: "古诗《社日》意境插画：鹅湖山下稻粱肥，豚栅鸡栖半掩扉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "雨过山村 · 王建",
-      art: "river-boat",
+      art: 'poetry-pastoral:ch13',
       artPrompt: "古诗《雨过山村》意境插画：雨里鸡鸣一两家，竹溪村路板桥斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "辋川闲居赠裴秀才迪 · 王维",
-      art: "sunrise-hills",
+      art: 'poetry-pastoral:ch14',
       artPrompt: "古诗《辋川闲居赠裴秀才迪》意境插画：寒山转苍翠，秋水日潺湲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const pastoralPoems: PackBook = {
     },
     {
       title: "田园乐（其六） · 王维",
-      art: "spring-bird",
+      art: 'poetry-pastoral:ch15',
       artPrompt: "古诗《田园乐（其六）》意境插画：桃红复含宿雨，柳绿更带朝烟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

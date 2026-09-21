@@ -1,0 +1,152 @@
+[
+ {
+  "scene": "garden-fairy",
+  "brightness": 111,
+  "warmth": -2,
+  "sat": 0.03
+ },
+ {
+  "scene": "badrabbit-home",
+  "brightness": 118,
+  "warmth": -6,
+  "sat": 0.05
+ },
+ {
+  "scene": "diligent-firefly",
+  "brightness": 131,
+  "warmth": -6,
+  "sat": 0.05
+ },
+ {
+  "scene": "puck-marsh-flit",
+  "brightness": 114,
+  "warmth": -8,
+  "sat": 0.07
+ },
+ {
+  "scene": "yalding-moon-garden",
+  "brightness": 119,
+  "warmth": -9,
+  "sat": 0.07
+ },
+ {
+  "scene": "firefly-path",
+  "brightness": 115,
+  "warmth": -7,
+  "sat": 0.08
+ },
+ {
+  "scene": "glinda-swan",
+  "brightness": 134,
+  "warmth": -10,
+  "sat": 0.08
+ },
+ {
+  "scene": "gnforest-last",
+  "brightness": 117,
+  "warmth": -3,
+  "sat": 0.08
+ },
+ {
+  "scene": "gnforest-lamp",
+  "brightness": 114,
+  "warmth": -10,
+  "sat": 0.09
+ },
+ {
+  "scene": "qixi-starry-bridge",
+  "brightness": 118,
+  "warmth": 0,
+  "sat": 0.09
+ },
+ {
+  "scene": "bremen-window",
+  "brightness": 113,
+  "warmth": -7,
+  "sat": 0.1
+ },
+ {
+  "scene": "curdie-lina",
+  "brightness": 111,
+  "warmth": -7,
+  "sat": 0.1
+ },
+ {
+  "scene": "firefly-swarm",
+  "brightness": 128,
+  "warmth": -1,
+  "sat": 0.1
+ },
+ {
+  "scene": "pastoral-night",
+  "brightness": 121,
+  "warmth": -10,
+  "sat": 0.1
+ },
+ {
+  "scene": "nightingale-sage",
+  "brightness": 133,
+  "warmth": -11,
+  "sat": 0.11
+ },
+ {
+  "scene": "pastoral-hemp",
+  "brightness": 104,
+  "warmth": -11,
+  "sat": 0.11
+ },
+ {
+  "scene": "qianjia-river-crossing",
+  "brightness": 115,
+  "warmth": -13,
+  "sat": 0.11
+ },
+ {
+  "scene": "tiptoes-wind",
+  "brightness": 102,
+  "warmth": -12,
+  "sat": 0.11
+ },
+ {
+  "scene": "violet-pig",
+  "brightness": 130,
+  "warmth": -14,
+  "sat": 0.11
+ },
+ {
+  "scene": "hansel-pebbles",
+  "brightness": 103,
+  "warmth": -12,
+  "sat": 0.12
+ },
+ {
+  "scene": "violet-knife",
+  "brightness": 120,
+  "warmth": -15,
+  "sat": 0.12
+ },
+ {
+  "scene": "yalding-moon-farewell",
+  "brightness": 113,
+  "warmth": -14,
+  "sat": 0.12
+ },
+ {
+  "scene": "andy-mouse",
+  "brightness": 132,
+  "warmth": -2,
+  "sat": 0.13
+ },
+ {
+  "scene": "crusoe-footprint-beach",
+  "brightness": 125,
+  "warmth": -12,
+  "sat": 0.13
+ },
+ {
+  "scene": "firefly-snow-read",
+  "brightness": 127,
+  "warmth": -7,
+  "sat": 0.13
+ }
+]

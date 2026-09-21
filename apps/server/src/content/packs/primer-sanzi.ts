@@ -21,7 +21,7 @@ export const sanziJing: PackBook = {
   chapters: [
     {
       title: "第一课 · 人之初 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch1',
       artPrompt: "《三字经》第1课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第二课 · 香九龄 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch2',
       artPrompt: "《三字经》第2课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第三课 · 曰水火 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch3',
       artPrompt: "《三字经》第3课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第四课 · 曰士农 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch4',
       artPrompt: "《三字经》第4课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第五课 · 酸甘甘 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch5',
       artPrompt: "《三字经》第5课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第六课 · 次兄弟 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch6',
       artPrompt: "《三字经》第6课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第七课 · 论语者 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch7',
       artPrompt: "《三字经》第7课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第八课 · 有连山 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch8',
       artPrompt: "《三字经》第8课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第九课 · 古圣著 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch9',
       artPrompt: "《三字经》第9课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十课 · 夏有禹 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch10',
       artPrompt: "《三字经》第10课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十一课 · 高祖兴 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch11',
       artPrompt: "《三字经》第11课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十二课 · 梁唐晋 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch12',
       artPrompt: "《三字经》第12课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十三课 · 至世祖 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch13',
       artPrompt: "《三字经》第13课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十四课 · 宋周程 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch14',
       artPrompt: "《三字经》第14课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十五课 · 头悬梁 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch15',
       artPrompt: "《三字经》第15课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十六课 · 彼颖悟 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch16',
       artPrompt: "《三字经》第16课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const sanziJing: PackBook = {
     },
     {
       title: "第十七课 · 扬名声 · 佚名",
-      art: "primer-scroll",
+      art: 'sanzi-jing:ch17',
       artPrompt: "《三字经》第17课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {

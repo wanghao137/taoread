@@ -132,6 +132,28 @@ export const wynkenBlynken: PackBook = {
         },
       ],
     },
+    {
+      title: 'Golden Slumbers · 金色的梦乡',
+      art: 'en-wynken:ch6',
+      artPrompt: 'a sleepy child in a great wooden bed under a golden moon, gentle golden slumber-kisses drifting down like glowing dust, a mother singing softly by candlelight, tender bedtime watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Golden slumbers kiss your eyes,\nSmiles awake you when you rise;\nSleep, pretty wantons, do not cry,\nAnd I will sing a lullaby,\nRock them, rock them, lullaby.',
+          translation: '金色的睡意，轻轻吻上你的眼睛；等你醒来，微笑会来迎接你。睡吧，小乖乖，不要哭，我来给你唱一支摇篮曲——摇啊摇，摇啊摇，摇篮曲。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: slumbers — deep, gentle sleep.（安睡）New word: lullaby — a soft song for falling asleep.（摇篮曲）This lullaby was written by Thomas Dekker more than four hundred years ago — a special guest beside Eugene Field\'s poems, because no bedtime book is complete without it!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'en-wynken:ch6',
+          text: 'Golden slumbers kiss your sleepy eyes. 金色的睡意亲吻困困的眼睛。',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: 'Wynken, Blynken, and Nod (five bedtime poems)',

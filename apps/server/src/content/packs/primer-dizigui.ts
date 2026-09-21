@@ -21,7 +21,7 @@ export const diZiGui: PackBook = {
   chapters: [
     {
       title: "总叙 · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch1',
       artPrompt: "古诗《总叙》意境插画：弟子规 圣人训 首孝弟 次谨信——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "入则孝（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch2',
       artPrompt: "古诗《入则孝（一）》意境插画：父母呼 应勿缓 父母命 行勿懒——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "入则孝（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch3',
       artPrompt: "古诗《入则孝（二）》意境插画：亲所好 力为具 亲所恶 谨为去——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "入则孝（三） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch4',
       artPrompt: "古诗《入则孝（三）》意境插画：丧三年 常悲咽 居处变 酒肉绝——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "出则弟（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch5',
       artPrompt: "古诗《出则弟（一）》意境插画：兄道友 弟道恭 兄弟睦 孝在中——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "出则弟（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch6',
       artPrompt: "古诗《出则弟（二）》意境插画：骑下马 乘下车 过犹待 百步余——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "谨（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch7',
       artPrompt: "古诗《谨（一）》意境插画：朝起早 夜眠迟 老易至 惜此时——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "谨（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch8',
       artPrompt: "古诗《谨（二）》意境插画：年方少 勿饮酒 饮酒醉 最为丑——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "谨（三） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch9',
       artPrompt: "古诗《谨（三）》意境插画：斗闹场 绝勿近 邪僻事 绝勿问——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "信（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch10',
       artPrompt: "古诗《信（一）》意境插画：凡出言 信为先 诈与妄 奚可焉——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "信（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch11',
       artPrompt: "古诗《信（二）》意境插画：彼说长 此说短 不关己 莫闲管——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "信（三） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch12',
       artPrompt: "古诗《信（三）》意境插画：闻誉恐 闻过欣 直谅士 渐相亲——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "泛爱众（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch13',
       artPrompt: "古诗《泛爱众（一）》意境插画：凡是人 皆须爱 天同覆 地同载——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "泛爱众（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch14',
       artPrompt: "古诗《泛爱众（二）》意境插画：人有短 切莫揭 人有私 切莫说——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "泛爱众（三） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch15',
       artPrompt: "古诗《泛爱众（三）》意境插画：恩欲报 怨欲忘 报怨短 报恩长——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "亲仁 · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch16',
       artPrompt: "古诗《亲仁》意境插画：同是人 类不齐 流俗众 仁者希——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "余力学文（一） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch17',
       artPrompt: "古诗《余力学文（一）》意境插画：不力行 但学文 长浮华 成何人——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const diZiGui: PackBook = {
     },
     {
       title: "余力学文（二） · 李毓秀",
-      art: "primer-scroll",
+      art: 'dizigui-xiao:ch18',
       artPrompt: "古诗《余力学文（二）》意境插画：房室清 墙壁净 几案洁 笔砚正——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

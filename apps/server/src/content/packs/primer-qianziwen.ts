@@ -21,7 +21,7 @@ export const qianZiWen: PackBook = {
   chapters: [
     {
       title: "第一课 · 天地玄黄 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch1',
       artPrompt: "《三字经》第1课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第二课 · 海咸河淡 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch2',
       artPrompt: "《三字经》第2课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第三课 · 鸣凤在树 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch3',
       artPrompt: "《三字经》第3课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第四课 · 墨悲丝染 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch4',
       artPrompt: "《三字经》第4课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第五课 · 临深履薄 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch5',
       artPrompt: "《三字经》第5课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第六课 · 乐殊贵贱 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch6',
       artPrompt: "《三字经》第6课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第七课 · 性静情逸 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch7',
       artPrompt: "《三字经》第7课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第八课 · 肆筵设席 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch8',
       artPrompt: "《三字经》第8课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第九课 · 世禄侈富 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch9',
       artPrompt: "《三字经》第9课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十课 · 假途灭虢 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch10',
       artPrompt: "《三字经》第10课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十一课 · 旷远绵邈 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch11',
       artPrompt: "《三字经》第11课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十二课 · 省躬讥诫 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch12',
       artPrompt: "《三字经》第12课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十三课 · 陈根委翳 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch13',
       artPrompt: "《三字经》第13课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十四课 · 纨扇圆洁 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch14',
       artPrompt: "《三字经》第14课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十五课 · 驴骡犊特 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch15',
       artPrompt: "《三字经》第15课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const qianZiWen: PackBook = {
     },
     {
       title: "第十六课 · 指薪修祜 · 佚名",
-      art: "primer-scroll",
+      art: 'qianziwen-tiandi:ch16',
       artPrompt: "《三字经》第16课插画：古代学堂里孩子捧竹简跟读，晨光温暖，贴纸绘本风",
       blocks: [
       {

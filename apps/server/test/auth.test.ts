@@ -95,7 +95,8 @@ describe('generateFamilyCode / isValidFamilyCode', () => {
   it('格式校验拒绝畸形输入', () => {
     expect(isValidFamilyCode('ABCD2345')).toBe(true)
     expect(isValidFamilyCode('abcd2345')).toBe(false) // 小写
-    expect(isValidFamilyCode('ABC2345')).toBe(false) // 7 位
+    expect(isValidFamilyCode('123456')).toBe(true) // 演示家庭码（6 位全数字）
+    expect(isValidFamilyCode('ABC23')).toBe(false) // 5 位
     expect(isValidFamilyCode('ABCD23456')).toBe(false) // 9 位
     expect(isValidFamilyCode('ABCD234O')).toBe(false) // 含 O
     expect(isValidFamilyCode('')).toBe(false)

@@ -21,7 +21,7 @@ export const shiJing: PackBook = {
   chapters: [
     {
       title: "关雎 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch1',
       artPrompt: "古诗《关雎》意境插画：关关雎鸠，在河之洲。窈窕淑女，君子好逑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "葛覃 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch2',
       artPrompt: "古诗《葛覃》意境插画：葛之覃兮，施于中谷，维叶萋萋。黄鸟于飞，集于灌木，其鸣喈喈。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "卷耳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch3',
       artPrompt: "古诗《卷耳》意境插画：采采卷耳，不盈顷筐。嗟我怀人，置彼周行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "樛木 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch4',
       artPrompt: "古诗《樛木》意境插画：南有樛木，葛藟累之。乐只君子，福履绥之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "螽斯 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch5',
       artPrompt: "古诗《螽斯》意境插画：螽斯羽，诜诜兮。宜尔子孙，振振兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "桃夭 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch6',
       artPrompt: "古诗《桃夭》意境插画：桃之夭夭，灼灼其华。之子于归，宜其室家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "兔罝 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch7',
       artPrompt: "古诗《兔罝》意境插画：肃肃兔罝，椓之丁丁。赳赳武夫，公侯干城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "芣苡 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch8',
       artPrompt: "古诗《芣苡》意境插画：采采芣苡，薄言采之。采采芣苡，薄言有之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "汉广 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch9',
       artPrompt: "古诗《汉广》意境插画：南有乔木，不可休息。汉有游女，不可求思。汉之广矣，不可泳思。江之永矣，不可方思。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "汝坟 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch10',
       artPrompt: "古诗《汝坟》意境插画：遵彼汝坟，伐其条枚。未见君子，惄如调饥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "麟之趾 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch11',
       artPrompt: "古诗《麟之趾》意境插画：麟之趾，振振公子，于嗟麟兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鹊巢 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch12',
       artPrompt: "古诗《鹊巢》意境插画：维鹊有巢，维鸠居之。之子于归，百两御之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采蘩 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch13',
       artPrompt: "古诗《采蘩》意境插画：于以采蘩？于沼于沚。于以用之？公侯之事。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "草虫 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch14',
       artPrompt: "古诗《草虫》意境插画：喓喓草虫，趯趯阜螽。未见君子，忧心忡忡。亦既见止，亦既觏止，我心则降。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采苹 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch15',
       artPrompt: "古诗《采苹》意境插画：于以采苹？南涧之滨。于以采藻？于彼行潦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "甘棠 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch16',
       artPrompt: "古诗《甘棠》意境插画：蔽芾甘棠，勿翦勿伐，召伯所茇。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "行露 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch17',
       artPrompt: "古诗《行露》意境插画：厌浥行露，岂不夙夜，谓行多露。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "羔羊 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch18',
       artPrompt: "古诗《羔羊》意境插画：羔羊之皮，素丝五紽。退食自公，委蛇委蛇。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "殷其雷 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch19',
       artPrompt: "古诗《殷其雷》意境插画：殷其雷，在南山之阳。何斯违斯，莫敢或遑？振振君子，归哉归哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "摽有梅 · 佚名",
-      art: "nursery-window",
+      art: 'poetry-shijing:ch20',
       artPrompt: "古诗《摽有梅》意境插画：摽有梅，其实七兮。求我庶士，迨其吉兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小星 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch21',
       artPrompt: "古诗《小星》意境插画：嘒彼小星，三五在东。肃肃宵征，夙夜在公。寔命不同！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "江有汜 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch22',
       artPrompt: "古诗《江有汜》意境插画：江有汜，之子归，不我以。不我以，其后也悔。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "野有死麕 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch23',
       artPrompt: "古诗《野有死麕》意境插画：野有死麕，白茅包之。有女怀春，吉士诱之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "何彼襛矣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch24',
       artPrompt: "古诗《何彼襛矣》意境插画：何彼襛矣，唐棣之华？曷不肃雍？王姬之车。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "驺虞 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch25',
       artPrompt: "古诗《驺虞》意境插画：彼茁者葭，壹发五豝，于嗟乎驺虞！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "柏舟 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch26',
       artPrompt: "古诗《柏舟》意境插画：泛彼柏舟，亦泛其流。耿耿不寐，如有隐忧。微我无酒，以敖以游。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "绿衣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch27',
       artPrompt: "古诗《绿衣》意境插画：绿兮衣兮，绿衣黄裹。心之忧矣，曷维其已！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -372,7 +372,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "燕燕 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch28',
       artPrompt: "古诗《燕燕》意境插画：燕燕于飞，差池其羽。之子于归，远送于野。瞻望弗及，泣涕如雨。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -385,7 +385,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "日月 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch29',
       artPrompt: "古诗《日月》意境插画：日居月诸，照临下土。乃如之人兮，逝不古处？胡能有定？宁不我顾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -398,7 +398,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "终风 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch30',
       artPrompt: "古诗《终风》意境插画：终风且暴，顾我则笑，谑浪笑敖，中心是悼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -411,7 +411,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "击鼓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch31',
       artPrompt: "古诗《击鼓》意境插画：击鼓其镗，踊跃用兵。土国城漕，我独南行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -424,7 +424,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "凯风 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch32',
       artPrompt: "古诗《凯风》意境插画：凯风自南，吹彼棘心。棘心夭夭，母氏劬劳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -437,7 +437,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "雄雉 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch33',
       artPrompt: "古诗《雄雉》意境插画：雄雉于飞，泄泄其羽。我之怀矣，自诒伊阻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -450,7 +450,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "匏有苦叶 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch34',
       artPrompt: "古诗《匏有苦叶》意境插画：匏有苦叶，济有深涉。深则厉，浅则揭。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -463,7 +463,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "谷风 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch35',
       artPrompt: "古诗《谷风》意境插画：习习谷风，以阴以雨。黾勉同心，不宜有怒。采葑采菲，无以下体？德音莫违，及尔同死。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -476,7 +476,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "式微 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch36',
       artPrompt: "古诗《式微》意境插画：式微，式微，胡不归？微君之故，胡为乎中露！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -489,7 +489,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "旄丘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch37',
       artPrompt: "古诗《旄丘》意境插画：旄丘之葛兮，何诞之节兮。叔兮伯兮，何多日也？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -502,7 +502,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "简兮 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch38',
       artPrompt: "古诗《简兮》意境插画：简兮简兮，方将万舞。日之方中，在前上处。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -515,7 +515,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "泉水 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch39',
       artPrompt: "古诗《泉水》意境插画：毖彼泉水，亦流于淇。有怀于卫，靡日不思。娈彼诸姬，聊与之谋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -528,7 +528,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "北门 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch40',
       artPrompt: "古诗《北门》意境插画：出自北门，忧心殷殷。终窭且贫，莫知我艰。已焉哉！天实为之，谓之何哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -541,7 +541,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "北风 · 佚名",
-      art: "nursery-window",
+      art: 'poetry-shijing:ch41',
       artPrompt: "古诗《北风》意境插画：北风其凉，雨雪其雱。惠而好我，携手同行。其虚其邪？既亟只且！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -554,7 +554,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "静女 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch42',
       artPrompt: "古诗《静女》意境插画：静女其姝，俟我于城隅。爱而不见，搔首踟蹰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -567,7 +567,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "新台 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch43',
       artPrompt: "古诗《新台》意境插画：新台有泚，河水弥弥。燕婉之求，蘧篨不鲜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -580,7 +580,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "二子乘舟 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch44',
       artPrompt: "古诗《二子乘舟》意境插画：二子乘舟，泛泛其景。愿言思子，中心养养！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -593,7 +593,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "柏舟 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch45',
       artPrompt: "古诗《柏舟》意境插画：泛彼柏舟，在彼中河。髧彼两髦，实维我仪。之死矢靡它。母也天只，不谅人只！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -606,7 +606,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "墙有茨 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch46',
       artPrompt: "古诗《墙有茨》意境插画：墙有茨，不可扫也。中冓之言，不可道也。所可道也，言之丑也。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -619,7 +619,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "君子偕老 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch47',
       artPrompt: "古诗《君子偕老》意境插画：君子偕老，副笄六珈。委委佗佗，如山如河，象服是宜。子之不淑，云如之何？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -632,7 +632,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "桑中 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch48',
       artPrompt: "古诗《桑中》意境插画：爰采唐矣？沬之乡矣。云谁之思？美孟姜矣。期我乎桑中，要我乎上宫，送我乎淇之上矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -645,7 +645,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鹑之奔奔 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch49',
       artPrompt: "古诗《鹑之奔奔》意境插画：鹑之奔奔，鹊之彊彊。人之无良，我以为兄！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -658,7 +658,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "定之方中 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch50',
       artPrompt: "古诗《定之方中》意境插画：定之方中，作于楚宫。揆之以日，作于楚室。树之榛栗，椅桐梓漆，爰伐琴桑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -671,7 +671,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蝃𬟽 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch51',
       artPrompt: "古诗《蝃𬟽》意境插画：蝃𬟽在东，莫之敢指。女子有行，远父母兄弟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -684,7 +684,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "相鼠 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch52',
       artPrompt: "古诗《相鼠》意境插画：相鼠有皮，人而无仪！人而无仪，不死何为？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -697,7 +697,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "干旄 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch53',
       artPrompt: "古诗《干旄》意境插画：孑孑干旄，在浚之郊。素丝纰之，良马四之。彼姝者子，何以畀之？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -710,7 +710,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "载驰 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch54',
       artPrompt: "古诗《载驰》意境插画：载驰载驱，归唁卫侯。驱马悠悠，言至于漕。大夫跋涉，我心则忧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -723,7 +723,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "淇奥 · 佚名",
-      art: "forest-path",
+      art: 'poetry-shijing:ch55',
       artPrompt: "古诗《淇奥》意境插画：瞻彼淇奥，绿竹猗猗。有匪君子，如切如磋，如琢如磨，瑟兮僴兮，赫兮咺兮。有匪君子，终不可谖兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -736,7 +736,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "考槃 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch56',
       artPrompt: "古诗《考槃》意境插画：考槃在涧，硕人之宽。独寐寤言，永矢弗谖。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -749,7 +749,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "硕人 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch57',
       artPrompt: "古诗《硕人》意境插画：硕人其颀，衣锦褧衣。齐侯之子，卫侯之妻。东宫之妹，邢侯之姨，谭公维私。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -762,7 +762,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "氓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch58',
       artPrompt: "古诗《氓》意境插画：氓之蚩蚩，抱布贸丝。匪来贸丝，来即我谋。送子涉淇，至于顿丘。匪我愆期，子无良媒。将子无怒，秋以为期。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -775,7 +775,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "竹竿 · 佚名",
-      art: "forest-path",
+      art: 'poetry-shijing:ch59',
       artPrompt: "古诗《竹竿》意境插画：籊籊竹竿，以钓于淇。岂不尔思？远莫致之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -788,7 +788,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "芄兰 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch60',
       artPrompt: "古诗《芄兰》意境插画：芄兰之支，童子佩觿。虽则佩觿，能不我知。容兮遂兮，垂带悸兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -801,7 +801,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "河广 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch61',
       artPrompt: "古诗《河广》意境插画：谁谓河广？一苇杭之。谁谓宋远？跂予望之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -814,7 +814,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "伯兮 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch62',
       artPrompt: "古诗《伯兮》意境插画：伯兮朅兮，邦之桀兮。伯也执殳，为王前驱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -827,7 +827,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有狐 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch63',
       artPrompt: "古诗《有狐》意境插画：有狐绥绥，在彼淇梁。心之忧矣，之子无裳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -840,7 +840,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "木瓜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch64',
       artPrompt: "古诗《木瓜》意境插画：投我以木瓜，报之以琼琚。匪报也，永以为好也！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -853,7 +853,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "黍离 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch65',
       artPrompt: "古诗《黍离》意境插画：彼黍离离，彼稷之苗。行迈靡靡，中心摇摇。知我者，谓我心忧；不知我者，谓我何求。悠悠苍天，此何人哉？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -866,7 +866,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "君子于役 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch66',
       artPrompt: "古诗《君子于役》意境插画：君子于役，不知其期。曷至哉？鸡栖于埘。日之夕矣，羊牛下来。君子于役，如之何勿思！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -879,7 +879,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "君子阳阳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch67',
       artPrompt: "古诗《君子阳阳》意境插画：君子阳阳，左执簧，右招我由房，其乐只且！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -892,7 +892,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "扬之水 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch68',
       artPrompt: "古诗《扬之水》意境插画：扬之水，不流束薪。彼其之子，不与我戍申。怀哉怀哉，曷月予还归哉？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -905,7 +905,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "中谷有蓷 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch69',
       artPrompt: "古诗《中谷有蓷》意境插画：中谷有蓷，暵其干矣。有女仳离，慨其叹矣。慨其叹矣，遇人之艰难矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -918,7 +918,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "兔爰 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch70',
       artPrompt: "古诗《兔爰》意境插画：有兔爰爰，雉离于罗。我生之初，尚无为；我生之后，逢此百罹。尚寐无吪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -931,7 +931,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "葛藟 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch71',
       artPrompt: "古诗《葛藟》意境插画：绵绵葛藟，在河之浒。终远兄弟，谓他人父。谓他人父，亦莫我顾！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -944,7 +944,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采葛 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch72',
       artPrompt: "古诗《采葛》意境插画：彼采葛兮，一日不见，如三月兮！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -957,7 +957,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "大车 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch73',
       artPrompt: "古诗《大车》意境插画：大车槛槛，毳衣如菼。岂不尔思？畏子不敢。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -970,7 +970,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "丘中有麻 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch74',
       artPrompt: "古诗《丘中有麻》意境插画：丘中有麻，彼留子嗟。彼留子嗟，将其来施施。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -983,7 +983,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "缁衣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch75',
       artPrompt: "古诗《缁衣》意境插画：缁衣之宜兮，敝予又改为兮。适子之馆兮。还予授子之粲兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -996,7 +996,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "将仲子 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch76',
       artPrompt: "古诗《将仲子》意境插画：将仲子兮，无逾我里，无折我树杞。岂敢爱之？畏我父母。仲可怀也，父母之言亦可畏也。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1009,7 +1009,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "叔于田 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch77',
       artPrompt: "古诗《叔于田》意境插画：叔于田，巷无居人。岂无居人？不如叔也。洵美且仁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1022,7 +1022,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "大叔于田 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch78',
       artPrompt: "古诗《大叔于田》意境插画：叔于田，乘乘马。执辔如组，两骖如舞。叔在薮，火烈具举。襢裼暴虎，献于公所。将叔勿狃，戒其伤女。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1035,7 +1035,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "清人 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch79',
       artPrompt: "古诗《清人》意境插画：清人在彭，驷介旁旁。二矛重英，河上乎翱翔。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1048,7 +1048,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "羔裘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch80',
       artPrompt: "古诗《羔裘》意境插画：羔裘如濡，洵直且侯。彼其之子，舍命不渝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1061,7 +1061,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "遵大路 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch81',
       artPrompt: "古诗《遵大路》意境插画：遵大路兮，掺执子之袪兮。无我恶兮，不蓵故也！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1074,7 +1074,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "女曰鸡鸣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch82',
       artPrompt: "古诗《女曰鸡鸣》意境插画：女曰鸡鸣，士曰昧旦。子兴视夜，明星有烂。将翱将翔，弋凫与雁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1087,7 +1087,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有女同车 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch83',
       artPrompt: "古诗《有女同车》意境插画：有女同车，颜如舜华。将翱将翔，佩玉琼琚。彼美孟姜，洵美且都。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1100,7 +1100,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "山有扶苏 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch84',
       artPrompt: "古诗《山有扶苏》意境插画：山有扶苏，隰有荷华。不见子都，乃见狂且。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1113,7 +1113,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "萚兮 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch85',
       artPrompt: "古诗《萚兮》意境插画：萚兮萚兮，风其吹女。叔兮伯兮，倡予和女。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1126,7 +1126,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "狡童 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch86',
       artPrompt: "古诗《狡童》意境插画：彼狡童兮，不与我言兮。维子之故，使我不能餐兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1139,7 +1139,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "褰裳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch87',
       artPrompt: "古诗《褰裳》意境插画：子惠思我，褰裳涉溱。子不我思，岂无他人？狂童之狂也且！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1152,7 +1152,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "丰 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch88',
       artPrompt: "古诗《丰》意境插画：子之丰兮，俟我乎巷兮，悔予不送兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1165,7 +1165,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东门之𫮃 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch89',
       artPrompt: "古诗《东门之𫮃》意境插画：东门之𫮃，茹藘在阪。其室则迩，其人甚远。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1178,7 +1178,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "风雨 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch90',
       artPrompt: "古诗《风雨》意境插画：风雨凄凄，鸡鸣喈喈，既见君子。云胡不夷？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1191,7 +1191,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "子衿 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch91',
       artPrompt: "古诗《子衿》意境插画：青青子衿，悠悠我心。纵我不往，子宁不嗣音？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1204,7 +1204,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "扬之水 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch92',
       artPrompt: "古诗《扬之水》意境插画：扬之水，不流束楚。终鲜兄弟，维予与女。无信人之言，人实诳女。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1217,7 +1217,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "出其东门 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch93',
       artPrompt: "古诗《出其东门》意境插画：出其东门，有女如云。虽则如云。匪我思存。缟衣綦巾，聊乐我员。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1230,7 +1230,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "野有蔓草 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch94',
       artPrompt: "古诗《野有蔓草》意境插画：野有蔓草，零露漙兮。有美一人，清扬婉兮。邂逅相遇，适我愿兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1243,7 +1243,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "溱洧 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch95',
       artPrompt: "古诗《溱洧》意境插画：溱与洧，方涣涣兮。士与女，方秉蕳兮。女曰观乎？士曰既且。且往观乎？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1256,7 +1256,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸡鸣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch96',
       artPrompt: "古诗《鸡鸣》意境插画：鸡既鸣矣，朝既盈矣。匪鸡则鸣，苍蝇之声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1269,7 +1269,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "还 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch97',
       artPrompt: "古诗《还》意境插画：子之还兮，遭我乎狃之间兮。并驱从两肩兮，揖我谓我儇兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1282,7 +1282,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "着 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch98',
       artPrompt: "古诗《着》意境插画：俟我于着乎而，充耳以素乎而，尚之以琼华乎而。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1295,7 +1295,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东方之日 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch99',
       artPrompt: "古诗《东方之日》意境插画：东方之日兮，彼姝者子，在我室兮。在我室兮，履我即兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1308,7 +1308,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东方未明 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch100',
       artPrompt: "古诗《东方未明》意境插画：东方未明，颠倒衣裳。颠之倒之，自公召之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1321,7 +1321,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "南山 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch101',
       artPrompt: "古诗《南山》意境插画：南山崔崔，雄狐绥绥。鲁道有荡，齐子由归。既曰归止，曷又怀止？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1334,7 +1334,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "甫田 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch102',
       artPrompt: "古诗《甫田》意境插画：无田甫田，维莠骄骄。无思远人，劳心忉忉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1347,7 +1347,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "卢令 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch103',
       artPrompt: "古诗《卢令》意境插画：卢令令，其人美且仁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1360,7 +1360,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "敝笱 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch104',
       artPrompt: "古诗《敝笱》意境插画：敝笱在梁，其鱼鲂鳏。齐子归止，其从如云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1373,7 +1373,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "载驱 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch105',
       artPrompt: "古诗《载驱》意境插画：载驱薄薄，簟茀朱鞹。鲁道有荡，齐子发夕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1386,7 +1386,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "猗嗟 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch106',
       artPrompt: "古诗《猗嗟》意境插画：猗嗟昌兮，颀而长兮。抑若扬兮，美目扬兮。巧趋跄兮，射则臧兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1399,7 +1399,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "葛屦 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch107',
       artPrompt: "古诗《葛屦》意境插画：纠纠葛屦，可以履霜？掺掺女手，可以缝裳？要之襋之，好人服之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1412,7 +1412,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "汾沮洳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch108',
       artPrompt: "古诗《汾沮洳》意境插画：彼汾沮洳，言采其莫。彼其之子，美无度。美无度，殊异乎公路。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1425,7 +1425,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "园有桃 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch109',
       artPrompt: "古诗《园有桃》意境插画：园有桃，其实之肴。心之忧矣，我歌且谣。不知我者，谓我士也骄。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1438,7 +1438,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "陟岵 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch110',
       artPrompt: "古诗《陟岵》意境插画：陟彼岵兮，瞻望父兮。父曰：嗟！予子行役，夙夜无已。上慎旃哉，犹来！无止！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1451,7 +1451,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "十亩之间 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch111',
       artPrompt: "古诗《十亩之间》意境插画：十亩之间兮，桑者闲闲兮，行与子还兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1464,7 +1464,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "伐檀 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch112',
       artPrompt: "古诗《伐檀》意境插画：坎坎伐檀兮，置之河之干兮。河水清且涟猗。不稼不穑，胡取禾三百廛兮？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1477,7 +1477,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "硕鼠 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch113',
       artPrompt: "古诗《硕鼠》意境插画：硕鼠硕鼠，无食我黍！三岁贯女，莫我肯顾。逝将去女，适彼乐土。乐土乐土，爰得我所。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1490,7 +1490,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蟋蟀 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch114',
       artPrompt: "古诗《蟋蟀》意境插画：蟋蟀在堂，岁聿其莫。今我不乐，日月其除。无已大康，职思其居。好乐无荒，良士瞿瞿。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1503,7 +1503,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "山有枢 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch115',
       artPrompt: "古诗《山有枢》意境插画：山有枢，隰有榆。子有衣裳，弗曳弗娄。子有车马，弗驰弗驱。宛其死矣，他人是愉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1516,7 +1516,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "扬之水 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch116',
       artPrompt: "古诗《扬之水》意境插画：扬之水，白石凿凿。素衣朱襮，从子于沃。既见君子，云何不乐？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1529,7 +1529,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "椒聊 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch117',
       artPrompt: "古诗《椒聊》意境插画：椒聊之实，蕃衍盈升。彼其之子，硕大无朋。椒聊且，远条且。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1542,7 +1542,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "绸缪 · 佚名",
-      art: "star-sea",
+      art: 'poetry-shijing:ch118',
       artPrompt: "古诗《绸缪》意境插画：绸缪束薪，三星在天。今夕何夕，见此良人？子兮子兮，如此良人何？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1555,7 +1555,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "杕杜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch119',
       artPrompt: "古诗《杕杜》意境插画：有杕之杜，其叶湑湑。独行踽踽。岂无他人？不如我同父。嗟行之人，胡不比焉？人无兄弟，胡不佽焉？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1568,7 +1568,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "羔裘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch120',
       artPrompt: "古诗《羔裘》意境插画：羔裘豹祛，自我人居居。岂无他人？维子之故。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1581,7 +1581,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸨羽 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch121',
       artPrompt: "古诗《鸨羽》意境插画：肃肃鸨羽，集于苞栩。王事靡盬，不能蓺稷黍。父母何怙？悠悠苍天，曷其有所？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1594,7 +1594,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "无衣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch122',
       artPrompt: "古诗《无衣》意境插画：岂曰无衣七兮？不如子之衣，安且吉兮！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1607,7 +1607,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有杕之杜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch123',
       artPrompt: "古诗《有杕之杜》意境插画：有杕之杜，生于道左。彼君子兮，噬肯适我？中心好之，曷饮食之？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1620,7 +1620,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "葛生 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch124',
       artPrompt: "古诗《葛生》意境插画：葛生蒙楚，蔹蔓于野。予美亡此，谁与？独处？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1633,7 +1633,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采苓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch125',
       artPrompt: "古诗《采苓》意境插画：采苓采苓，首阳之巅。人之为言，苟亦无信。舍旃舍旃，苟亦无然。人之为言，胡得焉？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1646,7 +1646,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "车邻 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch126',
       artPrompt: "古诗《车邻》意境插画：有车邻邻，有马白颠。未见君子，寺人之令。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1659,7 +1659,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "驷驖 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch127',
       artPrompt: "古诗《驷驖》意境插画：驷驖孔阜，六辔在手。公之媚子，从公于狩。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1672,7 +1672,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小戎 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch128',
       artPrompt: "古诗《小戎》意境插画：小戎俴收，五楘梁辀。游环胁驱，阴靷鋈续。文茵畅毂，驾我骐馵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1685,7 +1685,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蒹葭 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch129',
       artPrompt: "古诗《蒹葭》意境插画：蒹葭苍苍，白露为霜。所谓伊人，在水一方。溯洄从之，道阻且长。溯游从之，宛在水中央。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1698,7 +1698,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "终南 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch130',
       artPrompt: "古诗《终南》意境插画：终南何有？有条有梅。君子至止，锦衣狐裘。颜如渥丹，其君也哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1711,7 +1711,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "黄鸟 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch131',
       artPrompt: "古诗《黄鸟》意境插画：交交黄鸟，止于棘。谁从穆公？子车奄息。维此奄息，百夫之特。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1724,7 +1724,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "晨风 · 佚名",
-      art: "forest-path",
+      art: 'poetry-shijing:ch132',
       artPrompt: "古诗《晨风》意境插画：鴥彼晨风，郁彼北林。未见君子，忧心钦钦。如何如何，忘我实多！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1737,7 +1737,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "无衣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch133',
       artPrompt: "古诗《无衣》意境插画：岂曰无衣？与子同袍。王于兴师，修我戈矛。与子同仇！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1750,7 +1750,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "渭阳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch134',
       artPrompt: "古诗《渭阳》意境插画：我送舅氏，曰至渭阳。何以赠之？路车乘黄。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1763,7 +1763,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "权舆 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch135',
       artPrompt: "古诗《权舆》意境插画：于我乎，夏屋渠渠，今也每食无余。于嗟乎，不承权舆！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1776,7 +1776,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "宛丘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch136',
       artPrompt: "古诗《宛丘》意境插画：子之汤兮，宛丘之上兮。洵有情兮，而无望兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1789,7 +1789,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东门之枌 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch137',
       artPrompt: "古诗《东门之枌》意境插画：东门之枌，宛丘之栩。子仲之子，婆娑其下。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1802,7 +1802,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "衡门 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch138',
       artPrompt: "古诗《衡门》意境插画：衡门之下，可以栖迟。泌之洋洋，可以乐饥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1815,7 +1815,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东门之池 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch139',
       artPrompt: "古诗《东门之池》意境插画：东门之池，可以沤麻。彼美淑姬，可与晤歌。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1828,7 +1828,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东门之杨 · 佚名",
-      art: "star-sea",
+      art: 'poetry-shijing:ch140',
       artPrompt: "古诗《东门之杨》意境插画：东门之杨，其叶牂牂。昏以为期，明星煌煌。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1841,7 +1841,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "墓门 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch141',
       artPrompt: "古诗《墓门》意境插画：墓门有棘，斧以斯之。夫也不良，国人知之。知而不已，谁昔然矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1854,7 +1854,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "防有鹊巢 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch142',
       artPrompt: "古诗《防有鹊巢》意境插画：防有鹊巢，邛有旨苕。谁侜予美？心焉忉忉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1867,7 +1867,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "月出 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch143',
       artPrompt: "古诗《月出》意境插画：月出皎兮。佼人僚兮。舒窈纠兮。劳心悄兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1880,7 +1880,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "株林 · 佚名",
-      art: "forest-path",
+      art: 'poetry-shijing:ch144',
       artPrompt: "古诗《株林》意境插画：胡为乎株林？从夏南！匪适株林，从夏南！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1893,7 +1893,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "泽陂 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch145',
       artPrompt: "古诗《泽陂》意境插画：彼泽之陂，有蒲与荷。有美一人，伤如之何？寤寐无为，涕泗滂沱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1906,7 +1906,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "羔裘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch146',
       artPrompt: "古诗《羔裘》意境插画：羔裘逍遥，狐裘以朝。岂不尔思？劳心忉忉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1919,7 +1919,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "素冠 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch147',
       artPrompt: "古诗《素冠》意境插画：庶见素冠兮，棘人栾栾兮。劳心慱慱兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1932,7 +1932,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "隰有苌楚 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch148',
       artPrompt: "古诗《隰有苌楚》意境插画：隰有苌楚，猗傩其枝，夭之沃沃，乐子之无知。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1945,7 +1945,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "匪风 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch149',
       artPrompt: "古诗《匪风》意境插画：匪风发兮，匪车偈兮。顾瞻周道，中心怛兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1958,7 +1958,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蜉蝣 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch150',
       artPrompt: "古诗《蜉蝣》意境插画：蜉蝣之羽，衣裳楚楚。心之忧矣，于我归处。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1971,7 +1971,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "候人 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch151',
       artPrompt: "古诗《候人》意境插画：彼候人兮，何戈与祋。彼其之子，三百赤芾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1984,7 +1984,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸤鸠 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch152',
       artPrompt: "古诗《鸤鸠》意境插画：鸤鸠在桑，其子七兮。淑人君子，其仪一兮。其仪一兮，心如结兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1997,7 +1997,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "下泉 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch153',
       artPrompt: "古诗《下泉》意境插画：冽彼下泉，浸彼苞稂。忾我寤叹，念彼周京。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2010,7 +2010,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "七月 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch154',
       artPrompt: "古诗《七月》意境插画：七月流火，九月授衣。一之日觱发，二之日栗烈。无衣无褐，何以卒岁？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2023,7 +2023,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸱鸮 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch155',
       artPrompt: "古诗《鸱鸮》意境插画：鸱鸮鸱鸮，既取我子，无毁我室。恩斯勤斯，鬻子之闵斯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2036,7 +2036,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "东山 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch156',
       artPrompt: "古诗《东山》意境插画：我徂东山，慆慆不归。我来自东，零雨其蒙。我东曰归，我心西悲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2049,7 +2049,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "破斧 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch157',
       artPrompt: "古诗《破斧》意境插画：既破我斧，又缺我斨。周公东征，四国是皇。哀我人斯，亦孔之将。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2062,7 +2062,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "伐柯 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch158',
       artPrompt: "古诗《伐柯》意境插画：伐柯如何？匪斧不克。取妻如何？匪媒不得。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2075,7 +2075,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "九罭 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch159',
       artPrompt: "古诗《九罭》意境插画：九罭之鱼，鳟鲂。我觏之子，衮衣绣裳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2088,7 +2088,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "狼跋 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch160',
       artPrompt: "古诗《狼跋》意境插画：狼跋其胡，载疐其尾。公孙硕肤，赤舄几几。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2101,7 +2101,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鹿鸣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch161',
       artPrompt: "古诗《鹿鸣》意境插画：呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙。吹笙鼓簧，承筐是将。人之好我，示我周行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2114,7 +2114,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "四牡 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch162',
       artPrompt: "古诗《四牡》意境插画：四牡𬴂𬴂，周道倭迟。岂不怀归？王事靡盬，我心伤悲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2127,7 +2127,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "皇皇者华 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch163',
       artPrompt: "古诗《皇皇者华》意境插画：皇皇者华，于彼原隰。𬳽𬳽征夫，每怀靡及。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2140,7 +2140,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "棠棣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch164',
       artPrompt: "古诗《棠棣》意境插画：棠棣之华，鄂不韡韡。凡今之人，莫如兄弟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2153,7 +2153,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "伐木 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch165',
       artPrompt: "古诗《伐木》意境插画：伐木丁丁，鸟鸣嘤嘤。出自幽谷，迁于乔木。嘤其鸣矣，求其友声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2166,7 +2166,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "天保 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch166',
       artPrompt: "古诗《天保》意境插画：天保定尔，亦孔之固。俾尔单厚，何福不除？俾尔多益，以莫不庶。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2179,7 +2179,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采薇 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch167',
       artPrompt: "古诗《采薇》意境插画：采薇采薇，薇亦作止。曰归曰归，岁亦莫止。靡室靡家，玁狁之故。不遑启居，玁狁之故。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2192,7 +2192,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "出车 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch168',
       artPrompt: "古诗《出车》意境插画：我出我车，于彼牧矣。自天子所，谓我来矣。召彼仆夫，谓之载矣。王事多难，维其棘矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2205,7 +2205,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "杕杜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch169',
       artPrompt: "古诗《杕杜》意境插画：有杕之杜，有睆其实。王事靡盬，继嗣我日。日月阳止，女心伤止，征夫遑止。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2218,7 +2218,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鱼丽 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch170',
       artPrompt: "古诗《鱼丽》意境插画：鱼丽于罶，鲿鲨。君子有酒，旨且多。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2231,7 +2231,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "南有嘉鱼 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch171',
       artPrompt: "古诗《南有嘉鱼》意境插画：南有嘉鱼，烝然罩罩。君子有酒，嘉宾式燕以乐。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2244,7 +2244,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "南山有台 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch172',
       artPrompt: "古诗《南山有台》意境插画：南山有台，北山有莱。乐只君子，邦家之基。乐只君子，万寿无期。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2257,7 +2257,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蓼萧 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch173',
       artPrompt: "古诗《蓼萧》意境插画：蓼彼萧斯，零露湑兮。既见君子，我心写兮。燕笑语兮，是以有誉处兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2270,7 +2270,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "湛露 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch174',
       artPrompt: "古诗《湛露》意境插画：湛湛露斯，匪阳不晞。厌厌夜饮，不醉无归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2283,7 +2283,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "彤弓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch175',
       artPrompt: "古诗《彤弓》意境插画：彤弓弨兮，受言藏之。我有嘉宾，中心贶之。钟鼓既设，一朝飨之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2296,7 +2296,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "菁菁者莪 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch176',
       artPrompt: "古诗《菁菁者莪》意境插画：菁菁者莪，在彼中阿。既见君子，乐且有仪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2309,7 +2309,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "六月 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch177',
       artPrompt: "古诗《六月》意境插画：六月栖栖，戎车既饬。四牡骙骙，载是常服。玁狁孔炽，我是用急。王于出征，以匡王国。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2322,7 +2322,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采芑 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch178',
       artPrompt: "古诗《采芑》意境插画：薄言采芑，于彼新田，呈此菑亩。方叔涖止，其车三千。师干之试，方叔率止。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2335,7 +2335,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "车攻 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch179',
       artPrompt: "古诗《车攻》意境插画：我车既攻，我马既同。四牡庞庞，驾言徂东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2348,7 +2348,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "吉日 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch180',
       artPrompt: "古诗《吉日》意境插画：吉日维戊，既伯既祷。田车既好，四牡孔阜。升彼大阜，从其群丑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2361,7 +2361,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸿雁 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch181',
       artPrompt: "古诗《鸿雁》意境插画：鸿雁于飞，肃肃其羽。之子于征，劬劳于野。爰及矜人，哀此鳏寡。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2374,7 +2374,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "庭燎 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch182',
       artPrompt: "古诗《庭燎》意境插画：夜如何其？夜未央，庭燎之光。君子至止，鸾声将将。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2387,7 +2387,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "沔水 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch183',
       artPrompt: "古诗《沔水》意境插画：沔彼流水，朝宗于海。鴥彼飞隼，载飞载止。嗟我兄弟，邦人诸友。莫肯念乱，谁无父母？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2400,7 +2400,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鹤鸣 · 佚名",
-      art: "goose-pond",
+      art: 'poetry-shijing:ch184',
       artPrompt: "古诗《鹤鸣》意境插画：鹤鸣于九皋，声闻于野。鱼潜在渊，或在于渚。乐彼之园，爰有树檀，其下维萚。他山之石，可以为错。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2413,7 +2413,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "祈父 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch185',
       artPrompt: "古诗《祈父》意境插画：祈父，予王之爪牙。胡转予于恤，靡所止居？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2426,7 +2426,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "白驹 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch186',
       artPrompt: "古诗《白驹》意境插画：皎皎白驹，食我场苗。絷之维之，以永今朝。所谓伊人，于焉逍遥？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2439,7 +2439,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "黄鸟 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch187',
       artPrompt: "古诗《黄鸟》意境插画：黄鸟黄鸟，无集于谷，无啄我粟。此邦之人，不我肯谷。言旋言归，复我邦族。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2452,7 +2452,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "我行其野 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch188',
       artPrompt: "古诗《我行其野》意境插画：我行其野，蔽芾其樗。婚姻之故，言就尔居。尔不我畜，复我邦家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2465,7 +2465,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "斯干 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch189',
       artPrompt: "古诗《斯干》意境插画：秩秩斯干，幽幽南山。如竹苞矣，如松茂矣。兄及弟矣，式相好矣，无相犹矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2478,7 +2478,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "无羊 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch190',
       artPrompt: "古诗《无羊》意境插画：谁谓尔无羊？三百维群。谁谓尔无牛？九十其犉。尔羊来思，其角濈濈。尔牛来思，其耳湿湿。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2491,7 +2491,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "节南山 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch191',
       artPrompt: "古诗《节南山》意境插画：节彼南山，维石岩岩。赫赫师尹，民具尔瞻。忧心如惔，不敢戏谈。国既卒斩，何用不监！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2504,7 +2504,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "正月 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch192',
       artPrompt: "古诗《正月》意境插画：正月繁霜，我心忧伤。民之讹言，亦孔之将。念我独兮，忧心京京。哀我小心，癙忧以痒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2517,7 +2517,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "十月之交 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch193',
       artPrompt: "古诗《十月之交》意境插画：十月之交，朔月辛卯。日有食之，亦孔之丑。彼月而微，此日而微；今此下民，亦孔之哀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2530,7 +2530,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "雨无正 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch194',
       artPrompt: "古诗《雨无正》意境插画：浩浩昊天，不骏其德。降丧饥馑，斩伐四国。旻天疾威，弗虑弗图。舍彼有罪，既伏其辜。若此无罪，沦胥以铺。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2543,7 +2543,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小旻 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch195',
       artPrompt: "古诗《小旻》意境插画：旻天疾威，敷于下土。谋犹回遹，何日斯沮？谋臧不从，不臧覆用。我视谋犹，亦孔之邛。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2556,7 +2556,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小宛 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch196',
       artPrompt: "古诗《小宛》意境插画：宛彼鸣鸠，翰飞戾天。我心忧伤，念昔先人。明发不寐，有怀二人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2569,7 +2569,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小弁 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch197',
       artPrompt: "古诗《小弁》意境插画：弁彼鸴斯，归飞提提。民莫不谷，我独于罹。何辜于天？我罪伊何？心之忧矣，云如之何？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2582,7 +2582,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "巧言 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch198',
       artPrompt: "古诗《巧言》意境插画：悠悠昊天，曰父母且。无罪无辜，乱如此幠。昊天已威，予慎无罪。昊天大幠，予慎无辜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2595,7 +2595,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "何人斯 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch199',
       artPrompt: "古诗《何人斯》意境插画：彼何人斯？其心孔艰。胡逝我梁，不入我门？伊谁云从？维暴之云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2608,7 +2608,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "巷伯 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch200',
       artPrompt: "古诗《巷伯》意境插画：萋兮斐兮，成是贝锦。彼谮人者，亦已大甚！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2621,7 +2621,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "谷风 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch201',
       artPrompt: "古诗《谷风》意境插画：习习谷风，维风及雨。将恐将惧，维予与女。将安将乐，女转弃予。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2634,7 +2634,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "蓼莪 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch202',
       artPrompt: "古诗《蓼莪》意境插画：蓼蓼者莪，匪莪伊蒿。哀哀父母，生我劬劳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2647,7 +2647,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "大东 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch203',
       artPrompt: "古诗《大东》意境插画：有饛簋飧，有捄棘匕。周道如砥，其直如矢。君子所履，小人所视。眷言顾之，潸焉出涕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2660,7 +2660,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "四月 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch204',
       artPrompt: "古诗《四月》意境插画：四月维夏，六月徂署。先祖匪人，胡宁忍予？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2673,7 +2673,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "北山 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch205',
       artPrompt: "古诗《北山》意境插画：陟彼北山，言采其杞。偕偕士子，朝夕从事。王事靡盬，忧我父母。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2686,7 +2686,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "无将大车 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch206',
       artPrompt: "古诗《无将大车》意境插画：无将大车，祇自尘兮。无思百忧，祇自疧兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2699,7 +2699,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小明 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch207',
       artPrompt: "古诗《小明》意境插画：明明上天，照临下土。我征徂西，至于艽野。二月初吉，载离寒暑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2712,7 +2712,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鼓钟 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch208',
       artPrompt: "古诗《鼓钟》意境插画：鼓钟将将，淮水汤汤，忧心且伤。淑人君子，怀允不忘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2725,7 +2725,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "楚茨 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch209',
       artPrompt: "古诗《楚茨》意境插画：楚楚者茨，言抽其棘，自昔何为？我蓺黍稷。我黍与与，我稷翼翼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2738,7 +2738,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "信南山 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch210',
       artPrompt: "古诗《信南山》意境插画：信彼南山，维禹甸之。畇畇原隰，曾孙田之。我疆我理，南东其亩。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2751,7 +2751,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "甫田 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch211',
       artPrompt: "古诗《甫田》意境插画：倬彼甫田，岁取十千。我取其陈，食我农人。自古有年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2764,7 +2764,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "大田 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch212',
       artPrompt: "古诗《大田》意境插画：大田多稼，既种既戒，既备乃事。以我覃耜，俶载南亩。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2777,7 +2777,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "瞻彼洛矣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch213',
       artPrompt: "古诗《瞻彼洛矣》意境插画：瞻彼洛矣，维水泱泱。君子至止，福禄如茨。韎韐有奭，以作六师。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2790,7 +2790,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "裳裳者华 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch214',
       artPrompt: "古诗《裳裳者华》意境插画：裳裳者华，其叶湑兮。我觏之子，我心写兮。我心写兮，是以有誉处兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2803,7 +2803,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "桑扈 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch215',
       artPrompt: "古诗《桑扈》意境插画：交交桑扈，有莺其羽。君子乐胥，受天之祜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2816,7 +2816,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鸳鸯 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch216',
       artPrompt: "古诗《鸳鸯》意境插画：鸳鸯于飞，毕之罗之。君子万年，福禄宜之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2829,7 +2829,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "𫠆弁 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch217',
       artPrompt: "古诗《𫠆弁》意境插画：有𫠆者弁，实维伊何？尔酒既旨，尔肴既嘉。岂伊异人？兄弟匪他。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2842,7 +2842,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "车舝 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch218',
       artPrompt: "古诗《车舝》意境插画：间关车之舝兮，思娈季女逝兮。匪饥匪渴，德音来括。虽无好友？式燕且喜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2855,7 +2855,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "青蝇 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch219',
       artPrompt: "古诗《青蝇》意境插画：营营青蝇，止于樊。岂弟君子，无信谗言。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2868,7 +2868,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "宾之初筵 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch220',
       artPrompt: "古诗《宾之初筵》意境插画：宾之初筵，左右秩秩。笾豆有楚，殽核维旅。酒既和旨，饮酒孔偕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2881,7 +2881,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "鱼藻 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch221',
       artPrompt: "古诗《鱼藻》意境插画：鱼在在藻，有颁其首。王在在镐，岂乐饮酒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2894,7 +2894,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采菽 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch222',
       artPrompt: "古诗《采菽》意境插画：采菽采菽，筐之莒之。君子来朝，何锡予之？虽无予之？路车乘马。又何予之？玄衮及黼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2907,7 +2907,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "角弓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch223',
       artPrompt: "古诗《角弓》意境插画：骍骍角弓，翩其反矣。兄弟婚姻，无胥远矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2920,7 +2920,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "菀柳 · 佚名",
-      art: "forest-path",
+      art: 'poetry-shijing:ch224',
       artPrompt: "古诗《菀柳》意境插画：有菀者柳，不尚息焉。上帝甚蹈，无自暱焉。俾予靖之，后予极焉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2933,7 +2933,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "都人士 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch225',
       artPrompt: "古诗《都人士》意境插画：彼都人士，狐裘黄黄。其容不改，出言有章。行归于周，万民所望。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2946,7 +2946,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "采绿 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch226',
       artPrompt: "古诗《采绿》意境插画：终朝采绿，不盈一匊。予发曲局，薄言归沐。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2959,7 +2959,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "黍苗 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch227',
       artPrompt: "古诗《黍苗》意境插画：芃芃黍苗，阴雨膏之。悠悠南行，召伯劳之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2972,7 +2972,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "隰桑 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch228',
       artPrompt: "古诗《隰桑》意境插画：隰桑有阿，其叶有难。既见君子，其乐如何。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2985,7 +2985,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "白华 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch229',
       artPrompt: "古诗《白华》意境插画：白华菅兮，白茅束兮。之子之远，俾我独兮。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2998,7 +2998,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "绵蛮 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch230',
       artPrompt: "古诗《绵蛮》意境插画：绵蛮黄鸟，止于丘阿。道之云远，我劳如何。饮之食之，教之诲之。命彼后车，谓之载之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3011,7 +3011,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "瓠叶 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch231',
       artPrompt: "古诗《瓠叶》意境插画：幡幡瓠叶，采之亨之。君子有酒，酌言尝之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3024,7 +3024,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "渐渐之石 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch232',
       artPrompt: "古诗《渐渐之石》意境插画：渐渐之石，维其高矣。山川悠远，维其劳矣。武人东征，不遑朝矣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3037,7 +3037,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "苕之华 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch233',
       artPrompt: "古诗《苕之华》意境插画：苕之华，芸其黄矣。心之忧矣，维其伤矣！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3050,7 +3050,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "何草不黄 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch234',
       artPrompt: "古诗《何草不黄》意境插画：何草不黄？何日不行？何人不将？经营四方。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3063,7 +3063,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "文王 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch235',
       artPrompt: "古诗《文王》意境插画：文王在上，于昭于天。周虽旧邦，其命维新。有周不显，帝命不时。文王陟降，在帝左右。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3076,7 +3076,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "大明 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch236',
       artPrompt: "古诗《大明》意境插画：明明在下，赫赫在上。天难忱斯，不易维王。天位殷适，使不挟四方。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3089,7 +3089,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "绵 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch237',
       artPrompt: "古诗《绵》意境插画：绵绵瓜瓞。民之初生，自土沮漆。古公亶父，陶复陶冗，未有家室。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3102,7 +3102,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "棫朴 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch238',
       artPrompt: "古诗《棫朴》意境插画：芃芃棫朴，薪之槱之。济济辟王，左右趣之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3115,7 +3115,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "旱麓 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch239',
       artPrompt: "古诗《旱麓》意境插画：瞻彼旱麓，榛楛济济。岂弟君子，干禄岂弟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3128,7 +3128,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "思齐 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch240',
       artPrompt: "古诗《思齐》意境插画：思齐大任，文王之母，思媚周姜，京室之妇。大姒嗣徽音，则百斯男。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3141,7 +3141,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "皇矣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch241',
       artPrompt: "古诗《皇矣》意境插画：皇矣上帝，临下有赫。监观四方，求民之莫。维此二国，其政不获。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3154,7 +3154,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "灵台 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch242',
       artPrompt: "古诗《灵台》意境插画：经始灵台，经之营之。庶民攻之，不日成之。经始勿亟，庶民子来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3167,7 +3167,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "下武 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch243',
       artPrompt: "古诗《下武》意境插画：下武维周，世有哲王。三后在天，王配于京。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3180,7 +3180,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "文王有声 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch244',
       artPrompt: "古诗《文王有声》意境插画：文王有声，遹骏有声。遹求厥宁，遹观厥成。文王烝哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3193,7 +3193,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "生民 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch245',
       artPrompt: "古诗《生民》意境插画：厥初生民，时维姜嫄。生民如何？克禋克祀，以弗无子。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3206,7 +3206,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "行苇 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch246',
       artPrompt: "古诗《行苇》意境插画：敦彼行苇，牛羊勿践履。方苞方体，维叶泥泥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3219,7 +3219,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "既醉 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch247',
       artPrompt: "古诗《既醉》意境插画：既醉以酒，既饱以德。君子万年，介尔景福。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3232,7 +3232,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "凫鹥 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch248',
       artPrompt: "古诗《凫鹥》意境插画：凫鹥在泾，公尸在燕来宁。尔酒既清，尔肴既馨。公尸燕饮，福禄来成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3245,7 +3245,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "假乐 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch249',
       artPrompt: "古诗《假乐》意境插画：假乐君子，显显令德，宜民宜人。受禄于天，保右命之，自天申之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3258,7 +3258,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "公刘 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch250',
       artPrompt: "古诗《公刘》意境插画：笃公刘，匪居匪康。乃埸乃疆，乃积乃仓；乃裹糇粮，于橐于囊。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3271,7 +3271,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "泂酌 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch251',
       artPrompt: "古诗《泂酌》意境插画：泂酌彼行潦，挹彼注兹，可以餴饎。岂弟君子，民之父母。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3284,7 +3284,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "卷阿 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch252',
       artPrompt: "古诗《卷阿》意境插画：有卷者阿，飘风自南。岂弟君子，来游来歌，以矢其音。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3297,7 +3297,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "民劳 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch253',
       artPrompt: "古诗《民劳》意境插画：民亦劳止，汔可小康。惠此中国，以绥四方。无纵诡随，以谨无良。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3310,7 +3310,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "板 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch254',
       artPrompt: "古诗《板》意境插画：上帝板板，下民卒瘅。出话不然，为犹不远。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3323,7 +3323,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "荡 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch255',
       artPrompt: "古诗《荡》意境插画：荡荡上帝，下民之辟。疾威上帝，其命多辟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3336,7 +3336,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "抑 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch256',
       artPrompt: "古诗《抑》意境插画：抑抑威仪，维德之隅。人亦有言：靡哲不愚，庶人之愚，亦职维疾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3349,7 +3349,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "桑柔 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch257',
       artPrompt: "古诗《桑柔》意境插画：菀彼桑柔，其下侯旬，捋采其刘，瘼此下民。不殄心忧，仓兄填兮。倬彼昊天，宁不我矜？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3362,7 +3362,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "云汉 · 佚名",
-      art: "cloud-flight",
+      art: 'poetry-shijing:ch258',
       artPrompt: "古诗《云汉》意境插画：倬彼云汉，昭回于天。王曰：于乎！何辜今之人？天降丧乱，饥馑荐臻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3375,7 +3375,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "崧高 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch259',
       artPrompt: "古诗《崧高》意境插画：崧高维岳，骏极于天。维岳降神，生甫及申。维申及甫，维周之翰。四国于蕃。四方于宣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3388,7 +3388,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "烝民 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch260',
       artPrompt: "古诗《烝民》意境插画：天生烝民，有物有则。民之秉彝，好是懿德。天监有周，昭假于下。保兹天子，生仲山甫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3401,7 +3401,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "韩奕 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch261',
       artPrompt: "古诗《韩奕》意境插画：奕奕梁山，维禹甸之，有倬其道。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3414,7 +3414,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "江汉 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch262',
       artPrompt: "古诗《江汉》意境插画：江汉浮浮，武夫滔滔。匪安匪游，淮夷来求。既出我车，既设我旟。匪安匪舒，淮夷来铺。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3427,7 +3427,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "常武 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch263',
       artPrompt: "古诗《常武》意境插画：赫赫明明。王命卿士，南仲大祖，大师皇父。整我六师，以修我戎。既敬既戒，惠此南国。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3440,7 +3440,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "瞻卬 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch264',
       artPrompt: "古诗《瞻卬》意境插画：瞻卬昊天，则不我惠。孔填不宁，降此大厉。邦靡有定，士民其瘵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3453,7 +3453,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "召旻 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch265',
       artPrompt: "古诗《召旻》意境插画：旻天疾威，天笃降丧。瘨我饥馑，民卒流亡。我居圉卒荒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3466,7 +3466,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "清庙 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch266',
       artPrompt: "古诗《清庙》意境插画：于穆清庙，肃雍显相。济济多士，秉文之德。对越在天，骏奔走在庙。不显不承，无射于人斯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3479,7 +3479,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "维天之命 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch267',
       artPrompt: "古诗《维天之命》意境插画：维天之命，于穆不已。于乎不显，文王之德之纯。假以溢我，我其收之。骏惠我文王，曾孙笃之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3492,7 +3492,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "维清 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch268',
       artPrompt: "古诗《维清》意境插画：维清缉熙，文王之典。肇禋，迄用有成，维周之祯。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3505,7 +3505,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "烈文 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch269',
       artPrompt: "古诗《烈文》意境插画：烈文辟公，锡兹祉福。惠我无疆，子孙保之。无封靡于尔邦，维王其崇之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3518,7 +3518,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "天作 · 佚名",
-      art: "sunrise-hills",
+      art: 'poetry-shijing:ch270',
       artPrompt: "古诗《天作》意境插画：天作高山，大王荒之。彼作矣，文王康之。彼徂矣，岐有夷之行。子孙保之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3531,7 +3531,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "昊天有成命 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch271',
       artPrompt: "古诗《昊天有成命》意境插画：昊天有成命，二后受之。成王不敢康，夙夜基命宥密。于缉熙！单厥心，四其靖之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3544,7 +3544,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "我将 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch272',
       artPrompt: "古诗《我将》意境插画：我将我享，维羊维牛，维天其右之。仪式刑文王之典，日靖四方。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3557,7 +3557,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "时迈 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch273',
       artPrompt: "古诗《时迈》意境插画：时迈其邦，昊天其子之，实右序有周。薄言震之，莫不震叠。怀柔百神，及河乔岳，允王维后。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3570,7 +3570,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "执竞 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch274',
       artPrompt: "古诗《执竞》意境插画：执竞武王，无竞维烈。不显成康，上帝是皇。自彼成康，奄有四方，斤斤其明。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3583,7 +3583,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "思文 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch275',
       artPrompt: "古诗《思文》意境插画：思文后稷，克配彼天。立我烝民，莫菲尔极。贻我来牟，帝命率育，无此疆尔界。陈常于时夏。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3596,7 +3596,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "臣工 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch276',
       artPrompt: "古诗《臣工》意境插画：嗟嗟臣工，敬尔在公。王厘尔成，来咨来茹。嗟嗟保介，维莫之春，亦又何求？如何新畲？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3609,7 +3609,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "噫嘻 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch277',
       artPrompt: "古诗《噫嘻》意境插画：噫嘻成王，既昭假尔。率时农夫，播厥百谷。骏发尔私，终三十里。亦服尔耕，十千维耦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3622,7 +3622,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "振鹭 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch278',
       artPrompt: "古诗《振鹭》意境插画：振鹭于飞，于彼西雍。我客戾止，亦有斯容。在彼无恶，在此无斁。庶几夙夜，以永终誉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3635,7 +3635,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "丰年 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch279',
       artPrompt: "古诗《丰年》意境插画：丰年多黍多稌，亦有高廪，万亿及秭。为酒为醴，烝畀祖妣。以洽百礼，降福孔皆。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3648,7 +3648,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有瞽 · 佚名",
-      art: "rice-field",
+      art: 'poetry-shijing:ch280',
       artPrompt: "古诗《有瞽》意境插画：有瞽有瞽，在周之庭。设业设虡，崇牙树羽。应田县鼓，鞉磬柷圉。既备——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3661,7 +3661,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "潜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch281',
       artPrompt: "古诗《潜》意境插画：猗与漆沮，潜有多鱼。有鳣有鲔，鲦鲿鰋鲤。以享以祀，以介景福。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3674,7 +3674,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "雝 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch282',
       artPrompt: "古诗《雝》意境插画：有来雝雝，至止肃肃。相维辟公，天子穆穆。于荐广牡，相予四祀。假哉皇考！绥予孝子。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3687,7 +3687,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "载见 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch283',
       artPrompt: "古诗《载见》意境插画：载见辟王，曰求厥章。龙旗阳阳，和铃央央。鞗革有鸧，休有烈光。率见昭考，以孝以享。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3700,7 +3700,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有客 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch284',
       artPrompt: "古诗《有客》意境插画：有客有客，亦白其马。有萋有且，敦琢其旅。有客宿宿，有客信信。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3713,7 +3713,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "武 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch285',
       artPrompt: "古诗《武》意境插画：于皇武王！无竞维烈。允文文王，克开厥后。嗣武受之，胜殷遏刘，耆定尔功。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3726,7 +3726,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "闵予小子 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch286',
       artPrompt: "古诗《闵予小子》意境插画：闵予小子，遭家不造，嬛嬛在疚。于乎皇考，永世克孝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3739,7 +3739,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "访落 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch287',
       artPrompt: "古诗《访落》意境插画：访予落止，率时昭考。于乎悠哉，朕未有艾。将予就之，继犹判涣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3752,7 +3752,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "敬之 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch288',
       artPrompt: "古诗《敬之》意境插画：敬之敬之，天维显思，命不易哉。无曰高高在上，陟降厥士，日监在兹。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3765,7 +3765,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "小毖 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch289',
       artPrompt: "古诗《小毖》意境插画：予其惩，而毖后患。莫予荓蜂，自求辛螫。肇允彼桃虫，拼飞维鸟。未堪家多难，予又集于蓼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3778,7 +3778,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "载芟 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch290',
       artPrompt: "古诗《载芟》意境插画：载芟载柞，其耕泽泽。千耦其耘，徂隰徂畛。侯主侯伯，侯亚侯旅，侯彊侯以。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3791,7 +3791,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "良耜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch291',
       artPrompt: "古诗《良耜》意境插画：畟畟良耜，俶载南亩。播厥百谷，实函斯活。或来瞻女，载筐及莒，其饟伊黍。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3804,7 +3804,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "丝衣 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch292',
       artPrompt: "古诗《丝衣》意境插画：丝衣其紑，载弁俅俅。自堂徂基，自羊徂牛，鼐鼎及鼒，兕觥其觩。旨酒思柔。不吴不敖，胡考之休。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3817,7 +3817,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "酌 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch293',
       artPrompt: "古诗《酌》意境插画：于铄王师，遵养时晦。时纯熙矣，是用大介。我龙受之，蹻蹻王之造。载用有嗣，实维尔公允师。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3830,7 +3830,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "桓 · 佚名",
-      art: "primer-scroll",
+      art: 'poetry-shijing:ch294',
       artPrompt: "古诗《桓》意境插画：绥万邦，屡丰年。天命匪解，桓桓武王。保有厥士，于以四方，克定厥家。于昭于天，皇以间之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3843,7 +3843,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "赉 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch295',
       artPrompt: "古诗《赉》意境插画：文王既勤止，我应受之。敷时绎思，我徂维求定。时周之命，于绎思。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3856,7 +3856,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "般 · 佚名",
-      art: "river-boat",
+      art: 'poetry-shijing:ch296',
       artPrompt: "古诗《般》意境插画：于皇时周！陟其高山，嶞山乔岳，允犹翕河。敷天之下，裒时之对。时周之命。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3869,7 +3869,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "𬳶 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch297',
       artPrompt: "古诗《𬳶》意境插画：𬳶𬳶牡马，在坰之野。薄言𬳶者，有驈有皇，有骊有黄，以车彭彭。思无疆思，马斯臧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3882,7 +3882,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "有駜 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch298',
       artPrompt: "古诗《有駜》意境插画：有駜有駜，駜彼乘黄。夙夜在公，在公明明。振振鹭，鹭于下。鼓咽咽，醉言舞。于胥乐兮！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3895,7 +3895,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "泮水 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch299',
       artPrompt: "古诗《泮水》意境插画：思乐泮水，薄采其芹。鲁侯戾止，言观其旗。其旗茷茷，鸾声哕哕。无小无大，从公于迈。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3908,7 +3908,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "閟宫 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch300',
       artPrompt: "古诗《閟宫》意境插画：閟宫有侐，实实枚枚。赫赫姜嫄，其德不回。上帝是依，无灾无害。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3921,7 +3921,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "那 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch301',
       artPrompt: "古诗《那》意境插画：猗与那与！置我鞉鼓。奏鼓简简，衎我烈祖。汤孙奏假，绥我思成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3934,7 +3934,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "烈祖 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch302',
       artPrompt: "古诗《烈祖》意境插画：嗟嗟烈祖！有秩斯祜。申锡无疆，及尔斯所。既载清酤，赉我思成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3947,7 +3947,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "玄鸟 · 佚名",
-      art: "spring-bird",
+      art: 'poetry-shijing:ch303',
       artPrompt: "古诗《玄鸟》意境插画：天命玄鸟，降而生商，宅殷土芒芒。古帝命武汤，正域彼四方。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3960,7 +3960,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "长发 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch304',
       artPrompt: "古诗《长发》意境插画：浚哲维商，长发其祥。洪水芒芒，禹敷下土方。外大国是疆，幅陨既长。有娀方将，帝立子生商。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3973,7 +3973,7 @@ export const shiJing: PackBook = {
     },
     {
       title: "殷武 · 佚名",
-      art: "poetry-moon",
+      art: 'poetry-shijing:ch305',
       artPrompt: "古诗《殷武》意境插画：挞彼殷武，奋伐荆楚。深入其阻，裒荆之旅。有截其所，汤孙之绪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

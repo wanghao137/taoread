@@ -21,7 +21,7 @@ export const libai: PackBook = {
   chapters: [
     {
       title: "早发白帝城 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch1',
       artPrompt: "古诗《早发白帝城》意境插画：朝辞白帝彩云间，千里江陵一日还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const libai: PackBook = {
     },
     {
       title: "望天门山 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch2',
       artPrompt: "古诗《望天门山》意境插画：天门中断楚江开，碧水东流至北回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const libai: PackBook = {
     },
     {
       title: "赠汪伦 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch3',
       artPrompt: "古诗《赠汪伦》意境插画：李白乘舟将欲行，忽闻岸上踏歌声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const libai: PackBook = {
     },
     {
       title: "黄鹤楼送孟浩然之广陵 · 李白",
-      art: "goose-pond",
+      art: 'libai-moon:ch4',
       artPrompt: "古诗《黄鹤楼送孟浩然之广陵》意境插画：故人西辞黄鹤楼，烟花三月下扬州。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const libai: PackBook = {
     },
     {
       title: "独坐敬亭山 · 李白",
-      art: "spring-bird",
+      art: 'libai-moon:ch5',
       artPrompt: "古诗《独坐敬亭山》意境插画：众鸟高飞尽，孤云独去闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const libai: PackBook = {
     },
     {
       title: "古朗月行 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch6',
       artPrompt: "古诗《古朗月行》意境插画：小时不识月，呼作白玉盘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const libai: PackBook = {
     },
     {
       title: "客中行 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch7',
       artPrompt: "古诗《客中行》意境插画：兰陵美酒郁金香，玉椀盛来琥珀光。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const libai: PackBook = {
     },
     {
       title: "山中问荅 · 李白",
-      art: "sunrise-hills",
+      art: 'libai-moon:ch8',
       artPrompt: "古诗《山中问荅》意境插画：问余何意栖碧山，笑而不荅心自闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const libai: PackBook = {
     },
     {
       title: "劳劳亭 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch9',
       artPrompt: "古诗《劳劳亭》意境插画：天下伤心处，劳劳送客亭。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const libai: PackBook = {
     },
     {
       title: "怨情 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch10',
       artPrompt: "古诗《怨情》意境插画：新人如花虽可宠，故人似玉由来重。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const libai: PackBook = {
     },
     {
       title: "相和歌辞 玉阶怨 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch11',
       artPrompt: "古诗《相和歌辞 玉阶怨》意境插画：玉阶生白露，夜久侵罗袜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const libai: PackBook = {
     },
     {
       title: "送友人 · 李白",
-      art: "sunrise-hills",
+      art: 'libai-moon:ch12',
       artPrompt: "古诗《送友人》意境插画：青山横北郭，白水绕东城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const libai: PackBook = {
     },
     {
       title: "渡荆门送别 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch13',
       artPrompt: "古诗《渡荆门送别》意境插画：渡远荆门外，来从楚国游。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const libai: PackBook = {
     },
     {
       title: "横吹曲辞 关山月 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch14',
       artPrompt: "古诗《横吹曲辞 关山月》意境插画：明月出天山，苍茫云海间。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const libai: PackBook = {
     },
     {
       title: "峨眉山月歌 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch15',
       artPrompt: "古诗《峨眉山月歌》意境插画：峨眉山月半轮秋，影入平羌江水流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const libai: PackBook = {
     },
     {
       title: "春夜洛城闻笛 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch16',
       artPrompt: "古诗《春夜洛城闻笛》意境插画：谁家玉笛暗飞声，散入春风满洛城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const libai: PackBook = {
     },
     {
       title: "闻王昌龄左迁龙标遥有此寄 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch17',
       artPrompt: "古诗《闻王昌龄左迁龙标遥有此寄》意境插画：杨花落尽子规啼，闻道龙标过五溪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const libai: PackBook = {
     },
     {
       title: "把酒问月 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch18',
       artPrompt: "古诗《把酒问月》意境插画：青天有月来几时，我今停杯一问之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const libai: PackBook = {
     },
     {
       title: "杂曲歌辞 行路难三首 一 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch19',
       artPrompt: "古诗《杂曲歌辞 行路难三首 一》意境插画：金尊清酒斗十千，玉盘珍羞直万钱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const libai: PackBook = {
     },
     {
       title: "鼓吹曲辞 将进酒 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch20',
       artPrompt: "古诗《鼓吹曲辞 将进酒》意境插画：君不见黄河之水天上来，奔流到海不复回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const libai: PackBook = {
     },
     {
       title: "相和歌辞 蜀道难 · 李白",
-      art: "rice-field",
+      art: 'libai-moon:ch21',
       artPrompt: "古诗《相和歌辞 蜀道难》意境插画：噫吁嚱！危乎高哉！蜀道之难难于上青天！蚕丛及鱼凫，开国何茫然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const libai: PackBook = {
     },
     {
       title: "梦游天姥吟留别 · 李白",
-      art: "river-boat",
+      art: 'libai-moon:ch22',
       artPrompt: "古诗《梦游天姥吟留别》意境插画：海客谈瀛洲，烟涛微茫信难求。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const libai: PackBook = {
     },
     {
       title: "赠孟浩然 · 李白",
-      art: "cloud-flight",
+      art: 'libai-moon:ch23',
       artPrompt: "古诗《赠孟浩然》意境插画：吾爱孟夫子，风流天下闻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const libai: PackBook = {
     },
     {
       title: "沙丘城下寄杜甫 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch24',
       artPrompt: "古诗《沙丘城下寄杜甫》意境插画：我来竟何事，高卧沙丘城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const libai: PackBook = {
     },
     {
       title: "杂曲歌辞 清平调 一 · 李白",
-      art: "spring-bird",
+      art: 'libai-moon:ch25',
       artPrompt: "古诗《杂曲歌辞 清平调 一》意境插画：云想衣裳花想容，春风拂槛露华浓。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const libai: PackBook = {
     },
     {
       title: "相和歌辞 长门怨二首 一 · 李白",
-      art: "tower-view",
+      art: 'libai-moon:ch26',
       artPrompt: "古诗《相和歌辞 长门怨二首 一》意境插画：天回北斗挂西楼，金屋无人萤火流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const libai: PackBook = {
     },
     {
       title: "金陵酒肆留别 · 李白",
-      art: "forest-path",
+      art: 'libai-moon:ch27',
       artPrompt: "古诗《金陵酒肆留别》意境插画：风吹柳花满店香，吴姬压酒唤客尝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -372,7 +372,7 @@ export const libai: PackBook = {
     },
     {
       title: "夜泊牛渚怀古 · 李白",
-      art: "poetry-moon",
+      art: 'libai-moon:ch28',
       artPrompt: "古诗《夜泊牛渚怀古》意境插画：牛渚西江夜，青天无片云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

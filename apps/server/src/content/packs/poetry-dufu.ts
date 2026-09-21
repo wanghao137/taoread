@@ -21,7 +21,7 @@ export const duFu: PackBook = {
   chapters: [
     {
       title: "绝句 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch1',
       artPrompt: "古诗《绝句》意境插画：江边踏青罢，回首见旌旗。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const duFu: PackBook = {
     },
     {
       title: "春夜喜雨 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch2',
       artPrompt: "古诗《春夜喜雨》意境插画：好雨知时节，当春乃发生。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const duFu: PackBook = {
     },
     {
       title: "赠花卿 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch3',
       artPrompt: "古诗《赠花卿》意境插画：锦城丝管日纷纷，半入江风半入云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const duFu: PackBook = {
     },
     {
       title: "江南逢李龟年 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch4',
       artPrompt: "古诗《江南逢李龟年》意境插画：歧王宅里寻常见，崔九堂前几度闻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const duFu: PackBook = {
     },
     {
       title: "八阵图 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch5',
       artPrompt: "古诗《八阵图》意境插画：功盖三分国，名高八阵图。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const duFu: PackBook = {
     },
     {
       title: "春望 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch6',
       artPrompt: "古诗《春望》意境插画：国破山河在，城春草木深。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const duFu: PackBook = {
     },
     {
       title: "月夜 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch7',
       artPrompt: "古诗《月夜》意境插画：今夜鄜州月，闺中只独看。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const duFu: PackBook = {
     },
     {
       title: "望岳 · 杜甫",
-      art: "sunrise-hills",
+      art: 'dufu-spring:ch8',
       artPrompt: "古诗《望岳》意境插画：岱宗夫如何，齐鲁青未了。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const duFu: PackBook = {
     },
     {
       title: "房兵曹胡马诗 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch9',
       artPrompt: "古诗《房兵曹胡马诗》意境插画：胡马大宛名，锋棱瘦骨成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const duFu: PackBook = {
     },
     {
       title: "横吹曲辞 前出塞九首 一 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch10',
       artPrompt: "古诗《横吹曲辞 前出塞九首 一》意境插画：戚戚去故里，悠悠赴交河。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const duFu: PackBook = {
     },
     {
       title: "旅夜书怀 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch11',
       artPrompt: "古诗《旅夜书怀》意境插画：细草微风岸，危樯独夜舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const duFu: PackBook = {
     },
     {
       title: "登高 · 杜甫",
-      art: "spring-bird",
+      art: 'dufu-spring:ch12',
       artPrompt: "古诗《登高》意境插画：风急天高猨啸哀，渚清沙白鸟飞回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const duFu: PackBook = {
     },
     {
       title: "登岳阳楼 · 杜甫",
-      art: "waterfall-cave",
+      art: 'dufu-spring:ch13',
       artPrompt: "古诗《登岳阳楼》意境插画：昔闻洞庭水，今上岳阳楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const duFu: PackBook = {
     },
     {
       title: "闻官军收河南河北 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch14',
       artPrompt: "古诗《闻官军收河南河北》意境插画：劒外忽传收蓟北，初闻涕泪满衣裳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const duFu: PackBook = {
     },
     {
       title: "石壕吏 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch15',
       artPrompt: "古诗《石壕吏》意境插画：暮投石壕邨，有吏夜捉人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const duFu: PackBook = {
     },
     {
       title: "月夜忆舍弟 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch16',
       artPrompt: "古诗《月夜忆舍弟》意境插画：戍鼓断人行，秋边一雁声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -229,7 +229,7 @@ export const duFu: PackBook = {
     },
     {
       title: "客至 · 杜甫",
-      art: "spring-bird",
+      art: 'dufu-spring:ch17',
       artPrompt: "古诗《客至》意境插画：舍南舍北皆春水，但见群鸥日日来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -242,7 +242,7 @@ export const duFu: PackBook = {
     },
     {
       title: "江村 · 杜甫",
-      art: "river-boat",
+      art: 'dufu-spring:ch18',
       artPrompt: "古诗《江村》意境插画：清江一曲抱村流，长夏江村事事幽。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -255,7 +255,7 @@ export const duFu: PackBook = {
     },
     {
       title: "春宿左省 · 杜甫",
-      art: "spring-bird",
+      art: 'dufu-spring:ch19',
       artPrompt: "古诗《春宿左省》意境插画：花隐掖垣暮，啾啾栖鸟过。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -268,7 +268,7 @@ export const duFu: PackBook = {
     },
     {
       title: "野望 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch20',
       artPrompt: "古诗《野望》意境插画：清秋望不极，迢遰起曾阴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -281,7 +281,7 @@ export const duFu: PackBook = {
     },
     {
       title: "佳人 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch21',
       artPrompt: "古诗《佳人》意境插画：绝代有佳人，幽居在空谷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -294,7 +294,7 @@ export const duFu: PackBook = {
     },
     {
       title: "天末忆李白 · 杜甫",
-      art: "cloud-flight",
+      art: 'dufu-spring:ch22',
       artPrompt: "古诗《天末忆李白》意境插画：凉风起天末，君子意如何。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -307,7 +307,7 @@ export const duFu: PackBook = {
     },
     {
       title: "别房太尉墓 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch23',
       artPrompt: "古诗《别房太尉墓》意境插画：他乡复行役，驻马别孤坟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -320,7 +320,7 @@ export const duFu: PackBook = {
     },
     {
       title: "新安吏 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch24',
       artPrompt: "古诗《新安吏》意境插画：客行新安道，喧呼闻点兵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -333,7 +333,7 @@ export const duFu: PackBook = {
     },
     {
       title: "潼关吏 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch25',
       artPrompt: "古诗《潼关吏》意境插画：士卒何草草，筑城潼关道。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -346,7 +346,7 @@ export const duFu: PackBook = {
     },
     {
       title: "垂老别 · 杜甫",
-      art: "poetry-moon",
+      art: 'dufu-spring:ch26',
       artPrompt: "古诗《垂老别》意境插画：四郊未宁静，垂老不得安。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -359,7 +359,7 @@ export const duFu: PackBook = {
     },
     {
       title: "无家别 · 杜甫",
-      art: "primer-scroll",
+      art: 'dufu-spring:ch27',
       artPrompt: "古诗《无家别》意境插画：寂寞天宝后，园庐但蒿藜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

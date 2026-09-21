@@ -837,16 +837,17 @@ export function ReaderScreen(props: ReaderProps) {
         className="flex-1 overflow-y-auto px-6 pb-56 pt-6"
         style={{ scrollPaddingTop: 80 }}
       >
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-2xl lg:grid lg:max-w-6xl lg:grid-cols-[minmax(300px,2fr)_minmax(0,3fr)] lg:items-start lg:gap-12">
           {/*
             翻页动效（docs/15）：key 随 order 变化即触发重挂载，正文按翻页方向滑入。
             不用 AnimatePresence exit——章节加载会先走全屏 loading，exit 动画会被打断；
             只播进场，足够给出方向暗示又不增加等待。
           */}
           <motion.div key={order} {...pageMotion}>
-          {/* 章节题图（docs/13 P0-D：优先 AI 插画，回退 SVG 场景；P0-E：可生成 5 秒动画） */}
+          {/* 章节题图（docs/13 P0-D：优先 AI 插画，回退 SVG 场景；P0-E：可生成 5 秒动画）
+              桌面端（lg）图文并置：题图 sticky 左栏，正文右栏（UI 复盘建议） */}
           {chapter?.art ? (
-            <div className="mb-6">
+            <div className="mb-6 lg:sticky lg:top-24 lg:mb-0 lg:self-center">
               <SceneVideo
                 scene={chapter.art}
                 description={videoDescription}
@@ -866,6 +867,7 @@ export function ReaderScreen(props: ReaderProps) {
               </SceneVideo>
             </div>
           ) : null}
+          <div className="min-w-0 lg:col-start-2">
           <h2
             className="mb-6 text-center text-2xl font-bold"
             style={{ color: theme_.text, fontFamily: props.lang === 'zh' ? 'serif' : 'inherit' }}
@@ -1021,7 +1023,8 @@ export function ReaderScreen(props: ReaderProps) {
           })}
 
           {/* 章节导航 */}
-          <nav className="my-10 flex items-center justify-between gap-3">
+          </div>
+          <nav className="my-10 flex items-center justify-between gap-3 lg:col-span-2 lg:mx-auto lg:w-2/3">
             <button
               type="button"
               onClick={goPrev}

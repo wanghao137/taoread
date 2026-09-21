@@ -21,7 +21,7 @@ export const tangShi: PackBook = {
   chapters: [
     {
       title: "静夜思 · 李白",
-      art: "tangshi-moon-window",
+      art: 'tangshi-300:ch1',
       artPrompt: "安静的深夜，一个古代小诗人坐在木床边，月光把窗纸照得亮亮的，地上像铺了一层白霜，他抬头望着窗外的大圆月亮",
       blocks: [
       {
@@ -39,7 +39,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春晓 · 孟浩然",
-      art: "spring-bird",
+      art: 'tangshi-300:ch2',
       artPrompt: "春天的清晨，一个孩子从被窝里探出头，窗外桃花开了满树，两只小鸟站在枝头叽叽喳喳，地上落了一层花瓣",
       blocks: [
       {
@@ -52,7 +52,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登鹳雀楼 · 王之涣",
-      art: "tower-view",
+      art: 'tangshi-300:ch3',
       artPrompt: "高高的鹳雀楼上，一个孩子扶着栏杆远眺，一轮红日正落向群山，黄河水闪闪发亮地流向远方的大海",
       blocks: [
       {
@@ -65,7 +65,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "行宫 · 元稹",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch4',
       artPrompt: "古诗《行宫》意境插画：寥落古行宫，宫花寂寞红。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -78,7 +78,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "新嫁娘词 · 王建",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch5',
       artPrompt: "古诗《新嫁娘词》意境插画：三日入厨下，洗手作羹汤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -91,7 +91,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "相思 · 王维",
-      art: "spring-bird",
+      art: 'tangshi-300:ch6',
       artPrompt: "古诗《相思》意境插画：红豆生南国，春来发几枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -104,7 +104,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "杂诗 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch7',
       artPrompt: "古诗《杂诗》意境插画：君自故乡来，应知故乡事。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -117,7 +117,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "鹿柴 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch8',
       artPrompt: "古诗《鹿柴》意境插画：空山不见人，但闻人语响。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -130,7 +130,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "竹里馆 · 王维",
-      art: "forest-path",
+      art: 'tangshi-300:ch9',
       artPrompt: "古诗《竹里馆》意境插画：独坐幽篁里，弹琴复长啸。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -143,7 +143,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "山中送别 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch10',
       artPrompt: "古诗《山中送别》意境插画：山中相送罢，日暮掩柴扉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -156,7 +156,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "问刘十九 · 白居易",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch11',
       artPrompt: "古诗《问刘十九》意境插画：绿蚁新醅酒，红泥小火炉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -169,7 +169,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "哥舒歌 · 西鄙人",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch12',
       artPrompt: "古诗《哥舒歌》意境插画：北斗七星高，哥舒夜带刀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -182,7 +182,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "怨情 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch13',
       artPrompt: "古诗《怨情》意境插画：美人卷珠帘，深坐颦蛾眉。(颦 一作：蹙)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -195,7 +195,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登乐游原 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch14',
       artPrompt: "古诗《登乐游原》意境插画：向晚意不适，驱车登古原。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -208,7 +208,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "听筝 · 李端",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch15',
       artPrompt: "古诗《听筝》意境插画：鸣筝金粟柱，素手玉房前。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -221,7 +221,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "渡汉江 · 宋之问",
-      art: "river-boat",
+      art: 'tangshi-300:ch16',
       artPrompt: "古诗《渡汉江》意境插画：岭外音书断，经冬复历春。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -234,7 +234,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "八阵图 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch17',
       artPrompt: "古诗《八阵图》意境插画：功盖三分国，名成八阵图。（名成 一作：名高）——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -247,7 +247,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宿建德江 · 孟浩然",
-      art: "river-boat",
+      art: 'tangshi-300:ch18',
       artPrompt: "古诗《宿建德江》意境插画：移舟泊烟渚，日暮客愁新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -260,7 +260,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春怨 · 金昌绪",
-      art: "spring-bird",
+      art: 'tangshi-300:ch19',
       artPrompt: "古诗《春怨》意境插画：打起黄莺儿，莫教枝上啼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -273,7 +273,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "江雪 · 柳宗元",
-      art: "river-boat",
+      art: 'tangshi-300:ch20',
       artPrompt: "古诗《江雪》意境插画：千山鸟飞绝，万径人踪灭。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -286,7 +286,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋夜寄邱员外 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch21',
       artPrompt: "古诗《秋夜寄邱员外》意境插画：怀君属秋夜，散步咏凉天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -299,7 +299,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "终南望余雪 · 祖咏",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch22',
       artPrompt: "古诗《终南望余雪》意境插画：终南阴岭秀，积雪浮云端。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -312,7 +312,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宫词 · 张祜",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch23',
       artPrompt: "古诗《宫词》意境插画：故国三千里，深宫二十年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -325,7 +325,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寻隐者不遇 · 贾岛",
-      art: "forest-path",
+      art: 'tangshi-300:ch24',
       artPrompt: "古诗《寻隐者不遇》意境插画：松下问童子，言师采药去。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -338,7 +338,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送崔九 · 裴迪",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch25',
       artPrompt: "古诗《送崔九》意境插画：归山深浅去，须尽丘壑美。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -351,7 +351,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送灵澈上人 · 刘长卿",
-      art: "forest-path",
+      art: 'tangshi-300:ch26',
       artPrompt: "古诗《送灵澈上人》意境插画：苍苍竹林寺，杳杳钟声晚。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -364,7 +364,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "听弹琴 · 刘长卿",
-      art: "nursery-window",
+      art: 'tangshi-300:ch27',
       artPrompt: "古诗《听弹琴》意境插画：泠泠七弦上，静听松风寒。(七弦 一作：七丝)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -377,7 +377,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送上人 · 刘长卿",
-      art: "goose-pond",
+      art: 'tangshi-300:ch28',
       artPrompt: "古诗《送上人》意境插画：孤云将野鹤，岂向人间住。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -390,7 +390,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "玉台体 · 权德舆",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch29',
       artPrompt: "古诗《玉台体》意境插画：昨夜裙带解，今朝蟢子飞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -403,7 +403,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "芙蓉楼送辛渐 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch30',
       artPrompt: "古诗《芙蓉楼送辛渐》意境插画：寒雨连江夜入吴，平明送客楚山孤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -416,7 +416,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "闺怨 · 王昌龄",
-      art: "tower-view",
+      art: 'tangshi-300:ch31',
       artPrompt: "古诗《闺怨》意境插画：闺中少妇不知愁，春日凝妆上翠楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -429,7 +429,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春宫曲 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch32',
       artPrompt: "古诗《春宫曲》意境插画：昨夜风开露井桃，未央前殿月轮高。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -442,7 +442,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "九月九日忆山东兄弟 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch33',
       artPrompt: "古诗《九月九日忆山东兄弟》意境插画：独在异乡为异客，每逢佳节倍思亲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -455,7 +455,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "凉州词 · 王翰",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch34',
       artPrompt: "古诗《凉州词》意境插画：葡萄美酒夜光杯，欲饮琵琶马上催。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -468,7 +468,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "后宫词 · 白居易",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch35',
       artPrompt: "古诗《后宫词》意境插画：泪湿罗巾梦不成，夜深前殿按歌声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -481,7 +481,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宫中词 · 朱庆余",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch36',
       artPrompt: "古诗《宫中词》意境插画：寂寂花时闭院门，美人相并立琼轩。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -494,7 +494,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "近试上张水部 · 朱庆余",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch37',
       artPrompt: "古诗《近试上张水部》意境插画：洞房昨夜停红烛，待晓堂前拜舅姑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -507,7 +507,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "逢入京使 · 岑参",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch38',
       artPrompt: "古诗《逢入京使》意境插画：故园东望路漫漫，双袖龙钟泪不干。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -520,7 +520,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "黄鹤楼送孟浩然之广陵 · 李白",
-      art: "goose-pond",
+      art: 'tangshi-300:ch39',
       artPrompt: "古诗《黄鹤楼送孟浩然之广陵》意境插画：故人西辞黄鹤楼，烟花三月下扬州。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -533,7 +533,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "早发白帝城 · 李白",
-      art: "river-boat",
+      art: 'tangshi-300:ch40',
       artPrompt: "古诗《早发白帝城》意境插画：朝辞白帝彩云间，千里江陵一日还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -546,7 +546,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夜上受降城闻笛 · 李益",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch41',
       artPrompt: "古诗《夜上受降城闻笛》意境插画：回乐烽前沙似雪，受降城外月如霜。(回乐——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -559,7 +559,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "贾生 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch42',
       artPrompt: "古诗《贾生》意境插画：宣室求贤访逐臣，贾生才调更无伦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -572,7 +572,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "隋宫 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch43',
       artPrompt: "古诗《隋宫》意境插画：乘兴南游不戒严，九重谁省谏书函。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -585,7 +585,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "瑶池 · 李商隐",
-      art: "forest-path",
+      art: 'tangshi-300:ch44',
       artPrompt: "古诗《瑶池》意境插画：瑶池阿母绮窗开，黄竹歌声动地哀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -598,7 +598,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "嫦娥 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch45',
       artPrompt: "古诗《嫦娥》意境插画：云母屏风烛影深，长河渐落晓星沉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -611,7 +611,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夜雨寄北 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch46',
       artPrompt: "古诗《夜雨寄北》意境插画：君问归期未有期，巴山夜雨涨秋池。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -624,7 +624,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄令狐郎中 · 李商隐",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch47',
       artPrompt: "古诗《寄令狐郎中》意境插画：嵩云秦树久离居，双鲤迢迢一纸书。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -637,7 +637,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "为有 · 李商隐",
-      art: "spring-bird",
+      art: 'tangshi-300:ch48',
       artPrompt: "古诗《为有》意境插画：为有云屏无限娇，凤城寒尽怕春宵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -650,7 +650,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "江南逢李龟年 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch49',
       artPrompt: "古诗《江南逢李龟年》意境插画：岐王宅里寻常见，崔九堂前几度闻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -663,7 +663,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠别·其一 · 杜牧",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch50',
       artPrompt: "古诗《赠别·其一》意境插画：娉娉袅袅十三余，豆蔻梢头二月初。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -676,7 +676,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠别·其二 · 杜牧",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch51',
       artPrompt: "古诗《赠别·其二》意境插画：多情却似总无情，唯觉樽前笑不成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -689,7 +689,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "金谷园 · 杜牧",
-      art: "spring-bird",
+      art: 'tangshi-300:ch52',
       artPrompt: "古诗《金谷园》意境插画：繁华事散逐香尘，流水无情草自春。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -702,7 +702,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄扬州韩绰判官 · 杜牧",
-      art: "river-boat",
+      art: 'tangshi-300:ch53',
       artPrompt: "古诗《寄扬州韩绰判官》意境插画：青山隐隐水迢迢，秋尽江南草未凋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -715,7 +715,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "遣怀 · 杜牧",
-      art: "river-boat",
+      art: 'tangshi-300:ch54',
       artPrompt: "古诗《遣怀》意境插画：落魄江南载酒行，楚腰纤细掌中轻。(江南 一作：江湖；纤细 一作：肠断)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -728,7 +728,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋夕 · 杜牧",
-      art: "lamp-hint",
+      art: 'tangshi-300:ch55',
       artPrompt: "古诗《秋夕》意境插画：银烛秋光冷画屏，轻罗小扇扑流萤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -741,7 +741,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "将赴吴兴登乐游原一绝 · 杜牧",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch56',
       artPrompt: "古诗《将赴吴兴登乐游原一绝》意境插画：清时有味是无能，闲爱孤云静爱僧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -754,7 +754,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赤壁 · 杜牧",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch57',
       artPrompt: "古诗《赤壁》意境插画：折戟沉沙铁未销，自将磨洗认前朝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -767,7 +767,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "泊秦淮 · 杜牧",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch58',
       artPrompt: "古诗《泊秦淮》意境插画：烟笼寒水月笼沙，夜泊秦淮近酒家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -780,7 +780,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "征人怨 · 柳中庸",
-      art: "river-boat",
+      art: 'tangshi-300:ch59',
       artPrompt: "古诗《征人怨》意境插画：岁岁金河复玉关，朝朝马策与刀环。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -793,7 +793,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "金陵图 · 韦庄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch60',
       artPrompt: "古诗《金陵图》意境插画：谁谓伤心画不成，画人心逐世人情。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -806,7 +806,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "滁州西涧 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch61',
       artPrompt: "古诗《滁州西涧》意境插画：独怜幽草涧边生，上有黄鹂深树鸣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -819,7 +819,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "桃花溪 · 张旭",
-      art: "river-boat",
+      art: 'tangshi-300:ch62',
       artPrompt: "古诗《桃花溪》意境插画：隐隐飞桥隔野烟，石矶西畔问渔船。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -832,7 +832,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄人 · 张泌",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch63',
       artPrompt: "古诗《寄人》意境插画：别梦依依到谢家，小廊回合曲阑斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -845,7 +845,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "题金陵渡 · 张祜",
-      art: "tower-view",
+      art: 'tangshi-300:ch64',
       artPrompt: "古诗《题金陵渡》意境插画：金陵津渡小山楼，一宿行人自可愁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -858,7 +858,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠内人 · 张祜",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch65',
       artPrompt: "古诗《赠内人》意境插画：禁门宫树月痕过，媚眼惟看宿鹭窠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -871,7 +871,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "集灵台·其一 · 张祜",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch66',
       artPrompt: "古诗《集灵台·其一》意境插画：日光斜照集灵台，红树花迎晓露开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -884,7 +884,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "集灵台·其二 · 张祜",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch67',
       artPrompt: "古诗《集灵台·其二》意境插画：虢国夫人承主恩，平明骑马入宫门。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -897,7 +897,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "枫桥夜泊 · 张继",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch68',
       artPrompt: "古诗《枫桥夜泊》意境插画：月落乌啼霜满天，江枫渔火对愁眠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -910,7 +910,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "陇西行 · 陈陶",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch69',
       artPrompt: "古诗《陇西行》意境插画：誓扫匈奴不顾身，五千貂锦丧胡尘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -923,7 +923,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "杂诗 · 佚名",
-      art: "nursery-window",
+      art: 'tangshi-300:ch70',
       artPrompt: "古诗《杂诗》意境插画：近寒食雨草萋萋，著麦苗风柳映堤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -936,7 +936,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "回乡偶书·其一 · 贺知章",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch71',
       artPrompt: "古诗《回乡偶书·其一》意境插画：少小离家老大回，乡音无改鬓毛衰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -949,7 +949,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "瑶瑟怨 · 温庭筠",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch72',
       artPrompt: "古诗《瑶瑟怨》意境插画：冰簟银床梦不成，碧天如水夜云轻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -962,7 +962,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "月夜 · 刘方平",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch73',
       artPrompt: "古诗《月夜》意境插画：更深月色半人家，北斗阑干南斗斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -975,7 +975,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春怨 · 刘方平",
-      art: "spring-bird",
+      art: 'tangshi-300:ch74',
       artPrompt: "古诗《春怨》意境插画：纱窗日落渐黄昏，金屋无人见泪痕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -988,7 +988,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "乌衣巷 · 刘禹锡",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch75',
       artPrompt: "古诗《乌衣巷》意境插画：朱雀桥边野草花，乌衣巷口夕阳斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1001,7 +1001,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春词 · 刘禹锡",
-      art: "tower-view",
+      art: 'tangshi-300:ch76',
       artPrompt: "古诗《春词》意境插画：新妆宜面下朱楼，深锁春光一院愁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1014,7 +1014,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "马嵬坡 · 郑畋",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch77',
       artPrompt: "古诗《马嵬坡》意境插画：玄宗回马杨妃死，云雨虽亡日月新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1027,7 +1027,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寒食 · 韩翃",
-      art: "spring-bird",
+      art: 'tangshi-300:ch78',
       artPrompt: "古诗《寒食》意境插画：春城无处不飞花，寒食东风御柳斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1040,7 +1040,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "已凉 · 韩偓",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch79',
       artPrompt: "古诗《已凉》意境插画：碧阑干外绣帘垂，猩血屏风画折枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1053,7 +1053,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宫词 · 顾况",
-      art: "tower-view",
+      art: 'tangshi-300:ch80',
       artPrompt: "古诗《宫词》意境插画：长乐宫连上苑春，玉楼金殿艳歌新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1066,7 +1066,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送杜少府之任蜀州 · 王勃",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch81',
       artPrompt: "古诗《送杜少府之任蜀州》意境插画：城阙辅三秦，风烟望五津。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1079,7 +1079,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送梓州李使君 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch82',
       artPrompt: "古诗《送梓州李使君》意境插画：万壑树参天，千山响杜鹃。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1092,7 +1092,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "汉江临眺 · 王维",
-      art: "river-boat",
+      art: 'tangshi-300:ch83',
       artPrompt: "古诗《汉江临眺》意境插画：楚塞三湘接，荆门九派通。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1105,7 +1105,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "终南别业 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch84',
       artPrompt: "古诗《终南别业》意境插画：中岁颇好道，晚家南山陲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1118,7 +1118,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "终南山 · 王维",
-      art: "river-boat",
+      art: 'tangshi-300:ch85',
       artPrompt: "古诗《终南山》意境插画：太乙近天都，连山接海隅。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1131,7 +1131,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "酬张少府 · 王维",
-      art: "forest-path",
+      art: 'tangshi-300:ch86',
       artPrompt: "古诗《酬张少府》意境插画：晚年唯好静，万事不关心。自顾无长策，空知返旧林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1144,7 +1144,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "过香积寺 · 王维",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch87',
       artPrompt: "古诗《过香积寺》意境插画：不知香积寺，数里入云峰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1157,7 +1157,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "辋川闲居赠裴秀才迪 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch88',
       artPrompt: "古诗《辋川闲居赠裴秀才迪》意境插画：寒山转苍翠，秋水日潺湲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1170,7 +1170,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "山居秋暝 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch89',
       artPrompt: "古诗《山居秋暝》意境插画：空山新雨后，天气晚来秋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1183,7 +1183,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "归嵩山作 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch90',
       artPrompt: "古诗《归嵩山作》意境插画：清川带长薄，车马去闲闲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1196,7 +1196,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "次北固山下 · 王湾",
-      art: "river-boat",
+      art: 'tangshi-300:ch91',
       artPrompt: "古诗《次北固山下》意境插画：客路青山外，行舟绿水前。(青山外 一作：青山下)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1209,7 +1209,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "云阳馆与韩绅宿别 · 司空曙",
-      art: "river-boat",
+      art: 'tangshi-300:ch92',
       artPrompt: "古诗《云阳馆与韩绅宿别》意境插画：故人江海别，几度隔山川。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1222,7 +1222,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "喜外弟卢纶见宿 · 司空曙",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch93',
       artPrompt: "古诗《喜外弟卢纶见宿》意境插画：静夜四无邻，荒居旧业贫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1235,7 +1235,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "贼平后送人北归 · 司空曙",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch94',
       artPrompt: "古诗《贼平后送人北归》意境插画：世乱同南去，时清独北还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1248,7 +1248,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赋得古原草送别 · 白居易",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch95',
       artPrompt: "古诗《赋得古原草送别》意境插画：离离原上草，一岁一枯荣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1261,7 +1261,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "题大庾岭北驿 · 宋之问",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch96',
       artPrompt: "古诗《题大庾岭北驿》意境插画：阳月南飞雁，传闻至此回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1274,7 +1274,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄左省杜拾遗 · 岑参",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch97',
       artPrompt: "古诗《寄左省杜拾遗》意境插画：联步趋丹陛，分曹限紫微。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1287,7 +1287,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "听蜀僧浚弹琴 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch98',
       artPrompt: "古诗《听蜀僧浚弹琴》意境插画：蜀僧抱绿绮，西下峨眉峰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1300,7 +1300,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夜泊牛渚怀古 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch99',
       artPrompt: "古诗《夜泊牛渚怀古》意境插画：牛渚西江夜，青天无片云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1313,7 +1313,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠孟浩然 · 李白",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch100',
       artPrompt: "古诗《赠孟浩然》意境插画：吾爱孟夫子，风流天下闻。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1326,7 +1326,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "渡荆门送别 · 李白",
-      art: "river-boat",
+      art: 'tangshi-300:ch101',
       artPrompt: "古诗《渡荆门送别》意境插画：渡远荆门外，来从楚国游。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1339,7 +1339,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送友人 · 李白",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch102',
       artPrompt: "古诗《送友人》意境插画：青山横北郭，白水绕东城。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1352,7 +1352,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "喜见外弟又言别 · 李益",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch103',
       artPrompt: "古诗《喜见外弟又言别》意境插画：十年离乱后，长大一相逢。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1365,7 +1365,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "凉思 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch104',
       artPrompt: "古诗《凉思》意境插画：客去波平槛，蝉休露满枝。永怀当此节，倚立自移时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1378,7 +1378,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "北青萝 · 李商隐",
-      art: "nursery-window",
+      art: 'tangshi-300:ch105',
       artPrompt: "古诗《北青萝》意境插画：残阳西入崦，茅屋访孤僧。落叶人何在，寒云路几层。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1391,7 +1391,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "蝉 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch106',
       artPrompt: "古诗《蝉》意境插画：本以高难饱，徒劳恨费声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1404,7 +1404,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "风雨 · 李商隐",
-      art: "river-boat",
+      art: 'tangshi-300:ch107',
       artPrompt: "古诗《风雨》意境插画：凄凉宝剑篇，羁泊欲穷年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1417,7 +1417,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "落花 · 李商隐",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch108',
       artPrompt: "古诗《落花》意境插画：高阁客竟去，小园花乱飞。参差连曲陌，迢递送斜晖。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1430,7 +1430,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登岳阳楼 · 杜甫",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch109',
       artPrompt: "古诗《登岳阳楼》意境插画：昔闻洞庭水，今上岳阳楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1443,7 +1443,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "奉济驿重送严公四韵 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch110',
       artPrompt: "古诗《奉济驿重送严公四韵》意境插画：远送从此别，青山空复情。几时杯重把，昨夜月同行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1456,7 +1456,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "别房太尉墓 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch111',
       artPrompt: "古诗《别房太尉墓》意境插画：他乡复行役，驻马别孤坟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1469,7 +1469,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "旅夜书怀 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch112',
       artPrompt: "古诗《旅夜书怀》意境插画：细草微风岸，危樯独夜舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1482,7 +1482,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "至德二载甫自京金光门 · 杜甫",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch113',
       artPrompt: "古诗《至德二载甫自京金光门》意境插画：此道昔归顺，西郊胡正繁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1495,7 +1495,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "月夜忆舍弟 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch114',
       artPrompt: "古诗《月夜忆舍弟》意境插画：戍鼓断人行，边秋一雁声。(边秋 一作:秋边)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1508,7 +1508,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "天末怀李白 · 杜甫",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch115',
       artPrompt: "古诗《天末怀李白》意境插画：凉风起天末，君子意如何。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1521,7 +1521,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "月夜 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch116',
       artPrompt: "古诗《月夜》意境插画：今夜鄜州月，闺中只独看。遥怜小儿女，未解忆长安。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1534,7 +1534,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春望 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch117',
       artPrompt: "古诗《春望》意境插画：国破山河在，城春草木深。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1547,7 +1547,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春宿左省 · 杜甫",
-      art: "spring-bird",
+      art: 'tangshi-300:ch118',
       artPrompt: "古诗《春宿左省》意境插画：花隐掖垣暮，啾啾栖鸟过。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1560,7 +1560,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "旅宿 · 杜牧",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch119',
       artPrompt: "古诗《旅宿》意境插画：旅馆无良伴，凝情自悄然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1573,7 +1573,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春宫怨 · 杜荀鹤",
-      art: "spring-bird",
+      art: 'tangshi-300:ch120',
       artPrompt: "古诗《春宫怨》意境插画：早被婵娟误，欲妆临镜慵。承恩不在貌，教妾若为容。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1586,7 +1586,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "和晋陵陆丞早春游望 · 杜审言",
-      art: "spring-bird",
+      art: 'tangshi-300:ch121',
       artPrompt: "古诗《和晋陵陆丞早春游望》意境插画：独有宦游人，偏惊物候新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1599,7 +1599,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "杂诗三首·其三 · 沈佺期",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch122',
       artPrompt: "古诗《杂诗三首·其三》意境插画：闻道黄龙戍，频年不解兵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1612,7 +1612,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宿桐庐江寄广陵旧游 · 孟浩然",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch123',
       artPrompt: "古诗《宿桐庐江寄广陵旧游》意境插画：山暝闻猿愁，沧江急夜流。(闻 一作：听)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1625,7 +1625,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "留别王维 · 孟浩然",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch124',
       artPrompt: "古诗《留别王维》意境插画：寂寂竟何待，朝朝空自归。欲寻芳草去，惜与故人违。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1638,7 +1638,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "早寒有怀 · 孟浩然",
-      art: "river-boat",
+      art: 'tangshi-300:ch125',
       artPrompt: "古诗《早寒有怀》意境插画：木落雁南度，北风江上寒。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1651,7 +1651,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "岁暮归南山 · 孟浩然",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch126',
       artPrompt: "古诗《岁暮归南山》意境插画：北阙休上书，南山归敝庐。不才明主弃，多病故人疏。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1664,7 +1664,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "过故人庄 · 孟浩然",
-      art: "rice-field",
+      art: 'tangshi-300:ch127',
       artPrompt: "古诗《过故人庄》意境插画：故人具鸡黍，邀我至田家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1677,7 +1677,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秦中寄远上人 · 孟浩然",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch128',
       artPrompt: "古诗《秦中寄远上人》意境插画：一丘常欲卧，三径苦无资。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1690,7 +1690,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "望洞庭湖赠张丞相 · 孟浩然",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch129',
       artPrompt: "古诗《望洞庭湖赠张丞相》意境插画：八月湖水平，涵虚混太清。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1703,7 +1703,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "与诸子登岘山 · 孟浩然",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch130',
       artPrompt: "古诗《与诸子登岘山》意境插画：人事有代谢，往来成古今。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1716,7 +1716,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宴梅道士山房 · 孟浩然",
-      art: "spring-bird",
+      art: 'tangshi-300:ch131',
       artPrompt: "古诗《宴梅道士山房》意境插画：林卧愁春尽，开轩览物华。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1729,7 +1729,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "章台夜思 · 韦庄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch132',
       artPrompt: "古诗《章台夜思》意境插画：清瑟怨遥夜，绕弦风雨哀。孤灯闻楚角，残月下章台。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1742,7 +1742,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "淮上喜会梁州故人 · 韦应物",
-      art: "river-boat",
+      art: 'tangshi-300:ch133',
       artPrompt: "古诗《淮上喜会梁州故人》意境插画：江汉曾为客，相逢每醉还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1755,7 +1755,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赋得暮雨送李曹 · 韦应物",
-      art: "river-boat",
+      art: 'tangshi-300:ch134',
       artPrompt: "古诗《赋得暮雨送李曹》意境插画：楚江微雨里，建业暮钟时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1768,7 +1768,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "经邹鲁祭孔子而叹之 · 李隆基",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch135',
       artPrompt: "古诗《经邹鲁祭孔子而叹之》意境插画：夫子何为者，栖栖一代中。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1781,7 +1781,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "灞上秋居 · 马戴",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch136',
       artPrompt: "古诗《灞上秋居》意境插画：灞原风雨定，晚见雁行频。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1794,7 +1794,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "楚江怀古三首·其一 · 马戴",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch137',
       artPrompt: "古诗《楚江怀古三首·其一》意境插画：露气寒光集，微阳下楚丘。猿啼洞庭树，人在木兰舟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1807,7 +1807,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "除夜有怀 · 崔涂",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch138',
       artPrompt: "古诗《除夜有怀》意境插画：迢递三巴路，羁危万里身。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1820,7 +1820,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "孤雁 · 崔涂",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch139',
       artPrompt: "古诗《孤雁》意境插画：几行归塞尽，念尔独何之。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1833,7 +1833,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "题破山寺后禅院 · 常建",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch140',
       artPrompt: "古诗《题破山寺后禅院》意境插画：清晨入古寺，初日照高林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1846,7 +1846,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "望月怀远 · 张九龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch141',
       artPrompt: "古诗《望月怀远》意境插画：海上生明月，天涯共此时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1859,7 +1859,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "书边事 · 张乔",
-      art: "tower-view",
+      art: 'tangshi-300:ch142',
       artPrompt: "古诗《书边事》意境插画：调角断清秋，征人倚戍楼。春风对青冢，白日落梁州。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1872,7 +1872,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "没蕃故人 · 张籍",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch143',
       artPrompt: "古诗《没蕃故人》意境插画：前年伐月支，城下没全师。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1885,7 +1885,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋日赴阙题潼关驿楼 · 许浑",
-      art: "tower-view",
+      art: 'tangshi-300:ch144',
       artPrompt: "古诗《秋日赴阙题潼关驿楼》意境插画：红叶晚萧萧，长亭酒一瓢。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1898,7 +1898,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "早秋 · 许浑",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch145',
       artPrompt: "古诗《早秋》意境插画：遥夜泛清瑟，西风生翠萝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1911,7 +1911,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送人东游 · 温庭筠",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch146',
       artPrompt: "古诗《送人东游》意境插画：荒戍落黄叶，浩然离故关。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1924,7 +1924,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寻陆鸿渐不遇 · 皎然",
-      art: "rice-field",
+      art: 'tangshi-300:ch147',
       artPrompt: "古诗《寻陆鸿渐不遇》意境插画：移家虽带郭，野径入桑麻。近种篱边菊，秋来未著花。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1937,7 +1937,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寻南溪常道士 · 刘长卿",
-      art: "river-boat",
+      art: 'tangshi-300:ch148',
       artPrompt: "古诗《寻南溪常道士》意境插画：一路经行处，莓苔见履痕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1950,7 +1950,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "新年作 · 刘长卿",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch149',
       artPrompt: "古诗《新年作》意境插画：乡心新岁切，天畔独潸然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1963,7 +1963,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋日登吴公台上寺远眺 · 刘长卿",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch150',
       artPrompt: "古诗《秋日登吴公台上寺远眺》意境插画：古台摇落后，秋日望乡心。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1976,7 +1976,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送李中丞归汉阳别业 · 刘长卿",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch151',
       artPrompt: "古诗《送李中丞归汉阳别业》意境插画：流落征南将，曾驱十万师。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -1989,7 +1989,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "饯别王十一南游 · 刘长卿",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch152',
       artPrompt: "古诗《饯别王十一南游》意境插画：望君烟水阔，挥手泪沾巾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2002,7 +2002,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "蜀先主庙 · 刘禹锡",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch153',
       artPrompt: "古诗《蜀先主庙》意境插画：天地英雄气，千秋尚凛然。势分三足鼎，业复五铢钱。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2015,7 +2015,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "阙题 · 刘昚虚",
-      art: "river-boat",
+      art: 'tangshi-300:ch154',
       artPrompt: "古诗《阙题》意境插画：道由白云尽，春与青溪长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2028,7 +2028,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送李端 · 卢纶",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch155',
       artPrompt: "古诗《送李端》意境插画：故关衰草遍，离别自堪悲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2041,7 +2041,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送僧归日本 · 钱起",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch156',
       artPrompt: "古诗《送僧归日本》意境插画：上国随缘住，来途若梦行。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2054,7 +2054,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "谷口书斋寄杨补阙 · 钱起",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch157',
       artPrompt: "古诗《谷口书斋寄杨补阙》意境插画：泉壑带茅茨，云霞生薜帷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2067,7 +2067,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "在狱咏蝉 · 骆宾王",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch158',
       artPrompt: "古诗《在狱咏蝉》意境插画：西陆蝉声唱，南冠客思深。(客思深 一作：客思侵)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2080,7 +2080,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "江乡故人偶集客舍 · 戴叔伦",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch159',
       artPrompt: "古诗《江乡故人偶集客舍》意境插画：天秋月又满，城阙夜千重。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2093,7 +2093,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "酬程延秋夜即事见赠 · 韩翃",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch160',
       artPrompt: "古诗《酬程延秋夜即事见赠》意境插画：长簟迎风早，空城澹月华。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2106,7 +2106,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "遣悲怀三首·其一 · 元稹",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch161',
       artPrompt: "古诗《遣悲怀三首·其一》意境插画：谢公最小偏怜女，自嫁黔娄百事乖。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2119,7 +2119,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "遣悲怀三首·其二 · 元稹",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch162',
       artPrompt: "古诗《遣悲怀三首·其二》意境插画：昔日戏言身后事，今朝都到眼前来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2132,7 +2132,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "遣悲怀三首·其三 · 元稹",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch163',
       artPrompt: "古诗《遣悲怀三首·其三》意境插画：闲坐悲君亦自悲，百年都是几多时。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2145,7 +2145,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠郭给事 · 王维",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch164',
       artPrompt: "古诗《赠郭给事》意境插画：洞门高阁霭余辉，桃李阴阴柳絮飞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2158,7 +2158,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "和贾至舍人早朝大明宫 · 王维",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch165',
       artPrompt: "古诗《和贾至舍人早朝大明宫》意境插画：绛帻鸡人送晓筹，尚衣方进翠云裘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2171,7 +2171,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "奉和圣制从蓬莱向兴庆阁道 · 王维",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch166',
       artPrompt: "古诗《奉和圣制从蓬莱向兴庆阁道》意境插画：渭水自萦秦塞曲，黄山旧绕汉宫斜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2184,7 +2184,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "积雨辋川庄作 · 王维",
-      art: "forest-path",
+      art: 'tangshi-300:ch167',
       artPrompt: "古诗《积雨辋川庄作》意境插画：积雨空林烟火迟，蒸藜炊黍饷东菑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2197,7 +2197,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "望月有感 · 白居易",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch168',
       artPrompt: "古诗《望月有感》意境插画：时难年荒世业空，弟兄羁旅各西东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2210,7 +2210,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "奉和中书舍人贾至早朝 · 岑参",
-      art: "spring-bird",
+      art: 'tangshi-300:ch169',
       artPrompt: "古诗《奉和中书舍人贾至早朝》意境插画：鸡鸣紫陌曙光寒，莺啭皇州春色阑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2223,7 +2223,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登金陵凤凰台 · 李白",
-      art: "river-boat",
+      art: 'tangshi-300:ch170',
       artPrompt: "古诗《登金陵凤凰台》意境插画：凤凰台上凤凰游，凤去台空江自流。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2236,7 +2236,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·重帏深下莫愁堂 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch171',
       artPrompt: "古诗《无题·重帏深下莫愁堂》意境插画：重帏深下莫愁堂，卧后清宵细细长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2249,7 +2249,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·凤尾香罗薄几重 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch172',
       artPrompt: "古诗《无题·凤尾香罗薄几重》意境插画：凤尾香罗薄几重，碧文圆顶夜深缝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2262,7 +2262,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·相见时难别亦难 · 李商隐",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch173',
       artPrompt: "古诗《无题·相见时难别亦难》意境插画：相见时难别亦难，东风无力百花残。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2275,7 +2275,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·来是空言去绝踪 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch174',
       artPrompt: "古诗《无题·来是空言去绝踪》意境插画：来是空言去绝踪，月斜楼上五更钟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2288,7 +2288,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·飒飒东风细雨来 · 李商隐",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch175',
       artPrompt: "古诗《无题·飒飒东风细雨来》意境插画：飒飒东风细雨来，芙蓉塘外有轻雷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2301,7 +2301,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "无题·昨夜星辰昨夜风 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch176',
       artPrompt: "古诗《无题·昨夜星辰昨夜风》意境插画：昨夜星辰昨夜风，画楼西畔桂堂东。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2314,7 +2314,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春雨 · 李商隐",
-      art: "spring-bird",
+      art: 'tangshi-300:ch177',
       artPrompt: "古诗《春雨》意境插画：怅卧新春白夹衣，白门寥落意多违。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2327,7 +2327,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "筹笔驿 · 李商隐",
-      art: "spring-bird",
+      art: 'tangshi-300:ch178',
       artPrompt: "古诗《筹笔驿》意境插画：猿鸟犹疑畏简书，风云常为护储胥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2340,7 +2340,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "锦瑟 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch179',
       artPrompt: "古诗《锦瑟》意境插画：锦瑟无端五十弦，一弦一柱思华年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2353,7 +2353,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "隋宫 · 李商隐",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch180',
       artPrompt: "古诗《隋宫》意境插画：紫泉宫殿锁烟霞，欲取芜城作帝家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2366,7 +2366,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送魏万之京 · 李颀",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch181',
       artPrompt: "古诗《送魏万之京》意境插画：朝闻游子唱离歌，昨夜微霜初渡河。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2379,7 +2379,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "咏怀古迹·其一 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch182',
       artPrompt: "古诗《咏怀古迹·其一》意境插画：支离东北风尘际，漂泊西南天地间。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2392,7 +2392,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "咏怀古迹·其二 · 杜甫",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch183',
       artPrompt: "古诗《咏怀古迹·其二》意境插画：摇落深知宋玉悲，风流儒雅亦吾师。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2405,7 +2405,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "咏怀古迹·其三 · 杜甫",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch184',
       artPrompt: "古诗《咏怀古迹·其三》意境插画：群山万壑赴荆门，生长明妃尚有村。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2418,7 +2418,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "咏怀古迹·其四 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch185',
       artPrompt: "古诗《咏怀古迹·其四》意境插画：蜀主窥吴幸三峡，崩年亦在永安宫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2431,7 +2431,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "咏怀古迹·其五 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch186',
       artPrompt: "古诗《咏怀古迹·其五》意境插画：诸葛大名垂宇宙，宗臣遗像肃清高。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2444,7 +2444,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宿府 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch187',
       artPrompt: "古诗《宿府》意境插画：清秋幕府井梧寒，独宿江城蜡炬残。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2457,7 +2457,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "阁夜 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch188',
       artPrompt: "古诗《阁夜》意境插画：岁暮阴阳催短景，天涯霜雪霁寒宵。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2470,7 +2470,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "闻官军收河南河北 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch189',
       artPrompt: "古诗《闻官军收河南河北》意境插画：剑外忽传收蓟北，初闻涕泪满衣裳。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2483,7 +2483,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登高 · 杜甫",
-      art: "spring-bird",
+      art: 'tangshi-300:ch190',
       artPrompt: "古诗《登高》意境插画：风急天高猿啸哀，渚清沙白鸟飞回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2496,7 +2496,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登楼 · 杜甫",
-      art: "tower-view",
+      art: 'tangshi-300:ch191',
       artPrompt: "古诗《登楼》意境插画：花近高楼伤客心，万方多难此登临。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2509,7 +2509,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "蜀相 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch192',
       artPrompt: "古诗《蜀相》意境插画：丞相祠堂何处寻，锦官城外柏森森。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2522,7 +2522,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "客至 · 杜甫",
-      art: "spring-bird",
+      art: 'tangshi-300:ch193',
       artPrompt: "古诗《客至》意境插画：舍南舍北皆春水，但见群鸥日日来。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2535,7 +2535,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "野望 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch194',
       artPrompt: "古诗《野望》意境插画：西山白雪三城戍，南浦清江万里桥。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2548,7 +2548,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登柳州城楼寄漳汀封连四州 · 柳宗元",
-      art: "tower-view",
+      art: 'tangshi-300:ch195',
       artPrompt: "古诗《登柳州城楼寄漳汀封连四州》意境插画：城上高楼接大荒，海天愁思正茫茫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2561,7 +2561,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春思 · 皇甫冉",
-      art: "spring-bird",
+      art: 'tangshi-300:ch196',
       artPrompt: "古诗《春思》意境插画：莺啼燕语报新年，马邑龙堆路几千。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2574,7 +2574,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄李儋元锡 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch197',
       artPrompt: "古诗《寄李儋元锡》意境插画：去年花里逢君别，今日花开又一年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2587,7 +2587,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "望蓟门 · 祖咏",
-      art: "spring-bird",
+      art: 'tangshi-300:ch198',
       artPrompt: "古诗《望蓟门》意境插画：燕台一望客心惊，笳鼓喧喧汉将营。(笳鼓 一作：箫鼓)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2600,7 +2600,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "贫女 · 秦韬玉",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch199',
       artPrompt: "古诗《贫女》意境插画：蓬门未识绮罗香，拟托良媒益自伤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2613,7 +2613,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送李少府贬峡中王少府贬 · 高适",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch200',
       artPrompt: "古诗《送李少府贬峡中王少府贬》意境插画：嗟君此别意何如，驻马衔杯问谪居。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2626,7 +2626,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "九日登望仙台呈刘明府 · 崔曙",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch201',
       artPrompt: "古诗《九日登望仙台呈刘明府》意境插画：汉文皇帝有高台，此日登临曙色开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2639,7 +2639,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登黄鹤楼 · 崔颢",
-      art: "goose-pond",
+      art: 'tangshi-300:ch202',
       artPrompt: "古诗《登黄鹤楼》意境插画：昔人已乘黄鹤去，此地空余黄鹤楼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2652,7 +2652,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "行经华阴 · 崔颢",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch203',
       artPrompt: "古诗《行经华阴》意境插画：岧峣太华俯咸京，天外三峰削不成。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2665,7 +2665,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "利州南渡 · 温庭筠",
-      art: "river-boat",
+      art: 'tangshi-300:ch204',
       artPrompt: "古诗《利州南渡》意境插画：澹然空水对斜晖，曲岛苍茫接翠微。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2678,7 +2678,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "苏武庙 · 温庭筠",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch205',
       artPrompt: "古诗《苏武庙》意境插画：苏武魂销汉使前，古祠高树两茫然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2691,7 +2691,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "江州重别薛六柳 · 刘长卿",
-      art: "river-boat",
+      art: 'tangshi-300:ch206',
       artPrompt: "古诗《江州重别薛六柳》意境插画：生涯岂料承优诏，世事空知学醉歌。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2704,7 +2704,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长沙过贾谊宅 · 刘长卿",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch207',
       artPrompt: "古诗《长沙过贾谊宅》意境插画：三年谪宦此栖迟，万古惟留楚客悲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2717,7 +2717,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "自夏口至鹦鹉洲夕望岳阳 · 刘长卿",
-      art: "tower-view",
+      art: 'tangshi-300:ch208',
       artPrompt: "古诗《自夏口至鹦鹉洲夕望岳阳》意境插画：汀洲无浪复无烟，楚客相思益渺然。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2730,7 +2730,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "西塞山怀古 · 刘禹锡",
-      art: "tower-view",
+      art: 'tangshi-300:ch209',
       artPrompt: "古诗《西塞山怀古》意境插画：王濬楼船下益州，金陵王气黯然收。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2743,7 +2743,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "晚次鄂州 · 卢纶",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch210',
       artPrompt: "古诗《晚次鄂州》意境插画：云开远见汉阳城，犹是孤帆一日程。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2756,7 +2756,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠阙下裴舍人 · 钱起",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch211',
       artPrompt: "古诗《赠阙下裴舍人》意境插画：二月黄莺飞上林，春城紫禁晓阴阴。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2769,7 +2769,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宫词 · 薛逢",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch212',
       artPrompt: "古诗《宫词》意境插画：十二楼中尽晓妆，望仙楼上望君王。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2782,7 +2782,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "同题仙游观 · 韩翃",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch213',
       artPrompt: "古诗《同题仙游观》意境插画：仙台初见五城楼，风物凄凄宿雨收。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2795,7 +2795,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "贼退示官吏 · 元结",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch214',
       artPrompt: "古诗《贼退示官吏》意境插画：昔岁逢太平，山林二十年。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2808,7 +2808,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "同从弟销南斋玩月忆山阴 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch215',
       artPrompt: "古诗《同从弟销南斋玩月忆山阴》意境插画：高卧南斋时，开帷月初吐。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2821,7 +2821,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "渭川田家 · 王维",
-      art: "rice-field",
+      art: 'tangshi-300:ch216',
       artPrompt: "古诗《渭川田家》意境插画：斜阳照墟落，穷巷牛羊归。(斜阳 一作：斜光)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2834,7 +2834,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "西施咏 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch217',
       artPrompt: "古诗《西施咏》意境插画：艳色天下重，西施宁久微。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2847,7 +2847,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送别 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch218',
       artPrompt: "古诗《送别》意境插画：下马饮君酒，问君何所之？——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2860,7 +2860,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送綦毋潜落第还乡 · 王维",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch219',
       artPrompt: "古诗《送綦毋潜落第还乡》意境插画：圣代无隐者，英灵尽来归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2873,7 +2873,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "青溪 · 王维",
-      art: "river-boat",
+      art: 'tangshi-300:ch220',
       artPrompt: "古诗《青溪》意境插画：言入黄花川，每逐清溪水。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2886,7 +2886,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "与高适薛据同登慈恩寺 · 岑参",
-      art: "tower-view",
+      art: 'tangshi-300:ch221',
       artPrompt: "古诗《与高适薛据同登慈恩寺》意境插画：塔势如涌出，孤高耸天宫。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2899,7 +2899,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "下终南山过斛斯山人宿置酒 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch222',
       artPrompt: "古诗《下终南山过斛斯山人宿置酒》意境插画：暮从碧山下，山月随人归。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2912,7 +2912,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "月下独酌四首·其一 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch223',
       artPrompt: "古诗《月下独酌四首·其一》意境插画：花间一壶酒，独酌无相亲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2925,7 +2925,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春思 · 李白",
-      art: "spring-bird",
+      art: 'tangshi-300:ch224',
       artPrompt: "古诗《春思》意境插画：燕草如碧丝，秦桑低绿枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2938,7 +2938,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "梦李白·其一 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch225',
       artPrompt: "古诗《梦李白·其一》意境插画：死别已吞声，生别常恻恻。江南瘴疠地，逐客无消息。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2951,7 +2951,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "梦李白·其二 · 杜甫",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch226',
       artPrompt: "古诗《梦李白·其二》意境插画：浮云终日行，游子久不至。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2964,7 +2964,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "望岳 · 杜甫",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch227',
       artPrompt: "古诗《望岳》意境插画：岱宗夫如何？齐鲁青未了。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2977,7 +2977,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "赠卫八处士 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch228',
       artPrompt: "古诗《赠卫八处士》意境插画：人生不相见，动如参与商。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -2990,7 +2990,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "佳人 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch229',
       artPrompt: "古诗《佳人》意境插画：绝代有佳人，幽居在空谷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3003,7 +3003,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋登兰山寄张五 · 孟浩然",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch230',
       artPrompt: "古诗《秋登兰山寄张五》意境插画：北山白云里，隐者自怡悦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3016,7 +3016,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夏日南亭怀辛大 · 孟浩然",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch231',
       artPrompt: "古诗《夏日南亭怀辛大》意境插画：山光忽西落，池月渐东上。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3029,7 +3029,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宿业师山房待丁大不至 · 孟浩然",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch232',
       artPrompt: "古诗《宿业师山房待丁大不至》意境插画：夕阳度西岭，群壑倏已暝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3042,7 +3042,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寻西山隐者不遇 · 丘为",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch233',
       artPrompt: "古诗《寻西山隐者不遇》意境插画：绝顶一茅茨，直上三十里。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3055,7 +3055,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "晨诣超师院读禅经 · 柳宗元",
-      art: "nursery-window",
+      art: 'tangshi-300:ch234',
       artPrompt: "古诗《晨诣超师院读禅经》意境插画：汲井漱寒齿，清心拂尘服。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3068,7 +3068,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "溪居 · 柳宗元",
-      art: "river-boat",
+      art: 'tangshi-300:ch235',
       artPrompt: "古诗《溪居》意境插画：久为簪组累，幸此南夷谪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3081,7 +3081,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送杨氏女 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch236',
       artPrompt: "古诗《送杨氏女》意境插画：永日方戚戚，出行复悠悠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3094,7 +3094,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长安遇冯著 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch237',
       artPrompt: "古诗《长安遇冯著》意境插画：客从东方来，衣上灞陵雨。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3107,7 +3107,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夕次盱眙县 · 韦应物",
-      art: "cloud-flight",
+      art: 'tangshi-300:ch238',
       artPrompt: "古诗《夕次盱眙县》意境插画：落帆逗淮镇，停舫临孤驿。浩浩风起波，冥冥日沉夕。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3120,7 +3120,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "东郊 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch239',
       artPrompt: "古诗《东郊》意境插画：吏舍跼终年，出郊旷清曙。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3133,7 +3133,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "郡斋雨中与诸文士燕集 · 韦应物",
-      art: "spring-bird",
+      art: 'tangshi-300:ch240',
       artPrompt: "古诗《郡斋雨中与诸文士燕集》意境插画：兵卫森画戟，宴寝凝清香。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3146,7 +3146,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "初发扬子寄元大校书 · 韦应物",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch241',
       artPrompt: "古诗《初发扬子寄元大校书》意境插画：凄凄去亲爱，泛泛入烟雾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3159,7 +3159,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄全椒山中道士 · 韦应物",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch242',
       artPrompt: "古诗《寄全椒山中道士》意境插画：今朝郡斋冷，忽念山中客。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3172,7 +3172,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宿王昌龄隐居 · 常建",
-      art: "river-boat",
+      art: 'tangshi-300:ch243',
       artPrompt: "古诗《宿王昌龄隐居》意境插画：清溪深不测，隐处唯孤云。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3185,7 +3185,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "感遇·孤鸿海上来 · 张九龄",
-      art: "river-boat",
+      art: 'tangshi-300:ch244',
       artPrompt: "古诗《感遇·孤鸿海上来》意境插画：孤鸿海上来，池潢不敢顾。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3198,7 +3198,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "感遇·兰叶春葳蕤 · 张九龄",
-      art: "spring-bird",
+      art: 'tangshi-300:ch245',
       artPrompt: "古诗《感遇·兰叶春葳蕤》意境插画：兰叶春葳蕤，桂华秋皎洁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3211,7 +3211,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "感遇·幽人归独卧 · 张九龄",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch246',
       artPrompt: "古诗《感遇·幽人归独卧》意境插画：幽人归独卧，滞虑洗孤清。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3224,7 +3224,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "感遇·江南有丹橘 · 张九龄",
-      art: "river-boat",
+      art: 'tangshi-300:ch247',
       artPrompt: "古诗《感遇·江南有丹橘》意境插画：江南有丹橘，经冬犹绿林。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3237,7 +3237,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "春泛若耶溪 · 綦毋潜",
-      art: "river-boat",
+      art: 'tangshi-300:ch248',
       artPrompt: "古诗《春泛若耶溪》意境插画：幽意无断绝，此去随所偶。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3250,7 +3250,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "石鱼湖上醉歌 · 元结",
-      art: "waterfall-cave",
+      art: 'tangshi-300:ch249',
       artPrompt: "古诗《石鱼湖上醉歌》意境插画：石鱼湖，似洞庭，夏水欲满君山青。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3263,7 +3263,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长恨歌 · 白居易",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch250',
       artPrompt: "古诗《长恨歌》意境插画：汉皇重色思倾国，御宇多年求不得。杨家有女初长成，养在深闺人未识。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3276,7 +3276,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "琵琶行 · 白居易",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch251',
       artPrompt: "古诗《琵琶行》意境插画：浔阳江头夜送客，枫叶荻花秋瑟瑟。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3289,7 +3289,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "走马川行奉送封大夫出师 · 岑参",
-      art: "river-boat",
+      art: 'tangshi-300:ch252',
       artPrompt: "古诗《走马川行奉送封大夫出师》意境插画：君不见走马川行雪海边，平沙莽莽黄入天。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3302,7 +3302,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "轮台歌奉送封大夫出师 · 岑参",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch253',
       artPrompt: "古诗《轮台歌奉送封大夫出师》意境插画：轮台城头夜吹角，轮台城北旄头落。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3315,7 +3315,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "白雪歌送武判官归京 · 岑参",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch254',
       artPrompt: "古诗《白雪歌送武判官归京》意境插画：北风卷地白草折，胡天八月即飞雪。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3328,7 +3328,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "宣州谢脁楼饯别校书叔云 · 李白",
-      art: "tower-view",
+      art: 'tangshi-300:ch255',
       artPrompt: "古诗《宣州谢脁楼饯别校书叔云》意境插画：弃我去者，昨日之日不可留；——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3341,7 +3341,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "庐山谣寄卢侍御虚舟 · 李白",
-      art: "waterfall-mountain",
+      art: 'tangshi-300:ch256',
       artPrompt: "古诗《庐山谣寄卢侍御虚舟》意境插画：我本楚狂人，凤歌笑孔丘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3354,7 +3354,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "梦游天姥吟留别 · 李白",
-      art: "river-boat",
+      art: 'tangshi-300:ch257',
       artPrompt: "古诗《梦游天姥吟留别》意境插画：海客谈瀛洲，烟涛微茫信难求；——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3367,7 +3367,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "金陵酒肆留别 · 李白",
-      art: "forest-path",
+      art: 'tangshi-300:ch258',
       artPrompt: "古诗《金陵酒肆留别》意境插画：风吹柳花满店香，吴姬压酒唤客尝。(劝客 一作：唤客)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3380,7 +3380,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "韩碑 · 李商隐",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch259',
       artPrompt: "古诗《韩碑》意境插画：元和天子神武姿，彼何人哉轩与羲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3393,7 +3393,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "听董大弹胡笳声兼寄语 · 李颀",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch260',
       artPrompt: "古诗《听董大弹胡笳声兼寄语》意境插画：蔡女昔造胡笳声，一弹一十有八拍。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3406,7 +3406,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "听安万善吹觱篥歌 · 李颀",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch261',
       artPrompt: "古诗《听安万善吹觱篥歌》意境插画：南山截竹为觱篥，此乐本自龟兹出。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3419,7 +3419,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "古意 · 李颀",
-      art: "spring-bird",
+      art: 'tangshi-300:ch262',
       artPrompt: "古诗《古意》意境插画：男儿事长征，少小幽燕客。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3432,7 +3432,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "送陈章甫 · 李颀",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch263',
       artPrompt: "古诗《送陈章甫》意境插画：四月南风大麦黄，枣花未落桐阴长。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3445,7 +3445,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "琴歌 · 李颀",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch264',
       artPrompt: "古诗《琴歌》意境插画：主人有酒欢今夕，请奏鸣琴广陵客。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3458,7 +3458,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "古柏行 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch265',
       artPrompt: "古诗《古柏行》意境插画：孔明庙前有老柏，柯如青铜根如石。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3471,7 +3471,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "观公孙大娘弟子舞剑器行 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch266',
       artPrompt: "古诗《观公孙大娘弟子舞剑器行》意境插画：昔有佳人公孙氏，一舞剑器动四方。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3484,7 +3484,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "韦讽录事宅观曹将军画马 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch267',
       artPrompt: "古诗《韦讽录事宅观曹将军画马》意境插画：国初已来画鞍马，神妙独数江都王。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3497,7 +3497,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "丹青引赠曹霸将军 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch268',
       artPrompt: "古诗《丹青引赠曹霸将军》意境插画：将军魏武之子孙，于今为庶为清门。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3510,7 +3510,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "寄韩谏议 · 杜甫",
-      art: "tower-view",
+      art: 'tangshi-300:ch269',
       artPrompt: "古诗《寄韩谏议》意境插画：今我不乐思岳阳，身欲奋飞病在床。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3523,7 +3523,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "夜归鹿门山歌 · 孟浩然",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch270',
       artPrompt: "古诗《夜归鹿门山歌》意境插画：山寺钟鸣昼已昏，渔梁渡头争渡喧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3536,7 +3536,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "渔翁 · 柳宗元",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch271',
       artPrompt: "古诗《渔翁》意境插画：渔翁夜傍西岩宿，晓汲清湘燃楚竹。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3549,7 +3549,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "登幽州台歌 · 陈子昂",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch272',
       artPrompt: "古诗《登幽州台歌》意境插画：前不见古人，后不见来者。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3562,7 +3562,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "石鼓歌 · 韩愈",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch273',
       artPrompt: "古诗《石鼓歌》意境插画：张生手持石鼓文，劝我试作石鼓歌。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3575,7 +3575,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "山石 · 韩愈",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch274',
       artPrompt: "古诗《山石》意境插画：山石荦确行径微，黄昏到寺蝙蝠飞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3588,7 +3588,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "八月十五夜赠张功曹 · 韩愈",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch275',
       artPrompt: "古诗《八月十五夜赠张功曹》意境插画：纤云四卷天无河，清风吹空月舒波。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3601,7 +3601,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "谒衡岳庙遂宿岳寺题门楼 · 韩愈",
-      art: "tower-view",
+      art: 'tangshi-300:ch276',
       artPrompt: "古诗《谒衡岳庙遂宿岳寺题门楼》意境插画：五岳祭秩皆三公，四方环镇嵩当中。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3614,7 +3614,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "凉州词 · 王之涣",
-      art: "river-boat",
+      art: 'tangshi-300:ch277',
       artPrompt: "古诗《凉州词》意境插画：黄河远上白云间，一片孤城万仞山。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3627,7 +3627,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "出塞·秦时明月汉时关 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch278',
       artPrompt: "古诗《出塞·秦时明月汉时关》意境插画：秦时明月汉时关，万里长征人未还。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3640,7 +3640,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞上曲·蝉鸣空桑林 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch279',
       artPrompt: "古诗《塞上曲·蝉鸣空桑林》意境插画：蝉鸣空桑林，八月萧关道。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3653,7 +3653,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞下曲·饮马渡秋水 · 王昌龄",
-      art: "river-boat",
+      art: 'tangshi-300:ch280',
       artPrompt: "古诗《塞下曲·饮马渡秋水》意境插画：饮马渡秋水，水寒风似刀。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3666,7 +3666,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长信怨 · 王昌龄",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch281',
       artPrompt: "古诗《长信怨》意境插画：金井梧桐秋叶黄，珠帘不卷夜来霜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3679,7 +3679,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "渭城曲 · 王维",
-      art: "spring-bird",
+      art: 'tangshi-300:ch282',
       artPrompt: "古诗《渭城曲》意境插画：渭城朝雨浥轻尘，客舍青青柳色新。(一作：客舍依依杨柳春)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3692,7 +3692,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "秋夜曲 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch283',
       artPrompt: "古诗《秋夜曲》意境插画：桂魄初生秋露微，轻罗已薄未更衣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3705,7 +3705,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "洛阳女儿行 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch284',
       artPrompt: "古诗《洛阳女儿行》意境插画：洛阳女儿对门居，才可颜容十五余。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3718,7 +3718,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "老将行 · 王维",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch285',
       artPrompt: "古诗《老将行》意境插画：少年十五二十时，步行夺得胡马骑。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3731,7 +3731,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "桃源行 · 王维",
-      art: "river-boat",
+      art: 'tangshi-300:ch286',
       artPrompt: "古诗《桃源行》意境插画：渔舟逐水爱山春，两岸桃花夹古津。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3744,7 +3744,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "清平调·云想衣裳花想容 · 李白",
-      art: "spring-bird",
+      art: 'tangshi-300:ch287',
       artPrompt: "古诗《清平调·云想衣裳花想容》意境插画：云想衣裳花想容，春风拂槛露华浓。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3757,7 +3757,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "清平调·一枝红艳露凝香 · 李白",
-      art: "sunrise-hills",
+      art: 'tangshi-300:ch288',
       artPrompt: "古诗《清平调·一枝红艳露凝香》意境插画：一枝红艳露凝香，云雨巫山枉断肠。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3770,7 +3770,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "清平调·名花倾国两相欢 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch289',
       artPrompt: "古诗《清平调·名花倾国两相欢》意境插画：名花倾国两相欢，常得君王带笑看。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3783,7 +3783,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "行路难·金樽清酒斗十千 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch290',
       artPrompt: "古诗《行路难·金樽清酒斗十千》意境插画：金樽清酒斗十千，玉盘珍羞直万钱。(羞 通：馐；直 通 值)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3796,7 +3796,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "行路难·大道如青天 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch291',
       artPrompt: "古诗《行路难·大道如青天》意境插画：大道如青天，我独不得出。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3809,7 +3809,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "行路难·有耳莫洗颍川水 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch292',
       artPrompt: "古诗《行路难·有耳莫洗颍川水》意境插画：有耳莫洗颍川水，有口莫食首阳蕨。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3822,7 +3822,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "将进酒 · 李白",
-      art: "river-boat",
+      art: 'tangshi-300:ch293',
       artPrompt: "古诗《将进酒》意境插画：君不见，黄河之水天上来，奔流到海不复回。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3835,7 +3835,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "玉阶怨 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch294',
       artPrompt: "古诗《玉阶怨》意境插画：玉阶生白露，夜久侵罗袜。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3848,7 +3848,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长相思·其一 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch295',
       artPrompt: "古诗《长相思·其一》意境插画：长相思，在长安。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3861,7 +3861,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长相思·其二 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch296',
       artPrompt: "古诗《长相思·其二》意境插画：日色欲尽花含烟，月明欲素愁不眠。(欲素 一作：如素)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3874,7 +3874,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长干行·其一 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch297',
       artPrompt: "古诗《长干行·其一》意境插画：妾发初覆额，折花门前剧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3887,7 +3887,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "蜀道难 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch298',
       artPrompt: "古诗《蜀道难》意境插画：噫吁嚱，危乎高哉！——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3900,7 +3900,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "子夜吴歌·春歌 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch299',
       artPrompt: "古诗《子夜吴歌·春歌》意境插画：秦地罗敷女，采桑绿水边。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3913,7 +3913,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "子夜吴歌·夏歌 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch300',
       artPrompt: "古诗《子夜吴歌·夏歌》意境插画：镜湖三百里，菡萏发荷花。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3926,7 +3926,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "子夜吴歌·秋歌 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch301',
       artPrompt: "古诗《子夜吴歌·秋歌》意境插画：长安一片月，万户捣衣声。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3939,7 +3939,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "子夜吴歌·冬歌 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch302',
       artPrompt: "古诗《子夜吴歌·冬歌》意境插画：明朝驿使发，一夜絮征袍。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3952,7 +3952,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "关山月 · 李白",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch303',
       artPrompt: "古诗《关山月》意境插画：明月出天山，苍茫云海间。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3965,7 +3965,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "江南曲 · 李益",
-      art: "river-boat",
+      art: 'tangshi-300:ch304',
       artPrompt: "古诗《江南曲》意境插画：嫁得瞿塘贾，朝朝误妾期。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3978,7 +3978,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "古从军行 · 李颀",
-      art: "river-boat",
+      art: 'tangshi-300:ch305',
       artPrompt: "古诗《古从军行》意境插画：白日登山望烽火，黄昏饮马傍交河。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -3991,7 +3991,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "哀王孙 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch306',
       artPrompt: "古诗《哀王孙》意境插画：长安城头头白乌，夜飞延秋门上呼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4004,7 +4004,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "兵车行 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch307',
       artPrompt: "古诗《兵车行》意境插画：车辚辚，马萧萧，行人弓箭各在腰。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4017,7 +4017,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "丽人行 · 杜甫",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch308',
       artPrompt: "古诗《丽人行》意境插画：三月三日天气新，长安水边多丽人。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4030,7 +4030,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "哀江头 · 杜甫",
-      art: "river-boat",
+      art: 'tangshi-300:ch309',
       artPrompt: "古诗《哀江头》意境插画：少陵野老吞声哭，春日潜行曲江曲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4043,7 +4043,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "金缕衣 · 佚名",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch310',
       artPrompt: "古诗《金缕衣》意境插画：劝君莫惜金缕衣，劝君惜取少年时。(惜取 一作：须取)——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4056,7 +4056,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "独不见 · 沈佺期",
-      art: "river-boat",
+      art: 'tangshi-300:ch311',
       artPrompt: "古诗《独不见》意境插画：卢家少妇郁金堂，海燕双栖玳瑁梁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4069,7 +4069,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "烈女操 · 孟郊",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch312',
       artPrompt: "古诗《烈女操》意境插画：梧桐相待老，鸳鸯会双死。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4082,7 +4082,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "游子吟 · 孟郊",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch313',
       artPrompt: "古诗《游子吟》意境插画：慈母手中线，游子身上衣。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4095,7 +4095,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "燕歌行 · 高适",
-      art: "spring-bird",
+      art: 'tangshi-300:ch314',
       artPrompt: "古诗《燕歌行》意境插画：汉家烟尘在东北，汉将辞家破残贼。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4108,7 +4108,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长干行·君家何处住 · 崔颢",
-      art: "primer-scroll",
+      art: 'tangshi-300:ch315',
       artPrompt: "古诗《长干行·君家何处住》意境插画：君家何处住，妾住在横塘。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4121,7 +4121,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "长干行·家临九江水 · 崔颢",
-      art: "river-boat",
+      art: 'tangshi-300:ch316',
       artPrompt: "古诗《长干行·家临九江水》意境插画：家临九江水，来去九江侧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4134,7 +4134,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞下曲·鹫翎金仆姑 · 卢纶",
-      art: "spring-bird",
+      art: 'tangshi-300:ch317',
       artPrompt: "古诗《塞下曲·鹫翎金仆姑》意境插画：鹫翎金仆姑，燕尾绣蝥弧。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4147,7 +4147,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞下曲·林暗草惊风 · 卢纶",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch318',
       artPrompt: "古诗《塞下曲·林暗草惊风》意境插画：林暗草惊风，将军夜引弓。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4160,7 +4160,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞下曲·月黑雁飞高 · 卢纶",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch319',
       artPrompt: "古诗《塞下曲·月黑雁飞高》意境插画：月黑雁飞高，单于夜遁逃。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -4173,7 +4173,7 @@ export const tangShi: PackBook = {
     },
     {
       title: "塞下曲·野幕敞琼筵 · 卢纶",
-      art: "poetry-moon",
+      art: 'tangshi-300:ch320',
       artPrompt: "古诗《塞下曲·野幕敞琼筵》意境插画：野幕敞琼筵，羌戎贺劳旋。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

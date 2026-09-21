@@ -21,7 +21,7 @@ export const shenglvJiang: PackBook = {
   chapters: [
     {
       title: "一 先 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch1',
       artPrompt: "《声律启蒙》一 先韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "二 萧 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch2',
       artPrompt: "《声律启蒙》二 萧韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "三 肴 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch3',
       artPrompt: "《声律启蒙》三 肴韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "四 豪 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch4',
       artPrompt: "《声律启蒙》四 豪韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "五 歌 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch5',
       artPrompt: "《声律启蒙》五 歌韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "六 麻 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch6',
       artPrompt: "《声律启蒙》六 麻韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "七 阳 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch7',
       artPrompt: "《声律启蒙》七 阳韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "八 庚 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch8',
       artPrompt: "《声律启蒙》八 庚韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "九 青 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch9',
       artPrompt: "《声律启蒙》九 青韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十 蒸 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch10',
       artPrompt: "《声律启蒙》十 蒸韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十一 尤 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch11',
       artPrompt: "《声律启蒙》十一 尤韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十二 侵 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch12',
       artPrompt: "《声律启蒙》十二 侵韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十三 覃 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch13',
       artPrompt: "《声律启蒙》十三 覃韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十四 盐 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch14',
       artPrompt: "《声律启蒙》十四 盐韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const shenglvJiang: PackBook = {
     },
     {
       title: "十五 咸 · 车万育",
-      art: "primer-scroll",
+      art: 'primer-shenglv2:ch15',
       artPrompt: "《声律启蒙》十五 咸韵插画：对联里的山水花鸟，古风贴纸绘本",
       blocks: [
       {

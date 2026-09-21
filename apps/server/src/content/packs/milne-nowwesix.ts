@@ -1,7 +1,7 @@
 import type { PackBook } from '../types'
 
 /**
- * Now We Are Six — nine poems by A. A. Milne (1928 collection of 1927 work),
+ * Now We Are Six — a selection of poems by A. A. Milne (1928 collection of 1927 work),
  * for very young readers.
  * US public domain only (published 1927, pre-1929); Milne died 1956, so the
  * UK/EU term has not expired. Direct quotation is limited to short excerpts of
@@ -120,6 +120,38 @@ export const nowWeAreSix: PackBook = {
         {
           kind: 'note',
           text: 'After "Binker," retold in new words. In the original, Binker is the secret invisible friend a child invents — and grown-ups, knowing exactly what is going on, kindly set an extra spoon. Binker is a secret of the child\'s own, and the family protects it.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 4 · The Three Foxes',
+      art: 'milne-nowwesix:ch4',
+      artPrompt: 'three small russet fox cubs trotting in a line through a moonlit wood with their paws bare, tall ferns and a fat yellow moon behind the trees, fireflies blinking, soft green night, storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Once upon a time there were three little foxes\nWho didn\'t wear stockings, and they didn\'t wear socks.',
+        },
+        {
+          kind: 'note',
+          text: 'From "The Three Foxes" — quoted (30 words or fewer) from the US public domain edition. Three foxes trot off through the wood in Milne\'s galloping nonsense rhyme, and the tall tale runs on ahead of you. Say the two lines fast, three times in a row, and try not to giggle.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 5 · Dinner Again',
+      art: 'milne-nowwesix:ch5',
+      artPrompt: 'a small girl in a pinafore pushing away a bowl of rice pudding at a kitchen table with a doubtful face while her mother looks on puzzled and a little dog eyes the bowl hopefully, warm morning kitchen light, storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'What is the matter with Mary Jane?\nShe\'s perfectly well, and she hasn\'t a pain;\nAnd it\'s lovely rice pudding for dinner again!\nWhat is the matter with Mary Jane?',
+        },
+        {
+          kind: 'note',
+          text: 'From "Rice-Pudding" — quoted (30 words or fewer) from the US public domain edition. Nothing at all is the matter with Mary Jane, and that is exactly the trouble: it is lovely rice pudding for dinner AGAIN. Even the nicest dinner gets tiresome on the third day — just ask around your own table.',
           art: 'lamp-hint',
         },
       ],

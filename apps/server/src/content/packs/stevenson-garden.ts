@@ -158,6 +158,147 @@ export const childsGarden: PackBook = {
         },
       ],
     },
+    {
+      title: 'Chapter 5 · Bed by Day, Dreams by Night',
+      art: 'stevenson-garden:ch5',
+      artPrompt: 'a sleepy child in a nightgown peeking through the window at dusk while little birds still hop on a leafy branch, a candle glowing on the sill, and beyond the glass a dreamland of misty violet hills and silver rivers fading into the night, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'In winter I get up at night\nAnd dress by yellow candle-light.\nIn summer, quite the other way,\nI have to go to bed by day.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Bed in Summer." In winter the child gets up in the dark by candle-light — but in summer it is still bright outside when bedtime comes, and the birds are still hopping. A poem for every child who has peeked out at the sunny evening sky from under the blankets.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'poem',
+          text: 'From breakfast on through all the day\nAt home among my friends I stay,\nBut every night I go abroad\nAfar into the land of Nod.',
+        },
+        {
+          kind: 'note',
+          text: 'From "The Land of Nod." Every night the child travels alone to the land of Nod — that is, to sleep — where the strangest things to eat and see are waiting till morning. Where does your sleep take you at night?',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 6 · Rain and Rivers',
+      art: 'stevenson-garden:ch6',
+      artPrompt: 'a soft grey rain falling on umbrellas and a harbour of little ships, and beside it a small child crouched at a golden sandy river launching a paper boat under green trees, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Rain." One rain falls on everything at once — fields, trees, umbrellas in the street, and ships far out at sea. On the next rainy day, name all the faraway places the very same rain is visiting.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'poem',
+          text: 'Dark brown is the river,\nGolden is the sand.\nIt flows along forever,\nWith trees on either hand.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Where Go the Boats?" A brown river over golden sand carries the child\'s little boats away under the trees, and far downstream other little children will bring them ashore. Float a leaf or a paper boat and watch it sail off on its own long journey.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 7 · Up in the Air',
+      art: 'stevenson-garden:ch7',
+      artPrompt: 'a bright kite pulling high in a windy blue sky with birds tumbling past, and below a happy child perched in the crown of a cherry tree looking out over gardens and a shining river, blossom petals flying, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'I saw you toss the kites on high\nAnd blow the birds about the sky;\nAnd all around I heard you pass,\nLike ladies\' skirts across the grass',
+        },
+        {
+          kind: 'note',
+          text: 'From "The Wind." Nobody ever sees the wind — only the kites it tosses, the birds it blows about, and the long grass it combs over. Wave your arms like branches and say the lines while the wind "goes by."',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'poem',
+          text: 'Up into the cherry tree\nWho should climb but little me?\nI held the trunk with both my hands\nAnd looked abroad on foreign lands.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Foreign Lands." From high in a cherry tree the whole world turns new and foreign: next-door gardens, a shining river like a looking-glass, and roads going to town and to fairyland. Climb somewhere safe and see how far your own foreign lands go.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 8 · A Happy Thought',
+      art: 'stevenson-garden:ch8',
+      artPrompt: 'a proud child sitting on a nursery rug with crossed arms guarding a heap of beloved toys, a wooden horse a ball and tin soldiers, while through the open window a wide sunlit world of fields rivers and ships gleams beyond the garden wall, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'The world is so full of a number of things,\nI\'m sure we should all be as happy as kings.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Happy Thought." The whole poem is just two lines long: the world is so full of things that we should all be as happy as kings. Name three things, right now, that make the world feel full to you.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'poem',
+          text: 'When I am grown to man\'s estate\nI shall be very proud and great,\nAnd tell the other girls and boys\nNot to meddle with my toys.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Looking Forward." The child daydreams of being a proud grown-up who will warn everyone else not to touch his toys. Grown-ups always smile at this one — many of them remember daydreaming exactly the same thing.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 9 · Little Rules',
+      art: 'stevenson-garden:ch9',
+      artPrompt: 'a small child kneeling at a bedside saying prayers by candlelight, an orange sitting on a supper plate beside a tin soldier, cosy nursery shadows and warm candle glow, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Every night my prayers I say,\nAnd get my dinner every day;\nAnd every day that I\'ve been good,\nI get an orange after food.',
+        },
+        {
+          kind: 'note',
+          text: 'From "System." Prayers at night, dinner every day, and an orange after food on good days — the child explains his tidy little system with a perfectly straight face. What would be in your system? An apple after shoes? A song after bath?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'poem',
+          text: 'The child that is not clean and neat,\nWith lots of toys and things to eat,\nHe is a naughty child, I\'m sure—\nOr else his dear papa is poor.',
+        },
+        {
+          kind: 'note',
+          text: 'From "A Good Boy." A naughty child, this rhyme decides, must be naughty — or else his dear papa must be poor. Stevenson is gently poking fun at grown-ups who jump to big conclusions about children they have never met.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
+    {
+      title: 'Chapter 10 · Walk Sedately',
+      art: 'stevenson-garden:ch10',
+      artPrompt: 'a row of small children walking very primly along a garden path with chins up and hands folded like little grown-ups, a giggling sparrow hopping sideways to watch them, hollyhocks by the wall, gentle storybook watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Children, you are very little,\nAnd your bones are very brittle;\nIf you would grow great and stately,\nYou must try to walk sedately.',
+        },
+        {
+          kind: 'note',
+          text: 'From "Good and Bad Children." The poem pretends to scold: little children are very little, bones are very brittle, so walk sedately! Try walking sedately across the room once — and then go back the other way in your bounciest, least sedate walk.',
+          art: 'lamp-hint',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: "A Child's Garden of Verses (twelve poems)",

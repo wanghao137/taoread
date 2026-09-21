@@ -152,6 +152,160 @@ export const gardenVerses: PackBook = {
         },
       ],
     },
+    {
+      title: 'My Shadow · 我的影子',
+      art: 'garden-verses:ch7',
+      artPrompt: 'a child skipping along a sunny garden path with a long faithful shadow copying every move, and the same shadow dancing on the bedroom wall by lamplight, playful golden-hour watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.\n\nThe funniest thing about him is the way he likes to grow—\nNot at all like proper children, which is always very slow;\nFor he sometimes shoots up taller like an india-rubber ball,\nAnd he sometimes gets so little that there\'s none of him at all.\n\nHe hasn\'t got a notion of how children ought to play,\nAnd can only make a fool of me in every sort of way.\nHe stays so close beside me, he\'s a coward, you can see;\nI\'d think shame to stick to nurse as that shadow sticks to me!\n\nOne morning, very early, before the sun was up,\nI rose and found the shining dew on every buttercup;\nBut my lazy little shadow, like an errant sleepy-head,\nHad stayed at home behind me and was fast asleep in bed.',
+          translation: '我有一个小影子，跟我进进出出。他有什么用呢，我可说不出。他从脚后跟到脑袋，都跟我一模一样；我跳上床的时候，他总是先一步跳进被窝。最好笑的是他喜欢乱长：一点也不像乖孩子慢慢长大——他有时像皮球一样猛蹿老高，有时又缩得小小的，一点儿也找不着。他不知道小朋友该怎么玩，只会笨手笨脚地出我的洋相。他紧紧粘着我，胆子小得很——我才不像保姆走到哪儿跟到哪儿那样粘人呢！一天清早，太阳还没出来，我起个大早，看见毛茛花上的露珠亮闪闪——可我那懒影子，像个贪睡的小懒虫，还待在家里，在床上睡得正香。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: shadow — the dark shape that follows you in the light.（影子）New word: india-rubber ball — a bouncy ball made of rubber.（皮球）Why was the shadow still asleep in bed? Before the sun is up, there is no light — and no shadow at all!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch7',
+          text: 'My little shadow copies everything I do. 我的小影子学我做每件事。',
+        },
+      ],
+    },
+    {
+      title: 'The Swing · 秋千',
+      art: 'garden-verses:ch8',
+      artPrompt: 'a child on a rope swing flying high above a garden wall, looking out over rivers, trees and cattle in the wide countryside, wind in the hair, joyful airy watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'How do you like to go up in a swing,\nUp in the air so blue?\nOh, I do think it the pleasantest thing\nEver a child can do!\n\nUp in the air and over the wall,\nTill I can see so wide,\nRivers and trees and cattle and all\nOver the countryside—\n\nTill I look down on the garden green,\nDown on the roof so brown—\nUp in the air I go flying again,\nUp in the air and down!',
+          translation: '坐在秋千上飞上天，飞上蓝蓝的天空——你觉得怎么样？我想呀，这是孩子能做的最开心的事！飞过墙头，看得好远好远：小河、大树、牛群，还有整个乡下。低头看看绿色的花园，看看褐色的屋顶——我又飞起来啦，飞上去，又落下来！',
+        },
+        {
+          kind: 'note',
+          text: 'New word: swing — a seat hanging on ropes that moves back and forth.（秋千）New word: pleasantest — the most pleasant, the nicest.（最愉快的）Read the last line while swinging your arm: up in the air I go flying again — up in the air and DOWN!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch8',
+          text: 'Up in the air I go flying again. 我又飞到天上啦。',
+        },
+      ],
+    },
+    {
+      title: 'The Land of Counterpane · 床单上的国土',
+      art: 'garden-verses:ch9',
+      artPrompt: 'a child tucked in a big bed like a gentle giant on a pillow hill, leaden soldiers marching between the folds of the bed-clothes, little ships sailing across the sheets and tiny cities of blocks, cozy imaginative watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'When I was sick and lay a-bed,\nI had two pillows at my head,\nAnd all my toys beside me lay,\nTo keep me happy all the day.\n\nAnd sometimes for an hour or so\nI watched my leaden soldiers go,\nWith different uniforms and drills,\nAmong the bed-clothes, through the hills;\n\nAnd sometimes sent my ships in fleets\nAll up and down among the sheets;\nOr brought my trees and houses out,\nAnd planted cities all about.\n\nI was the giant great and still\nThat sits upon the pillow-hill,\nAnd sees before him, dale and plain,\nThe pleasant land of counterpane.',
+          translation: '我生病躺在床上的时候，头底下枕着两个枕头，玩具们都躺在我身边，陪我快活一整天。有时我一个钟头接一个钟头，看我的铅兵们行军，穿着不同的军装操练，在被单的群山间穿行。有时我派出一队队小军舰，在被单上开来开去；或者把小树和小房子摆出来，到处建起一座座城市。我就是那个又高大又不动的巨人，坐在枕头山上，看着眼前的山谷和平原——那片快活的床单国土。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: counterpane — a bedspread, the cloth that covers a bed.（床罩）New word: leaden — made of lead, a heavy grey metal.（铅做的）The bed becomes a whole country! What hills and rivers are hiding in YOUR blanket tonight?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch9',
+          text: 'The bed becomes the pleasant land of counterpane. 床变成了快活的床单国土。',
+        },
+      ],
+    },
+    {
+      title: 'Time to Rise · 该起床啦',
+      art: 'garden-verses:ch10',
+      artPrompt: 'a little yellow-beaked bird hopping on a window sill, cocking a shiny eye at a child still curled up in bed, morning sunshine through the curtains, funny gentle watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'A birdie with a yellow bill\nHopped upon the window sill,\nCocked his shining eye and said:\n\'Ain\'t you \'shamed, you sleepy-head!\'',
+          translation: '一只黄嘴巴的小鸟，跳上了窗台，眨着亮晶晶的眼睛说：「你羞不羞呀，小懒虫！」',
+        },
+        {
+          kind: 'note',
+          text: 'New word: sill — the flat ledge at the bottom of a window.（窗台）New word: cocked his eye — turned his eye to look closely.（歪头看）The little bird is the morning alarm clock! What wakes YOU up?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch10',
+          text: 'A birdie scolds the sleepy-head at the window. 小鸟在窗台上数落小懒虫。',
+        },
+      ],
+    },
+    {
+      title: 'At the Sea-Side · 在海边',
+      art: 'garden-verses:ch11',
+      artPrompt: 'a child digging little round holes in the wet sand with a wooden spade, each hole filling up with sea water like little cups, gentle waves and a wide sky, fresh seaside watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'When I was down beside the sea\nA wooden spade they gave to me\nTo dig the sandy shore.\n\nMy holes were empty like a cup,\nIn every hole the sea came up,\nTill it could come no more.',
+          translation: '我到海边去玩，他们给了我一把小木铲，让我在沙滩上挖呀挖。我挖的坑空空的，像一只只小杯子；每个坑里，海水都涌上来，一直涌到再也装不下。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: spade — a tool for digging.（铲子）New word: shore — the land along the edge of the sea.（海岸）Every hole becomes a little cup for the sea to fill. Next time at the beach, dig one and watch!',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch11',
+          text: 'Little cups of sand fill up with the sea. 沙子做的小杯子盛满了海水。',
+        },
+      ],
+    },
+    {
+      title: 'Windy Nights · 起风的夜晚',
+      art: 'garden-verses:ch12',
+      artPrompt: 'a mysterious cloaked rider on a horse galloping down a dark wet lane at night, bare trees bending and shutters rattling, a small child watching from an upstairs window by candlelight, moody gentle watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'Whenever the moon and stars are set,\nWhenever the wind is high,\nAll night long in the dark and wet,\nA man goes riding by.\nLate in the night when the fires are out,\nWhy does he gallop and gallop about?\n\nWhenever the trees are crying aloud,\nAnd ships are tossed at sea,\nBy, on the highway, low and loud,\nBy at the gallop goes he.\nBy at the gallop he goes, and then\nBy at the gallop he goes again.',
+          translation: '每当月亮和星星都躲起来，每当风刮得高高的，整夜整夜，又黑又湿，一个人骑着马跑过。夜深了，灯火都熄了，他为什么还跑呀跑呀不停蹄？每当大树呜呜地哭喊，海上的船摇摇晃晃，大路上就传来低低的、响亮的声音——他骑着马奔驰而过。奔驰而过，接着又是——奔驰而过，他又来了。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: gallop — the fastest way a horse runs.（飞奔）New word: set — (of the sun, moon or stars) gone down for the night.（落下）Listen on a windy night: the hoofbeats are really the wind and the rattling shutters. Who do YOU think the rider is?',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch12',
+          text: 'A mysterious rider gallops by in the windy night. 起风的夜里，神秘的骑士奔驰而过。',
+        },
+      ],
+    },
+    {
+      title: 'The Cow · 奶牛',
+      art: 'garden-verses:ch13',
+      artPrompt: 'a friendly red and white cow munching flowers in a green meadow full of buttercups, wind blowing her ears, a child offering an apple tart from a picnic cloth, sunny pastoral watercolor',
+      blocks: [
+        {
+          kind: 'poem',
+          text: 'The friendly cow, all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.\n\nShe wanders lowing here and there,\nAnd yet she cannot stray,\nAll in the pleasant open air,\nThe pleasant light of day;\n\nAnd blown by all the winds that pass\nAnd wet with all the showers,\nShe walks among the meadow grass\nAnd eats the meadow flowers.',
+          translation: '那头友善的奶牛，红白花相间，我打心底里喜欢她：她使出全身劲儿给我奶油，好让我蘸着苹果馅饼吃。她哞哞叫着四处溜达，却从来不会走丢，在快活的露天里，在快活的日光下；风吹过她，雨点打湿她，她走在草地上，吃着草地上开的花。',
+        },
+        {
+          kind: 'note',
+          text: 'New word: low — (said of a cow) to moo.（哞哞叫）New word: tart — an open pie with fruit in it.（果馅饼）The cream on your apple-tart comes from the cow! Say thank you to a cow today.',
+          art: 'lamp-hint',
+        },
+        {
+          kind: 'image',
+          art: 'garden-verses:ch13',
+          text: 'The friendly red and white cow eats the meadow flowers. 友善的红白花奶牛吃着草地的花。',
+        },
+      ],
+    },
   ],
   rights: {
     workTitle: "A Child's Garden of Verses (six bedtime poems)",

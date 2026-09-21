@@ -21,7 +21,7 @@ export const yuanQu: PackBook = {
   chapters: [
     {
       title: "草桥店梦莺莺(第四本)・折桂令 · 王实甫",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch1',
       artPrompt: "古诗《草桥店梦莺莺(第四本)・折桂令》意境插画：想人生最苦离别，可怜见千里关山，独自跋涉。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・百字折桂令 · 白贲",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch2',
       artPrompt: "古诗《双调・百字折桂令》意境插画：弊裘尘土压征鞍鞭倦袅芦花，弓剑萧萧，一径入烟霞。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "李云英风送梧桐叶・沉醉东风 · 李唐宾",
-      art: "cloud-flight",
+      art: 'poetry-yuanqu:ch3',
       artPrompt: "古诗《李云英风送梧桐叶・沉醉东风》意境插画：为兵戈担惊受恐，折夫妻断梗飘蓬。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・沉醉东风秋日湘阴道中 · 赵善庆",
-      art: "sunrise-hills",
+      art: 'poetry-yuanqu:ch4',
       artPrompt: "古诗《双调・沉醉东风秋日湘阴道中》意境插画：山对面蓝堆翠岫，草齐腰绿染沙洲。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・寿阳曲 · 严忠济",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch5',
       artPrompt: "古诗《双调・寿阳曲》意境插画：三闾些，伍子歌，利名阳几人参破？算来都不如蓝采和，被这几文钱把这小儿瞒过。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・寿阳曲 · 姚燧",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch6',
       artPrompt: "古诗《双调・寿阳曲》意境插画：酒可红双颊，愁能白二毛，对樽前尽可开怀χ。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "诈妮子调风月・殿前欢 · 关汉卿",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch7',
       artPrompt: "古诗《诈妮子调风月・殿前欢》意境插画：俺千户跨龙驹，称得上的敢望七香车。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "庞涓夜走马陵道・殿前欢 · 无名氏",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch8',
       artPrompt: "古诗《庞涓夜走马陵道・殿前欢》意境插画：那唤我的却为谁？(卜商云)先生，你在那里来？(正末唱)在那摘星楼上我便做筵席。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・蟾宫曲怀古 · 查德卿",
-      art: "rice-field",
+      art: 'poetry-yuanqu:ch9',
       artPrompt: "古诗《双调・蟾宫曲怀古》意境插画：问从来谁是英雄？一个农夫，一个渔翁。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "双调・蟾宫曲 · 刘唐卿",
-      art: "sunrise-hills",
+      art: 'poetry-yuanqu:ch10',
       artPrompt: "古诗《双调・蟾宫曲》意境插画：博山铜细袅香风，两行纱笼，烛影摇红。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "正宫・鹦鹉曲 · 白贲",
-      art: "primer-scroll",
+      art: 'poetry-yuanqu:ch11',
       artPrompt: "古诗《正宫・鹦鹉曲》意境插画：侬家鹦鹉洲边住，是个不识字渔父。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "・倚西风目断行云，懒唱大江东去 · 张可久",
-      art: "poetry-moon",
+      art: 'poetry-yuanqu:ch12',
       artPrompt: "古诗《・倚西风目断行云，懒唱大江东去》意境插画：幺相从一月秦邮住，笑我是不耕种村父。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -177,7 +177,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "中吕・阳春曲别情 · 王伯成",
-      art: "river-boat",
+      art: 'poetry-yuanqu:ch13',
       artPrompt: "古诗《中吕・阳春曲别情》意境插画：多情去后香留枕，好梦回时冷透衾，闷愁山重海来深。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -190,7 +190,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "中吕・阳春曲 · 薛昂夫",
-      art: "spring-bird",
+      art: 'poetry-yuanqu:ch14',
       artPrompt: "古诗《中吕・阳春曲》意境插画：坐听西掖钟声动，睡起东窗日影红，山林朝市两无穷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -203,7 +203,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "江州司马青衫泪・喜春来 · 马致远",
-      art: "river-boat",
+      art: 'poetry-yuanqu:ch15',
       artPrompt: "古诗《江州司马青衫泪・喜春来》意境插画：既道是江州亡化白司马，因此上飞入寻常百姓家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -216,7 +216,7 @@ export const yuanQu: PackBook = {
     },
     {
       title: "晋文公火烧介子推・喜春来 · 狄君厚",
-      art: "spring-bird",
+      art: 'poetry-yuanqu:ch16',
       artPrompt: "古诗《晋文公火烧介子推・喜春来》意境插画：你今日修文治国平天下，你如今待演武安邦定杀伐。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {

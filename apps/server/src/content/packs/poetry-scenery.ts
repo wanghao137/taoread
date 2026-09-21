@@ -21,7 +21,7 @@ export const poetryScenery: PackBook = {
   chapters: [
     {
       title: "咏柳 · 贺知章",
-      art: "forest-path",
+      art: 'poetry-scenery:ch1',
       artPrompt: "古诗《咏柳》意境插画：碧玉妆成一树高，万条垂下绿丝绦。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -34,7 +34,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "大林寺桃花 · 白居易",
-      art: "poetry-moon",
+      art: 'poetry-scenery:ch2',
       artPrompt: "古诗《大林寺桃花》意境插画：人间四月芳菲尽，山寺桃花始盛开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -47,7 +47,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "小池 · 杨万里",
-      art: "poetry-moon",
+      art: 'poetry-scenery:ch3',
       artPrompt: "古诗《小池》意境插画：泉眼无声惜细流，树阴照水爱晴柔。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -60,7 +60,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "晓出净慈寺送林子方 · 杨万里",
-      art: "poetry-moon",
+      art: 'poetry-scenery:ch4',
       artPrompt: "古诗《晓出净慈寺送林子方》意境插画：毕竟西湖六月中，风光不与四时同。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -73,7 +73,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "山行 · 杜牧",
-      art: "sunrise-hills",
+      art: 'poetry-scenery:ch5',
       artPrompt: "古诗《山行》意境插画：远上寒山石径斜，白云生处有人家。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -86,7 +86,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "赠刘景文 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-scenery:ch6',
       artPrompt: "古诗《赠刘景文》意境插画：荷尽已无擎雨盖，菊残犹有傲霜枝。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -99,7 +99,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "梅花 · 王安石",
-      art: "nursery-window",
+      art: 'poetry-scenery:ch7',
       artPrompt: "古诗《梅花》意境插画：墙角数枝梅，凌寒独自开。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -112,7 +112,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "别董大 · 高适",
-      art: "nursery-window",
+      art: 'poetry-scenery:ch8',
       artPrompt: "古诗《别董大》意境插画：千里黄云白日曛，北风吹雁雪纷纷。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -125,7 +125,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "春日 · 朱熹",
-      art: "spring-bird",
+      art: 'poetry-scenery:ch9',
       artPrompt: "古诗《春日》意境插画：胜日寻芳泗水滨，无边光景一时新。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -138,7 +138,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "六月二十七日望湖楼醉书 · 苏轼",
-      art: "poetry-moon",
+      art: 'poetry-scenery:ch10',
       artPrompt: "古诗《六月二十七日望湖楼醉书》意境插画：黑云翻墨未遮山，白雨跳珠乱入船。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -151,7 +151,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "秋夕 · 杜牧",
-      art: "lamp-hint",
+      art: 'poetry-scenery:ch11',
       artPrompt: "古诗《秋夕》意境插画：银烛秋光冷画屏，轻罗小扇扑流萤。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
@@ -164,7 +164,7 @@ export const poetryScenery: PackBook = {
     },
     {
       title: "雪梅 · 卢梅坡",
-      art: "spring-bird",
+      art: 'poetry-scenery:ch12',
       artPrompt: "古诗《雪梅》意境插画：梅雪争春未肯降，骚人阁笔费评章。——中国传统水彩绘本风，画面明快温暖，适合儿童",
       blocks: [
       {
