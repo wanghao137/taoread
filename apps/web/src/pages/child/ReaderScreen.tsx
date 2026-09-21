@@ -12,7 +12,7 @@ import { BookCover } from '../../components/art/BookCover'
  * 生成器口径：每行拼音 = 每行汉字逐字注音（标点附着前字、以空格分隔）。
  * 行数不一致或音节缺漏时返回 null，调用方回退为整行拼音段落。
  */
-function alignPoemPinyin(
+export function alignPoemPinyin(
   text: string,
   pinyin: string,
 ): Array<Array<{ ch: string; py: string | null }>> | null {
@@ -35,7 +35,7 @@ function alignPoemPinyin(
 }
 
 /** 逐字 ruby 诗文：拼音跟着单字换行，孩子能把音对回字 */
-function PoemRuby({
+export function PoemRuby({
   text,
   pinyin,
   color,

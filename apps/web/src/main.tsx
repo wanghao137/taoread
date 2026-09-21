@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './index.css'
+import './v8.css'
 
 /** 全局错误边界：任何未捕获渲染异常都不该让孩子看到白屏 */
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
