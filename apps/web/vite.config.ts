@@ -38,7 +38,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': 'http://localhost:8787',
+      // TAO_API_PORT 可覆盖（审计 T01/T02：隔离实例浏览器验收用；默认 8787）
+      '/api': `http://localhost:${process.env.TAO_API_PORT ?? 8787}`,
     },
   },
 })

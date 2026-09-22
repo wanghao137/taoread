@@ -13,7 +13,7 @@ async function login(page) {
   await page.waitForTimeout(1200)
   await page.getByRole('button', { name: '小柚' }).click({ timeout: 10000 })
   await page.waitForTimeout(1200)
-  try { await page.getByRole('button', { name: '跳过' }).click({ timeout: 2500 }) } catch {}
+  try { await page.getByRole('button', { name: '跳过' }).click({ timeout: 2500 }) } catch { /* 可选引导，缺席属正常路径 */ }
   await page.waitForTimeout(600)
 }
 async function settle(page) {
@@ -46,8 +46,8 @@ await pc.waitForTimeout(1800); await settle(pc)
 await pc.screenshot({ path: 'test-results/audit/pc-04-reader.png' })
 // 桃子墙
 await pc.goto('http://localhost:5173', { waitUntil: 'domcontentloaded' }); await pc.waitForTimeout(1800)
-try { await pc.getByRole('button', { name: '小柚' }).click({ timeout: 4000 }); await pc.waitForTimeout(800) } catch {}
-try { await pc.getByRole('button', { name: '跳过' }).click({ timeout: 2000 }) } catch {}
+try { await pc.getByRole('button', { name: '小柚' }).click({ timeout: 4000 }); await pc.waitForTimeout(800) } catch { /* 可能已处于选中态，直接继续 */ }
+try { await pc.getByRole('button', { name: '跳过' }).click({ timeout: 2000 }) } catch { /* 可选引导，缺席属正常路径 */ }
 try {
   await pc.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '桃子' }).click({ timeout: 4000 })
   await pc.waitForTimeout(1200); await settle(pc)

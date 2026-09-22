@@ -53,10 +53,18 @@ describe('媒体静态服务', () => {
     expect(res.headers['cache-control']).toContain('immutable')
   })
 
-  it('未知扩展名降级 octet-stream', async () => {
+  // 审计 T03/F08：扩展名白名单——不在表内的类型一律 404，不给任意文件当下载源
+  it('未知扩展名直接 404（白名单外不服务）', async () => {
     await writeFile(join(MEDIA_DIR, 'art', 'weird.xyz'), Buffer.from('x'))
     const res = await app.inject({ method: 'GET', url: '/api/media/art/weird.xyz' })
-    expect(res.headers['content-type']).toBe('application/octet-stream')
+    expect(res.statusCode).toBe(404)
+  })
+
+  it('Range 分段：视频拖动返回 206 与 Content-Range（F08）', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/media/videos/task_abc.mp4', headers: { range: 'bytes=0-3' } })
+    expect(res.statusCode).toBe(206)
+    expect(res.headers['content-range']).toContain('bytes 0-3/')
+    expect(res.headers['accept-ranges']).toBe('bytes')
   })
 
   it('路径穿越被拦截（../ 逃不出 mediaDir）', async () => {

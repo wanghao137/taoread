@@ -7,11 +7,13 @@
  * 这些文件不入库（只在磁盘），key 是内容哈希，无家庭归属。
  * 不做鉴权：内容是公版书朗读与生成插画，不含家庭私有数据。
  * 长缓存：key 即内容， immutable。
+ * 路径边界（审计 T03/F08）：realpath 解析符号链接后必须仍在媒体根目录内；
+ * 扩展名白名单限制可服务类型；支持 Range（音频/视频拖动进度条）。
  */
 import type { FastifyInstance } from 'fastify'
 import { createReadStream } from 'node:fs'
-import { stat } from 'node:fs/promises'
-import { join, normalize } from 'node:path'
+import { realpath, stat } from 'node:fs/promises'
+import { join, normalize, sep } from 'node:path'
 
 const MIME: Record<string, string> = {
   '.mp3': 'audio/mpeg',
@@ -28,28 +30,67 @@ export interface MediaRoutesDeps {
 }
 
 export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps): void {
+  const rootReal = realpath(deps.mediaDir).catch(() => normalize(deps.mediaDir))
+
   app.get<{ Params: { '*': string } }>(
     '/api/media/*',
     async (request, reply) => {
       const raw = request.params['*']
-      // 防穿越：归一化后必须还在 mediaDir 下
+      // 防穿越第一层：归一化 + 去掉前导 ..
       const safe = normalize(raw).replace(/^(\.\.[/\\])+/, '')
       const abs = join(deps.mediaDir, safe)
-      if (!abs.startsWith(normalize(deps.mediaDir))) {
-        return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
-      }
+      // 防穿越第二层（审计 F08）：realpath 解析符号链接后必须仍在媒体根目录内，
+      // 字符串前缀比较可被符号链接绕过
+      let real: string
       try {
-        const st = await stat(abs)
-        if (!st.isFile()) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
+        real = await realpath(abs)
       } catch {
         return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
       }
-      const ext = abs.slice(abs.lastIndexOf('.')).toLowerCase()
-      const mime = MIME[ext] ?? 'application/octet-stream'
+      const root = await rootReal
+      if (real !== root && !real.startsWith(root + sep)) {
+        return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
+      }
+      const st = await stat(real).catch(() => null)
+      if (!st || !st.isFile()) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
+      const ext = real.slice(real.lastIndexOf('.')).toLowerCase()
+      const mime = MIME[ext]
+      // 扩展名白名单：不在表内的类型一律 404，不给任意文件当下载源
+      if (!mime) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
       reply.header('Content-Type', mime)
       // key 即内容哈希：可以永久缓存
       reply.header('Cache-Control', 'public, max-age=31536000, immutable')
-      return reply.send(createReadStream(abs))
+      reply.header('Accept-Ranges', 'bytes')
+
+      // Range（审计 F08）：音频/视频拖动进度条需要 206 分段
+      const range = request.headers.range
+      if (range) {
+        const m = /^bytes=(\d*)-(\d*)$/.exec(range)
+        if (m && (m[1] || m[2])) {
+          let start: number
+          let end: number
+          if (m[1] === '') {
+            // 后缀范围：bytes=-N 取末 N 字节
+            const suffix = Number(m[2])
+            start = Math.max(0, st.size - suffix)
+            end = st.size - 1
+          } else {
+            start = Number(m[1])
+            end = m[2] === '' ? st.size - 1 : Math.min(Number(m[2]), st.size - 1)
+          }
+          if (Number.isNaN(start) || Number.isNaN(end) || start > end || start >= st.size) {
+            reply.header('Content-Range', `bytes */${st.size}`)
+            return reply.code(416).send()
+          }
+          reply.header('Content-Range', `bytes ${start}-${end}/${st.size}`)
+          reply.header('Content-Length', String(end - start + 1))
+          reply.code(206)
+          return reply.send(createReadStream(real, { start, end }))
+        }
+      }
+
+      reply.header('Content-Length', String(st.size))
+      return reply.send(createReadStream(real))
     },
   )
 }

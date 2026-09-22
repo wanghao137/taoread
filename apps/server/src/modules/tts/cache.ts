@@ -24,9 +24,11 @@ export function cacheKey(
   voiceId: string,
   speed: number,
   format: string,
+  /** 审计 F16/T06：语言入键——中英同文本（如 "OK"）缓存必须隔离 */
+  lang = 'zh',
 ): string {
   return createHash('sha256')
-    .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}`)
+    .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}\u0000${lang}`)
     .digest('hex')
 }
 

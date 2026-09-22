@@ -11,6 +11,8 @@ async function loginAs(page: import('@playwright/test').Page, role: 'parent' | '
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()
   await page.locator('#family-code').fill('123456')
   await page.getByRole('button', { name: role === 'parent' ? '爸爸妈妈' : '小朋友' }).click()
+  // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468），家庭码只授予孩子
+  if (role === 'parent') await page.locator('#parent-code').fill('13572468')
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
 }
 

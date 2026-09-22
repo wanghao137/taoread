@@ -45,6 +45,17 @@ const schema = z
     TTS_BASE: z.string().url().optional(),
     TTS_API_KEY: z.string().optional(),
     TTS_MODEL: z.string().default('stepaudio-3-gen-preview'),
+    // 审计 T03/F06：是否信任反向代理头（X-Forwarded-For 等）。false=直连部署（默认，
+    // 伪造转发头无效）；true=信任一级代理；正整数=信任 N 跳。与 docs/06 部署文档对齐。
+    TAO_TRUST_PROXY: z
+      .string()
+      .default('false')
+      .transform((s) => {
+        if (s === 'true') return true as const
+        if (s === 'false') return false as const
+        if (/^\d+$/.test(s)) return Number.parseInt(s, 10)
+        throw new Error('TAO_TRUST_PROXY 需为 true / false / 跳数（正整数）')
+      }),
   })
   .superRefine((cfg, ctx) => {
     if (cfg.NODE_ENV === 'prod' && cfg.TAO_ALLOWED_ORIGIN === '*') {

@@ -16,7 +16,10 @@ datasource db {
 
 model Family {
   id             String   @id @default(cuid())
-  code           String   @unique // 家庭码：加入家庭的凭据
+  code           String   @unique // 家庭码：孩子设备加入家庭的凭据（不能授予家长身份）
+  /// 家长码（审计 T02/F01）：家长身份的第二凭据，与家庭码分开。
+  /// 仅家长会话可见/可轮换；null=旧家庭尚未生成（首次由家长会话懒生成）。
+  parentCode     String?  @unique
   createdAt      DateTime @default(now())
   /// 家庭级护眼设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s）
   bedtimeMin     Int?
@@ -35,6 +38,20 @@ model Family {
   prompts      ParentPrompt[]
   reports      WeeklyReport[]
   events       EventLog[]
+  sessions     DeviceSession[]
+}
+
+/// 设备会话（审计 T02/F04）：令牌绑定会话 id，可撤销、随家庭注销级联失效。
+model DeviceSession {
+  id        String    @id // 会话 id（令牌 sid，cuid）
+  familyId  String
+  family    Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  role      String // 'parent' | 'child'
+  deviceId  String?
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  @@index([familyId])
 }
 
 model ChildProfile {

@@ -21,6 +21,7 @@
     "fastify": "^4.28.1",
     "opencc-js": "^1.4.2",
     "pinyin-pro": "^3.29.4",
+    "sharp": "^0.35.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -8,6 +8,8 @@ import {
   WereadHttpError,
 } from './lib/errors'
 import { IpRateLimiter, IP_LIMIT_DEFAULTS } from './lib/ipRateLimit'
+import { createSessionGuard } from './lib/sessions'
+import { verifyToken } from './lib/auth'
 import { registerFamilyRoutes } from './modules/family/routes'
 import { getBoundKey, type KeyProbe } from './modules/family/service'
 import { registerWereadRoutes } from './modules/weread/routes'
@@ -58,6 +60,8 @@ export interface BuildAppOptions {
   imageDeps?: ImageGenDeps | null
   /** AI 视频依赖；为空时不展示「让画面动起来」（docs/13 P0-E） */
   videoDeps?: VideoGenDeps | null
+  /** 审计 T03/F06：信任反向代理（X-Forwarded-*）。false=直连（默认）；true/正整数=信任一级/N 跳 */
+  trustProxy?: boolean | number
 }
 
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
@@ -65,6 +69,9 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     logger: options.logger ?? false,
     // 放宽路径参数长度上限到 256（zod 校验限 bookId≤128；默认 100 会让超长参数在路由层 404 而非 400）
     maxParamLength: 256,
+    // 审计 T03/F06：显式信任代理配置——默认 false 时伪造 X-Forwarded-For 不影响
+    // request.ip（限流按真实对端地址）；启用后按一级/N 跳可信代理解析客户端地址
+    trustProxy: options.trustProxy ?? false,
   })
 
   await app.register(cors, {
@@ -86,11 +93,23 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     now: options.wereadNow,
   })
 
+  // 审计 T02/F04：可撤销设备会话。全局 preHandler 对所有带 Authorization 的请求
+  // 校验「会话存在 + 未撤销 + 家庭仍存在」，一处覆盖全部域路由；令牌绑定 sid，
+  // 旧无 sid 令牌在 verifyToken 层直接拒绝（迁移：凭家庭码/家长码重新加入）。
+  const sessionGuard = createSessionGuard(options.db)
+  app.addHook('preHandler', async (request) => {
+    const header = request.headers.authorization
+    if (!header || !header.startsWith('Bearer ')) return
+    const claims = verifyToken(header.slice(7).trim(), options.tokenSecret)
+    await sessionGuard.assertActive(claims.fid, claims.sid)
+  })
+
   registerFamilyRoutes(app, {
     db: options.db,
     tokenSecret: options.tokenSecret,
     masterKey: options.masterKey,
     probeKey: options.probeKey,
+    sessionGuard,
     ipLimiter:
       options.ipLimiter ??
       new IpRateLimiter({ ...IP_LIMIT_DEFAULTS }),

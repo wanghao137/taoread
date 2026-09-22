@@ -11,6 +11,8 @@ test.describe('家长端', () => {
     await page.getByRole('button', { name: /输入家庭码加入/ }).click()
     await page.locator('#family-code').fill(CODE)
     await page.getByRole('button', { name: '爸爸妈妈' }).click()
+    // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468）
+    await page.locator('#parent-code').fill('13572468')
     await page.getByRole('button', { name: /进入桃阅读/ }).click()
     await page.getByText('家长端').waitFor()
 

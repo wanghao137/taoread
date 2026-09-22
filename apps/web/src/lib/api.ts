@@ -80,6 +80,8 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 export interface FamilySessionDto {
   familyId: string
   familyCode: string
+  /** 家长码：仅创建家庭 / 凭家长码加入时返回（T02/F01） */
+  parentCode?: string
   token: string
 }
 
@@ -125,11 +127,19 @@ export const api = {
   createFamily: (deviceId: string) =>
     request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId } }),
 
-  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string) =>
+  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string, parentCode?: string) =>
     request<FamilySessionDto>('/api/family/join', {
       method: 'POST',
-      body: { familyCode, role, deviceId },
+      body: { familyCode, role, deviceId, ...(role === 'parent' && parentCode ? { parentCode } : {}) },
     }),
+
+  /** 家长码查看（仅家长会话；旧家庭首次访问由服务端懒生成） */
+  getParentCode: (familyId: string, token: string) =>
+    request<{ parentCode: string }>(`/api/family/${familyId}/parent-code`, { token }),
+
+  /** 家长码轮换（仅家长会话）：旧家长码立即作废 */
+  rotateParentCode: (familyId: string, token: string) =>
+    request<{ parentCode: string }>(`/api/family/${familyId}/parent-code/rotate`, { method: 'POST', token }),
 
   familyView: (familyId: string, token: string) =>
     request<FamilyViewDto>(`/api/family/${familyId}`, { token }),

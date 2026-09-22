@@ -72,6 +72,11 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     '/api/content/books/:id',
     { preHandler: auth },
     async (request, reply) => {
+      // T03/F02：屏蔽书对孩拒读；家长保留管理预览（确认屏蔽对象）
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, {
+        role: request.auth!.role,
+        allowParentPreview: true,
+      })
       const book = await svc.getBook(db, request.params.id)
       if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       return reply.send({ book })
@@ -82,6 +87,10 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     '/api/content/books/:id/chapters',
     { preHandler: auth },
     async (request, reply) => {
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, {
+        role: request.auth!.role,
+        allowParentPreview: true,
+      })
       const exists = await db.book.findUnique({ where: { id: request.params.id }, select: { id: true } })
       if (!exists) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       const chapters = await svc.listChapterTitles(db, request.params.id)
@@ -93,6 +102,10 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     '/api/content/books/:id/chapters/:order',
     { preHandler: auth },
     async (request, reply) => {
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, {
+        role: request.auth!.role,
+        allowParentPreview: true,
+      })
       const order = parse(z.coerce.number().int().min(1).max(999), request.params.order)
       const chapter = await svc.getChapter(db, request.params.id, order)
       if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
@@ -109,12 +122,15 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           childId: z.string().min(1).max(64),
           chapterOrder: z.coerce.number().int().min(1).max(999),
           blockOrder: z.coerce.number().int().min(0).max(9999).default(0),
-          // P0（V8 审计 A3.4）：显式完成动作；打开末章不再自动 finished
-          completed: z.coerce.boolean().optional().default(false),
+          // P0（V8 审计 A3.4）：显式完成动作；打开末章不再自动 finished。
+          // 审计 T04/F12（DATA-01）：严格 boolean——字符串 "false" 直接 400，不再被 coerce 成 true
+          completed: z.boolean().optional().default(false),
         }),
         request.body,
       )
       await assertOwnChild(request, body.childId)
+      // T03/F02：屏蔽书的进度上报一并拒绝（不给已屏蔽内容累计任何阅读数据）
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
       const exists = await db.book.findUnique({ where: { id: request.params.id }, select: { id: true } })
       if (!exists) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       const result = await svc.reportProgress(
@@ -269,6 +285,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       )
       await assertOwnChild(request, body.childId)
       if (body.bookId) {
+        // T03/F02：屏蔽书的生词收集一并拒绝
+        await svc.assertContentReadable(db, request.auth!.fid, body.bookId, { role: request.auth!.role })
         const book = await db.book.findUnique({ where: { id: body.bookId }, select: { id: true } })
         if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       }

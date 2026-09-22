@@ -2,8 +2,11 @@
  * 演示模式入口（`npm run demo`）：
  * 演示隔离边界 = 独立入口（本文件硬编码 mock 探针/网关 + 就寝窗关闭）；无 TAO_DEMO 开关。
  * 环境变量缺失时使用演示内置主密钥（仅本地演示，不用于生产）。
+ * 审计 F35（T01）：e2e 以 TAO_E2E_ISOLATION=1 声明隔离——跳过 .env 读取并强制
+ * 全部真实供应商为 null（结构上可证明测试零外网/零付费，不依赖 env 卫生）。
  */
-import 'dotenv/config'
+const E2E_ISOLATION = process.env.TAO_E2E_ISOLATION === '1'
+if (!E2E_ISOLATION) await import('dotenv/config')
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from '../config'
@@ -44,14 +47,15 @@ async function main(): Promise<void> {
   // ttsDeps/imageDeps/videoDeps 全部缺失，导致封面/题图回退 SVG、TTS 降级 Web Speech、
   // 「让画面动起来」按钮不渲染——演示看起来像半成品。这里按可用性按需接线：
   // 仅内容域（公版书 + 媒体）用真实 AI 能力，网关仍是 mock（零微信出网）。
+  // 审计 F35（T01）：TAO_E2E_ISOLATION=1（e2e）时无论宿主配置如何，供应商一律 null。
   const mediaDir = join(process.cwd(), 'media')
-  const ttsDeps: TtsClientDeps | null = ttsAvailable(config)
+  const ttsDeps: TtsClientDeps | null = !E2E_ISOLATION && ttsAvailable(config)
     ? { base: config.TTS_BASE!, apiKey: config.TTS_API_KEY!, model: config.TTS_MODEL }
     : null
-  const imageDeps: ImageGenDeps | null = imageGenAvailable(config)
+  const imageDeps: ImageGenDeps | null = !E2E_ISOLATION && imageGenAvailable(config)
     ? { base: config.TAO_IMAGE_BASE!, apiKey: config.TAO_IMAGE_KEY!, model: config.TAO_IMAGE_MODEL }
     : null
-  const videoDeps: VideoGenDeps | null = videoGenAvailable(config)
+  const videoDeps: VideoGenDeps | null = !E2E_ISOLATION && videoGenAvailable(config)
     ? { base: config.TAO_VIDEO_BASE!, apiKey: config.TAO_VIDEO_KEY!, model: config.TAO_VIDEO_MODEL }
     : null
 
@@ -86,6 +90,10 @@ async function main(): Promise<void> {
   if (!ttsDeps) console.log('   ⚠️ TTS 未配置，听书将降级为浏览器语音')
   if (!imageDeps) console.log('   ⚠️ 生图未配置，插画为 SVG 矢量图')
   if (!videoDeps) console.log('   ⚠️ 视频未配置，「让画面动起来」不展示')
+  // 审计 F35（T01）：demo 承诺「mock 网关零出网」仅指微信读书；内容域 AI 生成
+  // 在宿主配置了真实 key 时会真实计费出网——启动时明示，杜绝「零网络」误解
+  const realProviders = [ttsDeps && 'TTS', imageDeps && '生图', videoDeps && '视频'].filter(Boolean)
+  if (realProviders.length > 0) console.log(`   💡 真实 AI 供应商已接线: ${realProviders.join(' / ')}（内容域生成会调用付费 API；e2e 已强制剥离）`)
 
   await app.listen({ port: config.PORT, host: '0.0.0.0' })
   console.log('')

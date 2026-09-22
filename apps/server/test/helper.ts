@@ -33,6 +33,10 @@ export interface MakeAppOpts {
   ritualNowSec?: () => number
   /** 仪式域本地分钟注入（bedtime 判定） */
   ritualNowMin?: () => number
+  /** 审计 T03/F06：信任反向代理（true/跳数） */
+  trustProxy?: boolean | number
+  /** 审计 T03/F02：TTS 依赖注入（测屏蔽书 TTS 拒读用） */
+  ttsDeps?: import('../src/modules/tts/client').TtsClientDeps | null
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -53,6 +57,8 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     overtimeCapSec: opts.overtimeCapSec,
     ...(opts.ritualNowSec ? { ritualNowSec: opts.ritualNowSec } : {}),
     ...(opts.ritualNowMin ? { ritualNowMin: opts.ritualNowMin } : {}),
+    ...(opts.trustProxy !== undefined ? { trustProxy: opts.trustProxy } : {}),
+    ...(opts.ttsDeps !== undefined ? { ttsDeps: opts.ttsDeps } : {}),
   })
   return { app, db }
 }
@@ -99,11 +105,11 @@ export async function createChild(
   return res.json().id
 }
 
-/** 建家庭并返回家长端会话 */
+/** 建家庭并返回家长端会话（含家长码，T02/F01） */
 export async function createFamilyAsParent(
   app: FastifyInstance,
   deviceId = 'parent-device',
-): Promise<{ familyId: string; familyCode: string; token: string }> {
+): Promise<{ familyId: string; familyCode: string; parentCode: string; token: string }> {
   const res = await app.inject({
     method: 'POST',
     url: '/api/family',
@@ -115,17 +121,23 @@ export async function createFamilyAsParent(
   return res.json()
 }
 
-/** 凭家庭码以指定角色加入 */
+/** 凭家庭码以指定角色加入；role=parent 必须携带家长码（T02/F01 服务端决定角色） */
 export async function joinFamily(
   app: FastifyInstance,
   familyCode: string,
   role: 'parent' | 'child',
   deviceId = `${role}-device`,
+  parentCode?: string,
 ): Promise<{ familyId: string; token: string }> {
   const res = await app.inject({
     method: 'POST',
     url: '/api/family/join',
-    payload: { familyCode, role, deviceId },
+    payload: {
+      familyCode,
+      role,
+      deviceId,
+      ...(role === 'parent' && parentCode ? { parentCode } : {}),
+    },
   })
   if (res.statusCode !== 200) {
     throw new Error(`joinFamily 失败：${res.statusCode} ${res.body}`)

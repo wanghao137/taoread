@@ -30,7 +30,8 @@ interface FamilySession {
 /** 家长凭家庭码加入（join 不落设备行，可重复调用拿同权 token） */
 async function joinAsParent(request: APIRequestContext): Promise<FamilySession> {
   const res = await request.post('/api/family/join', {
-    data: { familyCode: CODE, role: 'parent', deviceId: 'audit-spec-parent' },
+    // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468），家庭码只授予孩子
+    data: { familyCode: CODE, role: 'parent', deviceId: 'audit-spec-parent', parentCode: '13572468' },
   })
   expect(res.status()).toBe(200)
   return (await res.json()) as FamilySession
@@ -332,10 +333,12 @@ test.describe('审计整改回归', () => {
     await expect(cancel).toBeVisible()
     await page.screenshot({ path: 'test-results/audit/switch-conflict.png' })
 
-    // 选「结束旧书改读这本」：旧会话收尾、B 会话建立、浮层消失
+    // 选「结束旧书改读这本」：旧会话收尾、B 会话建立、浮层消失。
+    // 审计 F10 续读语义：改读这本恢复到 B 自己的进度章（上一用例目录跳过第 5 章，
+    // 进度上报有 5s 节流，章号以 API 侧校验为准），不回第 1 章（显式「重读」才回首章）
     await endOld.click()
     await expect(page.getByText('上一本还没收尾')).toBeHidden()
-    await expect(page.locator('.reader-top')).toContainText('第 1 章 / 唐诗三百首')
+    await expect(page.locator('.reader-top')).toContainText(/第 \d+ 章 \/ 唐诗三百首/)
     await expect(page.getByRole('button', { name: /朗读本章|停止朗读/ })).toBeVisible()
     await page.screenshot({ path: 'test-results/audit/switch-resolved.png' })
 

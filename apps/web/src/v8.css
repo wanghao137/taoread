@@ -107,6 +107,15 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .login-wrap{width:min(520px,100%);margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:36px 20px 48px}
 .login-brand{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin-bottom:8px}
 .login-brand h1{font-family:var(--display);font-size:34px;line-height:1;margin:6px 0 0}
+/* 选人页（多孩）：大号贴纸名卡，儿童首触点 ≥104px 高 */
+.pick-grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:520px;margin:6px auto 0;width:100%}
+@media(min-width:760px){.pick-grid{grid-template-columns:repeat(2,1fr)}}
+.pick-card{min-height:104px;display:flex;align-items:center;justify-content:flex-start;gap:16px;padding:16px 22px;border:var(--border);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);cursor:pointer;font-family:var(--display);font-size:20px;font-weight:700;transition:transform .12s,box-shadow .12s}
+.pick-card:nth-child(2n){transform:rotate(.7deg)}
+.pick-card:nth-child(2n+1){transform:rotate(-.7deg)}
+.pick-card:hover{transform:translateY(-3px)}
+.pick-card:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.pick-card .pick-name{flex:1;text-align:left}
 .sheet-backdrop{position:fixed;inset:0;z-index:90;background:rgba(38,32,26,.5);display:grid;place-items:center;padding:18px}
 .sheet-card{width:min(560px,100%);max-height:84dvh;overflow:auto;background:var(--card);border:var(--border);border-radius:14px;box-shadow:var(--shadow-hero);padding:22px;transform:rotate(-.3deg)}
 .sheet-card h2{font-family:var(--display);font-size:24px;margin:0 0 12px}

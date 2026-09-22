@@ -99,7 +99,16 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
     return art.urlPath
   }
 
-  app.post('/api/art/generate', { preHandler: auth }, async (request: FastifyRequest, reply: FastifyReply) => {
+  // 审计 T03/F03：生成是付费出网动作——孩子角色一律 403；家长生成的素材强制
+  // 写入家庭命名空间（scene 前缀 fam:<familyId>:），不得抢占公共书库场景键
+  const generateAuth = requireAuth(tokenSecret, { roles: ['parent'] })
+
+  /** 家庭命名空间：API 生成的 scene 一律收进 fam:<familyId>: 前缀，公共键（cover:/chapter:）不可经 API 写 */
+  function familyScene(familyId: string, scene: string): string {
+    return scene.startsWith('fam:') ? scene : `fam:${familyId}:${scene}`
+  }
+
+  app.post('/api/art/generate', { preHandler: generateAuth }, async (request: FastifyRequest, reply: FastifyReply) => {
     requireImage()
     if (!request.auth) throw new UnauthorizedError()
     const body = parse(
@@ -114,7 +123,7 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
     )
     const input: GenerateArtInput = {
       kind: body.kind,
-      scene: body.scene,
+      scene: familyScene(request.auth.fid, body.scene),
       description: body.description,
       label: body.label,
       lang: body.lang ?? 'zh',
@@ -143,7 +152,7 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
    */
   app.post<{ Params: { bookId: string } }>(
     '/api/art/book/:bookId',
-    { preHandler: auth },
+    { preHandler: generateAuth },
     async (request: FastifyRequest<{ Params: { bookId: string } }>, reply: FastifyReply) => {
       requireImage()
       if (!request.auth) throw new UnauthorizedError()
@@ -154,8 +163,8 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       if (!book) throw new AppError('没有这本书', 'BOOK_NOT_FOUND', 404)
 
       const results: Array<{ scene: string; kind: ArtKind; ok: boolean }> = []
-      // 封面
-      const coverScene = `cover:${book.id}`
+      // 封面（家庭命名空间，公共书库封面只能由平台脚本离线生成）
+      const coverScene = familyScene(request.auth.fid, `cover:${book.id}`)
       const coverUrl = await ensureArt({
         kind: 'cover',
         scene: coverScene,
@@ -167,7 +176,7 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
 
       // 章节题图（并发 2，避免压垮生图服务）
       for (const ch of book.chapters) {
-        const scene = ch.art ?? `chapter:${book.id}:${ch.order}`
+        const scene = familyScene(request.auth.fid, ch.art ?? `chapter:${book.id}:${ch.order}`)
         const url = await ensureArt({
           kind: 'chapter',
           scene,

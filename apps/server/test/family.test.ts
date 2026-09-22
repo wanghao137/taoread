@@ -20,6 +20,12 @@ const probeRejected = async () => {
 }
 const probeUnreachable = async () => 'unverified' as const
 
+/** 从令牌里解出会话 id（T02/F04 伪造令牌测试用） */
+function sidOf(token: string): string {
+  const payload = JSON.parse(Buffer.from(token.split('.')[1]!, 'base64url').toString('utf8')) as { sid: string }
+  return payload.sid
+}
+
 describe('家庭域 API', () => {
   let h: TestHarness
   let db: PrismaClient
@@ -112,7 +118,7 @@ describe('家庭域 API', () => {
     it('错误签名密钥签发的令牌 → 401', async () => {
       const parent = await createFamilyAsParent(h.app)
       const forged = signToken(
-        { fid: parent.familyId, role: 'parent', did: 'x' },
+        { fid: parent.familyId, role: 'parent', did: 'x', sid: sidOf(parent.token) },
         Buffer.from('wrong-secret-wrong-secret-0000'),
         { nowSec: Math.floor(Date.now() / 1000), ttlSec: 3600 },
       )
@@ -127,7 +133,7 @@ describe('家庭域 API', () => {
     it('过期令牌 → 401 且提示重新加入', async () => {
       const parent = await createFamilyAsParent(h.app)
       const expired = signToken(
-        { fid: parent.familyId, role: 'parent', did: 'x' },
+        { fid: parent.familyId, role: 'parent', did: 'x', sid: sidOf(parent.token) },
         tokenSecret,
         { nowSec: 1_000, ttlSec: 100 },
       )

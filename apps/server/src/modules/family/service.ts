@@ -11,6 +11,7 @@ import {
   signToken,
   type DeviceRole,
 } from '../../lib/auth'
+import { createDeviceSession } from '../../lib/sessions'
 import {
   ForbiddenError,
   NotFoundError,
@@ -20,11 +21,15 @@ import {
 /**
  * 家庭域服务：家庭创建/加入、微信读书绑定、孩子档案。
  * 越权防线：所有按 id 操作的方法都先校验归属（familyId / child.familyId）。
+ * 身份边界（审计 T02/F01）：家庭码只授予孩子身份；家长身份需要独立的家长码，
+ * 由服务端决定授予角色——客户端自报 role=parent 永远不构成凭据。
  */
 
 export interface FamilySession {
   familyId: string
   familyCode: string
+  /** 家长码：仅 createFamily 与家长加入时返回（孩子加入不回显） */
+  parentCode?: string
   token: string
 }
 
@@ -32,6 +37,7 @@ export interface FamilyDb {
   family: PrismaClient['family']
   childProfile: PrismaClient['childProfile']
   wereadBinding: PrismaClient['wereadBinding']
+  deviceSession: PrismaClient['deviceSession']
 }
 
 export function tokenSecretFrom(masterKey: string): Buffer {
@@ -43,16 +49,23 @@ export async function createFamily(
   tokenSecret: Buffer,
   deviceId: string | undefined,
 ): Promise<FamilySession> {
-  // 家庭码唯一约束碰撞时重试（32^8 空间，碰撞概率极低；防御性上限 3 次）
+  // 家庭码/家长码唯一约束碰撞时重试（32^8 空间，碰撞概率极低；防御性上限 3 次）
   for (let attempt = 0; ; attempt++) {
     const code = generateFamilyCode()
+    const parentCode = generateFamilyCode()
     try {
-      const family = await db.family.create({ data: { code } })
+      const family = await db.family.create({ data: { code, parentCode } })
+      const session = await createDeviceSession(db, {
+        familyId: family.id,
+        role: 'parent',
+        deviceId,
+      })
       return {
         familyId: family.id,
         familyCode: family.code,
+        parentCode,
         token: signToken(
-          { fid: family.id, role: 'parent', did: deviceId ?? 'unknown-device' },
+          { fid: family.id, role: 'parent', did: deviceId ?? 'unknown-device', sid: session.id },
           tokenSecret,
         ),
       }
@@ -67,23 +80,71 @@ export async function createFamily(
 export async function joinFamily(
   db: FamilyDb,
   tokenSecret: Buffer,
-  input: { familyCode: string; role: DeviceRole; deviceId?: string },
+  input: { familyCode: string; role: DeviceRole; deviceId?: string; parentCode?: string },
 ): Promise<FamilySession> {
   const code = input.familyCode.trim().toUpperCase()
   if (!isValidFamilyCode(code)) {
-    throw new ValidationError('家庭码格式不正确，请输入 8 位家庭码')
+    throw new ValidationError('家庭码格式不正确，请输入 6-8 位家庭码')
   }
   const family = await db.family.findUnique({ where: { code } })
   if (!family) {
     throw new NotFoundError('没有找到这个家庭码，请核对后再试')
   }
+  // T02/F01：role 由服务端凭据决定。家长身份必须凭家长码（与家庭码分开的第二凭据）；
+  // 仅凭家庭码申请家长一律拒绝——儿童设备上保存着家庭码，等同不可信。
+  if (input.role === 'parent') {
+    const presented = input.parentCode?.trim().toUpperCase() ?? ''
+    const expected = family.parentCode
+    if (!expected || presented !== expected) {
+      throw new ForbiddenError('家长码不正确。家长码在家长设备的「设置 → 家长码」查看')
+    }
+  }
+  const session = await createDeviceSession(db, {
+    familyId: family.id,
+    role: input.role,
+    deviceId: input.deviceId,
+  })
   return {
     familyId: family.id,
     familyCode: family.code,
+    ...(input.role === 'parent' && family.parentCode ? { parentCode: family.parentCode } : {}),
     token: signToken(
-      { fid: family.id, role: input.role, did: input.deviceId ?? 'unknown-device' },
+      { fid: family.id, role: input.role, did: input.deviceId ?? 'unknown-device', sid: session.id },
       tokenSecret,
     ),
+  }
+}
+
+/** 家长码查看（仅家长会话）：旧家庭为 null 时懒生成——生成不提升任何现有设备身份 */
+export async function getParentCode(db: FamilyDb, familyId: string): Promise<string> {
+  const family = await assertFamilyExists(db, familyId)
+  if (family.parentCode) return family.parentCode
+  for (let attempt = 0; ; attempt++) {
+    const parentCode = generateFamilyCode()
+    try {
+      const updated = await db.family.update({ where: { id: familyId }, data: { parentCode }, select: { parentCode: true } })
+      return updated.parentCode as string
+    } catch (err) {
+      const isUniqueViolation =
+        typeof err === 'object' && err !== null && 'code' in err && (err as { code?: string }).code === 'P2002'
+      if (!isUniqueViolation || attempt >= 2) throw err
+    }
+  }
+}
+
+/** 家长码轮换（仅家长会话）：旧家长码立即作废，用于疑似泄露或换机交接 */
+export async function rotateParentCode(db: FamilyDb, familyId: string): Promise<string> {
+  await assertFamilyExists(db, familyId)
+  for (let attempt = 0; ; attempt++) {
+    const parentCode = generateFamilyCode()
+    try {
+      const updated = await db.family.update({ where: { id: familyId }, data: { parentCode }, select: { parentCode: true } })
+      return updated.parentCode as string
+    } catch (err) {
+      const isUniqueViolation =
+        typeof err === 'object' && err !== null && 'code' in err && (err as { code?: string }).code === 'P2002'
+      if (!isUniqueViolation || attempt >= 2) throw err
+    }
   }
 }
 

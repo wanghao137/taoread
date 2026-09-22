@@ -18,6 +18,8 @@ export interface TokenClaims {
   role: DeviceRole
   /** deviceId（客户端生成的设备标识，仅用于展示与统计） */
   did: string
+  /** 会话 id（审计 T02/F04）：令牌绑定 DeviceSession 行，可撤销、随家庭注销失效 */
+  sid: string
   iat: number
   exp: number
 }
@@ -83,6 +85,9 @@ export function verifyToken(token: string, secret: Buffer, nowSec?: number): Tok
     typeof claims.fid !== 'string' ||
     (claims.role !== 'parent' && claims.role !== 'child') ||
     typeof claims.did !== 'string' ||
+    // sid 缺失 = 迁移前的旧令牌（无会话可查）：一律拒绝，凭家庭码/家长码重新加入
+    typeof claims.sid !== 'string' ||
+    claims.sid.length < 8 ||
     typeof claims.exp !== 'number'
   ) {
     throw new UnauthorizedError('登录凭证无效')

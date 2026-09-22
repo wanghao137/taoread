@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { MOODS as SHARED_MOODS, PROGRESS_MARKS as SHARED_PROGRESS_MARKS } from '@taoread/shared'
 import {
   isValidHighlightText,
   MOOD_OPTIONS,
@@ -33,14 +34,9 @@ describe('unlockCopy（纪念式成就文案，红线：正向无兑换）', () 
 })
 
 describe('收尾选项与服务端枚举对齐', () => {
-  it('进度三档/心情五档的 value 与后端 zod enum 一致', () => {
-    expect(PROGRESS_OPTIONS.map((p) => p.value)).toEqual(['little', 'lot', 'done'])
-    expect(MOOD_OPTIONS.map((m) => m.value)).toEqual([
-      'happy',
-      'excited',
-      'calm',
-      'sleepy',
-      'thinking',
-    ])
+  it('进度/心情的 value 与 @taoread/shared（服务端 zod 的唯一事实源）一致', () => {
+    expect(PROGRESS_OPTIONS.map((p) => p.value)).toEqual([...SHARED_PROGRESS_MARKS])
+    // 审计 F11：shared 增加好奇后两端自动对齐——本断言防再次手抄漂移
+    expect(MOOD_OPTIONS.map((m) => m.value)).toEqual([...SHARED_MOODS])
   })
 })

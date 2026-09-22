@@ -1,0 +1,180 @@
+{
+  "results": [
+    {
+      "id": "AUTH-01",
+      "status": 200,
+      "observation": "Same family code can obtain parent token without additional proof"
+    },
+    {
+      "id": "AUTH-02",
+      "listIncludesBlocked": false,
+      "directReadStatus": 200
+    },
+    {
+      "id": "DATA-01",
+      "status": 200,
+      "sentCompleted": "false (string)",
+      "response": {
+        "chapterOrder": 2,
+        "finished": true
+      }
+    },
+    {
+      "id": "DATA-02",
+      "responseAfterReopen": {
+        "chapterOrder": 1,
+        "finished": false
+      }
+    },
+    {
+      "id": "DATA-03",
+      "progress": 100,
+      "finished": false
+    },
+    {
+      "id": "AUTH-03",
+      "childArtStatus": 400,
+      "errorCode": "VALIDATION",
+      "providerCalls": 0,
+      "expectedRoleGuardStatus": 403
+    },
+    {
+      "id": "AUTH-04",
+      "deletedFamilyTokenContentStatus": 200
+    }
+  ],
+  "stats": {
+    "books": 222,
+    "chapters": 2513,
+    "blocks": 7465,
+    "languages": {
+      "zh": 82,
+      "en": 140
+    },
+    "ageStages": {
+      "3-5": 108,
+      "6-8": 81,
+      "9-12": 33
+    },
+    "categories": {
+      "primer": 10,
+      "poetry": 21,
+      "story": 45,
+      "tale": 146
+    },
+    "rights": {
+      "pd-70": 57,
+      "adapted": 43,
+      "original": 14,
+      "pd-us": 86,
+      "cc-by": 22
+    },
+    "duplicateBookIds": [],
+    "emptyChapters": 0,
+    "emptyBlocks": 0,
+    "rightsWithoutSource": [
+      "original-moonboat",
+      "original-cottoncandy",
+      "original-backpack",
+      "solar-bedtime",
+      "little-red-hen",
+      "three-little-pigs",
+      "goldilocks",
+      "jack-beanstalk",
+      "tale-tailor",
+      "tale-tomkitten",
+      "tale-tiggywinkle",
+      "tale-twobadmice",
+      "alcott-littlewomen",
+      "alcott-littlemen",
+      "alcott-oldfashioned",
+      "burnett-fauntleroy",
+      "nesbit-phoenix",
+      "nesbit-amulet",
+      "nesbit-enchanted",
+      "porter-pollyanna",
+      "milne-poohcorner",
+      "milne-nowwesix",
+      "rossetti-singsong",
+      "gruelle-raggedyann",
+      "gruelle-raggedyandy",
+      "burgess-cottontail",
+      "burgess-westwind",
+      "burgess-reddyfox",
+      "baum-santa",
+      "twain-pauper",
+      "lagerlof-nils",
+      "kingsley-waterbabies",
+      "jacobs-english",
+      "ozaki-japanese",
+      "tale-piglingbland",
+      "tale-pigrobinson",
+      "tale-appleydapply",
+      "tale-cecilyparsley",
+      "oz-dorothy",
+      "oz-road",
+      "oz-emerald",
+      "oz-patchwork",
+      "oz-tiktok",
+      "tale-mrjeremy",
+      "tale-moppet",
+      "tale-badrabbit",
+      "tale-gingerpickles",
+      "tale-timmytiptoes",
+      "tale-johnnytown",
+      "tale-samuelwhiskers",
+      "tale-mrtod",
+      "folktale-baoliandeng",
+      "folktale-baxian",
+      "folktale-zodiac",
+      "folktale-nian",
+      "folktale-luban",
+      "folktale-baishe",
+      "myth-kuafu",
+      "myth-chang_e",
+      "myth-dayu",
+      "myth-dragon",
+      "heroes-wit",
+      "heroes-virtue",
+      "heroes-diligent",
+      "tale-dolittle",
+      "tale-dolittlevoyage",
+      "tale-millionsofcats",
+      "tale-northwind",
+      "tale-princessgoblin",
+      "tale-tanglewood",
+      "tale-wonderbook",
+      "tale-robinhood",
+      "lang-blue",
+      "lang-red",
+      "lang-violet",
+      "oz-scarecrow",
+      "oz-rinkitink",
+      "oz-lostprincess",
+      "oz-tinwoodman",
+      "oz-magic",
+      "oz-glinda",
+      "nesbit-arden",
+      "macdonald-curdie",
+      "harris-remus",
+      "chinfairy-wilhelm",
+      "tale-grimm3",
+      "primer-mingxian",
+      "xiyou-wukong",
+      "xiyou-bonewhite",
+      "essay-fengzikai",
+      "proverbs-chinese",
+      "original-hugmonster",
+      "original-losttooth",
+      "original-firstday",
+      "original-turtlerace",
+      "original-starshop",
+      "original-rainbowumbrella",
+      "original-goodnightforest",
+      "original-magicseed",
+      "original-fireflylamp",
+      "original-windkite"
+    ],
+    "englishTextBlocks": 2587
+  }
+}

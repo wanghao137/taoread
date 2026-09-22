@@ -13,7 +13,9 @@ import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
+import { MOODS, PROGRESS_MARKS } from '@taoread/shared'
 import { isBedtime } from '../ritual/window'
+import { assertContentReadable, isContentBookId, toContentId } from '../../content/service'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
 import * as svc from './service'
 
@@ -77,6 +79,10 @@ export function registerCosessionRoutes(
       }),
       request.body ?? {},
     )
+    // 审计 T03/F02：屏蔽的 cbf 书不能开共读会话（不给屏蔽内容新的阅读入口）
+    if (body.bookId && isContentBookId(body.bookId)) {
+      await assertContentReadable(db, request.auth.fid, toContentId(body.bookId), { role: request.auth.role })
+    }
     const session = await svc.startSession(
       db,
       request.auth.fid,
@@ -109,8 +115,9 @@ export function registerCosessionRoutes(
     const { id } = parse(z.object({ id: z.string().min(1) }), request.params)
     const body = parse(
       z.object({
-        progressMark: z.enum(['little', 'lot', 'done']).optional(),
-        mood: z.enum(['happy', 'excited', 'calm', 'sleepy', 'thinking']).optional(),
+        progressMark: z.enum(PROGRESS_MARKS).optional(),
+        // 审计 F11：心情枚举以 @taoread/shared 为唯一事实源（含好奇，全部可提交）
+        mood: z.enum(MOODS).optional(),
       }),
       request.body ?? {},
     )

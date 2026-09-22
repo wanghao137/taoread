@@ -6,6 +6,8 @@ import type { PrismaClient } from '@prisma/client'
 import { encryptSecret } from '../lib/crypto'
 
 export const DEMO_FAMILY_CODE = '123456'
+/** 演示家长码（审计 T02/F01）：家长加入凭此码，而非家庭码 */
+export const DEMO_PARENT_CODE = '13572468'
 const DEMO_KEY = 'wrk-demo-key-0001'
 
 /** 今天 20:30 起，向前推 n 晚的 startedAt */
@@ -17,11 +19,16 @@ function nightAt(daysAgo: number, hour = 20, minute = 30): Date {
 }
 
 export async function seedDemoFamily(db: PrismaClient, masterKey: string): Promise<string> {
-  // 幂等：已有演示家庭直接复用
+  // 幂等：已有演示家庭直接复用；旧库缺家长码则补上（T02/F01）
   const existing = await db.family.findUnique({ where: { code: DEMO_FAMILY_CODE } })
-  if (existing) return existing.id
+  if (existing) {
+    if (!existing.parentCode) {
+      await db.family.update({ where: { id: existing.id }, data: { parentCode: DEMO_PARENT_CODE } })
+    }
+    return existing.id
+  }
 
-  const family = await db.family.create({ data: { code: DEMO_FAMILY_CODE } })
+  const family = await db.family.create({ data: { code: DEMO_FAMILY_CODE, parentCode: DEMO_PARENT_CODE } })
 
   // 绑定（演示 key，探针在 demo 模式恒成功）
   await db.wereadBinding.create({

@@ -87,15 +87,12 @@ export function ChildHome() {
     }
     if (pickOpen || !childId) {
       return (
-        <div>
-          <ChildPicker children={childrenList} onPick={(c) => { setChild(c); setPickOpen(false) }} />
-          {/* A4：换人=选小读者；换家庭=退出登录（审计 A4 P1「换人实际变成换家庭」） */}
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '12px 0' }}>
-            <button className="mono-label" style={{ border: 0, background: 'transparent', cursor: 'pointer' }} onClick={() => useSession.getState().signOut()}>
-              退出到登录页（换家庭）
-            </button>
-          </div>
-        </div>
+        // A4：换人=选小读者；换家庭=退出登录（审计 A4 P1「换人实际变成换家庭」）
+        <ChildPicker
+          children={childrenList}
+          onPick={(c) => { setChild(c); setPickOpen(false) }}
+          onExit={() => useSession.getState().signOut()}
+        />
       )
     }
     return <V8App childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />

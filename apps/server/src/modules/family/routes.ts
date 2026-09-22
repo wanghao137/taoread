@@ -11,6 +11,7 @@ import {
 } from '../../lib/errors'
 import { verifyToken, type DeviceRole, type TokenClaims } from '../../lib/auth'
 import { type IpRateLimiter, ipRateLimit } from '../../lib/ipRateLimit'
+import type { SessionGuard } from '../../lib/sessions'
 import type { KeyProbe } from './service'
 import * as svc from './service'
 
@@ -73,6 +74,8 @@ export interface FamilyRoutesDeps {
   probeKey?: KeyProbe
   /** 无凭据入口的 IP 限流（N2-007；不传则不限流，仅供测试） */
   ipLimiter?: IpRateLimiter
+  /** 会话守卫（T02/F04）：注销时撤销全家会话并逐出缓存 */
+  sessionGuard: SessionGuard
   /** 注销后逐出进程内该家庭的缓存/服务实例（N9-205，app 层注入 registry.remove+指纹失效） */
   onFamilyDeleted?: (familyId: string) => void
 }
@@ -131,7 +134,7 @@ export function registerFamilyRoutes(
     return session
   })
 
-  // ── 凭家庭码加入（孩子设备/第二位家长）──
+  // ── 凭家庭码加入（孩子设备） / 凭家长码加入（家长设备，T02/F01）──
   app.post('/api/family/join', {
     ...ipLimit,
   }, async (request) => {
@@ -140,10 +143,51 @@ export function registerFamilyRoutes(
         familyCode: z.string().min(1),
         role: z.enum(['parent', 'child']),
         deviceId: deviceIdSchema,
+        // 家长码：role=parent 时的第二凭据；服务端校验，家庭码自报 role 不构成家长身份
+        parentCode: z.string().max(16).optional(),
       }),
       request.body ?? {},
     )
     return svc.joinFamily(db, tokenSecret, body)
+  })
+
+  // ── 家长码查看（仅家长；旧家庭首次访问懒生成）──
+  app.get('/api/family/:familyId/parent-code', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    return { parentCode: await svc.getParentCode(db, familyId) }
+  })
+
+  // ── 家长码轮换（仅家长）：旧家长码立即作废 ──
+  app.post('/api/family/:familyId/parent-code/rotate', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    return { parentCode: await svc.rotateParentCode(db, familyId) }
+  })
+
+  // ── 单设备撤销（仅家长，T02/F04）：被撤销设备令牌立即失效 ──
+  app.post<{ Params: { familyId: string; sid: string } }>('/api/family/:familyId/sessions/:sid/revoke', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId, sid } = parse(
+      z.object({ familyId: z.string().min(1), sid: z.string().min(8).max(64) }),
+      request.params,
+    )
+    assertSameFamily(request, familyId)
+    if (request.auth && request.auth.sid === sid) {
+      throw new ValidationError('不能撤销当前正在使用的这台设备')
+    }
+    const session = await db.deviceSession.findUnique({ where: { id: sid }, select: { familyId: true } })
+    if (!session || session.familyId !== familyId) {
+      // 不存在与越权统一 404，不泄露其他家庭会话的存在性
+      throw new NotFoundError('没有找到这条设备会话')
+    }
+    await deps.sessionGuard.revokeSession(sid)
+    return { ok: true, sid }
   })
 
   // ── 家庭信息（任何成员可见；key 只回显掩码）──
@@ -253,12 +297,14 @@ export function registerFamilyRoutes(
     return svc.updateSettings(db, familyId, body)
   })
 
-  // ── 注销家庭（第 9 夜，仅家长）：物理删除全部家庭数据，不可恢复 ──
+  // ── 注销家庭（第 9 夜，仅家长）：物理删除全部家庭数据，不可恢复。
+  // T02/F04：DeviceSession 随家庭级联删除，全部旧令牌立即失效 ──
   app.delete('/api/family/:familyId', {
     preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
   }, async (request, reply) => {
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
+    await deps.sessionGuard.revokeFamilySessions(familyId)
     await svc.deleteFamilyCompletely(db, familyId, deps.onFamilyDeleted)
     reply.code(204)
     return null

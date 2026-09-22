@@ -13,7 +13,7 @@ import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
-import { getChapter } from '../../content/service'
+import { getChapter, assertContentReadable } from '../../content/service'
 import { VOICE_PRESETS, findVoice, clampSpeed, DEFAULT_SPEED } from './voices'
 import {
   chunkText,
@@ -98,7 +98,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       const voice = findVoice(body.voiceId)
       const speed = clampSpeed(body.speed)
       const format = 'mp3'
-      const key = cacheKey(body.text, voice.id, speed, format)
+      const key = cacheKey(body.text, voice.id, speed, format, body.lang)
 
       const hit = await cache.get(key, format)
       if (hit) {
@@ -169,10 +169,17 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
 
       const chapter = await getChapter(db, params.contentId, params.order)
       if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
+      // 审计 T03/F02：屏蔽书的整章 TTS 同策略拒绝（家长保留管理预览）
+      await assertContentReadable(db, request.auth.fid, params.contentId, {
+        role: request.auth.role,
+        allowParentPreview: true,
+      })
 
       const voice = findVoice(body.voiceId)
       const speed = clampSpeed(body.speed)
-      const lang = chapter.blocks.some((b) => b.kind === 'poem') ? 'zh' : 'zh'
+      // 审计 F16：语言从书目推导——英文书整章合成必须带 en，不再写死 zh
+      const bookRow = await db.book.findUnique({ where: { id: params.contentId }, select: { lang: true } })
+      const lang = bookRow?.lang === 'en' ? 'en' : 'zh'
       // 拼接可朗读文本（跳过图片块）
       const fullText = chapter.blocks
         .filter((b) => b.kind !== 'image')
@@ -203,7 +210,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       for (let i = 0; i < segments.length; i++) {
         const seg = segments[i]
         if (!seg) continue
-        const key = cacheKey(seg, voice.id, speed, 'mp3')
+          const key = cacheKey(seg, voice.id, speed, 'mp3', lang)
         try {
           const hit = await cache.get(key, 'mp3')
           if (hit) {

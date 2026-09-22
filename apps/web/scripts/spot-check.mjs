@@ -10,7 +10,7 @@ await pc.getByRole('button', { name: '进入桃阅读' }).click()
 await pc.waitForTimeout(1200)
 await pc.getByRole('button', { name: '小柚' }).click({ timeout: 10000 })
 await pc.waitForTimeout(1500)
-try { await pc.getByRole('button', { name: '跳过' }).click({ timeout: 2500 }) } catch {}
+try { await pc.getByRole('button', { name: '跳过' }).click({ timeout: 2500 }) } catch { /* 可选引导，缺席属正常路径 */ }
 await pc.waitForTimeout(600)
 await pc.screenshot({ path: 'test-results/audit/v2-gate.png' })
 await pc.getByRole('navigation', { name: '孩子端导航' }).getByRole('button', { name: '书架' }).click()

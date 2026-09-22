@@ -4,6 +4,7 @@
  * 数据库唯一约束（P2002 捕获跳过）；重复收尾幂等（第二次起只读不写不重评成就）。
  */
 import type { PrismaClient } from '@prisma/client'
+import { HIGHLIGHT_SOURCES as HIGHLIGHT_SOURCE_LIST, MOODS as MOOD_LIST, PROGRESS_MARKS as PROGRESS_MARK_LIST } from '@taoread/shared'
 import {
   AppError,
   NotFoundError,
@@ -31,9 +32,10 @@ export interface CosessionDb {
   readingProgress: PrismaClient['readingProgress']
 }
 
-const PROGRESS_MARKS = new Set(['little', 'lot', 'done'])
-const MOODS = new Set(['happy', 'excited', 'calm', 'sleepy', 'thinking'])
-const HIGHLIGHT_SOURCES = new Set(['weread', 'voice', 'manual'])
+const PROGRESS_MARKS = new Set<string>(PROGRESS_MARK_LIST)
+// 审计 F11：心情枚举以 @taoread/shared 为唯一事实源（含好奇，全部可提交）
+const MOODS = new Set<string>(MOOD_LIST)
+const HIGHLIGHT_SOURCES = new Set<string>(HIGHLIGHT_SOURCE_LIST)
 
 function isUniqueViolation(err: unknown): boolean {
   return (

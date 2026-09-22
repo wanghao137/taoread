@@ -9,7 +9,7 @@ import {
   createFamilyAsParent,
   type TestHarness,
 } from './helper'
-import { seedAllPacks } from '../src/content/seed'
+import { seedAllPacks, seedPack } from '../src/content/seed'
 import { ALL_PACKS } from '../src/content/packs'
 import { toCbfBookId } from '../src/content/service'
 import type { PrismaClient } from '@prisma/client'
@@ -396,11 +396,16 @@ describe('内容域 生词本（docs/15 P1-B）', () => {
 })
 
 describe('内容域 seed 幂等性', () => {
-  // seedAllPacks 全量 IO 重（与媒体生成脚本同机运行时会抢资源），放宽门限
+  // 幂等是 per-book 逻辑（seedAllPacks 只是逐包循环）：全量播种一次供台账断言，
+  // 重复导入改用最小真实包复验同一 delete-then-create 路径——
+  // 原实现双次全量（222 本×2）单独跑 42s、全量套件资源争用时撞 60s 门限。
   it('重复入库不产生重复章节', async () => {
     const db = harness.db as PrismaClient
     await seedAllPacks(db, ALL_PACKS)
-    await seedAllPacks(db, ALL_PACKS)
+    const pack = ALL_PACKS.find((p) => p.id === 'sanzi-jing')
+    expect(pack).toBeDefined()
+    await seedPack(db, pack!)
+    await seedPack(db, pack!)
     const count = await db.chapter.count({ where: { bookId: 'sanzi-jing' } })
     // 全本《三字经》：17 课 × 每课 1 个整课诗文块
     expect(count).toBe(17)

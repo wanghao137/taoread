@@ -30,8 +30,10 @@ export const CHILD_CATEGORY_PREFIXES = ['童书', '1300000'] as const
 export const PROGRESS_MARKS = ['little', 'lot', 'done'] as const
 export type ProgressMark = (typeof PROGRESS_MARKS)[number]
 
-/** 心情贴纸（自主表达，不计分） */
-export const MOODS = ['happy', 'excited', 'calm', 'sleepy', 'thinking'] as const
+/** 心情贴纸（自主表达，不计分）。
+ * 审计 F11：客户端结算浮层的「好奇」必须可提交——枚举以此处为唯一事实源，
+ * 服务端 zod/Set 一律从本常量派生，两端不再手抄。 */
+export const MOODS = ['happy', 'excited', 'calm', 'curious', 'sleepy', 'thinking'] as const
 export type Mood = (typeof MOODS)[number]
 
 /** 金句来源：weread=热门划线点选，voice=孩子口述，manual=家长录入 */

@@ -37,6 +37,9 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const setCalmMode = useSession((s) => s.setCalmMode)
   const [view, setView] = useState<FamilyView>({ kind: 'loading' })
   const [settings, setSettings] = useState<FamilySettingsDto | null>(null)
+  /** 家长码（T02/F01）：家长加入的第二凭据，仅家长会话可见/可轮换 */
+  const [parentCode, setParentCode] = useState<string | null>(null)
+  const [codeCopied, setCodeCopied] = useState(false)
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -55,6 +58,11 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         if (alive)
           setView({ kind: 'error', message: err instanceof ApiError ? err.message : undefined })
       })
+    // 家长码独立拉取：失败只隐藏家长码卡，不拖垮整页设置（审计教训）
+    api
+      .getParentCode(familyId, token)
+      .then((codeDto) => alive && setParentCode(codeDto.parentCode))
+      .catch(() => undefined)
     return () => {
       alive = false
     }
@@ -98,6 +106,44 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
     return (
       <div className="set-grid">
+        {/* 家长码（T02/F01）：家长加入的第二凭据，仅家长会话可见；泄露即轮换 */}
+        {parentCode ? (
+          <div className="panel">
+            <h3>家长码</h3>
+            <p>另一台家长设备凭此码加入，家庭码只给孩子的设备用</p>
+            <p data-testid="parent-code" className="code-display" style={{ fontSize: 30, letterSpacing: '0.2em' }}>
+              {parentCode}
+            </p>
+            <div className="setting-row">
+              <button
+                type="button"
+                className="sticker-btn sm"
+                onClick={() => {
+                  void navigator.clipboard?.writeText(parentCode).catch(() => undefined)
+                  setCodeCopied(true)
+                  setTimeout(() => setCodeCopied(false), 1500)
+                }}
+              >
+                {codeCopied ? '✓ 已复制' : '复制'}
+              </button>
+              <button
+                type="button"
+                className="sticker-btn sm"
+                disabled={busy}
+                onClick={() =>
+                  void run(() => api.rotateParentCode(familyId, token)).then((r) => {
+                    if (r) setParentCode(r.parentCode)
+                  })
+                }
+              >
+                重新生成
+              </button>
+            </div>
+            <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
+              重新生成后旧家长码立即作废，已加入的设备不受影响
+            </p>
+          </div>
+        ) : null}
         {view.view.binding ? (
           <div className="panel">
             <h3>微信读书</h3>

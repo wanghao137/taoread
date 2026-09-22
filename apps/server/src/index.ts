@@ -47,6 +47,8 @@ async function main(): Promise<void> {
     db,
     tokenSecret: tokenSecretFrom(config.TAO_MASTER_KEY),
     masterKey: config.TAO_MASTER_KEY,
+    // 审计 T03/F06：docs/06 部署文档承诺的 TAO_TRUST_PROXY 落实到 Fastify
+    trustProxy: config.TAO_TRUST_PROXY,
     allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
     bedTimeMin: config.TAO_BEDTIME === 'off' ? null : config.TAO_BEDTIME,
     logger: true,

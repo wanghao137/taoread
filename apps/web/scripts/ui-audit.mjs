@@ -28,7 +28,7 @@ async function loginAsChild(page) {
   try {
     await page.getByText('今天是谁的故事时间？').waitFor({ timeout: 8000 })
     await page.getByRole('button', { name: /小桃/ }).click()
-  } catch {}
+  } catch { /* 多孩家庭才出选人屏，单孩直进 */ }
   // 三步引导（只第一次弹）
   try {
     await page
@@ -42,7 +42,7 @@ async function loginAsChild(page) {
         .click({ timeout: 4000 })
         .catch(() => {})
     }
-  } catch {}
+  } catch { /* 引导弹不出现属正常路径 */ }
   await page
     .getByText(/今天读什么故事|还没讲完呢|故事讲完啦/)
     .first()

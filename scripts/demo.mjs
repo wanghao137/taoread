@@ -77,9 +77,10 @@ const timer = setInterval(async () => {
       console.log('')
       console.log('✅ 演示已就绪（首次启动 vite 需要几秒编译）')
       console.log(`   👉 浏览器打开  http://localhost:${WEB_PORT}`)
-      console.log('   👉 登录页输入家庭码  123456')
-      console.log('      · 选「爸爸妈妈」看 共读卡/书架管理/周报/设置')
-      console.log('      · 选「小朋友」走 选书→出发→收尾→夜灯 完整仪式流')
+      console.log('   👉 登录页输入家庭码  123456（孩子设备）')
+      console.log('   👉 家长加入再输家长码 13572468（审计 T02：家庭码不再授予家长身份）')
+      console.log('      · 选「爸爸妈妈」看 共读卡/内容中心/足迹/设置')
+      console.log('      · 选「小朋友」走 v8 贴纸绘本 今天/找故事/我的/阅读器')
       console.log('   Ctrl+C 退出演示')
       console.log('')
       void started

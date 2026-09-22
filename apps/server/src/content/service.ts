@@ -3,6 +3,7 @@
  * 内容域 bookId 在共读会话中以 cbf: 前缀引用（weread/routes 与 cosession 已对齐）。
  */
 import type { PrismaClient, Book, Block } from '@prisma/client'
+import { AppError } from '../lib/errors'
 
 export const CBF_PREFIX = 'cbf:'
 
@@ -126,6 +127,29 @@ function summarize(
  */
 function matchKey(s: string | null | undefined): string {
   return (s ?? '').toLowerCase().replace(/\s+/g, '')
+}
+
+/**
+ * 内容可见性策略（审计 T03/F02）：家庭屏蔽的 cbf 书，**一切读取路径**统一拒绝——
+ * 详情、目录、正文、进度上报、TTS、生词、共读会话。屏蔽不能只在列表查询生效。
+ *
+ * @param role 令牌角色：孩子一律拒绝；家长保留管理预览例外（allowParentPreview，
+ *             仅限详情/目录/正文元信息，家长需要确认屏蔽对象是否选对）
+ * @throws AppError 403 BOOK_BLOCKED
+ */
+export async function assertContentReadable(
+  db: PrismaClient,
+  familyId: string,
+  contentId: string,
+  opts: { role?: 'parent' | 'child'; allowParentPreview?: boolean } = {},
+): Promise<void> {
+  const snap = await db.shelfSnapshot.findUnique({
+    where: { familyId_bookId_kind: { familyId, bookId: contentId, kind: 'cbf' } },
+    select: { blocked: true },
+  })
+  if (!snap?.blocked) return
+  if (opts.allowParentPreview && opts.role === 'parent') return
+  throw new AppError('这本书已经被家长收起来啦', 'BOOK_BLOCKED', 403)
 }
 
 export async function listBooks(

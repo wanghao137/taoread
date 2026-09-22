@@ -1,6 +1,7 @@
 // 从 git 历史 fb3ebff 恢复 22 个生成书包的原始元数据 → corpus-data/original-meta.json
 import { execSync } from 'node:child_process'
 import { writeFileSync } from 'node:fs'
+import { URL } from 'node:url'
 
 const files = [
   'poetry-tang.ts', 'poetry-qianjia.ts', 'poetry-songci.ts', 'poetry-shijing.ts',

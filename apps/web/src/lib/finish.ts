@@ -21,6 +21,7 @@ const MOOD_META = {
   happy: { icon: 'sun', label: '开心' },
   excited: { icon: 'sparkle', label: '兴奋' },
   calm: { icon: 'heart', label: '平静' },
+  curious: { icon: 'book', label: '好奇' },
   sleepy: { icon: 'moon', label: '困困' },
   thinking: { icon: 'book', label: '在想' },
 } as const

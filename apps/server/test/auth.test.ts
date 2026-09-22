@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { createHmac } from 'node:crypto'
 import {
   deriveTokenSecret,
   generateFamilyCode,
@@ -9,7 +10,7 @@ import {
 import { UnauthorizedError } from '../src/lib/errors'
 
 const SECRET = deriveTokenSecret('master-key-for-tests-000000')
-const CLAIMS = { fid: 'family-1', role: 'parent' as const, did: 'device-1' }
+const CLAIMS = { fid: 'family-1', role: 'parent' as const, did: 'device-1', sid: 'session-1' }
 
 describe('signToken / verifyToken', () => {
   it('签发后可校验，claims 完整回读', () => {
@@ -59,6 +60,16 @@ describe('signToken / verifyToken', () => {
     expect(() => verifyToken(parts.join('.'), SECRET, 1500)).toThrow(UnauthorizedError)
   })
 
+  // 审计 T02/F04：迁移前的旧令牌没有会话 id，无会话可查，一律拒绝
+  it('缺 sid 的迁移前旧令牌被拒绝', () => {
+    const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url')
+    const payload = Buffer.from(
+      JSON.stringify({ fid: 'family-1', role: 'parent', did: 'device-1', iat: 1000, exp: 9999999 }),
+    ).toString('base64url')
+    const sig = createHmac('sha256', SECRET).update(`${header}.${payload}`).digest('base64url')
+    expect(() => verifyToken(`${header}.${payload}.${sig}`, SECRET, 1500)).toThrow(UnauthorizedError)
+  })
+
   it('畸形令牌（段数错误/非 JWT 文本/坏 payload）统一 401 不泄露细节', () => {
     expect(() => verifyToken('abc.def', SECRET)).toThrow(UnauthorizedError)
     expect(() => verifyToken('garbage', SECRET)).toThrow(UnauthorizedError)
@@ -69,7 +80,7 @@ describe('signToken / verifyToken', () => {
     expect(() => verifyToken(missing, SECRET)).toThrow(UnauthorizedError)
     // role 非法
     const badRole = signToken(
-      { fid: 'f', role: 'admin' as never, did: 'd' },
+      { fid: 'f', role: 'admin' as never, did: 'd', sid: 'session-x' },
       SECRET,
       { nowSec: 1000 },
     )

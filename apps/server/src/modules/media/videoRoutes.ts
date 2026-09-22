@@ -52,11 +52,19 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     return join(mediaDir, 'videos', `${taskId}.mp4`)
   }
 
+  // 审计 T03/F03：视频生成是付费出网动作——孩子 403；家长生成的任务强制家庭命名空间
+  const generateAuth = requireAuth(tokenSecret, { roles: ['parent'] })
+
+  /** 家庭命名空间：API 生成的 scene 收进 fam:<familyId>: 前缀，公共键不可经 API 写 */
+  function familyScene(familyId: string, scene: string): string {
+    return scene.startsWith('fam:') ? scene : `fam:${familyId}:${scene}`
+  }
+
   /**
    * 创建动画任务。幂等：同场景已有 completed 视频则直接返回；
    * 已有进行中任务也直接返回（不重复建任务、不重复计费）。
    */
-  app.post('/api/video/generate', { preHandler: auth }, async (request: FastifyRequest, reply: FastifyReply) => {
+  app.post('/api/video/generate', { preHandler: generateAuth }, async (request: FastifyRequest, reply: FastifyReply) => {
     const vd = requireVideo()
     if (!request.auth) throw new UnauthorizedError()
     const body = parse(
@@ -69,14 +77,15 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       }),
       request.body,
     )
+    const scene = familyScene(request.auth.fid, body.scene)
 
     // 已有完成的视频：秒回
     const done = await db.videoAsset.findUnique({
-      where: { scene: body.scene },
+      where: { scene: scene },
     })
     if (done && done.status === 'completed' && done.urlPath) {
       return reply.send({
-        scene: body.scene,
+        scene: scene,
         status: 'completed',
         videoUrl: done.urlPath,
         cached: true,
@@ -85,7 +94,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     // 进行中：不重复建任务
     if (done && (done.status === 'queued' || done.status === 'pending' || done.status === 'in_progress')) {
       return reply.send({
-        scene: body.scene,
+        scene: scene,
         status: done.status,
         taskId: done.taskId,
         cached: false,
@@ -110,9 +119,9 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     }
 
     await db.videoAsset.upsert({
-      where: { scene: body.scene },
+      where: { scene: scene },
       create: {
-        scene: body.scene,
+        scene: scene,
         kind: 'chapter',
         taskId,
         status: 'queued',
@@ -129,7 +138,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       },
     })
 
-    return reply.send({ scene: body.scene, status: 'queued', taskId, cached: false })
+    return reply.send({ scene: scene, status: 'queued', taskId, cached: false })
   })
 
   /**

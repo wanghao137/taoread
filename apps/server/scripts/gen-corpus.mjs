@@ -147,7 +147,7 @@ function emitPack(file, meta, rights, chapters) {
   // 每章唯一场景键 `书id:chN`：AI 插画按章生成（chapterScene 直接用 art 键），
   // 跨书共用字典键会让几十本书共享同一张图，做不到「图文逐章对齐」。
   // 块级 art（10 空格缩进，lamp-hint 等）不受影响；SVG 兜底退化为通用书架场景（AI 图为主视觉）。
-  const withArt = chapters.map((ts, i) => ts.replace(/^      art: (['"])[^'"]*\1,$/m, `      art: '${meta.id}:ch${i + 1}',`))
+  const withArt = chapters.map((ts, i) => ts.replace(/^ {6}art: (['"])[^'"]*\1,$/m, `      art: '${meta.id}:ch${i + 1}',`))
   const out = `import type { PackBook } from '../types'
 
 /**
