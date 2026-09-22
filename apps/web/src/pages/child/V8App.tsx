@@ -260,6 +260,9 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
     [childName, books, loaded, booksError, reloadBooks, report, nights, toggleFav, openBook, readBook, showToast, onSwitchFamily, onSwitchChild],
   )
 
+  // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
+  const inReader = /^\/child\/book\/[^/]+\/chapter\//.test(location.pathname)
+
   return (
     <V8Context.Provider value={ctx}>
       <div className="app">
@@ -315,28 +318,33 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
             </main>
           </div>
         </div>
-        <nav className="mobile-nav">
-          {(
-            [
-              ['/child/today', LABELS.navHome],
-              ['/child/discover', LABELS.discover],
-              ['/child/my', LABELS.navMy],
-            ] as Array<[string, string]>
-          ).map(([to, label]) => (
-            <button key={to} className={location.pathname === to ? 'on' : ''} onClick={() => navigate(to)}>
-              {label}
-            </button>
-          ))}
-        </nav>
+        {/* 阅读器为沉浸式全屏（v8 demo）：章节路由下不渲染底部导航，避免盖住阅读器控制条 */}
+        {!inReader ? (
+          <nav className="mobile-nav">
+            {(
+              [
+                ['/child/today', LABELS.navHome],
+                ['/child/discover', LABELS.discover],
+                ['/child/my', LABELS.navMy],
+              ] as Array<[string, string]>
+            ).map(([to, label]) => (
+              <button key={to} className={location.pathname === to ? 'on' : ''} onClick={() => navigate(to)}>
+                {label}
+              </button>
+            ))}
+          </nav>
+        ) : null}
       </div>
       {toastMsg ? <div className="toast">{toastMsg}</div> : null}
-      <button
-        onClick={onSwitchChild}
-        className="mono-label"
-        style={{ position: 'fixed', right: 12, bottom: 10, zIndex: 60, border: 0, background: 'transparent', cursor: 'pointer' }}
-      >
-        换人
-      </button>
+      {!inReader ? (
+        <button
+          onClick={onSwitchChild}
+          className="mono-label"
+          style={{ position: 'fixed', right: 12, bottom: 10, zIndex: 60, border: 0, background: 'transparent', cursor: 'pointer' }}
+        >
+          换人
+        </button>
+      ) : null}
     </V8Context.Provider>
   )
 }

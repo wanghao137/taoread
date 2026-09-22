@@ -2,6 +2,7 @@
  * 家长端 · 内容中心（V8 Phase 6）：桃书库 / 微信读书 / 纸质书 / 已屏蔽 统一入口。
  * 合并原 ContentLibrary（桃书库进度 + 逐本屏蔽）与 ShelfManager（微信读书书架 + 逐条屏蔽）。
  * 纸质书本版只放说明卡（不放假数据）；搜索为客户端过滤（书名/作者，500ms 防抖）。
+ * v8 贴纸绘本语言（2026-09-21 家长端重构）：tab/筛选胶囊 + hub-row 贴纸行，数据逻辑不变。
  */
 import { useCallback, useEffect, useState } from 'react'
 import {
@@ -10,9 +11,10 @@ import {
   type ContentFamilyBookDto,
   type ShelfItemDto,
 } from '../../lib/api'
-import { Loading, ErrorState, EmptyState, TaCard, TaButton } from '../../components/ui'
+import { Loading, ErrorState, EmptyState } from '../../components/ui'
 import { SceneArt } from '../../components/art/SceneArt'
-import { IconBookOpen, IconSearch } from '../../components/ui/icons'
+import { AiBadge } from '../../components/art/AiBadge'
+import { PageHead } from '../child/V8App'
 import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
 
 export interface ContentHubProps {
@@ -283,17 +285,33 @@ export function ContentHub({ familyId, token }: ContentHubProps) {
     }
   }
 
+  /** 贴纸封面：场景图/远端图填框（隐藏 demo 画框装饰）；无图保持 demo 原生 CSS 画面 */
+  function cover(row: HubRow) {
+    const hasVisual = Boolean(row.scene || row.coverUrl)
+    return (
+      <div className={`book-cover sky hub-cover ${hasVisual ? 'has-art' : ''}`}>
+        {row.scene ? (
+          <span className="cover-art-wrap">
+            <SceneArt scene={row.scene.art} from={row.scene.from} to={row.scene.to} lang={row.scene.lang} />
+          </span>
+        ) : row.coverUrl ? (
+          <img className="cover-art" src={row.coverUrl} alt="" loading="lazy" decoding="async" />
+        ) : null}
+        <span className="cover-title">{row.title}</span>
+        <AiBadge />
+      </div>
+    )
+  }
+
   function listArea() {
     if (source === 'paper') {
       // 纸质书记录未接入，先给说明卡——不放假数据
       return (
-        <TaCard className="shadow-xs">
-          <h3 className="text-lg font-bold">纸质书</h3>
-          <p className="mt-2 text-base text-ink-700">纸质书记录即将支持。</p>
-          <p className="mt-1 text-base text-ink-700">
-            到时可以把家里读的纸质绘本也记进来，和桃书库、微信读书放在一起看。
-          </p>
-        </TaCard>
+        <div className="panel">
+          <h3>纸质书</h3>
+          <p>纸质书记录即将支持。</p>
+          <p>到时可以把家里读的纸质绘本也记进来，和桃书库、微信读书放在一起看。</p>
+        </div>
       )
     }
 
@@ -355,165 +373,111 @@ export function ContentHub({ familyId, token }: ContentHubProps) {
     }
 
     return (
-      <div className="flex flex-col gap-3">
+      <div className="hub-list">
         {rows.map((row) => (
-          <div
-            key={row.key}
-            className="flex gap-3 rounded-2xl border border-paper-border bg-panel/60 p-3"
-          >
-            {/* 封面（有则显示） */}
-            <div className="aspect-[3 / 4] h-20 flex-shrink-0 overflow-hidden rounded-lg shadow-md ring-1 ring-paper-border">
-              {row.scene ? (
-                <SceneArt scene={row.scene.art} from={row.scene.from} to={row.scene.to} lang={row.scene.lang} />
-              ) : row.coverUrl ? (
-                <img src={row.coverUrl} alt="" className="h-full w-full object-cover" />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-paper-200 text-ink-700/50">
-                  <IconBookOpen size={20} />
-                </div>
-              )}
-            </div>
-            <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <p className="truncate text-sm font-bold text-ink-900">{row.title}</p>
-                <span className="flex-shrink-0 rounded-full bg-sun/60 px-2 py-0.5 text-[10px] font-bold text-ink-900">
-                  {row.badge}
-                </span>
-                {row.blocked && (
-                  <span className="flex-shrink-0 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] font-bold text-red-300">
-                    已屏蔽
-                  </span>
-                )}
+          <article key={row.key} className="hub-row">
+            {cover(row)}
+            <div>
+              <div className="hub-title">
+                <b>{row.title}</b>
+                <span className="tag">{row.badge}</span>
+                {row.blocked && <span className="tag rose">已屏蔽</span>}
               </div>
-              {row.author && <p className="text-[10px] text-ink-700 opacity-80">{row.author}</p>}
+              {row.author && <p className="mono-line">{row.author}</p>}
               {row.metaLines.map((line) => (
-                <p key={line} className="text-[10px] text-ink-700/70">
+                <p key={line} className="mono-line">
                   {line}
                 </p>
               ))}
               {/* 孩子的进度（contentFamily readers；微信读书书架无此数据则不显示） */}
-              {row.readers.length > 0 && (
-                <div className="mt-1 flex flex-col gap-1">
-                  {row.readers.map((r) => (
-                    <div key={r.childId} className="flex items-center gap-2">
-                      <span className="w-10 flex-shrink-0 text-[10px] text-ink-700">{r.name}</span>
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-paper-border/50">
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${r.progress}%`,
-                            background: r.finished ? '#A5D6A7' : 'linear-gradient(90deg, #FF8E75, #FF6D54)',
-                          }}
-                        />
-                      </div>
-                      <span className="w-14 flex-shrink-0 text-right text-[10px] text-ink-700">
-                        {r.finished ? '读完' : `${r.progress}%`}
-                      </span>
-                    </div>
-                  ))}
+              {row.readers.map((r) => (
+                <div key={r.childId} className="reader-line">
+                  <span className="mono-line" style={{ width: 42, flexShrink: 0 }}>
+                    {r.name}
+                  </span>
+                  <div className={`prog ${r.finished ? 'done' : ''}`}>
+                    <i style={{ width: `${r.progress}%` }} />
+                  </div>
+                  <span className="mono-line" style={{ width: 48, flexShrink: 0, textAlign: 'right' }}>
+                    {r.finished ? '读完' : `${r.progress}%`}
+                  </span>
                 </div>
-              )}
-              <div className="mt-auto pt-1">
-                <button
-                  type="button"
-                  disabled={busyKey === row.key}
-                  onClick={() => void toggleBlocked(row)}
-                  className="min-h-touch rounded-full px-3 text-[11px] font-medium disabled:opacity-40"
-                  style={{
-                    color: row.blocked ? '#A5D6A7' : '#E57373',
-                    border: `1px solid ${row.blocked ? '#A5D6A755' : '#E5737355'}`,
-                  }}
-                >
+              ))}
+              <div className="hub-actions">
+                <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void toggleBlocked(row)}>
                   {row.blocked ? '恢复显示' : '屏蔽'}
                 </button>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <h3 className="text-base font-bold text-ink-900">内容中心</h3>
-        <p className="mt-0.5 text-xs text-ink-700">
-          桃书库、微信读书、纸质书记录与屏蔽管理，都在这里
-        </p>
-      </div>
+    <div>
+      <PageHead index="02" title="内容中心" sub="桃书库、微信读书、纸质书记录与屏蔽管理，都在这里" />
 
-      {/* 来源过滤 chips */}
-      <div className="flex flex-wrap gap-2">
+      {/* 来源切换 */}
+      <div className="tabs" role="tablist" aria-label="内容来源">
         {SOURCES.map((s) => (
-          <TaButton
+          <button
             key={s.key}
-            size="md"
-            variant={source === s.key ? 'primary' : 'secondary'}
+            type="button"
+            className={`tab ${source === s.key ? 'on' : ''}`}
+            aria-pressed={source === s.key}
             onClick={() => {
               setSource(s.key)
               setNotice(null)
             }}
           >
             {s.label}
-          </TaButton>
+          </button>
         ))}
       </div>
 
       {/* 搜索：书名/作者，客户端过滤，500ms 防抖 */}
       {source !== 'paper' && (
-        <div className="relative">
-          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-700/60">
-            <IconSearch size={16} />
-          </span>
+        <div className="search-wrap">
           <input
             type="search"
+            className="search"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="搜书名或作者"
             aria-label="按书名或作者搜索"
-            className="h-12 w-full rounded-xl border-ink border-2 bg-paper-300 pl-9 pr-3 text-base"
           />
         </div>
       )}
 
       {/* 排序 + 分类筛选：桃书库数据带进度与分类（任务 7，200+ 可管理） */}
       {source === 'tao' && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="filter-row">
           {(['title', 'progress'] as SortKey[]).map((k) => (
-            <TaButton
-              key={k}
-              size="md"
-              variant={sortKey === k ? 'primary' : 'secondary'}
-              onClick={() => setSortKey(k)}
-            >
+            <button key={k} type="button" className={`filter ${sortKey === k ? 'on' : ''}`} aria-pressed={sortKey === k} onClick={() => setSortKey(k)}>
               {SORT_LABEL[k]}
-            </TaButton>
+            </button>
           ))}
-          <span className="mx-1 h-6 w-px bg-paper-border" aria-hidden />
+          <span className="v-divider" aria-hidden />
           {(['all', ...CATEGORY_KEYS] as CategoryKey[]).map((c) => (
-            <TaButton
-              key={c}
-              size="md"
-              variant={category === c ? 'primary' : 'secondary'}
-              onClick={() => setCategory(c)}
-            >
+            <button key={c} type="button" className={`filter ${category === c ? 'on' : ''}`} aria-pressed={category === c} onClick={() => setCategory(c)}>
               {c === 'all' ? '全部分类' : CATEGORY_LABEL[c]}
-            </TaButton>
+            </button>
           ))}
         </div>
       )}
 
       {notice && (
-        <p role="alert" className="text-sm text-terra-600">
+        <p role="alert" className="msg">
           {notice}
         </p>
       )}
 
-      {listArea()}
+      <div style={{ marginTop: 10 }}>{listArea()}</div>
 
       {(source === 'tao' || source === 'blocked') && (
-        <p className="text-[10px] leading-relaxed text-ink-700 opacity-60">
+        <p className="mono-line" style={{ marginTop: 12, fontSize: 11, lineHeight: 1.7 }}>
           屏蔽后，孩子端会立刻隐藏这本书，且不会有任何提示——孩子不会感到被否定。
         </p>
       )}

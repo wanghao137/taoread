@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { api, type WeeklyReportDataDto } from '../../lib/api'
 
 /**
- * 本周阅读足迹摘要条（今天 Tab 顶部）：轻量复用周报聚合。
- * UI 复盘：原为单行文字的空壳卡，改为四格统计卡，一屏读全本周数据。
+ * 本周阅读足迹摘要（今天 Tab 顶部）：轻量复用周报聚合。
+ * v8 语言：标签胶囊 + 四色 metric 贴纸卡，一屏读全本周数据。
  */
 export function FootprintBar({ familyId, token }: { familyId: string; token: string }) {
   const [report, setReport] = useState<WeeklyReportDataDto | null>(null)
@@ -27,24 +27,19 @@ export function FootprintBar({ familyId, token }: { familyId: string; token: str
     { label: '收下的金句', value: `${report.highlightsTotal} 句` },
   ]
   return (
-    <div
-      data-testid="footprint-bar"
-      className="mb-4 rounded-2xl border-ink border-2 bg-paper-200 px-4 py-3 shadow-xs"
-    >
-      <div className="mb-2 flex items-center justify-between">
-        <span className="inline-block -rotate-2 rounded-lg border-ink border-[1.5px] bg-sun px-1.5 py-0.5 text-xs font-bold text-ink-900">
-          本周足迹
-        </span>
-        <span className="text-xs text-ink-700">{report.nextWeekHint}</span>
+    <section data-testid="footprint-bar" style={{ paddingTop: 6 }}>
+      <div className="section-head" style={{ marginBottom: 4 }}>
+        <span className="tag">本周足迹</span>
+        <p>{report.nextWeekHint}</p>
       </div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div className="metrics tight four">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl bg-paper-100 px-3 py-2 ring-1 ring-paper-border">
-            <p className="text-[11px] text-ink-700">{s.label}</p>
-            <p className="text-base font-bold text-terra-600">{s.value}</p>
+          <div key={s.label} className="metric">
+            <span>{s.label}</span>
+            <strong>{s.value}</strong>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

@@ -149,6 +149,13 @@ test.describe('审计整改回归', () => {
     })
     expect(done.status()).toBe(201)
     const doneBody = (await done.json()) as { id: string }
+    // 真实读完口径（14d3b4a 服务端语义）：done 收尾还须「末章显式 completed」
+    // 才有 ReadingProgress.finished——先补末章 completed，再收尾 done。
+    const lastChapter = await request.post('/api/content/books/sanzi-jing/progress', {
+      data: { childId: doneChild, chapterOrder: 17, blockOrder: 0, completed: true },
+      headers: authHeaders(token),
+    })
+    expect(lastChapter.ok()).toBeTruthy()
     const fin = await request.post(`/api/cosession/${doneBody.id}/finish`, {
       data: { progressMark: 'done' },
       headers: authHeaders(token),

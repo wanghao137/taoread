@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type WeeklyReportDataDto } from '../../lib/api'
-import { Loading, ErrorState, TaCard, TaButton } from '../../components/ui'
+import { Loading, ErrorState } from '../../components/ui'
+import { PageHead } from '../child/V8App'
 
 export interface ReportPanelProps {
   familyId: string
@@ -22,7 +23,7 @@ function lastMonday(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-/** 足迹页（原周报）：本周/上周切换 + 分享卡 PNG 下载（SVG 客户端栅格化，1080×1440） */
+/** 足迹页（原周报）：本周/上周切换 + 分享卡 PNG 下载（SVG 客户端栅格化，1080×1440）。v8 贴纸绘本语言 */
 export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [week, setWeek] = useState<string>(thisMonday())
   const [report, setReport] = useState<WeeklyReportDataDto | null>(null)
@@ -90,72 +91,84 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
     }
   }
 
-  function body() {
-    if (loading) return <Loading label="这一周正在被收好…" />
-    if (error) return <ErrorState message={error} onRetry={load} />
-    if (!report) return null
-    return (
-      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
-        <TaCard className="text-center shadow-xs lg:col-span-2">
-          <p className="font-display text-5xl font-bold text-terra-600">{report.nights}</p>
-          <p className="mt-1 text-base text-ink-700">天共读</p>
-          <p className="mt-3 text-base text-ink-700">
-            累计 {report.totalMinutes} 分钟 · 读过 {report.books.length} 本
-            {report.booksCompleted > 0 && ` · 真正读完 ${report.booksCompleted} 本`}
-            {' · '}
-            收金句 {report.highlightsTotal} 句
-            {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
-          </p>
-          <p className="mt-2 text-base text-ink-700">{report.nextWeekHint}</p>
-        </TaCard>
-
-        {report.books.length > 0 && (
-          <TaCard className="shadow-xs">
-            <h3 className="mb-2 text-base font-bold text-ink-700">这一周读过的书</h3>
-            <ul className="list-disc pl-5 text-base leading-relaxed">
-              {report.books.map((b) => (
-                <li key={b.key}>《{b.title}》</li>
-              ))}
-            </ul>
-          </TaCard>
-        )}
-
-        {report.highlights.length > 0 && (
-          <TaCard className="shadow-xs">
-            <h3 className="mb-2 text-base font-bold text-ink-700">收进来的金句</h3>
-            <ul className="flex flex-col gap-2 text-base leading-relaxed">
-              {report.highlights.map((h, i) => (
-                <li key={i} className="text-ink-900">
-                  「{h.text}」
-                </li>
-              ))}
-            </ul>
-          </TaCard>
-        )}
-
-        {exportError && (
-          <p role="alert" className="text-center text-base text-terra-600 lg:col-span-2">
-            {exportError}
-          </p>
-        )}
-        <TaButton className="w-full lg:col-span-2" onClick={() => void downloadPng()} loading={exporting}>
-          保存分享卡（1080×1440）
-        </TaButton>
-      </div>
-    )
-  }
-
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
-        <TaButton size="md" variant={week === thisMonday() ? 'primary' : 'secondary'} onClick={() => setWeek(thisMonday())}>
+    <div>
+      <PageHead index="03" title="足迹" sub="这一周家里的阅读足迹，可以保存成卡片分享给家人" />
+
+      <div className="filter-row" style={{ marginTop: 0 }}>
+        <button type="button" className={`filter ${week === thisMonday() ? 'on' : ''}`} aria-pressed={week === thisMonday()} onClick={() => setWeek(thisMonday())}>
           本周
-        </TaButton>
-        <TaButton size="md" variant={week === lastMonday() ? 'primary' : 'secondary'} onClick={() => setWeek(lastMonday())}>
+        </button>
+        <button type="button" className={`filter ${week === lastMonday() ? 'on' : ''}`} aria-pressed={week === lastMonday()} onClick={() => setWeek(lastMonday())}>
           上周
-        </TaButton>
+        </button>
       </div>
-      {body()}
+
+      {loading ? (
+        <Loading label="这一周正在被收好…" />
+      ) : error ? (
+        <ErrorState message={error} onRetry={load} />
+      ) : !report ? null : (
+        <div className="report-grid">
+          <div className="hero">
+            <span className="mono-label">WEEKLY REPORT · 桃阅读</span>
+            <div className="hero-title">
+              <span className="marker">{report.nights}</span> 天共读
+            </div>
+            <p className="hero-copy">
+              累计 {report.totalMinutes} 分钟 · 读过 {report.books.length} 本
+              {report.booksCompleted > 0 && ` · 真正读完 ${report.booksCompleted} 本`}
+              {' · '}收金句 {report.highlightsTotal} 句
+              {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
+            </p>
+            <p className="hero-copy" style={{ marginTop: 6 }}>
+              {report.nextWeekHint}
+            </p>
+          </div>
+
+          {report.books.length > 0 && (
+            <div className="panel">
+              <h3>这一周读过的书</h3>
+              <div className="chapter-list" style={{ marginTop: 12 }}>
+                {report.books.map((b, i) => (
+                  <div key={b.key} className="chapter" style={{ cursor: 'default' }}>
+                    <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                    <b>《{b.title}》</b>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {report.highlights.length > 0 && (
+            <div className="panel">
+              <h3>收进来的金句</h3>
+              <div className="speech-list" style={{ marginTop: 12 }}>
+                {report.highlights.map((h, i) => (
+                  <div key={i} className="speech-row">
+                    <span aria-hidden className="avatar">
+                      {i + 1}
+                    </span>
+                    <div className="speech">
+                      <p>「{h.text}」</p>
+                      {h.source && <time style={{ marginTop: 8 }}>{h.source}</time>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {exportError && (
+            <p role="alert" className="msg">
+              {exportError}
+            </p>
+          )}
+          <button type="button" className="sticker-btn primary full" disabled={exporting} onClick={() => void downloadPng()}>
+            {exporting ? '正在生成…' : '保存分享卡（1080×1440）'}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

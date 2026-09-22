@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError, type ChildDto, type FamilySettingsDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
-import { TaCard, TaButton, Loading, ErrorState } from '../../components/ui'
+import { Loading, ErrorState } from '../../components/ui'
 import { BindWizard } from './BindWizard'
+import { PageHead } from '../child/V8App'
 
 export interface SettingsPanelProps {
   familyId: string
@@ -29,7 +30,7 @@ const CAP_PRESETS = [
   { value: null, label: '跟随默认' },
 ] as const
 
-/** 设置页：绑定向导 / 小读者管理 / 休息时间 / 注销家庭 */
+/** 设置页（v8 贴纸绘本）：绑定向导 / 小读者管理 / 休息时间 / 安静模式 / AI 披露 / 注销家庭 */
 export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision }: SettingsPanelProps) {
   const navigate = useNavigate()
   const signOut = useSession((s) => s.signOut)
@@ -96,38 +97,34 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     if (view.kind === 'error') return <ErrorState message={view.message} onRetry={onChanged} />
 
     return (
-      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
+      <div className="set-grid">
         {view.view.binding ? (
-          <div className="flex flex-col gap-1 text-base text-ink-700 lg:col-span-2">
+          <div className="panel">
+            <h3>微信读书</h3>
             <p data-testid="binding-status">
               微信读书已绑定（{view.view.binding.maskedTail}）
               {view.view.binding.status === 'unverified' && ' · 待验证'}
             </p>
-            <p className="text-sm text-ink-700/80">
+            <p className="mono-line" style={{ fontSize: 11 }}>
               API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位
             </p>
           </div>
         ) : (
-          <div className="lg:col-span-2">
-            <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
-          </div>
+          <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
         )}
 
-        <TaCard className="shadow-xs">
-          <h3 className="mb-3 text-lg font-bold">小读者</h3>
+        <div className="panel">
+          <h3>小读者</h3>
           {view.view.children.length > 0 && (
-            <div className="mb-4 flex flex-col gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
               {view.view.children.map((c: ChildDto) => (
-                <div
-                  key={c.id}
-                  className="flex min-h-touch items-center justify-between rounded-2xl border-ink border-2 bg-paper-300/60 px-4"
-                >
-                  <span className="text-base">
+                <div key={c.id} className="kid-row">
+                  <span>
                     {c.nickname}（{c.stage}）
                   </span>
-                  <TaButton
-                    size="md"
-                    variant="ghost"
+                  <button
+                    type="button"
+                    className="sticker-btn sm"
                     disabled={busy}
                     onClick={() =>
                       void run(
@@ -137,34 +134,35 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
                     }
                   >
                     移除
-                  </TaButton>
+                  </button>
                 </div>
               ))}
             </div>
           )}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="setting-row">
             <input
               value={newNickname}
               onChange={(e) => setNewNickname(e.target.value)}
               placeholder="昵称"
               maxLength={20}
-              className="h-12 w-32 rounded-xl border-ink border-2 bg-paper-300 px-3 text-base"
+              aria-label="小读者昵称"
+              className="field"
+              style={{ width: 132 }}
             />
             <select
               value={newStage}
               onChange={(e) => setNewStage(e.target.value)}
               aria-label="年龄段"
-              className="h-12 rounded-xl border-ink border-2 bg-paper-300 px-3 text-base"
+              className="field"
             >
               <option value="3-5">3-5 岁</option>
               <option value="6-8">6-8 岁</option>
               <option value="9-12">9-12 岁</option>
             </select>
-            <TaButton
-              size="md"
-              variant="secondary"
+            <button
+              type="button"
+              className="sticker-btn primary sm"
               disabled={newNickname.trim().length < 1 || busy}
-              loading={busy}
               onClick={() =>
                 void run(
                   () => api.addChild(familyId, token, newNickname.trim(), newStage),
@@ -178,26 +176,27 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               }
             >
               添加
-            </TaButton>
+            </button>
           </div>
-        </TaCard>
+        </div>
 
-        <TaCard>
-          <h3 className="mb-1 text-lg font-bold">
-            <span className="mr-2 inline-block -rotate-2 rounded-lg border-ink border-[1.5px] bg-mint px-1.5 py-0.5 align-middle text-xs font-bold text-ink-900">
+        <div className="panel">
+          <h3>
+            <span className="tag mint" style={{ marginRight: 8, verticalAlign: 'middle' }}>
               家长可控
             </span>
             休息时间
           </h3>
-          <p className="mb-3 text-base text-ink-700">
+          <p>
             到点后孩子端会温和收尾（先读完当前这一段，再安心停下），几点收尾由你说了算
           </p>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="setting-row" style={{ marginTop: 12 }}>
             {BEDTIME_PRESETS.map((p) => (
-              <TaButton
+              <button
                 key={p.label}
-                size="md"
-                variant={settings?.bedtimeMin === p.value ? 'primary' : 'secondary'}
+                type="button"
+                className={`filter ${settings?.bedtimeMin === p.value ? 'on' : ''}`}
+                aria-pressed={settings?.bedtimeMin === p.value}
                 disabled={busy}
                 onClick={() =>
                   void run(() => api.updateSettings(familyId, token, { bedtimeMin: p.value })).then(
@@ -206,15 +205,16 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
                 }
               >
                 {p.label}
-              </TaButton>
+              </button>
             ))}
           </div>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          <div className="setting-row" style={{ marginTop: 10 }}>
             {CAP_PRESETS.map((p) => (
-              <TaButton
+              <button
                 key={p.label}
-                size="md"
-                variant={settings?.overtimeCapSec === p.value ? 'primary' : 'secondary'}
+                type="button"
+                className={`filter ${settings?.overtimeCapSec === p.value ? 'on' : ''}`}
+                aria-pressed={settings?.overtimeCapSec === p.value}
                 disabled={busy}
                 onClick={() =>
                   void run(() =>
@@ -223,26 +223,27 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
                 }
               >
                 单次 {p.label}
-              </TaButton>
+              </button>
             ))}
           </div>
-        </TaCard>
+        </div>
 
-        <TaCard>
-          <h3 className="mb-1 text-lg font-bold">安静模式</h3>
-          <p className="mb-3 text-base text-ink-700">
+        <div className="panel">
+          <h3>安静模式</h3>
+          <p>
             开启后，孩子端所有翻页、摇晃、弹跳都会变成最轻柔的淡入淡出。适合容易晕动或对动态画面敏感的孩子，
             关闭后恢复原来的活泼效果。
           </p>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="setting-row" style={{ marginTop: 12 }}>
             {[
               { value: false, label: '保持活泼' },
               { value: true, label: '安静模式' },
             ].map((p) => (
-              <TaButton
+              <button
                 key={p.label}
-                size="md"
-                variant={(settings?.calmMode ?? false) === p.value ? 'primary' : 'secondary'}
+                type="button"
+                className={`filter ${(settings?.calmMode ?? false) === p.value ? 'on' : ''}`}
+                aria-pressed={(settings?.calmMode ?? false) === p.value}
                 disabled={busy}
                 onClick={() =>
                   void run(() => api.updateSettings(familyId, token, { calmMode: p.value })).then(
@@ -256,38 +257,42 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
                 }
               >
                 {p.label}
-              </TaButton>
+              </button>
             ))}
           </div>
-        </TaCard>
+        </div>
 
-        <TaCard>
-          <h3 className="mb-2 text-lg font-bold">AI 生成内容说明</h3>
-          <p className="mb-3 text-base text-ink-700">
+        <div className="panel">
+          <h3>AI 生成内容说明</h3>
+          <p>
             桃阅读中的绘本插画、拟人化朗读配音和「让画面动起来」动画由人工智能生成，文本内容为公版书籍原文。
           </p>
-          <ul className="flex flex-col gap-1.5 text-base text-ink-700">
+          <ul style={{ margin: '10px 0 0', paddingLeft: 18, fontSize: 14, color: 'var(--ink2)' }}>
             <li>· 插画：AI 绘画模型生成，每幅画在生成时已标注来源</li>
             <li>· 朗读：AI 语音合成，非真人录音</li>
             <li>· 动画：AI 视频模型生成</li>
           </ul>
-          <p className="mt-3 text-sm text-ink-700/70">
+          <p className="mono-line" style={{ marginTop: 10, fontSize: 11, lineHeight: 1.7 }}>
             依据《人工智能生成合成内容标识办法》（2025 年 9 月 1 日起施行），我们在家长侧向您披露上述内容由人工智能生成。
           </p>
-        </TaCard>
+        </div>
 
-        <TaCard className="border-terra-300">
-          <h3 className="mb-2 text-lg font-bold">注销家庭</h3>
-          <p className="mb-3 text-base text-ink-700">
-            删除全部家庭数据（书架记录、共读记录、成就），不可恢复
-          </p>
-          <TaButton variant="secondary" disabled={busy} onClick={() => void handleDeleteFamily()}>
+        <div className="panel" style={{ background: 'var(--paper)' }}>
+          <h3>注销家庭</h3>
+          <p>删除全部家庭数据（书架记录、共读记录、成就），不可恢复</p>
+          <button
+            type="button"
+            className={`sticker-btn ${confirmDelete ? 'hot' : ''}`}
+            style={{ marginTop: 12 }}
+            disabled={busy}
+            onClick={() => void handleDeleteFamily()}
+          >
             {confirmDelete ? '再点一次确认注销' : '注销家庭'}
-          </TaButton>
-        </TaCard>
+          </button>
+        </div>
 
         {message && (
-          <p role="status" aria-live="polite" className="text-center text-base text-terra-600">
+          <p role="status" aria-live="polite" className="msg">
             {message}
           </p>
         )}
@@ -295,7 +300,12 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     )
   }
 
-  return body()
+  return (
+    <div>
+      <PageHead index="04" title="设置" sub="绑定微信读书、小读者档案、休息时间与家庭注销" />
+      {body()}
+    </div>
+  )
 }
 
 type FamilyView =

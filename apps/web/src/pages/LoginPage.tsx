@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
-import { useReducedMotion } from '../lib/motion'
 import { IconFamily, IconPeach } from '../components/ui/icons'
-import { TaButton, TaCard, TaSheet, TaSticker } from '../components/ui'
 import { AiContentAgreement } from './AiContentAgreement'
 
 function deviceId(): string {
@@ -25,10 +22,10 @@ function deviceId(): string {
 
 type Mode = 'choose' | 'join' | 'create'
 
+/** 登录入口（v8 贴纸绘本语言）：品牌 mast + 贴纸面板 + 药丸按钮，与孩子端/家长端同一套 token */
 export function LoginPage() {
   const navigate = useNavigate()
   const signIn = useSession((s) => s.signIn)
-  const reduced = useReducedMotion()
   const [mode, setMode] = useState<Mode>('choose')
   const [code, setCode] = useState('')
   const [role, setRole] = useState<DeviceRole>('parent')
@@ -74,164 +71,144 @@ export function LoginPage() {
     }
   }
 
+  function roleSticker(r: DeviceRole) {
+    return (
+      <button key={r} type="button" className={`role-pick ${role === r ? 'on' : ''}`} aria-pressed={role === r} onClick={() => setRole(r)}>
+        <span aria-hidden className="avatar big" style={{ background: role === r ? 'var(--card)' : undefined }}>
+          {r === 'parent' ? <IconFamily size={26} /> : <IconPeach size={26} />}
+        </span>
+        {ROLE_LABEL[r]}
+      </button>
+    )
+  }
+
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center px-5 py-10 lg:grid lg:max-w-5xl lg:grid-cols-2 lg:items-center lg:gap-14">
-      {/* 纸与桃：柔和有机色块氛围层（docs/22），纯 CSS 零加载、reduced 友好 */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-paper-100">
-        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-terra-50 blur-3xl" />
-        <div className="absolute -right-20 top-1/3 h-60 w-60 rounded-full bg-kraft-300/25 blur-3xl" />
-        <div className="absolute -bottom-24 left-1/4 h-64 w-64 rounded-full bg-terra-100/70 blur-3xl" />
-      </div>
-      <header className="mb-10 text-center lg:mb-0">
-        {/* 品牌锚点唯一：桃子 logo 贴纸卡 + 字标（不再叠加第二种桃脸，UI 复盘 P2） */}
-        <motion.img
-          src="/brand/logo-256.png"
-          alt="桃阅读"
-          className="mx-auto mb-4 h-20 w-20 rounded-3xl border-2 border-ink shadow-card lg:h-28 lg:w-28"
-          animate={reduced ? undefined : { rotate: [0, -3, 0, 3, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <h1 className="bg-terra-gradient bg-clip-text font-display text-3xl font-bold tracking-wide text-transparent lg:text-4xl">
-          桃阅读
-        </h1>
-        <p className="mt-2 text-ink-700">孩子的阅读游乐园，白天晚上都能读</p>
-      </header>
-
-      <div className="flex flex-col">
-      {createdCode ? (
-        <TaCard aria-live="polite">
-          <h2 className="text-center text-xl font-bold">家庭创建好啦</h2>
-          <p className="mt-2 text-center text-ink-700">
-            把家庭码念给家里的另一台设备，就能一起加入
-          </p>
-          <p
-            data-testid="family-code"
-            className="my-6 text-center font-display text-4xl font-bold tracking-[0.3em] text-terra-600"
-          >
-            {createdCode}
-          </p>
-          <TaButton className="w-full" onClick={() => navigate('/parent', { replace: true })}>
-            进入家长端
-          </TaButton>
-        </TaCard>
-      ) : mode === 'choose' ? (
-        <div className="flex flex-col gap-6">
-          <TaCard>
-            <h2 className="mb-1 text-xl font-bold">今天谁来讲故事？</h2>
-            <p className="mb-4 text-base text-ink-700">选择这次的故事从谁开始</p>
-            <div className="flex gap-3">
-              {(Object.keys(ROLE_LABEL) as DeviceRole[]).map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => setRole(r)}
-                  aria-pressed={role === r}
-                  className={`flex cursor-pointer flex-1 flex-col items-center justify-center rounded-2xl border-2 p-4 text-center transition-colors ${
-                    role === r
-                      ? 'border-terra-500 bg-terra-50 shadow-card'
-                      : 'border-ink bg-paper-200'
-                  }`}
-                >
-                  <span
-                    aria-hidden
-                    className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                      role === r ? 'bg-terra text-white' : 'bg-paper-100 text-ink-700'
-                    }`}
-                  >
-                    {r === 'parent' ? <IconFamily size={26} /> : <IconPeach size={26} />}
-                  </span>
-                  <span className="mt-2 block text-lg font-bold">{ROLE_LABEL[r]}</span>
-                </button>
-              ))}
-            </div>
-            <TaButton className="mt-4 w-full" onClick={() => setMode('join')}>
-              输入家庭码加入
-            </TaButton>
-          </TaCard>
-          <TaButton variant="ghost" size="md" onClick={() => setMode('create')}>
-            还没有家庭码？创建新家庭 →
-          </TaButton>
-        </div>
-      ) : mode === 'join' ? (
-        <TaCard>
-          <h2 className="text-xl font-bold">输入家庭码</h2>
-          <p className="mt-1 text-base text-ink-700">6-8 位家庭码在创建家庭的设备上</p>
-          <label htmlFor="family-code" className="sr-only">
-            家庭码
-          </label>
-          <input
-            id="family-code"
-            value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            maxLength={8}
-            autoComplete="off"
-            placeholder="ABCD2345"
-            className="mt-4 h-16 w-full rounded-2xl border-2 border-ink bg-paper-200 text-center text-2xl font-bold tracking-[0.35em] placeholder:text-ink-700/70 focus:outline-none focus:ring-2 focus:ring-terra-500"
-          />
-          <div className="mt-4 flex justify-center gap-2">
-            <TaSticker icon={<IconFamily size={22} />} label="爸爸妈妈" active={role === 'parent'} onClick={() => setRole('parent')} />
-            <TaSticker icon={<IconPeach size={22} />} label="小朋友" active={role === 'child'} onClick={() => setRole('child')} />
+    <div className="app">
+      <div className="wrap login-wrap">
+        {/* 品牌锚点唯一：桃子 logo 贴纸卡 + 字标（与孩子端 v8 壳同一 mast 语言） */}
+        <header className="login-brand">
+          <div className="logo big">
+            <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
-          {error && (
-            <p role="alert" className="mt-4 text-center text-base text-terra-600">
-              {error}
-            </p>
-          )}
-          <TaButton
-            className="mt-5 w-full"
-            loading={busy}
-            disabled={!/^[0-9A-HJ-NP-Z]{6,8}$/.test(code.trim())}
-            onClick={handleJoin}
-          >
-            进入桃阅读
-          </TaButton>
-          <TaButton variant="ghost" size="md" className="mt-2 w-full" onClick={() => setMode('choose')}>
-            ← 返回
-          </TaButton>
-        </TaCard>
-      ) : (
-        <TaCard>
-          <h2 className="text-xl font-bold">创建新家庭</h2>
-          <p className="mt-1 text-base text-ink-700">
-            创建后会得到一个 8 位家庭码，家里的平板、手机都能加入
+          <h1>桃阅读</h1>
+          <p className="mono-line" style={{ fontSize: 11 }}>
+            贴纸绘本 · 儿童阅读空间
           </p>
-          {error && (
-            <p role="alert" className="mt-4 text-center text-base text-terra-600">
-              {error}
+        </header>
+
+        {createdCode ? (
+          <div className="panel" aria-live="polite" style={{ textAlign: 'center' }}>
+            <h2>家庭创建好啦</h2>
+            <p>把家庭码念给家里的另一台设备，就能一起加入</p>
+            <p data-testid="family-code" className="code-display">
+              {createdCode}
             </p>
-          )}
-          <TaButton className="mt-5 w-full" loading={busy} onClick={handleCreate}>
-            创建我的家庭
-          </TaButton>
-          <TaButton variant="ghost" size="md" className="mt-2 w-full" onClick={() => setMode('choose')}>
-            ← 返回
-          </TaButton>
-        </TaCard>
-      )}
+            <button type="button" className="sticker-btn primary block" onClick={() => navigate('/parent', { replace: true })}>
+              进入家长端
+            </button>
+          </div>
+        ) : mode === 'choose' ? (
+          <>
+            <div className="panel">
+              <h2>今天谁来讲故事？</h2>
+              <p>选择这次的故事从谁开始</p>
+              <div className="setting-row" style={{ marginTop: 12 }}>
+                {(Object.keys(ROLE_LABEL) as DeviceRole[]).map(roleSticker)}
+              </div>
+              <button type="button" className="sticker-btn primary block" style={{ marginTop: 14 }} onClick={() => setMode('join')}>
+                输入家庭码加入
+              </button>
+            </div>
+            <button type="button" className="linklike" onClick={() => setMode('create')}>
+              还没有家庭码？创建新家庭 →
+            </button>
+          </>
+        ) : mode === 'join' ? (
+          <div className="panel">
+            <h2>输入家庭码</h2>
+            <p>6-8 位家庭码在创建家庭的设备上</p>
+            <label htmlFor="family-code" className="mono-label" style={{ display: 'block', marginTop: 12 }}>
+              家庭码
+            </label>
+            <input
+              id="family-code"
+              value={code}
+              onChange={(e) => setCode(e.target.value.toUpperCase())}
+              maxLength={8}
+              autoComplete="off"
+              placeholder="ABCD2345"
+              className="field code-input"
+              style={{ width: '100%', marginTop: 8 }}
+            />
+            <div className="setting-row" style={{ marginTop: 12 }}>
+              {roleSticker('parent')}
+              {roleSticker('child')}
+            </div>
+            {error && (
+              <p role="alert" className="msg" style={{ marginTop: 12 }}>
+                {error}
+              </p>
+            )}
+            <button
+              type="button"
+              className="sticker-btn primary block"
+              style={{ marginTop: 14 }}
+              disabled={busy || !/^[0-9A-HJ-NP-Z]{6,8}$/.test(code.trim())}
+              onClick={handleJoin}
+            >
+              {busy ? '正在开门…' : '进入桃阅读'}
+            </button>
+            <button type="button" className="linklike" onClick={() => setMode('choose')}>
+              ← 返回
+            </button>
+          </div>
+        ) : (
+          <div className="panel">
+            <h2>创建新家庭</h2>
+            <p>创建后会得到一个 8 位家庭码，家里的平板、手机都能加入</p>
+            {error && (
+              <p role="alert" className="msg" style={{ marginTop: 12 }}>
+                {error}
+              </p>
+            )}
+            <button type="button" className="sticker-btn primary block" style={{ marginTop: 14 }} disabled={busy} onClick={handleCreate}>
+              {busy ? '正在准备…' : '创建我的家庭'}
+            </button>
+            <button type="button" className="linklike" onClick={() => setMode('choose')}>
+              ← 返回
+            </button>
+          </div>
+        )}
 
-      {mode === 'choose' && (
-        <p className="mt-6 text-center text-base text-ink-700">
-          家庭码只在自己家人之间使用，请放心输入
-        </p>
-      )}
+        {mode === 'choose' && (
+          <p className="mono-line" style={{ textAlign: 'center', fontSize: 11 }}>
+            家庭码只在自己家人之间使用，请放心输入
+          </p>
+        )}
 
-      {/* 合规（第八条）：使用前可见的 AI 生成内容标识说明 */}
-      <div className="mt-6 text-center">
-        <button
-          type="button"
-          onClick={() => setAgreementOpen(true)}
-          className="text-sm text-ink-700 underline underline-offset-2"
-        >
+        {/* 合规（第八条）：使用前可见的 AI 生成内容标识说明 */}
+        <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => setAgreementOpen(true)}>
           AI 生成内容标识说明
         </button>
       </div>
-      </div>
-      <TaSheet open={agreementOpen} onClose={() => setAgreementOpen(false)} title="AI 生成内容标识说明">
-        <AiContentAgreement />
-        <TaButton className="mt-6 w-full" onClick={() => setAgreementOpen(false)}>
-          知道啦
-        </TaButton>
-      </TaSheet>
-    </main>
+
+      {agreementOpen && (
+        <div
+          className="sheet-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-label="AI 生成内容标识说明"
+          onClick={() => setAgreementOpen(false)}
+        >
+          <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
+            <h2>AI 生成内容标识说明</h2>
+            <AiContentAgreement />
+            <button type="button" className="sticker-btn primary block" style={{ marginTop: 16 }} onClick={() => setAgreementOpen(false)}>
+              知道啦
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

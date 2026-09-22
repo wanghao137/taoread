@@ -48,3 +48,64 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .mood{padding:10px 16px}
 /* 中文字重稳定：mono 标签内的中文回退系统黑体（数字/英文保持等宽观感） */
 .mono-label,.cover-kicker,.brand p,.story-meta small,.chapter .num,.chapter em,.metric span,.info small,.finish-stats small{font-family:ui-monospace,"SFMono-Regular",Consolas,"PingFang SC","Microsoft YaHei",sans-serif}
+
+/* ── 家长端（v8 贴纸绘本语言；全部复用 demo token，不引入新色值） ── */
+.logo.big{width:88px;height:88px;border-radius:24px}
+.mast-actions .sticker-btn.keep{display:inline-flex}
+.panel{border:var(--border);border-radius:14px;box-shadow:var(--shadow);background:var(--card);padding:18px}
+.panel h2,.panel h3{font-family:var(--display);margin:0 0 10px}
+.panel>p{color:var(--ink2);font-size:14px}
+.field{min-height:50px;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--card);padding:0 14px;font-size:15px}
+.code-input{min-height:64px;text-align:center;font-family:var(--display);font-size:24px;letter-spacing:.28em}
+.code-input::placeholder{color:var(--ink3);letter-spacing:.08em;font-size:17px;font-family:var(--body)}
+.code-display{font-family:var(--display);font-size:38px;letter-spacing:.24em;margin:10px 0 6px}
+.tag{display:inline-block;font-family:ui-monospace,"SFMono-Regular",Consolas,"PingFang SC","Microsoft YaHei",sans-serif;font-size:10px;font-weight:700;background:var(--sun);border:1.5px solid var(--ink);border-radius:999px;padding:3px 8px;white-space:nowrap}
+.tag.rose{background:var(--rose)}
+.tag.mint{background:var(--mint)}
+.metrics.tight{margin-top:12px}
+.metrics.four{grid-template-columns:repeat(4,1fr)}
+.metric:nth-child(4){background:var(--mint);transform:rotate(.9deg)}
+.row-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.row-head b{font-family:var(--display);font-size:17px}
+.avatar.big{width:52px;height:52px;font-size:20px}
+.speech ul{margin:8px 0 0;padding-left:18px;color:var(--ink2);font-size:13px}
+.tonight-grid{display:grid;gap:16px}
+@media(min-width:880px){.tonight-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.family-code{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 30px;transform:rotate(-.4deg)}
+.hub-list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.hub-row{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--card);padding:12px}
+.hub-cover{width:84px;padding:6px;border-radius:10px;box-shadow:var(--shadow-sm)}
+.hub-cover .cover-art-wrap{position:absolute;inset:6px;border-radius:8px;overflow:hidden}
+.hub-cover .cover-title{font-size:10px;left:10px;right:10px;bottom:10px}
+.hub-cover .cover-kicker{display:none}
+.hub-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hub-title b{font-family:var(--display);font-size:16px;line-height:1.2}
+.mono-line{font-family:ui-monospace,"SFMono-Regular",Consolas,"PingFang SC","Microsoft YaHei",sans-serif;font-size:10px;color:var(--ink3);margin:3px 0 0}
+.reader-line{display:flex;align-items:center;gap:8px;margin-top:6px}
+.reader-line .prog{flex:1}
+.prog{height:10px;border:1.5px solid var(--ink);border-radius:999px;background:var(--empty);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.prog.done i{background:#5f8f46}
+.hub-actions{margin-top:10px}
+.report-grid{display:flex;flex-direction:column;gap:16px}
+@media(min-width:900px){.report-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start}.report-grid .hero,.report-grid .sticker-btn.full{grid-column:1/-1}}
+.set-grid{display:flex;flex-direction:column;gap:16px}
+@media(min-width:900px){.set-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start}}
+.kid-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);padding:8px 12px;min-height:48px}
+.kid-row span{font-size:14px;font-weight:700}
+.v-divider{width:2px;height:26px;background:var(--ink);opacity:.22;border-radius:2px;align-self:center}
+.mobile-nav.four{grid-template-columns:repeat(4,1fr)}
+.sticker-btn.sm{min-height:40px;padding:4px 12px;font-size:12px;box-shadow:2px 2px 0 var(--ink)}
+.sticker-btn.block{width:100%}
+.linklike{border:0;background:transparent;padding:6px 4px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.msg{border:1.5px dashed var(--ink);border-radius:12px;background:var(--sun);padding:9px 13px;font-size:13px;font-weight:700}
+.role-pick{flex:1;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:var(--border);border-radius:14px;background:var(--card);box-shadow:var(--shadow-sm);cursor:pointer;font-family:var(--display);font-weight:700;font-size:15px}
+.role-pick.on{background:var(--sun);transform:rotate(-1deg)}
+.role-pick:active{transform:translate(3px,3px);box-shadow:none}
+.login-wrap{width:min(520px,100%);margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:36px 20px 48px}
+.login-brand{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin-bottom:8px}
+.login-brand h1{font-family:var(--display);font-size:34px;line-height:1;margin:6px 0 0}
+.sheet-backdrop{position:fixed;inset:0;z-index:90;background:rgba(38,32,26,.5);display:grid;place-items:center;padding:18px}
+.sheet-card{width:min(560px,100%);max-height:84dvh;overflow:auto;background:var(--card);border:var(--border);border-radius:14px;box-shadow:var(--shadow-hero);padding:22px;transform:rotate(-.3deg)}
+.sheet-card h2{font-family:var(--display);font-size:24px;margin:0 0 12px}
+@media(max-width:760px){.metrics.four{grid-template-columns:repeat(2,1fr)}.login-wrap{justify-content:flex-start;padding-top:28px}}

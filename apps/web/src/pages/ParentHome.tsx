@@ -16,7 +16,7 @@ type FamilyState =
   | { kind: 'error'; message?: string }
   | { kind: 'ready'; view: FamilyViewDto }
 
-/** 家长端：今天共读卡 / 内容中心 / 阅读足迹 / 设置 */
+/** 家长端（v8 贴纸绘本壳）：mast + 侧栏导航（移动端底部胶囊）+ 今天/内容/足迹/设置 */
 export function ParentHome() {
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
@@ -87,7 +87,37 @@ export function ParentHome() {
     if (state.kind === 'error')
       return <ErrorState message={state.message} onRetry={() => setRevision((n) => n + 1)} />
     if (tab === '今天')
-      return <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
+      return (
+        <>
+          <FootprintBar familyId={familyId ?? ''} token={token ?? ''} />
+
+          {/* 家庭码贴纸卡：小读者的设备输入即可加入 */}
+          <div className="panel family-code">
+            <div>
+              <span className="mono-label">家庭码 · FAMILY CODE</span>
+              <p data-testid="family-code" className="code-display">
+                {familyCode ?? '········'}
+              </p>
+              <p className="mono-line">在小读者的设备上输入即可加入</p>
+            </div>
+            {familyCode ? (
+              <button
+                type="button"
+                className="sticker-btn sm"
+                onClick={() => {
+                  void navigator.clipboard?.writeText(familyCode).catch(() => undefined)
+                  setCopied(true)
+                  setTimeout(() => setCopied(false), 1500)
+                }}
+              >
+                {copied ? '✓ 已复制' : '复制'}
+              </button>
+            ) : null}
+          </div>
+
+          <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
+        </>
+      )
     if (tab === '内容') return <ContentHub familyId={familyId ?? ''} token={token ?? ''} />
     if (tab === '足迹') return <ReportPanel familyId={familyId ?? ''} token={token ?? ''} />
     return (
@@ -101,74 +131,50 @@ export function ParentHome() {
     )
   }
 
+  function navButtons() {
+    return TABS.map((t) => (
+      <button key={t} type="button" onClick={() => setTab(t)} aria-current={tab === t} className={tab === t ? 'on' : ''}>
+        {t}
+      </button>
+    ))
+  }
+
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-5 pb-32 pt-8 lg:max-w-5xl lg:px-10 lg:pb-36">
-      <header className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img src="/brand/logo-256.png" alt="" className="h-9 w-9" />
-          <div>
-            <h1 className="text-2xl font-bold">桃阅读 · 家长端</h1>
-            <p className="text-base text-ink-700">每天半小时，一起把故事讲完</p>
+    <div className="app">
+      <div className="wrap">
+        <header className="mast">
+          <div className="logo">
+            <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
-        </div>
-        <button
-          type="button"
-          onClick={signOut}
-          className="min-h-[3rem] cursor-pointer rounded-full border-ink border-2 bg-paper-200 px-4 text-base text-ink-700 shadow-xs"
-        >
-          退出
-        </button>
-      </header>
-
-      {tab === '今天' && (
-        <FootprintBar familyId={familyId ?? ''} token={token ?? ''} />
-      )}
-
-      {tab === '今天' && (
-        <p className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border-ink border-2 bg-sun/30 px-4 py-3 text-base text-ink-700 shadow-xs">
-          <span>
-            家庭码{' '}
-            <span data-testid="family-code" className="font-bold tracking-widest text-terra-600">
-              {familyCode ?? '········'}
-            </span>
-            ，在小读者的设备上输入即可加入
-          </span>
-          {familyCode ? (
-            <button
-              type="button"
-              onClick={() => {
-                void navigator.clipboard?.writeText(familyCode).catch(() => undefined)
-                setCopied(true)
-                setTimeout(() => setCopied(false), 1500)
-              }}
-              className="ml-auto min-h-[2.25rem] cursor-pointer rounded-full border-ink border-[1.5px] bg-paper-200 px-3 text-xs font-bold text-ink-700 shadow-xs"
-            >
-              {copied ? '✓ 已复制' : '复制'}
+          <div className="brand">
+            <h1>桃阅读 · 家长端</h1>
+            <p>每天半小时 · 一起把故事讲完</p>
+          </div>
+          <div className="mast-actions">
+            <button type="button" className="sticker-btn keep" onClick={signOut}>
+              退出
             </button>
-          ) : null}
-        </p>
-      )}
+          </div>
+        </header>
 
-      {body()}
+        <div className="layout">
+          <aside className="side">
+            <p className="side-label">导航</p>
+            <nav className="nav" aria-label="家长端导航">
+              {navButtons()}
+            </nav>
+            <div className="side-card">
+              <b>一起读</b>
+              <p>小读者的设备输入家庭码即可加入</p>
+            </div>
+          </aside>
+          <main className="main">{body()}</main>
+        </div>
+      </div>
 
-      <nav
-        aria-label="家长端导航"
-        className="sticky bottom-0 z-40 -mx-5 mt-auto flex justify-around border-t-2 border-t-ink bg-paper-100/95 py-2 backdrop-blur lg:mx-auto lg:mb-6 lg:w-fit lg:rounded-3xl lg:border-2 lg:border-ink lg:px-6 lg:py-1.5 lg:shadow-card"
-      >
-        {TABS.map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            aria-current={tab === t}
-            className={`min-h-[3rem] cursor-pointer rounded-xl px-5 text-base ${
-              tab === t ? 'font-bold text-terra-600' : 'text-ink-700'
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+      <nav className="mobile-nav four" aria-label="家长端导航">
+        {navButtons()}
       </nav>
-    </main>
+    </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { api, ApiError } from '../../lib/api'
-import { TaCard, TaButton, Loading } from '../../components/ui'
+import { Loading } from '../../components/ui'
 
 export interface BindWizardProps {
   familyId: string
@@ -10,7 +10,7 @@ export interface BindWizardProps {
 }
 
 /**
- * 绑定向导状态机（V8 Phase 6 重构）：
+ * 绑定向导状态机（V8 Phase 6 重构）：v8 贴纸绘本面板（2026-09-21 家长端重构）。
  * 获取 Key 说明(1) → 输入并绑定(2，提交中禁用) → 正在验证(loading) → 成功(3，显示尾四位 + 重新绑定/解绑)。
  * 失败显示服务端 message，可重试；解绑接口本版未提供，按钮禁用并注明「即将支持」。
  */
@@ -44,26 +44,26 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
   }
 
   return (
-    <TaCard>
-      <h3 className="mb-3 text-lg font-bold">绑定微信读书</h3>
+    <div className="panel">
+      <h3>绑定微信读书</h3>
 
       {step === 1 && (
-        <div className="flex flex-col gap-3 text-base text-ink-700">
+        <div>
           <p>第一步：在自己手机上打开「微信读书」App → 我 → 设置</p>
-          <p>第二步：找到「账号与安全」里的 API Key（需要先开启）</p>
-          <p>第三步：复制 wrk- 开头的钥匙，回到这里粘贴</p>
-          <p className="text-sm text-ink-700/80">
+          <p style={{ marginTop: 6 }}>第二步：找到「账号与安全」里的 API Key（需要先开启）</p>
+          <p style={{ marginTop: 6 }}>第三步：复制 wrk- 开头的钥匙，回到这里粘贴</p>
+          <p className="mono-line" style={{ marginTop: 8, fontSize: 11, lineHeight: 1.7 }}>
             API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位。
           </p>
-          <TaButton className="mt-2" onClick={() => setStep(2)}>
+          <button type="button" className="sticker-btn primary block" style={{ marginTop: 14 }} onClick={() => setStep(2)}>
             我拿到钥匙了
-          </TaButton>
+          </button>
         </div>
       )}
 
       {step === 2 && (
-        <div className="flex flex-col gap-3">
-          <label htmlFor="api-key" className="text-base text-ink-700">
+        <div>
+          <label htmlFor="api-key" style={{ fontSize: 14, color: 'var(--ink2)', display: 'block' }}>
             粘贴 wrk- 开头的钥匙（API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位）
           </label>
           <input
@@ -74,50 +74,55 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
             autoComplete="off"
             placeholder="wrk-…"
             disabled={submitting}
-            className="h-14 w-full rounded-2xl border border-paper-border bg-paper-300 px-4 text-base disabled:opacity-50"
+            className="field block"
+            style={{ width: '100%', marginTop: 10 }}
           />
-          <p className="text-base text-ink-700">钥匙输入时会隐藏显示，防止旁人看到</p>
+          <p style={{ marginTop: 8, fontSize: 14, color: 'var(--ink2)' }}>
+            钥匙输入时会隐藏显示，防止旁人看到
+          </p>
           {submitting ? (
             <Loading label="正在验证钥匙…" />
           ) : (
             <>
               {error && (
-                <p role="alert" className="text-base text-terra-600">
+                <p role="alert" className="msg" style={{ marginTop: 10 }}>
                   {error}
                 </p>
               )}
-              <TaButton
-                className="w-full"
+              <button
+                type="button"
+                className="sticker-btn primary block"
+                style={{ marginTop: 14 }}
                 disabled={!/^wrk-[\w-]{8,}$/.test(apiKey.trim())}
                 onClick={() => void submit()}
               >
                 绑定
-              </TaButton>
-              <TaButton variant="ghost" size="md" onClick={() => setStep(1)}>
+              </button>
+              <button type="button" className="linklike" style={{ marginTop: 6 }} onClick={() => setStep(1)}>
                 ← 上一步
-              </TaButton>
+              </button>
             </>
           )}
         </div>
       )}
 
       {step === 3 && (
-        <div className="flex flex-col gap-3 text-base text-ink-700">
-          <p className="font-bold text-ink-900">绑定成功</p>
-          <p data-testid="masked-tail">
+        <div>
+          <p style={{ fontWeight: 700 }}>绑定成功</p>
+          <p data-testid="masked-tail" style={{ marginTop: 6 }}>
             API Key 已加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位：{maskedTail}
           </p>
-          <div className="flex flex-wrap gap-2">
-            <TaButton size="md" variant="secondary" onClick={rebind}>
+          <div className="setting-row" style={{ marginTop: 12 }}>
+            <button type="button" className="sticker-btn sm" onClick={rebind}>
               重新绑定
-            </TaButton>
+            </button>
             {/* 解绑接口本版未提供：留禁用按钮并注明，避免死链假动作 */}
-            <TaButton size="md" variant="ghost" disabled title="解绑即将支持">
+            <button type="button" className="sticker-btn sm" disabled title="解绑即将支持">
               解绑（即将支持）
-            </TaButton>
+            </button>
           </div>
         </div>
       )}
-    </TaCard>
+    </div>
   )
 }

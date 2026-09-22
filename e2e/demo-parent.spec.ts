@@ -38,23 +38,23 @@ test.describe('家长端', () => {
     // ── 设置：护眼预设 + 添加孩子 ──
     await page.getByRole('button', { name: '设置', exact: true }).click()
     await page.getByRole('button', { name: '21:00', exact: true }).click()
-    // 选中态落盘：preset 按钮变为 primary 赤陶实底（确认 updateSettings 生效）
+    // 选中态落盘：preset 按钮变为 v8 选中胶囊（.on 米黄实底，确认 updateSettings 生效）
     await expect(
       page.getByRole('button', { name: '21:00', exact: true }),
-    ).toHaveClass(/bg-terra/)
+    ).toHaveClass(/\bon\b/)
     await page.getByText('小桃（6-8）').waitFor()
     // 还原为「跟随默认」：否则 21:00 后的休息时间会锁住后续孩子端 e2e（workers:1 串行共享同一库）
     await page.getByRole('button', { name: '跟随默认', exact: true }).click()
     await expect(
       page.getByRole('button', { name: '跟随默认', exact: true }),
-    ).toHaveClass(/bg-terra/)
+    ).toHaveClass(/\bon\b/)
 
     // ── 安静模式（docs/15 P1-C）：开关落盘并立即改变本机 MotionConfig ──
     await page.getByRole('button', { name: '安静模式' }).scrollIntoViewIfNeeded()
     await page.getByRole('button', { name: '安静模式' }).click()
     await expect(
       page.getByRole('button', { name: '安静模式' }),
-    ).toHaveClass(/bg-terra/)
+    ).toHaveClass(/\bon\b/)
     // 开关写入会话 store（孩子端与本机动效立即减速）
     await expect(async () => {
       const stored = await page.evaluate(() => localStorage.getItem('taoread-session'))
@@ -64,7 +64,7 @@ test.describe('家长端', () => {
     await page.getByRole('button', { name: '保持活泼' }).click()
     await expect(
       page.getByRole('button', { name: '保持活泼' }),
-    ).toHaveClass(/bg-terra/)
+    ).toHaveClass(/\bon\b/)
 
   })
 })
