@@ -82,8 +82,35 @@ interface HubRow {
   weread?: { bookId: string; kind: 'book' | 'album' }
 }
 
-export function ContentHub({ familyId, token }: ContentHubProps) {
-  const [source, setSource] = useState<SourceKey>('tao')
+/** 贴纸封面：真实 AI 插画优先（与孩子端同源），加载失败回退场景图；两者皆无时保持 demo 原生画框占位 */
+function HubCover({ row }: { row: HubRow }) {
+  const [imgOk, setImgOk] = useState(true)
+  const showImg = Boolean(row.coverUrl) && imgOk
+  const showScene = !showImg && Boolean(row.scene)
+  const filled = showImg || showScene
+  return (
+    <div className={`book-cover sky hub-cover ${filled ? 'has-art' : ''}`}>
+      {showImg ? (
+        <img
+          className="cover-art"
+          src={row.coverUrl}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={() => setImgOk(false)}
+        />
+      ) : showScene && row.scene ? (
+        <span className="cover-art-wrap">
+          <SceneArt scene={row.scene.art} from={row.scene.from} to={row.scene.to} lang={row.scene.lang} />
+        </span>
+      ) : null}
+      <span className="cover-title">{row.title}</span>
+      {showImg ? <AiBadge /> : null}
+    </div>
+  )
+}
+
+export function ContentHub({ familyId, token }: ContentHubProps) {  const [source, setSource] = useState<SourceKey>('tao')
   const [tao, setTao] = useState<Slice<TaoData>>({ kind: 'loading' })
   const [weread, setWeread] = useState<Slice<WereadData>>({ kind: 'loading' })
   const [searchInput, setSearchInput] = useState('')
@@ -160,6 +187,8 @@ export function ContentHub({ familyId, token }: ContentHubProps) {
       author: b.author,
       category: b.category,
       blocked: b.blocked,
+      // 真实 AI 封面（与孩子端书架同源）；场景图仅作兜底
+      coverUrl: b.coverArtUrl ?? undefined,
       scene: { art: b.coverArt, from: b.coverFrom, to: b.coverTo, lang: b.lang },
       readers: b.readers.map((r) => ({
         childId: r.childId,
@@ -285,22 +314,12 @@ export function ContentHub({ familyId, token }: ContentHubProps) {
     }
   }
 
-  /** 贴纸封面：场景图/远端图填框（隐藏 demo 画框装饰）；无图保持 demo 原生 CSS 画面 */
+  /**
+   * 贴纸封面：真实 AI 插画优先（与孩子端同源），加载失败回退场景图；
+   * 两者皆无时保持 demo 原生 CSS 画框占位。
+   */
   function cover(row: HubRow) {
-    const hasVisual = Boolean(row.scene || row.coverUrl)
-    return (
-      <div className={`book-cover sky hub-cover ${hasVisual ? 'has-art' : ''}`}>
-        {row.scene ? (
-          <span className="cover-art-wrap">
-            <SceneArt scene={row.scene.art} from={row.scene.from} to={row.scene.to} lang={row.scene.lang} />
-          </span>
-        ) : row.coverUrl ? (
-          <img className="cover-art" src={row.coverUrl} alt="" loading="lazy" decoding="async" />
-        ) : null}
-        <span className="cover-title">{row.title}</span>
-        <AiBadge />
-      </div>
-    )
+    return <HubCover row={row} />
   }
 
   function listArea() {
@@ -373,41 +392,39 @@ export function ContentHub({ familyId, token }: ContentHubProps) {
     }
 
     return (
-      <div className="hub-list">
+      <div className="hub-grid">
         {rows.map((row) => (
-          <article key={row.key} className="hub-row">
+          <article key={row.key} className="hub-card">
             {cover(row)}
-            <div>
-              <div className="hub-title">
-                <b>{row.title}</b>
-                <span className="tag">{row.badge}</span>
-                {row.blocked && <span className="tag rose">已屏蔽</span>}
-              </div>
-              {row.author && <p className="mono-line">{row.author}</p>}
-              {row.metaLines.map((line) => (
-                <p key={line} className="mono-line">
-                  {line}
-                </p>
-              ))}
-              {/* 孩子的进度（contentFamily readers；微信读书书架无此数据则不显示） */}
-              {row.readers.map((r) => (
-                <div key={r.childId} className="reader-line">
-                  <span className="mono-line" style={{ width: 42, flexShrink: 0 }}>
-                    {r.name}
-                  </span>
-                  <div className={`prog ${r.finished ? 'done' : ''}`}>
-                    <i style={{ width: `${r.progress}%` }} />
-                  </div>
-                  <span className="mono-line" style={{ width: 48, flexShrink: 0, textAlign: 'right' }}>
-                    {r.finished ? '读完' : `${r.progress}%`}
-                  </span>
+            <div className="hub-title">
+              <b>{row.title}</b>
+              <span className="tag">{row.badge}</span>
+              {row.blocked && <span className="tag rose">已屏蔽</span>}
+            </div>
+            {row.author && <p className="mono-line">{row.author}</p>}
+            {row.metaLines.map((line) => (
+              <p key={line} className="mono-line">
+                {line}
+              </p>
+            ))}
+            {/* 孩子的进度（contentFamily readers；微信读书书架无此数据则不显示） */}
+            {row.readers.map((r) => (
+              <div key={r.childId} className="reader-line">
+                <span className="mono-line" style={{ width: 42, flexShrink: 0 }}>
+                  {r.name}
+                </span>
+                <div className={`prog ${r.finished ? 'done' : ''}`}>
+                  <i style={{ width: `${r.progress}%` }} />
                 </div>
-              ))}
-              <div className="hub-actions">
-                <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void toggleBlocked(row)}>
-                  {row.blocked ? '恢复显示' : '屏蔽'}
-                </button>
+                <span className="mono-line" style={{ width: 48, flexShrink: 0, textAlign: 'right' }}>
+                  {r.finished ? '读完' : `${r.progress}%`}
+                </span>
               </div>
+            ))}
+            <div className="hub-actions">
+              <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void toggleBlocked(row)}>
+                {row.blocked ? '恢复显示' : '屏蔽'}
+              </button>
             </div>
           </article>
         ))}

@@ -72,11 +72,13 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .tonight-grid{display:grid;gap:16px}
 @media(min-width:880px){.tonight-grid{grid-template-columns:1fr 1fr;align-items:start}}
 .family-code{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 30px;transform:rotate(-.4deg)}
-.hub-list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-.hub-row{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--card);padding:12px}
-.hub-cover{width:84px;padding:6px;border-radius:10px;box-shadow:var(--shadow-sm)}
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+@media(max-width:760px){.hub-grid{grid-template-columns:repeat(2,1fr)}}
+.hub-card{display:flex;flex-direction:column;gap:8px;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--card);padding:12px}
+.hub-card .hub-cover{width:100%}
+.hub-card .hub-cover .cover-title{font-size:14px;left:10px;right:10px;bottom:10px}
+.hub-cover{padding:6px;border-radius:10px;box-shadow:var(--shadow-sm)}
 .hub-cover .cover-art-wrap{position:absolute;inset:6px;border-radius:8px;overflow:hidden}
-.hub-cover .cover-title{font-size:10px;left:10px;right:10px;bottom:10px}
 .hub-cover .cover-kicker{display:none}
 .hub-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .hub-title b{font-family:var(--display);font-size:16px;line-height:1.2}
