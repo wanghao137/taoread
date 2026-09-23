@@ -1,0 +1,18 @@
+tunnel: 8a934dcf-aa45-4d0b-a460-8faa9db0fcfc
+credentials-file: C:\ProgramData\cloudflared\8a934dcf-aa45-4d0b-a460-8faa9db0fcfc.json
+ingress:
+  - hostname: read.taostudioai.com
+    service: http://127.0.0.1:8091
+    originRequest:
+      connectTimeout: 30s
+      keepAliveTimeout: 90s
+      keepAliveConnections: 100
+  - hostname: cpa.taostudioai.com
+    service: http://127.0.0.1:8317
+    originRequest:
+      http2Origin: false
+      noTLSVerify: true
+      connectTimeout: 30s
+      keepAliveTimeout: 30s
+      keepAliveConnections: 10
+  - service: http_status:404
