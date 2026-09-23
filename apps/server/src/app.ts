@@ -1,5 +1,6 @@
 import Fastify, { type FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
+import fastifyStatic from '@fastify/static'
 import { join } from 'node:path'
 import type { PrismaClient } from '@prisma/client'
 import {
@@ -18,6 +19,7 @@ import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
 import { registerContentRoutes } from './content/routes'
+import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerTtsRoutes } from './modules/tts/routes'
 import type { TtsClientDeps } from './modules/tts/client'
 import { registerMediaRoutes } from './modules/media/routes'
@@ -62,16 +64,25 @@ export interface BuildAppOptions {
   videoDeps?: VideoGenDeps | null
   /** 审计 T03/F06：信任反向代理（X-Forwarded-*）。false=直连（默认）；true/正整数=信任一级/N 跳 */
   trustProxy?: boolean | number
+  /** A3 费用边界：每家庭每日 AI 生成上限（默认 60） */
+  genDailyLimit?: number
+  /** 前端构建产物目录（apps/web/dist）。设置后同源托管 SPA（部署 read.taostudioai.com 用） */
+  staticDir?: string
 }
 
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
   const app = Fastify({
-    logger: options.logger ?? false,
+    // Media capabilities travel in image/audio URLs; never put raw query strings in request logs.
+    logger: options.logger ? { serializers: { req: (req) => ({ method: req.method, path: req.url?.split('?')[0], hostname: req.hostname, remoteAddress: req.ip }) } } : false,
     // 放宽路径参数长度上限到 256（zod 校验限 bookId≤128；默认 100 会让超长参数在路由层 404 而非 400）
     maxParamLength: 256,
     // 审计 T03/F06：显式信任代理配置——默认 false 时伪造 X-Forwarded-For 不影响
     // request.ip（限流按真实对端地址）；启用后按一级/N 跳可信代理解析客户端地址
     trustProxy: options.trustProxy ?? false,
+  })
+
+  app.addHook('onRequest', async (_request, reply) => {
+    reply.header('Referrer-Policy', 'no-referrer')
   })
 
   await app.register(cors, {
@@ -155,9 +166,12 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     tokenSecret: options.tokenSecret,
   })
 
+  registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
+
+
   // 第四轮（docs/13）：媒体静态服务 + 服务端 TTS
   const mediaDir = options.mediaDir ?? join(process.cwd(), 'media')
-  registerMediaRoutes(app, { mediaDir })
+  registerMediaRoutes(app, { mediaDir, db: options.db, tokenSecret: options.tokenSecret, sessionGuard })
   const ttsDeps: TtsClientDeps | null = options.ttsDeps ?? null
   registerTtsRoutes(app, {
     db: options.db,
@@ -171,6 +185,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     tokenSecret: options.tokenSecret,
     mediaDir,
     imageDeps,
+    genDailyLimit: options.genDailyLimit ?? 60,
   })
   const videoDeps: VideoGenDeps | null = options.videoDeps ?? null
   registerVideoRoutes(app, {
@@ -178,12 +193,24 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     tokenSecret: options.tokenSecret,
     mediaDir,
     videoDeps,
+    genDailyLimit: options.genDailyLimit ?? 60,
   })
+
+  // ── 同源 SPA 托管（部署 read.taostudioai.com）：静态产物 + 前端路由回退 ──
+  // /api/* 与媒体路径不在此列：命中真实路由或 404 JSON，绝不回退成 index.html
+  if (options.staticDir) {
+    await app.register(fastifyStatic, { root: options.staticDir, index: false, wildcard: false, maxAge: '1h' })
+    app.setNotFoundHandler((request, reply) => {
+      if (request.raw.url && (request.raw.url.startsWith('/api/') || request.raw.url.startsWith('/api?'))) {
+        return reply.code(404).send({ code: 'NOT_FOUND', message: '接口不存在' })
+      }
+      return reply.sendFile('index.html')
+    })
+  }
 
   // 统一错误出口：AppError 按其 statusCode 输出；框架级 4xx（畸形 JSON 等）原样透传；
   // 网关错误统一 502（客户端只见语义化中文，不暴露重试/内部细节）；未知错误一律 500
-  app.setErrorHandler((error, _request, reply) => {
-    if (error instanceof AppError) {
+  app.setErrorHandler((error, _request, reply) => {    if (error instanceof AppError) {
       if (error instanceof WereadHttpError || error instanceof WereadApiError) {
         reply.code(502).send({ code: error.code, message: '微信读书暂时联系不上，请稍后再试~' })
         return

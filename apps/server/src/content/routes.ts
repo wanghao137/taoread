@@ -15,6 +15,7 @@ import { requireAuth } from '../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
 import { generateReadingCard } from '../modules/cosession/readingCard'
 import * as svc from './service'
+import { registerImportRoutes } from './importRoutes'
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
   const result = schema.safeParse(data)
@@ -33,6 +34,7 @@ export interface ContentRoutesDeps {
 export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesDeps): void {
   const { db, tokenSecret } = deps
   const auth = requireAuth(tokenSecret)
+  registerImportRoutes(app, deps)
 
   /** 孩子端请求里携带的 childId 必须属于令牌家庭（防跨家庭越权） */
   async function assertOwnChild(request: FastifyRequest, childId: string): Promise<void> {
@@ -154,6 +156,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         request.query,
       )
       await assertOwnChild(request, query.childId)
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
       const progress = await svc.getProgress(db, query.childId, request.params.id)
       return reply.send({ progress: progress ?? { chapterOrder: 1, blockOrder: 0, finished: false } })
     },
@@ -260,6 +263,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     async (request, reply) => {
       const body = parse(z.object({ childId: z.string().min(1).max(64), favorite: z.boolean() }), request.body ?? {})
       await assertOwnChild(request, body.childId)
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
       const exists = await db.book.findUnique({ where: { id: request.params.id }, select: { id: true } })
       if (!exists) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       const result = await svc.setFavorite(db, body.childId, request.params.id, body.favorite)

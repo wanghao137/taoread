@@ -123,7 +123,47 @@ export interface ShelfDto {
   blockedBookIds?: string[]
 }
 
+export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string }
+export interface PhonicsLessonDto {
+  id: string
+  order: number
+  title: string
+  status: 'draft'
+  audioAvailable: false
+  taught: Array<{ grapheme: string; ipa: string; mouthCue: string }>
+  items: Array<{ id: string; kind: 'grapheme' | 'blend' | 'segment'; prompt: string; options: Array<{ id: string; label: string }> }>
+  reader: { id: string; title: string; text: string } | null
+  note: string | null
+}
+export interface PhonicsActiveAttemptDto { id: string; lessonId: string; status: string; answered: Array<{ itemId: string; correct: boolean }> }
+export interface PhonicsSummaryDto { status: 'draft'; attempts: Array<{ id: string; lessonId: string; status: string; startedAt: string; answered: number; correct: number }> }
+export interface DeviceSessionDto { id: string; role: 'parent' | 'child'; deviceId: string | null; createdAt: string; revokedAt: string | null; current: boolean }
+export interface ImportedProgressDto { order: number; offset: number; completed: boolean; updatedAt: string }
+
 export const api = {
+  importedBooks: (token: string, childId?: string) => request<{ books: ImportedBookDto[] }>(`/api/content/imports${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body }),
+  importedBook: (token: string, id: string, childId?: string) => request<{ book: ImportedBookDto & { chapters: Array<{ order: number; title: string }> } }>(`/api/content/imports/${encodeURIComponent(id)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string } }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  publicDomainBooks: (token: string) => request<{ books: Array<{ id: string; title: string; author: string }> }>('/api/content/imports/public-domain', { token }),
+  importPublicDomain: (token: string, id: string, ageStage: '6-8' | '9-12') => request<{ id: string; chapterCount: number; duplicate: boolean }>(`/api/content/imports/public-domain/${encodeURIComponent(id)}`, { method: 'POST', token, body: { ageStage } }),
+  importedProgress: (token: string, id: string, childId: string) => request<{ progress: ImportedProgressDto | null }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { token }),
+  saveImportedProgress: (token: string, id: string, childId: string, body: { order: number; offset: number; completed: boolean }) => request<{ progress: { order: number; offset: number; completed: boolean } }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { method: 'PUT', token, body }),
+  removeImportedBook: (token: string, id: string) => request<void>(`/api/content/imports/${encodeURIComponent(id)}`, { method: 'DELETE', token }),
+  phonicsEnrollment: (token: string, childId: string) => request<{ enabled: boolean; status: 'draft' }>(`/api/children/${encodeURIComponent(childId)}/phonics/enrollment`, { token }),
+  setPhonicsEnrollment: (token: string, childId: string, enabled: boolean) => request<{ enabled: boolean }>(`/api/children/${encodeURIComponent(childId)}/phonics/enrollment`, { method: 'PUT', token, body: { enabled } }),
+  phonicsReaders: (token: string) => request<{ status: 'draft'; readers: Array<{ id: string; title: string; lessonId: string; text: string; note: string }> }>('/api/phonics/readers', { token }),
+  phonicsCatalog: (token: string) => request<{ status: 'draft'; lessons: PhonicsLessonDto[] }>('/api/phonics/catalog', { token }),
+  /** 续做：某课最近一次未结束的尝试（无则 null），D3 中断恢复 */
+  phonicsActiveAttempt: (token: string, childId: string, lessonId: string) =>
+    request<{ attempt: PhonicsActiveAttemptDto | null }>(`/api/children/${encodeURIComponent(childId)}/phonics/attempts/active?lessonId=${encodeURIComponent(lessonId)}`, { token }),
+  /** 家长查看练习记录（区分练习与评估，非能力评分） */
+  phonicsSummary: (token: string, childId: string) =>
+    request<PhonicsSummaryDto>(`/api/children/${encodeURIComponent(childId)}/phonics/summary`, { token }),
+  startPhonicsAttempt: (token: string, childId: string, lessonId: string, clientAttemptId: string) => request<{ attempt: { id: string; status: string } }>(`/api/children/${encodeURIComponent(childId)}/phonics/attempts`, { method: 'POST', token, body: { lessonId, clientAttemptId } }),
+  answerPhonics: (token: string, attemptId: string, itemId: string, answerId: string) => request<{ correct: boolean; repeated: boolean }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/responses`, { method: 'POST', token, body: { itemId, answerId } }),
+  finishPhonics: (token: string, attemptId: string, status: 'completed' | 'paused') => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/finish`, { method: 'POST', token, body: { status } }),
+
   createFamily: (deviceId: string) =>
     request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId } }),
 
@@ -140,6 +180,18 @@ export const api = {
   /** 家长码轮换（仅家长会话）：旧家长码立即作废 */
   rotateParentCode: (familyId: string, token: string) =>
     request<{ parentCode: string }>(`/api/family/${familyId}/parent-code/rotate`, { method: 'POST', token }),
+
+  /** 设备会话列表（仅家长，A1）：含已撤销，current 标记本机 */
+  listSessions: (familyId: string, token: string) =>
+    request<{ sessions: DeviceSessionDto[] }>(`/api/family/${familyId}/sessions`, { token }),
+
+  /** 撤销单台设备（仅家长）：被撤销设备令牌即时失效 */
+  revokeSession: (familyId: string, sid: string, token: string) =>
+    request<{ ok: boolean }>(`/api/family/${familyId}/sessions/${encodeURIComponent(sid)}/revoke`, { method: 'POST', token }),
+
+  /** 保存家庭导入书进度：baseUpdatedAt=本机所基于的服务器版本，409=已在别处更新 */
+  saveImportedProgressV2: (token: string, id: string, childId: string, body: { order: number; offset: number; completed: boolean; baseUpdatedAt?: string }) =>
+    request<{ progress: ImportedProgressDto }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { method: 'PUT', token, body }),
 
   familyView: (familyId: string, token: string) =>
     request<FamilyViewDto>(`/api/family/${familyId}`, { token }),

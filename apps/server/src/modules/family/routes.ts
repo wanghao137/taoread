@@ -190,6 +190,30 @@ export function registerFamilyRoutes(
     return { ok: true, sid }
   })
 
+  // ── 设备列表（仅家长，A1）：当前设备标记 current，含已撤销会话便于排查 ──
+  app.get<{ Params: { familyId: string } }>('/api/family/:familyId/sessions', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    const sessions = await db.deviceSession.findMany({
+      where: { familyId },
+      select: { id: true, role: true, deviceId: true, createdAt: true, revokedAt: true },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    })
+    return {
+      sessions: sessions.map((session) => ({
+        id: session.id,
+        role: session.role,
+        deviceId: session.deviceId,
+        createdAt: session.createdAt,
+        revokedAt: session.revokedAt,
+        current: request.auth?.sid === session.id,
+      })),
+    }
+  })
+
   // ── 家庭信息（任何成员可见；key 只回显掩码）──
   app.get('/api/family/:familyId', {
     preHandler: requireAuth(tokenSecret),

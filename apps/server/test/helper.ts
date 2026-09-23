@@ -34,9 +34,14 @@ export interface MakeAppOpts {
   /** 仪式域本地分钟注入（bedtime 判定） */
   ritualNowMin?: () => number
   /** 审计 T03/F06：信任反向代理（true/跳数） */
+  mediaDir?: string
   trustProxy?: boolean | number
   /** 审计 T03/F02：TTS 依赖注入（测屏蔽书 TTS 拒读用） */
   ttsDeps?: import('../src/modules/tts/client').TtsClientDeps | null
+  /** A3：生图依赖注入（测并发去重/每日配额用） */
+  imageDeps?: import('../src/modules/media/imagegen').ImageGenDeps | null
+  /** A3：每家庭每日生成上限注入 */
+  genDailyLimit?: number
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -45,6 +50,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     db,
     tokenSecret,
     masterKey: TEST_MASTER_KEY,
+    ...(opts.mediaDir ? { mediaDir: opts.mediaDir } : {}),
     probeKey: probe,
     // 默认宽松限流：既有家庭域测试会连续创建大量家庭；限流专项测试自行注入小实例
     ipLimiter:
@@ -59,6 +65,8 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     ...(opts.ritualNowMin ? { ritualNowMin: opts.ritualNowMin } : {}),
     ...(opts.trustProxy !== undefined ? { trustProxy: opts.trustProxy } : {}),
     ...(opts.ttsDeps !== undefined ? { ttsDeps: opts.ttsDeps } : {}),
+    ...(opts.imageDeps !== undefined ? { imageDeps: opts.imageDeps } : {}),
+    ...(opts.genDailyLimit !== undefined ? { genDailyLimit: opts.genDailyLimit } : {}),
   })
   return { app, db }
 }

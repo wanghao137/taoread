@@ -2,8 +2,8 @@
  * TTS 音频缓存（docs/13 P0-B）。
  *
  * stepaudio 每次合成都要出网+生成（秒级），同样的文本+音色+语速不该重复合成。
- * 缓存 key = sha256(text + voiceId + speed + format)，存到 media 目录，元数据进 SQLite。
- * 缓存目录随媒体库统一备份/清理；删除家庭时不清理（缓存不归属任何家庭，无隐私泄露面）。
+ * 缓存 key 额外包含家庭和模型；文件由 TtsMediaOwner 标记归属。
+ * 旧共享缓存与注销家庭的缓存必须受清理策略管理。
  */
 import { createHash } from 'node:crypto'
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
@@ -26,9 +26,11 @@ export function cacheKey(
   format: string,
   /** 审计 F16/T06：语言入键——中英同文本（如 "OK"）缓存必须隔离 */
   lang = 'zh',
+  familyId = '',
+  model = '',
 ): string {
   return createHash('sha256')
-    .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}\u0000${lang}`)
+    .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}\u0000${lang}\u0000${familyId}\u0000${model}`)
     .digest('hex')
 }
 

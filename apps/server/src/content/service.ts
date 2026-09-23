@@ -143,6 +143,11 @@ export async function assertContentReadable(
   contentId: string,
   opts: { role?: 'parent' | 'child'; allowParentPreview?: boolean } = {},
 ): Promise<void> {
+  if (contentId.startsWith('imp:')) {
+    const owner = await db.importedBook.findUnique({ where: { id: contentId }, select: { familyId: true } })
+    if (!owner || owner.familyId !== familyId) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+    return
+  }
   const snap = await db.shelfSnapshot.findUnique({
     where: { familyId_bookId_kind: { familyId, bookId: contentId, kind: 'cbf' } },
     select: { blocked: true },
@@ -201,7 +206,7 @@ export async function listBooks(
       const book = books.find((b) => b.id === row.bookId)
       if (!book) continue
       const total = book.chapters.length
-      const pct = total > 0 ? Math.min(100, Math.round((row.chapterOrder / total) * 100)) : 0
+      const pct = total > 0 ? Math.min(99, Math.round((row.chapterOrder / total) * 100)) : 0
       progressMap.set(row.bookId, { pct: row.finished ? 100 : pct, finished: row.finished })
     }
   }
@@ -260,7 +265,7 @@ export async function listBooksForParent(
     const readers = progressRows
       .filter((r) => r.bookId === b.id)
       .map((r) => {
-        const pct = total > 0 ? Math.min(100, Math.round((r.chapterOrder / total) * 100)) : 0
+        const pct = total > 0 ? Math.min(99, Math.round((r.chapterOrder / total) * 100)) : 0
         return { childId: r.childId, progress: r.finished ? 100 : pct, finished: r.finished }
       })
     return {
@@ -345,15 +350,19 @@ export async function reportProgress(
   const last = await db.chapter.count({ where: { bookId: contentId } })
   const clamped = Math.max(1, Math.min(chapterOrder, Math.max(last, 1)))
   // P0（V8 审计 A3.4）：位置上报 ≠ 完成动作。打开最后一章只表示「读到这里」；
-  // finished 仅由客户端在真实完成末章时的显式 completed=true 写入。
+  // finished 仅由客户端在真实完成末章时的显式 completed=true 写入；完成后不因回看前章清除。
   const atLast = last > 0 && clamped >= last
   const finished = atLast && completed
   await db.readingProgress.upsert({
     where: { childId_bookId: { childId, bookId: contentId } },
     create: { childId, bookId: contentId, chapterOrder: clamped, blockOrder, finished },
-    update: { chapterOrder: clamped, blockOrder, finished },
+    update: { chapterOrder: clamped, blockOrder, ...(finished ? { finished: true } : {}) },
   })
-  return { chapterOrder: clamped, finished }
+  const persisted = await db.readingProgress.findUniqueOrThrow({
+    where: { childId_bookId: { childId, bookId: contentId } },
+    select: { finished: true },
+  })
+  return { chapterOrder: clamped, finished: persisted.finished }
 }
 
 export async function getProgress(

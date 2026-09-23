@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, type ChildDto, type FamilySettingsDto } from '../../lib/api'
+import { api, ApiError, type ChildDto, type DeviceSessionDto, type FamilySettingsDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import { Loading, ErrorState } from '../../components/ui'
 import { BindWizard } from './BindWizard'
@@ -40,6 +40,8 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   /** 家长码（T02/F01）：家长加入的第二凭据，仅家长会话可见/可轮换 */
   const [parentCode, setParentCode] = useState<string | null>(null)
   const [codeCopied, setCodeCopied] = useState(false)
+  /** 已登录设备（A1/F04）：列表 + 单设备撤销 */
+  const [sessions, setSessions] = useState<DeviceSessionDto[] | null>(null)
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -62,6 +64,11 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     api
       .getParentCode(familyId, token)
       .then((codeDto) => alive && setParentCode(codeDto.parentCode))
+      .catch(() => undefined)
+    // 设备列表独立拉取：失败只隐藏设备卡
+    api
+      .listSessions(familyId, token)
+      .then((dto) => alive && setSessions(dto.sessions))
       .catch(() => undefined)
     return () => {
       alive = false
@@ -141,6 +148,45 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             </div>
             <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
               重新生成后旧家长码立即作废，已加入的设备不受影响
+            </p>
+          </div>
+        ) : null}
+        {/* 已登录设备（A1/F04）：家长可查看并撤销任意设备，撤销后该设备令牌立即失效 */}
+        {sessions && sessions.length > 0 ? (
+          <div className="panel" data-testid="device-sessions">
+            <h3>已登录设备</h3>
+            <p>孩子设备凭家庭码加入，家长设备凭家长码加入；发现陌生设备可立即请出</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+              {sessions.map((session) => (
+                <div key={session.id} className="kid-row">
+                  <span>
+                    {session.current ? '本机' : session.role === 'parent' ? '家长设备' : '孩子设备'}
+                    {session.deviceId ? ` · ${session.deviceId}` : ''}
+                    {session.revokedAt ? ' · 已请出' : ''}
+                  </span>
+                  {!session.current && !session.revokedAt ? (
+                    <button
+                      type="button"
+                      className="sticker-btn sm"
+                      disabled={busy}
+                      data-testid={`revoke-${session.role}`}
+                      onClick={() =>
+                        void run(() => api.revokeSession(familyId, session.id, token), '已请出该设备').then((r) => {
+                          if (r !== undefined)
+                            setSessions((prev) =>
+                              prev ? prev.map((s) => (s.id === session.id ? { ...s, revokedAt: new Date().toISOString() } : s)) : prev,
+                            )
+                        })
+                      }
+                    >
+                      请出
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
+              被请出的设备会马上退出登录；再次加入需要家庭码（家长设备还需家长码）
             </p>
           </div>
         ) : null}

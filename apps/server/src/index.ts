@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from './config'
 import { buildApp } from './app'
 import { createDb } from './lib/db'
@@ -27,7 +27,7 @@ async function main(): Promise<void> {
         model: config.TTS_MODEL,
       }
     : null
-  const mediaDir = join(process.cwd(), 'media')
+  const mediaDir = config.TAO_MEDIA_DIR ? resolve(config.TAO_MEDIA_DIR) : join(process.cwd(), 'media')
   const imageDeps: ImageGenDeps | null = imageGenAvailable(config)
     ? {
         base: config.TAO_IMAGE_BASE!,
@@ -49,6 +49,8 @@ async function main(): Promise<void> {
     masterKey: config.TAO_MASTER_KEY,
     // 审计 T03/F06：docs/06 部署文档承诺的 TAO_TRUST_PROXY 落实到 Fastify
     trustProxy: config.TAO_TRUST_PROXY,
+    genDailyLimit: config.TAO_DAILY_GEN_LIMIT,
+    ...(config.TAO_STATIC_DIR ? { staticDir: resolve(config.TAO_STATIC_DIR) } : {}),
     allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
     bedTimeMin: config.TAO_BEDTIME === 'off' ? null : config.TAO_BEDTIME,
     logger: true,
@@ -68,7 +70,7 @@ async function main(): Promise<void> {
   console.log('[生图]', imageDeps ? `AI 插画已就绪（${imageDeps.model}）` : '未配置生图，封面使用 SVG 场景')
   console.log('[视频]', videoDeps ? `AI 动画已就绪（${videoDeps.model}）` : '未配置视频，不展示动画入口')
   console.log('[媒体]', mediaDir)
-  await app.listen({ port: config.PORT, host: '0.0.0.0' })
+  await app.listen({ port: config.PORT, host: config.TAO_HOST })
 }
 
 main().catch((err) => {

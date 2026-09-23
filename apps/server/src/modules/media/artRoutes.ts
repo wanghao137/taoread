@@ -17,6 +17,9 @@ import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import { ImageGenerator, type ArtKind, type GenerateArtInput, type ImageGenDeps } from './imagegen'
 import { compressPngToWebP } from './compress'
 import { labelWebpImage } from './label'
+import { assertSceneReadable, familyScene, mediaUrl } from './access'
+import { assertContentReadable } from '../../content/service'
+import { assertDailyGenQuota, dedupeInFlight } from './generationGuard'
 
 export interface ArtRoutesDeps {
   db: PrismaClient
@@ -24,6 +27,8 @@ export interface ArtRoutesDeps {
   mediaDir: string
   /** 生图依赖；缺 base/key 时整个模块 503 */
   imageDeps: ImageGenDeps | null
+  /** A3：每家庭每日生成上限（插画+动画合计，实际出网计数） */
+  genDailyLimit: number
 }
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
@@ -36,8 +41,10 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 }
 
 export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): void {
-  const { db, tokenSecret, mediaDir, imageDeps } = deps
+  const { db, tokenSecret, mediaDir, imageDeps, genDailyLimit } = deps
   const auth = requireAuth(tokenSecret)
+  const signedUrl = (path: string, request: FastifyRequest) =>
+    mediaUrl(path, request.auth!, tokenSecret)
 
   function requireImage(): ImageGenDeps {
     if (!imageDeps) throw new AppError('插画功能还没准备好', 'IMAGE_UNAVAILABLE', 503)
@@ -71,43 +78,46 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
 
   /**
    * 为单个场景生成插画。已存在则直接返回（幂等，不重复出网）。
+   * 真正出网前过每家庭每日配额（A3）；并发同场景请求合并为一次上游调用。
    * 任何失败返回 null——调用方继续用 SVG，不阻断用户。
    */
-  async function ensureArt(input: GenerateArtInput): Promise<string | null> {
+  async function ensureArt(input: GenerateArtInput, familyId: string): Promise<string | null> {
     const existing = await db.artAsset.findUnique({
       where: { scene: input.scene },
       select: { urlPath: true },
     })
     if (existing) return existing.urlPath
+    await assertDailyGenQuota(db, familyId, genDailyLimit)
 
-    const gen = new ImageGenerator(
-      requireImage(),
-      mediaDir,
-      compressPngToWebP,
-      // P0-8：隐式标识——provider 用服务名、contentId 用场景键（法规要求的制作要素）
-      (webp, scene, kind) =>
-        labelWebpImage(webp, {
-          provider: 'taoread',
-          model: requireImage().model,
-          scene,
-          kind,
-        }),
-    )
-    const art = await gen.generate(input)
-    if (!art) return null
-    await upsertAsset(input, art)
-    return art.urlPath
+    return dedupeInFlight(`art:${input.scene}`, async () => {
+      // 双重检查：等在途请求完成后进来，场景可能已由前一个请求生成
+      const raced = await db.artAsset.findUnique({ where: { scene: input.scene }, select: { urlPath: true } })
+      if (raced) return raced.urlPath
+      const gen = new ImageGenerator(
+        requireImage(),
+        mediaDir,
+        compressPngToWebP,
+        // P0-8：隐式标识——provider 用服务名、contentId 用场景键（法规要求的制作要素）
+        (webp, scene, kind) =>
+          labelWebpImage(webp, {
+            provider: 'taoread',
+            model: requireImage().model,
+            scene,
+            kind,
+          }),
+      )
+      const art = await gen.generate(input)
+      if (!art) return null
+      await upsertAsset(input, art)
+      return art.urlPath
+    })
   }
 
   // 审计 T03/F03：生成是付费出网动作——孩子角色一律 403；家长生成的素材强制
   // 写入家庭命名空间（scene 前缀 fam:<familyId>:），不得抢占公共书库场景键
   const generateAuth = requireAuth(tokenSecret, { roles: ['parent'] })
 
-  /** 家庭命名空间：API 生成的 scene 一律收进 fam:<familyId>: 前缀，公共键（cover:/chapter:）不可经 API 写 */
-  function familyScene(familyId: string, scene: string): string {
-    return scene.startsWith('fam:') ? scene : `fam:${familyId}:${scene}`
-  }
-
+  // 普通 scene 加本家庭前缀；已有的本家庭 scene 保持不变，其他家庭 scene 拒绝。
   app.post('/api/art/generate', { preHandler: generateAuth }, async (request: FastifyRequest, reply: FastifyReply) => {
     requireImage()
     if (!request.auth) throw new UnauthorizedError()
@@ -128,8 +138,8 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       label: body.label,
       lang: body.lang ?? 'zh',
     }
-    const urlPath = await ensureArt(input)
-    return reply.send({ scene: input.scene, urlPath, ok: urlPath !== null })
+    const urlPath = await ensureArt(input, request.auth.fid)
+    return reply.send({ scene: input.scene, urlPath: urlPath ? signedUrl(urlPath, request) : null, ok: urlPath !== null })
   })
 
   app.get<{ Params: { scene: string } }>(
@@ -137,12 +147,13 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
     { preHandler: auth },
     async (request: FastifyRequest<{ Params: { scene: string } }>, reply: FastifyReply) => {
       if (!request.auth) throw new UnauthorizedError()
+      assertSceneReadable(request.auth.fid, request.params.scene)
       const asset = await db.artAsset.findUnique({
         where: { scene: request.params.scene },
         select: { urlPath: true, width: true, height: true },
       })
       if (!asset) throw new AppError('这个场景还没有插画', 'ART_NOT_FOUND', 404)
-      return reply.send(asset)
+      return reply.send({ ...asset, urlPath: request.params.scene.startsWith('fam:') ? signedUrl(asset.urlPath, request) : asset.urlPath })
     },
   )
 
@@ -161,31 +172,39 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
         include: { chapters: { orderBy: { order: 'asc' }, select: { order: true, title: true, art: true } } },
       })
       if (!book) throw new AppError('没有这本书', 'BOOK_NOT_FOUND', 404)
+      await assertContentReadable(db, request.auth.fid, book.id, { role: request.auth.role })
+      const fid = request.auth.fid
 
-      const results: Array<{ scene: string; kind: ArtKind; ok: boolean }> = []
-      // 封面（家庭命名空间，公共书库封面只能由平台脚本离线生成）
-      const coverScene = familyScene(request.auth.fid, `cover:${book.id}`)
-      const coverUrl = await ensureArt({
-        kind: 'cover',
-        scene: coverScene,
-        description: book.intro && book.intro.length > 8 ? book.intro : `${book.title}的封面插画`,
-        label: book.title,
-        lang: book.lang as 'zh' | 'en',
-      }).catch(() => null)
-      results.push({ scene: coverScene, kind: 'cover', ok: coverUrl !== null })
+      const results: Array<{ scene: string; kind: ArtKind; ok: boolean }> = await dedupeInFlight(
+        `artbook:${fid}:${book.id}`,
+        async () => {
+          const rows: Array<{ scene: string; kind: ArtKind; ok: boolean }> = []
+          // 封面（家庭命名空间，公共书库封面只能由平台脚本离线生成）
+          const coverScene = familyScene(fid, `cover:${book.id}`)
+          const coverUrl = await ensureArt({
+            kind: 'cover',
+            scene: coverScene,
+            description: book.intro && book.intro.length > 8 ? book.intro : `${book.title}的封面插画`,
+            label: book.title,
+            lang: book.lang as 'zh' | 'en',
+          }, fid).catch(() => null)
+          rows.push({ scene: coverScene, kind: 'cover', ok: coverUrl !== null })
 
-      // 章节题图（并发 2，避免压垮生图服务）
-      for (const ch of book.chapters) {
-        const scene = familyScene(request.auth.fid, ch.art ?? `chapter:${book.id}:${ch.order}`)
-        const url = await ensureArt({
-          kind: 'chapter',
-          scene,
-          description: `${book.title}·${ch.title}：与诗句内容相符的安静优美画面`,
-          label: `${book.title}·${ch.title}`,
-          lang: book.lang as 'zh' | 'en',
-        }).catch(() => null)
-        results.push({ scene, kind: 'chapter', ok: url !== null })
-      }
+          // 章节题图（逐章串行出网，避免压垮生图服务）
+          for (const ch of book.chapters) {
+            const scene = familyScene(fid, ch.art ?? `chapter:${book.id}:${ch.order}`)
+            const url = await ensureArt({
+              kind: 'chapter',
+              scene,
+              description: `${book.title}·${ch.title}：与诗句内容相符的安静优美画面`,
+              label: `${book.title}·${ch.title}`,
+              lang: book.lang as 'zh' | 'en',
+            }, fid).catch(() => null)
+            rows.push({ scene, kind: 'chapter', ok: url !== null })
+          }
+          return rows
+        },
+      )
 
       const ok = results.filter((r) => r.ok).length
       return reply.send({ bookId: book.id, total: results.length, ok, results })

@@ -18,6 +18,7 @@ import { api, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import { AiBadge } from '../../components/art/AiBadge'
 import { ReaderPage } from './ReaderPage'
+import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
 
 export type V8Theme = 'paper' | 'sepia' | 'night'
 
@@ -261,7 +262,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
-  const inReader = /^\/child\/book\/[^/]+\/chapter\//.test(location.pathname)
+  const inReader = /^\/child\/(?:book|family-book)\/[^/]+\/chapter\//.test(location.pathname)
 
   return (
     <V8Context.Provider value={ctx}>
@@ -293,9 +294,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                     ['/child/today', LABELS.navHome],
                     ['/child/discover', LABELS.discover],
                     ['/child/my', LABELS.navMy],
+                    ['/child/family-books', '家庭书架'],
+                    ['/child/phonics', '英语小练习'],
                   ] as Array<[string, string]>
                 ).map(([to, label]) => (
-                  <button key={to} className={location.pathname === to ? 'on' : ''} onClick={() => navigate(to)}>
+                  <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
                     {label}
                   </button>
                 ))}
@@ -311,6 +314,10 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 <Route path="/today" element={<TodayPage />} />
                 <Route path="/discover" element={<DiscoverPage />} />
                 <Route path="/my" element={<MyPage />} />
+                <Route path="/family-books" element={<FamilyLibraryPage />} />
+                <Route path="/family-book/:id" element={<FamilyReaderPage />} />
+                <Route path="/family-book/:id/chapter/:order" element={<FamilyReaderPage />} />
+                <Route path="/phonics" element={<PhonicsTrialPage />} />
                 <Route path="/book/:bookId" element={<BookDetailPage />} />
                 <Route path="/book/:bookId/chapter/:order" element={<ReaderRoute />} />
                 <Route path="*" element={<Navigate to="/child/today" replace />} />
@@ -326,9 +333,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 ['/child/today', LABELS.navHome],
                 ['/child/discover', LABELS.discover],
                 ['/child/my', LABELS.navMy],
+                ['/child/family-books', '家庭书架'],
+                ['/child/phonics', '英语小练习'],
               ] as Array<[string, string]>
             ).map(([to, label]) => (
-              <button key={to} className={location.pathname === to ? 'on' : ''} onClick={() => navigate(to)}>
+              <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
                 {label}
               </button>
             ))}

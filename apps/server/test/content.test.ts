@@ -215,6 +215,20 @@ describe('内容域 /api/content/books', () => {
       payload: { childId, chapterOrder: 17, blockOrder: 0, completed: true },
     })
     expect(done.json().finished).toBe(true)
+    const reread = await harness.app.inject({
+      method: 'POST',
+      url: '/api/content/books/sanzi-jing/progress',
+      headers: authHeaders(token),
+      payload: { childId, chapterOrder: 1, blockOrder: 0 },
+    })
+    expect(reread.json().finished).toBe(true)
+    const progress = await harness.app.inject({
+      method: 'GET',
+      url: `/api/content/books/sanzi-jing/progress?childId=${childId}`,
+      headers: authHeaders(token),
+    })
+    expect(progress.json().progress.finished).toBe(true)
+    expect(progress.json().progress.chapterOrder).toBe(1)
   })
 
   it('cbf: 书籍可正常开启共读会话', async () => {
@@ -401,7 +415,6 @@ describe('内容域 seed 幂等性', () => {
   // 原实现双次全量（222 本×2）单独跑 42s、全量套件资源争用时撞 60s 门限。
   it('重复入库不产生重复章节', async () => {
     const db = harness.db as PrismaClient
-    await seedAllPacks(db, ALL_PACKS)
     const pack = ALL_PACKS.find((p) => p.id === 'sanzi-jing')
     expect(pack).toBeDefined()
     await seedPack(db, pack!)

@@ -11,6 +11,9 @@ import { mkdir, writeFile, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { registerMediaRoutes } from '../src/modules/media/routes'
+import { familyScene, mediaUrl, verifyMediaTicket } from '../src/modules/media/access'
+import { signToken, verifyToken } from '../src/lib/auth'
+import { tokenSecret } from './helper'
 
 const MEDIA_DIR = join(tmpdir(), `taoread-media-test-${Date.now()}`)
 
@@ -75,5 +78,27 @@ describe('媒体静态服务', () => {
   it('不存在的文件 404', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/media/art/nope.webp' })
     expect(res.statusCode).toBe(404)
+  })
+})
+
+describe('private media capabilities', () => {
+  const session = { fid: 'family-A', role: 'parent' as const, did: 'device-A', sid: 'session-123456789' }
+  const claims = verifyToken(signToken(session, tokenSecret, { nowSec: 1000, ttlSec: 1000 }), tokenSecret, 1001)
+  const path = '/api/media/tts/ab/file.mp3'
+
+  it('binds one file and expires after five minutes; never embeds the login JWT', () => {
+    const url = mediaUrl(path, claims, tokenSecret, 1000)
+    expect(url).not.toContain(signToken(session, tokenSecret, { nowSec: 1000 }))
+    const ticket = new URL(url, 'https://example.test').searchParams.get('ticket')!
+    expect(verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1001)).toEqual({ fid: session.fid, sid: session.sid })
+    expect(() => verifyMediaTicket(ticket, 'tts/ab/another.mp3', tokenSecret, 1001)).toThrow()
+    expect(() => verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1300)).toThrow()
+    expect(() => verifyMediaTicket(ticket.slice(0, -2) + 'xx', path.slice('/api/media/'.length), tokenSecret, 1001)).toThrow()
+  })
+
+  it('preserves own generated scene while refusing another family scene', () => {
+    expect(familyScene('family-A', 'chapter:1')).toBe('fam:family-A:chapter:1')
+    expect(familyScene('family-A', 'fam:family-A:chapter:1')).toBe('fam:family-A:chapter:1')
+    expect(() => familyScene('family-A', 'fam:family-B:chapter:1')).toThrow()
   })
 })

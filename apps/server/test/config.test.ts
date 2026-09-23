@@ -11,6 +11,7 @@ describe('loadConfig', () => {
   it('默认值正确（PORT 8787 / dev / CORS *）', () => {
     const cfg = loadConfig({ ...BASE })
     expect(cfg.PORT).toBe(8787)
+    expect(cfg.TAO_HOST).toBe('127.0.0.1')
     expect(cfg.NODE_ENV).toBe('dev')
     expect(cfg.TAO_ALLOWED_ORIGIN).toBe('*')
   })
@@ -33,6 +34,13 @@ describe('loadConfig', () => {
   it('生产环境显式配置来源后放行', () => {
     const cfg = loadConfig({ ...BASE, NODE_ENV: 'prod', TAO_ALLOWED_ORIGIN: 'https://taoread.example' })
     expect(cfg.TAO_ALLOWED_ORIGIN).toBe('https://taoread.example')
+  })
+})
+
+describe('TAO_HOST 监听范围', () => {
+  it('显式地址可以配置，非法地址拒绝', () => {
+    expect(loadConfig({ ...BASE, TAO_HOST: '0.0.0.0' }).TAO_HOST).toBe('0.0.0.0')
+    expect(() => loadConfig({ ...BASE, TAO_HOST: 'example.com' })).toThrow(ConfigError)
   })
 })
 

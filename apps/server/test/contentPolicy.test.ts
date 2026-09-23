@@ -99,6 +99,19 @@ describe('屏蔽策略与生成角色门（T03）', () => {
       payload: { childId, chapterOrder: 1, blockOrder: 0 },
     })
     expect(progress.statusCode).toBe(403)
+    const progressRead = await h.app.inject({
+      method: 'GET',
+      url: `/api/content/books/policy-book/progress?childId=${childId}`,
+      headers: authHeaders(childToken),
+    })
+    expect(progressRead.statusCode).toBe(403)
+    const favorite = await h.app.inject({
+      method: 'PUT',
+      url: '/api/content/books/policy-book/favorite',
+      headers: authHeaders(childToken),
+      payload: { childId, favorite: true },
+    })
+    expect(favorite.statusCode).toBe(403)
     const word = await h.app.inject({
       method: 'POST',
       url: '/api/content/words',

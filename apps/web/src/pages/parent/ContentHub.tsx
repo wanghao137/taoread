@@ -16,6 +16,7 @@ import { SceneArt } from '../../components/art/SceneArt'
 import { AiBadge } from '../../components/art/AiBadge'
 import { PageHead } from '../child/V8App'
 import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
+import { FamilyImports } from './FamilyImports'
 
 export interface ContentHubProps {
   familyId: string
@@ -492,6 +493,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
       )}
 
       <div style={{ marginTop: 10 }}>{listArea()}</div>
+      {source === 'tao' && <FamilyImports token={token} />}
 
       {(source === 'tao' || source === 'blocked') && (
         <p className="mono-line" style={{ marginTop: 12, fontSize: 11, lineHeight: 1.7 }}>

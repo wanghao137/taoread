@@ -11,6 +11,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
+import { mediaUrl } from '../media/access'
 import { requireAuth } from '../../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import { getChapter, assertContentReadable } from '../../content/service'
@@ -63,6 +64,14 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
   const auth = requireAuth(tokenSecret)
   const cache = new TtsCache(mediaDir)
 
+  async function ownAudio(path: string, familyId: string): Promise<void> {
+    await db.ttsMediaOwner.upsert({
+      where: { path },
+      create: { path, familyId },
+      update: {},
+    })
+  }
+
   /** 无 stepaudio 配置时给出明确的 503，前端据此降级 */
   function requireTts(): TtsClientDeps {
     if (!ttsDeps) throw new AppError('服务端朗读还没准备好，先用浏览器语音哦', 'TTS_UNAVAILABLE', 503)
@@ -98,13 +107,14 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       const voice = findVoice(body.voiceId)
       const speed = clampSpeed(body.speed)
       const format = 'mp3'
-      const key = cacheKey(body.text, voice.id, speed, format, body.lang)
+      const key = cacheKey(body.text, voice.id, speed, format, body.lang, request.auth.fid, client.model)
 
       const hit = await cache.get(key, format)
       if (hit) {
+        await ownAudio(hit.urlPath.slice('/api/media/'.length), request.auth.fid)
         const chars = buildCharTimeline(body.text, hit.durationMs)
         const res: PreviewResponse = {
-          audioUrl: hit.urlPath,
+          audioUrl: mediaUrl(hit.urlPath, request.auth!, tokenSecret),
           format,
           durationMs: hit.durationMs,
           chars,
@@ -131,8 +141,9 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       }
       const { durationMs, chars } = timelineFromMp3(body.text, audio)
       const entry = await cache.set(key, format, audio, durationMs)
+      await ownAudio(entry.urlPath.slice('/api/media/'.length), request.auth.fid)
       const res: PreviewResponse = {
-        audioUrl: entry.urlPath,
+        audioUrl: mediaUrl(entry.urlPath, request.auth!, tokenSecret),
         format,
         durationMs,
         chars,
@@ -167,6 +178,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         request.body ?? {},
       )
 
+      if (params.contentId.startsWith('imp:')) throw new AppError('家庭导入书暂不支持服务端朗读', 'TTS_UNAVAILABLE', 503)
       const chapter = await getChapter(db, params.contentId, params.order)
       if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
       // 审计 T03/F02：屏蔽书的整章 TTS 同策略拒绝（家长保留管理预览）
@@ -210,14 +222,15 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       for (let i = 0; i < segments.length; i++) {
         const seg = segments[i]
         if (!seg) continue
-          const key = cacheKey(seg, voice.id, speed, 'mp3', lang)
+        const key = cacheKey(seg, voice.id, speed, 'mp3', lang, request.auth.fid, client.model)
         try {
           const hit = await cache.get(key, 'mp3')
           if (hit) {
+            await ownAudio(hit.urlPath.slice('/api/media/'.length), request.auth.fid)
             send('segment', {
               index: i,
               text: seg,
-              audioUrl: hit.urlPath,
+              audioUrl: mediaUrl(hit.urlPath, request.auth!, tokenSecret),
               durationMs: hit.durationMs,
               chars: buildCharTimeline(seg, hit.durationMs),
               cached: true,
@@ -234,10 +247,11 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           )
           const { durationMs, chars } = timelineFromMp3(seg, out.audio)
           const entry = await cache.set(key, 'mp3', out.audio, durationMs)
+          await ownAudio(entry.urlPath.slice('/api/media/'.length), request.auth.fid)
           send('segment', {
             index: i,
             text: seg,
-            audioUrl: entry.urlPath,
+            audioUrl: mediaUrl(entry.urlPath, request.auth!, tokenSecret),
             durationMs,
             chars,
             cached: false,

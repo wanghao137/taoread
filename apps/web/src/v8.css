@@ -120,3 +120,13 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .sheet-card{width:min(560px,100%);max-height:84dvh;overflow:auto;background:var(--card);border:var(--border);border-radius:14px;box-shadow:var(--shadow-hero);padding:22px;transform:rotate(-.3deg)}
 .sheet-card h2{font-family:var(--display);font-size:24px;margin:0 0 12px}
 @media(max-width:760px){.metrics.four{grid-template-columns:repeat(2,1fr)}.login-wrap{justify-content:flex-start;padding-top:28px}}
+
+/* Minimum touch targets for children and parents. */
+.linklike{min-height:44px;padding-block:11px}
+.panel:is(button){min-height:48px;text-align:left}
+.mono-label:is(button){min-height:44px;min-width:44px}
+.reader-controls button{min-height:44px}
+.mobile-nav button{min-height:44px}
+
+.nav-touch{min-height:44px}
+.nav button[aria-current="page"],.mobile-nav button[aria-current="page"]{background:var(--sun);border-color:var(--ink);color:var(--ink)}

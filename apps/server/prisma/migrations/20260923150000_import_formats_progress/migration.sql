@@ -1,0 +1,3 @@
+ALTER TABLE "ImportedBook" ADD COLUMN "format" TEXT NOT NULL DEFAULT 'txt';
+CREATE TABLE "ImportedReadingProgress" ("id" TEXT NOT NULL PRIMARY KEY, "childId" TEXT NOT NULL, "bookId" TEXT NOT NULL, "order" INTEGER NOT NULL DEFAULT 1, "offset" INTEGER NOT NULL DEFAULT 0, "completed" BOOLEAN NOT NULL DEFAULT false, "updatedAt" DATETIME NOT NULL, CONSTRAINT "ImportedReadingProgress_childId_fkey" FOREIGN KEY ("childId") REFERENCES "ChildProfile" ("id") ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "ImportedReadingProgress_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "ImportedBook" ("id") ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE UNIQUE INDEX "ImportedReadingProgress_childId_bookId_key" ON "ImportedReadingProgress"("childId", "bookId");

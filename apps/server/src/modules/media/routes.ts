@@ -4,16 +4,20 @@
  *   GET /api/media/art/<key>.webp      AI 生成的插画（封面/章节题图）
  *   GET /api/media/videos/<id>.mp4     AI 生成的章节动画
  *
- * 这些文件不入库（只在磁盘），key 是内容哈希，无家庭归属。
- * 不做鉴权：内容是公版书朗读与生成插画，不含家庭私有数据。
- * 长缓存：key 即内容， immutable。
+ * 文件在磁盘；TTS/家庭素材用会话令牌校验归属，公版素材保持可公开读取。
+ * 浏览器媒体标签使用短时路径限定票据；私有响应禁止缓存。
  * 路径边界（审计 T03/F08）：realpath 解析符号链接后必须仍在媒体根目录内；
  * 扩展名白名单限制可服务类型；支持 Range（音频/视频拖动进度条）。
  */
 import type { FastifyInstance } from 'fastify'
+import type { PrismaClient } from '@prisma/client'
 import { createReadStream } from 'node:fs'
 import { realpath, stat } from 'node:fs/promises'
 import { join, normalize, sep } from 'node:path'
+import { verifyToken } from '../../lib/auth'
+import type { SessionGuard } from '../../lib/sessions'
+import { assertSceneReadable, verifyMediaTicket } from './access'
+import { ForbiddenError, UnauthorizedError } from '../../lib/errors'
 
 const MIME: Record<string, string> = {
   '.mp3': 'audio/mpeg',
@@ -27,6 +31,9 @@ const MIME: Record<string, string> = {
 
 export interface MediaRoutesDeps {
   mediaDir: string
+  db?: PrismaClient
+  tokenSecret?: Buffer
+  sessionGuard?: SessionGuard
 }
 
 export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps): void {
@@ -36,6 +43,44 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
     '/api/media/*',
     async (request, reply) => {
       const raw = request.params['*']
+      const path = normalize(raw).replaceAll('\\', '/')
+      if (raw.includes('\\') || raw.includes('..') || raw !== path || path.startsWith('/')) {
+        return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
+      }
+      let rowIsPrivate = false
+      async function authorize(familyId: string): Promise<void> {
+        const header = request.headers.authorization
+        let claims: { fid: string; sid: string }
+        if (header?.startsWith('Bearer ')) {
+          claims = verifyToken(header.slice(7).trim(), deps.tokenSecret!)
+        } else {
+          const ticket = (request.query as { ticket?: unknown }).ticket
+          if (typeof ticket !== 'string') throw new UnauthorizedError()
+          claims = verifyMediaTicket(ticket, path, deps.tokenSecret!)
+        }
+        if (claims.fid !== familyId) throw new ForbiddenError('不能访问其他家庭的素材')
+        await deps.sessionGuard!.assertActive(claims.fid, claims.sid)
+      }
+      if (deps.db && path.startsWith('tts/')) {
+        rowIsPrivate = true
+        const row = await deps.db.ttsMediaOwner.findUnique({ where: { path }, select: { familyId: true } })
+        if (!row) throw new ForbiddenError('没有可访问的音频记录')
+        await authorize(row.familyId)
+      } else if (deps.db && (path.startsWith('art/') || path.startsWith('videos/'))) {
+        const urlPath = `/api/media/${path}`
+        const row = path.startsWith('art/')
+          ? await deps.db.artAsset.findFirst({ where: { urlPath }, select: { scene: true } })
+          : await deps.db.videoAsset.findFirst({ where: { urlPath }, select: { scene: true } })
+        if (!row) throw new ForbiddenError('没有可访问的素材记录')
+        if (row.scene.startsWith('fam:')) {
+          rowIsPrivate = true
+          const familyId = row.scene.slice(4).split(':')[0]!
+          await authorize(familyId)
+          assertSceneReadable(familyId, row.scene)
+        }
+      } else if (deps.db) {
+        throw new ForbiddenError('不能访问此文件')
+      }
       // 防穿越第一层：归一化 + 去掉前导 ..
       const safe = normalize(raw).replace(/^(\.\.[/\\])+/, '')
       const abs = join(deps.mediaDir, safe)
@@ -58,8 +103,9 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
       // 扩展名白名单：不在表内的类型一律 404，不给任意文件当下载源
       if (!mime) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
       reply.header('Content-Type', mime)
-      // key 即内容哈希：可以永久缓存
-      reply.header('Cache-Control', 'public, max-age=31536000, immutable')
+      // 公共素材可长期缓存；家庭素材与 TTS 明确禁止缓存。
+      reply.header('Referrer-Policy', 'no-referrer')
+      reply.header('Cache-Control', deps.db && rowIsPrivate ? 'private, no-store' : 'public, max-age=31536000, immutable')
       reply.header('Accept-Ranges', 'bytes')
 
       // Range（审计 F08）：音频/视频拖动进度条需要 206 分段

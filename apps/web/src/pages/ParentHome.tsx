@@ -4,6 +4,7 @@ import { useSession } from '../stores/session'
 import { Loading, ErrorState } from '../components/ui'
 import { TonightPanel } from './parent/TonightPanel'
 import { ContentHub } from './parent/ContentHub'
+import { ParentPhonics } from './parent/FamilyImports'
 import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
@@ -118,7 +119,7 @@ export function ParentHome() {
           <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
         </>
       )
-    if (tab === '内容') return <ContentHub familyId={familyId ?? ''} token={token ?? ''} />
+    if (tab === '内容') return <><ContentHub familyId={familyId ?? ''} token={token ?? ''} /><ParentPhonics token={token ?? ''} children={childrenList} /></>
     if (tab === '足迹') return <ReportPanel familyId={familyId ?? ''} token={token ?? ''} />
     return (
       <SettingsPanel

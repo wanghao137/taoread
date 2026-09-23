@@ -7,6 +7,7 @@ import { ConfigError } from './lib/errors'
 const schema = z
   .object({
     PORT: z.coerce.number().int().positive().default(8787),
+    TAO_HOST: z.string().default('127.0.0.1').refine((host) => host === '127.0.0.1' || host === '::1' || host === '0.0.0.0', 'TAO_HOST 必须是明确的监听地址'),
     NODE_ENV: z.enum(['dev', 'test', 'prod']).default('dev'),
     TAO_MASTER_KEY: z.string().min(16, 'TAO_MASTER_KEY 至少 16 个字符'),
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
@@ -56,6 +57,12 @@ const schema = z
         if (/^\d+$/.test(s)) return Number.parseInt(s, 10)
         throw new Error('TAO_TRUST_PROXY 需为 true / false / 跳数（正整数）')
       }),
+    // A3 费用边界：每家庭每日 AI 生成（插画+动画）上限，实际出网计数（幂等命中不计）
+    TAO_DAILY_GEN_LIMIT: z.coerce.number().int().positive().max(10_000).default(60),
+    // 媒体目录（AI 插画/TTS/视频落地）。缺省=服务进程 cwd 下的 media/；生产部署指向独立卷
+    TAO_MEDIA_DIR: z.string().min(1).optional(),
+    // 前端构建产物目录（apps/web/dist）。设置后服务端同源托管 SPA；不设置=纯 API（开发态）
+    TAO_STATIC_DIR: z.string().min(1).optional(),
   })
   .superRefine((cfg, ctx) => {
     if (cfg.NODE_ENV === 'prod' && cfg.TAO_ALLOWED_ORIGIN === '*') {

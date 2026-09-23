@@ -16,12 +16,16 @@ import { requireAuth } from '../../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import { createVideoTask, queryVideoTask, downloadVideo, VideoError, type VideoGenDeps } from './video'
 import { join } from 'node:path'
+import { assertSceneReadable, familyScene, mediaUrl } from './access'
+import { assertDailyGenQuota, dedupeInFlight } from './generationGuard'
 
 export interface VideoRoutesDeps {
   db: PrismaClient
   tokenSecret: Buffer
   mediaDir: string
   videoDeps: VideoGenDeps | null
+  /** A3：每家庭每日生成上限（插画+动画合计，实际出网计数） */
+  genDailyLimit: number
 }
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
@@ -36,8 +40,10 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 const POLL_MIN_INTERVAL_MS = 5000
 
 export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps): void {
-  const { db, tokenSecret, mediaDir, videoDeps } = deps
+  const { db, tokenSecret, mediaDir, videoDeps, genDailyLimit } = deps
   const auth = requireAuth(tokenSecret)
+  const signedUrl = (path: string, request: FastifyRequest) =>
+    mediaUrl(path, request.auth!, tokenSecret)
 
   function requireVideo(): VideoGenDeps {
     if (!videoDeps) throw new AppError('动画功能还没准备好', 'VIDEO_UNAVAILABLE', 503)
@@ -54,11 +60,6 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
 
   // 审计 T03/F03：视频生成是付费出网动作——孩子 403；家长生成的任务强制家庭命名空间
   const generateAuth = requireAuth(tokenSecret, { roles: ['parent'] })
-
-  /** 家庭命名空间：API 生成的 scene 收进 fam:<familyId>: 前缀，公共键不可经 API 写 */
-  function familyScene(familyId: string, scene: string): string {
-    return scene.startsWith('fam:') ? scene : `fam:${familyId}:${scene}`
-  }
 
   /**
    * 创建动画任务。幂等：同场景已有 completed 视频则直接返回；
@@ -77,68 +78,75 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       }),
       request.body,
     )
-    const scene = familyScene(request.auth.fid, body.scene)
+    const fid = request.auth.fid
+    const scene = familyScene(fid, body.scene)
 
-    // 已有完成的视频：秒回
-    const done = await db.videoAsset.findUnique({
-      where: { scene: scene },
-    })
-    if (done && done.status === 'completed' && done.urlPath) {
-      return reply.send({
-        scene: scene,
-        status: 'completed',
-        videoUrl: done.urlPath,
-        cached: true,
+    // A3：并发同场景建任务合并为一段临界区——两个请求同时看到「无任务」时只建一个上游任务
+    return dedupeInFlight(`video:${scene}`, async (): Promise<FastifyReply> => {
+      // 已有完成的视频：秒回（幂等命中不受每日配额限制）
+      const done = await db.videoAsset.findUnique({
+        where: { scene: scene },
       })
-    }
-    // 进行中：不重复建任务
-    if (done && (done.status === 'queued' || done.status === 'pending' || done.status === 'in_progress')) {
-      return reply.send({
-        scene: scene,
-        status: done.status,
-        taskId: done.taskId,
-        cached: false,
-      })
-    }
-
-    // 静态画面描述 + 运镜指令：视频复用插画的画面构图，保证动起来后和插图一致
-    const motionPrompt = `${body.description.trim()}，gentle camera slowly panning, soft animation, particles drifting, cinematic children book scene in motion`
-
-    let taskId: string
-    try {
-      taskId = await createVideoTask(vd, {
-        prompt: motionPrompt,
-        ...(body.seconds ? { seconds: body.seconds } : {}),
-        ...(body.aspectRatio ? { aspectRatio: body.aspectRatio } : {}),
-      })
-    } catch (err) {
-      if (err instanceof VideoError) {
-        throw new AppError('动画小工暂时开小差了，请稍后再试', 'VIDEO_FAILED', 502)
+      if (done && done.status === 'completed' && done.urlPath) {
+        return reply.send({
+          scene: scene,
+          status: 'completed',
+          videoUrl: signedUrl(done.urlPath, request),
+          cached: true,
+        })
       }
-      throw err
-    }
+      // 进行中：不重复建任务
+      if (done && (done.status === 'queued' || done.status === 'pending' || done.status === 'in_progress')) {
+        return reply.send({
+          scene: scene,
+          status: done.status,
+          taskId: done.taskId,
+          cached: false,
+        })
+      }
 
-    await db.videoAsset.upsert({
-      where: { scene: scene },
-      create: {
-        scene: scene,
-        kind: 'chapter',
-        taskId,
-        status: 'queued',
-        prompt: motionPrompt,
-        seconds: body.seconds ?? 5,
-        model: vd.model,
-      },
-      update: {
-        taskId,
-        status: 'queued',
-        prompt: motionPrompt,
-        error: null,
-        urlPath: null,
-      },
+      // A3：真正出网建任务前过每家庭每日配额（插画+动画合计）
+      await assertDailyGenQuota(db, fid, genDailyLimit)
+
+      // 静态画面描述 + 运镜指令：视频复用插画的画面构图，保证动起来后和插图一致
+      const motionPrompt = `${body.description.trim()}，gentle camera slowly panning, soft animation, particles drifting, cinematic children book scene in motion`
+
+      let taskId: string
+      try {
+        taskId = await createVideoTask(vd, {
+          prompt: motionPrompt,
+          ...(body.seconds ? { seconds: body.seconds } : {}),
+          ...(body.aspectRatio ? { aspectRatio: body.aspectRatio } : {}),
+        })
+      } catch (err) {
+        if (err instanceof VideoError) {
+          throw new AppError('动画小工暂时开小差了，请稍后再试', 'VIDEO_FAILED', 502)
+        }
+        throw err
+      }
+
+      await db.videoAsset.upsert({
+        where: { scene: scene },
+        create: {
+          scene: scene,
+          kind: 'chapter',
+          taskId,
+          status: 'queued',
+          prompt: motionPrompt,
+          seconds: body.seconds ?? 5,
+          model: vd.model,
+        },
+        update: {
+          taskId,
+          status: 'queued',
+          prompt: motionPrompt,
+          error: null,
+          urlPath: null,
+        },
+      })
+
+      return reply.send({ scene: scene, status: 'queued', taskId, cached: false })
     })
-
-    return reply.send({ scene: scene, status: 'queued', taskId, cached: false })
   })
 
   /**
@@ -151,6 +159,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     async (request: FastifyRequest<{ Params: { scene: string } }>, reply: FastifyReply) => {
       requireVideo()
       if (!request.auth) throw new UnauthorizedError()
+      assertSceneReadable(request.auth.fid, request.params.scene)
       const row = await db.videoAsset.findUnique({ where: { scene: request.params.scene } })
       // 无记录：新场景还没有视频是常态（静态插画兜底），回 200 + none，
       // 不打 404 进 console 噪音（对抗审查 sweep 发现）
@@ -161,7 +170,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
         return reply.send({
           scene: row.scene,
           status: 'completed',
-          videoUrl: row.urlPath,
+          videoUrl: signedUrl(row.urlPath, request),
           progress: 100,
         })
       }
@@ -221,7 +230,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
         return reply.send({
           scene: row.scene,
           status: 'completed',
-          videoUrl: videoUrlPath(row.taskId),
+          videoUrl: signedUrl(videoUrlPath(row.taskId), request),
           progress: 100,
         })
       }

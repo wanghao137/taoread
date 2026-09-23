@@ -8,7 +8,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, type ContentChapterDto } from '../../lib/api'
+import { api, ApiError, API_BASE, type ContentChapterDto } from '../../lib/api'
 import { tts } from '../../lib/tts'
 import { audioPlayer, type VoiceOption } from '../../lib/audioPlayer'
 import { useSession } from '../../stores/session'
@@ -154,6 +154,66 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const restoredBlockRef = useRef(0)
   /** 内部滚动容器（scroll 不冒泡，必须 addEventListener 到容器本身） */
   const mainRef = useRef<HTMLElement | null>(null)
+
+  /* ── B2/F13：保存状态机——失败可见、自动重试、离开页面 keepalive 兜底提交 ── */
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle')
+  /** 尚未成功落库的进度；重试与离开提交都以它为准，成功后清空 */
+  const unsavedRef = useRef<{ chapterOrder: number; blockOrder: number } | null>(null)
+  const saveSeqRef = useRef(0)
+
+  const persistProgress = useCallback(
+    async (payload: { chapterOrder: number; blockOrder: number }) => {
+      if (!childId || !token) return
+      const seq = ++saveSeqRef.current
+      setSaveState('saving')
+      try {
+        await api.reportContentProgress(book.id, childId, payload, token)
+        if (seq === saveSeqRef.current) {
+          unsavedRef.current = null
+          setSaveState('saved')
+        }
+      } catch {
+        // 保留 unsavedRef，等 8 秒重试 / 下次滚动 / 离开兜底；顶部状态条可见
+        if (seq === saveSeqRef.current) setSaveState('failed')
+      }
+    },
+    [childId, token, book.id],
+  )
+
+  /** 失败自动重试（8s）；在途保存由序号保证只认最新一次结果 */
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      if (unsavedRef.current) void persistProgress(unsavedRef.current)
+    }, 8000)
+    return () => window.clearInterval(timer)
+  }, [persistProgress])
+
+  /** 离开页面兜底：sendBeacon 带不了 Authorization，用 keepalive fetch 提交未保存进度 */
+  useEffect(() => {
+    const flush = () => {
+      const payload = unsavedRef.current
+      if (!payload || !childId || !token) return
+      try {
+        void fetch(`${API_BASE}/api/content/books/${encodeURIComponent(book.id)}/progress`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+          body: JSON.stringify({ childId, ...payload }),
+          keepalive: true,
+        }).catch(() => undefined)
+      } catch {
+        /* 已尽力：下次打开按服务器已有进度续读 */
+      }
+    }
+    const onHide = () => {
+      if (document.visibilityState === 'hidden') flush()
+    }
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('visibilitychange', onHide)
+    return () => {
+      window.removeEventListener('pagehide', flush)
+      document.removeEventListener('visibilitychange', onHide)
+    }
+  }, [childId, token, book.id])
   const chapterRef = useRef<ContentChapterDto | null>(null)
 
   const isLastChapter = order >= book.chapterCount
@@ -373,13 +433,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       }
       lastReport.current = now
       currentBlockRef.current = idx
-      void api
-        .reportContentProgress(book.id, childId, { chapterOrder: order, blockOrder: idx }, token)
-        .catch(() => {})
+      const payload = { chapterOrder: order, blockOrder: idx }
+      unsavedRef.current = payload
+      void persistProgress(payload)
     }
     mainEl.addEventListener('scroll', onScroll, { passive: true })
     return () => mainEl.removeEventListener('scroll', onScroll)
-  }, [chapter, childId, token, order, book.id])
+  }, [chapter, childId, token, order, book.id, persistProgress])
 
   /* ── 进入章节按已存 blockOrder 滚动定位（消费 restoredBlockRef 一次） ── */
   useEffect(() => {
@@ -697,6 +757,24 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           <span className="mono-label" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             第 {order} 章 / {book.title}
           </span>
+          {saveState !== 'idle' && !focused && (
+            <span
+              data-testid="save-state"
+              aria-live="polite"
+              className="mono-label"
+              style={{
+                padding: '3px 8px',
+                border: '1.5px solid var(--ink)',
+                borderRadius: 999,
+                background: saveState === 'failed' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',
+                fontFamily: 'var(--mono)',
+                fontSize: 10,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上，重试中'}
+            </span>
+          )}
           {overtime ? (
             <span
               style={{
@@ -902,7 +980,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           pointerEvents: focused ? 'none' : undefined,
         }}
       >
-        <button className="main-action" onClick={toggleSpeak} disabled={!chapter}>
+        <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter}>
           {speaking ? LABELS.stopAloud : LABELS.readAloud}
         </button>
         <button onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>

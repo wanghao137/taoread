@@ -54,3 +54,6 @@ research/ui-mockups/
 apps/server/.research/
 apps/web/public/mockups/
 apps/web/public/mockups-bg/
+
+# A1 家长码回填对照表（敏感，不入库）
+apps/server/prisma/parent-code-backfill.json
