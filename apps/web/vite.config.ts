@@ -1,10 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import legacy from '@vitejs/plugin-legacy'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // iPad 旧版 Safari 白屏整改：显式目标 + legacy 双包（旧浏览器走 SystemJS+polyfill）
+  build: {
+    target: 'es2018',
+  },
   plugins: [
     react(),
+    legacy({
+      targets: ['iOS >= 13', 'Safari >= 13', 'Chrome >= 87', 'Android >= 8'],
+      modernPolyfills: true,
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icons/icon-192.png', 'icons/icon-512.png'],

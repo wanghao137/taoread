@@ -219,7 +219,17 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         segmentCount: segments.length,
       })
 
-      for (let i = 0; i < segments.length; i++) {
+      // 心跳：长段合成期间（可达 30-60s）线上链路（Cloudflare Tunnel/反代）会掐断
+      // 空闲连接。每 5s 写一行 SSE 注释保活；客户端解析器对无 data 的事件直接跳过。
+      const heartbeat = setInterval(() => {
+        try {
+          reply.raw.write(': hb\n\n')
+        } catch {
+          /* 连接已断：下一段写入时统一收尾 */
+        }
+      }, 5000)
+      try {
+        for (let i = 0; i < segments.length; i++) {
         const seg = segments[i]
         if (!seg) continue
         const key = cacheKey(seg, voice.id, speed, 'mp3', lang, request.auth.fid, client.model)
@@ -263,6 +273,9 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           }
           throw err
         }
+        }
+      } finally {
+        clearInterval(heartbeat)
       }
 
       send('done', { chapterOrder: chapter.order, segments: segments.length })

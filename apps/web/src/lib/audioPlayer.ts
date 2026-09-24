@@ -57,6 +57,8 @@ class ServerAudioPlayer {
 
   private audio: HTMLAudioElement | null = null
   private queue: AudioSegment[] = []
+  /** 已静默重试过的段（index:url）——每段只自动重试一次 */
+  private retriedKeys = new Set<string>()
   private currentIndex = 0
   private playing = false
   /** 被自动播放策略拦截时置 true：队列保留，等用户手势恢复 */
@@ -234,6 +236,22 @@ class ServerAudioPlayer {
       })
       this.audio.addEventListener('error', () => {
         if (this.cancelled) return
+        // 网络抖动/边缘瞬断：同一段先静默重拉一次，仍失败才提示
+        const retryKey = `${index}:${this.queue[index]?.audioUrl ?? ''}`
+        if (this.retriedKeys && !this.retriedKeys.has(retryKey)) {
+          this.retriedKeys.add(retryKey)
+          const src = this.queue[index]?.audioUrl
+          if (src) {
+            window.setTimeout(() => {
+              if (this.cancelled || !this.audio) return
+              this.audio.src = ''
+              this.audio.src = src
+              this.audio.load()
+              void this.audio.play().catch(() => undefined)
+            }, 1200)
+            return
+          }
+        }
         this.emitError('音频加载失败，请稍后再试')
       })
     }

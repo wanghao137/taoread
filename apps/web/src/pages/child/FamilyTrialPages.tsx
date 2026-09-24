@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError, type ImportedBookDto, type PhonicsLessonDto } from '../../lib/api'
+import { uid } from '../../lib/uid'
 import { useSession } from '../../stores/session'
 import { PageHead } from './V8App'
 
@@ -113,7 +114,7 @@ export function PhonicsTrialPage() {
         setPhase(attempt.answered.length >= lesson.items.length ? 'reader' : 'items')
         setMessage('上次没练完，从断开的地方继续')
       } else {
-        const result = await api.startPhonicsAttempt(token, childId, lesson.id, crypto.randomUUID())
+        const result = await api.startPhonicsAttempt(token, childId, lesson.id, uid())
         setAttemptId(result.attempt.id)
         setIndex(0)
         setRightCount(0)

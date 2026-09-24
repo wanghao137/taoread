@@ -31,8 +31,12 @@ export interface TtsClientDeps {
   fetch?: typeof fetch
 }
 
-/** 单段合成上限（API scripts 上限 1000 字符，留标点余量） */
-export const MAX_SEGMENT_CHARS = 900
+/**
+ * 单段合成上限（API scripts 上限 1000 字符，留标点余量）。
+ * 上线实测（2026-09-24）：900 字整段合成首响 15-45 秒，孩子等不及。
+ * 降到 220 字：首段更快出声、后续段边合成边播（粒度≈一个自然段落）。
+ */
+export const MAX_SEGMENT_CHARS = 220
 
 /**
  * 把长文本切成 ≤MAX_SEGMENT_CHARS 的段。

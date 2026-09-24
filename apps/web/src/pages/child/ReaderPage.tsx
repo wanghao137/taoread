@@ -124,6 +124,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 朗读 ── */
   const [speaking, setSpeaking] = useState(false)
+  /** 服务端朗读合成中（首次点击到首段音频返回，约 10-40 秒）——给用户可见的等待状态 */
+  const [preparing, setPreparing] = useState(false)
   const [highlight, setHighlight] = useState<SpeakHighlight | null>(null)
   const [highlightMode, setHighlightMode] = useState<'auto' | 'word' | 'sentence' | 'off'>('auto')
   const [serverReady, setServerReady] = useState<boolean | null>(null)
@@ -484,10 +486,14 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         const resumed = await audioPlayer.resumeQueue()
         if (resumed) {
           setSpeaking(true)
+          setPreparing(false)
           return
         }
       }
       let started = false
+      setPreparing(true)
+      // 兜底：极端情况下请求挂起，90 秒后恢复按钮可用
+      const prepareGuard = window.setTimeout(() => setPreparing(false), 90_000)
       try {
         if (serverReady) {
           started = await audioPlayer.speakChapter(
@@ -500,6 +506,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       } catch {
         started = false
       }
+      window.clearTimeout(prepareGuard)
+      setPreparing(false)
       if (started) {
         setSpeaking(true)
         return
@@ -980,8 +988,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           pointerEvents: focused ? 'none' : undefined,
         }}
       >
-        <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter}>
-          {speaking ? LABELS.stopAloud : LABELS.readAloud}
+        <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter || preparing}>
+          {preparing ? '正在准备朗读…' : speaking ? LABELS.stopAloud : LABELS.readAloud}
         </button>
         <button onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
         <button onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
