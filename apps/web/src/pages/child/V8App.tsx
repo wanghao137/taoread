@@ -654,6 +654,14 @@ function DiscoverPage() {
         </button>
       </div>
       <div className="library">
+        {!v.loaded ? (
+          <div>
+            <p className="mono-label">书架赶来中…</p>
+            <button className="sticker-btn" style={{ marginTop: 8 }} onClick={v.reloadBooks}>
+              刷新书架
+            </button>
+          </div>
+        ) : null}
         {v.booksError ? (
           <div>
             <p className="mono-label">{v.booksError}</p>
