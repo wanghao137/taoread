@@ -198,12 +198,14 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   // ── 同源 SPA 托管（部署 read.taostudioai.com）：静态产物 + 前端路由回退 ──
-  // /api/* 与媒体路径不在此列：命中真实路由或 404 JSON，绝不回退成 index.html
+  // 对抗审查后改 wildcard:true：@fastify/static 关闭通配符时按「启动时快照」注册精确
+  // 路由，部署新增的哈希产物全部 404 → 白屏。通配符模式按请求实时解析磁盘（realpath
+  // 防穿越依旧生效），网页产物部署即生效、无需重启服务。
   if (options.staticDir) {
     await app.register(fastifyStatic, {
       root: options.staticDir,
       index: false,
-      wildcard: false,
+      wildcard: true,
       setHeaders: (res, filePath) => {
         const base = filePath.replace(/\\/g, '/').split('/').pop() ?? ''
         // 入口/外壳/清单绝不缓存：部署后老访客第一时间拿到新 index

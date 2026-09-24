@@ -483,6 +483,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     void (async () => {
       // 被自动播放策略拦下时，这是用户手势入口：从队列当前段恢复
       if (serverReady) {
+        // 冷合成要 10-40s，等首段返回时手势已失效——先在点击手势内解锁音频元素
+        audioPlayer.prime()
         const resumed = await audioPlayer.resumeQueue()
         if (resumed) {
           setSpeaking(true)
@@ -535,11 +537,42 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return highlightMode
   }, [highlightMode, childStage])
 
+  /* ── 朗读高亮定位：段文本 → 原文块范围映射（修复英文/多块高亮错位） ──
+   * 服务端把多个块拼成一段合成，charIndex 是「段内偏移」。此前直接拿段内偏移对
+   * 每个块逐字渲染，非首块必然错位；英文按字符等分时间轴还会停到词中间。
+   * 现在按顺序在段文本中定位每个块的出现区间，charIndex → (块, 块内偏移)。 */
+  const segmentRanges = useMemo(() => {
+    if (!chapter || !highlight?.text) return null
+    const segText = highlight.text
+    const ranges: Array<{ id: string; start: number; end: number }> = []
+    let from = 0
+    for (const b of chapter.blocks) {
+      if (b.kind === 'image' || !b.text) continue
+      const hit = segText.indexOf(b.text, from)
+      if (hit < 0) continue
+      ranges.push({ id: b.id, start: hit, end: hit + b.text.length })
+      from = hit + b.text.length
+    }
+    return ranges.length ? ranges : null
+  }, [chapter, highlight])
+
+  const currentChar = highlight?.charIndex ?? -1
+  const activeRange = useMemo(() => {
+    if (!segmentRanges || currentChar < 0) return null
+    let last: (typeof segmentRanges)[number] | null = null
+    for (const r of segmentRanges) {
+      if (currentChar >= r.start && currentChar < r.end) return r
+      if (currentChar >= r.end) last = r
+    }
+    return last
+  }, [segmentRanges, currentChar])
+
   const speakingBlockId = useMemo(() => {
     if (!highlight || !chapter || effectiveHighlight === 'off') return null
+    if (activeRange) return activeRange.id
     const hit = chapter.blocks.find((b) => b.text.includes(highlight.text.slice(0, 12)))
     return hit?.id ?? null
-  }, [highlight, chapter, effectiveHighlight])
+  }, [highlight, chapter, effectiveHighlight, activeRange])
 
   // 朗读的块滚动进视野（只在块切换时滚，不逐字打断）
   useEffect(() => {
@@ -549,15 +582,40 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   }, [speakingBlockId])
 
   /** 逐字档：当前字加粗、已读略淡（靠字重与透明度，色盲友好） */
-  function renderSpeakingChars(text: string): ReactNode {
+  function renderSpeakingChars(text: string, blockId?: string): ReactNode {
     const hl = highlight
     if (effectiveHighlight !== 'word' || !hl || hl.charIndex < 0) return text
-    return Array.from(text).map((ch, i) => (
+    // 段内偏移 → 块内偏移（映射失败则不做逐字，避免错位假高亮）
+    const range = blockId ? segmentRanges?.find((r) => r.id === blockId) : null
+    if (!range) return text
+    if (currentChar < range.start || currentChar >= range.end) return text
+    const localChar = currentChar - range.start
+    const chars = Array.from(text)
+    // 英文：锁定到当前词整体（字符等分时间轴天然有偏移，逐字符高亮必然对不上）
+    if (book.lang === 'en') {
+      let ws = localChar
+      let we = localChar
+      while (ws > 0 && /[A-Za-z']/.test(chars[ws - 1] ?? '')) ws -= 1
+      while (we < chars.length - 1 && /[A-Za-z']/.test(chars[we + 1] ?? '')) we += 1
+      if (!/[A-Za-z']/.test(chars[ws] ?? '')) return text
+      return chars.map((ch, i) => (
+        <span
+          key={i}
+          style={{
+            fontWeight: i >= ws && i <= we ? 800 : undefined,
+            opacity: i < ws ? 0.72 : 1,
+          }}
+        >
+          {ch}
+        </span>
+      ))
+    }
+    return chars.map((ch, i) => (
       <span
         key={i}
         style={{
-          fontWeight: i === hl.charIndex ? 800 : undefined,
-          opacity: i < hl.charIndex ? 0.72 : 1,
+          fontWeight: i === localChar ? 800 : undefined,
+          opacity: i < localChar ? 0.72 : 1,
         }}
       >
         {ch}
@@ -915,7 +973,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                       className={isSpeakingBlock ? 'speaking' : undefined}
                       style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em' }}
                     >
-                      {isSpeakingBlock ? renderSpeakingChars(b.text) : b.text}
+                      {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
                     </p>
                     {/* 逐字拼音对注（朗读高亮时退回正文，避免与高亮分词打架） */}
                     {b.pinyin && !isSpeakingBlock ? (
@@ -948,7 +1006,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   }}
                   className={isSpeakingBlock ? 'speaking' : undefined}
                 >
-                  {isSpeakingBlock ? renderSpeakingChars(b.text) : b.text}
+                  {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
                 </p>
               )
             })}

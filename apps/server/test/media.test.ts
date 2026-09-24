@@ -86,13 +86,13 @@ describe('private media capabilities', () => {
   const claims = verifyToken(signToken(session, tokenSecret, { nowSec: 1000, ttlSec: 1000 }), tokenSecret, 1001)
   const path = '/api/media/tts/ab/file.mp3'
 
-  it('binds one file and expires after five minutes; never embeds the login JWT', () => {
+  it('binds one file and expires within an hour (bucketed); never embeds the login JWT', () => {
     const url = mediaUrl(path, claims, tokenSecret, 1000)
     expect(url).not.toContain(signToken(session, tokenSecret, { nowSec: 1000 }))
     const ticket = new URL(url, 'https://example.test').searchParams.get('ticket')!
     expect(verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1001)).toEqual({ fid: session.fid, sid: session.sid })
     expect(() => verifyMediaTicket(ticket, 'tts/ab/another.mp3', tokenSecret, 1001)).toThrow()
-    expect(() => verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1300)).toThrow()
+    expect(() => verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 3700)).toThrow()
     expect(() => verifyMediaTicket(ticket.slice(0, -2) + 'xx', path.slice('/api/media/'.length), tokenSecret, 1001)).toThrow()
   })
 

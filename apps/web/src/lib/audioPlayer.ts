@@ -209,17 +209,8 @@ class ServerAudioPlayer {
     }
   }
 
-  private async playSegment(index: number): Promise<void> {
-    if (this.cancelled) return
-    const seg = this.queue[index]
-    if (!seg) {
-      this.finish()
-      return
-    }
-    if (typeof globalThis.Audio === 'undefined') {
-      this.emitError('当前浏览器不支持音频播放')
-      return
-    }
+  /** 懒创建唯一的 Audio 元素并挂接事件（所有播放共用同一元素） */
+  private ensureAudio(): HTMLAudioElement {
     if (!this.audio) {
       this.audio = new Audio()
       this.audio.preload = 'auto'
@@ -232,7 +223,7 @@ class ServerAudioPlayer {
           void this.playSegment(next)
         } else if (this.queue.length > 0) {
           // 队列还有可能正在流式补齐；短暂等待新段
-          this.waitForNext(index)
+          this.waitForNext(this.currentIndex)
         } else {
           this.finish()
         }
@@ -242,6 +233,7 @@ class ServerAudioPlayer {
         // 网络抖动/边缘瞬断：同一段先静默重拉一次，仍失败才提示。
         // 定时器绑定当前会话代号：stop()/新一轮播放会使其自动作废（P1-3 竞态）。
         const sess = this.session
+        const index = this.currentIndex
         const retryKey = `${index}:${this.queue[index]?.audioUrl ?? ''}`
         if (this.retriedKeys && !this.retriedKeys.has(retryKey)) {
           this.retriedKeys.add(retryKey)
@@ -260,10 +252,50 @@ class ServerAudioPlayer {
         this.emitError('音频加载失败，请稍后再试')
       })
     }
-    this.audio.src = seg.audioUrl
-    this.audio.playbackRate = 1
+    return this.audio
+  }
+
+  private static readonly SILENT_WAV =
+       'data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+
+  /**
+   * 用户手势内解锁音频元素（对抗审查：冷合成的 play() 发生在 SSE 回调里，
+   * 距点击已超 20 秒，Chrome/iOS 自动播放策略会拒绝）。在手势回调里同步
+   * 播放一小段静音，此后同一元素的程序化 play() 即被放行。
+   */
+  prime(): void {
     try {
-      await this.audio.play()
+      const a = this.ensureAudio()
+      if (!a.paused && a.src.startsWith('data:')) return
+      a.src = ServerAudioPlayer.SILENT_WAV
+      const p = a.play()
+      if (p && typeof p.then === 'function') {
+        void p.then(() => {
+          a.pause()
+          a.currentTime = 0
+        }).catch(() => undefined)
+      }
+    } catch {
+      /* 解锁失败不影响原流程（浏览器会按自动播放策略给提示） */
+    }
+  }
+
+  private async playSegment(index: number): Promise<void> {
+    if (this.cancelled) return
+    const seg = this.queue[index]
+    if (!seg) {
+      this.finish()
+      return
+    }
+    if (typeof globalThis.Audio === 'undefined') {
+      this.emitError('当前浏览器不支持音频播放')
+      return
+    }
+    this.ensureAudio()
+    this.audio!.src = seg.audioUrl
+    this.audio!.playbackRate = 1
+    try {
+      await this.audio!.play()
     } catch (err) {
       // 自动播放策略拦截（iOS 尤其严格：ended 触发的连续 play() 不算用户手势链，
       // 下一段自动开播会被拒——research/iter4-report-audio-player SO 73152620）。

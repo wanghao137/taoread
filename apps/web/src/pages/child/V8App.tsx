@@ -799,6 +799,20 @@ function BookDetailPage() {
       .catch(() => undefined)
   }, [bookId, childId, token])
 
+  if (!v.loaded) {
+    // 书架列表还没加载完：此时不能断定“书不存在”（修复：错误/加载中伪装成 404）
+    return (
+      <div className="app">
+        <div className="wrap">
+          <PageHead title="书籍赶来中…" sub="马上就好" index="02" />
+          <button className="sticker-btn" onClick={() => v.reloadBooks()}>
+            重新加载
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   if (!book) {
     return (
       <div className="app">
