@@ -42,6 +42,8 @@ export interface MakeAppOpts {
   imageDeps?: import('../src/modules/media/imagegen').ImageGenDeps | null
   /** A3：每家庭每日生成上限注入 */
   genDailyLimit?: number
+  /** 同源 SPA 托管注入（staticFallback 测试用） */
+  staticDir?: string
 }
 
 export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise<TestHarness> {
@@ -67,6 +69,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     ...(opts.ttsDeps !== undefined ? { ttsDeps: opts.ttsDeps } : {}),
     ...(opts.imageDeps !== undefined ? { imageDeps: opts.imageDeps } : {}),
     ...(opts.genDailyLimit !== undefined ? { genDailyLimit: opts.genDailyLimit } : {}),
+    ...(opts.staticDir !== undefined ? { staticDir: opts.staticDir } : {}),
   })
   return { app, db }
 }

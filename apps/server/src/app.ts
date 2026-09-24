@@ -199,10 +199,34 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   // ── 同源 SPA 托管（部署 read.taostudioai.com）：静态产物 + 前端路由回退 ──
   // /api/* 与媒体路径不在此列：命中真实路由或 404 JSON，绝不回退成 index.html
   if (options.staticDir) {
-    await app.register(fastifyStatic, { root: options.staticDir, index: false, wildcard: false, maxAge: '1h' })
+    await app.register(fastifyStatic, {
+      root: options.staticDir,
+      index: false,
+      wildcard: false,
+      setHeaders: (res, filePath) => {
+        const base = filePath.replace(/\\/g, '/').split('/').pop() ?? ''
+        // 入口/外壳/清单绝不缓存：部署后老访客第一时间拿到新 index
+        if (base === 'index.html' || base === 'sw.js' || base === 'registerSW.js' || base.endsWith('.webmanifest')) {
+          res.setHeader('Cache-Control', 'no-cache')
+          return
+        }
+        // 带内容哈希的产物永久缓存；其余（图标等）不缓存
+        if (/-[A-Za-z0-9_-]{6,}\.(js|css|woff2)$/.test(base)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+        } else {
+          res.setHeader('Cache-Control', 'no-cache')
+        }
+      },
+    })
     app.setNotFoundHandler((request, reply) => {
-      if (request.raw.url && (request.raw.url.startsWith('/api/') || request.raw.url.startsWith('/api?'))) {
+      const url = (request.raw.url ?? '/').split('?')[0]!
+      if (url.startsWith('/api/') || url.startsWith('/api?')) {
         return reply.code(404).send({ code: 'NOT_FOUND', message: '接口不存在' })
+      }
+      // 带扩展名的路径=静态资源缺失：返回 404，绝不把 index.html 当 JS/CSS 回给浏览器
+      const lastSegment = url.slice(url.lastIndexOf('/') + 1)
+      if (lastSegment.includes('.')) {
+        return reply.code(404).send({ code: 'NOT_FOUND', message: '资源不存在' })
       }
       return reply.sendFile('index.html')
     })
