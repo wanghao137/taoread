@@ -49,3 +49,15 @@ createRoot(rootEl).render(
     </ErrorBoundary>
   </StrictMode>,
 )
+
+/**
+ * Service Worker：仅注册「清理型」SW（public/sw.js）。
+ * 历史 vite-plugin-pwa 预缓存外壳在部署后会给老访客供应已删除资源的旧壳 → 白屏。
+ * 本 SW 无 fetch 处理器（永远走网络），activate 时清空全部 Cache Storage，
+ * 从而自动治愈所有已装旧 SW 的设备；此后本产品明确不支持离线（F39）。
+ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    void navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => undefined)
+  })
+}

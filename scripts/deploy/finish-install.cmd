@@ -19,8 +19,7 @@ echo [1/3] configure taoread-api service ...
 "%NSSM%" set taoread-api Start SERVICE_AUTO_START
 
 echo [2/3] stop watchdog, start service ...
-wmic process where "CommandLine like '%%watchdog.cmd%%'" call terminate >nul 2>&1
-wmic process where "CommandLine like '%%taoread-prod%%'" call terminate >nul 2>&1
+powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { ($_.Name -eq 'node.exe' -and $_.CommandLine -match 'taoread-prod') -or ($_.CommandLine -match 'watchdog.cmd') } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }" >nul 2>&1
 del "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\taoread-watchdog.cmd" >nul 2>&1
 "%NSSM%" restart taoread-api
 if errorlevel 1 set ERR=1

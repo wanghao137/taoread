@@ -214,20 +214,38 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     // 「读完本章」只在末章成立：非末章的 completed=true 直接拒绝，防止伪造完成
     const chapterCount = await db.importedChapter.count({ where: { bookId: book.id } })
     if (completed && order !== chapterCount) throw new ValidationError('只有最后一章才能标记读完')
-    const current = await db.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
-    if (current) {
-      const stale = Boolean(baseUpdatedAt && current.updatedAt.getTime() > new Date(baseUpdatedAt).getTime())
-      // 完成态不可回退（与正文域 T04 口径一致）：回看不清完成，静默保持 true
-      const nextCompleted = current.completed || completed
-      // 陈旧写入且光标倒退（换设备乱序）：拒绝并返回服务器最新进度，客户端据此收敛
-      const regressed = order < current.order || (order === current.order && offset < current.offset)
-      if (baseUpdatedAt && stale && regressed && !completed) {
-        return reply.code(409).send({ code: 'PROGRESS_STALE', message: '阅读进度已在其他设备更新', progress: { order: current.order, offset: current.offset, completed: current.completed, updatedAt: current.updatedAt } })
+
+    // 对抗审查 P2-5/P2-6：读-判-写在事务内重读当前值，消除并发窗口；
+    // 双设备并发首写由唯一键冲突兜底（P2002 → 重读返回既有进度）
+    const outcome = await db.$transaction(async (tx) => {
+      const current = await tx.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
+      if (current) {
+        const stale = Boolean(baseUpdatedAt && current.updatedAt.getTime() > new Date(baseUpdatedAt).getTime())
+        // 完成态不可回退（与正文域 T04 口径一致）：回看不清完成，静默保持 true
+        const nextCompleted = current.completed || completed
+        // 陈旧写入且光标倒退（换设备乱序）：拒绝并返回服务器最新进度，客户端据此收敛
+        const regressed = order < current.order || (order === current.order && offset < current.offset)
+        if (baseUpdatedAt && stale && regressed && !completed) {
+          return { conflict: true as const, progress: current }
+        }
+        const progress = await tx.importedReadingProgress.update({ where: { childId_bookId: { childId, bookId: book.id } }, data: { order, offset, completed: nextCompleted } })
+        return { conflict: false as const, progress }
       }
-      const progress = await db.importedReadingProgress.update({ where: { childId_bookId: { childId, bookId: book.id } }, data: { order, offset, completed: nextCompleted } })
-      return { progress: { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt } }
+      try {
+        return { conflict: false as const, progress: await tx.importedReadingProgress.create({ data: { childId, bookId: book.id, order, offset, completed } }) }
+      } catch (err) {
+        // 并发首写撞唯一键：返回既有进度（以库内为准）
+        if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+          const existing = await tx.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
+          if (existing) return { conflict: false as const, progress: existing }
+        }
+        throw err
+      }
+    })
+    if (outcome.conflict) {
+      return reply.code(409).send({ code: 'PROGRESS_STALE', message: '阅读进度已在其他设备更新', progress: outcome.progress })
     }
-    const progress = await db.importedReadingProgress.create({ data: { childId, bookId: book.id, order, offset, completed } })
+    const progress = outcome.progress
     return { progress: { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt } }
   })
 

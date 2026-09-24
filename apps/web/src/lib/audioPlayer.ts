@@ -59,6 +59,9 @@ class ServerAudioPlayer {
   private queue: AudioSegment[] = []
   /** 已静默重试过的段（index:url）——每段只自动重试一次 */
   private retriedKeys = new Set<string>()
+  /** 播放会话代号：stop() 递增，旧重试定时器据此自我作废（P1-3） */
+  private session = 0
+  private retryTimer: number | null = null
   private currentIndex = 0
   private playing = false
   /** 被自动播放策略拦截时置 true：队列保留，等用户手势恢复 */
@@ -236,18 +239,20 @@ class ServerAudioPlayer {
       })
       this.audio.addEventListener('error', () => {
         if (this.cancelled) return
-        // 网络抖动/边缘瞬断：同一段先静默重拉一次，仍失败才提示
+        // 网络抖动/边缘瞬断：同一段先静默重拉一次，仍失败才提示。
+        // 定时器绑定当前会话代号：stop()/新一轮播放会使其自动作废（P1-3 竞态）。
+        const sess = this.session
         const retryKey = `${index}:${this.queue[index]?.audioUrl ?? ''}`
         if (this.retriedKeys && !this.retriedKeys.has(retryKey)) {
           this.retriedKeys.add(retryKey)
           const src = this.queue[index]?.audioUrl
           if (src) {
-            window.setTimeout(() => {
-              if (this.cancelled || !this.audio) return
-              this.audio.src = ''
-              this.audio.src = src
-              this.audio.load()
-              void this.audio.play().catch(() => undefined)
+            this.retryTimer = window.setTimeout(() => {
+              if (this.cancelled || this.session !== sess) return
+              this.audio!.src = ''
+              this.audio!.src = src
+              this.audio!.load()
+              void this.audio!.play().catch(() => undefined)
             }, 1200)
             return
           }
@@ -369,6 +374,13 @@ class ServerAudioPlayer {
 
   /** 停止（不触发 onEnd） */
   stop(): void {
+    // 对抗审查 P1-3：作废当前会话——未触发的重试定时器全部失效，防旧定时器劫持新队列
+    this.session += 1
+    if (this.retryTimer !== null) {
+      window.clearTimeout(this.retryTimer)
+      this.retryTimer = null
+    }
+    this.retriedKeys.clear()
     this.cancelled = true
     this.stopTimelineLoop()
     if (this.audio) {

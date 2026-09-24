@@ -33,6 +33,8 @@ export interface TtsRoutesDeps {
   ttsDeps: TtsClientDeps | null
   /** 媒体目录（存音频缓存） */
   mediaDir: string
+  /** A3：每家庭每日 TTS 段数上限（只计新合成；缺省 = genDailyLimit×10，下限 600） */
+  ttsDailyLimit?: number
 }
 
 interface VoiceDto {
@@ -61,6 +63,7 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 
 export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): void {
   const { db, tokenSecret, ttsDeps, mediaDir } = deps
+  const ttsDailyLimit = Math.max(600, deps.ttsDailyLimit ?? 600)
   const auth = requireAuth(tokenSecret)
   const cache = new TtsCache(mediaDir)
 
@@ -206,12 +209,28 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         'X-Accel-Buffering': 'no',
       })
 
-      const send = (event: string, data: unknown) => {
-        reply.raw.write(`event: ${event}\n`)
-        reply.raw.write(`data: ${JSON.stringify(data)}\n\n`)
+      // 对抗审查 P1-1/P1-2：客户端断开立即停止付费合成；写回压时等 drain 防内存堆积
+      let aborted = false
+      request.raw.once('close', () => {
+        aborted = true
+      })
+
+      const send = async (event: string, data: unknown) => {
+        if (aborted) return
+        const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`
+        if (!reply.raw.write(payload)) {
+          // socket 缓冲已满（慢客户端）：最多等 10s drain，超时按断开处理
+          await new Promise<void>((resolve) => {
+            const timer = setTimeout(resolve, 10_000)
+            reply.raw.once('drain', () => {
+              clearTimeout(timer)
+              resolve()
+            })
+          })
+        }
       }
 
-      send('meta', {
+      await send('meta', {
         chapterOrder: chapter.order,
         title: chapter.title,
         voiceId: voice.id,
@@ -230,14 +249,25 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       }, 5000)
       try {
         for (let i = 0; i < segments.length; i++) {
+          if (aborted) break
         const seg = segments[i]
         if (!seg) continue
+        // A3：TTS 每家庭每日新合成段数上限（幂等命中不计数）
+        const dayStart = new Date()
+        dayStart.setHours(0, 0, 0, 0)
+        const usedToday = await db.ttsMediaOwner.count({
+          where: { familyId: request.auth.fid, createdAt: { gte: dayStart } },
+        })
+        if (usedToday >= ttsDailyLimit) {
+          await send('error', { index: i, message: '今天的朗读次数用完了，明天再来吧' })
+          break
+        }
         const key = cacheKey(seg, voice.id, speed, 'mp3', lang, request.auth.fid, client.model)
         try {
           const hit = await cache.get(key, 'mp3')
           if (hit) {
             await ownAudio(hit.urlPath.slice('/api/media/'.length), request.auth.fid)
-            send('segment', {
+            await send('segment', {
               index: i,
               text: seg,
               audioUrl: mediaUrl(hit.urlPath, request.auth!, tokenSecret),
@@ -258,7 +288,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           const { durationMs, chars } = timelineFromMp3(seg, out.audio)
           const entry = await cache.set(key, 'mp3', out.audio, durationMs)
           await ownAudio(entry.urlPath.slice('/api/media/'.length), request.auth.fid)
-          send('segment', {
+          await send('segment', {
             index: i,
             text: seg,
             audioUrl: mediaUrl(entry.urlPath, request.auth!, tokenSecret),
@@ -268,7 +298,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           })
         } catch (err) {
           if (err instanceof TtsError) {
-            send('error', { index: i, message: '这一段朗读没成功，可以跳过继续' })
+            await send('error', { index: i, message: '这一段朗读没成功，可以跳过继续' })
             continue
           }
           throw err
@@ -278,7 +308,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         clearInterval(heartbeat)
       }
 
-      send('done', { chapterOrder: chapter.order, segments: segments.length })
+      await send('done', { chapterOrder: chapter.order, segments: segments.length })
       reply.raw.end()
     },
   )

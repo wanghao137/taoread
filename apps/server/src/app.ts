@@ -178,6 +178,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     tokenSecret: options.tokenSecret,
     ttsDeps,
     mediaDir,
+    ttsDailyLimit: (options.genDailyLimit ?? 60) * 10,
   })
   const imageDeps: ImageGenDeps | null = options.imageDeps ?? null
   registerArtRoutes(app, {
