@@ -4,9 +4,8 @@
  * 每次运行：
  *   1. SQLite 一致快照（VACUUM INTO，可在服务运行时执行）；
  *   2. 上传快照到 r2://<bucket>/db/（保留最近 7 份，其余删除）；
- *   3. 增量同步 media/：只上传「水位之后有修改」的文件到 r2://<bucket>/media/；
- *      首次运行（或加 --full）全量上传。
- * 完成后写 media/.backup-state（增量水位），失败不写——下次自动重传窗口内容。
+ *   3. 增量同步 media/：media/.backup-state 是 JSON 清单（相对路径 → 上次上传时 mtimeMs），
+ *      mtime 与清单一致的上传过即跳过——断点续传，网络闪断后只补漏。
  *
  * 环境变量（.env.r2，绝不提交）：
  *   TAO_DATABASE_URL（如 file:./prod.db）、R2_ACCOUNT_ID、R2_ACCESS_KEY_ID、
@@ -107,32 +106,37 @@ async function syncMedia() {
     log('media/ 目录不存在，跳过媒体同步')
     return
   }
-  let watermark = 0
-  if (!full && existsSync(stateFile)) watermark = Number(readFileSync(stateFile, 'utf8').trim()) || 0
-  const now = Date.now()
-  const candidates = []
+  // 清单：相对路径 → 上次成功上传时的 mtimeMs；mtime 一致即已上过
+  let manifest = {}
+  if (!full && existsSync(stateFile)) {
+    try {
+      manifest = JSON.parse(readFileSync(stateFile, 'utf8'))
+    } catch {
+      manifest = {}
+    }
+  }
+  const next = { ...manifest }
+  const pending = []
   walkMedia(mediaDir, (abs, st) => {
     const rel = relative(mediaDir, abs).split(sep).join('/')
     if (rel === '.backup-state') return
-    if (full || st.mtimeMs > watermark) candidates.push({ abs, rel, mtimeMs: st.mtimeMs })
+    if (full || manifest[rel] !== st.mtimeMs) pending.push({ rel, abs, mtimeMs: st.mtimeMs })
   })
+  log(`媒体待上传 ${pending.length} 个${full ? '（--full）' : ''}`)
   let uploaded = 0
   let failed = 0
-  let maxMtime = watermark
-  for (const item of candidates) {
+  for (const item of pending) {
     try {
       await putFile(`media/${item.rel}`, item.abs)
+      next[item.rel] = item.mtimeMs
       uploaded++
-      maxMtime = Math.max(maxMtime, item.mtimeMs)
     } catch (err) {
       failed++
-      log(`上传失败 ${item.rel}: ${err.message}`)
+      log(`上传失败 ${item.rel}: ${err.message}（清单未记录，下次补传）`)
     }
   }
-  if (failed === 0) {
-    writeFileSync(stateFile, String(Math.min(maxMtime, now)), 'utf8')
-  }
-  log(`媒体同步完成：${uploaded} 个上传${full ? '（全量）' : '（增量）'}${failed ? `，${failed} 个失败（水位未推进）` : ''}`)
+  writeFileSync(stateFile, JSON.stringify(next), 'utf8')
+  log(`媒体同步完成：本次 ${uploaded} 个上传，${failed} 个失败；清单共 ${Object.keys(next).length} 个文件`)
 }
 
 async function main() {

@@ -56,6 +56,13 @@ SQLite D:\taoread-prod\apps\server\prisma\prod.db（由 dev.db 复制：30 家�
    - 添加：类型 `CNAME`、名称 `read`、目标 `8a934dcf-aa45-4d0b-a460-8faa9db0fcfc.cfargotunnel.com`、代理状态开启（橙云）。
    - （部署 agent 的 API 令牌为 R2 作用域，无 DNS 权限；本机 cert.pem 亦不能签 DNS API，故留人工。）
 
+### ✅ 2026-09-24 更新：以上两步已全部完成，站点已上线
+
+- cloudflared 已于 09-24 07:16 带新配置重启（用户执行 finish-install.cmd 提权成功）；taoread-api（NSSM）服务 RUNNING，接管 8091。
+- DNS `read` 记录已由 agent 经 opencli 浏览器自动化在控制台创建（CNAME → `<tunnel-id>.cfargotunnel.com`，Cloudflare 面板将其识别为「隧道」类型、已代理，与 cpa 同款）。
+- **公网验收实测（经 Cloudflare 边缘）**：`/api/health` 200 JSON；SPA `/`、`/parent`、`/login` 均 200；静态资源 200；PEACH888 家长码公网登录成功、书库 222 本、拼读 8 课目录、越权请求 403。
+- 已知残留：本机/部分 ISP 解析器缓存了旧的 127.0.0.1 答案（TTL 内自愈，手机蜂窝网通常更快）；「双家庭隔离」「整机重启自恢复」「手机蜂窝网实测」三项待后续复验。
+
 完成后公网验收清单：`https://read.taostudioai.com` 首页/深链刷新/`/api/health`；PEACH888 家长码登录；双家庭隔离；手机蜂窝网访问；重启整机后自恢复。
 
 ## 5. 安全与合规状态（诚实边界）
