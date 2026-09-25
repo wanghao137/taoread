@@ -6,7 +6,9 @@ import { requireAuth } from '../family/routes'
 import type { PrismaClient } from '@prisma/client'
 import { isBedtime, isOvertime, type RitualMode, type RitualWindowDeps } from './window'
 
-/** 仪式域：时段窗口（就寝/超时引导）与成就墙数据。 */
+/** 仪式域：成就墙数据 + 时段窗口端点。
+ * 2026-09-25 产品决策：阅读时间限制取消——window 恒返回 open；
+ * bedTimeMin/overtimeCapSec 入参保留兼容，但不再参与判定。ritualWindowOf 仅供测试。 */
 
 export interface RitualRoutesDeps {
   db: PrismaClient
@@ -45,18 +47,6 @@ export function ritualWindowOf(
 export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDeps): void {
   const { db, tokenSecret } = deps
   const auth = requireAuth(tokenSecret)
-  // 归一化时钟（可选注入落地为具体实现，避免 ritualWindowOf 内 undefined 调用）
-  const windowDeps: RitualWindowDeps = {
-    bedTimeMin: deps.bedTimeMin,
-    overtimeCapSec: deps.overtimeCapSec,
-    nowMinutesOfDay:
-      deps.nowMinutesOfDay ??
-      (() => {
-        const d = new Date()
-        return d.getHours() * 60 + d.getMinutes()
-      }),
-    nowSec: deps.nowSec ?? (() => Math.floor(Date.now() / 1000)),
-  }
 
   async function assertOwnedChild(familyId: string, childId: string) {
     const child = await db.childProfile.findUnique({ where: { id: childId } })
@@ -67,7 +57,7 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
     return child
   }
 
-  // ── 仪式时段窗口：孩子端门屏据此切换 月亮睡了/超时收尾引导/正常 ──
+  // ── 仪式时段窗口：阅读时间限制已取消，恒 open（保留 hasActive 供断线续传）──
   app.get('/api/ritual/window', { preHandler: auth }, async (request) => {
     const { childId } = parse(
       z.object({ childId: z.string().min(1) }),
@@ -79,20 +69,7 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
       where: { familyId: request.auth.fid, childId, endedAt: null },
       orderBy: { startedAt: 'desc' },
     })
-    // 家庭级护眼设置覆盖（第 9 夜）：Family.bedtimeMin/overtimeCapSec 优先，null 回落默认
-    const family = await db.family.findUnique({
-      where: { id: request.auth.fid },
-      select: { bedtimeMin: true, overtimeCapSec: true },
-    })
-    const mode = ritualWindowOf(
-      {
-        ...windowDeps,
-        ...(family?.bedtimeMin != null ? { bedTimeMin: family.bedtimeMin } : {}),
-        ...(family?.overtimeCapSec != null ? { overtimeCapSec: family.overtimeCapSec } : {}),
-      },
-      active ? Math.floor(active.startedAt.getTime() / 1000) : null,
-    )
-    return { mode, hasActive: active !== null }
+    return { mode: 'open' as const, hasActive: active !== null }
   })
 
   // ── 成就墙数据（纪念式展示；防重复解锁由表唯一约束保证，此处只读） ──

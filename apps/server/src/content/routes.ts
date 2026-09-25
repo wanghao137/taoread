@@ -127,6 +127,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           // P0（V8 审计 A3.4）：显式完成动作；打开末章不再自动 finished。
           // 审计 T04/F12（DATA-01）：严格 boolean——字符串 "false" 直接 400，不再被 coerce 成 true
           completed: z.boolean().optional().default(false),
+          // R-04：客户端持有的行版本（getProgress/上次上报返回的 updatedAt）；旧客户端缺省
+          baseUpdatedAt: z.string().max(40).optional(),
         }),
         request.body,
       )
@@ -142,6 +144,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         body.chapterOrder,
         body.blockOrder ?? 0,
         body.completed,
+        body.baseUpdatedAt,
       )
       return reply.send(result)
     },

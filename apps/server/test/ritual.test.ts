@@ -84,7 +84,7 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
     expect(res.json()).toMatchObject({ mode: 'open', hasActive: true })
   })
 
-  it('窗口端点：活跃会话超过软封顶 300s → overtime（温和引导收尾）', async () => {
+  it('窗口端点：阅读时间限制已取消——会话超时也恒 open（2026-09-25）', async () => {
     let now = 1_800_000_000
     const overtimeApp = await makeApp(undefined, {
       bedTimeMin: null,
@@ -102,13 +102,13 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
       headers: { authorization: `Bearer ${child.token}` },
       payload: { childId, bookId: 'B1' },
     })
-    now += 301 // 恰好超过软封顶 1 秒
+    now += 301 // 远超旧软封顶，也不再进入 overtime
     const res = await overtimeApp.app.inject({
       method: 'GET',
       url: `/api/ritual/window?childId=${childId}`,
       headers: { authorization: `Bearer ${child.token}` },
     })
-    expect(res.json()).toMatchObject({ mode: 'overtime', hasActive: true })
+    expect(res.json()).toMatchObject({ mode: 'open', hasActive: true })
     await overtimeApp.app.close()
     await overtimeApp.db.$disconnect()
   })
@@ -153,8 +153,8 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
     expect(cross.statusCode).toBe(404) // 口径对齐：越权统一 404（N8-004）
   })
 
-  it('开课就寝闸：就寝窗口内 POST /api/cosession 被拒绝（正向文案 403），收尾与金句不受限', async () => {
-    let nowMin = 22 * 60 // 可变注入：先就寝拒绝，再切回白天开场，再入夜验证收尾放行
+  it('开课就寝闸已取消：就寝窗口内 POST /api/cosession 正常 201，收尾与金句不受限（2026-09-25）', async () => {
+    const nowMin = 22 * 60 // 深夜注入：旧逻辑下会拒绝开书
     const bedApp = await makeApp(undefined, { bedTimeMin: 1290, ritualNowMin: () => nowMin })
     await bedApp.app.ready()
     const f = await createFamilyAsParent(bedApp.app)
@@ -166,31 +166,19 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
       headers: { authorization: `Bearer ${child.token}` },
       payload: { childId, bookId: 'B1' },
     })
-    expect(start.statusCode).toBe(403)
-    expect(start.json()).toMatchObject({ code: 'RITUAL_CLOSED', message: /月亮睡觉啦/ })
+    expect(start.statusCode).toBe(201)
 
-    // 白天正常开场
-    nowMin = 12 * 60
-    const opened = await bedApp.app.inject({
-      method: 'POST',
-      url: '/api/cosession',
-      headers: { authorization: `Bearer ${child.token}` },
-      payload: { childId, bookId: 'B1' },
-    })
-    expect(opened.statusCode).toBe(201)
-
-    // 入夜后收尾与金句均放行（就寝闸只挡开新书）
-    nowMin = 22 * 60
+    // 深夜收尾与金句均放行
     const finished = await bedApp.app.inject({
       method: 'POST',
-      url: `/api/cosession/${opened.json().id}/finish`,
+      url: `/api/cosession/${start.json().id}/finish`,
       headers: { authorization: `Bearer ${child.token}` },
       payload: { progressMark: 'lot' },
     })
     expect(finished.statusCode).toBe(200)
     const hl = await bedApp.app.inject({
       method: 'POST',
-      url: `/api/cosession/${opened.json().id}/highlights`,
+      url: `/api/cosession/${start.json().id}/highlights`,
       headers: { authorization: `Bearer ${child.token}` },
       payload: { source: 'voice', text: '睡觉前收一句' },
     })
@@ -199,7 +187,7 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
     await bedApp.db.$disconnect()
   })
 
-  it('窗口端点：bedtime 分支端到端（注入时钟确定化，N8-009）', async () => {
+  it('窗口端点：旧 bedtime 配置注入下仍恒 open（注入时钟确定化，2026-09-25）', async () => {
     const bedApp = await makeApp(undefined, { bedTimeMin: 1290, ritualNowMin: () => 22 * 60 })
     await bedApp.app.ready()
     const f = await createFamilyAsParent(bedApp.app)
@@ -210,12 +198,12 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
       url: `/api/ritual/window?childId=${childId}`,
       headers: { authorization: `Bearer ${child.token}` },
     })
-    expect(res.json()).toMatchObject({ mode: 'bedtime', hasActive: false })
+    expect(res.json()).toMatchObject({ mode: 'open', hasActive: false })
     await bedApp.app.close()
     await bedApp.db.$disconnect()
   })
 
-  it('overtime 边界：299s 未超时 / 300s 恰好超时（>= 口径，N8-009）', async () => {
+  it('overtime 边界已失效：300s 时刻窗口仍恒 open（2026-09-25）', async () => {
     let now = 1_800_000_000
     const app2 = await makeApp(undefined, {
       bedTimeMin: null,
@@ -246,7 +234,7 @@ describe('仪式时段窗口与成就墙 API（第 8 夜）', () => {
       url: `/api/ritual/window?childId=${childId}`,
       headers: { authorization: `Bearer ${child.token}` },
     })
-    expect(at.json().mode).toBe('overtime')
+    expect(at.json().mode).toBe('open')
     await app2.app.close()
     await app2.db.$disconnect()
   })

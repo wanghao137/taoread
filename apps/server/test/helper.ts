@@ -120,7 +120,7 @@ export async function createChild(
 export async function createFamilyAsParent(
   app: FastifyInstance,
   deviceId = 'parent-device',
-): Promise<{ familyId: string; familyCode: string; parentCode: string; token: string }> {
+): Promise<{ familyId: string; familyCode: string; token: string }> {
   const res = await app.inject({
     method: 'POST',
     url: '/api/family',
@@ -132,7 +132,7 @@ export async function createFamilyAsParent(
   return res.json()
 }
 
-/** 凭家庭码以指定角色加入；role=parent 必须携带家长码（T02/F01 服务端决定角色） */
+/** 凭家庭码以指定角色加入（2026-09-25 单一凭据：家庭码通吃家长/孩子，parentCode 仅兼容透传） */
 export async function joinFamily(
   app: FastifyInstance,
   familyCode: string,
@@ -147,7 +147,7 @@ export async function joinFamily(
       familyCode,
       role,
       deviceId,
-      ...(role === 'parent' && parentCode ? { parentCode } : {}),
+      ...(parentCode ? { parentCode } : {}),
     },
   })
   if (res.statusCode !== 200) {

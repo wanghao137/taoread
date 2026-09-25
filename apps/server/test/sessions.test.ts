@@ -36,27 +36,28 @@ describe('家长身份与会话撤销（T02）', () => {
   const sidOf = (token: string): string =>
     (JSON.parse(Buffer.from(token.split('.')[1]!, 'base64url').toString('utf8')) as { sid: string }).sid
 
-  it('仅凭家庭码申请家长身份 → 403（AUTH-01 修复）', async () => {
+  it('仅凭家庭码即可申请家长身份（2026-09-25 单一凭据简化）', async () => {
     const parent = await createFamilyAsParent(h.app)
     const res = await h.app.inject({
       method: 'POST',
       url: '/api/family/join',
-      payload: { familyCode: parent.familyCode, role: 'parent', deviceId: 'evil-device' },
+      payload: { familyCode: parent.familyCode, role: 'parent', deviceId: 'second-parent' },
     })
-    expect(res.statusCode).toBe(403)
-    expect(res.json().message).toContain('家长码')
+    expect(res.statusCode).toBe(200)
+    expect(res.json().familyId).toBe(parent.familyId)
+    expect(res.json().token).toBeTruthy()
   })
 
-  it('家长码错误 → 403；正确 → 200 且角色为家长', async () => {
+  it('家长码字段已不被校验：错误/正确的 parentCode 都能加入且角色为家长', async () => {
     const parent = await createFamilyAsParent(h.app)
     const wrong = await h.app.inject({
       method: 'POST',
       url: '/api/family/join',
       payload: { familyCode: parent.familyCode, role: 'parent', parentCode: 'WRONG99', deviceId: 'p2' },
     })
-    expect(wrong.statusCode).toBe(403)
+    expect(wrong.statusCode).toBe(200)
 
-    const ok = await joinFamily(h.app, parent.familyCode, 'parent', 'parent-2', parent.parentCode)
+    const ok = await joinFamily(h.app, parent.familyCode, 'parent', 'parent-2')
     expect(ok.familyId).toBe(parent.familyId)
     expect((await h.app.inject({
       method: 'GET',
@@ -65,51 +66,41 @@ describe('家长身份与会话撤销（T02）', () => {
     })).statusCode).toBe(200)
   })
 
-  it('孩子加入响应不回显家长码（家庭码不等价家长凭据）', async () => {
+  it('加入响应不回显家长码（响应只含 familyId/familyCode/token）', async () => {
     const parent = await createFamilyAsParent(h.app)
     const child = await joinFamily(h.app, parent.familyCode, 'child')
     expect(child).not.toHaveProperty('parentCode')
+    const parent2 = await joinFamily(h.app, parent.familyCode, 'parent', 'parent-again')
+    expect(parent2).not.toHaveProperty('parentCode')
   })
 
-  it('家长码可查看与轮换；轮换后旧家长码加入 → 403，新码可加入', async () => {
+  it('家长码查看/轮换端点已移除 → 404', async () => {
     const parent = await createFamilyAsParent(h.app)
     const view = await h.app.inject({
       method: 'GET',
       url: `/api/family/${parent.familyId}/parent-code`,
       headers: authHeaders(parent.token),
     })
-    expect(view.statusCode).toBe(200)
-    expect(view.json().parentCode).toBe(parent.parentCode)
+    expect(view.statusCode).toBe(404)
 
     const rotated = await h.app.inject({
       method: 'POST',
       url: `/api/family/${parent.familyId}/parent-code/rotate`,
       headers: authHeaders(parent.token),
     })
-    expect(rotated.statusCode).toBe(200)
-    const newCode = rotated.json().parentCode as string
-    expect(newCode).not.toBe(parent.parentCode)
-
-    const oldJoin = await h.app.inject({
-      method: 'POST',
-      url: '/api/family/join',
-      payload: { familyCode: parent.familyCode, role: 'parent', parentCode: parent.parentCode },
-    })
-    expect(oldJoin.statusCode).toBe(403)
-
-    const newJoin = await joinFamily(h.app, parent.familyCode, 'parent', 'parent-3', newCode)
-    expect(newJoin.token).toBeTruthy()
+    expect(rotated.statusCode).toBe(404)
   })
 
-  it('孩子令牌访问家长码端点 → 403', async () => {
+  it('设备撤销能力保留：家长仍可撤销其他设备会话（原 T02 能力不回退）', async () => {
     const parent = await createFamilyAsParent(h.app)
-    const child = await joinFamily(h.app, parent.familyCode, 'child')
+    const child = await joinFamily(h.app, parent.familyCode, 'child', 'revoke-me')
+    const childSid = sidOf(child.token)
     const res = await h.app.inject({
-      method: 'GET',
-      url: `/api/family/${parent.familyId}/parent-code`,
-      headers: authHeaders(child.token),
+      method: 'POST',
+      url: `/api/family/${parent.familyId}/sessions/${childSid}/revoke`,
+      headers: authHeaders(parent.token),
     })
-    expect(res.statusCode).toBe(403)
+    expect(res.statusCode).toBe(200)
   })
 
   it('注销家庭后旧令牌全部失效（AUTH-04 修复）', async () => {

@@ -80,8 +80,6 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 export interface FamilySessionDto {
   familyId: string
   familyCode: string
-  /** 家长码：仅创建家庭 / 凭家长码加入时返回（T02/F01） */
-  parentCode?: string
   token: string
 }
 
@@ -167,19 +165,11 @@ export const api = {
   createFamily: (deviceId: string) =>
     request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId } }),
 
-  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string, parentCode?: string) =>
+  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string) =>
     request<FamilySessionDto>('/api/family/join', {
       method: 'POST',
-      body: { familyCode, role, deviceId, ...(role === 'parent' && parentCode ? { parentCode } : {}) },
+      body: { familyCode, role, deviceId },
     }),
-
-  /** 家长码查看（仅家长会话；旧家庭首次访问由服务端懒生成） */
-  getParentCode: (familyId: string, token: string) =>
-    request<{ parentCode: string }>(`/api/family/${familyId}/parent-code`, { token }),
-
-  /** 家长码轮换（仅家长会话）：旧家长码立即作废 */
-  rotateParentCode: (familyId: string, token: string) =>
-    request<{ parentCode: string }>(`/api/family/${familyId}/parent-code/rotate`, { method: 'POST', token }),
 
   /** 设备会话列表（仅家长，A1）：含已撤销，current 标记本机 */
   listSessions: (familyId: string, token: string) =>
@@ -382,20 +372,31 @@ export const api = {
     ),
 
   contentProgress: (contentId: string, childId: string, token: string) =>
-    request<{ progress: { chapterOrder: number; blockOrder: number; finished: boolean } }>(
+    request<{ progress: { chapterOrder: number; blockOrder: number; finished: boolean; updatedAt?: string } }>(
       `/api/content/books/${encodeURIComponent(contentId)}/progress?childId=${encodeURIComponent(childId)}`,
       { token },
     ),
 
+  /** R-04：baseUpdatedAt 为客户端持有的行版本；服务器发现旧写时返回 stale=true 并附最新进度 */
   reportContentProgress: (
     contentId: string,
     childId: string,
-    body: { chapterOrder: number; blockOrder?: number; completed?: boolean },
+    body: { chapterOrder: number; blockOrder?: number; completed?: boolean; baseUpdatedAt?: string },
     token: string,
   ) =>
-    request<{ chapterOrder: number; finished: boolean }>(
+    request<{ chapterOrder: number; blockOrder: number; finished: boolean; updatedAt: string; stale: boolean }>(
       `/api/content/books/${encodeURIComponent(contentId)}/progress`,
-      { method: 'POST', body: { childId, chapterOrder: body.chapterOrder, blockOrder: body.blockOrder ?? 0, completed: body.completed ?? false }, token },
+      {
+        method: 'POST',
+        body: {
+          childId,
+          chapterOrder: body.chapterOrder,
+          blockOrder: body.blockOrder ?? 0,
+          completed: body.completed ?? false,
+          ...(body.baseUpdatedAt ? { baseUpdatedAt: body.baseUpdatedAt } : {}),
+        },
+        token,
+      },
     ),
 
   /** 收藏 / 取消收藏（docs/15 P1-A） */

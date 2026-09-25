@@ -334,6 +334,20 @@ export async function listChapterTitles(
 }
 
 /** 进度上报：chapterOrder 越界时钳到末章；末章打 finished=true */
+export interface ProgressReportResult {
+  chapterOrder: number
+  blockOrder: number
+  finished: boolean
+  /** 写入后（或 stale 时的服务器现有行）的 updatedAt，客户端作为下次上报的版本 */
+  updatedAt: string
+  /** true=检测到乱序覆盖：请求基于旧版本，服务器保留了更新的进度 */
+  stale: boolean
+}
+
+/** 进度上报：chapterOrder 越界时钳到末章；末章打 finished=true。
+ * R-04（docs/31）：baseUpdatedAt 是客户端读到的行版本——服务器行比它新（>1.5s 容差）
+ * 说明有更新的设备已写过，本次旧写拒绝覆盖，返回服务器现状（stale=true）。
+ * baseUpdatedAt 缺省 = 旧客户端，退回无条件 upsert（向后兼容）。 */
 export async function reportProgress(
   db: PrismaClient,
   childId: string,
@@ -341,7 +355,8 @@ export async function reportProgress(
   chapterOrder: number,
   blockOrder: number,
   completed = false,
-): Promise<{ chapterOrder: number; finished: boolean }> {
+  baseUpdatedAt?: string,
+): Promise<ProgressReportResult> {
   const book = await db.book.findUnique({
     where: { id: contentId },
     select: { id: true, chapters: { select: { order: true }, orderBy: { order: 'asc' }, take: 1 } },
@@ -353,6 +368,22 @@ export async function reportProgress(
   // finished 仅由客户端在真实完成末章时的显式 completed=true 写入；完成后不因回看前章清除。
   const atLast = last > 0 && clamped >= last
   const finished = atLast && completed
+  const existing = await db.readingProgress.findUnique({
+    where: { childId_bookId: { childId, bookId: contentId } },
+    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true },
+  })
+  if (existing && baseUpdatedAt) {
+    const base = new Date(baseUpdatedAt)
+    if (!Number.isNaN(base.getTime()) && existing.updatedAt.getTime() - base.getTime() > 1500) {
+      return {
+        chapterOrder: existing.chapterOrder,
+        blockOrder: existing.blockOrder,
+        finished: existing.finished,
+        updatedAt: existing.updatedAt.toISOString(),
+        stale: true,
+      }
+    }
+  }
   await db.readingProgress.upsert({
     where: { childId_bookId: { childId, bookId: contentId } },
     create: { childId, bookId: contentId, chapterOrder: clamped, blockOrder, finished },
@@ -360,21 +391,28 @@ export async function reportProgress(
   })
   const persisted = await db.readingProgress.findUniqueOrThrow({
     where: { childId_bookId: { childId, bookId: contentId } },
-    select: { finished: true },
+    select: { finished: true, updatedAt: true },
   })
-  return { chapterOrder: clamped, finished: persisted.finished }
+  return {
+    chapterOrder: clamped,
+    blockOrder,
+    finished: persisted.finished,
+    updatedAt: persisted.updatedAt.toISOString(),
+    stale: false,
+  }
 }
 
 export async function getProgress(
   db: PrismaClient,
   childId: string,
   contentId: string,
-): Promise<{ chapterOrder: number; blockOrder: number; finished: boolean } | null> {
+): Promise<{ chapterOrder: number; blockOrder: number; finished: boolean; updatedAt: string } | null> {
   const row = await db.readingProgress.findUnique({
     where: { childId_bookId: { childId, bookId: contentId } },
-    select: { chapterOrder: true, blockOrder: true, finished: true },
+    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true },
   })
-  return row ?? null
+  if (!row) return null
+  return { ...row, updatedAt: row.updatedAt.toISOString() }
 }
 
 // ── 收藏（docs/15 P1-A）──

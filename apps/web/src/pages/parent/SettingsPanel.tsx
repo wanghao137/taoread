@@ -17,29 +17,14 @@ export interface SettingsPanelProps {
   revision?: number
 }
 
-const BEDTIME_PRESETS = [
-  { value: 1260, label: '21:00' },
-  { value: 1290, label: '21:30' },
-  { value: 1320, label: '22:00' },
-  { value: null, label: '跟随默认' },
-] as const
-
-const CAP_PRESETS = [
-  { value: 300, label: '5 分钟' },
-  { value: 600, label: '10 分钟' },
-  { value: null, label: '跟随默认' },
-] as const
-
-/** 设置页（v8 贴纸绘本）：绑定向导 / 小读者管理 / 休息时间 / 安静模式 / AI 披露 / 注销家庭 */
+/** 设置页（v8 贴纸绘本）：绑定向导 / 小读者管理 / 安静模式 / AI 披露 / 注销家庭。
+ * 2026-09-25：家长码与「休息时间」随阅读时间限制取消一并移除（docs/31）。 */
 export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision }: SettingsPanelProps) {
   const navigate = useNavigate()
   const signOut = useSession((s) => s.signOut)
   const setCalmMode = useSession((s) => s.setCalmMode)
   const [view, setView] = useState<FamilyView>({ kind: 'loading' })
   const [settings, setSettings] = useState<FamilySettingsDto | null>(null)
-  /** 家长码（T02/F01）：家长加入的第二凭据，仅家长会话可见/可轮换 */
-  const [parentCode, setParentCode] = useState<string | null>(null)
-  const [codeCopied, setCodeCopied] = useState(false)
   /** 已登录设备（A1/F04）：列表 + 单设备撤销 */
   const [sessions, setSessions] = useState<DeviceSessionDto[] | null>(null)
   const [newNickname, setNewNickname] = useState('')
@@ -60,11 +45,6 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         if (alive)
           setView({ kind: 'error', message: err instanceof ApiError ? err.message : undefined })
       })
-    // 家长码独立拉取：失败只隐藏家长码卡，不拖垮整页设置（审计教训）
-    api
-      .getParentCode(familyId, token)
-      .then((codeDto) => alive && setParentCode(codeDto.parentCode))
-      .catch(() => undefined)
     // 设备列表独立拉取：失败只隐藏设备卡
     api
       .listSessions(familyId, token)
@@ -113,49 +93,11 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
     return (
       <div className="set-grid">
-        {/* 家长码（T02/F01）：家长加入的第二凭据，仅家长会话可见；泄露即轮换 */}
-        {parentCode ? (
-          <div className="panel">
-            <h3>家长码</h3>
-            <p>另一台家长设备凭此码加入，家庭码只给孩子的设备用</p>
-            <p data-testid="parent-code" className="code-display" style={{ fontSize: 30, letterSpacing: '0.2em' }}>
-              {parentCode}
-            </p>
-            <div className="setting-row">
-              <button
-                type="button"
-                className="sticker-btn sm"
-                onClick={() => {
-                  void navigator.clipboard?.writeText(parentCode).catch(() => undefined)
-                  setCodeCopied(true)
-                  setTimeout(() => setCodeCopied(false), 1500)
-                }}
-              >
-                {codeCopied ? '✓ 已复制' : '复制'}
-              </button>
-              <button
-                type="button"
-                className="sticker-btn sm"
-                disabled={busy}
-                onClick={() =>
-                  void run(() => api.rotateParentCode(familyId, token)).then((r) => {
-                    if (r) setParentCode(r.parentCode)
-                  })
-                }
-              >
-                重新生成
-              </button>
-            </div>
-            <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
-              重新生成后旧家长码立即作废，已加入的设备不受影响
-            </p>
-          </div>
-        ) : null}
         {/* 已登录设备（A1/F04）：家长可查看并撤销任意设备，撤销后该设备令牌立即失效 */}
         {sessions && sessions.length > 0 ? (
           <div className="panel" data-testid="device-sessions">
             <h3>已登录设备</h3>
-            <p>孩子设备凭家庭码加入，家长设备凭家长码加入；发现陌生设备可立即请出</p>
+            <p>所有设备都凭家庭码加入；发现陌生设备可立即请出</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
               {sessions.map((session) => (
                 <div key={session.id} className="kid-row">
@@ -186,7 +128,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               ))}
             </div>
             <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
-              被请出的设备会马上退出登录；再次加入需要家庭码（家长设备还需家长码）
+              被请出的设备会马上退出登录；再次加入需要家庭码
             </p>
           </div>
         ) : null}
@@ -273,54 +215,6 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         </div>
 
         <div className="panel">
-          <h3>
-            <span className="tag mint" style={{ marginRight: 8, verticalAlign: 'middle' }}>
-              家长可控
-            </span>
-            休息时间
-          </h3>
-          <p>
-            到点后孩子端会温和收尾（先读完当前这一段，再安心停下），几点收尾由你说了算
-          </p>
-          <div className="setting-row" style={{ marginTop: 12 }}>
-            {BEDTIME_PRESETS.map((p) => (
-              <button
-                key={p.label}
-                type="button"
-                className={`filter ${settings?.bedtimeMin === p.value ? 'on' : ''}`}
-                aria-pressed={settings?.bedtimeMin === p.value}
-                disabled={busy}
-                onClick={() =>
-                  void run(() => api.updateSettings(familyId, token, { bedtimeMin: p.value })).then(
-                    (r) => r && setSettings(r),
-                  )
-                }
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-          <div className="setting-row" style={{ marginTop: 10 }}>
-            {CAP_PRESETS.map((p) => (
-              <button
-                key={p.label}
-                type="button"
-                className={`filter ${settings?.overtimeCapSec === p.value ? 'on' : ''}`}
-                aria-pressed={settings?.overtimeCapSec === p.value}
-                disabled={busy}
-                onClick={() =>
-                  void run(() =>
-                    api.updateSettings(familyId, token, { overtimeCapSec: p.value }),
-                  ).then((r) => r && setSettings(r))
-                }
-              >
-                单次 {p.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="panel">
           <h3>安静模式</h3>
           <p>
             开启后，孩子端所有翻页、摇晃、弹跳都会变成最轻柔的淡入淡出。适合容易晕动或对动态画面敏感的孩子，
@@ -394,7 +288,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
   return (
     <div>
-      <PageHead index="04" title="设置" sub="绑定微信读书、小读者档案、休息时间与家庭注销" />
+      <PageHead index="04" title="设置" sub="绑定微信读书、小读者档案与家庭注销" />
       {body()}
     </div>
   )

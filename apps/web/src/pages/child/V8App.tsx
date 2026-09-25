@@ -295,7 +295,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                     ['/child/discover', LABELS.discover],
                     ['/child/my', LABELS.navMy],
                     ['/child/family-books', '家庭书架'],
-                    ['/child/phonics', '英语小练习'],
+                    ['/child/phonics', '英语练习'],
                   ] as Array<[string, string]>
                 ).map(([to, label]) => (
                   <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
@@ -334,7 +334,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 ['/child/discover', LABELS.discover],
                 ['/child/my', LABELS.navMy],
                 ['/child/family-books', '家庭书架'],
-                ['/child/phonics', '英语小练习'],
+                ['/child/phonics', '英语练习'],
               ] as Array<[string, string]>
             ).map(([to, label]) => (
               <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>

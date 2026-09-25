@@ -82,7 +82,9 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     const scene = familyScene(fid, body.scene)
 
     // A3：并发同场景建任务合并为一段临界区——两个请求同时看到「无任务」时只建一个上游任务
-    return dedupeInFlight(`video:${scene}`, async (): Promise<FastifyReply> => {
+    // R-03（docs/31）：与插画共用家庭级临界区 `gen:${fid}`，额度检查在锁内——
+    // 跨场景/跨域并发不再各自读到同一份余额。
+    return dedupeInFlight(`gen:${fid}`, async (): Promise<FastifyReply> => {
       // 已有完成的视频：秒回（幂等命中不受每日配额限制）
       const done = await db.videoAsset.findUnique({
         where: { scene: scene },

@@ -39,6 +39,17 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // R-08：Service Worker 运行在 worker 全局——声明其真实全局，不做文件级豁免
+    files: ['apps/web/public/sw.js'],
+    languageOptions: {
+      globals: {
+        self: 'readonly',
+        caches: 'readonly',
+        clients: 'readonly',
+      },
+    },
+  },
+  {
     files: ['**/*.ts'],
     rules: {
       // 未使用变量一律报错；下划线前缀参数豁免（占位用）

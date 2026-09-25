@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
@@ -29,12 +29,10 @@ export function LoginPage() {
   const [mode, setMode] = useState<Mode>('choose')
   const [code, setCode] = useState('')
   const [role, setRole] = useState<DeviceRole>('parent')
-  /** 家长码（T02/F01）：家长身份第二凭据，与家庭码分开 */
-  const [parentCode, setParentCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [agreementOpen, setAgreementOpen] = useState(false)
-  const [createdCode, setCreatedCode] = useState<{ familyCode: string; parentCode: string } | null>(null)
+  const [createdCode, setCreatedCode] = useState<{ familyCode: string } | null>(null)
 
   async function enter(path: '/child' | '/parent', session: { token: string; familyId: string; familyCode: string }) {
     signIn({ token: session.token, familyId: session.familyId, familyCode: session.familyCode, role })
@@ -45,12 +43,7 @@ export function LoginPage() {
     setBusy(true)
     setError(null)
     try {
-      const session = await api.joinFamily(
-        code.trim().toUpperCase(),
-        role,
-        deviceId(),
-        role === 'parent' ? parentCode.trim().toUpperCase() : undefined,
-      )
+      const session = await api.joinFamily(code.trim().toUpperCase(), role, deviceId())
       await enter(role === 'child' ? '/child' : '/parent', session)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : '加入没有成功，请稍后再试')
@@ -64,7 +57,7 @@ export function LoginPage() {
     setError(null)
     try {
       const session = await api.createFamily(deviceId())
-      setCreatedCode({ familyCode: session.familyCode, parentCode: session.parentCode ?? '' })
+      setCreatedCode({ familyCode: session.familyCode })
       signIn({
         token: session.token,
         familyId: session.familyId,
@@ -89,6 +82,42 @@ export function LoginPage() {
     )
   }
 
+  /* R-06（docs/31）：弹层键盘与读屏闭环——打开移焦到关闭钮、Tab 在弹层内圈定、
+     Escape 关闭、关闭后焦点回到触发按钮。 */
+  const dialogRef = useRef<HTMLDivElement | null>(null)
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null)
+  useEffect(() => {
+    if (!agreementOpen) return
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    closeBtnRef.current?.focus()
+    return () => previouslyFocused?.focus?.()
+  }, [agreementOpen])
+
+  function onDialogKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Escape') {
+      e.stopPropagation()
+      setAgreementOpen(false)
+      return
+    }
+    if (e.key !== 'Tab') return
+    const root = dialogRef.current
+    if (!root) return
+    const focusables = Array.from(
+      root.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+    ).filter((el) => !el.hasAttribute('disabled'))
+    if (focusables.length === 0) return
+    const first = focusables[0]!
+    const last = focusables[focusables.length - 1]!
+    const active = document.activeElement
+    if (e.shiftKey && (active === first || !root.contains(active))) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
+
   return (
     <div className="app">
       <div className="wrap login-wrap">
@@ -106,14 +135,10 @@ export function LoginPage() {
         {createdCode ? (
           <div className="panel" aria-live="polite" style={{ textAlign: 'center' }}>
             <h2>家庭创建好啦</h2>
-            <p>把家庭码念给孩子，家长加入用家长码——两个码别混用</p>
-            <p className="mono-label" style={{ marginTop: 10 }}>家庭码 · 孩子设备</p>
+            <p>一个家庭码，全家通用——家长选「家长」进入，孩子选「孩子」进入</p>
+            <p className="mono-label" style={{ marginTop: 10 }}>家庭码 · 全家通用</p>
             <p data-testid="family-code" className="code-display">
               {createdCode.familyCode}
-            </p>
-            <p className="mono-label" style={{ marginTop: 10 }}>家长码 · 家长设备</p>
-            <p data-testid="parent-code" className="code-display" style={{ fontSize: 28 }}>
-              {createdCode.parentCode}
             </p>
             <button type="button" className="sticker-btn primary block" onClick={() => navigate('/parent', { replace: true })}>
               进入家长端
@@ -138,7 +163,7 @@ export function LoginPage() {
         ) : mode === 'join' ? (
           <div className="panel">
             <h2>输入家庭码</h2>
-            <p>6-8 位家庭码在创建家庭的设备上</p>
+            <p>家庭码在创建家庭的设备上，家长和孩子用同一个码</p>
             <label htmlFor="family-code" className="mono-label" style={{ display: 'block', marginTop: 12 }}>
               家庭码
             </label>
@@ -148,27 +173,10 @@ export function LoginPage() {
               onChange={(e) => setCode(e.target.value.toUpperCase())}
               maxLength={8}
               autoComplete="off"
-              placeholder="ABCD2345"
+              placeholder="12345678"
               className="field code-input"
               style={{ width: '100%', marginTop: 8 }}
             />
-            {role === 'parent' ? (
-              <>
-                <label htmlFor="parent-code" className="mono-label" style={{ display: 'block', marginTop: 12 }}>
-                  家长码（家长身份凭据，在家长设备「设置 → 家长码」查看）
-                </label>
-                <input
-                  id="parent-code"
-                  value={parentCode}
-                  onChange={(e) => setParentCode(e.target.value.toUpperCase())}
-                  maxLength={8}
-                  autoComplete="off"
-                  placeholder="13572468"
-                  className="field code-input"
-                  style={{ width: '100%', marginTop: 8 }}
-                />
-              </>
-            ) : null}
             <div className="setting-row" style={{ marginTop: 12 }}>
               {roleSticker('parent')}
               {roleSticker('child')}
@@ -182,7 +190,7 @@ export function LoginPage() {
               type="button"
               className="sticker-btn primary block"
               style={{ marginTop: 14 }}
-              disabled={busy || !/^[0-9A-HJ-NP-Z]{6,8}$/.test(code.trim()) || (role === 'parent' && parentCode.trim().length < 6)}
+              disabled={busy || !/^[0-9A-HJ-NP-Z]{6,8}$/.test(code.trim())}
               onClick={handleJoin}
             >
               {busy ? '正在开门…' : '进入桃阅读'}
@@ -227,12 +235,19 @@ export function LoginPage() {
           role="dialog"
           aria-modal="true"
           aria-label="AI 生成内容标识说明"
+          onKeyDown={onDialogKeyDown}
           onClick={() => setAgreementOpen(false)}
         >
-          <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
+          <div className="sheet-card" ref={dialogRef} onClick={(e) => e.stopPropagation()}>
             <h2>AI 生成内容标识说明</h2>
             <AiContentAgreement />
-            <button type="button" className="sticker-btn primary block" style={{ marginTop: 16 }} onClick={() => setAgreementOpen(false)}>
+            <button
+              type="button"
+              className="sticker-btn primary block"
+              style={{ marginTop: 16 }}
+              ref={closeBtnRef}
+              onClick={() => setAgreementOpen(false)}
+            >
               知道啦
             </button>
           </div>

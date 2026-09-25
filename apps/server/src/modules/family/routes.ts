@@ -134,7 +134,7 @@ export function registerFamilyRoutes(
     return session
   })
 
-  // ── 凭家庭码加入（孩子设备） / 凭家长码加入（家长设备，T02/F01）──
+  // ── 凭家庭码加入（2026-09-25 简化：家长/孩子共用家庭码，角色由请求 role 决定）──
   app.post('/api/family/join', {
     ...ipLimit,
   }, async (request) => {
@@ -143,30 +143,12 @@ export function registerFamilyRoutes(
         familyCode: z.string().min(1),
         role: z.enum(['parent', 'child']),
         deviceId: deviceIdSchema,
-        // 家长码：role=parent 时的第二凭据；服务端校验，家庭码自报 role 不构成家长身份
+        // 旧客户端兼容：仍可能传 parentCode，接受但不再校验
         parentCode: z.string().max(16).optional(),
       }),
       request.body ?? {},
     )
     return svc.joinFamily(db, tokenSecret, body)
-  })
-
-  // ── 家长码查看（仅家长；旧家庭首次访问懒生成）──
-  app.get('/api/family/:familyId/parent-code', {
-    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
-  }, async (request) => {
-    const { familyId } = parse(familyIdParamSchema, request.params)
-    assertSameFamily(request, familyId)
-    return { parentCode: await svc.getParentCode(db, familyId) }
-  })
-
-  // ── 家长码轮换（仅家长）：旧家长码立即作废 ──
-  app.post('/api/family/:familyId/parent-code/rotate', {
-    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
-  }, async (request) => {
-    const { familyId } = parse(familyIdParamSchema, request.params)
-    assertSameFamily(request, familyId)
-    return { parentCode: await svc.rotateParentCode(db, familyId) }
   })
 
   // ── 单设备撤销（仅家长，T02/F04）：被撤销设备令牌立即失效 ──

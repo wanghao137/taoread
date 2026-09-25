@@ -44,9 +44,14 @@ export class IpRateLimiter {
   }
 }
 
-/** Fastify preHandler 工厂：按请求来源 IP 限流 */
+/** Fastify preHandler 工厂：按请求来源 IP 限流。
+ * 生产拓扑是 Cloudflare Tunnel → 127.0.0.1:8091，request.ip 恒为回环地址，
+ * 全站访客会共享同一个桶（2026-09-25 家长码「用不了」事故根因：桶被打空后人人 429）。
+ * 隧道是唯一入口，CF-Connecting-IP 由 Cloudflare 设置，可信；本机直连时回落 request.ip。 */
 export function ipRateLimit(limiter: IpRateLimiter) {
   return async (request: FastifyRequest, _reply: FastifyReply) => {
-    limiter.take(request.ip)
+    const cfIp = request.headers['cf-connecting-ip']
+    const ip = (Array.isArray(cfIp) ? cfIp[0] : cfIp) ?? request.ip
+    limiter.take(ip)
   }
 }

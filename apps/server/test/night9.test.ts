@@ -140,8 +140,8 @@ describe('家庭设置与注销（第 9 夜）', () => {
     expect(afterBad.json().calmMode).toBe(false)
   })
 
-  it('家庭级 bedtimeMin 覆盖环境默认：设置 1320 后 21:30 可开课', async () => {
-    // env 默认 1290（21:30 会挡），家庭覆盖 1320（22:00）→ 21:45 开课放行
+  it('阅读时间限制已取消：就寝时刻内外、有无家庭覆盖都恒可开课（2026-09-25）', async () => {
+    // env 默认 1290、时钟注入 21:45（旧逻辑下无覆盖家庭会被挡）——闸取消后放行
     const overrideApp = await makeApp(probeOk, { bedTimeMin: 1290, ritualNowMin: () => 21 * 60 + 45 })
     await overrideApp.app.ready()
     const f = await createFamilyAsParent(overrideApp.app)
@@ -154,7 +154,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { childId, bookId: 'B1' },
     })
     expect(start.statusCode).toBe(201)
-    // 无覆盖的另一家庭仍被 1290 闸挡住
+    // 无覆盖的另一家庭同样放行（ Family.bedtimeMin 不再参与判定）
     const f2 = await createFamilyAsParent(overrideApp.app, 'no-override')
     const childId2 = await createChild(overrideApp.app, f2.token, f2.familyId, '小柚', '6-8')
     const start2 = await overrideApp.app.inject({
@@ -163,7 +163,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       headers: authHeaders(f2.token),
       payload: { childId: childId2, bookId: 'B2' },
     })
-    expect(start2.statusCode).toBe(403)
+    expect(start2.statusCode).toBe(201)
     await overrideApp.app.close()
     await overrideApp.db.$disconnect()
   })

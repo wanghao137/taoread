@@ -87,12 +87,15 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       select: { urlPath: true },
     })
     if (existing) return existing.urlPath
-    await assertDailyGenQuota(db, familyId, genDailyLimit)
 
-    return dedupeInFlight(`art:${input.scene}`, async () => {
+    // R-03（docs/31）：额度检查必须与落库同临界区。按家庭（而非场景）串行化，
+    // 插画+动画共用一把锁——跨场景/跨域并发不再各自读到同一份余额。
+    // 生产形态为单进程，进程内临界区即完整边界；多进程部署需另建预留表。
+    return dedupeInFlight(`gen:${familyId}`, async () => {
       // 双重检查：等在途请求完成后进来，场景可能已由前一个请求生成
       const raced = await db.artAsset.findUnique({ where: { scene: input.scene }, select: { urlPath: true } })
       if (raced) return raced.urlPath
+      await assertDailyGenQuota(db, familyId, genDailyLimit)
       const gen = new ImageGenerator(
         requireImage(),
         mediaDir,

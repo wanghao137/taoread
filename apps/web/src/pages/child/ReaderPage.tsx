@@ -162,6 +162,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /** 尚未成功落库的进度；重试与离开提交都以它为准，成功后清空 */
   const unsavedRef = useRef<{ chapterOrder: number; blockOrder: number } | null>(null)
   const saveSeqRef = useRef(0)
+  /** R-04：客户端持有的行版本（updatedAt），上报时带回做防乱序覆盖 */
+  const progressVerRef = useRef<string | undefined>(undefined)
 
   const persistProgress = useCallback(
     async (payload: { chapterOrder: number; blockOrder: number }) => {
@@ -169,11 +171,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       const seq = ++saveSeqRef.current
       setSaveState('saving')
       try {
-        await api.reportContentProgress(book.id, childId, payload, token)
+        const res = await api.reportContentProgress(book.id, childId, { ...payload, baseUpdatedAt: progressVerRef.current }, token)
+        progressVerRef.current = res.updatedAt
         if (seq === saveSeqRef.current) {
           unsavedRef.current = null
           setSaveState('saved')
         }
+        // stale=另一台设备已写入更新进度：本机旧位置不覆盖服务器，也不重试
       } catch {
         // 保留 unsavedRef，等 8 秒重试 / 下次滚动 / 离开兜底；顶部状态条可见
         if (seq === saveSeqRef.current) setSaveState('failed')
@@ -303,7 +307,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           if (now - lastReport.current > 5000) {
             lastReport.current = now
             void api
-              .reportContentProgress(book.id, childId, { chapterOrder: target, blockOrder: restoreBlock }, token)
+              .reportContentProgress(book.id, childId, { chapterOrder: target, blockOrder: restoreBlock, baseUpdatedAt: progressVerRef.current }, token)
+              .then((r) => {
+                progressVerRef.current = r.updatedAt
+              })
               .catch(() => {})
           }
         }
@@ -330,6 +337,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       if (childId && token) {
         try {
           const res = await api.contentProgress(book.id, childId, token)
+          progressVerRef.current = res.progress.updatedAt
           if (alive && !res.progress.finished && res.progress.chapterOrder === startOrder) {
             restore = res.progress.blockOrder
           }
@@ -679,12 +687,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     if (!childId || !token) return
     if (speaking) stopSpeaking()
     try {
-      await api.reportContentProgress(
+      const res = await api.reportContentProgress(
         book.id,
         childId,
-        { chapterOrder: order, blockOrder: currentBlockRef.current, completed: order >= book.chapterCount },
+        {
+          chapterOrder: order,
+          blockOrder: currentBlockRef.current,
+          completed: order >= book.chapterCount,
+          baseUpdatedAt: progressVerRef.current,
+        },
         token,
       )
+      progressVerRef.current = res.updatedAt
+      // stale=另一台设备已写入更新进度：不覆盖服务器，但本机照常进入结算
     } catch (err) {
       showToast(err instanceof Error ? err.message : '进度没存上，再试一次')
       return

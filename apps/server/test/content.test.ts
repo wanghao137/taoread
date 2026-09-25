@@ -196,6 +196,43 @@ describe('内容域 /api/content/books', () => {
     expect(cross.statusCode).toBe(404)
   })
 
+  it('R-04 乱序旧写：过期 baseUpdatedAt 的进度不覆盖服务器，返回现状（stale）', async () => {
+    const post = (body: Record<string, unknown>) =>
+      harness.app.inject({
+        method: 'POST',
+        url: '/api/content/books/sanzi-jing/progress',
+        headers: authHeaders(token),
+        payload: body,
+      })
+    const first = await post({ childId, chapterOrder: 3, blockOrder: 1 })
+    expect(first.json().stale).toBe(false)
+    expect(first.json().blockOrder).toBe(1)
+    const ver = first.json().updatedAt as string
+
+    // 同设备短间隔内的连写（同一版本基数）在容差内正常生效——不误伤快速滚动
+    const quick = await post({ childId, chapterOrder: 4, blockOrder: 0, baseUpdatedAt: ver })
+    expect(quick.json().stale).toBe(false)
+
+    // 另一台设备已写入新进度后，携带 1 分钟前旧版本的补报必须被拒
+    const second = await post({ childId, chapterOrder: 8, blockOrder: 2 })
+    expect(second.json().stale).toBe(false)
+    const oldBase = new Date(Date.now() - 60_000).toISOString()
+    const stale = await post({ childId, chapterOrder: 2, blockOrder: 0, baseUpdatedAt: oldBase })
+    expect(stale.json().stale).toBe(true)
+    expect(stale.json().chapterOrder).toBe(8)
+
+    // 读取保持服务器新值；基于最新版本的写入恢复正常
+    const read = await harness.app.inject({
+      method: 'GET',
+      url: `/api/content/books/sanzi-jing/progress?childId=${childId}`,
+      headers: authHeaders(token),
+    })
+    expect(read.json().progress.chapterOrder).toBe(8)
+    const fresh = await post({ childId, chapterOrder: 5, blockOrder: 0, baseUpdatedAt: stale.json().updatedAt })
+    expect(fresh.json().stale).toBe(false)
+    expect(fresh.json().chapterOrder).toBe(5)
+  })
+
   it('末章上报：越界钳到末章；位置上报不再自动 finished，显式 completed 才标记', async () => {
     // 位置上报（无 completed）：钳到末章但不算读完
     const res = await harness.app.inject({

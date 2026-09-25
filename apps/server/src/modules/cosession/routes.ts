@@ -12,9 +12,8 @@ import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../family/routes'
-import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
+import { UnauthorizedError, ValidationError } from '../../lib/errors'
 import { MOODS, PROGRESS_MARKS } from '@taoread/shared'
-import { isBedtime } from '../ritual/window'
 import { assertContentReadable, isContentBookId, toContentId } from '../../content/service'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
 import * as svc from './service'
@@ -34,9 +33,8 @@ export interface CosessionRoutesDeps {
   tokenSecret: Buffer
   /** 时钟注入（测试冻结时间；默认真实 Unix 秒） */
   nowSec?: () => number
-  /** 就寝时刻（本地日内分钟数，默认 21:30）；null=关闭。开新书闸：就寝窗口拒绝新建（收尾不受限） */
+  /** 2026-09-25 产品决策：阅读时间限制已取消（bedtimeMin/nowMinutesOfDay 仅保留入参兼容，不再参与任何判定） */
   bedTimeMin?: number | null
-  /** 本地日内分钟注入（就寝闸可测性，N8-001；默认真实本地时钟） */
   nowMinutesOfDay?: () => number
 }
 
@@ -49,28 +47,9 @@ export function registerCosessionRoutes(
     deps.nowSec ?? (() => Math.floor(Date.now() / 1000))
   const auth = requireAuth(tokenSecret)
 
-  /** 就寝判定（第 8 夜护眼限制，服务端权威）：单一来源 isBedtime + 可注入时钟。
-   * 第 9 夜起支持家庭级覆盖：Family.bedtimeMin 优先，null 回落环境默认。 */
-  const nowMinutesOfDay =
-    deps.nowMinutesOfDay ??
-    (() => {
-      const d = new Date()
-      return d.getHours() * 60 + d.getMinutes()
-    })
-  const isBedtimeNow = async (familyId: string) => {
-    const family = await db.family.findUnique({
-      where: { id: familyId },
-      select: { bedtimeMin: true },
-    })
-    const bedTimeMin = family?.bedtimeMin ?? deps.bedTimeMin ?? null
-    return isBedtime(nowMinutesOfDay(), bedTimeMin)
-  }
-
   app.post('/api/cosession', { preHandler: auth }, async (request, reply) => {
     if (!request.auth) throw new UnauthorizedError()
-    if (await isBedtimeNow(request.auth.fid)) {
-      throw new AppError('月亮睡觉啦，明晚再一起读书吧', 'RITUAL_CLOSED', 403)
-    }
+    // 2026-09-25 产品决策：阅读时间限制取消——全天候可开书，就寝闸不再拒绝任何请求
     const body = parse(
       z.object({
         childId: z.string().min(1),

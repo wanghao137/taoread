@@ -83,6 +83,12 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
   app.addHook('onRequest', async (_request, reply) => {
     reply.header('Referrer-Policy', 'no-referrer')
+    // R-07（docs/31）：基线安全头。nosniff 防 MIME 嗅探（SPA fallback 的 text/html
+    // 绝不能被当脚本解析）；frame 限制防点击劫持；权限策略收窄设备能力。
+    // 完整 CSP 先走 report-only 观察期，未配置报告端点前不上线强制版。
+    reply.header('X-Content-Type-Options', 'nosniff')
+    reply.header('X-Frame-Options', 'SAMEORIGIN')
+    reply.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
   })
 
   await app.register(cors, {
