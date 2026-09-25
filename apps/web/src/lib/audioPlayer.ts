@@ -230,6 +230,9 @@ class ServerAudioPlayer {
       })
       this.audio.addEventListener('error', () => {
         if (this.cancelled) return
+        // 空源（removeAttribute/src='' 后、stop 清理时）浏览器会报 code=4 Empty src，
+        // 这不是加载失败——忽略，避免与真实播放打架弹出误报 toast（2026-09-25 bug1）
+        if (!this.audio!.currentSrc) return
         // 网络抖动/边缘瞬断：同一段先静默重拉一次，仍失败才提示。
         // 定时器绑定当前会话代号：stop()/新一轮播放会使其自动作废（P1-3 竞态）。
         const sess = this.session
@@ -241,7 +244,7 @@ class ServerAudioPlayer {
           if (src) {
             this.retryTimer = window.setTimeout(() => {
               if (this.cancelled || this.session !== sess) return
-              this.audio!.src = ''
+              this.audio!.removeAttribute('src')
               this.audio!.src = src
               this.audio!.load()
               void this.audio!.play().catch(() => undefined)
@@ -417,7 +420,9 @@ class ServerAudioPlayer {
     this.stopTimelineLoop()
     if (this.audio) {
       this.audio.pause()
-      this.audio.src = ''
+      // removeAttribute 而非 src=''：空字符串会被解析成页面 URL 并触发
+      // MEDIA_ELEMENT_ERROR: Empty src（code 4），错误监听器会误报加载失败
+      this.audio.removeAttribute('src')
     }
     this.playing = false
     this.queue = []

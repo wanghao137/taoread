@@ -545,11 +545,50 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return highlightMode
   }, [highlightMode, childStage])
 
-  /* ── 朗读高亮定位：段文本 → 原文块范围映射（修复英文/多块高亮错位） ──
-   * 服务端把多个块拼成一段合成，charIndex 是「段内偏移」。此前直接拿段内偏移对
-   * 每个块逐字渲染，非首块必然错位；英文按字符等分时间轴还会停到词中间。
-   * 现在按顺序在段文本中定位每个块的出现区间，charIndex → (块, 块内偏移)。 */
-  const segmentRanges = useMemo(() => {
+  /* ── 朗读高亮定位（2026-09-25 bug2 重构：章节全文全局对齐） ──
+   * 服务端整章朗读文本 = 正文块按序 '\n' 拼接后 chunkText 切段：块可能
+   * 整块一段、多块合一段、或长块被切成多段。此前在「段文本」里 indexOf
+   * 整块文本，长块的尾段永远匹配不到 → 该块（常是章节下半部分）永久无高亮。
+   * 现在先在章节全文坐标里建立块区间，再把段文本对齐到全文起点，
+   * charIndex(段内偏移) → 全文偏移 → 块 + 块内偏移，三类情况统一覆盖。 */
+  const chapterAlign = useMemo(() => {
+    if (!chapter) return null
+    const text: string[] = []
+    const ranges: Array<{ id: string; start: number; end: number }> = []
+    let pos = 0
+    for (const b of chapter.blocks) {
+      if (b.kind === 'image') continue
+      const t = b.text.trim()
+      if (!t) continue
+      if (text.length > 0) {
+        text.push('\n')
+        pos += 1
+      }
+      text.push(t)
+      ranges.push({ id: b.id, start: pos, end: pos + t.length })
+      pos += t.length
+    }
+    return { text: text.join(''), ranges }
+  }, [chapter])
+
+  /** 当前段在章节全文中的起点；段文本是全文的连续切片，前 60 字符唯一定位 */
+  const segAlignRef = useRef<{ text: string; start: number }>({ text: '', start: 0 })
+  const segStart = useMemo(() => {
+    if (!chapterAlign || !highlight?.text) return -1
+    const probe = highlight.text.slice(0, 60)
+    if (!probe) return -1
+    const from = Math.max(0, segAlignRef.current.start - 40)
+    let at = chapterAlign.text.indexOf(probe, from)
+    if (at < 0) at = chapterAlign.text.indexOf(probe)
+    if (at < 0) return -1
+    segAlignRef.current = { text: highlight.text, start: at }
+    return at
+  }, [chapterAlign, highlight])
+
+  const globalChar = segStart >= 0 && highlight ? segStart + (highlight.charIndex >= 0 ? highlight.charIndex : 0) : -1
+
+  /** 回退映射：段文本里定位块（全局对齐失败的兜底） */
+  const fallbackRanges = useMemo(() => {
     if (!chapter || !highlight?.text) return null
     const segText = highlight.text
     const ranges: Array<{ id: string; start: number; end: number }> = []
@@ -564,16 +603,23 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return ranges.length ? ranges : null
   }, [chapter, highlight])
 
-  const currentChar = highlight?.charIndex ?? -1
   const activeRange = useMemo(() => {
-    if (!segmentRanges || currentChar < 0) return null
-    let last: (typeof segmentRanges)[number] | null = null
-    for (const r of segmentRanges) {
-      if (currentChar >= r.start && currentChar < r.end) return r
-      if (currentChar >= r.end) last = r
+    if (globalChar >= 0 && chapterAlign) {
+      let last: (typeof chapterAlign.ranges)[number] | null = null
+      for (const r of chapterAlign.ranges) {
+        if (globalChar >= r.start && globalChar < r.end) return r
+        if (globalChar >= r.end) last = r
+      }
+      return last
+    }
+    if (!fallbackRanges || (highlight?.charIndex ?? -1) < 0) return null
+    let last: (typeof fallbackRanges)[number] | null = null
+    for (const r of fallbackRanges) {
+      if (highlight!.charIndex >= r.start && highlight!.charIndex < r.end) return r
+      if (highlight!.charIndex >= r.end) last = r
     }
     return last
-  }, [segmentRanges, currentChar])
+  }, [chapterAlign, globalChar, fallbackRanges, highlight])
 
   const speakingBlockId = useMemo(() => {
     if (!highlight || !chapter || effectiveHighlight === 'off') return null
@@ -593,11 +639,18 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   function renderSpeakingChars(text: string, blockId?: string): ReactNode {
     const hl = highlight
     if (effectiveHighlight !== 'word' || !hl || hl.charIndex < 0) return text
-    // 段内偏移 → 块内偏移（映射失败则不做逐字，避免错位假高亮）
-    const range = blockId ? segmentRanges?.find((r) => r.id === blockId) : null
-    if (!range) return text
-    if (currentChar < range.start || currentChar >= range.end) return text
-    const localChar = currentChar - range.start
+    // 全局对齐：块在章节全文的区间 + 全文偏移 → 块内偏移
+    let localChar = -1
+    if (chapterAlign && globalChar >= 0 && blockId) {
+      const r = chapterAlign.ranges.find((x) => x.id === blockId)
+      if (r && globalChar >= r.start && globalChar < r.end) localChar = globalChar - r.start
+    }
+    // 回退：段内映射（全局对齐失败时）
+    if (localChar < 0 && blockId && fallbackRanges) {
+      const r = fallbackRanges.find((x) => x.id === blockId)
+      if (r && hl.charIndex >= r.start && hl.charIndex < r.end) localChar = hl.charIndex - r.start
+    }
+    if (localChar < 0) return text
     const chars = Array.from(text)
     // 英文：锁定到当前词整体（字符等分时间轴天然有偏移，逐字符高亮必然对不上）
     if (book.lang === 'en') {
@@ -943,7 +996,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                 )
               }
               if (b.kind === 'note') {
-                // 生词贴纸：听发音 / 收进生词本
+                // 生词贴纸：听发音 / 收进生词本。
+                // 2026-09-25 bug2：朗读到注释块也要高亮（此前无 speaking 类，
+                // 读到「New word」卡时屏幕下半部分完全失去高亮）。
                 const noteWord = extractNoteWord(b.text)
                 const collected = noteWord !== null && collectedWords.has(noteWord)
                 return (
@@ -961,7 +1016,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                       boxShadow: '3px 3px 0 var(--ink)',
                     }}
                   >
-                    <p style={{ textIndent: 0, fontSize: Math.round(font * 0.72), lineHeight: 1.7, margin: 0 }}>{b.text}</p>
+                    <p
+                      className={isSpeakingBlock ? 'speaking' : undefined}
+                      style={{ textIndent: 0, fontSize: Math.round(font * 0.72), lineHeight: 1.7, margin: 0 }}
+                    >
+                      {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
+                    </p>
                     {noteWord ? (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
                         <button className="sticker-btn" style={{ minHeight: 38, fontSize: 12 }} onClick={() => speakWord(noteWord)}>

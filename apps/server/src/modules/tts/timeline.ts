@@ -32,12 +32,16 @@ export interface SegmentTimeline {
 /**
  * 标点停顿权重（单位：相当于多少个普通字的时间）。
  * 句末 > 分句 > 逗号 > 无标点。
+ * 换行（诗歌分行/块拼接）= 明显停顿（2026-09-25 bug2：之前按普通字算，
+ * 英文诗逐行朗读时高亮明显跑在声音前面）。
  */
 function punctWeight(ch: string): number {
   if (/[。！？!?]/.test(ch)) return 3.0
   if (/[；;]/.test(ch)) return 2.2
+  if (ch === '\n') return 2.5
   if (/[，,、]/.test(ch)) return 1.8
   if (/[：:]/.test(ch)) return 1.5
+  if (/[—–…]/.test(ch)) return 1.8
   return 1.0
 }
 

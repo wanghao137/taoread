@@ -79,8 +79,11 @@ export function parseMp3(buf: Buffer): Mp3Info | null {
       continue
     }
 
-    // Layer III 帧长 = floor(144 * bitrate*1000 / sampleRate) + padding
-    const frameLen = Math.floor((144 * bitrate * 1000) / sr) + padding
+    // Layer III 帧长：MPEG1 = floor(144 * bitrate*1000 / sampleRate) + padding；
+    // MPEG2/2.5 每帧采样减半（576），系数为 72。此前统一用 144 会把帧长算大一倍、
+    // 逐帧扫描隔帧跳过 → 时长恰好少一半（2026-09-25 bug2：高亮快一倍的根因）。
+    const frameLen =
+      Math.floor(((versionBits === 0b11 ? 144 : 72) * bitrate * 1000) / sr) + padding
     if (frameLen <= 0) {
       offset += 1
       continue
