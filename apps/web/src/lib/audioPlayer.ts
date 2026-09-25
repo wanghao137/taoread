@@ -43,7 +43,6 @@ export interface AudioProgress {
 type ProgressListener = (p: AudioProgress) => void
 type EndListener = () => void
 type ErrorListener = (message: string) => void
-
 export interface PlayerOptions {
   voiceId?: string
   speed?: number
@@ -72,6 +71,7 @@ class ServerAudioPlayer {
   private progressListeners = new Set<ProgressListener>()
   private endListeners = new Set<EndListener>()
   private errorListeners = new Set<ErrorListener>()
+  private noticeListeners = new Set<ErrorListener>()
 
   /** 探测服务端 TTS 可用性 + 拉取音色列表（页面进入时调一次） */
   async probe(): Promise<boolean> {
@@ -109,6 +109,14 @@ class ServerAudioPlayer {
   onError(fn: ErrorListener): () => void {
     this.errorListeners.add(fn)
     return () => this.errorListeners.delete(fn)
+  }
+  /** 单段跳过类通知（供应商 451 拦截某段等）：不中断整章，只温和提示 */
+  onNotice(fn: ErrorListener): () => void {
+    this.noticeListeners.add(fn)
+    return () => this.noticeListeners.delete(fn)
+  }
+  private emitNotice(message: string): void {
+    this.noticeListeners.forEach((fn) => fn(message))
   }
 
   /**
@@ -194,8 +202,9 @@ class ServerAudioPlayer {
             }
           },
           onError: (msg) => {
-            // 单段失败不中断整章：跳过继续（服务端已给出友好文案）
-            this.emitError(msg)
+            // 单段失败不中断整章：跳过继续。这是段级通知（供应商 451 拦截某段等），
+            // 不清 speaking/highlight 状态——UI 继续跟随后续段
+            this.emitNotice(msg)
           },
           onDone: () => {
             /* 队列已在 onSegment 补齐；播完自然结束 */

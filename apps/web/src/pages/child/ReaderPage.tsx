@@ -380,6 +380,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       setHighlight(null)
       showToast(msg)
     })
+    // 段级跳过通知（供应商拦截个别段等）：温和提示，不清朗读状态——整章继续
+    const offAnotice = audioPlayer.onNotice((msg) => showToast(msg))
     const offTp = tts.onProgress((p) => setHighlight({ index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
     const offTe = tts.onEnd(() => {
       setSpeaking(false)
@@ -394,6 +396,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       offAp()
       offAe()
       offAerr()
+      offAnotice()
       offTp()
       offTe()
       offTerr()
