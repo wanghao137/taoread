@@ -83,6 +83,12 @@ function CalmModeBootstrap() {
 
 export default function App() {
   const calmMode = useSession((s) => s.calmMode)
+  // 安静模式的 CSS 一半：v8.css 的 html[data-calm='1'] 规则停用原生 CSS 过渡/旋转/
+  // 浮动动画（MotionConfig 只管 framer-motion）。此前该属性从未被写入（死规则）。
+  useEffect(() => {
+    if (calmMode) document.documentElement.setAttribute('data-calm', '1')
+    else document.documentElement.removeAttribute('data-calm')
+  }, [calmMode])
   return (
     <MotionConfig reducedMotion={calmMode ? 'always' : 'user'}>
       <CalmModeBootstrap />
