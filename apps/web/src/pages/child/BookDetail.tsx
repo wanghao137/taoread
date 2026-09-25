@@ -189,6 +189,7 @@ export function BookDetail({ book, onBack, onStart, onPreview }: BookDetailProps
             <div className="relative aspect-[3 / 4] w-32 flex-shrink-0 overflow-hidden rounded-2xl shadow-xl ring-1 ring-paper-border sm:w-36 lg:w-full">
               <BookCover
                 urlPath={book.coverArtUrl}
+                thumbUrl={book.coverThumbUrl}
                 scene={book.coverArt}
                 from={book.coverFrom}
                 to={book.coverTo}

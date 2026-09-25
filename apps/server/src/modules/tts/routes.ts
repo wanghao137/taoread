@@ -24,10 +24,14 @@ import {
   type TtsClientDeps,
 } from './client'
 import { TtsCache, cacheKey } from './cache'
+import { PublicTtsIndex, TTS_PUBLIC_NS, type PublicSegmentHit } from './publicCache'
+import { publicMediaBase } from '../../lib/publicMedia'
 import { buildCharTimeline, timelineFromMp3, type CharTime } from './timeline'
 
 export interface TtsRoutesDeps {
   db: PrismaClient
+  /** 公共预生成音频索引（media/.tts-public-state.json 惰性重载） */
+  publicTts: PublicTtsIndex
   tokenSecret: Buffer
   /** stepaudio 客户端依赖；缺 base/key 时整个模块返回 503 */
   ttsDeps: TtsClientDeps | null
@@ -62,7 +66,7 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 }
 
 export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): void {
-  const { db, tokenSecret, ttsDeps, mediaDir } = deps
+  const { db, tokenSecret, ttsDeps, mediaDir, publicTts } = deps
   const ttsDailyLimit = Math.max(600, deps.ttsDailyLimit ?? 600)
   const auth = requireAuth(tokenSecret)
   const cache = new TtsCache(mediaDir)
@@ -252,6 +256,26 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           if (aborted) break
         const seg = segments[i]
         if (!seg) continue
+        // 公共预生成命中（2026-09-25 性能方案）：秒回、不计配额、不写归属。
+        // 已上传 R2 → 外发域名；仅本地 → 源站公共分支兜底。
+        const pubKey = cacheKey(seg, voice.id, speed, 'mp3', lang, TTS_PUBLIC_NS, client.model)
+        const pub: PublicSegmentHit | null = await publicTts.get(pubKey)
+        if (pub) {
+          const base = publicMediaBase()
+          const audioUrl =
+            pub.uploaded && base
+              ? `${base}/tts-public/${pubKey}.mp3`
+              : `/api/media/tts-public/${pubKey}.mp3`
+          await send('segment', {
+            index: i,
+            text: seg,
+            audioUrl,
+            durationMs: pub.durationMs,
+            chars: buildCharTimeline(seg, pub.durationMs),
+            cached: true,
+          })
+          continue
+        }
         // A3：TTS 每家庭每日新合成段数上限（幂等命中不计数）
         const dayStart = new Date()
         dayStart.setHours(0, 0, 0, 0)

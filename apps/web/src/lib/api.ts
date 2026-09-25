@@ -619,6 +619,8 @@ export interface ContentBookDto {
   coverArt: string
   /** AI 封面插画 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
   coverArtUrl: string | null
+  /** 公共书库缩图外链（R2/边缘，约 20KB）；家庭私有或非 webp 为 null。加载失败回退 coverArtUrl */
+  coverThumbUrl: string | null
   coverFrom: string | null
   coverTo: string | null
   words: number
@@ -654,6 +656,8 @@ export interface ContentChapterDto {
   art: string | null
   /** AI 题图 URL（docs/13 P0-A）；无则 null */
   artUrl: string | null
+  /** 阅读器档题图（800px）；null 时回退 artUrl */
+  artReaderUrl: string | null
   blocks: Array<{
     id: string
     order: number

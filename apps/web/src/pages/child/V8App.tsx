@@ -34,6 +34,8 @@ export interface V8Book {
   desc: string
   tone: string
   cover: string | null
+  /** 公共书库缩图外链（性能方案）；null/加载失败回退 cover */
+  coverThumb: string | null
   progress: number
   finished: boolean
   fav: boolean
@@ -61,6 +63,7 @@ function toV8(b: ContentBookDto): V8Book {
     desc: b.intro ?? '',
     tone: toneOf(b.id),
     cover: b.coverArtUrl ?? null,
+    coverThumb: b.coverThumbUrl ?? null,
     progress: b.progress,
     finished: b.finished,
     fav: b.favorite,
@@ -368,20 +371,26 @@ export function PageHead({ title, sub, index = '01' }: { title: string; sub: str
   )
 }
 
-/** demo 画框封面：有 AI 图填图（隐藏 CSS 装饰）+ AI 标识；无图保持 CSS 画面 */
+/** demo 画框封面：有 AI 图填图（隐藏 CSS 装饰）+ AI 标识；无图保持 CSS 画面。
+ * 缩图档优先（性能方案阶段 1）：thumb 加载失败静默回退原档。 */
 export function V8Cover({ book, onFav }: { book: V8Book; onFav: (id: string) => void }) {
-  const [artOk, setArtOk] = useState(Boolean(book.cover))
+  const [fallback, setFallback] = useState(false)
+  const src = !fallback && book.coverThumb ? book.coverThumb : book.cover
+  const [artOk, setArtOk] = useState(Boolean(src))
   return (
     <div className={`book-cover ${book.tone} ${artOk ? 'has-art' : ''}`}>
-      {book.cover ? (
+      {src ? (
         <img
           className="cover-art"
-          src={book.cover}
+          src={src}
           alt=""
           loading="lazy"
           decoding="async"
           onLoad={() => setArtOk(true)}
-          onError={() => setArtOk(false)}
+          onError={() => {
+            if (!fallback && book.coverThumb) setFallback(true)
+            else setArtOk(false)
+          }}
         />
       ) : null}
       <span className="cover-kicker">桃阅读 · 故事</span>
@@ -944,7 +953,22 @@ function ReaderRoute() {
   const { bookId, order } = useParams()
   const v = useV8()
   const book = v.books.find((b) => b.id === bookId) ?? null
+  // 深链/刷新直达阅读器时书单可能尚未拉取（书单只在列表页路由触发）——补拉一次
+  const needsLoad = !book && !v.loaded
+  useEffect(() => {
+    if (needsLoad) v.reloadBooks()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needsLoad])
   if (!book) {
+    if (needsLoad) {
+      return (
+        <div className="app">
+          <div className="wrap">
+            <p className="mono-label">正在翻开这一章…</p>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="app">
         <div className="wrap">

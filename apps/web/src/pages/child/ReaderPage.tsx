@@ -815,7 +815,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   }
 
   const blocks = chapter?.blocks ?? []
-  const heroArtUrl = blocks.find((b) => b.kind === 'image' && b.artUrl)?.artUrl ?? book.cover
+  // 性能方案阶段 1：题图优先 800px reader 档（回退图片块原档 → 封面缩图 → 封面原档）
+  const heroArtUrl =
+    chapter?.artReaderUrl ??
+    blocks.find((b) => b.kind === 'image' && b.artUrl)?.artUrl ??
+    book.coverThumb ??
+    book.cover
   const showHeroArt = Boolean(heroArtUrl) && !artBroken.has(heroArtUrl!)
 
   return (

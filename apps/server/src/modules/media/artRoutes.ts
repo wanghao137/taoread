@@ -20,6 +20,8 @@ import { labelWebpImage } from './label'
 import { assertSceneReadable, familyScene, mediaUrl } from './access'
 import { assertContentReadable } from '../../content/service'
 import { assertDailyGenQuota, dedupeInFlight } from './generationGuard'
+import { writeArtVariants } from './variants'
+import { join } from 'node:path'
 
 export interface ArtRoutesDeps {
   db: PrismaClient
@@ -112,6 +114,14 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       const art = await gen.generate(input)
       if (!art) return null
       await upsertAsset(input, art)
+      // 性能方案阶段 1：主图落地即产 thumb/reader 档；失败不阻断主图
+      if (input.kind !== 'mascot') {
+        try {
+          await writeArtVariants(join(mediaDir, art.urlPath.slice('/api/media/'.length)))
+        } catch {
+          /* 变体缺失由前端回退原图兜底 */
+        }
+      }
       return art.urlPath
     })
   }

@@ -21,6 +21,7 @@ import { registerReportsRoutes } from './modules/reports/routes'
 import { registerContentRoutes } from './content/routes'
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerTtsRoutes } from './modules/tts/routes'
+import { PublicTtsIndex } from './modules/tts/publicCache'
 import type { TtsClientDeps } from './modules/tts/client'
 import { registerMediaRoutes } from './modules/media/routes'
 import { registerArtRoutes } from './modules/media/artRoutes'
@@ -184,6 +185,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     tokenSecret: options.tokenSecret,
     ttsDeps,
     mediaDir,
+    publicTts: new PublicTtsIndex(mediaDir),
     ttsDailyLimit: (options.genDailyLimit ?? 60) * 10,
   })
   const imageDeps: ImageGenDeps | null = options.imageDeps ?? null

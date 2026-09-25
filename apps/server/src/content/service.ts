@@ -4,6 +4,7 @@
  */
 import type { PrismaClient, Book, Block } from '@prisma/client'
 import { AppError } from '../lib/errors'
+import { publicMediaUrl } from '../lib/publicMedia'
 
 export const CBF_PREFIX = 'cbf:'
 
@@ -40,6 +41,8 @@ export interface BookSummaryDto {
   blocked: boolean
   /** AI 插画 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
   coverArtUrl: string | null
+  /** 公共书库缩图外链（R2/边缘）；家庭私有或非 webp 为 null */
+  coverThumbUrl: string | null
   /** 孩子是否收藏了这本书（docs/15 P1-A） */
   favorite: boolean
 }
@@ -51,6 +54,8 @@ export interface ChapterDto {
   art: string | null
   /** AI 题图 URL（docs/13 P0-A）；无则 null，前端回退 SceneArt SVG */
   artUrl: string | null
+  /** 阅读器档题图（800px）；null 回退 artUrl */
+  artReaderUrl: string | null
   blocks: Array<{
     id: string
     order: number
@@ -65,14 +70,34 @@ export interface ChapterDto {
 /**
  * 批量取场景→AI 插画 URL 的映射（docs/13 P0-A）。
  * 一次查询覆盖一本书的封面+各章题图，避免 N+1。
+ * 值携带 isPublic：家庭私有（fam:）素材不发缩图外链（variants 仅对公共书库生成）。
  */
-async function artUrlMap(db: PrismaClient, scenes: string[]): Promise<Map<string, string>> {
+async function artUrlMap(db: PrismaClient, scenes: string[]): Promise<Map<string, { urlPath: string; isPublic: boolean }>> {
   if (scenes.length === 0) return new Map()
   const rows = await db.artAsset.findMany({
     where: { scene: { in: scenes } },
     select: { scene: true, urlPath: true },
   })
-  return new Map(rows.map((r) => [r.scene, r.urlPath]))
+  return new Map(rows.map((r) => [r.scene, { urlPath: r.urlPath, isPublic: !r.scene.startsWith('fam:') }]))
+}
+
+/** 公共插画的缩图/阅读器档外链；私有或非 webp 一律 null（前端回退原图/SVG） */
+function variantUrl(entry: { urlPath: string; isPublic: boolean } | undefined, suffix: 'thumb' | 'reader'): string | null {
+  if (!entry || !entry.isPublic || !entry.urlPath.endsWith('.webp')) return null
+  return publicMediaUrl(entry.urlPath.slice('/api/media/'.length).replace(/\.webp$/, `.${suffix}.webp`))
+}
+
+type ArtMap = Map<string, { urlPath: string; isPublic: boolean }>
+
+/** 封面主图 URL（原档）；未生成 AI 插画时 null，前端回退 SceneArt SVG */
+function artUrlFor(artMap: ArtMap, bookId: string): string | null {
+  return artMap.get(coverScene(bookId))?.urlPath ?? null
+}
+
+/** 场景主图 URL（原档）；lamp-hint 等占位键一律 null */
+function artUrlEntry(artMap: ArtMap, scene: string | null | undefined): string | null {
+  if (!scene || scene === 'lamp-hint') return null
+  return artMap.get(scene)?.urlPath ?? null
 }
 
 /** 封面场景键约定（与 artRoutes 生成时一致） */
@@ -93,6 +118,7 @@ function summarize(
   finished: boolean,
   blocked: boolean,
   coverArtUrl: string | null,
+  coverThumbUrl: string | null,
   favorite: boolean,
 ): BookSummaryDto {
   return {
@@ -113,6 +139,7 @@ function summarize(
     finished,
     blocked,
     coverArtUrl,
+    coverThumbUrl,
     favorite,
   }
 }
@@ -223,7 +250,7 @@ export async function listBooks(
   const favIds = options.childId ? await listFavoriteIds(db, options.childId) : new Set<string>()
   return visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false }
-    return summarize(b, p.pct, p.finished, false, artMap.get(coverScene(b.id)) ?? null, favIds.has(b.id))
+    return summarize(b, p.pct, p.finished, false, artUrlFor(artMap, b.id), variantUrl(artMap.get(coverScene(b.id)), 'thumb'), favIds.has(b.id))
   })
 }
 
@@ -234,7 +261,7 @@ export async function getBook(db: PrismaClient, contentId: string): Promise<Book
   })
   if (!book) return null
   const artMap = await artUrlMap(db, [coverScene(book.id)])
-  return summarize(book, 0, false, false, artMap.get(coverScene(book.id)) ?? null, false)
+  return summarize(book, 0, false, false, artUrlFor(artMap, book.id), variantUrl(artMap.get(coverScene(book.id)), 'thumb'), false)
 }
 
 /**
@@ -274,7 +301,8 @@ export async function listBooksForParent(
         readers.length > 0 ? Math.max(...readers.map((r) => r.progress)) : 0,
         readers.some((r) => r.finished),
         blockedMap.get(b.id) ?? false,
-        artMap.get(coverScene(b.id)) ?? null,
+        artUrlFor(artMap, b.id),
+        variantUrl(artMap.get(coverScene(b.id)), 'thumb'),
         false,
       ),
       readers,
@@ -307,7 +335,8 @@ export async function getChapter(
     order: chapter.order,
     title: chapter.title,
     art: chapter.art,
-    artUrl: artMap.get(scene) ?? null,
+    artUrl: artUrlEntry(artMap, scene),
+    artReaderUrl: variantUrl(artMap.get(scene), 'reader'),
     blocks: chapter.blocks.map((b: Block) => ({
       id: b.id,
       order: b.order,
@@ -316,7 +345,7 @@ export async function getChapter(
       pinyin: b.pinyin,
       translation: b.translation,
       art: b.art,
-      artUrl: b.art && b.art !== 'lamp-hint' ? (artMap.get(b.art) ?? null) : null,
+      artUrl: artUrlEntry(artMap, b.art),
     })),
   }
 }

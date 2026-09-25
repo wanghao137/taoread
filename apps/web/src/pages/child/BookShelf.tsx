@@ -377,6 +377,7 @@ export function BookShelf({ onOpen }: BookShelfProps) {
           <div className="h-20 w-14 flex-shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-paper-border">
             <BookCover
               urlPath={continueBook.coverArtUrl}
+              thumbUrl={continueBook.coverThumbUrl}
               scene={continueBook.coverArt}
               from={continueBook.coverFrom}
               to={continueBook.coverTo}
@@ -478,6 +479,7 @@ export function BookShelf({ onOpen }: BookShelfProps) {
               >
                 <BookCover
                   urlPath={book.coverArtUrl}
+                  thumbUrl={book.coverThumbUrl}
                   scene={book.coverArt}
                   from={book.coverFrom}
                   to={book.coverTo}
@@ -588,6 +590,7 @@ export function BookShelf({ onOpen }: BookShelfProps) {
                   <div className="relative aspect-[3 / 4] overflow-hidden rounded-2xl shadow-md ring-1 ring-paper-border transition-shadow hover:shadow-lg">
                     <BookCover
                       urlPath={r.coverArtUrl}
+                      thumbUrl={r.coverThumbUrl}
                       scene={r.coverArt}
                       from={r.coverFrom}
                       to={r.coverTo}
