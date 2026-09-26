@@ -12,27 +12,8 @@ const schema = z
     TAO_MASTER_KEY: z.string().min(16, 'TAO_MASTER_KEY 至少 16 个字符'),
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
     TAO_DATABASE_URL: z.string().min(1, 'TAO_DATABASE_URL 不能为空'),
-    // 就寝时刻（本地日内分钟数，默认 21:30=1290）；'off' 关闭（测试/走查）。
-    // 空串显式拒绝（N8-006）：TAO_BEDTIME= 会被 dotenv 注入空串，coerce 成 0 等于全天就寝
-    TAO_BEDTIME: z
-      .string()
-      .default('1290')
-      .transform((s, ctx) => {
-        if (s === 'off') return 'off' as const
-        if (!/^\d{1,4}$/.test(s)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'TAO_BEDTIME 需为 0-1439 的数字或 off',
-          })
-          return z.NEVER
-        }
-        const n = Number.parseInt(s, 10)
-        if (n > 1439) {
-          ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'TAO_BEDTIME 不能超过 1439' })
-          return z.NEVER
-        }
-        return n
-      }),
+    // 阅读时间限制已于 2026-09-25 取消：TAO_BEDTIME 配置项随之移除（环境变量残留不再校验，
+    // 忽略即可）。/api/ritual/window 端点保留、恒返回 open。
     WEREAD_API_KEY: z.string().optional(),
     // ── 第四轮（docs/13）：AI 生图 + 服务端 TTS + AI 视频 ──
     TAO_IMAGE_BASE: z.string().url().optional(),

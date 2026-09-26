@@ -7,7 +7,7 @@
  *      → completed 时服务端下载 mp4 到 media/videos/ → 前端内联播放。
  * 已完成的场景二次点开秒播（本地 mp4，不再出网）。
  *
- * 降级：未配置视频 key 时整个模块 503，前端不展示「让画面动起来」按钮。
+ * 降级：未配置视频 key 时建任务/轮询 503；已完成视频的本地播放不受影响（不再出网）。
  */
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
@@ -17,7 +17,7 @@ import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import { createVideoTask, queryVideoTask, downloadVideo, VideoError, type VideoGenDeps } from './video'
 import { join } from 'node:path'
 import { assertSceneReadable, familyScene, mediaUrl } from './access'
-import { assertDailyGenQuota, dedupeInFlight } from './generationGuard'
+import { assertDailyGenQuota, runGeneration } from './generationGuard'
 
 export interface VideoRoutesDeps {
   db: PrismaClient
@@ -82,29 +82,30 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     const scene = familyScene(fid, body.scene)
 
     // A3：并发同场景建任务合并为一段临界区——两个请求同时看到「无任务」时只建一个上游任务
-    // R-03（docs/31）：与插画共用家庭级临界区 `gen:${fid}`，额度检查在锁内——
-    // 跨场景/跨域并发不再各自读到同一份余额。
-    return dedupeInFlight(`gen:${fid}`, async (): Promise<FastifyReply> => {
+    // R-03（docs/31）：家庭级互斥（同域共享在途结果、跨域 409），额度检查在锁内。
+    // 临界区内只算数据不碰 reply：共享 Promise 若直接 send 别人的 reply，
+    // 并发跨域时第二个请求会拿到第一个请求的响应对象。
+    const payload = await runGeneration(fid, 'video', async (): Promise<Record<string, unknown>> => {
       // 已有完成的视频：秒回（幂等命中不受每日配额限制）
       const done = await db.videoAsset.findUnique({
         where: { scene: scene },
       })
       if (done && done.status === 'completed' && done.urlPath) {
-        return reply.send({
+        return {
           scene: scene,
           status: 'completed',
           videoUrl: signedUrl(done.urlPath, request),
           cached: true,
-        })
+        }
       }
       // 进行中：不重复建任务
       if (done && (done.status === 'queued' || done.status === 'pending' || done.status === 'in_progress')) {
-        return reply.send({
+        return {
           scene: scene,
           status: done.status,
           taskId: done.taskId,
           cached: false,
-        })
+        }
       }
 
       // A3：真正出网建任务前过每家庭每日配额（插画+动画合计）
@@ -147,8 +148,9 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
         },
       })
 
-      return reply.send({ scene: scene, status: 'queued', taskId, cached: false })
+      return { scene: scene, status: 'queued', taskId, cached: false }
     })
+    return reply.send(payload)
   })
 
   /**
@@ -159,7 +161,6 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
     '/api/video/:scene',
     { preHandler: auth },
     async (request: FastifyRequest<{ Params: { scene: string } }>, reply: FastifyReply) => {
-      requireVideo()
       if (!request.auth) throw new UnauthorizedError()
       assertSceneReadable(request.auth.fid, request.params.scene)
       const row = await db.videoAsset.findUnique({ where: { scene: request.params.scene } })
@@ -167,7 +168,8 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       // 不打 404 进 console 噪音（对抗审查 sweep 发现）
       if (!row) return reply.send({ scene: request.params.scene, status: 'none', progress: 0 })
 
-      // 已完成且本地文件在：直接回
+      // 已完成且本地文件在：直接回。旧视频查询不依赖出网配置——
+      // 未配置视频 key 也应能播放已落盘的 mp4（本地文件，不再出网）
       if (row.status === 'completed' && row.urlPath) {
         return reply.send({
           scene: row.scene,
@@ -194,9 +196,14 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
         })
       }
 
-      const info = await queryVideoTask(videoDeps!, row.taskId).catch((err) => {
+      // 只有真要轮询云端时才要求视频配置（本地秒回路径不 503）
+      const vd = requireVideo()
+      const info = await queryVideoTask(vd, row.taskId).catch((err) => {
+        // 瞬时网络/网关错误 ≠ 生成失败：保持 pending，下一轮轮询再试；
+        // 置成永久 failed 会把孩子卡死在失败态。上游明确失败态才走下方 failed 分支。
         if (err instanceof VideoError) {
-          return { taskId: row.taskId, status: 'failed' as const, progress: 0, url: null, error: err.message }
+          request.log.warn({ reason: err.message, detail: err.detail }, 'video poll transient error')
+          return { taskId: row.taskId, status: 'pending' as const, progress: 0, url: null, error: null }
         }
         throw err
       })
@@ -205,7 +212,7 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
         // 下载到本地，此后不再依赖外链
         let bytes = 0
         try {
-          const out = await downloadVideo(info.url, videoLocalPath(row.taskId), videoDeps!.fetch ?? fetch)
+          const out = await downloadVideo(info.url, videoLocalPath(row.taskId), vd.fetch ?? fetch)
           bytes = out.bytes
         } catch {
           // 下载失败仍可回退外链播放（url 保留在 prompt 之外不落库，避免外链过期误导）
@@ -238,14 +245,16 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       }
 
       if (info.status === 'failed') {
+        // 上游 error 是响应体片段（可能含内部细节）：只进日志，对外回通用文案
+        if (info.error) request.log.warn({ scene: row.scene, detail: info.error }, 'video task failed upstream')
         await db.videoAsset.update({
           where: { scene: row.scene },
-          data: { status: 'failed', error: info.error ?? '动画生成失败，可以再试一次' },
+          data: { status: 'failed', error: '动画生成失败，可以再试一次' },
         })
         return reply.send({
           scene: row.scene,
           status: 'failed',
-          error: info.error ?? '动画生成失败，可以再试一次',
+          error: '动画生成失败，可以再试一次',
         })
       }
 

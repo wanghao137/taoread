@@ -38,39 +38,29 @@ describe('家庭设置与注销（第 9 夜）', () => {
       url: `/api/family/${f.familyId}/settings`,
       headers: authHeaders(f.token),
     })
-    expect(initial.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: null })
+    // 阅读时间限制已取消：bedtimeMin/overtimeCapSec 不再暴露，设置只剩 calmMode
+    expect(initial.json()).toEqual({ calmMode: null })
 
     const patch = await h.app.inject({
       method: 'PATCH',
       url: `/api/family/${f.familyId}/settings`,
       headers: authHeaders(f.token),
-      payload: { bedtimeMin: 1320, overtimeCapSec: 600 },
+      payload: { bedtimeMin: 1320, overtimeCapSec: 600, calmMode: true },
     })
     expect(patch.statusCode).toBe(200)
-    expect(patch.json()).toEqual({ bedtimeMin: 1320, overtimeCapSec: 600, calmMode: null })
+    expect(patch.json()).toEqual({ calmMode: true })
   })
 
-  it('设置边界：越界拒绝（bedtime 1440 / cap 59），null 显式回落', async () => {
+  it('就寝残留字段：旧客户端传入被忽略（不报错也不落库），非法 calmMode 仍拒绝', async () => {
     const f = await createFamilyAsParent(h.app)
     const url = `/api/family/${f.familyId}/settings`
     const headers = authHeaders(f.token)
-    for (const payload of [
-      { bedtimeMin: 1440 },
-      { bedtimeMin: -1 },
-      { overtimeCapSec: 59 },
-      { overtimeCapSec: 3601 },
-    ]) {
-      const res = await h.app.inject({ method: 'PATCH', url, headers, payload })
-      expect(res.statusCode).toBe(400)
-    }
-    const reset = await h.app.inject({
-      method: 'PATCH',
-      url,
-      headers,
-      payload: { bedtimeMin: null, overtimeCapSec: null },
-    })
-    expect(reset.statusCode).toBe(200)
-    expect(reset.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: null })
+    // 旧字段原样忽略（zod 非严格模式剔除），不能 500 也不能写库
+    const legacy = await h.app.inject({ method: 'PATCH', url, headers, payload: { bedtimeMin: 1440, overtimeCapSec: 59 } })
+    expect(legacy.statusCode).toBe(200)
+    expect(legacy.json()).toEqual({ calmMode: null })
+    const bad = await h.app.inject({ method: 'PATCH', url, headers, payload: { calmMode: 'yes' } })
+    expect(bad.statusCode).toBe(400)
   })
 
   it('设置越权：孩子令牌 403 / 跨家庭家长 403', async () => {
@@ -82,7 +72,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
         method: 'PATCH',
         url: `/api/family/${f.familyId}/settings`,
         headers: { authorization: `Bearer ${token}` },
-        payload: { bedtimeMin: 1260 },
+        payload: { calmMode: true },
       })
       expect(res.statusCode).toBe(403)
     }
@@ -110,7 +100,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { calmMode: true },
     })
     expect(on.statusCode).toBe(200)
-    expect(on.json()).toEqual({ bedtimeMin: null, overtimeCapSec: null, calmMode: true })
+    expect(on.json()).toEqual({ calmMode: true })
 
     // 孩子端再读已能拿到开闸后的值
     const childReadOn = await h.app.inject({
@@ -190,10 +180,27 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { progressMark: 'done' },
     })
 
+    // 注销需要家庭码确认（不可恢复操作防误触）：缺码/错码 400，正确家庭码才执行
+    const noConfirm = await h.app.inject({
+      method: 'DELETE',
+      url: `/api/family/${f.familyId}`,
+      headers: authHeaders(f.token),
+    })
+    expect(noConfirm.statusCode).toBe(400)
+    const wrongConfirm = await h.app.inject({
+      method: 'DELETE',
+      url: `/api/family/${f.familyId}`,
+      headers: authHeaders(f.token),
+      payload: { confirmCode: 'WRONG01' },
+    })
+    expect(wrongConfirm.statusCode).toBe(400)
+    expect(wrongConfirm.json().message).toContain('家庭码')
+
     const del = await h.app.inject({
       method: 'DELETE',
       url: `/api/family/${f.familyId}`,
       headers: authHeaders(f.token),
+      payload: { confirmCode: f.familyCode },
     })
     expect(del.statusCode).toBe(204)
 

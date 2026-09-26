@@ -30,6 +30,8 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  /** 注销二次确认：重输家庭码（知道码的人才能删库，防孩子/访客误触） */
+  const [deleteCode, setDeleteCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
 
@@ -77,7 +79,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     }
     setBusy(true)
     try {
-      await api.deleteFamily(familyId, token)
+      await api.deleteFamily(familyId, token, deleteCode.trim())
       signOut()
       onDeleted()
       navigate('/login', { replace: true })
@@ -266,15 +268,49 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         <div className="panel" style={{ background: 'var(--paper)' }}>
           <h3>注销家庭</h3>
           <p>删除全部家庭数据（书架记录、共读记录、成就），不可恢复</p>
-          <button
-            type="button"
-            className={`sticker-btn ${confirmDelete ? 'hot' : ''}`}
-            style={{ marginTop: 12 }}
-            disabled={busy}
-            onClick={() => void handleDeleteFamily()}
-          >
-            {confirmDelete ? '再点一次确认注销' : '注销家庭'}
-          </button>
+          {confirmDelete ? (
+            <div className="setting-row" style={{ marginTop: 12 }}>
+              <input
+                value={deleteCode}
+                onChange={(e) => setDeleteCode(e.target.value)}
+                placeholder="请输入家庭码确认"
+                aria-label="输入家庭码确认注销"
+                className="field"
+                autoComplete="off"
+                maxLength={16}
+                style={{ width: 200 }}
+              />
+              <button
+                type="button"
+                className="sticker-btn hot"
+                disabled={busy || deleteCode.trim().length === 0}
+                onClick={() => void handleDeleteFamily()}
+              >
+                确认注销
+              </button>
+              <button
+                type="button"
+                className="sticker-btn sm"
+                disabled={busy}
+                onClick={() => {
+                  setConfirmDelete(false)
+                  setDeleteCode('')
+                }}
+              >
+                取消
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="sticker-btn"
+              style={{ marginTop: 12 }}
+              disabled={busy}
+              onClick={() => setConfirmDelete(true)}
+            >
+              注销家庭
+            </button>
+          )}
         </div>
 
         {message && (

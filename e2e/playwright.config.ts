@@ -29,6 +29,10 @@ const here = dirname(fileURLToPath(import.meta.url))
 const serverDir = resolve(here, '../apps/server')
 const webDir = resolve(here, '../apps/web')
 
+// 每次运行唯一库：零跨运行状态污染；文件名导出给 globalTeardown 做本运行清理，
+// 不再无限堆积 246 本全量种子的 db（此前 prisma/ 下已堆 10+ 个 e2e-run-*.db）
+export const E2E_DB_FILE = `file:./e2e-run-${process.pid}-${Date.now()}.db`
+
 export default defineConfig({
   testDir: here,
   testMatch: '**/*.spec.ts',
@@ -57,10 +61,11 @@ export default defineConfig({
         // 审计 F35（T01）：TAO_E2E_ISOLATION=1 → demo/main.ts 跳过 .env 并强制
         // 全部真实供应商为 null——测试零外网/零付费是代码级保证，不依赖 env 卫生
         TAO_E2E_ISOLATION: '1',
-        // 每次运行唯一库：零清理、零跨运行状态污染
-        TAO_DATABASE_URL: `file:./e2e-run-${Date.now()}.db`,
-        // N13-002：e2e 库也要播种媒体台账，否则插画/视频/TTS 断言全走 SVG 回退
-        TAO_BEDTIME: 'off',
+        // 每次运行唯一库：零清理、零跨运行状态污染（运行结束由 globalTeardown 删除本运行文件）
+        TAO_DATABASE_URL: E2E_DB_FILE,
+        // 每个用例都是新浏览器上下文=新 deviceId，全套跑下来会建 20+ 设备会话；
+        // 生产默认 20 不变，仅 e2e 调高（否则最后一个 spec 注销用例必被 429 挡在登录页）
+        TAO_DEVICE_SESSION_CAP: '200',
         TAO_MASTER_KEY: process.env.TAO_MASTER_KEY ?? 'e2e-master-key-0123456789abcdef',
       },
     },
@@ -75,4 +80,5 @@ export default defineConfig({
       env: { ...process.env, TAO_API_PORT: String(API_PORT) },
     },
   ],
+  globalTeardown: './global-teardown.ts',
 })

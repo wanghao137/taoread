@@ -86,10 +86,32 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     reply.header('Referrer-Policy', 'no-referrer')
     // R-07（docs/31）：基线安全头。nosniff 防 MIME 嗅探（SPA fallback 的 text/html
     // 绝不能被当脚本解析）；frame 限制防点击劫持；权限策略收窄设备能力。
-    // 完整 CSP 先走 report-only 观察期，未配置报告端点前不上线强制版。
     reply.header('X-Content-Type-Options', 'nosniff')
     reply.header('X-Frame-Options', 'SAMEORIGIN')
     reply.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+    // R-07：CSP 先走 report-only 观察期（未配置报告端点，违规只在浏览器控制台可见），
+    // 观察无违规后再切强制版。指令依据全仓外联域名盘点：
+    //  - connect-src：同源 API/SSE + 公共媒体外链（media.taostudioai.com，R2 自定义域，
+    //    随 TAO_MEDIA_PUBLIC_BASE 配置）+ 服务端依赖的上游网关（weread 代理、生图/视频
+    //    apihub、TTS stepfun——当前无前端直连，观察期一并放行防误伤）；
+    //  - img-src/media-src：公共封面缩图与 tts-public 音频走 media.taostudioai.com；
+    //  - style-src 'unsafe-inline'：React 内联样式；script 皆为同源产物故 'self'。
+    reply.header(
+      'Content-Security-Policy-Report-Only',
+      [
+        "default-src 'self'",
+        "connect-src 'self' https://media.taostudioai.com https://i.weread.qq.com https://apihub.agnes-ai.com https://api.stepfun.com",
+        "img-src 'self' data: https://media.taostudioai.com",
+        "media-src 'self' https://media.taostudioai.com",
+        "font-src 'self' data:",
+        "style-src 'self' 'unsafe-inline'",
+        "script-src 'self'",
+        "object-src 'none'",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join('; '),
+    )
   })
 
   await app.register(cors, {

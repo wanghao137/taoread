@@ -61,22 +61,53 @@ function listFiles(relDir, filter) {
 }
 
 const isVariant = (n) => /\.(thumb|reader)\.webp$/.test(n)
-const isBase = (n) => n.endsWith('.webp') && !isVariant(n)
+
+// 隐私边界（不可越过）：文件名含 fam- 前缀的插画是家庭私有素材（scene 键 fam:<fid>:...
+// 落盘时按 fsSafe() 把 ':' 转成 '-'），公共桶对全网可读，一旦同步等于泄露家庭专属内容。
+const isPrivate = (n) => n.startsWith('fam-')
+
+// 双保险：再按 DB ArtAsset.scene 的 fam: 前缀建一份私有文件名集合（thumb/reader 变体
+// 没有独立行，天然随主图命中文件名规则）。DB 查询失败不阻断同步，退回纯文件名过滤——
+// 两条路径都判定为公共才会上传。
+const privateDbNames = new Set()
+try {
+  const dbUrl = process.env.TAO_DATABASE_URL
+  if (dbUrl) {
+    const { PrismaClient } = await import('@prisma/client')
+    const prisma = new PrismaClient({ datasources: { db: { url: dbUrl } } })
+    const famRows = await prisma.artAsset.findMany({
+      where: { scene: { startsWith: 'fam:' } },
+      select: { urlPath: true },
+    })
+    for (const row of famRows) {
+      const name = row.urlPath.split('/').pop()?.replace(/\.webp$/, '')
+      if (name) privateDbNames.add(name)
+    }
+    await prisma.$disconnect()
+    log(`DB 私有场景 ${privateDbNames.size} 条已并入过滤集合`)
+  }
+} catch (err) {
+  log(`DB 私有场景查询失败，仅按文件名过滤：${String(err?.message ?? err).slice(0, 100)}`)
+}
+
+const isPublicName = (n) => !isPrivate(n) && !privateDbNames.has(n.replace(/\.webp$/, ''))
+const isPublicBase = (n) => n.endsWith('.webp') && !isVariant(n) && isPublicName(n)
+const isPublicVariant = (n) => isVariant(n) && isPublicName(n)
 
 // 上传优先级：变体 → 封面 → 章节
 let files = []
 if (only === 'thumbs') {
-  files = [...listFiles('art/covers', isVariant), ...listFiles('art/chapters', isVariant)]
+  files = [...listFiles('art/covers', isPublicVariant), ...listFiles('art/chapters', isPublicVariant)]
 } else if (only === 'covers') {
-  files = [...listFiles('art/covers', isBase)]
+  files = [...listFiles('art/covers', isPublicBase)]
 } else if (only === 'chapters') {
-  files = [...listFiles('art/chapters', isBase)]
+  files = [...listFiles('art/chapters', isPublicBase)]
 } else {
   files = [
-    ...listFiles('art/covers', isVariant),
-    ...listFiles('art/chapters', isVariant),
-    ...listFiles('art/covers', isBase),
-    ...listFiles('art/chapters', isBase),
+    ...listFiles('art/covers', isPublicVariant),
+    ...listFiles('art/chapters', isPublicVariant),
+    ...listFiles('art/covers', isPublicBase),
+    ...listFiles('art/chapters', isPublicBase),
   ]
 }
 

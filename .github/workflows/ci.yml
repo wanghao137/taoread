@@ -6,10 +6,16 @@ on:
     branches: [main]
   pull_request:
 
+# 同一分支的新推送作废在跑的旧流水线，省额度也防并发写同一预览环境
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     name: typecheck / lint / unit / build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,6 +26,8 @@ jobs:
         run: npm ci
       - name: Prisma generate
         run: npx prisma generate --schema apps/server/prisma/schema.prisma
+      - name: 触达审计（红线文件不许静默缩水）
+        run: npm run audit:touch
       - name: 类型检查
         run: npm run typecheck
       - name: Lint
@@ -32,6 +40,7 @@ jobs:
   e2e:
     name: e2e（自起隔离服务）
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: verify
     steps:
       - uses: actions/checkout@v4

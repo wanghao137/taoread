@@ -19,6 +19,8 @@ export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   body?: unknown
   token?: string | null
+  /** 请求超时毫秒数；缺省 30s（SSE 流式接口不走 request()，不受此限） */
+  timeoutMs?: number
 }
 
 interface ErrorBody {
@@ -38,12 +40,19 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 
   let response: Response
   try {
+    // 默认 30s 超时：弱网/服务挂起时请求不再无限悬挂（TTS 整章 SSE 是独立通道，不受此限）。
+    // AbortSignal.timeout 需较新内核，老浏览器特性检测后静默退回无超时（与 legacy 目标一致）
+    const timeoutMs = options.timeoutMs ?? 30_000
     response = await fetch(`${API_BASE}${path}`, {
       method: options.method ?? 'GET',
       headers,
       body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined,
     })
-  } catch {
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'TimeoutError') {
+      throw new ApiError(0, 'TIMEOUT', '响应有点慢，再试一次吧')
+    }
     throw new ApiError(0, 'NETWORK', '网络好像睡着了，请检查连接后再试')
   }
 
@@ -196,14 +205,6 @@ export const api = {
     return dto
   },
 
-  /** 个性化推荐（服务端已做童书白名单 + 家长屏蔽过滤） */
-  recommend: (token: string, count = 6) =>
-    request<RecommendDto>(`/api/book/recommend?count=${count}`, { token }),
-
-  /** 书籍详情（服务端直通微信读书 /book/info，字段以 skill 文档为准） */
-  bookInfo: (bookId: string, token: string) =>
-    request<BookInfoDto>(`/api/book/${encodeURIComponent(bookId)}/info`, { token }),
-
   /** 开启共读（服务端幂等：已有未收尾会话时返回同一场，reused=true） */
   startCosession: (childId: string, bookId: string, token: string) =>
     request<CosessionDto>('/api/cosession', {
@@ -218,10 +219,6 @@ export const api = {
       `/api/cosession/active?childId=${encodeURIComponent(childId)}`,
       { token },
     ),
-
-  /** 全书热门划线 Top20（含原文与「N 人划过」人数） */
-  bestBookmarks: (bookId: string, token: string) =>
-    request<BestBookmarksDto>(`/api/book/${encodeURIComponent(bookId)}/bestbookmarks`, { token }),
 
   /** 收尾：进度三档 + 心情（幂等，重复收尾返回首次结果） */
   finishCosession: (
@@ -254,20 +251,7 @@ export const api = {
       { method: 'POST', body: { apiKey }, token },
     ),
 
-  /** 搜索选书（孩子端，服务端适龄过滤后返回） */
-  search: (keyword: string, token: string, count = 6) =>
-    request<{ hits: ShelfItemDto[] }>(
-      `/api/search?keyword=${encodeURIComponent(keyword)}&count=${count}`,
-      { token },
-    ),
-
-  /** 仪式时段窗口（服务端权威）：bedtime=休息时间；overtime=温和引导收尾 */
-  ritualWindow: (childId: string, token: string) =>
-    request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, {
-      token,
-    }),
-
-  /** 成就墙数据（纪念式只读） */
+  /** 成就夜灯数据（V8App 阅读记忆日历用；纪念式只读） */
   achievements: (childId: string, token: string) =>
     request<AchievementsDto>(`/api/achievements?childId=${encodeURIComponent(childId)}`, {
       token,
@@ -283,9 +267,13 @@ export const api = {
       token,
     }),
 
-  /** 注销家庭（仅家长）：物理删除全部数据，不可恢复 */
-  deleteFamily: (familyId: string, token: string) =>
-    request<void>(`/api/family/${encodeURIComponent(familyId)}`, { method: 'DELETE', token }),
+  /** 注销家庭（仅家长）：物理删除全部数据，不可恢复；需重输家庭码二次确认 */
+  deleteFamily: (familyId: string, token: string, confirmCode: string) =>
+    request<void>(`/api/family/${encodeURIComponent(familyId)}`, {
+      method: 'DELETE',
+      body: { confirmCode },
+      token,
+    }),
 
   /** 家长单书/专辑屏蔽（书架管理） */
   setBlocked: (familyId: string, bookId: string, token: string, body: { kind: string; blocked: boolean; title?: string }) =>
@@ -320,14 +308,23 @@ export const api = {
       { token },
     ),
 
-  /** 分享卡 SVG 文本（服务端渲染，系统字体） */
+  /** 分享卡 SVG 文本（服务端渲染，系统字体）；401 与 request() 同源处理（清会话回登录） */
   shareCardSvg: async (familyId: string, token: string, start?: string): Promise<string> => {
     const headers: Record<string, string> = {}
     if (token) headers['Authorization'] = `Bearer ${token}`
     const res = await fetch(
       `${API_BASE}/api/reports/weekly/share-card?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}`,
-      { headers },
-    )
+      { headers, signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(30_000) : undefined },
+    ).catch(() => {
+      throw new ApiError(0, 'NETWORK', '分享卡生成失败，请稍后再试')
+    })
+    if (res.status === 401) {
+      useSession.getState().signOut()
+      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
+        location.assign('/login')
+      }
+      throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
+    }
     if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
     return res.text()
   },
@@ -450,23 +447,6 @@ export const api = {
       { method: 'PUT', body: { blocked }, token },
     ),
 
-  /** 阅读中共读脚手架（docs/09 B1）：本章的讲什么/问什么 */
-  contentScaffold: (contentId: string, chapterOrder: number, token: string) =>
-    request<{
-      card: {
-        bookTitle: string
-        stage: string
-        tellPoints: string[]
-        questions: string[]
-        hook: string
-        genType: 'template'
-      }
-      chapterOrder: number | null
-    }>(
-      `/api/content/books/${encodeURIComponent(contentId)}/scaffold?chapterOrder=${chapterOrder}`,
-      { token },
-    ),
-
   // ── 第四轮（docs/13 P0-B）：服务端 TTS ──
 
   ttsVoices: () =>
@@ -505,35 +485,12 @@ export const api = {
       onError: (message: string) => void
       onDone: () => void
     },
-  ) => fetchSseChapter(contentId, chapterOrder, body, handlers),
-
-  // ── 第四轮（docs/13 P0-E）：AI 视频 ──
-
-  videoGenerate: (body: {
-    scene: string
-    description: string
-    seconds?: number
-    aspectRatio?: '16:9' | '9:16' | '1:1' | '3:4' | '4:3' | '21:9'
-  }) =>
-    request<{
-      scene: string
-      status: 'queued' | 'pending' | 'completed'
-      taskId?: string
-      videoUrl?: string
-      cached: boolean
-    }>('/api/video/generate', { method: 'POST', body }),
-
-  videoStatus: (scene: string) =>
-    request<{
-      scene: string
-      status: 'queued' | 'pending' | 'in_progress' | 'completed' | 'failed'
-      progress?: number
-      videoUrl?: string | null
-      error?: string | null
-    }>(`/api/video/${encodeURIComponent(scene)}`),
+    options?: { signal?: AbortSignal },
+  ) => fetchSseChapter(contentId, chapterOrder, body, handlers, options?.signal),
 }
 
-/** SSE 解码：读 /api/tts/chapter 的流，按事件名分派（docs/13 P0-C） */
+/** SSE 解码：读 /api/tts/chapter 的流，按事件名分派（docs/13 P0-C）。
+ *  signal 用于离开阅读器/点停止时立刻断流，后台不再整章白拉。 */
 async function fetchSseChapter(
   contentId: string,
   chapterOrder: number,
@@ -550,6 +507,7 @@ async function fetchSseChapter(
     onError: (message: string) => void
     onDone: () => void
   },
+  signal?: AbortSignal,
 ): Promise<void> {
   const session = useSession.getState()
   const res = await fetch(
@@ -561,6 +519,7 @@ async function fetchSseChapter(
         ...(session.token ? { Authorization: `Bearer ${session.token}` } : {}),
       },
       body: JSON.stringify(body),
+      signal,
     },
   )
   if (!res.ok || !res.body) {
@@ -571,40 +530,57 @@ async function fetchSseChapter(
   const reader = res.body.getReader()
   const decoder = new TextDecoder()
   let buf = ''
-  for (;;) {
-    const { done, value } = await reader.read()
-    if (done) break
-    buf += decoder.decode(value, { stream: true })
-    // SSE 事件以空行分隔
-    const events = buf.split('\n\n')
-    buf = events.pop() ?? ''
-    for (const ev of events) {
-      const lines = ev.split('\n')
-      let eventName = 'message'
-      let data = ''
-      for (const line of lines) {
-        if (line.startsWith('event:')) eventName = line.slice(6).trim()
-        else if (line.startsWith('data:')) data += line.slice(5).trim()
-      }
-      if (!data) continue
-      if (eventName === 'segment') {
-        try {
-          handlers.onSegment(JSON.parse(data))
-        } catch {
-          /* 单段解析失败跳过，不中断整章 */
-        }
-      } else if (eventName === 'error') {
-        try {
-          handlers.onError((JSON.parse(data) as { message?: string }).message ?? '这一段朗读没成功')
-        } catch {
-          handlers.onError('这一段朗读没成功')
-        }
-      } else if (eventName === 'done') {
-        handlers.onDone()
-      }
+  // done 事件与流自然结束都会走到这里；只通知一次，避免下游 finish() 被触发两遍
+  let done = false
+  const finish = () => {
+    if (!done) {
+      done = true
+      handlers.onDone()
     }
   }
-  handlers.onDone()
+  try {
+    for (;;) {
+      const { done: streamDone, value } = await reader.read()
+      if (streamDone) break
+      buf += decoder.decode(value, { stream: true })
+      // SSE 事件以空行分隔
+      const events = buf.split('\n\n')
+      buf = events.pop() ?? ''
+      for (const ev of events) {
+        const lines = ev.split('\n')
+        let eventName = 'message'
+        let data = ''
+        for (const line of lines) {
+          if (line.startsWith('event:')) eventName = line.slice(6).trim()
+          else if (line.startsWith('data:')) data += line.slice(5).trim()
+        }
+        if (!data) continue
+        if (eventName === 'segment') {
+          try {
+            handlers.onSegment(JSON.parse(data))
+          } catch {
+            /* 单段解析失败跳过，不中断整章 */
+          }
+        } else if (eventName === 'error') {
+          try {
+            handlers.onError((JSON.parse(data) as { message?: string }).message ?? '这一段朗读没成功')
+          } catch {
+            handlers.onError('这一段朗读没成功')
+          }
+        } else if (eventName === 'done') {
+          finish()
+        }
+      }
+    }
+    finish()
+  } catch (err) {
+    // 主动中止（离开页面/点停止）不是错误，静默结束即可
+    if (err instanceof DOMException && err.name === 'AbortError') {
+      finish()
+      return
+    }
+    throw err
+  }
 }
 
 export interface ContentBookDto {
@@ -684,8 +660,6 @@ export interface WeeklyReportDataDto {
 }
 
 export interface FamilySettingsDto {
-  bedtimeMin: number | null
-  overtimeCapSec: number | null
   /** 安静模式（docs/15 P1-C）：开启即应用内强制 reducedMotion，覆盖系统设置 */
   calmMode: boolean | null
 }
@@ -700,28 +674,6 @@ export interface ReadingCardDto {
     hook: string
     genType?: string
   }
-}
-
-export interface RitualWindowDto {
-  mode: 'open' | 'bedtime' | 'overtime'
-  hasActive: boolean
-}
-
-export interface AchievementItemDto {
-  kind: string
-  value: number
-  unlockedAt: string
-}
-
-export interface AchievementsDto {
-  nightLamps: AchievementItemDto[]
-  streakBest: AchievementItemDto[]
-  booksDone: AchievementItemDto[]
-}
-
-export interface BestBookmarksDto {
-  totalCount?: number
-  items?: Array<{ markText?: string; totalCount?: number; chapterUid?: number }>
 }
 
 export interface UnlockDto {
@@ -741,18 +693,16 @@ export interface HighlightDto {
   id: string
 }
 
-export interface RecommendDto {
-  books: ShelfItemDto[]
-  rawCount: number
+export interface AchievementItemDto {
+  kind: string
+  value: number
+  unlockedAt: string
 }
 
-export interface BookInfoDto {
-  bookId: string
-  title: string
-  author?: string
-  cover?: string
-  intro?: string
-  deepLink?: string
+export interface AchievementsDto {
+  nightLamps: AchievementItemDto[]
+  streakBest: AchievementItemDto[]
+  booksDone: AchievementItemDto[]
 }
 
 export interface CosessionDto {

@@ -47,6 +47,8 @@ export interface PlayerOptions {
   voiceId?: string
   speed?: number
   lang?: 'zh' | 'en'
+  /** 中止整章 SSE 合成（离开阅读器/主动停止时），后台不再白拉流 */
+  signal?: AbortSignal
 }
 
 class ServerAudioPlayer {
@@ -67,6 +69,8 @@ class ServerAudioPlayer {
   private paused = false
   private cancelled = false
   private rafId: number | null = null
+  /** speakChapter 的「首段已播」结清器：stop()/finish() 时兜底 resolve，防调用方悬挂 */
+  private firstResolve: ((ok: boolean) => void) | null = null
 
   private progressListeners = new Set<ProgressListener>()
   private endListeners = new Set<EndListener>()
@@ -162,6 +166,8 @@ class ServerAudioPlayer {
 
   /**
    * 朗读整章：SSE 流式逐段合成，收到一段播一段（边合成边播，不等全章）。
+   * 返回时机 = 首段音频真正开播（10-40s 冷合成不再让「停止」按钮一直禁用）；
+   * 整章零段（全失败/纯图章节）返回 false，调用方回退 Web Speech。
    */
   async speakChapter(
     contentId: string,
@@ -181,41 +187,63 @@ class ServerAudioPlayer {
     // 锁屏控制中心：显示正在读的书与章节
     this.setMediaSession(meta.bookTitle, meta.title)
 
-    try {
-      await api.ttsChapterStream(
-        contentId,
-        chapterOrder,
-        {
-          ...(options.voiceId ? { voiceId: options.voiceId } : {}),
-          ...(options.speed !== undefined ? { speed: options.speed } : {}),
-          lang: options.lang ?? 'zh',
-        },
-        {
-          onSegment: (seg) => {
-            if (this.cancelled) return
-            this.queue.push(seg)
-            // 第一段到了立刻开播；后续段在 onEnded 里自动衔接
-            if (this.queue.length === 1) {
-              this.currentIndex = 0
-              this.emitProgress(-1)
-              void this.playSegment(0)
-            }
+    let gotSegment = false
+    return await new Promise<boolean>((resolveFirst) => {
+      // stop()/finish() 可能先于任何段到达：先登记结清器，防 Promise 永不 settle
+      this.firstResolve = resolveFirst
+      void api
+        .ttsChapterStream(
+          contentId,
+          chapterOrder,
+          {
+            ...(options.voiceId ? { voiceId: options.voiceId } : {}),
+            ...(options.speed !== undefined ? { speed: options.speed } : {}),
+            lang: options.lang ?? 'zh',
           },
-          onError: (msg) => {
-            // 单段失败不中断整章：跳过继续。这是段级通知（供应商 451 拦截某段等），
-            // 不清 speaking/highlight 状态——UI 继续跟随后续段
-            this.emitNotice(msg)
+          {
+            onSegment: (seg) => {
+              if (this.cancelled) return
+              this.queue.push(seg)
+              // 第一段到了立刻开播；后续段在 onEnded 里自动衔接
+              if (this.queue.length === 1) {
+                this.currentIndex = 0
+                this.emitProgress(-1)
+                void this.playSegment(0).then((ok) => {
+                  if (!gotSegment) this.settleFirst(ok)
+                })
+              }
+              gotSegment = true
+            },
+            onError: (msg) => {
+              // 单段失败不中断整章：跳过继续。这是段级通知（供应商 451 拦截某段等），
+              // 不清 speaking/highlight 状态——UI 继续跟随后续段
+              this.emitNotice(msg)
+            },
+            onDone: () => {
+              // 零段整章（图片章/全段被拦）：不假装在朗读，让调用方走 Web Speech 回退
+              if (!gotSegment) this.settleFirst(false)
+            },
           },
-          onDone: () => {
-            /* 队列已在 onSegment 补齐；播完自然结束 */
-          },
-        },
-      )
-      return true
-    } catch {
-      this.emitError('整章朗读没准备好，可以一段一段听')
-      return false
-    }
+          { signal: options.signal },
+        )
+        .then(() => {
+          // SSE 正常结束：首段已开播则维持 true；中止/收尾时兜底定音
+          if (!gotSegment) this.settleFirst(false)
+        })
+        .catch(() => {
+          if (!gotSegment) {
+            this.emitError('整章朗读没准备好，可以一段一段听')
+            this.settleFirst(false)
+          }
+        })
+    })
+  }
+
+  /** 结清「首段已播」承诺；已结清或从未登记时是空操作 */
+  private settleFirst(ok: boolean): void {
+    const resolve = this.firstResolve
+    this.firstResolve = null
+    resolve?.(ok)
   }
 
   /** 懒创建唯一的 Audio 元素并挂接事件（所有播放共用同一元素） */
@@ -292,16 +320,17 @@ class ServerAudioPlayer {
     }
   }
 
-  private async playSegment(index: number): Promise<void> {
-    if (this.cancelled) return
+  /** 播放队列第 index 段；返回是否真正开播（供 speakChapter 的首段结清判定） */
+  private async playSegment(index: number): Promise<boolean> {
+    if (this.cancelled) return false
     const seg = this.queue[index]
     if (!seg) {
       this.finish()
-      return
+      return false
     }
     if (typeof globalThis.Audio === 'undefined') {
       this.emitError('当前浏览器不支持音频播放')
-      return
+      return false
     }
     this.ensureAudio()
     this.audio!.src = seg.audioUrl
@@ -320,10 +349,11 @@ class ServerAudioPlayer {
       } else {
         this.emitError('音频加载失败，请稍后再试')
       }
-      return
+      return false
     }
     this.paused = false
     this.startTimelineLoop(seg)
+    return true
   }
 
   /**
@@ -343,8 +373,10 @@ class ServerAudioPlayer {
   /** 段还在流式合成时，等 0.8s 再看有没有下一段 */
   private waitForNext(fromIndex: number): void {
     if (this.cancelled) return
+    // 定时器绑定会话代号：stop 后 800ms 内开启的新播放不受旧定时器误杀（与 retryTimer 同防）
+    const sess = this.session
     globalThis.setTimeout(() => {
-      if (this.cancelled) return
+      if (this.cancelled || this.session !== sess) return
       const next = this.queue[fromIndex + 1]
       if (next) {
         this.currentIndex = fromIndex + 1
@@ -413,6 +445,7 @@ class ServerAudioPlayer {
     this.playing = false
     this.queue = []
     this.currentIndex = 0
+    this.settleFirst(false)
     this.endListeners.forEach((fn) => fn())
   }
 
@@ -420,6 +453,7 @@ class ServerAudioPlayer {
   stop(): void {
     // 对抗审查 P1-3：作废当前会话——未触发的重试定时器全部失效，防旧定时器劫持新队列
     this.session += 1
+    this.settleFirst(false)
     if (this.retryTimer !== null) {
       window.clearTimeout(this.retryTimer)
       this.retryTimer = null

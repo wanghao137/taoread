@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import { authHeaders, createFamilyAsParent, joinFamily, makeApp, type TestHarness } from './helper'
+import { authHeaders, createChild, createFamilyAsParent, joinFamily, makeApp, type TestHarness } from './helper'
 
 let h: TestHarness
 let familyId: string
@@ -7,6 +7,7 @@ let parentToken: string
 let childToken: string
 let otherParentToken: string
 let otherFamilyId: string
+let childId: string
 
 beforeAll(async () => {
   h = await makeApp()
@@ -15,6 +16,8 @@ beforeAll(async () => {
   parentToken = family.token
   const child = await joinFamily(h.app, family.familyCode, 'child', 'kid-tablet')
   childToken = child.token
+  // 孩子书架请求需要 childId（阶段强制从档案推导，缺省 400）
+  childId = await createChild(h.app, parentToken, familyId)
   const other = await createFamilyAsParent(h.app, 'other-parent')
   otherFamilyId = other.familyId
   otherParentToken = other.token
@@ -43,11 +46,11 @@ describe('设备会话列表（A1）', () => {
   it('撤销孩子会话后其令牌立即失效，列表显示已撤销', async () => {
     const list = await h.app.inject({ method: 'GET', url: `/api/family/${familyId}/sessions`, headers: authHeaders(parentToken) })
     const childSession = list.json().sessions.find((s: { role: string }) => s.role === 'child')
-    const before = await h.app.inject({ method: 'GET', url: `/api/content/books`, headers: authHeaders(childToken) })
+    const before = await h.app.inject({ method: 'GET', url: `/api/content/books?childId=${childId}`, headers: authHeaders(childToken) })
     expect(before.statusCode).toBe(200)
     const revoke = await h.app.inject({ method: 'POST', url: `/api/family/${familyId}/sessions/${childSession.id}/revoke`, headers: authHeaders(parentToken) })
     expect(revoke.statusCode).toBe(200)
-    const after = await h.app.inject({ method: 'GET', url: `/api/content/books`, headers: authHeaders(childToken) })
+    const after = await h.app.inject({ method: 'GET', url: `/api/content/books?childId=${childId}`, headers: authHeaders(childToken) })
     expect(after.statusCode).toBe(401)
     const list2 = await h.app.inject({ method: 'GET', url: `/api/family/${familyId}/sessions`, headers: authHeaders(parentToken) })
     const revoked = list2.json().sessions.find((s: { id: string }) => s.id === childSession.id)

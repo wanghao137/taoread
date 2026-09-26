@@ -5,21 +5,21 @@ import { expect, test } from '@playwright/test'
  */
 const CODE = '123456'
 
-test('注销：二次确认 → 数据物理删除 → 旧凭据失效', async ({ page }) => {
+test('注销：重输家庭码确认 → 数据删除 → 旧凭据失效', async ({ page }) => {
   test.setTimeout(120_000)
   await page.goto('/login')
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()
   await page.locator('#family-code').fill(CODE)
+  // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）
   await page.getByRole('button', { name: '爸爸妈妈' }).click()
-  // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468）
-  await page.locator('#parent-code').fill('13572468')
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
   await page.getByText('家长端').waitFor()
 
   await page.getByRole('button', { name: '设置', exact: true }).click()
-  await page.getByRole('button', { name: /注销家庭/ }).click()
-  await page.getByRole('button', { name: /再点一次确认注销/ }).click()
-  await page.getByText('输入家庭码').waitFor()
+  await page.getByRole('button', { name: '注销家庭' }).click()
+  // 二次确认升级为重输家庭码：知道码的人才能删库（防孩子/访客误触）
+  await page.getByLabel('输入家庭码确认注销').fill(CODE)
+  await page.getByRole('button', { name: /确认注销/ }).click()
 
   // 注销后旧家庭码不可再加入（数据已删除）
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()

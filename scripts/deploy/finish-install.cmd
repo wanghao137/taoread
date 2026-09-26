@@ -1,5 +1,8 @@
 @echo off
 rem TaoRead production finalize: service + cloudflared restart
+rem TZ is pinned to Asia/Shanghai: week.ts / nights.ts bucket by server-local time,
+rem a containerized/moved host with UTC would silently shift the day boundary.
+rem NSSM reads AppEnvironmentExtra on service (re)start.
 rem Double-click -> auto elevates via UAC -> writes D:\taoread-prod\bin\finish-done.txt
 net session >nul 2>&1
 if %errorlevel% neq 0 goto ELEVATE
@@ -17,6 +20,7 @@ echo [1/3] configure taoread-api service ...
 "%NSSM%" set taoread-api AppRotateOnline 1
 "%NSSM%" set taoread-api AppRotateBytes 10485760
 "%NSSM%" set taoread-api Start SERVICE_AUTO_START
+"%NSSM%" set taoread-api AppEnvironmentExtra TZ=Asia/Shanghai
 
 echo [2/3] stop watchdog, start service ...
 powershell -NoProfile -Command "Get-CimInstance Win32_Process | Where-Object { ($_.Name -eq 'node.exe' -and $_.CommandLine -match 'taoread-prod') -or ($_.CommandLine -match 'watchdog.cmd') } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }" >nul 2>&1

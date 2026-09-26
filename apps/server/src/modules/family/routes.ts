@@ -276,15 +276,18 @@ export function registerFamilyRoutes(
     return null
   })
 
-  // ── 家庭设置（第 9 夜）：就寝时刻 / 软封顶秒数 / 安静模式；null=回落服务端默认。
+  // ── 家庭设置（第 9 夜）：安静模式；null=回落服务端默认。
   // 读取对家长与孩子都开放（只读）：安静模式必须能在孩子设备上生效（docs/15 P1-C），
   // 学龄前儿童找不到系统辅助功能开关，只有应用内家庭级开关这一条落地路径。
+  // 就寝相关 bedtimeMin/overtimeCapSec 已随阅读时间限制取消（2026-09-25）停用：
+  // DB 列保留不动，接口不再暴露/接受，防旧客户端继续写入失效配置。
   app.get('/api/family/:familyId/settings', {
     preHandler: requireAuth(tokenSecret, { roles: ['parent', 'child'] }),
   }, async (request) => {
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
-    return svc.getSettings(db, familyId)
+    const settings = await svc.getSettings(db, familyId)
+    return { calmMode: settings.calmMode }
   })
 
   app.patch('/api/family/:familyId/settings', {
@@ -294,8 +297,6 @@ export function registerFamilyRoutes(
     assertSameFamily(request, familyId)
     const body = parse(
       z.object({
-        bedtimeMin: z.number().int().nullable().optional(),
-        overtimeCapSec: z.number().int().nullable().optional(),
         calmMode: z.boolean().nullable().optional(),
       }),
       request.body ?? {},
@@ -304,14 +305,19 @@ export function registerFamilyRoutes(
   })
 
   // ── 注销家庭（第 9 夜，仅家长）：物理删除全部家庭数据，不可恢复。
+  // 必须携带 body.confirmCode=家庭码确认（防误触/孩子误操作）。
   // T02/F04：DeviceSession 随家庭级联删除，全部旧令牌立即失效 ──
   app.delete('/api/family/:familyId', {
     preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
   }, async (request, reply) => {
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
+    const body = parse(
+      z.object({ confirmCode: z.string().min(1).max(16) }),
+      request.body ?? {},
+    )
+    await svc.deleteFamilyCompletely(db, familyId, body.confirmCode, deps.onFamilyDeleted)
     await deps.sessionGuard.revokeFamilySessions(familyId)
-    await svc.deleteFamilyCompletely(db, familyId, deps.onFamilyDeleted)
     reply.code(204)
     return null
   })

@@ -40,6 +40,8 @@ export interface MakeAppOpts {
   ttsDeps?: import('../src/modules/tts/client').TtsClientDeps | null
   /** A3：生图依赖注入（测并发去重/每日配额用） */
   imageDeps?: import('../src/modules/media/imagegen').ImageGenDeps | null
+  /** A3：视频依赖注入（测生成互斥/轮询容错用） */
+  videoDeps?: import('../src/modules/media/video').VideoGenDeps | null
   /** A3：每家庭每日生成上限注入 */
   genDailyLimit?: number
   /** 同源 SPA 托管注入（staticFallback 测试用） */
@@ -68,6 +70,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     ...(opts.trustProxy !== undefined ? { trustProxy: opts.trustProxy } : {}),
     ...(opts.ttsDeps !== undefined ? { ttsDeps: opts.ttsDeps } : {}),
     ...(opts.imageDeps !== undefined ? { imageDeps: opts.imageDeps } : {}),
+    ...(opts.videoDeps !== undefined ? { videoDeps: opts.videoDeps } : {}),
     ...(opts.genDailyLimit !== undefined ? { genDailyLimit: opts.genDailyLimit } : {}),
     ...(opts.staticDir !== undefined ? { staticDir: opts.staticDir } : {}),
   })

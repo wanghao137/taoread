@@ -27,8 +27,11 @@ export function TonightPanel({ token, childrenList, refreshKey }: TonightPanelPr
 
   const load = useCallback(
     (opts?: { silent?: boolean }) => {
-      aliveRef.current = { value: true }
-      const alive = aliveRef.current
+      // 先作废上一轮（对同一对象置 false，旧闭包才能看到），再为本轮发新凭证；
+      // 此前每次 load 换新对象，旧闭包持有的对象永远停在 true，旧响应仍可覆盖状态
+      aliveRef.current.value = false
+      const alive = { value: true }
+      aliveRef.current = alive
       // 静默刷新（轮询）：不把行打回 loading，原地等新数据
       if (!opts?.silent) setRows(childrenList.map((child) => ({ child, state: 'loading' })))
       void Promise.all(

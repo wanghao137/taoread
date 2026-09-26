@@ -19,7 +19,7 @@ import { compressPngToWebP } from './compress'
 import { labelWebpImage } from './label'
 import { assertSceneReadable, familyScene, mediaUrl } from './access'
 import { assertContentReadable } from '../../content/service'
-import { assertDailyGenQuota, dedupeInFlight } from './generationGuard'
+import { assertDailyGenQuota, dedupeInFlight, runGeneration } from './generationGuard'
 import { writeArtVariants } from './variants'
 import { join } from 'node:path'
 
@@ -93,7 +93,7 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
     // R-03（docs/31）：额度检查必须与落库同临界区。按家庭（而非场景）串行化，
     // 插画+动画共用一把锁——跨场景/跨域并发不再各自读到同一份余额。
     // 生产形态为单进程，进程内临界区即完整边界；多进程部署需另建预留表。
-    return dedupeInFlight(`gen:${familyId}`, async () => {
+    return runGeneration(familyId, 'art', async () => {
       // 双重检查：等在途请求完成后进来，场景可能已由前一个请求生成
       const raced = await db.artAsset.findUnique({ where: { scene: input.scene }, select: { urlPath: true } })
       if (raced) return raced.urlPath
@@ -151,7 +151,12 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       label: body.label,
       lang: body.lang ?? 'zh',
     }
-    const urlPath = await ensureArt(input, request.auth.fid)
+    // 意外错误降级为 ok:false（前端回退 SVG，不 500）；业务错误（家庭生成互斥 409、
+    // 每日配额 429）必须原样上抛——静默吞掉会让配额与互斥边界失效
+    const urlPath = await ensureArt(input, request.auth.fid).catch((err) => {
+      if (err instanceof AppError) throw err
+      return null
+    })
     return reply.send({ scene: input.scene, urlPath: urlPath ? signedUrl(urlPath, request) : null, ok: urlPath !== null })
   })
 

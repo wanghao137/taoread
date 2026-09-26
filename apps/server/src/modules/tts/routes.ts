@@ -131,6 +131,17 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         return reply.send(res)
       }
 
+      // A3：试听未命中缓存就是一次真实出网合成，与整章路径共用每日配额；
+      // 缓存命中不计数（幂等命中不限制）。配额检查在合成前，防超限后仍出网计费。
+      const dayStart = new Date()
+      dayStart.setHours(0, 0, 0, 0)
+      const usedToday = await db.ttsMediaOwner.count({
+        where: { familyId: request.auth.fid, createdAt: { gte: dayStart } },
+      })
+      if (usedToday >= ttsDailyLimit) {
+        throw new AppError('今天的朗读次数用完了，明天再来吧', 'TTS_QUOTA_EXCEEDED', 429)
+      }
+
       let audio: Buffer
       try {
         const out = await synthesizeSegment(client, {

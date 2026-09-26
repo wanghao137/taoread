@@ -78,7 +78,8 @@ export function getAlbumId(album: Record<string, unknown>): string | null {
  * - books：仅童书白名单（category 命中 1300000 前缀）且未被家长屏蔽；
  * - albums：回包无 category 字段（shelf.md 未定义），服务端无法判定适龄——
  *   默认全部不进入孩子视图（成人有声书不可漏给孩子是红线；听书放行留给夜 9 家长端逐个授权）；
- * - mp：文章收藏入口（无 id 可屏蔽），原样保留。
+ * - mp：公众号文章无类目、无 id 可屏蔽，无法做适龄判定——孩子视图直接过滤
+ *   （家长视图不受影响，原样保留）。
  * 该产品决策已登记 nightly-log 第 3 夜与 bug-register N3-003。
  */
 export function filterChildShelf(
@@ -91,7 +92,7 @@ export function filterChildShelf(
       id !== null && !blocked.has(blockedKey('book', id)) && isChildCategory(b.category)
     )
   })
-  return { books, albums: [], mp: items.mp }
+  return { books, albums: [], mp: null }
 }
 
 /** 推荐流孩子过滤：童书白名单 + 未被屏蔽（discover.md：books[].category 存在） */

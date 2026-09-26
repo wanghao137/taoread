@@ -176,6 +176,39 @@ describe('共读域 API（第 4 夜）', () => {
       expect(session?.bookId).toBeNull()
     })
 
+    it('纸质书跨书守卫：两场 bookId 均为 null 的纸质书按 paperTitle 区分（同名才复用）', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const childId = await createChild(h.app, f.token, f.familyId)
+      const first = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, paperTitle: '猜猜我有多爱你' },
+      })
+      expect(first.statusCode).toBe(201)
+      // 换一本纸质书：书名不同即异书，不能静默复用
+      clockSec += 30
+      const other = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, paperTitle: '不一样的卡梅拉' },
+      })
+      expect(other.statusCode).toBe(409)
+      expect(other.json().code).toBe('ACTIVE_SESSION_OTHER_BOOK')
+      // 同一本纸质书再点：幂等复用
+      clockSec += 30
+      const same = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, paperTitle: '猜猜我有多爱你' },
+      })
+      expect(same.statusCode).toBe(201)
+      expect(same.json().reused).toBe(true)
+      expect(same.json().id).toBe(first.json().id)
+    })
+
     it('既无 bookId 也无 paperTitle → 400；孩子不属于本家庭 → 404', async () => {
       const f = await createBoundFamily(h.app, nextKey())
       const childId = await createChild(h.app, f.token, f.familyId)
@@ -601,6 +634,37 @@ describe('共读域 API（第 4 夜）', () => {
         headers: authHeaders(f.token),
       })
       expect(r2.json().card).toEqual(r1.json().card)
+    })
+
+    it('共读卡坏行自愈：夜键行 JSON 损坏时删除重建，当晚不再永久 500', async () => {
+      const f = await createBoundFamily(h.app, nextKey())
+      const childId = await createChild(h.app, f.token, f.familyId)
+      const s = await h.app.inject({
+        method: 'POST',
+        url: '/api/cosession',
+        headers: authHeaders(f.token),
+        payload: { childId, bookId: 'B1001' },
+      })
+      const first = await h.app.inject({
+        method: 'POST',
+        url: `/api/cosession/${s.json().id}/reading-card`,
+        headers: authHeaders(f.token),
+      })
+      expect(first.statusCode).toBe(200)
+      // 模拟历史写入损坏（truncated JSON）：唯一键还在，parse 必炸
+      await db.parentPrompt.updateMany({ data: { tellPoints: '{"bad', questions: '{"bad' } })
+      const after = await h.app.inject({
+        method: 'POST',
+        url: `/api/cosession/${s.json().id}/reading-card`,
+        headers: authHeaders(f.token),
+      })
+      expect(after.statusCode).toBe(200)
+      expect(after.json().card.bookTitle).toBe('小王子')
+      expect(Array.isArray(after.json().card.tellPoints)).toBe(true)
+      // 坏行已被重建为合法行
+      const rows = await db.parentPrompt.findMany()
+      expect(rows).toHaveLength(1)
+      expect(() => JSON.parse(rows[0]!.tellPoints)).not.toThrow()
     })
   })
 

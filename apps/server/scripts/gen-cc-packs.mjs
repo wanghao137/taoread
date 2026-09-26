@@ -75,7 +75,6 @@ const idOf = (s) => `cc-${slugOf(s)}`
 const esc = (t) => JSON.stringify(t) // JSON 字面量 = 合法 TS 字符串
 
 let written = 0
-const manifest = []
 picked.forEach((s, idx) => {
   const id = idOf(s)
   const prefix = `asb${String(idx + 1).padStart(3, '0')}`
@@ -143,11 +142,11 @@ export const ${camelOf(s)}: PackBook = {
 `
   fs.writeFileSync(path.join(OUT, `${id}.ts`), ts)
   written++
-  manifest.push({ id, title: s.title, chapters: chapters.length, words: s.words, file: s.file })
 })
 
 console.log(`✅ 写出 ${written} 个内容包到 ${OUT}`)
-fs.writeFileSync(path.join(process.cwd(), 'cc-manifest.json'), JSON.stringify(manifest, null, 2))
+// 注：曾在此写 cc-manifest.json 侧车清单，因长期过期（24 条 vs 实际 44 包、含重复 id）
+// 且无任何消费方，已随文件一并移除——入库清单的唯一事实源是 src/content/packs/index.ts。
 
 function camelOf(s) {
   const raw = slugOf(s).split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join('')

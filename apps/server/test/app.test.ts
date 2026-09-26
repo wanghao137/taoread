@@ -25,6 +25,21 @@ describe('buildApp', () => {
     expect(body.service).toBe('taoread-server')
   })
 
+  it('安全头：CSP 以 report-only 观察期下发（R-07）', async () => {
+    const res = await h.app.inject({ method: 'GET', url: '/api/health' })
+    const csp = res.headers['content-security-policy-report-only']
+    expect(typeof csp).toBe('string')
+    expect(csp).toContain("default-src 'self'")
+    expect(csp).toContain("script-src 'self'")
+    expect(csp).toContain("style-src 'self' 'unsafe-inline'")
+    expect(csp).toContain("frame-ancestors 'none'")
+    expect(csp).toContain("base-uri 'self'")
+    expect(csp).toContain("form-action 'self'")
+    expect(csp).toContain('https://media.taostudioai.com')
+    // 观察期：不是强制版
+    expect(res.headers['content-security-policy']).toBeUndefined()
+  })
+
   it('未知路由返回 404 且不含堆栈信息', async () => {
     const res = await h.app.inject({ method: 'GET', url: '/api/nothing' })
     expect(res.statusCode).toBe(404)

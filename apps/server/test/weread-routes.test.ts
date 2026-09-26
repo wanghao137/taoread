@@ -216,10 +216,11 @@ describe('微信读书业务 API（第 3 夜四件套）', () => {
       const body = res.json()
       expect(body.view).toBe('child')
       // 白名单书 B1001/B1002（1300000xxx），B2001(1000000) 被滤；
-      // 专辑无类目可判默认不放行（N3-003）；mp 入口保留 → 总数 = 2 + 0 + 1 = 3
+      // 专辑无类目可判默认不放行（N3-003）；mp 孩子视图直接过滤 → 总数 = 2 + 0 + 0 = 2
       expect(body.books.map((b: { bookId: string }) => b.bookId)).toEqual(['B1001', 'B1002'])
       expect(body.albums).toEqual([])
-      expect(body.total).toBe(3)
+      expect(body.mp).toBeNull()
+      expect(body.total).toBe(2)
     })
 
     it('N3-002 回归：孩子角色不带 view 参数也强制孩子视图（服务端适龄义务）', async () => {

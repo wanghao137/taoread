@@ -7,6 +7,7 @@ import {
   createChild,
   authHeaders,
   createFamilyAsParent,
+  joinFamily,
   type TestHarness,
 } from './helper'
 import { seedAllPacks, seedPack } from '../src/content/seed'
@@ -443,6 +444,146 @@ describe('内容域 生词本（docs/15 P1-B）', () => {
       payload: { childId, word: 'x'.repeat(100), lang: 'en' },
     })
     expect(long.statusCode).toBe(400)
+  })
+
+  it('导入书出处可收录：imp: 书不再 404，出处书名前缀保留在 context', async () => {
+    const db = harness.db as PrismaClient
+    const impId = 'imp:wordstest000000000000000abc'
+    // test.db 跨用例复用：upsert 防上次运行残留撞唯一键
+    await db.importedBook.upsert({
+      where: { id: impId },
+      create: { id: impId, familyId, title: '家庭导入的英文书', lang: 'en', ageStage: '6-8', sourceName: 'family-book.epub', sha256: 'sha-words-imp-1' },
+      update: {},
+    })
+    const add = await harness.app.inject({
+      method: 'POST',
+      url: '/api/content/words',
+      headers: authHeaders(token),
+      payload: { childId, word: 'wonder', lang: 'en', bookId: impId, context: 'curiouser and curiouser' },
+    })
+    expect(add.statusCode).toBe(200)
+    // WordCard.bookId 外键只指向公版 Book 表：导入书出处以《书名》保留在 context
+    expect(add.json().card.bookId).toBeNull()
+    expect(add.json().card.context).toBe('《家庭导入的英文书》·curiouser and curiouser')
+
+    const list = await harness.app.inject({
+      method: 'GET',
+      url: `/api/content/words?childId=${childId}`,
+      headers: authHeaders(token),
+    })
+    const hit = list.json().cards.find((c: { word: string }) => c.word === 'wonder')
+    expect(hit?.context).toContain('家庭导入的英文书')
+
+    const del = await harness.app.inject({
+      method: 'DELETE',
+      url: `/api/content/words/${add.json().card.id}?childId=${childId}`,
+      headers: authHeaders(token),
+    })
+    expect(del.statusCode).toBe(200)
+
+    // 别的家庭的导入书：与正文读取同口径 404
+    const otherFamily = await db.family.findFirst({ where: { id: { not: familyId } }, select: { id: true } })
+    await db.importedBook.upsert({
+      where: { id: 'imp:otherfamily000000000000abc' },
+      create: { id: 'imp:otherfamily000000000000abc', familyId: otherFamily!.id, title: '别人家的书', lang: 'en', ageStage: '6-8', sourceName: 'x.epub', sha256: 'sha-words-imp-2' },
+      update: {},
+    })
+    const foreign = await harness.app.inject({
+      method: 'POST',
+      url: '/api/content/words',
+      headers: authHeaders(token),
+      payload: { childId, word: 'foreign', lang: 'en', bookId: 'imp:otherfamily000000000000abc', context: 'c' },
+    })
+    expect(foreign.statusCode).toBe(404)
+  })
+})
+
+describe('内容域 适龄强制（孩子角色无法自选 stage）', () => {
+  let childToken: string
+  let familyCode: string
+
+  beforeAll(async () => {
+    const fam = await (harness.db as PrismaClient).family.findUnique({ where: { id: familyId }, select: { code: true } })
+    familyCode = fam!.code
+    const child = await joinFamily(harness.app, familyCode, 'child')
+    childToken = child.token
+  })
+
+  it('孩子传 stage=9-12 被忽略：列表按档案 stage（3-5）推导', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: `/api/content/books?stage=9-12&childId=${childId}`,
+      headers: authHeaders(childToken),
+    })
+    expect(res.statusCode).toBe(200)
+    const stages = new Set(res.json().books.map((b: { ageStage: string }) => b.ageStage))
+    expect(stages.has('9-12')).toBe(false)
+    expect(stages.has('6-8')).toBe(false)
+    expect(stages.has('3-5')).toBe(true)
+  })
+
+  it('孩子不带 childId → 400（阶段必须从孩子档案推导）', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books',
+      headers: authHeaders(childToken),
+    })
+    expect(res.statusCode).toBe(400)
+  })
+
+  it('孩子带别家 childId → 404', async () => {
+    const other = await createFamilyAsParent(harness.app, 'stage-other-parent')
+    const otherChild = await createChild(harness.app, other.token, other.familyId, '别家娃', '9-12')
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: `/api/content/books?childId=${otherChild}`,
+      headers: authHeaders(childToken),
+    })
+    expect(res.statusCode).toBe(404)
+  })
+
+  it('家长仍可用 query.stage 过滤（管理/预览用途）', async () => {
+    const res = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books?stage=3-5',
+      headers: authHeaders(token),
+    })
+    const stages = new Set(res.json().books.map((b: { ageStage: string }) => b.ageStage))
+    expect(stages.has('6-8')).toBe(false)
+    expect(stages.has('3-5')).toBe(true)
+  })
+})
+
+describe('内容域 家长预览屏蔽书（blocked 状态真实回显）', () => {
+  it('屏蔽后家长预览详情 blocked=true，解除后回 false', async () => {
+    const put = await harness.app.inject({
+      method: 'PUT',
+      url: '/api/content/books/alice-wonderland/blocked',
+      headers: authHeaders(token),
+      payload: { blocked: true },
+    })
+    expect(put.statusCode).toBe(200)
+
+    const preview = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books/alice-wonderland',
+      headers: authHeaders(token),
+    })
+    expect(preview.statusCode).toBe(200)
+    expect(preview.json().book.blocked).toBe(true)
+
+    await harness.app.inject({
+      method: 'PUT',
+      url: '/api/content/books/alice-wonderland/blocked',
+      headers: authHeaders(token),
+      payload: { blocked: false },
+    })
+    const after = await harness.app.inject({
+      method: 'GET',
+      url: '/api/content/books/alice-wonderland',
+      headers: authHeaders(token),
+    })
+    expect(after.json().book.blocked).toBe(false)
   })
 })
 

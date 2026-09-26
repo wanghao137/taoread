@@ -86,6 +86,18 @@ export interface StartSessionInput {
   paperTitle?: string | null
 }
 
+/** 跨书守卫（P0 审计 A3.2）：同书（含纸质书同名）才允许幂等复用。
+ * bookId 均为 null 时是两场纸质书——书名不同也是异书，不能静默复用。 */
+function isSameActiveBook(
+  active: { bookId: string | null; paperTitle: string | null },
+  bookId: string | null,
+  paperTitle: string | null,
+): boolean {
+  if ((active.bookId ?? null) !== (bookId ?? null)) return false
+  if (bookId !== null) return true
+  return (active.paperTitle ?? null) === (paperTitle ?? null)
+}
+
 export async function startSession(
   db: CosessionDb,
   familyId: string,
@@ -115,7 +127,7 @@ export async function startSession(
     // P0（V8 审计 A3.2）：禁止跨书静默复用——读 A 未收尾就开 B 会让 UI 与会话错位，
     // 污染时长/共读卡/成就/周报。同书重开 → 幂等复用；异书 → 结构化错误，
     // 前端据此提供「继续旧书 / 结束旧书改读新书 / 取消」。
-    if ((active.bookId ?? null) !== (bookId ?? null)) {
+    if (!isSameActiveBook(active, bookId, paperTitle)) {
       throw new AppError('上一本书还没收尾呢，先读完它或收个尾再换书', 'ACTIVE_SESSION_OTHER_BOOK', 409)
     }
     return {
@@ -153,7 +165,7 @@ export async function startSession(
       })
       if (raced) {
         // 并发竞态兜底同样适用跨书守卫（P0 审计 A3.2）
-        if ((raced.bookId ?? null) !== (bookId ?? null)) {
+        if (!isSameActiveBook(raced, bookId, paperTitle)) {
           throw new AppError('上一本书还没收尾呢，先读完它或收个尾再换书', 'ACTIVE_SESSION_OTHER_BOOK', 409)
         }
         return {
@@ -493,7 +505,7 @@ export async function generateCardForSession(
       // 存储行损坏（不应发生）：走重建路径
     }
   }
-  try {
+  const createPrompt = async (): Promise<ReadingCardResult> => {
     const prompt = await db.parentPrompt.create({
       data: {
         familyId,
@@ -508,6 +520,9 @@ export async function generateCardForSession(
       select: { id: true },
     })
     return { card, promptId: prompt.id }
+  }
+  try {
+    return await createPrompt()
   } catch (err) {
     const code = typeof err === 'object' && err !== null && 'code' in err ? (err as { code?: string }).code : undefined
     if (code === 'P2002') {
@@ -516,16 +531,24 @@ export async function generateCardForSession(
         select: { id: true, tellPoints: true, questions: true, hook: true },
       })
       if (raced) {
-        const racedCard: ReadingCard = {
-          bookTitle: title,
-          stage: child.stage,
-          tellPoints: JSON.parse(raced.tellPoints) as string[],
-          questions: JSON.parse(raced.questions) as string[],
-          hook: raced.hook ?? '',
-          genType: 'template',
+        try {
+          const racedCard: ReadingCard = {
+            bookTitle: title,
+            stage: child.stage,
+            tellPoints: JSON.parse(raced.tellPoints) as string[],
+            questions: JSON.parse(raced.questions) as string[],
+            hook: raced.hook ?? '',
+            genType: 'template',
+          }
+          return { card: racedCard, promptId: raced.id }
+        } catch {
+          // 坏行（历史写入损坏，parse 抛 SyntaxError）：删掉重建，否则当晚该 (家庭,书,夜键)
+          // 组合每次都撞唯一键 → 每次都 parse 同一坏行 → 永久 500
+          await db.parentPrompt.deleteMany({ where: { id: raced.id } })
         }
-        return { card: racedCard, promptId: raced.id }
       }
+      // 坏行已清（或竞态方已收尾消失）：重建一次；若再撞唯一键则原样上抛
+      return createPrompt()
     }
     throw err
   }

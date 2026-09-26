@@ -10,9 +10,21 @@
     />
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-180.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+    <!-- 展示字体自托管（红线：孩子端零第三方外链）；swap 保证弱网下先渲染系统回退字体 -->
+    <link
+      rel="preload"
+      href="/fonts/baloo2-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/baloo2-latin-ext.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>桃阅读</title>
   </head>
   <body>

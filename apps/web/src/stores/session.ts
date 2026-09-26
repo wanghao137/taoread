@@ -76,6 +76,7 @@ export const useSession = create<SessionState>()(
     }),
     {
       name: SESSION_KEY,
+      version: 1,
       storage: createJSONStorage(() => safeStorage),
     },
   ),

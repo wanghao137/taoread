@@ -164,8 +164,12 @@ export class ImageGenerator {
     }
     if (!res.ok) return null
 
-    const json = (await res.json()) as {
-      data?: Array<{ b64_json?: string; url?: string }>
+    // 供应商 200 + 坏 JSON 同样走失败路径：解析在 try 内，失败返回 null，调用方回退 SVG
+    let json: { data?: Array<{ b64_json?: string; url?: string }> }
+    try {
+      json = (await res.json()) as { data?: Array<{ b64_json?: string; url?: string }> }
+    } catch {
+      return null
     }
     const item = json.data?.[0]
     const b64 = item?.b64_json

@@ -16,9 +16,11 @@ const ChildHome = lazy(() =>
 const ParentHome = lazy(() =>
   import('./pages/ParentHome').then((m) => ({ default: m.ParentHome })),
 )
-const KitchenSink = lazy(() =>
-  import('./pages/KitchenSink').then((m) => ({ default: m.KitchenSink })),
-)
+// DEV 条件下才产生动态 import：生产构建时 import.meta.env.DEV 被静态替换为 false，
+// rollup 会把该分支连同 chunk 一起裁掉（此前 KitchenSink chunk 一直随产包发布）。
+const KitchenSink = import.meta.env.DEV
+  ? lazy(() => import('./pages/KitchenSink').then((m) => ({ default: m.KitchenSink })))
+  : null
 
 function prefetchOtherHalf(role: 'parent' | 'child'): void {
   // 登录后浏览器空闲时把另一端也拉下来，家长/孩子切换零等待
@@ -116,7 +118,9 @@ export default function App() {
             }
           />
           {/* 设计系统调试页：只在开发构建开放，生产构建不挂路由（含 emoji 字典等内部素材） */}
-          {import.meta.env.DEV && <Route path="/dev/kitchen-sink" element={<KitchenSink />} />}
+          {import.meta.env.DEV && KitchenSink && (
+            <Route path="/dev/kitchen-sink" element={<KitchenSink />} />
+          )}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

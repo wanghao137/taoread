@@ -10,9 +10,8 @@ test.describe('家长端', () => {
     await page.goto('/login')
     await page.getByRole('button', { name: /输入家庭码加入/ }).click()
     await page.locator('#family-code').fill(CODE)
+    // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）：选「爸爸妈妈」即家长身份
     await page.getByRole('button', { name: '爸爸妈妈' }).click()
-    // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468）
-    await page.locator('#parent-code').fill('13572468')
     await page.getByRole('button', { name: /进入桃阅读/ }).click()
     await page.getByText('家长端').waitFor()
 
@@ -37,19 +36,10 @@ test.describe('家长端', () => {
     const dl = await download
     expect(dl.suggestedFilename()).toContain('taoread-week-')
 
-    // ── 设置：护眼预设 + 添加孩子 ──
+    // ── 设置：小读者档案 + 注销入口（休息时间/护眼预设已随 09-25 产品决策移除）──
     await page.getByRole('button', { name: '设置', exact: true }).click()
-    await page.getByRole('button', { name: '21:00', exact: true }).click()
-    // 选中态落盘：preset 按钮变为 v8 选中胶囊（.on 米黄实底，确认 updateSettings 生效）
-    await expect(
-      page.getByRole('button', { name: '21:00', exact: true }),
-    ).toHaveClass(/\bon\b/)
     await page.getByText('小桃（6-8）').waitFor()
-    // 还原为「跟随默认」：否则 21:00 后的休息时间会锁住后续孩子端 e2e（workers:1 串行共享同一库）
-    await page.getByRole('button', { name: '跟随默认', exact: true }).click()
-    await expect(
-      page.getByRole('button', { name: '跟随默认', exact: true }),
-    ).toHaveClass(/\bon\b/)
+    await page.getByRole('button', { name: '注销家庭' }).waitFor()
 
     // ── 安静模式（docs/15 P1-C）：开关落盘并立即改变本机 MotionConfig ──
     await page.getByRole('button', { name: '安静模式' }).scrollIntoViewIfNeeded()

@@ -4,12 +4,13 @@
  * 覆盖纯逻辑层：切段、MP3 时长解析、字级时间轴、音色/语速、缓存 key。
  * 网络层（stepaudio 出网）用注入的假 fetch 覆盖，不产生真实调用。
  */
-import { describe, it, expect } from 'vitest'
-import { chunkText, MAX_SEGMENT_CHARS, synthesizeSegment, synthesizeStream, TtsError } from '../src/modules/tts/client'
+import { afterAll, beforeAll, describe, it, expect } from 'vitest'
+import { chunkText, MAX_SEGMENT_CHARS, synthesizeSegment, synthesizeStream, TtsError, type TtsClientDeps } from '../src/modules/tts/client'
 import { parseMp3 } from '../src/modules/tts/mp3duration'
 import { buildCharTimeline, timelineFromMp3 } from '../src/modules/tts/timeline'
 import { cacheKey, TtsCache } from '../src/modules/tts/cache'
 import { VOICE_PRESETS, findVoice, clampSpeed, DEFAULT_SPEED, DEFAULT_VOICE_ID, SPEED_STEPS } from '../src/modules/tts/voices'
+import { authHeaders, createFamilyAsParent, makeApp, type TestHarness } from './helper'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import os from 'node:os'
@@ -375,5 +376,109 @@ describe('client 出网（注入假 fetch）', () => {
         () => {},
       ),
     ).rejects.toBeInstanceOf(TtsError)
+  })
+})
+
+describe('client 出网超时（对照 weread gateway 的 AbortSignal.timeout 做法）', () => {
+  it('fetch init 带 60s AbortSignal，超时归一为 TtsError', async () => {
+    let seen: AbortSignal | null = null
+    const fakeFetch = ((_url: string, init: RequestInit) => {
+      seen = init.signal ?? null
+      return Promise.resolve(
+        new Response(Buffer.from('hello-audio'), { status: 200, headers: { 'Content-Type': 'audio/mpeg' } }),
+      )
+    }) as unknown as typeof fetch
+    const out = await synthesizeSegment(
+      { base: 'https://example.test', apiKey: 'k', model: 'm', fetch: fakeFetch },
+      { text: '你好', voice: MOM, speed: 0.92, lang: 'zh' },
+    )
+    expect(out.audio.toString()).toBe('hello-audio')
+    expect(seen).toBeInstanceOf(AbortSignal)
+  })
+
+  it('流式接口同样携带超时信号', async () => {
+    let seen: AbortSignal | null = null
+    const enc = (s: string) => new TextEncoder().encode(s)
+    const body = new ReadableStream({
+      start(controller) {
+        controller.enqueue(
+          enc(`data: ${JSON.stringify({ type: 'speech.audio.delta', audio: Buffer.from('ok').toString('base64') })}\n\n`),
+        )
+        controller.enqueue(enc('data: [DONE]\n\n'))
+        controller.close()
+      },
+    })
+    const fakeFetch = ((_url: string, init: RequestInit) => {
+      seen = init.signal ?? null
+      return Promise.resolve(new Response(body, { status: 200 }))
+    }) as unknown as typeof fetch
+    const out = await synthesizeStream(
+      { base: 'https://example.test', apiKey: 'k', model: 'm', fetch: fakeFetch },
+      { text: '你好', voice: MOM, speed: 0.92, lang: 'zh' },
+      () => {},
+    )
+    expect(out.audio.toString()).toBe('ok')
+    expect(seen).toBeInstanceOf(AbortSignal)
+  })
+})
+
+describe('TTS preview 每日配额（A3：试听未命中缓存=真实出网，与整章同配额）', () => {
+  let h: TestHarness
+
+  /** 假 stepaudio：返回任意字节（时间轴解析失败安全回落 0ms） */
+  const fakeTts: TtsClientDeps = {
+    base: 'https://tts.example.test',
+    apiKey: 'k',
+    model: 'stepaudio-fake',
+    fetch: (() =>
+      Promise.resolve(
+        new Response(Buffer.from('fake-audio-bytes'.repeat(100)), {
+          status: 200,
+          headers: { 'Content-Type': 'audio/mpeg' },
+        }),
+      )) as unknown as typeof fetch,
+  }
+
+  beforeAll(async () => {
+    // ttsDailyLimit = max(600, genDailyLimit*10)：genDailyLimit 最小也要给 60 才能拿 600 上限
+    h = await makeApp(undefined, { genDailyLimit: 60, ttsDeps: fakeTts })
+    await h.app.ready()
+  })
+  afterAll(async () => {
+    await h.app.close()
+    await h.db.$disconnect()
+  })
+
+  const preview = (token: string, text: string) =>
+    h.app.inject({
+      method: 'POST',
+      url: '/api/tts/preview',
+      headers: authHeaders(token),
+      payload: { text, lang: 'zh' },
+    })
+
+  it('配额耗尽后未命中缓存的试听 429，文案与整章一致', async () => {
+    const f = await createFamilyAsParent(h.app, 'tts-quota-parent')
+    const limit = 600 // max(600, 60*10)
+    await h.db.ttsMediaOwner.createMany({
+      data: Array.from({ length: limit }, (_, i) => ({ path: `tts/seed-${f.familyId}-${i}.mp3`, familyId: f.familyId })),
+    })
+    const res = await preview(f.token, '从来没听过的句子一')
+    expect(res.statusCode).toBe(429)
+    expect(res.json().message).toContain('今天的朗读次数用完了')
+  })
+
+  it('未超限正常合成并落配额行；缓存命中不再计数、不受限', async () => {
+    const f = await createFamilyAsParent(h.app, 'tts-hit-parent')
+    const first = await preview(f.token, '正常的试听句子')
+    expect(first.statusCode).toBe(200)
+    expect(first.json().cached).toBe(false)
+    expect(await h.db.ttsMediaOwner.count({ where: { familyId: f.familyId } })).toBe(1)
+
+    // 同文本第二次：磁盘缓存命中，不新增配额行
+    const second = await preview(f.token, '正常的试听句子')
+    expect(second.statusCode).toBe(200)
+    expect(second.json().cached).toBe(true)
+    expect(await h.db.ttsMediaOwner.count({ where: { familyId: f.familyId } })).toBe(1)
   })
 })

@@ -1,9 +1,10 @@
 /**
  * V8 阅读器页（路由 /child/book/:bookId/chapter/:order）。
  * 审计整改 Phase 2 + A8.3：把旧 ReaderScreen 的成熟能力移植进 v8.css 贴纸绘本壳——
- * 会话守卫（ACTIVE_SESSION_OTHER_BOOK 三选一 / RITUAL_CLOSED 休息时间）、章节加载与目录、
+ * 会话守卫（ACTIVE_SESSION_OTHER_BOOK 三选一）、章节加载与目录、
  * 进度上报（进入即报 + 滚动 5s 节流 + 按已存 blockOrder 续读定位）、
- * 服务端朗读（回退 Web Speech）与高亮档位、主题/字号/专注模式、生词贴纸、读完结算浮层。
+ * 服务端朗读（回退 Web Speech）与高亮档位、主题/字号/专注模式、生词贴纸、读完结算浮层、
+ * 朗读期 Wake Lock 常亮与翻章触觉。就寝/休息时间闸已随 09-25 产品决策整体移除。
  * 样式只用 v8.css 既有类（.reader/.reader-top/.reader-body/.reader-art/.reader-text/.reader-controls/.settings）。
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
@@ -13,8 +14,11 @@ import { tts } from '../../lib/tts'
 import { audioPlayer, type VoiceOption } from '../../lib/audioPlayer'
 import { useSession } from '../../stores/session'
 import { extractNoteWord } from '../../lib/preview'
+import { acquireWakeLock, releaseWakeLock } from '../../lib/wakeLock'
+import { haptic } from '../../lib/haptics'
+import { defaultReadingTheme } from '../../lib/readingTheme'
 import { AiBadge } from '../../components/art/AiBadge'
-import { PoemRuby } from './ReaderScreen'
+import { PoemRuby } from '../../components/art/PoemRuby'
 import { useV8, LABELS, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
@@ -69,16 +73,59 @@ interface ChapterTitleItem {
   title: string
 }
 
-/** 就寝/超时的会话冲突与窗口状态之外的共同浮层壳：.settings 样式 + 半透明背板 */
+/** 浮层壳：.settings 样式 + 半透明背板；dialog 语义 + Esc + 焦点圈定与归还（对齐 TaSheet 的 R-06） */
 function Overlay({
   onClose,
   children,
   dismissable = true,
+  label,
 }: {
   onClose: () => void
   children: ReactNode
   dismissable?: boolean
+  label: string
 }) {
+  const panelRef = useRef<HTMLElement | null>(null)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const prevFocus = document.activeElement as HTMLElement | null
+    const focusables = () =>
+      Array.from(panel.querySelectorAll<HTMLElement>('button, input, [href], select, textarea')).filter(
+        (el) => !el.hasAttribute('disabled'),
+      )
+    const first = focusables()[0]
+    if (first) first.focus()
+    else panel.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && dismissable) {
+        e.stopPropagation()
+        onCloseRef.current()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const els = focusables()
+      if (els.length === 0) return
+      const firstEl = els[0]!
+      const lastEl = els[els.length - 1]!
+      const active = document.activeElement
+      if (e.shiftKey && (active === firstEl || !panel.contains(active))) {
+        e.preventDefault()
+        lastEl.focus()
+      } else if (!e.shiftKey && (active === lastEl || !panel.contains(active))) {
+        e.preventDefault()
+        firstEl.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey, true)
+    return () => {
+      document.removeEventListener('keydown', onKey, true)
+      prevFocus?.focus?.()
+    }
+    // 只在开/关与 dismissable 变化时重建；onClose 走 ref 防朗读高亮频繁重渲染反复搬焦点
+  }, [dismissable])
   return (
     <>
       <div
@@ -86,7 +133,7 @@ function Overlay({
         onClick={dismissable ? onClose : undefined}
         style={{ position: 'fixed', inset: 0, background: 'rgba(38,32,26,.45)', zIndex: 25 }}
       />
-      <section className="settings" style={{ zIndex: 30 }}>
+      <section ref={panelRef} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} className="settings" style={{ zIndex: 30 }}>
         {children}
       </section>
     </>
@@ -109,23 +156,24 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [titles, setTitles] = useState<ChapterTitleItem[]>([])
   const [titlesError, setTitlesError] = useState(false)
 
-  /* ── 共读会话（Phase 2 A3.2：异书冲突三选一；RITUAL_CLOSED 休息时间） ── */
+  /* ── 共读会话（Phase 2 A3.2：异书冲突三选一） ── */
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [conflict, setConflict] = useState<{ id: string; bookId: string | null } | null>(null)
   const [conflictBusy, setConflictBusy] = useState(false)
-  const [ritualClosed, setRitualClosed] = useState(false)
-  const [overtime, setOvertime] = useState(false)
 
   /* ── 排版与专注 ── */
-  const [theme, setTheme] = useState<ReaderTheme>('paper')
+  // 安静时段（20:00-06:00）默认夜间护眼主题，白天纸白；仅默认值，可手动切换
+  const [theme, setTheme] = useState<ReaderTheme>(() => defaultReadingTheme())
   const [font, setFont] = useState(22)
   const [focused, setFocused] = useState(false)
   const focusHintShown = useRef(false)
 
   /* ── 朗读 ── */
   const [speaking, setSpeaking] = useState(false)
-  /** 服务端朗读合成中（首次点击到首段音频返回，约 10-40 秒）——给用户可见的等待状态 */
+  /** 服务端朗读合成中（首次点击到首段音频开播，约 10-40 秒）——给用户可见的等待状态 */
   const [preparing, setPreparing] = useState(false)
+  /** 整章 SSE 合成的中止器：停止朗读/离开页面时断流，后台不再白拉 */
+  const speakAbortRef = useRef<AbortController | null>(null)
   const [highlight, setHighlight] = useState<SpeakHighlight | null>(null)
   const [highlightMode, setHighlightMode] = useState<'auto' | 'word' | 'sentence' | 'off'>('auto')
   const [serverReady, setServerReady] = useState<boolean | null>(null)
@@ -225,7 +273,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const isLastChapter = order >= book.chapterCount
   const ink = THEME_INK[theme]
 
-  /* ── 会话：开启共读；409 异书冲突 → 三选一浮层；就寝闸 → 休息时间全屏 ──
+  /* ── 会话：开启共读；409 异书冲突 → 三选一浮层 ──
    * 审计 A10.5：内容域书进会话必须带 cbf: 前缀（服务端据此解析书名/判定 book_done/
    * 放行「继续读旧书」）——裸内容 id 会被当成微信读书书，污染周报与成就口径。 */
   const startSession = useCallback(async (): Promise<string | null> => {
@@ -235,11 +283,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       setSessionId(s.id)
       return s.id
     } catch (err) {
-      if (err instanceof ApiError && err.code === 'RITUAL_CLOSED') {
-        // 审计 Phase 7：就寝窗口服务端拒绝——孩子端必须停在休息屏，绝不照常进书
-        setRitualClosed(true)
-        return null
-      }
       if (err instanceof ApiError && err.code === 'ACTIVE_SESSION_OTHER_BOOK') {
         try {
           const res = await api.activeCosession(childId, token)
@@ -261,33 +304,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   useEffect(() => {
     void startSession()
   }, [startSession])
-
-  /* ── 仪式时段窗口（服务端权威）：bedtime 直接进休息屏；overtime 顶栏挂温和徽标 ── */
-  useEffect(() => {
-    if (!token || !childId) return
-    let alive = true
-    api
-      .ritualWindow(childId, token)
-      .then((res) => {
-        if (!alive) return
-        if (res.mode === 'bedtime') setRitualClosed(true)
-        else if (res.mode === 'overtime') setOvertime(true)
-      })
-      .catch(() => {
-        /* 探测失败不拦阅读：startCosession 的 RITUAL_CLOSED 仍是硬闸 */
-      })
-    return () => {
-      alive = false
-    }
-  }, [token, childId])
-
-  useEffect(() => {
-    if (!ritualClosed) return
-    audioPlayer.stop()
-    if (tts.isSpeaking) tts.stop()
-    setSpeaking(false)
-    setHighlight(null)
-  }, [ritualClosed])
 
   /* ── 章节加载：进入即报进度（带恢复块），失败给错误态/翻章失败留在原章 ── */
   const loadChapter = useCallback(
@@ -416,13 +432,27 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     }
   }, [])
 
-  /* ── 离开阅读器停掉两个引擎 ── */
+  /* ── 离开阅读器停掉两个引擎并断开整章 SSE ── */
   useEffect(() => {
     return () => {
       if (tts.isSpeaking) tts.stop()
       audioPlayer.stop()
+      speakAbortRef.current?.abort()
+      speakAbortRef.current = null
     }
   }, [])
+
+  /* ── 朗读期屏幕常亮（能力自旧 ReaderScreen 移植回现役阅读器） ── */
+  useEffect(() => {
+    if (speaking) void acquireWakeLock()
+    else void releaseWakeLock()
+  }, [speaking])
+  useEffect(
+    () => () => {
+      void releaseWakeLock()
+    },
+    [],
+  )
 
   /* ── 滚动节流上报（5s；挂在 main 容器上——scroll 不冒泡到 window） ── */
   useEffect(() => {
@@ -478,6 +508,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 朗读当前章：服务端优先，不可用回退 Web Speech ── */
   const stopSpeaking = useCallback(() => {
+    speakAbortRef.current?.abort()
+    speakAbortRef.current = null
     audioPlayer.stop()
     tts.stop()
     setSpeaking(false)
@@ -505,15 +537,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       }
       let started = false
       setPreparing(true)
-      // 兜底：极端情况下请求挂起，90 秒后恢复按钮可用
+      // 兜底：极端情况下首段一直不来，90 秒后恢复按钮可用
       const prepareGuard = window.setTimeout(() => setPreparing(false), 90_000)
+      // 中止器随本轮朗读生命周期：停止/离开页面时断开 SSE，后台不再白拉整章
+      const ac = new AbortController()
+      speakAbortRef.current = ac
       try {
         if (serverReady) {
+          // speakChapter 在首段音频开播即返回（不再等整章 SSE 拉完）
           started = await audioPlayer.speakChapter(
             book.id,
             order,
             { title: ch.title, bookTitle: book.title },
-            { lang: book.lang, ...(voiceId ? { voiceId } : {}), speed },
+            { lang: book.lang, ...(voiceId ? { voiceId } : {}), speed, signal: ac.signal },
           )
         }
       } catch {
@@ -521,6 +557,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       }
       window.clearTimeout(prepareGuard)
       setPreparing(false)
+      // 停止/离开触发的中止：绝不顺势回退 Web Speech（孩子要的是安静）
+      if (ac.signal.aborted) return
       if (started) {
         setSpeaking(true)
         return
@@ -692,6 +730,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     (target: number) => {
       if (target < 1 || target > book.chapterCount) return
       stopSpeaking()
+      haptic('chapter')
       void loadChapter(target, 0)
     },
     [book.chapterCount, loadChapter, stopSpeaking],
@@ -756,6 +795,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       )
       progressVerRef.current = res.updatedAt
       // stale=另一台设备已写入更新进度：不覆盖服务器，但本机照常进入结算
+      haptic('stamp')
     } catch (err) {
       showToast(err instanceof Error ? err.message : '进度没存上，再试一次')
       return
@@ -828,24 +868,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     }
   }, [conflict, childId, token, startSession, showToast])
 
-  /* ── 休息时间全屏（服务端就寝闸 / ritualWindow=bedtime）：绝不照常进书 ── */
-  if (ritualClosed) {
-    return (
-      <div className="finish">
-        <div className="finish-card">
-          <span className="mono-label">月亮睡觉啦</span>
-          <h2>该休息啦，明天再继续</h2>
-          <p>故事不会跑，桃阅读会把你读到的这一页好好收着，明天接着读。</p>
-          <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
-            <button className="sticker-btn primary" onClick={() => navigate('/child/today')}>
-              我知道了
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   /* ── 加载态 / 首次加载失败错误态 ── */
   if (loading && !chapter) {
     return (
@@ -917,21 +939,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               {saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上，重试中'}
             </span>
           )}
-          {overtime ? (
-            <span
-              style={{
-                padding: '3px 8px',
-                border: '1.5px solid var(--ink)',
-                borderRadius: 999,
-                background: 'var(--sun)',
-                fontFamily: 'var(--mono)',
-                fontSize: 10,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              今天读得够多啦，读完这页就休息
-            </span>
-          ) : null}
         </span>
         <span style={{ display: 'inline-flex', gap: 10 }}>
           <button onClick={() => setShowChapters(true)}>{LABELS.toc}</button>
@@ -1140,7 +1147,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 排版设置浮层 ── */}
       {showSettings ? (
-        <Overlay onClose={() => setShowSettings(false)}>
+        <Overlay onClose={() => setShowSettings(false)} label="排版设置">
           <h3>{LABELS.settings}</h3>
           <p className="mono-label" style={{ marginBottom: 8 }}>
             主题
@@ -1229,7 +1236,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 章节目录抽屉 ── */}
       {showChapters ? (
-        <Overlay onClose={() => setShowChapters(false)}>
+        <Overlay onClose={() => setShowChapters(false)} label="章节目录">
           <h3>{LABELS.toc}</h3>
           {titlesError ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
@@ -1265,7 +1272,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 共读会话冲突三选一（不可点背板关掉，必须选一个） ── */}
       {conflict ? (
-        <Overlay onClose={() => undefined} dismissable={false}>
+        <Overlay onClose={() => undefined} dismissable={false} label="上一本还没收尾">
           <h3>上一本还没收尾</h3>
           <p className="mono-label" style={{ textTransform: 'none', marginBottom: 12 }}>
             一次只打开一个小故事。想读这本，先给上一本收个尾。
@@ -1291,7 +1298,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 读完啦结算浮层 ── */}
       {showFinish ? (
-        <Overlay onClose={() => setShowFinish(false)}>
+        <Overlay onClose={() => setShowFinish(false)} label="读完啦">
           <h3>{LABELS.finishTitle}</h3>
           <p className="mono-label" style={{ textTransform: 'none', marginBottom: 12 }}>
             {LABELS.finishCopy}

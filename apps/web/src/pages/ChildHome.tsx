@@ -62,7 +62,8 @@ export function ChildHome() {
     }
   }, [token, familyId, setChild])
 
-  useEffect(() => void loadChildren(), [loadChildren])
+  // 直接返回 loadChildren 的清理函数（此前 void 丢弃了它，卸载后响应仍会写入状态）
+  useEffect(() => loadChildren(), [loadChildren])
 
   // 已选孩子但名字缺失（刷新后）：从列表回填
   useEffect(() => {

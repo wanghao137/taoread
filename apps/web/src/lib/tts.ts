@@ -214,6 +214,9 @@ class TtsEngine {
 
   /** 配置语音/语速/音高（朗读中修改对下一句生效） */
   configure(options: TtsOptions & { lang?: string }): void {
+    // 语言切换时作废已缓存的音色：单例终身存活，先读中文再读英文若沿用
+    // 中文语音会违反「英文书默认英语音色」（音色只在 speak() 首次为 null 时挑选）
+    if (options.lang && options.lang !== this.lang) this.voiceURI = null
     if (options.lang) this.lang = options.lang
     if (options.voiceURI) this.voiceURI = options.voiceURI
     if (typeof options.rate === 'number') {

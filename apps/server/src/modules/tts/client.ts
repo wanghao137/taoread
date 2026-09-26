@@ -96,6 +96,10 @@ export function chunkText(text: string, maxLen = MAX_SEGMENT_CHARS): string[] {
   return segments.filter((s) => s.length > 0)
 }
 
+/** 上游合成超时（秒）：stepaudio 900 字实测 15-45s，60s 是稳妥上限；
+ * 不设超时会拖住 SSE 连接与家庭配额语义（对照 weread gateway 的 AbortSignal.timeout 做法） */
+const TTS_FETCH_TIMEOUT_MS = 60_000
+
 /**
  * 单段合成（非流式，一次拿完整音频）。
  * 适合短文本与缓存预热；长章节用流式接口。
@@ -136,9 +140,10 @@ export async function synthesizeSegment(
         speed: clampSpeed(input.speed),
         stream_format: 'audio',
       }),
+      signal: AbortSignal.timeout(TTS_FETCH_TIMEOUT_MS),
     })
   } catch (err) {
-    // 网络层故障统一包成 TtsError，避免原始错误信息（含主机名）泄漏给用户
+    // 网络层故障/超时统一包成 TtsError，避免原始错误信息（含主机名）泄漏给用户
     throw new TtsError('朗读服务连不上，请稍后再试', err instanceof Error ? err.message.slice(0, 120) : '')
   }
 
@@ -189,6 +194,7 @@ export async function synthesizeStream(
         speed: clampSpeed(input.speed),
         stream_format: 'sse',
       }),
+      signal: AbortSignal.timeout(TTS_FETCH_TIMEOUT_MS),
     })
   } catch (err) {
     throw new TtsError('朗读服务连不上，请稍后再试', err instanceof Error ? err.message.slice(0, 120) : '')

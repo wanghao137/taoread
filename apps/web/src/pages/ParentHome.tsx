@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ChildDto, type FamilyViewDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState } from '../components/ui'
@@ -29,6 +29,14 @@ export function ParentHome() {
   const [revision, setRevision] = useState(0)
   // 家庭码复制反馈（1.5s 自动复位）
   const [copied, setCopied] = useState(false)
+  const copiedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 卸载时清掉复制反馈定时器，避免卸载后 setState
+  useEffect(
+    () => () => {
+      if (copiedTimer.current) clearTimeout(copiedTimer.current)
+    },
+    [],
+  )
   // 「今天」实时同步（V8）：15s 静默轮询计数，传给 TonightPanel 原地刷新
   const [refreshKey, setRefreshKey] = useState(0)
   const bumpRefresh = useCallback(() => setRefreshKey((n) => n + 1), [])
@@ -108,7 +116,8 @@ export function ParentHome() {
                 onClick={() => {
                   void navigator.clipboard?.writeText(familyCode).catch(() => undefined)
                   setCopied(true)
-                  setTimeout(() => setCopied(false), 1500)
+                  if (copiedTimer.current) clearTimeout(copiedTimer.current)
+                  copiedTimer.current = setTimeout(() => setCopied(false), 1500)
                 }}
               >
                 {copied ? '✓ 已复制' : '复制'}

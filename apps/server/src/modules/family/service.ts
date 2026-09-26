@@ -13,6 +13,7 @@ import {
 } from '../../lib/auth'
 import { createDeviceSession } from '../../lib/sessions'
 import {
+  AppError,
   ForbiddenError,
   NotFoundError,
   ValidationError,
@@ -74,6 +75,14 @@ export async function createFamily(
   }
 }
 
+/** 每家庭活跃设备会话软上限：防家庭码被批量转手刷出无限设备（软上限=家长可撤销腾位）。
+ *  TAO_DEVICE_SESSION_CAP 供 e2e 调高——测试每个用例都是新浏览器上下文=新设备，
+ *  一轮全套用例会创建 20+ 会话，生产默认 20 不变。 */
+const MAX_ACTIVE_DEVICE_SESSIONS = (() => {
+  const parsed = Number(process.env.TAO_DEVICE_SESSION_CAP)
+  return Number.isInteger(parsed) && parsed >= 1 ? parsed : 20
+})()
+
 export async function joinFamily(
   db: FamilyDb,
   tokenSecret: Buffer,
@@ -86,6 +95,12 @@ export async function joinFamily(
   const family = await db.family.findUnique({ where: { code } })
   if (!family) {
     throw new NotFoundError('没有找到这个家庭码，请核对后再试')
+  }
+  const activeSessions = await db.deviceSession.count({
+    where: { familyId: family.id, revokedAt: null },
+  })
+  if (activeSessions >= MAX_ACTIVE_DEVICE_SESSIONS) {
+    throw new AppError('这个家庭的设备达到上限了，请家长先移除不用的设备再登录', 'DEVICE_SESSION_LIMIT', 429)
   }
   // 2026-09-25 产品决策：单一凭据。家长/孩子共用家庭码，身份由登录页角色选择决定；
   // input.parentCode 仅为旧客户端兼容保留，服务端不再校验。
@@ -250,22 +265,17 @@ export async function deleteChild(
   await db.childProfile.delete({ where: { id: childId } })
 }
 
-/** 家庭设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s） */
+/** 家庭设置：null=回落服务端默认。
+ * 就寝时刻/软封顶已随阅读时间限制取消（2026-09-25）停用——DB 列保留不动，
+ * 读写路径不再暴露，防旧客户端继续依赖已失效的配置项。 */
 export interface FamilySettings {
-  bedtimeMin: number | null
-  overtimeCapSec: number | null
   /** 安静模式（docs/15 P1-C）：null/false=跟随系统 reduced-motion */
   calmMode: boolean | null
 }
 
-const BEDTIME_RANGE = { min: 0, max: 1439 } as const
-const CAP_RANGE = { min: 60, max: 3600 } as const
-
 export async function getSettings(db: FamilyDb, familyId: string): Promise<FamilySettings> {
   const family = await assertFamilyExists(db, familyId)
   return {
-    bedtimeMin: family.bedtimeMin,
-    overtimeCapSec: family.overtimeCapSec,
     calmMode: family.calmMode,
   }
 }
@@ -277,22 +287,8 @@ export async function updateSettings(
 ): Promise<FamilySettings> {
   await assertFamilyExists(db, familyId)
   const data: {
-    bedtimeMin?: number | null
-    overtimeCapSec?: number | null
     calmMode?: boolean | null
   } = {}
-  if (input.bedtimeMin !== undefined) {
-    if (input.bedtimeMin !== null && (input.bedtimeMin < BEDTIME_RANGE.min || input.bedtimeMin > BEDTIME_RANGE.max)) {
-      throw new ValidationError('睡前时刻需要在 0-1439 分钟之间')
-    }
-    data.bedtimeMin = input.bedtimeMin
-  }
-  if (input.overtimeCapSec !== undefined) {
-    if (input.overtimeCapSec !== null && (input.overtimeCapSec < CAP_RANGE.min || input.overtimeCapSec > CAP_RANGE.max)) {
-      throw new ValidationError('单次共读时长需要在 1-60 分钟之间')
-    }
-    data.overtimeCapSec = input.overtimeCapSec
-  }
   if (input.calmMode !== undefined) {
     data.calmMode = input.calmMode
   }
@@ -301,13 +297,18 @@ export async function updateSettings(
 }
 
 /** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复。
+ * confirmCode 必须等于家庭码——注销不可恢复，要求持有凭据本体确认，防误触。
  * onFamilyDeleted（N9-205）：注销后逐出进程内该家庭的缓存/服务实例（含解密 key），由 app 层注入。 */
 export async function deleteFamilyCompletely(
   db: FamilyDb,
   familyId: string,
+  confirmCode: string,
   onFamilyDeleted?: (familyId: string) => void,
 ): Promise<void> {
-  await assertFamilyExists(db, familyId)
+  const family = await assertFamilyExists(db, familyId)
+  if (confirmCode !== family.code) {
+    throw new ValidationError('请输入家庭码确认注销')
+  }
   await db.family.delete({ where: { id: familyId } })
   onFamilyDeleted?.(familyId)
 }

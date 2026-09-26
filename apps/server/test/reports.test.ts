@@ -149,12 +149,13 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
     },
   )
 
-  it('越权与参数：跨家庭 404 / 非法日期 404（含分量回绕 N10-003）', async () => {
+  it('越权与参数：跨家庭 404 / 非法日期 400（含分量回绕 N10-003；参数错误≠资源不存在）', async () => {
     const f = await createFamilyAsParent(h.app)
     const other = await createFamilyAsParent(h.app, 'other')
+    // 跨家庭越权用合法日期（参数错误现在会先以 400 短路，404 是纯越权语义）
     const bad1 = await h.app.inject({
       method: 'GET',
-      url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-9-7`,
+      url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-09-07`,
       headers: authHeaders(other.token),
     })
     expect(bad1.statusCode).toBe(404)
@@ -163,20 +164,20 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
       url: `/api/reports/weekly?familyId=${f.familyId}&start=not-a-date`,
       headers: authHeaders(f.token),
     })
-    expect(bad2.statusCode).toBe(404)
+    expect(bad2.statusCode).toBe(400)
     // 滚动日期拒绝（Date 静默进位防御回归锁）
     const rolled = await h.app.inject({
       method: 'GET',
       url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-02-30`,
       headers: authHeaders(f.token),
     })
-    expect(rolled.statusCode).toBe(404)
+    expect(rolled.statusCode).toBe(400)
     const rolled2 = await h.app.inject({
       method: 'GET',
       url: `/api/reports/weekly?familyId=${f.familyId}&start=2026-13-45`,
       headers: authHeaders(f.token),
     })
-    expect(rolled2.statusCode).toBe(404)
+    expect(rolled2.statusCode).toBe(400)
   })
 
   it('分享卡 SVG：1080×1440 规格、无隐私字段、空周可渲染', async () => {

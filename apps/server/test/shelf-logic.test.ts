@@ -75,7 +75,7 @@ describe('童书类目白名单（双口径：中文前缀为主 + 数字前缀�
 })
 
 describe('孩子视图过滤', () => {
-  it('books 按白名单+屏蔽过滤（真实中文类目口径）；albums 无类目可判默认全不放行（N3-003）；mp 保留', () => {
+  it('books 按白名单+屏蔽过滤（真实中文类目口径）；albums 无类目可判默认全不放行；mp 孩子视图直接过滤', () => {
     const items = toShelfItems({
       books: [
         book('B1', '童书-幼儿启蒙'),
@@ -89,8 +89,8 @@ describe('孩子视图过滤', () => {
     const child = filterChildShelf(items, new Set(['book:B3']))
     expect(child.books.map((b) => b.bookId)).toEqual(['B1', 'B4'])
     expect(child.albums).toEqual([]) // 听书放行留给夜 9 家长端逐个授权
-    expect(child.mp).toEqual({})
-    expect(shelfTotal(child)).toBe(3) // 2 书 + 0 专辑 + 1 mp
+    expect(child.mp).toBeNull() // 公众号文章无类目/无 id 可屏蔽，孩子视图不放行
+    expect(shelfTotal(child)).toBe(2) // 2 书 + 0 专辑 + 0 mp
   })
 
   it('推荐流：白名单命中且未屏蔽（kind 前缀键）的才返回', () => {

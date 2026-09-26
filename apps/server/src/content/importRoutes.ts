@@ -100,7 +100,24 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (existing) return { id: existing.id, chapterCount: chapters.length, duplicate: true }
     let created: { id: string }
     try {
-      created = await db.importedBook.create({ data: { familyId: request.auth.fid, title: source.title, author: source.author, lang: 'en', ageStage: input.data.ageStage, sourceName: url, format: 'txt', sha256, chapters: { create: chapters.map((chapter, index) => ({ order: index + 1, title: chapter.title, text: chapter.text })) } }, select: { id: true } })
+      created = await db.importedBook.create({
+        data: {
+          // 与手工导入同构（imp: 前缀 + 家庭+内容哈希派生）：assertContentReadable、
+          // 生词本、共读等消费方只认 imp: 前缀的导入书 id；裸 cuid 属历史数据，
+          // 读取路径均按 id 全值匹配，无需迁移
+          id: `imp:${createHash('sha256').update(`${request.auth.fid}:${sha256}`).digest('hex').slice(0, 28)}`,
+          familyId: request.auth.fid,
+          title: source.title,
+          author: source.author,
+          lang: 'en',
+          ageStage: input.data.ageStage,
+          sourceName: url,
+          format: 'txt',
+          sha256,
+          chapters: { create: chapters.map((chapter, index) => ({ order: index + 1, title: chapter.title, text: chapter.text })) },
+        },
+        select: { id: true },
+      })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') { const duplicate = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId: request.auth.fid, sha256 } }, select: { id: true } }); if (duplicate) return { id: duplicate.id, chapterCount: chapters.length, duplicate: true } }
       throw error

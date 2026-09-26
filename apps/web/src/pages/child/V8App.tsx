@@ -13,9 +13,11 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { api, type ContentBookDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
+import { audioPlayer } from '../../lib/audioPlayer'
+import { tts } from '../../lib/tts'
 import { AiBadge } from '../../components/art/AiBadge'
 import { ReaderPage } from './ReaderPage'
 import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
@@ -49,7 +51,13 @@ function toneOf(id: string): string {
   return TONES[h % TONES.length] ?? 'mint'
 }
 
-const CATEGORY_LABEL: Record<string, string> = { poetry: '古诗', primer: '蒙学', story: '故事', tale: '童话' }
+const CATEGORY_LABEL: Record<string, string> = {
+  poetry: '古诗',
+  primer: '蒙学',
+  story: '故事',
+  tale: '童话',
+  science: '科学',
+}
 
 function toV8(b: ContentBookDto): V8Book {
   return {
@@ -177,6 +185,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
     toastTimer.current = setTimeout(() => setToastMsg(''), 1400)
   }, [])
 
+  // 卸载时清掉未触发的 toast 定时器，避免卸载后 setState
+  useEffect(() => () => {
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+  }, [])
+
   const reloadBooks = useCallback(() => {
     if (!token) return
     setBooksError(null)
@@ -198,16 +211,6 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
     if (!['/child', '/child/today', '/child/my', '/child/discover'].includes(location.pathname)) return
     void reloadBooks()
   }, [location.pathname, reloadBooks])
-
-  useEffect(() => {
-    if (!token || !familyId) return
-    api
-      .getSettings(familyId, token)
-      .then((dto) => {
-        document.documentElement.dataset.calm = dto.calmMode === true ? '1' : ''
-      })
-      .catch(() => undefined)
-  }, [token, familyId])
 
   useEffect(() => {
     if (!token || !familyId || !childId) return
@@ -374,8 +377,17 @@ export function PageHead({ title, sub, index = '01' }: { title: string; sub: str
 }
 
 /** demo 画框封面：有 AI 图填图（隐藏 CSS 装饰）+ AI 标识；无图保持 CSS 画面。
- * 缩图档优先（性能方案阶段 1）：thumb 加载失败静默回退原档。 */
-export function V8Cover({ book, onFav }: { book: V8Book; onFav: (id: string) => void }) {
+ * 缩图档优先（性能方案阶段 1）：thumb 加载失败静默回退原档。
+ * onOpen 传入时封面整体可点开（替代旧 role=button 外壳，收藏钮不再嵌套在按钮里）。 */
+export function V8Cover({
+  book,
+  onFav,
+  onOpen,
+}: {
+  book: V8Book
+  onFav: (id: string) => void
+  onOpen?: (id: string) => void
+}) {
   const [fallback, setFallback] = useState(false)
   const src = !fallback && book.coverThumb ? book.coverThumb : book.cover
   const [artOk, setArtOk] = useState(Boolean(src))
@@ -395,9 +407,18 @@ export function V8Cover({ book, onFav }: { book: V8Book; onFav: (id: string) => 
           }}
         />
       ) : null}
-      <span className="cover-kicker">桃阅读 · 故事</span>
+      <span className="cover-kicker">桃阅读 · {CATEGORY_LABEL[book.category] ?? (book.lang === 'en' ? 'Story' : '故事')}</span>
       <span className="cover-title">{book.title}</span>
       {artOk ? <AiBadge /> : null}
+      {/* 打开热区铺满封面（键盘可达）；收藏钮 z-index 更高，两者互不嵌套（读屏不再报「按钮内按钮」） */}
+      {onOpen ? (
+        <button
+          type="button"
+          aria-label={`打开《${book.title}》`}
+          onClick={() => onOpen(book.id)}
+          style={{ position: 'absolute', inset: 0, zIndex: 3, border: 0, background: 'transparent', cursor: 'pointer', padding: 0 }}
+        />
+      ) : null}
       <button
         className={`fav ${book.fav ? 'on' : ''}`}
         aria-label={`${book.fav ? '取消喜欢' : '喜欢'}《${book.title}》`}
@@ -422,17 +443,8 @@ export function StoryCard({
   onFav: (id: string) => void
 }) {
   return (
-    <div
-      className="story-card"
-      role="button"
-      tabIndex={0}
-      aria-label={`打开《${book.title}》`}
-      onClick={() => onOpen(book.id)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onOpen(book.id)
-      }}
-    >
-      <V8Cover book={book} onFav={onFav} />
+    <div className="story-card">
+      <V8Cover book={book} onFav={onFav} onOpen={onOpen} />
       <div className="story-meta">
         <b>{book.title}</b>
         <small>
@@ -445,7 +457,7 @@ export function StoryCard({
   )
 }
 
-/** 26 周节奏格子（A4 P1 修正时间语义：8 周 × 7 天 = 56 格，一格一天） */
+/** 8 周阅读足迹（A4 P1 修正时间语义：8 周 × 7 天 = 56 格，一格一天，7 列 × 8 行） */
 export function Calendar({ nights }: { nights: string[] }) {
   const nightSet = useMemo(() => new Set(nights), [nights])
   const cells = []
@@ -465,7 +477,7 @@ export function Calendar({ nights }: { nights: string[] }) {
         <b>近 8 周阅读足迹</b>
         <span>橙色 = 一起读过</span>
       </div>
-      <div className="cells" style={{ gridTemplateColumns: 'repeat(26, 20px)' }}>
+      <div className="cells" style={{ gridTemplateColumns: 'repeat(7, 20px)', minWidth: 170 }}>
         {cells}
       </div>
     </div>
@@ -473,18 +485,28 @@ export function Calendar({ nights }: { nights: string[] }) {
 }
 
 /* ── 今天 ── */
+/** 按本地时间问候（此前硬编码「下午好」，凌晨打开也是下午好） */
+function greetingNow(now: Date = new Date()): string {
+  const h = now.getHours()
+  if (h >= 5 && h < 11) return '早上好'
+  if (h >= 11 && h < 13) return '中午好'
+  if (h >= 13 && h < 18) return '下午好'
+  return '晚上好'
+}
+
 function TodayPage() {
   const v = useV8()
   const navigate = useNavigate()
   const continueBook = v.books.find((b) => b.progress > 0 && !b.finished) ?? null
-  // 规则推荐（A7 P1 / Phase 5）：未读优先 → 收藏优先 → 同类去重 → 语言搭配，取 3 本
+  // 规则推荐（A7 P1 / Phase 5）：未读优先 → 收藏优先 → 中文书优先（产品红线：书架/推荐
+  // 中文排序靠前）→ 读过的降权，取 3 本
   const picks = useMemo(() => {
     const pool = v.books.filter((b) => b.id !== continueBook?.id)
     const scored = pool
       .map((b) => ({
         b,
         score:
-          (b.progress === 0 ? 2 : 0) + (b.fav ? 1 : 0) + (b.lang === 'en' ? 0.5 : 0) + (b.finished ? -2 : 0),
+          (b.progress === 0 ? 2 : 0) + (b.fav ? 1 : 0) + (b.lang === 'zh' ? 0.5 : 0) + (b.finished ? -2 : 0),
       }))
       .sort((x, y) => y.score - x.score)
     const out: V8Book[] = []
@@ -501,7 +523,7 @@ function TodayPage() {
 
   return (
     <>
-      <PageHead title={LABELS.today} sub={`${'下午好'}，${v.childName}`} />
+      <PageHead title={LABELS.today} sub={`${greetingNow()}，${v.childName}`} />
       <section className="hero">
         <div className="hero-grid">
           <div>
@@ -593,13 +615,22 @@ function DiscoverPage() {
   const token = useSession((s) => s.token)
   const stage = useSession((s) => s.childStage)
   const childId = useSession((s) => s.childId)
-  const [params] = useState(() => new URLSearchParams(window.location.search))
-  const [moodKey, setMoodKey] = useState<string | null>(params.get('mood'))
+  // mood 以 URL 为单一事实源：从「今天」心情贴纸进来带 ?mood=，点头部「找故事」
+  // （无参数）自然清掉旧筛选，不再出现" mood 卡在旧值"
+  const [searchParams, setSearchParams] = useSearchParams()
+  const moodKey = searchParams.get('mood')
+  const setMoodKey = (key: string | null) => {
+    const next = new URLSearchParams(searchParams)
+    if (key) next.set('mood', key)
+    else next.delete('mood')
+    setSearchParams(next, { replace: true })
+  }
   const [query, setQuery] = useState('')
   const [langFilter, setLangFilter] = useState<'all' | 'zh' | 'en'>('all')
   const [serverHits, setServerHits] = useState<V8Book[] | null>(null)
   const [visible, setVisible] = useState(60)
   // Phase 5：≥2 字走服务端搜索（含章节标题命中，审计 A4「后端章节搜索被 V8 丢失」）
+  const searchSeq = useRef(0)
   useEffect(() => {
     const q = query.trim()
     if (q.length < 2 || !token) {
@@ -607,10 +638,16 @@ function DiscoverPage() {
       return
     }
     const t = setTimeout(() => {
+      const seq = ++searchSeq.current
       api
         .contentBooks(token, { ...(stage ? { stage } : {}), ...(childId ? { childId } : {}), q })
-        .then((res) => setServerHits(res.books.map(toV8)))
-        .catch(() => setServerHits(null))
+        .then((res) => {
+          // 慢响应防护：只认最后一次搜索的结果，防旧词覆盖新词
+          if (seq === searchSeq.current) setServerHits(res.books.map(toV8))
+        })
+        .catch(() => {
+          if (seq === searchSeq.current) setServerHits(null)
+        })
     }, 300)
     return () => clearTimeout(t)
   }, [query, token, stage, childId])
@@ -807,6 +844,14 @@ function BookDetailPage() {
       .catch(() => undefined)
   }, [bookId, childId, token])
 
+  // 离开详情页立刻停掉试听——音频/朗读是全局单例，不清会跟着孩子回到列表页继续出声
+  useEffect(() => {
+    return () => {
+      audioPlayer.stop()
+      if (tts.isSpeaking) tts.stop()
+    }
+  }, [])
+
   if (!v.loaded) {
     // 书架列表还没加载完：此时不能断定“书不存在”（修复：错误/加载中伪装成 404）
     return (
@@ -844,8 +889,6 @@ function BookDetailPage() {
         .map((x) => x.text)
         .join('\n')
         .slice(0, 120)
-      const { audioPlayer } = await import('../../lib/audioPlayer')
-      const { tts } = await import('../../lib/tts')
       const ok = await audioPlayer.speak(text, { lang: book.lang })
       if (!ok) tts.speak(text, { lang: book.lang })
     } catch {
@@ -877,7 +920,7 @@ function BookDetailPage() {
             <div className="detail-cover">
               <div className={`book-cover ${book.tone} ${book.cover ? 'has-art' : ''}`}>
                 {book.cover ? <img className="cover-art" src={book.cover} alt="" loading="lazy" /> : null}
-                <span className="cover-kicker">桃阅读 · 故事</span>
+                <span className="cover-kicker">桃阅读 · {CATEGORY_LABEL[book.category] ?? (book.lang === 'en' ? 'Story' : '故事')}</span>
                 <span className="cover-title">{book.title}</span>
                 {book.cover ? <AiBadge /> : null}
               </div>

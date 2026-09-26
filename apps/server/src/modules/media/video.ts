@@ -126,12 +126,18 @@ export async function queryVideoTask(deps: VideoGenDeps, taskId: string): Promis
     const detail = await res.text().catch(() => '')
     throw new VideoError(`查询视频状态返回 ${res.status}`, detail.slice(0, 200))
   }
-  const json = (await res.json()) as {
+  // 坏 JSON 同样按瞬时故障处理（调用方保持 pending 下轮再试），不让 SyntaxError 逃逸成 500
+  let json: {
     status?: string
     progress?: number
     url?: string | null
     metadata?: { url?: string | null } | null
     error?: string | { message?: string } | null
+  }
+  try {
+    json = (await res.json()) as typeof json
+  } catch (err) {
+    throw new VideoError('查询视频状态响应异常', err instanceof Error ? err.message.slice(0, 120) : '')
   }
   const raw = json.status ?? 'pending'
   // 文档：中间态叫 in_progress（不是 rendering）；完成后视频地址在 metadata.url
@@ -150,9 +156,14 @@ export async function queryVideoTask(deps: VideoGenDeps, taskId: string): Promis
   }
 }
 
+/** mp4 体积上限：720P 数十秒视频实测 <30MB；超限视为异常响应，防止磁盘被塞爆 */
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024
+
 /**
  * 下载远程 mp4 到本地媒体目录。
  * 完成后前端走 /api/media/videos/... 直取，不再依赖外链（外链可能过期）。
+ * 流式写盘：arrayBuffer() 会把整个视频一次性读进内存，并发下载时有 OOM 风险；
+ * 边收边写并计字节，超限中止，半成品写 .part 临时文件、成功才改名为正式文件。
  */
 export async function downloadVideo(
   remoteUrl: string,
@@ -161,11 +172,35 @@ export async function downloadVideo(
 ): Promise<{ bytes: number }> {
   const res = await fetchFn(remoteUrl)
   if (!res.ok) throw new VideoError(`下载视频失败：${res.status}`)
-  const buf = Buffer.from(await res.arrayBuffer())
-  if (buf.length < 1000) throw new VideoError('下载到的视频太小，可能损坏')
-  const { writeFile, mkdir } = await import('node:fs/promises')
-  const { join } = await import('node:path')
-  await mkdir(join(destPath, '..'), { recursive: true })
-  await writeFile(destPath, buf)
-  return { bytes: buf.length }
+  if (!res.body) throw new VideoError('下载视频失败：空响应')
+  const { mkdir, rename, rm } = await import('node:fs/promises')
+  const { dirname } = await import('node:path')
+  const { Readable } = await import('node:stream')
+  const { pipeline } = await import('node:stream/promises')
+  await mkdir(dirname(destPath), { recursive: true })
+  const tmpPath = `${destPath}.part`
+  let bytes = 0
+  try {
+    await pipeline(
+      Readable.fromWeb(res.body as import('node:stream/web').ReadableStream<Uint8Array>),
+      async function* (source: AsyncIterable<{ length: number }>) {
+        for await (const chunk of source) {
+          bytes += chunk.length
+          if (bytes > MAX_VIDEO_BYTES) throw new VideoError('视频文件超过大小上限，已中止下载')
+          yield chunk
+        }
+      },
+      (await import('node:fs')).createWriteStream(tmpPath),
+    )
+  } catch (err) {
+    // 超限/网络中断：清掉半成品，不留损坏文件被误当视频下发
+    await rm(tmpPath, { force: true })
+    throw err
+  }
+  if (bytes < 1000) {
+    await rm(tmpPath, { force: true })
+    throw new VideoError('下载到的视频太小，可能损坏')
+  }
+  await rename(tmpPath, destPath)
+  return { bytes }
 }

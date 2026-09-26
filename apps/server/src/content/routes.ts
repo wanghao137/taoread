@@ -48,6 +48,19 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     }
   }
 
+  /** 孩子角色的年龄段只能来自孩子档案（与 importRoutes.childStage 同口径）：
+   * query.stage 可被任意改写，采信它等于孩子可以自选「9-12」绕过适龄过滤 */
+  async function deriveChildStage(request: FastifyRequest, childId: string | undefined): Promise<string> {
+    if (!request.auth) throw new UnauthorizedError()
+    if (!childId) throw new ValidationError('请选择孩子档案')
+    const profile = await db.childProfile.findFirst({
+      where: { id: childId, familyId: request.auth.fid },
+      select: { stage: true },
+    })
+    if (!profile) throw new AppError('没有找到孩子档案', 'CHILD_NOT_FOUND', 404)
+    return profile.stage
+  }
+
   app.get('/api/content/books', { preHandler: auth }, async (request, reply) => {
     const query = parse(
       z.object({
@@ -60,10 +73,15 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     )
     if (query.childId) await assertOwnChild(request, query.childId)
     if (!request.auth) throw new UnauthorizedError()
+    // 孩子角色忽略 query.stage，从孩子档案推导（防绕过适龄过滤）；家长角色仍可显式传 stage
+    let stage: string | undefined = query.stage
+    if (request.auth.role === 'child') {
+      stage = await deriveChildStage(request, query.childId)
+    }
     const books = await svc.listBooks(db, {
       familyId: request.auth.fid,
       ...(query.childId ? { childId: query.childId } : {}),
-      ...(query.stage ? { stage: query.stage } : {}),
+      ...(stage ? { stage } : {}),
       ...(query.lang ? { lang: query.lang } : {}),
       ...(query.q ? { q: query.q } : {}),
     })
@@ -74,12 +92,21 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     '/api/content/books/:id',
     { preHandler: auth },
     async (request, reply) => {
-      // T03/F02：屏蔽书对孩拒读；家长保留管理预览（确认屏蔽对象）
+      const query = parse(
+        z.object({ childId: z.string().min(1).max(64).optional() }),
+        request.query,
+      )
+      if (query.childId) await assertOwnChild(request, query.childId)
+      // T03/F02：屏蔽书对孩拒读；家长保留管理预览（确认屏蔽对象）——
+      // 预览响应带真实 blocked 状态，家长才能确认屏蔽对象选对了
       await svc.assertContentReadable(db, request.auth!.fid, request.params.id, {
         role: request.auth!.role,
         allowParentPreview: true,
       })
-      const book = await svc.getBook(db, request.params.id)
+      const book = await svc.getBook(db, request.params.id, {
+        familyId: request.auth!.fid,
+        ...(query.childId ? { childId: query.childId } : {}),
+      })
       if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
       return reply.send({ book })
     },
@@ -291,17 +318,33 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         request.body ?? {},
       )
       await assertOwnChild(request, body.childId)
+      // 出处字段最终落库值：导入书场景下由下方分支重写（外键约束决定 bookId 存不下导入书 id）
+      let bookRef: string | null = null
+      let context = body.context ?? null
       if (body.bookId) {
-        // T03/F02：屏蔽书的生词收集一并拒绝
+        // T03/F02：屏蔽书的生词收集一并拒绝（imp: 分支校验家庭归属，与正文读取同源）
         await svc.assertContentReadable(db, request.auth!.fid, body.bookId, { role: request.auth!.role })
-        const book = await db.book.findUnique({ where: { id: body.bookId }, select: { id: true } })
-        if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+        if (body.bookId.startsWith('imp:')) {
+          const imported = await db.importedBook.findFirst({
+            where: { id: body.bookId, familyId: request.auth!.fid },
+            select: { title: true },
+          })
+          if (!imported) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+          // WordCard.bookId 外键只指向公版 Book 表（SQLite 外键强制，不做迁移），
+          // 导入书出处以《书名》前缀保留在 context，列表页照常展示来源
+          bookRef = null
+          context = `《${imported.title}》${body.context ? `·${body.context}` : ''}`
+        } else {
+          const book = await db.book.findUnique({ where: { id: body.bookId }, select: { id: true } })
+          if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+          bookRef = body.bookId
+        }
       }
       const card = await svc.addWord(db, body.childId, {
         word: body.word,
         lang: body.lang,
-        bookId: body.bookId ?? null,
-        context: body.context ?? null,
+        bookId: bookRef,
+        context,
       })
       return reply.send({ card })
     },

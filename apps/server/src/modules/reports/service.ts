@@ -6,7 +6,7 @@
  * - 分享卡 SVG：系统字体（零版权风险）、不含 key/家庭码/孩子昵称（隐私红线）。
  */
 import type { PrismaClient } from '@prisma/client'
-import { NotFoundError } from '../../lib/errors'
+import { NotFoundError, ValidationError } from '../../lib/errors'
 import { weekStartDate, weekStartFromParts } from '../../lib/week'
 import { nightKeyOf } from '../cosession/nights'
 import { isContentBookId, toContentId } from '../../content/service'
@@ -80,17 +80,17 @@ function weekRangeSec(weekStart: Date): { fromSec: number; toSec: number } {
   }
 }
 
-/** 解析 YYYY-MM-DD 为规范化周一；非法抛 NotFoundError（调用方转 404） */
+/** 解析 YYYY-MM-DD 为规范化周一；非法抛 ValidationError（参数错误=400，404 留给越权语义） */
 export function parseWeekStart(s: string | undefined, now: Date): Date {
   if (!s) return weekStartDate(now)
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s)
-  if (!m) throw new NotFoundError('周起始日期格式应为 YYYY-MM-DD')
+  if (!m) throw new ValidationError('周起始日期格式应为 YYYY-MM-DD')
   const [, y, mo, d] = m
   const [yy, mm, dd] = [Number(y), Number(mo), Number(d)]
   // 滚动校验（N10-003）：2026-02-30 这类入参会被 Date 静默进位，必须拒绝
   const probe = new Date(Date.UTC(yy, mm - 1, dd))
   if (probe.getUTCFullYear() !== yy || probe.getUTCMonth() !== mm - 1 || probe.getUTCDate() !== dd) {
-    throw new NotFoundError('周起始日期不合法')
+    throw new ValidationError('周起始日期不合法')
   }
   const parsed = weekStartFromParts(yy, mm, dd)
   return parsed

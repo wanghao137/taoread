@@ -102,5 +102,35 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
       expect(join.statusCode).toBe(429)
       expect(join.json().message).toContain('频繁')
     })
+
+    it('直连场景伪造 CF-Connecting-IP 不换桶：request.ip 非回环时一律按真实对端地址计数', async () => {
+      const create = (ip: string, headers: Record<string, string> = {}) =>
+        h.app.inject({ method: 'POST', url: '/api/family', payload: {}, remoteAddress: ip, headers })
+      // 同一对端地址伪造不同 CF 头：共享同一个桶，第 3 次 429
+      expect((await create('10.9.0.1', { 'cf-connecting-ip': '1.1.1.1' })).statusCode).toBe(201)
+      expect((await create('10.9.0.1', { 'cf-connecting-ip': '2.2.2.2' })).statusCode).toBe(201)
+      const blocked = await create('10.9.0.1', { 'cf-connecting-ip': '3.3.3.3' })
+      expect(blocked.statusCode).toBe(429)
+      // 换真实对端地址：独立桶不受伪造头影响
+      expect((await create('10.9.0.2', { 'cf-connecting-ip': '1.1.1.1' })).statusCode).toBe(201)
+    })
+
+    it('回环 request.ip（Tunnel 形态）信任 CF-Connecting-IP 分桶', async () => {
+      const create = (cfIp: string) =>
+        h.app.inject({
+          method: 'POST',
+          url: '/api/family',
+          payload: {},
+          remoteAddress: '127.0.0.1',
+          headers: { 'cf-connecting-ip': cfIp },
+        })
+      expect((await create('203.0.113.10')).statusCode).toBe(201)
+      expect((await create('203.0.113.10')).statusCode).toBe(201)
+      expect((await create('203.0.113.10')).statusCode).toBe(429)
+      // 另一位隧道访客独立配额
+      expect((await create('203.0.113.11')).statusCode).toBe(201)
+      // 不带 CF 头的回环请求回落 request.ip 自成一桶
+      expect((await h.app.inject({ method: 'POST', url: '/api/family', payload: {}, remoteAddress: '127.0.0.1' })).statusCode).toBe(201)
+    })
   })
 })

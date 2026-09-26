@@ -44,14 +44,21 @@ export class IpRateLimiter {
   }
 }
 
+/** 回环地址判定：仅 Tunnel 形态（cloudflared 本机回源）时 request.ip 恒为回环 */
+function isLoopback(ip: string): boolean {
+  return ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1'
+}
+
 /** Fastify preHandler 工厂：按请求来源 IP 限流。
  * 生产拓扑是 Cloudflare Tunnel → 127.0.0.1:8091，request.ip 恒为回环地址，
  * 全站访客会共享同一个桶（2026-09-25 家长码「用不了」事故根因：桶被打空后人人 429）。
- * 隧道是唯一入口，CF-Connecting-IP 由 Cloudflare 设置，可信；本机直连时回落 request.ip。 */
+ * CF-Connecting-IP 只在 request.ip 为回环时可信（隧道是唯一入口，头由 Cloudflare 设置）；
+ * 直连部署下 request.ip 是真实对端地址，此时采信该头等于允许伪造头换桶——一律用 request.ip。 */
 export function ipRateLimit(limiter: IpRateLimiter) {
   return async (request: FastifyRequest, _reply: FastifyReply) => {
     const cfIp = request.headers['cf-connecting-ip']
-    const ip = (Array.isArray(cfIp) ? cfIp[0] : cfIp) ?? request.ip
+    const headerIp = Array.isArray(cfIp) ? cfIp[0] : cfIp
+    const ip = isLoopback(request.ip) && headerIp ? headerIp : request.ip
     limiter.take(ip)
   }
 }

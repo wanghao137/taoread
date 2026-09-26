@@ -10,9 +10,8 @@ async function loginAs(page: import('@playwright/test').Page, role: 'parent' | '
   await page.goto('/login')
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()
   await page.locator('#family-code').fill('123456')
+  // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）
   await page.getByRole('button', { name: role === 'parent' ? '爸爸妈妈' : '小朋友' }).click()
-  // 审计 T02/F01：家长身份凭独立家长码（演示家庭 13572468），家庭码只授予孩子
-  if (role === 'parent') await page.locator('#parent-code').fill('13572468')
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
 }
 
@@ -82,7 +81,8 @@ test.describe('交付视觉终扫', () => {
     await page.screenshot({ path: `${OUT}/parent-report.png`, fullPage: true })
 
     await page.getByRole('button', { name: '设置', exact: true }).click()
-    await page.getByText(/休息时间/).waitFor()
+    // 休息时间设置已随 09-25 产品决策移除；设置页现在以设备会话/注销入口为锚点
+    await page.getByText('已登录设备').waitFor()
     await page.screenshot({ path: `${OUT}/parent-settings.png`, fullPage: true })
 
     // 登录页（独立无会话上下文）

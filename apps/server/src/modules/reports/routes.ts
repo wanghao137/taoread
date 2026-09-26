@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../family/routes'
-import { NotFoundError } from '../../lib/errors'
+import { NotFoundError, ValidationError } from '../../lib/errors'
 import { weekStartDate } from '../../lib/week'
 import {
   generateWeeklyReport,
@@ -20,7 +20,8 @@ export interface ReportsRoutesDeps {
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
   const result = schema.safeParse(data)
   if (!result.success) {
-    throw new NotFoundError('周报参数不正确')
+    // 参数错误是客户端问题：400，而非 404（404 留给跨家庭越权等资源不存在语义）
+    throw new ValidationError('周报参数不正确')
   }
   return result.data
 }

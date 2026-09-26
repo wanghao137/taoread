@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import sharp from 'sharp'
 import { authHeaders, createFamilyAsParent, makeApp, type TestHarness } from './helper'
 import { clearInFlight } from '../src/modules/media/generationGuard'
+import { ImageGenerator } from '../src/modules/media/imagegen'
 
 let h: TestHarness
 let token: string
@@ -18,6 +19,20 @@ function fakeUpstream() {
     calls++
     await new Promise((resolve) => setTimeout(resolve, 60))
     return new Response(JSON.stringify({ data: [{ b64_json: pngB64 }] }), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    })
+  }) as unknown as typeof fetch
+  return { fetchFn, calls: () => calls }
+}
+
+/** 假视频上游：延迟 60ms 返回任务号，统计出网次数（只覆盖建任务接口） */
+function fakeVideoUpstream() {
+  let calls = 0
+  const fetchFn = (async () => {
+    calls++
+    await new Promise((resolve) => setTimeout(resolve, 60))
+    return new Response(JSON.stringify({ video_id: `task-${calls}` }), {
       status: 200,
       headers: { 'content-type': 'application/json' },
     })
@@ -81,5 +96,74 @@ describe('A3 生成并发去重与每日配额', () => {
     const cached = await generate('poster:q1')
     expect(cached.statusCode).toBe(200)
     expect(cached.json().ok).toBe(true)
+  })
+
+  it('插画在途时视频跨域请求 409（家庭级互斥，不 join 别人的 Promise/reply）', async () => {
+    clearInFlight()
+    const art = fakeUpstream()
+    const video = fakeVideoUpstream()
+    h = await makeApp(undefined, {
+      mediaDir,
+      genDailyLimit: 100,
+      imageDeps: { base: 'https://fake.example/v1', apiKey: 'k', model: 'm', fetch: art.fetchFn },
+      videoDeps: { base: 'https://fake.example/v1', apiKey: 'k', model: 'm', fetch: video.fetchFn },
+    })
+    const family = await createFamilyAsParent(h.app, 'gen-cross-parent')
+    token = family.token
+    const artReq = generate('poster:cross')
+    await new Promise((resolve) => setTimeout(resolve, 15)) // 确保插画先进入家庭临界区
+    const videoRes = await h.app.inject({
+      method: 'POST',
+      url: '/api/video/generate',
+      headers: authHeaders(token),
+      payload: { scene: 'chapter:cross:1', description: '会动的睡前画面' },
+    })
+    expect(videoRes.statusCode).toBe(409)
+    expect(videoRes.json().code).toBe('GENERATION_BUSY')
+    // 插画请求本身不受影响，正常完成
+    const artRes = await artReq
+    expect(artRes.statusCode).toBe(200)
+    expect(artRes.json().ok).toBe(true)
+    expect(video.calls()).toBe(0) // 跨域等待者没有触发视频出网
+  })
+
+  it('视频同域并发共享在途任务：同场景 N 个并发只建一个上游任务', async () => {
+    clearInFlight()
+    const video = fakeVideoUpstream()
+    h = await makeApp(undefined, {
+      mediaDir,
+      genDailyLimit: 100,
+      videoDeps: { base: 'https://fake.example/v1', apiKey: 'k', model: 'm', fetch: video.fetchFn },
+    })
+    const family = await createFamilyAsParent(h.app, 'gen-video-parent')
+    token = family.token
+    const videoGenerate = (scene: string) =>
+      h.app.inject({
+        method: 'POST',
+        url: '/api/video/generate',
+        headers: authHeaders(token),
+        payload: { scene, description: '会动的睡前画面' },
+      })
+    const responses = await Promise.all(Array.from({ length: 5 }, () => videoGenerate('chapter:vd:1')))
+    expect(responses.every((r) => r.statusCode === 200)).toBe(true)
+    expect(responses.every((r) => r.json().status === 'queued')).toBe(true)
+    expect(video.calls()).toBe(1)
+  })
+})
+
+describe('imagegen 供应商回包容错', () => {
+  it('200 + 坏 JSON：generate 返回 null 走失败路径，不抛错（路由不 500）', async () => {
+    const gen = new ImageGenerator(
+      {
+        base: 'https://fake.example/v1',
+        apiKey: 'k',
+        model: 'm',
+        fetch: (() =>
+          Promise.resolve(new Response('<html>gateway error page</html>', { status: 200 }))) as unknown as typeof fetch,
+      },
+      mediaDir,
+    )
+    const out = await gen.generate({ kind: 'cover', scene: 'bad:json', description: '描述', label: '标签', lang: 'zh' })
+    expect(out).toBeNull()
   })
 })

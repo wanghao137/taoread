@@ -116,10 +116,20 @@ describe('家长身份与会话撤销（T02）', () => {
     })
     expect(before.statusCode).toBe(200)
 
+    // 错误确认码 400（不可恢复操作需家庭码确认）；正确家庭码才注销
+    const wrong = await h.app.inject({
+      method: 'DELETE',
+      url: `/api/family/${parent.familyId}`,
+      headers: authHeaders(parent.token),
+      payload: { confirmCode: '0000000' },
+    })
+    expect(wrong.statusCode).toBe(400)
+
     const del = await h.app.inject({
       method: 'DELETE',
       url: `/api/family/${parent.familyId}`,
       headers: authHeaders(parent.token),
+      payload: { confirmCode: parent.familyCode },
     })
     expect(del.statusCode).toBe(204)
 

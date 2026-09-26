@@ -64,6 +64,8 @@ export interface ChapterDto {
     pinyin: string | null
     translation: string | null
     art: string | null
+    /** 图片/笔记块解析出的 AI 插画 URL（getChapter 实际返回；占位键 lamp-hint 为 null） */
+    artUrl: string | null
   }>
 }
 
@@ -255,14 +257,34 @@ export async function listBooks(
   })
 }
 
-export async function getBook(db: PrismaClient, contentId: string): Promise<BookSummaryDto | null> {
+/**
+ * 书籍概览。familyId 传入时返回真实的屏蔽/收藏状态——家长管理预览被屏蔽书时
+ * 需要看到 blocked=true 才能确认屏蔽对象（详情路由走 allowParentPreview 例外放行，
+ * 若此处仍硬编码 false，家长会误以为书没被屏蔽）。
+ */
+export async function getBook(
+  db: PrismaClient,
+  contentId: string,
+  opts: { familyId?: string; childId?: string } = {},
+): Promise<BookSummaryDto | null> {
   const book = await db.book.findUnique({
     where: { id: contentId },
     include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
   })
   if (!book) return null
   const artMap = await artUrlMap(db, [coverScene(book.id)])
-  return summarize(book, 0, false, false, artUrlFor(artMap, book.id), variantUrl(artMap.get(coverScene(book.id)), 'thumb'), false)
+  const [blocked, favorite] = await Promise.all([
+    opts.familyId
+      ? db.shelfSnapshot
+          .findUnique({
+            where: { familyId_bookId_kind: { familyId: opts.familyId, bookId: contentId, kind: 'cbf' } },
+            select: { blocked: true },
+          })
+          .then((r) => r?.blocked ?? false)
+      : Promise.resolve(false),
+    opts.childId ? listFavoriteIds(db, opts.childId).then((ids) => ids.has(contentId)) : Promise.resolve(false),
+  ])
+  return summarize(book, 0, false, blocked, artUrlFor(artMap, book.id), variantUrl(artMap.get(coverScene(book.id)), 'thumb'), favorite)
 }
 
 /**

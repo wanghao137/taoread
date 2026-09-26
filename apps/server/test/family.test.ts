@@ -83,6 +83,37 @@ describe('家庭域 API', () => {
       })
       expect(res.statusCode).toBe(400)
     })
+
+    it('活跃设备会话软上限 20：满员后加入 429，家长撤销后可腾位', async () => {
+      const parent = await createFamilyAsParent(h.app, 'cap-parent') // 家长本机占 1 个
+      for (let i = 0; i < 19; i++) {
+        const joined = await joinFamily(h.app, parent.familyCode, 'child', `cap-device-${i}`)
+        expect(joined.token).toBeTruthy()
+      }
+      const overflow = await h.app.inject({
+        method: 'POST',
+        url: '/api/family/join',
+        payload: { familyCode: parent.familyCode, role: 'child', deviceId: 'cap-device-overflow' },
+      })
+      expect(overflow.statusCode).toBe(429)
+      expect(overflow.json().code).toBe('DEVICE_SESSION_LIMIT')
+      expect(overflow.json().message).toContain('设备')
+
+      // 撤销一台设备后腾出名额，可再次加入
+      const list = await h.app.inject({
+        method: 'GET',
+        url: `/api/family/${parent.familyId}/sessions`,
+        headers: { authorization: `Bearer ${parent.token}` },
+      })
+      const firstChild = list.json().sessions.find((s: { deviceId: string }) => s.deviceId === 'cap-device-0')
+      await h.app.inject({
+        method: 'POST',
+        url: `/api/family/${parent.familyId}/sessions/${firstChild.id}/revoke`,
+        headers: { authorization: `Bearer ${parent.token}` },
+      })
+      const retry = await joinFamily(h.app, parent.familyCode, 'child', 'cap-device-retry')
+      expect(retry.familyId).toBe(parent.familyId)
+    })
   })
 
   describe('认证中间件（验收项：缺 token/错 token 均 401）', () => {

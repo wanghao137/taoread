@@ -2,15 +2,21 @@
  * AI 视频模块单测（docs/13 P0-E）。
  *
  * 覆盖：建任务、状态轮询（含 429 限流降级、metadata.url 取址、错误对象形态）、
- * 文件名安全。云端真实渲染慢，出网层一律用注入的假 fetch。
+ * 文件名安全、下载流式写盘与体积上限、路由层轮询容错与本地回放。
+ * 云端真实渲染慢，出网层一律用注入的假 fetch。
  */
-import { describe, it, expect } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import {
   createVideoTask,
+  downloadVideo,
   queryVideoTask,
   VideoError,
   type VideoGenDeps,
 } from '../src/modules/media/video'
+import { authHeaders, createFamilyAsParent, makeApp } from './helper'
 
 const DEPS: VideoGenDeps = {
   base: 'https://apihub.example.test/v1',
@@ -179,5 +185,162 @@ describe('queryVideoTask 状态查询', () => {
     expect(called).toContain('/agnesapi?video_id=task_abc')
     expect(called).toContain('model_name=agnes-video-2.5-flash')
     expect(called).not.toContain('/v1/agnesapi')
+  })
+})
+
+/** 分块字节流 Response（模拟 mp4 分片下发） */
+function streamResponse(chunks: Buffer[], status = 200): Response {
+  const encoder = new TransformStream<Uint8Array, Uint8Array>()
+  const writer = encoder.writable.getWriter()
+  for (const chunk of chunks) void writer.write(chunk)
+  void writer.close()
+  return new Response(encoder.readable, { status })
+}
+
+describe('downloadVideo 流式下载（内存与磁盘防护）', () => {
+  let dir: string
+
+  beforeAll(async () => {
+    dir = await mkdtemp(join(tmpdir(), 'taoread-video-dl-'))
+  })
+  afterAll(async () => {
+    await rm(dir, { recursive: true, force: true })
+  })
+
+  it('分块流式写盘：文件完整落盘，不留 .part 半成品', async () => {
+    const dest = join(dir, 'videos', 'task_ok.mp4')
+    const chunk = Buffer.alloc(2048, 0x61)
+    const out = await downloadVideo(
+      'https://cdn.example.test/v.mp4',
+      dest,
+      (() => Promise.resolve(streamResponse([chunk, chunk, chunk]))) as unknown as typeof fetch,
+    )
+    expect(out.bytes).toBe(6144)
+    const saved = await readFile(dest)
+    expect(saved.length).toBe(6144)
+    const files = await readdir(join(dir, 'videos'))
+    expect(files).toEqual(['task_ok.mp4'])
+  })
+
+  it('超过 50MB 上限中止下载，半成品被清理', async () => {
+    const dest = join(dir, 'videos', 'task_big.mp4')
+    const megabyte = Buffer.alloc(1024 * 1024, 0x62)
+    // 51 个 1MB 分块 = 51MB > 上限
+    await expect(
+      downloadVideo(
+        'https://cdn.example.test/big.mp4',
+        dest,
+        (() => Promise.resolve(streamResponse(Array.from({ length: 51 }, () => megabyte)))) as unknown as typeof fetch,
+      ),
+    ).rejects.toBeInstanceOf(VideoError)
+    await expect(readFile(dest)).rejects.toThrow()
+    const files = await readdir(join(dir, 'videos'))
+    expect(files).toEqual(['task_ok.mp4'])
+  })
+
+  it('响应过小（<1KB）视为损坏：拒绝落盘并清理', async () => {
+    const dest = join(dir, 'videos', 'task_tiny.mp4')
+    await expect(
+      downloadVideo(
+        'https://cdn.example.test/tiny.mp4',
+        dest,
+        (() => Promise.resolve(streamResponse([Buffer.from('tiny')]))) as unknown as typeof fetch,
+      ),
+    ).rejects.toBeInstanceOf(VideoError)
+    const files = await readdir(join(dir, 'videos'))
+    expect(files).toEqual(['task_ok.mp4'])
+  })
+
+  it('上游非 2xx 抛 VideoError', async () => {
+    await expect(
+      downloadVideo(
+        'https://cdn.example.test/gone.mp4',
+        join(dir, 'videos', 'task_gone.mp4'),
+        (() => Promise.resolve(new Response('expired', { status: 403 }))) as unknown as typeof fetch,
+      ),
+    ).rejects.toBeInstanceOf(VideoError)
+  })
+})
+
+describe('视频路由（轮询容错与本地回放）', () => {
+  const DEPS: VideoGenDeps = { base: 'https://apihub.example.test/v1', apiKey: 'k', model: 'm' }
+
+  it('未配置 videoDeps 时已完成视频仍可本地回放（不再 503）', async () => {
+    const h = await makeApp() // videoDeps 缺省 null
+    try {
+      const family = await createFamilyAsParent(h.app)
+      const scene = `fam:${family.familyId}:chapter:done:1`
+      await h.db.videoAsset.create({
+        data: { scene, kind: 'chapter', taskId: 'task_done', status: 'completed', prompt: 'p', model: 'm', urlPath: '/api/media/videos/task_done.mp4' },
+      })
+      const res = await h.app.inject({ method: 'GET', url: `/api/video/${encodeURIComponent(scene)}`, headers: authHeaders(family.token) })
+      expect(res.statusCode).toBe(200)
+      expect(res.json().status).toBe('completed')
+      expect(res.json().videoUrl).toContain('/api/media/videos/task_done.mp4')
+    } finally {
+      await h.app.close()
+      await h.db.$disconnect()
+    }
+  })
+
+  it('轮询上游瞬时网络错误：任务保持 pending，不置永久 failed', async () => {
+    const h = await makeApp(undefined, {
+      videoDeps: { ...DEPS, fetch: (() => Promise.reject(new Error('ECONNRESET'))) as unknown as typeof fetch },
+    })
+    try {
+      const family = await createFamilyAsParent(h.app)
+      const scene = `fam:${family.familyId}:chapter:flaky:1`
+      await h.db.videoAsset.create({
+        data: { scene, kind: 'chapter', taskId: 'task_flaky', status: 'pending', prompt: 'p', model: 'm' },
+      })
+      // @updatedAt 由 Prisma 托管：用原始 SQL 把行拨旧，绕过 5 秒轮询节流
+      await h.db.$executeRawUnsafe(
+        `UPDATE "VideoAsset" SET "updatedAt" = ? WHERE "scene" = ?`,
+        new Date(Date.now() - 60_000),
+        scene,
+      )
+      const res = await h.app.inject({ method: 'GET', url: `/api/video/${encodeURIComponent(scene)}`, headers: authHeaders(family.token) })
+      expect(res.statusCode).toBe(200)
+      expect(res.json().status).toBe('pending')
+      const row = await h.db.videoAsset.findUnique({ where: { scene } })
+      expect(row?.status).toBe('pending')
+      expect(row?.error).toBeNull()
+    } finally {
+      await h.app.close()
+      await h.db.$disconnect()
+    }
+  })
+
+  it('上游明确失败：DB 置 failed，对外只回通用文案（不泄漏上游错误体）', async () => {
+    const h = await makeApp(undefined, {
+      videoDeps: {
+        ...DEPS,
+        fetch: (() =>
+          Promise.resolve(new Response(JSON.stringify({ status: 'failed', error: { message: 'internal quota blast radius xyz' } }), { status: 200 }))) as unknown as typeof fetch,
+      },
+    })
+    try {
+      const family = await createFamilyAsParent(h.app)
+      const scene = `fam:${family.familyId}:chapter:dead:1`
+      await h.db.videoAsset.create({
+        data: { scene, kind: 'chapter', taskId: 'task_dead', status: 'in_progress', prompt: 'p', model: 'm' },
+      })
+      await h.db.$executeRawUnsafe(
+        `UPDATE "VideoAsset" SET "updatedAt" = ? WHERE "scene" = ?`,
+        new Date(Date.now() - 60_000),
+        scene,
+      )
+      const res = await h.app.inject({ method: 'GET', url: `/api/video/${encodeURIComponent(scene)}`, headers: authHeaders(family.token) })
+      expect(res.statusCode).toBe(200)
+      expect(res.json().status).toBe('failed')
+      expect(res.json().error).toBe('动画生成失败，可以再试一次')
+      expect(JSON.stringify(res.json())).not.toContain('internal quota')
+      const row = await h.db.videoAsset.findUnique({ where: { scene } })
+      expect(row?.status).toBe('failed')
+      expect(row?.error).toBe('动画生成失败，可以再试一次')
+    } finally {
+      await h.app.close()
+      await h.db.$disconnect()
+    }
   })
 })
