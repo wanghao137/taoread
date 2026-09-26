@@ -170,3 +170,13 @@ SQLite D:\taoread-prod\apps\server\prisma\prod.db（由 dev.db 复制：30 家�
 **生产真浏览器终验（375×667，11/11 PASS）**：单码登录、无 Google Fonts 外链 + 本地字体 preload（红线）、why 书在「想知道为什么」下可见、详情深链直达、先听一小段 572ms 拉起公共 TTS、家长设置无家长码/就寝残留、注销需重输家庭码（UI 验证未提交）、console 无错误。CSP-Report-Only 头已在线上响应中出现。
 
 **TTS 英文预生成收官数据**：en-storyteller 音色重合成 完成 3,429 / 失败 284（全部 stepaudio 429 限流，可重试；耗时 225 分钟）；3,450 个本地待传文件由 04:30 自动化续跑上传 R2。备注：浏览器直连 read.taostudioai.com 在本机 Chromium 报 CONN_CLOSED（代理/网络环境所致，curl 直连正常），线上验收走 127.0.0.1:8091 源站 + 公网 curl 双路径。
+
+### ✅ 2026-09-27 凌晨（二）：TTS 预生成真正收官——清单 9,889/9,889 全部上传，0 积压
+
+04:30 自动化首跑（普通模式）合成 238 段（24 本新书含 why×2；11 段 451 永久拦截）。发现两个脚本语义坑并补跑三轮：
+
+1. **普通模式只上传当轮新合成段**，不回补清单里 `uploaded:false` 的积压 → `--retry-upload` 才回补（本轮捞出 mom-warm 时代 21 个老尾巴）。
+2. **`arg()` 只认 `--voice=en-storyteller` 等号写法**，空格分隔被静默忽略（日志头音色仍是 mom-warm 才发现）→ en 积压 3,429 段须 `--retry-upload --voice=en-storyteller --lang=en`。
+3. **retry-upload 对清单外键只跳过不合成** → 昨日 429 失败的 284 段 + 新库 22 本英文书从未合成过的 ~216 段（昨日 en 重合成启动早于入库）须普通模式 `--voice=en-storyteller --lang=en` 再跑：完成 500 / 失败 6（451）。
+
+**终态：清单 9,889 键全部 uploaded，本地 0 积压**；全书库唯一缺口=17 个 stepaudio 451 永久拦截段（11 已知 + 新 cc 书里新发现 6 个），服务端照旧优雅跳过+提示。坑已记：手动 `--no-upload` 预生成后必须同音色 `--retry-upload` 补传，否则积压永远不流通。
