@@ -10,6 +10,7 @@ import path from 'node:path'
 const SRC = process.argv[2]
 const LIMIT = Number(process.argv[3] ?? 22)
 const OUT = process.argv[4] ?? path.join(process.cwd(), 'src/content/packs')
+const EXCLUDE = process.argv[5] // 可选：已入库包目录，picked 时跳过这些 id
 
 if (!SRC) { console.error('usage: node scripts/gen-cc-packs.mjs <asp-en-dir> [out-dir] [limit]'); process.exit(1) }
 
@@ -67,7 +68,8 @@ console.log(`候选 CC-BY 故事：${stories.length} / 总 ${files.length}`)
 
 /* 质量优先排序：中等长度、非高频模板文（有无故事情节大致按词数居中） */
 stories.sort((a, b) => Math.abs(a.words - 280) - Math.abs(b.words - 280))
-const picked = stories.slice(0, LIMIT)
+const excludeIds = new Set(EXCLUDE && fs.existsSync(EXCLUDE) ? fs.readdirSync(EXCLUDE).map((f) => f.replace(/.ts$/, '')) : [])
+const picked = stories.filter((s) => !excludeIds.has(`cc-${s.file.replace(/^d+_/, '').replace(/.md$/, '').replace(/[^a-z0-9-]/g, '-')}`)).slice(0, LIMIT)
 const slugOf = (s) => s.file.replace(/^\d+_/, '').replace(/\.md$/, '').replace(/[^a-z0-9-]/g, '-')
 const idOf = (s) => `cc-${slugOf(s)}`
 const esc = (t) => JSON.stringify(t) // JSON 字面量 = 合法 TS 字符串

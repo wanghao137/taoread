@@ -111,7 +111,8 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         }),
         request.body,
       )
-      const voice = findVoice(body.voiceId)
+      // 2026-09-26 音色优化：未选音色时按语言取默认——英文试听用英语母播音色
+      const voice = findVoice(body.voiceId ?? (body.lang === 'en' ? 'en-storyteller' : undefined))
       const speed = clampSpeed(body.speed)
       const format = 'mp3'
       const key = cacheKey(body.text, voice.id, speed, format, body.lang, request.auth.fid, client.model)
@@ -194,11 +195,13 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         allowParentPreview: true,
       })
 
-      const voice = findVoice(body.voiceId)
-      const speed = clampSpeed(body.speed)
       // 审计 F16：语言从书目推导——英文书整章合成必须带 en，不再写死 zh
       const bookRow = await db.book.findUnique({ where: { id: params.contentId }, select: { lang: true } })
       const lang = bookRow?.lang === 'en' ? 'en' : 'zh'
+      // 2026-09-26 音色优化：未选音色时按书语言取默认——英文书用英语母播音色，
+      // 不再让中文「温柔妈妈」硬读英文（用户反馈怪腔调的主要来源）
+      const voice = findVoice(body.voiceId ?? (lang === 'en' ? 'en-storyteller' : undefined))
+      const speed = clampSpeed(body.speed)
       // 拼接可朗读文本（跳过图片块）
       const fullText = chapter.blocks
         .filter((b) => b.kind !== 'image')

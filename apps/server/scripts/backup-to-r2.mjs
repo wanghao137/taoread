@@ -15,7 +15,7 @@
  */
 import { createReadStream, existsSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
-import { DeleteObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { DeleteObjectsCommand, DeleteObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
@@ -91,6 +91,50 @@ async function uploadDbSnapshot() {
   }
 }
 
+/**
+ * 可再生产物不进备份（2026-09-26 R2 超免费线治理）：
+ *   tts-public/ 公共预生成音频——media 桶是服务正本；
+ *   .thumb/.reader.webp 变体——可由原图确定性派生；
+ *   两个清单文件——运行状态，非数据。
+ */
+function isDerivedMedia(rel) {
+  if (rel.startsWith('tts-public/')) return true
+  if (rel === '.tts-public-state.json' || rel === '.r2-sync-state') return true
+  if (/\.(thumb|reader)\.webp$/.test(rel)) return true
+  return false
+}
+
+/**
+ * 对账删除备份桶里历史误备的可再生产物（幂等：已删即无操作）。
+ */
+async function pruneDerivedFromRemote() {
+  const junk = []
+  junk.push(...(await listKeys('media/tts-public/')))
+  for (const k of await listKeys('media/art/')) {
+    if (/(?:\.thumb|\.reader)\.webp$/.test(k.key)) junk.push(k)
+  }
+  if (junk.length === 0) return
+  log(`清理备份桶内可再生产物：${junk.length} 个`)
+  for (let i = 0; i < junk.length; i += 1000) {
+    const batch = junk.slice(i, i + 1000).map((k) => ({ Key: k.key }))
+    try {
+      await s3.send(new DeleteObjectsCommand({ Bucket: bucket, Delete: { Objects: batch, Quiet: true } }))
+    } catch (err) {
+      log(`批量删除失败，退回逐个：${err.message?.slice(0, 80)}`)
+      for (const k of junk.slice(i, i + 1000)) {
+        await s3.send(new DeleteObjectCommand({ Bucket: bucket, Key: k.key })).catch(() => {})
+      }
+    }
+  }
+  if (existsSync(stateFile)) {
+    try {
+      const m = JSON.parse(readFileSync(stateFile, 'utf8'))
+      for (const k of junk) delete m[k.key.replace(/^media\//, '')]
+      writeFileSync(stateFile, JSON.stringify(m))
+    } catch { /* 清单瘦身失败不阻塞备份 */ }
+  }
+}
+
 function walkMedia(dir, cb) {
   if (!existsSync(dir)) return
   for (const name of readdirSync(dir)) {
@@ -120,6 +164,7 @@ async function syncMedia() {
   walkMedia(mediaDir, (abs, st) => {
     const rel = relative(mediaDir, abs).split(sep).join('/')
     if (rel === '.backup-state') return
+    if (isDerivedMedia(rel)) return
     if (full || manifest[rel] !== st.mtimeMs) pending.push({ rel, abs, mtimeMs: st.mtimeMs })
   })
   log(`媒体待上传 ${pending.length} 个${full ? '（--full）' : ''}`)
@@ -154,6 +199,7 @@ async function main() {
     }
   }
   await uploadDbSnapshot()
+  await pruneDerivedFromRemote()
   await syncMedia()
   log('备份全部完成')
 }

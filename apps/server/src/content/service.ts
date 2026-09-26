@@ -208,7 +208,8 @@ export async function listBooks(
     include: {
       chapters: { select: { id: true, ...(needle ? { title: true } : {}) }, orderBy: { order: 'asc' } },
     },
-    orderBy: [{ lang: 'asc' }, { category: 'asc' }, { title: 'asc' }],
+    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
+    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
   })
 
   const stageRank: Record<string, number> = { '3-5': 1, '6-8': 2, '9-12': 3 }
@@ -275,7 +276,8 @@ export async function listBooksForParent(
 ): Promise<Array<BookSummaryDto & { readers: Array<{ childId: string; progress: number; finished: boolean }> }>> {
   const books = await db.book.findMany({
     include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
-    orderBy: [{ lang: 'asc' }, { category: 'asc' }, { title: 'asc' }],
+    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
+    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
   })
   const blockedRows = await db.shelfSnapshot.findMany({
     where: { familyId, kind: 'cbf' },

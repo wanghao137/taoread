@@ -8,7 +8,7 @@
  *
  * 用法（apps/server 目录）：node --import tsx scripts/fix-tts-durations.mjs
  */
-import { readdirSync, readFileSync, existsSync, writeFileSync, renameSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync, existsSync, writeFileSync, renameSync } from 'node:fs'
 import { join } from 'node:path'
 import { parseMp3 } from '../src/modules/tts/mp3duration.ts'
 

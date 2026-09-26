@@ -61,8 +61,10 @@ const bookFilter = arg('book')?.split(',').filter(Boolean) ?? null
 const concurrency = Math.max(1, Math.min(8, Number(arg('concurrency') ?? 4)))
 const limit = arg('limit') ? Number(arg('limit')) : Infinity
 const retryUploadOnly = process.argv.includes('--retry-upload')
+const langFilter = arg('lang') ?? null // 'zh' | 'en'：只处理某语言的书的预生成
+const voiceOverride = arg('voice') ?? null // 指定音色（如 en-storyteller 重合成英文书）
 
-const voice = findVoice(DEFAULT_VOICE_ID)
+const voice = findVoice(voiceOverride ?? DEFAULT_VOICE_ID)
 const speed = DEFAULT_SPEED
 
 function log(msg) {
@@ -78,9 +80,21 @@ let manifestDirty = false
 async function saveManifest() {
   if (!manifestDirty) return
   const tmp = `${manifestPath}.${Math.random().toString(36).slice(2, 8)}.tmp`
-  await writeFile(tmp, JSON.stringify(manifest))
-  await rename(tmp, manifestPath)
-  manifestDirty = false
+  const data = JSON.stringify(manifest)
+  // 服务端 PublicTtsIndex 可能正持有清单句柄：rename 竞争 EPERM 时退避重试，兜底直接写
+  for (let attempt = 0; ; attempt++) {
+    try {
+      await writeFile(tmp, data)
+      await rename(tmp, manifestPath)
+      manifestDirty = false
+      return
+    } catch (err) {
+      if (err?.code !== 'EPERM' || attempt >= 6) {
+        try { await writeFile(manifestPath, data); manifestDirty = false; return } catch { if (attempt >= 8) throw err }
+      }
+      await new Promise((r) => setTimeout(r, 250 * (attempt + 1)))
+    }
+  }
 }
 
 async function uploadR2(key, buf) {
@@ -155,6 +169,7 @@ try {
   // 简单分步查询（嵌套 select+where+orderBy 在 sqlite 引擎上会触发 panic，且逐本查询便于限流）
   const bookRows = await db.book.findMany({
     ...(stageFilter ? { where: { ageStage: { in: stageFilter } } } : {}),
+    ...(langFilter ? { where: { lang: langFilter } } : {}),
     select: { id: true, lang: true },
   })
   const ordered = bookFilter

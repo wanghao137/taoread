@@ -120,12 +120,14 @@ export const LABELS = {
   backToday: '回到今天',
 }
 
-/** mood taxonomy（A7 P1）：孩子入口语义，与内容管理 category 解耦 */
+/** mood taxonomy（A7 P1）：孩子入口语义，与内容管理 category 解耦。
+ * match 一律用结构化字段（category/lang）——此前用展示文案 meta.includes('故事')
+ * 反推，文案一改分类就悄悄失效（A3.5 红线）。 */
 export const MOODS: Array<{ key: string; label: string; match: (b: V8Book) => boolean }> = [
-  { key: 'funny', label: '想笑一笑', match: (b) => b.meta.includes('故事') },
-  { key: 'adventure', label: '想去冒险', match: (b) => b.meta.includes('童话') || b.meta.includes('冒险') },
+  { key: 'funny', label: '想笑一笑', match: (b) => b.category === 'story' },
+  { key: 'adventure', label: '想去冒险', match: (b) => b.category === 'tale' },
   { key: 'calm', label: '想安静一下', match: (b) => b.category === 'poetry' },
-  { key: 'curious', label: '想知道为什么', match: (b) => b.category === 'primer' || b.desc.includes('自然') },
+  { key: 'curious', label: '想知道为什么', match: (b) => b.category === 'primer' || b.category === 'science' },
   { key: 'english', label: '想听英文', match: (b) => b.lang === 'en' },
 ]
 
@@ -658,9 +660,6 @@ function DiscoverPage() {
             {m.label}
           </button>
         ))}
-        <button className={`filter ${langFilter === 'en' ? 'on' : ''}`} onClick={() => { setMoodKey(null); setLangFilter('en') }}>
-          英文
-        </button>
       </div>
       <div className="library">
         {!v.loaded ? (

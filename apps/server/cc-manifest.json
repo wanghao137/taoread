@@ -1,170 +1,170 @@
 [
   {
-    "id": "cc-greedy-kiundu",
-    "title": "Greedy Kiundu",
+    "id": "cc-the-bleeding-apple",
+    "title": "The bleeding apple",
     "chapters": 4,
-    "words": 281,
-    "file": "0304_greedy-kiundu.md"
+    "words": 318,
+    "file": "0077_the-bleeding-apple.md"
   },
   {
-    "id": "cc-one-hot-saturday-afternoon",
-    "title": "One hot Saturday afternoon",
+    "id": "cc-the-bleeding-apple",
+    "title": "The bleeding apple",
     "chapters": 4,
-    "words": 279,
-    "file": "0322_one-hot-saturday-afternoon.md"
+    "words": 318,
+    "file": "0300_the-bleeding-apple.md"
   },
   {
-    "id": "cc-akatope",
-    "title": "Akatope",
+    "id": "cc-the-clever-little-bird",
+    "title": "The Clever Little Bird",
+    "chapters": 4,
+    "words": 319,
+    "file": "0074_the-clever-little-bird.md"
+  },
+  {
+    "id": "cc-my-first-pair-of-shoes",
+    "title": "My first pair of shoes",
+    "chapters": 4,
+    "words": 319,
+    "file": "0256_my-first-pair-of-shoes.md"
+  },
+  {
+    "id": "cc-adun-the-beautiful",
+    "title": "Adun, the beautiful",
     "chapters": 5,
-    "words": 282,
-    "file": "0204_akatope.md"
+    "words": 321,
+    "file": "0091_adun-the-beautiful.md"
   },
   {
-    "id": "cc-monkey-and-the-hunters-wife",
-    "title": "Monkey and the hunter's wife",
-    "chapters": 4,
-    "words": 285,
-    "file": "0154_monkey-and-the-hunters-wife.md"
-  },
-  {
-    "id": "cc-anansi-and-wisdom",
-    "title": "Anansi and Wisdom",
-    "chapters": 2,
-    "words": 286,
-    "file": "0006_anansi-and-wisdom.md"
-  },
-  {
-    "id": "cc-letter-to-mum",
-    "title": "Letter to mum",
-    "chapters": 6,
-    "words": 286,
-    "file": "0013_letter-to-mum.md"
-  },
-  {
-    "id": "cc-letter-to-mum-brief-vir-mama",
-    "title": "Letter to mum",
-    "chapters": 6,
-    "words": 286,
-    "file": "0104_letter-to-mum-brief-vir-mama.md"
-  },
-  {
-    "id": "cc-kekes-swing",
-    "title": "Keke's swing",
-    "chapters": 4,
-    "words": 286,
-    "file": "0161_kekes-swing.md"
-  },
-  {
-    "id": "cc-the-boy-who-would-not-listen",
-    "title": "The boy who would not listen",
-    "chapters": 2,
-    "words": 287,
-    "file": "0142_the-boy-who-would-not-listen.md"
-  },
-  {
-    "id": "cc-namoratunga",
-    "title": "Namoratunga",
-    "chapters": 4,
-    "words": 272,
-    "file": "0080_namoratunga.md"
-  },
-  {
-    "id": "cc-namorutunga",
-    "title": "Namorutunga",
-    "chapters": 4,
-    "words": 270,
-    "file": "0239_namorutunga.md"
-  },
-  {
-    "id": "cc-chicken-and-millipede",
-    "title": "Chicken and Millipede",
-    "chapters": 4,
-    "words": 269,
-    "file": "0141_chicken-and-millipede.md"
-  },
-  {
-    "id": "cc-friends-become-enemies",
-    "title": "Friends become enemies",
-    "chapters": 4,
-    "words": 265,
-    "file": "0351_friends-become-enemies.md"
-  },
-  {
-    "id": "cc-how-ant-saved-dove",
-    "title": "How ant saved dove",
-    "chapters": 9,
-    "words": 296,
-    "file": "0281_how-ant-saved-dove.md"
-  },
-  {
-    "id": "cc-hare-tricks-elephant-again",
-    "title": "Hare tricks Elephant again",
-    "chapters": 5,
-    "words": 261,
-    "file": "0183_hare-tricks-elephant-again.md"
-  },
-  {
-    "id": "cc-nanus-taxi",
-    "title": "Nanu's taxi",
-    "chapters": 6,
-    "words": 299,
-    "file": "0362_nanus-taxi.md"
-  },
-  {
-    "id": "cc-khayanga-and-her-gourd",
-    "title": "Khayanga and her Gourd",
-    "chapters": 4,
-    "words": 304,
-    "file": "0345_khayanga-and-her-gourd.md"
-  },
-  {
-    "id": "cc-first-man-and-first-woman",
-    "title": "First man and first woman",
-    "chapters": 4,
-    "words": 305,
-    "file": "0039_first-man-and-first-woman.md"
-  },
-  {
-    "id": "cc-ah-football",
-    "title": "Ah! Football!",
-    "chapters": 6,
-    "words": 254,
-    "file": "0065_ah-football.md"
-  },
-  {
-    "id": "cc-sly-jackal-tricks-the-silly-donkey",
-    "title": "Sly jackal tricks the silly donkey",
+    "id": "cc-the-animals-of-uganda",
+    "title": "The Animals of Uganda",
     "chapters": 3,
-    "words": 254,
-    "file": "0075_sly-jackal-tricks-the-silly-donkey.md"
+    "words": 238,
+    "file": "0010_the-animals-of-uganda.md"
   },
   {
-    "id": "cc-monkey-eats-his-own-tail",
-    "title": "Monkey Eats his Own Tail",
-    "chapters": 5,
-    "words": 248,
-    "file": "0135_monkey-eats-his-own-tail.md"
+    "id": "cc-hare-trickster",
+    "title": "Hare the trickster",
+    "chapters": 6,
+    "words": 238,
+    "file": "0189_hare-trickster.md"
   },
   {
-    "id": "cc-the-clever-jackal-and-the-foolish-crow",
-    "title": "The clever jackal and the foolish crow",
+    "id": "cc-the-animals-of-uganda",
+    "title": "The Animals of Uganda",
     "chapters": 3,
-    "words": 247,
-    "file": "0045_the-clever-jackal-and-the-foolish-crow.md"
+    "words": 238,
+    "file": "0258_the-animals-of-uganda.md"
   },
   {
-    "id": "cc-fox-and-rooster",
-    "title": "Fox and Rooster",
-    "chapters": 4,
-    "words": 247,
-    "file": "0314_fox-and-rooster.md"
+    "id": "cc-big-blue-bus",
+    "title": "Big blue bus",
+    "chapters": 6,
+    "words": 322,
+    "file": "0276_big-blue-bus.md"
   },
   {
-    "id": "cc-the-jungle-school",
-    "title": "The Jungle School",
+    "id": "cc-jackal-and-the-sun",
+    "title": "Jackal and the sun",
+    "chapters": 3,
+    "words": 323,
+    "file": "0107_jackal-and-the-sun.md"
+  },
+  {
+    "id": "cc-the-rat",
+    "title": "The rat",
     "chapters": 4,
-    "words": 317,
-    "file": "0155_the-jungle-school.md"
+    "words": 235,
+    "file": "0214_the-rat.md"
+  },
+  {
+    "id": "cc-guilty-conscience",
+    "title": "Guilty Conscience",
+    "chapters": 5,
+    "words": 331,
+    "file": "0221_guilty-conscience.md"
+  },
+  {
+    "id": "cc-child-as-a-peacemaker",
+    "title": "Child as a peacemaker",
+    "chapters": 5,
+    "words": 229,
+    "file": "0336_child-as-a-peacemaker.md"
+  },
+  {
+    "id": "cc-amazing-daisy",
+    "title": "Amazing Daisy",
+    "chapters": 7,
+    "words": 333,
+    "file": "0200_amazing-daisy.md"
+  },
+  {
+    "id": "cc-musau-saves-his-father",
+    "title": "Musau saves his father",
+    "chapters": 5,
+    "words": 334,
+    "file": "0343_musau-saves-his-father.md"
+  },
+  {
+    "id": "cc-the-monkey-and-the-crocodile",
+    "title": "The Monkey and the Crocodile",
+    "chapters": 4,
+    "words": 335,
+    "file": "0347_the-monkey-and-the-crocodile.md"
+  },
+  {
+    "id": "cc-a-naughty-girl",
+    "title": "A naughty girl",
+    "chapters": 4,
+    "words": 225,
+    "file": "0353_a-naughty-girl.md"
+  },
+  {
+    "id": "cc-the-banana-thieves",
+    "title": "The banana thieves",
+    "chapters": 5,
+    "words": 225,
+    "file": "0363_the-banana-thieves.md"
+  },
+  {
+    "id": "cc-greedy-mairu",
+    "title": "Greedy Mairu",
+    "chapters": 4,
+    "words": 336,
+    "file": "0209_greedy-mairu.md"
+  },
+  {
+    "id": "cc-the-sick-hyena",
+    "title": "The Sick Hyena",
+    "chapters": 4,
+    "words": 223,
+    "file": "0024_the-sick-hyena.md"
+  },
+  {
+    "id": "cc-sleepy-mr-sloth",
+    "title": "Sleepy Mr. Sloth",
+    "chapters": 4,
+    "words": 223,
+    "file": "0232_sleepy-mr-sloth.md"
+  },
+  {
+    "id": "cc-danger-of-abandoning-a-mother",
+    "title": "Danger of abandoning a mother",
+    "chapters": 5,
+    "words": 337,
+    "file": "0250_danger-of-abandoning-a-mother.md"
+  },
+  {
+    "id": "cc-things-i-know",
+    "title": "Things I know",
+    "chapters": 4,
+    "words": 222,
+    "file": "0348_things-i-know.md"
+  },
+  {
+    "id": "cc-my-friend-coco",
+    "title": "My friend Coco",
+    "chapters": 4,
+    "words": 339,
+    "file": "0016_my-friend-coco.md"
   }
 ]

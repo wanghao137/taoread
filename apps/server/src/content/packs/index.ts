@@ -141,6 +141,28 @@ import { ccAsbSlyJackalTricksTheSillyDonkey } from './cc-sly-jackal-tricks-the-s
 import { ccAsbTheBoyWhoWouldNotListen } from './cc-the-boy-who-would-not-listen'
 import { ccAsbTheCleverJackalAndTheFoolishCrow } from './cc-the-clever-jackal-and-the-foolish-crow'
 import { ccAsbTheJungleSchool } from './cc-the-jungle-school'
+import { ccAsbANaughtyGirl } from './cc-a-naughty-girl'
+import { ccAsbAdunTheBeautiful } from './cc-adun-the-beautiful'
+import { ccAsbAmazingDaisy } from './cc-amazing-daisy'
+import { ccAsbBigBlueBus } from './cc-big-blue-bus'
+import { ccAsbChildAsAPeacemaker } from './cc-child-as-a-peacemaker'
+import { ccAsbDangerOfAbandoningAMother } from './cc-danger-of-abandoning-a-mother'
+import { ccAsbGreedyMairu } from './cc-greedy-mairu'
+import { ccAsbGuiltyConscience } from './cc-guilty-conscience'
+import { ccAsbHareTrickster } from './cc-hare-trickster'
+import { ccAsbJackalAndTheSun } from './cc-jackal-and-the-sun'
+import { ccAsbMusauSavesHisFather } from './cc-musau-saves-his-father'
+import { ccAsbMyFirstPairOfShoes } from './cc-my-first-pair-of-shoes'
+import { ccAsbMyFriendCoco } from './cc-my-friend-coco'
+import { ccAsbSleepyMrSloth } from './cc-sleepy-mr-sloth'
+import { ccAsbTheAnimalsOfUganda } from './cc-the-animals-of-uganda'
+import { ccAsbTheBananaThieves } from './cc-the-banana-thieves'
+import { ccAsbTheBleedingApple } from './cc-the-bleeding-apple'
+import { ccAsbTheCleverLittleBird } from './cc-the-clever-little-bird'
+import { ccAsbTheMonkeyAndTheCrocodile } from './cc-the-monkey-and-the-crocodile'
+import { ccAsbTheRat } from './cc-the-rat'
+import { ccAsbTheSickHyena } from './cc-the-sick-hyena'
+import { ccAsbThingsIKnow } from './cc-things-i-know'
 
 /* ── docs/25 英文公版深挖（已交付批次：Alcott/Nesbit/Burnett + 诗歌小说） ── */
 import { littleWomen } from './alcott-littlewomen'
@@ -317,6 +339,28 @@ export const ALL_PACKS: PackBook[] = [
   originalMoonBoat,
   originalCottonCandy,
   originalBackpack,
+  ccAsbANaughtyGirl,
+  ccAsbAdunTheBeautiful,
+  ccAsbAmazingDaisy,
+  ccAsbBigBlueBus,
+  ccAsbChildAsAPeacemaker,
+  ccAsbDangerOfAbandoningAMother,
+  ccAsbGreedyMairu,
+  ccAsbGuiltyConscience,
+  ccAsbHareTrickster,
+  ccAsbJackalAndTheSun,
+  ccAsbMusauSavesHisFather,
+  ccAsbMyFirstPairOfShoes,
+  ccAsbMyFriendCoco,
+  ccAsbSleepyMrSloth,
+  ccAsbTheAnimalsOfUganda,
+  ccAsbTheBananaThieves,
+  ccAsbTheBleedingApple,
+  ccAsbTheCleverLittleBird,
+  ccAsbTheMonkeyAndTheCrocodile,
+  ccAsbTheRat,
+  ccAsbTheSickHyena,
+  ccAsbThingsIKnow,
   solarBedtime,
   // 英文童书（29）
   aesopFables,
