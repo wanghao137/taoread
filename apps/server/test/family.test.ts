@@ -84,28 +84,36 @@ describe('家庭域 API', () => {
       expect(res.statusCode).toBe(400)
     })
 
-    it('活跃设备会话软上限 20：满员后加入 429，家长撤销后可腾位', async () => {
+    it('活跃设备会话软上限 20：满员后自动撤销最旧会话腾位（LRU），家长仍可手动撤销', async () => {
       const parent = await createFamilyAsParent(h.app, 'cap-parent') // 家长本机占 1 个
       for (let i = 0; i < 19; i++) {
         const joined = await joinFamily(h.app, parent.familyCode, 'child', `cap-device-${i}`)
         expect(joined.token).toBeTruthy()
       }
-      const overflow = await h.app.inject({
-        method: 'POST',
-        url: '/api/family/join',
-        payload: { familyCode: parent.familyCode, role: 'child', deviceId: 'cap-device-overflow' },
+      // 满员后新设备加入：不再 429 死锁（撤销入口在登录后的设备列表，全被挡在外面就没人能腾位），
+      // 服务端自动撤销最旧的 cap-device-0 腾出一个名额
+      const overflow = await joinFamily(h.app, parent.familyCode, 'child', 'cap-device-overflow')
+      expect(overflow.familyId).toBe(parent.familyId)
+      const listAfter = await h.app.inject({
+        method: 'GET',
+        url: `/api/family/${parent.familyId}/sessions`,
+        headers: { authorization: `Bearer ${parent.token}` },
       })
-      expect(overflow.statusCode).toBe(429)
-      expect(overflow.json().code).toBe('DEVICE_SESSION_LIMIT')
-      expect(overflow.json().message).toContain('设备')
+      const sessionsAfter = listAfter.json().sessions as Array<{ deviceId: string; revokedAt: string | null }>
+      const alive = sessionsAfter.filter((s) => !s.revokedAt)
+      expect(alive.length).toBeLessThanOrEqual(20)
+      expect(alive.find((s) => s.deviceId === 'cap-device-0')).toBeUndefined()
+      expect(alive.find((s) => s.deviceId === 'cap-device-overflow')).toBeTruthy()
 
-      // 撤销一台设备后腾出名额，可再次加入
+      // 家长手动撤销一台设备同样腾出名额，可再次加入
       const list = await h.app.inject({
         method: 'GET',
         url: `/api/family/${parent.familyId}/sessions`,
         headers: { authorization: `Bearer ${parent.token}` },
       })
-      const firstChild = list.json().sessions.find((s: { deviceId: string }) => s.deviceId === 'cap-device-0')
+      const firstChild = list.json().sessions.find(
+        (s: { deviceId: string; revokedAt: string | null }) => s.deviceId === 'cap-device-1' && !s.revokedAt,
+      )
       await h.app.inject({
         method: 'POST',
         url: `/api/family/${parent.familyId}/sessions/${firstChild.id}/revoke`,

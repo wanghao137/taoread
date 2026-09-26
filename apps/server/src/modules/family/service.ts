@@ -96,11 +96,43 @@ export async function joinFamily(
   if (!family) {
     throw new NotFoundError('没有找到这个家庭码，请核对后再试')
   }
-  const activeSessions = await db.deviceSession.count({
+  let activeSessions = await db.deviceSession.count({
     where: { familyId: family.id, revokedAt: null },
   })
   if (activeSessions >= MAX_ACTIVE_DEVICE_SESSIONS) {
-    throw new AppError('这个家庭的设备达到上限了，请家长先移除不用的设备再登录', 'DEVICE_SESSION_LIMIT', 429)
+    // 满员先自动腾位再放行：优先撤销最旧的「孩子」会话（家长设备承担管理入口，
+    // 尽量不动；孩子设备重新输入家庭码即可回来），不足时才轮到家长。固定家庭码
+    // 形态下若只 429，「移除设备」的撤销入口在登录后的设备列表里——所有设备都
+    // 被挡在登录外时就是死锁（2026-09-27 生产实测锁死）。会话无过期时间，积压必然发生。
+    const need = activeSessions - MAX_ACTIVE_DEVICE_SESSIONS + 1
+    const alive = { familyId: family.id, revokedAt: null }
+    let stale = await db.deviceSession.findMany({
+      where: { ...alive, role: 'child' },
+      orderBy: { createdAt: 'asc' },
+      take: need,
+      select: { id: true },
+    })
+    if (stale.length < need) {
+      const extra = await db.deviceSession.findMany({
+        where: { ...alive, id: { notIn: stale.map((s) => s.id) } },
+        orderBy: { createdAt: 'asc' },
+        take: need - stale.length,
+        select: { id: true },
+      })
+      stale = [...stale, ...extra]
+    }
+    if (stale.length > 0) {
+      await db.deviceSession.updateMany({
+        where: { id: { in: stale.map((s) => s.id) } },
+        data: { revokedAt: new Date() },
+      })
+    }
+    activeSessions = await db.deviceSession.count({
+      where: { familyId: family.id, revokedAt: null },
+    })
+    if (activeSessions >= MAX_ACTIVE_DEVICE_SESSIONS) {
+      throw new AppError('这个家庭的设备达到上限了，请家长先移除不用的设备再登录', 'DEVICE_SESSION_LIMIT', 429)
+    }
   }
   // 2026-09-25 产品决策：单一凭据。家长/孩子共用家庭码，身份由登录页角色选择决定；
   // input.parentCode 仅为旧客户端兼容保留，服务端不再校验。
