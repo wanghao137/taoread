@@ -852,15 +852,18 @@ function BookDetailPage() {
     }
   }, [])
 
+  // 深链/刷新直达详情时书单可能尚未拉取（书单只在列表页路由触发）——补拉一次（同 ReaderRoute）
+  const needsLoad = !v.loaded
+  useEffect(() => {
+    if (needsLoad) v.reloadBooks()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needsLoad])
+
   if (!v.loaded) {
-    // 书架列表还没加载完：此时不能断定“书不存在”（修复：错误/加载中伪装成 404）
     return (
       <div className="app">
         <div className="wrap">
           <PageHead title="书籍赶来中…" sub="马上就好" index="02" />
-          <button className="sticker-btn" onClick={() => v.reloadBooks()}>
-            重新加载
-          </button>
         </div>
       </div>
     )
