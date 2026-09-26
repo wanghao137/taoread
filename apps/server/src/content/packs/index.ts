@@ -31,6 +31,10 @@ import { originalMoonBoat } from './original-moonboat'
 import { originalCottonCandy } from './original-cottoncandy'
 import { originalBackpack } from './original-backpack'
 
+/* ── 原创科普问答（docs/30 2026-09-26 扩库；漏注册致 docs/32 误判孤儿包，2026-09-27 补齐） ── */
+import { whyEveryday } from './why-everyday'
+import { whyNature } from './why-nature'
+
 /* ── 英文童书 ── */
 import { alice } from './tale-alice'
 import { peterPan } from './tale-peterpan'
@@ -339,6 +343,9 @@ export const ALL_PACKS: PackBook[] = [
   originalMoonBoat,
   originalCottonCandy,
   originalBackpack,
+  // 原创科普问答（2）——线上库已有这两本（why-everyday/why-nature），注册保证源码可复现
+  whyEveryday,
+  whyNature,
   ccAsbANaughtyGirl,
   ccAsbAdunTheBeautiful,
   ccAsbAmazingDaisy,
