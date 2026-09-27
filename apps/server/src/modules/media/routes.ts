@@ -88,6 +88,15 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
           await authorize(familyId)
           assertSceneReadable(familyId, row.scene)
         }
+      } else if (deps.db && path.startsWith('fam-import/')) {
+        // 家庭导入书的插图/封面/原文（2026-09-27）：书即归属，家庭内成员可见。
+        // URL 用 bookId 的十六进制后缀（Windows 路径不能带冒号），这里映射回完整 id 查库
+        rowIsPrivate = true
+        const name = path.split('/')[1] ?? ''
+        const bookId = /^[0-9a-f]{28}$/i.test(name) ? `imp:${name}` : name
+        const row = await deps.db.importedBook.findUnique({ where: { id: bookId }, select: { familyId: true } })
+        if (!row) throw new ForbiddenError('没有可访问的素材记录')
+        await authorize(row.familyId)
       } else if (deps.db) {
         throw new ForbiddenError('不能访问此文件')
       }

@@ -1,10 +1,14 @@
 import { createHash, randomUUID } from 'node:crypto'
+import { mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import type { FastifyInstance } from 'fastify'
 import { Prisma, type PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
-import { extractBook } from './extractBook'
+import { extractBook, extractEpubStructured } from './extractBook'
+import { compressImageToWebP } from '../modules/media/compress'
+import { mediaUrl } from '../modules/media/access'
 
 const MAX_BYTES = 4 * 1024 * 1024
 const MAX_CHAPTERS = 300
@@ -90,16 +94,57 @@ const chunkInitSchema = importSchema.omit({ text: true, fileBase64: true }).exte
 })
 
 /** 解析并入库（单发与分块 complete 共用）：提取正文→分章→内容哈希去重→创建。duplicate=true 返回既有 id。 */
-async function createImportedBook(db: PrismaClient, familyId: string, meta: ImportMeta, content: { binary: Buffer | null; text: string }): Promise<{ id: string; chapterCount: number; duplicate: boolean }> {
-  const text = content.binary ? await extractBook(meta.sourceName, content.binary) : content.text
-  const chapters = content.binary ? parsePlainTextBook(text, MAX_EXTRACTED_BYTES) : parsePlainTextBook(text)
-  const sha256 = createHash('sha256').update(content.binary ?? Buffer.from(text.replace(/\r\n?/g, '\n'))).digest('hex')
+function deriveBookId(familyId: string, sha256: string): string {
+  return `imp:${createHash('sha256').update(`${familyId}:${sha256}`).digest('hex').slice(0, 28)}`
+}
+
+// ── 导入书私有媒体（插图/封面/原文）：磁盘 fam-import/<bookId>/ 下，
+// 经 /api/media/* 票据访问；R2 同步已排除 fam- 前缀，不会出网。
+const IMPORT_MEDIA_DIR = 'fam-import'
+const IMPORT_IMAGE_BUDGET_BYTES = 24 * 1024 * 1024
+const IMPORT_MAX_IMAGES = 300
+
+function assertChaptersWithinCaps(chapters: Array<{ title: string; text: string }>): void {
+  if (chapters.length > MAX_CHAPTERS) throw new ValidationError(`章节超过 ${MAX_CHAPTERS} 章`)
+  let total = 0
+  for (const chapter of chapters) {
+    if (chapter.text.length > MAX_CHAPTER_CHARS) throw new ValidationError(`章节过长或超过 ${MAX_CHAPTERS} 章`)
+    total += Buffer.byteLength(chapter.text, 'utf8')
+  }
+  if (total > MAX_EXTRACTED_BYTES) throw new ValidationError(`提取文本超过 ${Math.round(MAX_EXTRACTED_BYTES / (1024 * 1024))} MB`)
+}
+
+function rewriteMarkers(text: string, keyMap: Map<string, string>): string {
+  return text.replace(/\[\[img:([^\]]+)\]\]/g, (marker, path: string) => {
+    const key = keyMap.get(path)
+    return key ? `[[img:${key}]]` : ''
+  }).replace(/\n{3,}/g, '\n\n').trim()
+}
+
+/** 解析并入库（单发与分块 complete 共用）：提取正文→分章→内容哈希去重→创建。duplicate=true 返回既有 id。 */
+async function createImportedBook(
+  db: PrismaClient,
+  familyId: string,
+  meta: ImportMeta,
+  content: { binary?: Buffer; text?: string; chapters?: Array<{ title: string; text: string }> },
+): Promise<{ id: string; chapterCount: number; duplicate: boolean }> {
+  let chapters: Array<{ title: string; text: string }>
+  if (content.chapters) {
+    assertChaptersWithinCaps(content.chapters)
+    chapters = content.chapters
+  } else if (content.binary) {
+    const text = await extractBook(meta.sourceName, content.binary)
+    chapters = parsePlainTextBook(text, MAX_EXTRACTED_BYTES)
+  } else {
+    chapters = parsePlainTextBook(content.text!)
+  }
+  const sha256 = createHash('sha256').update(content.binary ?? Buffer.from((content.text ?? '').replace(/\r\n?/g, '\n'))).digest('hex')
   const existing = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId, sha256 } }, select: { id: true } })
   if (existing) return { id: existing.id, chapterCount: chapters.length, duplicate: true }
   try {
     const created = await db.importedBook.create({
       data: {
-        id: `imp:${createHash('sha256').update(`${familyId}:${sha256}`).digest('hex').slice(0, 28)}`,
+        id: deriveBookId(familyId, sha256),
         familyId,
         title: meta.title,
         author: meta.author ?? null,
@@ -122,8 +167,76 @@ async function createImportedBook(db: PrismaClient, familyId: string, meta: Impo
   }
 }
 
-export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaClient; tokenSecret: Buffer }): void {
-  const { db, tokenSecret } = deps
+
+export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaClient; tokenSecret: Buffer; mediaDir: string }): void {
+  const { db, tokenSecret, mediaDir } = deps
+
+function importDiskName(bookId: string): string {
+  // bookId 形如 imp:<28 位十六进制>；Windows 路径段带冒号会被当盘符（mkdir ENOENT），
+  // 磁盘目录与媒体 URL 一律用纯十六进制部分
+  return bookId.startsWith('imp:') ? bookId.slice(4) : bookId.replace(/[^0-9a-f]/gi, '')
+}
+
+function importMediaDirFor(bookId: string): string {
+  return join(mediaDir, IMPORT_MEDIA_DIR, importDiskName(bookId))
+}
+
+  /** 压缩并落盘插图（确定性键 img-NNN.webp），返回 原路径→键 的映射；超预算的图丢弃（标记由 rewrite 清掉）。 */
+  async function storeImportImages(bookId: string, images: Map<string, Buffer>): Promise<Map<string, string>> {
+    const dir = importMediaDirFor(bookId)
+    await mkdir(dir, { recursive: true })
+    const keyMap = new Map<string, string>()
+    let total = 0
+    let index = 0
+    for (const [path, buffer] of images) {
+      if (index >= IMPORT_MAX_IMAGES) break
+      try {
+        const webp = await compressImageToWebP(buffer, 800)
+        if (total + webp.length > IMPORT_IMAGE_BUDGET_BYTES) break
+        const key = `img-${String(index).padStart(3, '0')}.webp`
+        await writeFile(join(dir, key), webp)
+        total += webp.length
+        keyMap.set(path, key)
+        index += 1
+      } catch { /* 单图压缩失败只丢这张图 */ }
+    }
+    return keyMap
+  }
+
+  /** 封面与原文归档：封面压缩 480w；原文保留支撑「重新解析」（管线升级后可无损重建章节数据）。 */
+  async function archiveImportBook(bookId: string, cover: Buffer | null, source: Buffer, sourceName: string): Promise<void> {
+    const dir = importMediaDirFor(bookId)
+    await mkdir(dir, { recursive: true })
+    if (cover) {
+      try { await writeFile(join(dir, 'cover.webp'), await compressImageToWebP(cover, 480)) } catch { /* 封面失败不阻断 */ }
+    }
+    const ext = sourceName.split('.').at(-1)?.toLowerCase() ?? 'epub'
+    try { await writeFile(join(dir, `source.${ext}`), source) } catch { /* 归档失败不阻断入库 */ }
+  }
+
+  async function coverUrlFor(bookId: string, claims: { fid: string; sid: string }): Promise<string | null> {
+    try {
+      await stat(join(importMediaDirFor(bookId), 'cover.webp'))
+      return mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.webp`, claims, tokenSecret)
+    } catch {
+      return null
+    }
+  }
+
+  /** 二进制导入统一出口：EPUB 走结构化提取（章题/分段/插图），PDF 走纯文本管线。 */
+  async function finalizeBinaryImport(familyId: string, meta: ImportMeta, binary: Buffer): Promise<{ id: string; chapterCount: number; duplicate: boolean }> {
+    if (/\.epub$/i.test(meta.sourceName)) {
+      const structured = await extractEpubStructured(meta.sourceName, binary)
+      // 容量校验前置：被拒导入不能留下几十 MB 的孤儿媒体目录（P2-1）
+      assertChaptersWithinCaps(structured.chapters)
+      const bookId = deriveBookId(familyId, createHash('sha256').update(binary).digest('hex'))
+      const keyMap = await storeImportImages(bookId, structured.images)
+      const chapters = structured.chapters.map((chapter) => ({ title: chapter.title, text: rewriteMarkers(chapter.text, keyMap) }))
+      await archiveImportBook(bookId, structured.cover, binary, meta.sourceName)
+      return createImportedBook(db, familyId, meta, { chapters, binary })
+    }
+    return createImportedBook(db, familyId, meta, { binary })
+  }
   const parent = requireAuth(tokenSecret, { roles: ['parent'] })
   const auth = requireAuth(tokenSecret)
 
@@ -201,7 +314,9 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES) / 3) * 4) throw new ValidationError(input.sourceName.toLowerCase().endsWith('.pdf') ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
     const binary = input.fileBase64 ? Buffer.from(input.fileBase64, 'base64') : null
     if (binary && binary.toString('base64') !== input.fileBase64) throw new ValidationError('文件编码错误')
-    const result = await createImportedBook(db, request.auth.fid, input, { binary, text: input.text! })
+    const result = binary
+      ? await finalizeBinaryImport(request.auth.fid, input, binary)
+      : await createImportedBook(db, request.auth.fid, input, { text: input.text! })
     return reply.code(result.duplicate ? 200 : 201).send(result)
   })
 
@@ -255,7 +370,7 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (session.chunks.size !== session.totalChunks) throw new ValidationError(`还有 ${session.totalChunks - session.chunks.size} 块没有上传`)
     const binary = Buffer.concat(Array.from({ length: session.totalChunks }, (_, index) => session.chunks.get(index)!))
     if (binary.length !== session.totalBytes) throw new ValidationError('文件大小与声明不一致')
-    const result = await createImportedBook(db, session.familyId, session.meta, { binary, text: '' })
+    const result = await finalizeBinaryImport(session.familyId, session.meta, binary)
     chunkSessions.delete(request.params.sessionId)
     return reply.code(result.duplicate ? 200 : 201).send(result)
   })
@@ -268,7 +383,32 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
       select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { id: true } } },
       orderBy: { createdAt: 'desc' },
     })
-    return { books: books.map(({ chapters, ...book }) => ({ ...book, chapterCount: chapters.length })) }
+    const claims = request.auth
+    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, chapterCount: chapters.length, coverUrl: await coverUrlFor(book.id, claims) }))) }
+  })
+
+  // 重新解析（P0-5）：用归档的原始 EPUB 以当前管线重建章节与插图。管线升级后旧导入可无损跟进。
+  app.post<{ Params: { id: string } }>('/api/content/imports/:id/refresh', { preHandler: parent, bodyLimit: 1024 }, async (request) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, format: true, sourceName: true } })
+    if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+    if (!/^epub$/i.test(book.format)) throw new ValidationError('只有 EPUB 支持重新解析')
+    const source = await readFile(join(importMediaDirFor(book.id), 'source.epub')).catch(() => null)
+    if (!source) throw new ValidationError('找不到原始文件，请删除后重新导入')
+    const structured = await extractEpubStructured(book.sourceName, source)
+    const keyMap = await storeImportImages(book.id, structured.images)
+    // 覆写后不再被引用的旧插图清掉（img-NNN 键确定性强，可直接比对）
+    const keep = new Set(keyMap.values())
+    for (const file of await readdir(importMediaDirFor(book.id)).catch(() => [])) {
+      if (/^img-\d+\.webp$/.test(file) && !keep.has(file)) await rm(join(importMediaDirFor(book.id), file), { force: true }).catch(() => {})
+    }
+    const chapters = structured.chapters.map((chapter) => ({ title: chapter.title, text: rewriteMarkers(chapter.text, keyMap) }))
+    assertChaptersWithinCaps(chapters)
+    await db.$transaction([
+      db.importedChapter.deleteMany({ where: { bookId: book.id } }),
+      db.importedChapter.createMany({ data: chapters.map((chapter, index) => ({ bookId: book.id, order: index + 1, title: chapter.title, text: chapter.text })) }),
+    ])
+    return { chapterCount: chapters.length }
   })
 
   app.get<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id', { preHandler: auth }, async (request) => {
@@ -276,7 +416,8 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (!request.auth) throw new UnauthorizedError()
     const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid, ...(stage ? { ageStage: stage } : {}) }, select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
-    return { book }
+    const claims = request.auth
+    return { book: { ...book, coverUrl: await coverUrlFor(book.id, claims) } }
   })
 
   app.get<{ Params: { id: string; order: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/chapters/:order', { preHandler: auth }, async (request) => {
@@ -288,7 +429,13 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const chapter = await db.importedChapter.findUnique({ where: { bookId_order: { bookId: book.id, order } }, select: { order: true, title: true, text: true } })
     if (!chapter) throw new AppError('没有找到这一章', 'CHAPTER_NOT_FOUND', 404)
-    return { chapter }
+    // 插图标记 → 短时票据 URL（<img> 带不了 Authorization 头；票据绑定家庭+会话，30-60 分钟分桶）
+    const images: Record<string, string> = {}
+    for (const match of chapter.text.matchAll(/\[\[img:([^\]]+)\]\]/g)) {
+      const key = match[1]!
+      if (!images[key]) images[key] = mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(book.id)}/${key}`, request.auth, tokenSecret)
+    }
+    return { chapter, images }
   })
 
   app.get<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/progress', { preHandler: auth }, async (request) => {
@@ -362,6 +509,8 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (!request.auth) throw new UnauthorizedError()
     const removed = await db.importedBook.deleteMany({ where: { id: request.params.id, familyId: request.auth.fid } })
     if (!removed.count) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+    // 私有媒体（插图/封面/原文，最多 ~56MB/本）随书销毁，防磁盘无界泄漏
+    await rm(importMediaDirFor(request.params.id), { recursive: true, force: true }).catch(() => {})
     return reply.code(204).send()
   })
 }

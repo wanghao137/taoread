@@ -131,7 +131,7 @@ export interface ShelfDto {
   blockedBookIds?: string[]
 }
 
-export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string }
+export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string; coverUrl?: string | null }
 export interface PhonicsLessonDto {
   id: string
   order: number
@@ -158,7 +158,9 @@ export const api = {
   uploadImportChunk: (token: string, sessionId: string, index: number, data: string) => request<{ received: number }>(`/api/content/imports/chunks/${sessionId}/${index}`, { method: 'POST', token, body: { data }, timeoutMs: 300_000 }),
   completeChunkedImport: (token: string, sessionId: string) => request<{ id: string; duplicate: boolean; chapterCount: number }>(`/api/content/imports/chunks/${sessionId}/complete`, { method: 'POST', token, body: {}, timeoutMs: 300_000 }),
   importedBook: (token: string, id: string, childId?: string) => request<{ book: ImportedBookDto & { chapters: Array<{ order: number; title: string }> } }>(`/api/content/imports/${encodeURIComponent(id)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
-  importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string } }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string }; images: Record<string, string> }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  /** 用归档原文按当前管线重建章节与插图（管线升级后旧导入可跟进） */
+  refreshImportedBook: (token: string, id: string) => request<{ chapterCount: number }>(`/api/content/imports/${encodeURIComponent(id)}/refresh`, { method: 'POST', token, body: {} }),
   publicDomainBooks: (token: string) => request<{ books: Array<{ id: string; title: string; author: string }> }>('/api/content/imports/public-domain', { token }),
   importPublicDomain: (token: string, id: string, ageStage: '6-8' | '9-12') => request<{ id: string; chapterCount: number; duplicate: boolean }>(`/api/content/imports/public-domain/${encodeURIComponent(id)}`, { method: 'POST', token, body: { ageStage } }),
   importedProgress: (token: string, id: string, childId: string) => request<{ progress: ImportedProgressDto | null }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { token }),

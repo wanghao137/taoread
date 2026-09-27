@@ -21,7 +21,7 @@ function bigEpub(): Buffer {
   zip.addFile('mimetype', Buffer.from('application/epub+zip'))
   zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
   zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
-  zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>chunked book</p></body></html>'))
+  zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>chunked book</p><p>the little cat chased butterflies in the garden all afternoon and fell asleep under the sunflower.</p></body></html>'))
   // 随机图片撑到跨多块（约 2.5MB → 3 块）；不解码不参与文本统计
   zip.addFile('OEBPS/pictures.jpg', randomBytes(2.5 * CHUNK))
   return zip.toBuffer()

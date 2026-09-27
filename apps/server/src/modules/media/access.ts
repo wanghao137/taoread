@@ -1,5 +1,4 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
-import type { TokenClaims } from '../../lib/auth'
 import { ForbiddenError, UnauthorizedError } from '../../lib/errors'
 
 /** Public catalog keys are written by offline tooling; family keys stay private. */
@@ -27,7 +26,7 @@ export function assertSceneReadable(familyId: string, scene: string): void {
  */
 const TICKET_BUCKET_SEC = 1800
 
-export function mediaUrl(path: string, claims: TokenClaims, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): string {
+export function mediaUrl(path: string, claims: { fid: string; sid: string }, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): string {
   if (!path.startsWith('/api/media/')) throw new Error('invalid media path')
   const e = nowSec - (nowSec % TICKET_BUCKET_SEC) + TICKET_BUCKET_SEC * 2
   const payload = Buffer.from(JSON.stringify({ p: path.slice('/api/media/'.length), f: claims.fid, s: claims.sid, e })).toString('base64url')

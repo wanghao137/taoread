@@ -29,6 +29,7 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 export interface ContentRoutesDeps {
   db: PrismaClient
   tokenSecret: Buffer
+  mediaDir: string
 }
 
 export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesDeps): void {

@@ -193,16 +193,17 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   // v2 内容域：公版书库 + 自研阅读器正文来源（docs/07）
+  const mediaDir = options.mediaDir ?? join(process.cwd(), 'media')
   registerContentRoutes(app, {
     db: options.db,
     tokenSecret: options.tokenSecret,
+    mediaDir,
   })
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
 
 
   // 第四轮（docs/13）：媒体静态服务 + 服务端 TTS
-  const mediaDir = options.mediaDir ?? join(process.cwd(), 'media')
   registerMediaRoutes(app, { mediaDir, db: options.db, tokenSecret: options.tokenSecret, sessionGuard })
   const ttsDeps: TtsClientDeps | null = options.ttsDeps ?? null
   registerTtsRoutes(app, {
@@ -287,6 +288,8 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       reply.code(statusCode).send({ code: 'BAD_REQUEST', message: '请求不合法' })
       return
     }
+    // 意外 500 至少留痕 stderr（logger 关闭的实例此前把错误整条吞掉，排障无从下手）
+    if (!options.logger) console.error('[unhandled]', error)
     if (options.logger) app.log.error(error)
     reply.code(500).send({ code: 'INTERNAL', message: '服务器开小差了，请稍后再试' })
   })

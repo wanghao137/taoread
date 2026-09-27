@@ -197,27 +197,41 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         request.body ?? {},
       )
 
-      if (params.contentId.startsWith('imp:')) throw new AppError('家庭导入书暂不支持服务端朗读', 'TTS_UNAVAILABLE', 503)
-      const chapter = await getChapter(db, params.contentId, params.order)
-      if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
-      // 审计 T03/F02：屏蔽书的整章 TTS 同策略拒绝（家长保留管理预览）
-      await assertContentReadable(db, request.auth.fid, params.contentId, {
-        role: request.auth.role,
-        allowParentPreview: true,
-      })
-
-      // 审计 F16：语言从书目推导——英文书整章合成必须带 en，不再写死 zh
-      const bookRow = await db.book.findUnique({ where: { id: params.contentId }, select: { lang: true } })
-      const lang = bookRow?.lang === 'en' ? 'en' : 'zh'
+      let fullText: string
+      let chapterTitle: string
+      let lang: 'zh' | 'en'
+      if (params.contentId.startsWith('imp:')) {
+        // 家庭导入书（2026-09-27 解锁）：仅本家庭可读；正文剔除插图标记后走同一条合成管线
+        const importedBook = await db.importedBook.findFirst({ where: { id: params.contentId, familyId: request.auth.fid }, select: { lang: true } })
+        const importedChapter = importedBook
+          ? await db.importedChapter.findUnique({ where: { bookId_order: { bookId: params.contentId, order: params.order } }, select: { title: true, text: true } })
+          : null
+        if (!importedChapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
+        fullText = importedChapter.text.replace(/\[\[img:[^\]]+\]\]/g, '')
+        chapterTitle = importedChapter.title
+        lang = importedBook!.lang === 'en' ? 'en' : 'zh'
+      } else {
+        const chapter = await getChapter(db, params.contentId, params.order)
+        if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
+        // 审计 T03/F02：屏蔽书的整章 TTS 同策略拒绝（家长保留管理预览）
+        await assertContentReadable(db, request.auth.fid, params.contentId, {
+          role: request.auth.role,
+          allowParentPreview: true,
+        })
+        // 审计 F16：语言从书目推导——英文书整章合成必须带 en，不再写死 zh
+        const bookRow = await db.book.findUnique({ where: { id: params.contentId }, select: { lang: true } })
+        lang = bookRow?.lang === 'en' ? 'en' : 'zh'
+        // 拼接可朗读文本（跳过图片块）
+        fullText = chapter.blocks
+          .filter((b) => b.kind !== 'image')
+          .map((b) => b.text)
+          .join('\n')
+        chapterTitle = chapter.title
+      }
       // 2026-09-26 音色优化：未选音色时按书语言取默认——英文书用英语母播音色，
       // 不再让中文「温柔妈妈」硬读英文（用户反馈怪腔调的主要来源）
       const voice = findVoice(body.voiceId ?? (lang === 'en' ? 'en-storyteller' : undefined))
       const speed = clampSpeed(body.speed)
-      // 拼接可朗读文本（跳过图片块）
-      const fullText = chapter.blocks
-        .filter((b) => b.kind !== 'image')
-        .map((b) => b.text)
-        .join('\n')
       const segments = chunkText(fullText)
 
       reply.raw.writeHead(200, {
@@ -249,8 +263,8 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       }
 
       await send('meta', {
-        chapterOrder: chapter.order,
-        title: chapter.title,
+        chapterOrder: params.order,
+        title: chapterTitle,
         voiceId: voice.id,
         speed,
         segmentCount: segments.length,
@@ -346,7 +360,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         clearInterval(heartbeat)
       }
 
-      await send('done', { chapterOrder: chapter.order, segments: segments.length })
+      await send('done', { chapterOrder: params.order, segments: segments.length })
       reply.raw.end()
     },
   )

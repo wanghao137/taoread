@@ -5,14 +5,14 @@ import { authHeaders, createChild, createFamilyAsParent, makeApp, type TestHarne
 let h: TestHarness
 let token: string
 beforeAll(async () => { h = await makeApp(); const family = await createFamilyAsParent(h.app, 'binary-import-owner'); token = family.token; await createChild(h.app, token, family.familyId, '读者', '6-8') })
-function epub(): Buffer {
-  const zip = new AdmZip()
-  zip.addFile('mimetype', Buffer.from('application/epub+zip'))
-  zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
-  zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
-  zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>sun and cat</p></body></html>'))
-  return zip.toBuffer()
-}
+  function epub(): Buffer {
+    const zip = new AdmZip()
+    zip.addFile('mimetype', Buffer.from('application/epub+zip'))
+    zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
+    zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
+    zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>sun and cat</p><p>the little cat chased butterflies in the garden all afternoon and fell asleep under the sunflower.</p></body></html>'))
+    return zip.toBuffer()
+  }
 describe('EPUB 家庭导入链路', () => {
   it('正文入库、去重与伪造文件拒绝', async () => {
     const payload = { title: '自有 EPUB', lang: 'en', ageStage: '6-8', sourceName: 'book.epub', fileBase64: epub().toString('base64'), rightsConfirmed: true }
@@ -31,7 +31,7 @@ describe('EPUB 家庭导入链路', () => {
     zip.addFile('mimetype', Buffer.from('application/epub+zip'))
     zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
     zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
-    zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>big picture book</p></body></html>'))
+    zip.addFile("OEBPS/one.xhtml", Buffer.from("<html><body><p>big picture book</p><p>the little cat chased butterflies in the garden all afternoon and fell asleep under the sunflower.</p></body></html>"))
     zip.addFile('OEBPS/pictures.jpg', randomBytes(9 * 1024 * 1024))
     expect(zip.toBuffer().length).toBeGreaterThan(8 * 1024 * 1024)
     const payload = { title: '大图 EPUB', lang: 'zh', ageStage: '6-8', sourceName: 'big.epub', fileBase64: zip.toBuffer().toString('base64'), rightsConfirmed: true }

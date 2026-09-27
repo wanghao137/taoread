@@ -10,3 +10,17 @@ import sharp from 'sharp'
 export async function compressPngToWebP(png: Buffer): Promise<Buffer> {
   return sharp(png).webp({ quality: 80 }).toBuffer()
 }
+
+/** 导入书插图/封面入库压缩：限宽缩放（小图不放大幅度）+ WebP q80。
+ *  sharp 失败时仅在字节确为已知图片格式时回退原图，否则抛错让调用方丢弃（防非图片字节顶着 .webp 名落盘）。 */
+export async function compressImageToWebP(image: Buffer, width: number): Promise<Buffer> {
+  try {
+    return await sharp(image).resize({ width, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer()
+  } catch {
+    const looksLikeImage = (image[0] === 0xff && image[1] === 0xd8)
+      || (image[0] === 0x89 && image[1] === 0x50)
+      || image.subarray(0, 4).toString('latin1') === 'RIFF'
+    if (!looksLikeImage) throw new Error('not a recognized image')
+    return image
+  }
+}
