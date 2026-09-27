@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import type { FastifyInstance } from 'fastify'
 import { Prisma, type PrismaClient } from '@prisma/client'
 import { z } from 'zod'
@@ -60,6 +60,65 @@ const importSchema = z.object({
   fileBase64: z.string().max(MAX_EPUB_B64_CHARS).optional(),
   rightsConfirmed: z.literal(true),
 })
+
+// ── 分块导入：家庭上行 ~95KB/s 撑不住十几 MB 的单连接（生产实测 142s/28.5s 两断），
+// 切 1MB 块逐块上传，每块独立可重试。会话存内存（生产单进程即完整边界），30 分钟 TTL 惰性清理。
+const CHUNK_SIZE = 1024 * 1024
+const MAX_CHUNKS = 64
+const CHUNK_SESSION_TTL_MS = 30 * 60 * 1000
+interface ImportMeta { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string }
+interface ChunkSession {
+  familyId: string
+  meta: ImportMeta
+  totalBytes: number
+  totalChunks: number
+  chunks: Map<number, Buffer>
+  createdAt: number
+}
+const chunkSessions = new Map<string, ChunkSession>()
+
+function sweepChunkSessions(): void {
+  const cutoff = Date.now() - CHUNK_SESSION_TTL_MS
+  for (const [id, session] of chunkSessions) if (session.createdAt < cutoff) chunkSessions.delete(id)
+}
+
+const chunkInitSchema = importSchema.omit({ text: true, fileBase64: true }).extend({
+  totalBytes: z.number().int().min(1),
+  totalChunks: z.number().int().min(1).max(MAX_CHUNKS),
+})
+
+/** 解析并入库（单发与分块 complete 共用）：提取正文→分章→内容哈希去重→创建。duplicate=true 返回既有 id。 */
+async function createImportedBook(db: PrismaClient, familyId: string, meta: ImportMeta, content: { binary: Buffer | null; text: string }): Promise<{ id: string; chapterCount: number; duplicate: boolean }> {
+  const text = content.binary ? await extractBook(meta.sourceName, content.binary) : content.text
+  const chapters = content.binary ? parsePlainTextBook(text, MAX_EXTRACTED_BYTES) : parsePlainTextBook(text)
+  const sha256 = createHash('sha256').update(content.binary ?? Buffer.from(text.replace(/\r\n?/g, '\n'))).digest('hex')
+  const existing = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId, sha256 } }, select: { id: true } })
+  if (existing) return { id: existing.id, chapterCount: chapters.length, duplicate: true }
+  try {
+    const created = await db.importedBook.create({
+      data: {
+        id: `imp:${createHash('sha256').update(`${familyId}:${sha256}`).digest('hex').slice(0, 28)}`,
+        familyId,
+        title: meta.title,
+        author: meta.author ?? null,
+        lang: meta.lang,
+        ageStage: meta.ageStage,
+        sourceName: meta.sourceName,
+        format: meta.sourceName.split('.').at(-1)!.toLowerCase(),
+        sha256,
+        chapters: { create: chapters.map((chapter, index) => ({ order: index + 1, title: chapter.title, text: chapter.text })) },
+      },
+      select: { id: true },
+    })
+    return { id: created.id, chapterCount: chapters.length, duplicate: false }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      const duplicate = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId, sha256 } }, select: { id: true } })
+      if (duplicate) return { id: duplicate.id, chapterCount: chapters.length, duplicate: true }
+    }
+    throw error
+  }
+}
 
 export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaClient; tokenSecret: Buffer }): void {
   const { db, tokenSecret } = deps
@@ -140,36 +199,63 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES) / 3) * 4) throw new ValidationError(input.sourceName.toLowerCase().endsWith('.pdf') ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
     const binary = input.fileBase64 ? Buffer.from(input.fileBase64, 'base64') : null
     if (binary && binary.toString('base64') !== input.fileBase64) throw new ValidationError('文件编码错误')
-    const text = binary ? await extractBook(input.sourceName, binary) : input.text!
-    const chapters = binary ? parsePlainTextBook(text, MAX_EXTRACTED_BYTES) : parsePlainTextBook(text)
-    const sha256 = createHash('sha256').update(binary ?? Buffer.from(text.replace(/\r\n?/g, '\n'))).digest('hex')
-    const existing = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId: request.auth.fid, sha256 } }, select: { id: true } })
-    if (existing) return reply.send({ id: existing.id, chapterCount: chapters.length, duplicate: true })
-    let created: { id: string }
-    try {
-      created = await db.importedBook.create({
-        data: {
-          id: `imp:${createHash('sha256').update(`${request.auth.fid}:${sha256}`).digest('hex').slice(0, 28)}`,
-          familyId: request.auth.fid,
-          title: input.title,
-          author: input.author ?? null,
-          lang: input.lang,
-          ageStage: input.ageStage,
-          sourceName: input.sourceName,
-          format: input.sourceName.split('.').at(-1)!.toLowerCase(),
-          sha256,
-          chapters: { create: chapters.map((chapter, index) => ({ order: index + 1, title: chapter.title, text: chapter.text })) },
-        },
-        select: { id: true },
-      })
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        const duplicate = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId: request.auth.fid, sha256 } }, select: { id: true } })
-        if (duplicate) return reply.send({ id: duplicate.id, chapterCount: chapters.length, duplicate: true })
-      }
-      throw error
+    const result = await createImportedBook(db, request.auth.fid, input, { binary, text: input.text! })
+    return reply.code(result.duplicate ? 200 : 201).send(result)
+  })
+
+  // ── 分块导入（大文件防断流）：init 建会话 → 逐块上传（可乱序/可重传）→ complete 拼装入库 ──
+  app.post('/api/content/imports/chunks/init', { preHandler: parent, bodyLimit: 4096 }, async (request, reply) => {
+    if (!request.auth) throw new UnauthorizedError()
+    sweepChunkSessions()
+    const parsed = chunkInitSchema.safeParse(request.body)
+    if (!parsed.success) throw new ValidationError('请填写书名、年龄段并确认家庭阅读使用权')
+    const meta = parsed.data
+    const isPdf = /\.pdf$/i.test(meta.sourceName)
+    if (meta.totalBytes > (isPdf ? MAX_PDF_BYTES : MAX_EPUB_BYTES)) throw new ValidationError(isPdf ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
+    if (meta.totalChunks !== Math.ceil(meta.totalBytes / CHUNK_SIZE)) throw new ValidationError('分块参数不正确')
+    // 每家庭最多 2 个进行中会话，超出腾最旧
+    const mine: Array<{ id: string; createdAt: number }> = []
+    for (const [id, session] of chunkSessions) if (session.familyId === request.auth.fid) mine.push({ id, createdAt: session.createdAt })
+    if (mine.length >= 2) {
+      mine.sort((a, b) => a.createdAt - b.createdAt)
+      chunkSessions.delete(mine[0]!.id)
     }
-    return reply.code(201).send({ id: created.id, chapterCount: chapters.length, duplicate: false })
+    const sessionId = randomUUID()
+    chunkSessions.set(sessionId, {
+      familyId: request.auth.fid,
+      meta: { title: meta.title, author: meta.author, lang: meta.lang, ageStage: meta.ageStage, sourceName: meta.sourceName },
+      totalBytes: meta.totalBytes,
+      totalChunks: meta.totalChunks,
+      chunks: new Map(),
+      createdAt: Date.now(),
+    })
+    return reply.code(201).send({ sessionId, chunkSize: CHUNK_SIZE })
+  })
+
+  app.post<{ Params: { sessionId: string; index: string } }>('/api/content/imports/chunks/:sessionId/:index', { preHandler: parent, bodyLimit: 4 * 1024 * 1024 }, async (request) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const session = chunkSessions.get(request.params.sessionId)
+    if (!session || session.familyId !== request.auth.fid) throw new AppError('导入会话不存在或已过期，请重新开始上传', 'IMPORT_SESSION_NOT_FOUND', 404)
+    const index = Number(request.params.index)
+    if (!Number.isInteger(index) || index < 0 || index >= session.totalChunks) throw new ValidationError('分块序号不正确')
+    const parsed = z.object({ data: z.string().min(1) }).safeParse(request.body ?? {})
+    if (!parsed.success) throw new ValidationError('分块内容不正确')
+    const chunk = Buffer.from(parsed.data.data, 'base64')
+    if (chunk.length === 0 || chunk.length > CHUNK_SIZE || chunk.toString('base64') !== parsed.data.data) throw new ValidationError('分块内容不正确')
+    session.chunks.set(index, chunk)
+    return { received: session.chunks.size }
+  })
+
+  app.post<{ Params: { sessionId: string } }>('/api/content/imports/chunks/:sessionId/complete', { preHandler: parent, bodyLimit: 4096 }, async (request, reply) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const session = chunkSessions.get(request.params.sessionId)
+    if (!session || session.familyId !== request.auth.fid) throw new AppError('导入会话不存在或已过期，请重新开始上传', 'IMPORT_SESSION_NOT_FOUND', 404)
+    if (session.chunks.size !== session.totalChunks) throw new ValidationError(`还有 ${session.totalChunks - session.chunks.size} 块没有上传`)
+    const binary = Buffer.concat(Array.from({ length: session.totalChunks }, (_, index) => session.chunks.get(index)!))
+    if (binary.length !== session.totalBytes) throw new ValidationError('文件大小与声明不一致')
+    const result = await createImportedBook(db, session.familyId, session.meta, { binary, text: '' })
+    chunkSessions.delete(request.params.sessionId)
+    return reply.code(result.duplicate ? 200 : 201).send(result)
   })
 
   app.get('/api/content/imports', { preHandler: auth }, async (request) => {

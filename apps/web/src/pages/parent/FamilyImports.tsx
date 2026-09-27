@@ -20,19 +20,44 @@ export function FamilyImports({ token }: { token: string }) {
   const refresh = useCallback(() => api.importedBooks(token).then((res) => setBooks(res.books)).catch((err: unknown) => setMessage(err instanceof Error ? err.message : '书架加载失败')), [token])
   useEffect(() => { void refresh() }, [refresh])
   async function addPublic(id: string) { setBusy(true); setMessage(''); try { const result = await api.importPublicDomain(token, id, ageStage === '3-5' ? '6-8' : ageStage); setMessage(result.duplicate ? '这本书已在家庭书架' : `已导入 ${result.chapterCount} 章`); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '公版书源暂不可用') } finally { setBusy(false) } }
+  function toBase64(bytes: Uint8Array): string { let binary = ''; for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192)); return btoa(binary) }
   async function upload(event: React.FormEvent) {
     event.preventDefault()
     if (!file || !confirmed) return
     const isEpub = /\.epub$/i.test(file.name)
     if (file.size > (isEpub ? MAX_EPUB_SIZE : MAX_OTHER_SIZE)) { setMessage(isEpub ? 'EPUB 不能超过 32 MB' : '文件不能超过 4 MB'); return }
-    setBusy(true); setMessage('')
+    setBusy(true)
     try {
       const bytes = new Uint8Array(await file.arrayBuffer())
       const isText = /\.txt$/i.test(file.name)
-      const text = isText ? new TextDecoder('utf-8', { fatal: true }).decode(bytes) : undefined
-      let fileBase64: string | undefined
-      if (!isText) { let binary = ''; for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192)); fileBase64 = btoa(binary) }
-      const result = await api.importTextBook(token, { title, author, lang, ageStage, sourceName: file.name, text, fileBase64, rightsConfirmed: true })
+      let result: { id: string; duplicate: boolean; chapterCount: number }
+      if (isText) {
+        const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+        result = await api.importTextBook(token, { title, author, lang, ageStage, sourceName: file.name, text, rightsConfirmed: true })
+      } else if (bytes.length > 4 * 1024 * 1024) {
+        // 大文件走分块：家庭上行撑不住单连接（生产实测 28-165s 即断），1MB 一块独立重试，
+        // 会话被服务端清掉（404）就重开会话从头传——每块只有约 15s 传输量，几乎必然能过
+        const meta = { title, author: author || undefined, lang, ageStage, sourceName: file.name, totalBytes: bytes.length, totalChunks: Math.ceil(bytes.length / (1024 * 1024)), rightsConfirmed: true as const }
+        let sessionId = (await api.initChunkedImport(token, meta)).sessionId
+        let fails = 0
+        for (let index = 0; index < meta.totalChunks;) {
+          setMessage(`正在上传 ${index + 1}/${meta.totalChunks}…`)
+          const data = toBase64(bytes.subarray(index * 1024 * 1024, Math.min((index + 1) * 1024 * 1024, bytes.length)))
+          try {
+            await api.uploadImportChunk(token, sessionId, index, data)
+            fails = 0
+            index++
+          } catch (err) {
+            if (err instanceof ApiError && err.status === 404) { sessionId = (await api.initChunkedImport(token, meta)).sessionId; index = 0; continue }
+            if (++fails > 3) throw err
+            await new Promise((resolve) => setTimeout(resolve, 1000 * fails))
+          }
+        }
+        setMessage('正在解析入库…')
+        result = await api.completeChunkedImport(token, sessionId)
+      } else {
+        result = await api.importTextBook(token, { title, author, lang, ageStage, sourceName: file.name, fileBase64: toBase64(bytes), rightsConfirmed: true })
+      }
       setMessage(result.duplicate ? '这本书已经导入过' : `已导入 ${result.chapterCount} 章`)
       setFile(null); setConfirmed(false)
       await refresh()

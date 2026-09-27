@@ -50,7 +50,8 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined,
     })
   } catch (err) {
-    if (err instanceof DOMException && err.name === 'TimeoutError') {
+    // 超时统一归为 TIMEOUT：Chromium 叫 TimeoutError，部分内核叫 AbortError（我们从不手动 abort，无歧义）
+    if (err instanceof DOMException && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
       throw new ApiError(0, 'TIMEOUT', '响应有点慢，再试一次吧')
     }
     throw new ApiError(0, 'NETWORK', '网络好像睡着了，请检查连接后再试')
@@ -152,6 +153,10 @@ export const api = {
   // 导入是重请求：最大 32MB 文件 base64 后约 45MB，家庭上行（约 95KB/s）全程要数分钟，
   // 绝不能落默认 30s 超时——浏览器中途放弃，服务端还在收 body，白烧流量还报「再试一次」
   importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body, timeoutMs: 600_000 }),
+  // 分块导入（大文件防断流）：1MB 一块独立请求/独立重试，中断只损失当前块
+  initChunkedImport: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; totalBytes: number; totalChunks: number; rightsConfirmed: true }) => request<{ sessionId: string; chunkSize: number }>('/api/content/imports/chunks/init', { method: 'POST', token, body }),
+  uploadImportChunk: (token: string, sessionId: string, index: number, data: string) => request<{ received: number }>(`/api/content/imports/chunks/${sessionId}/${index}`, { method: 'POST', token, body: { data }, timeoutMs: 120_000 }),
+  completeChunkedImport: (token: string, sessionId: string) => request<{ id: string; duplicate: boolean; chapterCount: number }>(`/api/content/imports/chunks/${sessionId}/complete`, { method: 'POST', token, body: {}, timeoutMs: 120_000 }),
   importedBook: (token: string, id: string, childId?: string) => request<{ book: ImportedBookDto & { chapters: Array<{ order: number; title: string }> } }>(`/api/content/imports/${encodeURIComponent(id)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string } }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   publicDomainBooks: (token: string) => request<{ books: Array<{ id: string; title: string; author: string }> }>('/api/content/imports/public-domain', { token }),
