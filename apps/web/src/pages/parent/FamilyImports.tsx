@@ -53,6 +53,7 @@ export function FamilyImports({ token }: { token: string }) {
       <label>适龄 <select value={ageStage} onChange={(event) => setAgeStage(event.target.value as '3-5' | '6-8' | '9-12')}><option>3-5</option><option>6-8</option><option>9-12</option></select></label>
       <label>选择电子书 <input required type="file" accept=".txt,.epub,.pdf,text/plain,application/epub+zip,application/pdf" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /></label>
       <label><input type="checkbox" checked={confirmed} onChange={(event) => setConfirmed(event.target.checked)} /> 我确认拥有这份文本的家庭阅读使用权</label>
+      {file && file.size > 8 * 1024 * 1024 && <p style={{ fontSize: 12, margin: 0, color: '#795548' }}>这本书比较大，上传需要几分钟，请保持页面打开，点一次就好。</p>}
       <button className="sticker-btn primary" type="submit" disabled={busy || !file || !confirmed}>{busy ? '正在导入…' : '导入家庭书架'}</button>
     </form>
     <div><h4>公版书源</h4><p>从 Project Gutenberg 下载已核对的原始英文经典文学；并非自然拼读分级读物。</p>{publicBooks.map((book) => <p key={book.id}>{book.title} · {book.author} <button type="button" disabled={busy} onClick={() => void addPublic(book.id)}>导入家庭书架</button></p>)}</div>

@@ -80,6 +80,9 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     // 审计 T03/F06：显式信任代理配置——默认 false 时伪造 X-Forwarded-For 不影响
     // request.ip（限流按真实对端地址）；启用后按一级/N 跳可信代理解析客户端地址
     trustProxy: options.trustProxy ?? false,
+    // 大文件导入：家庭上行收 45MB base64 body 要数分钟，Node 默认 requestTimeout(300s)
+    // 会在慢链路上掐断仍在传输的请求；与客户端导入超时（10min）对齐放宽
+    requestTimeout: 600_000,
   })
 
   app.addHook('onRequest', async (_request, reply) => {

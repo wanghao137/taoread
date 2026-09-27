@@ -149,7 +149,9 @@ export interface ImportedProgressDto { order: number; offset: number; completed:
 
 export const api = {
   importedBooks: (token: string, childId?: string) => request<{ books: ImportedBookDto[] }>(`/api/content/imports${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
-  importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body }),
+  // 导入是重请求：最大 32MB 文件 base64 后约 45MB，家庭上行（约 95KB/s）全程要数分钟，
+  // 绝不能落默认 30s 超时——浏览器中途放弃，服务端还在收 body，白烧流量还报「再试一次」
+  importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body, timeoutMs: 600_000 }),
   importedBook: (token: string, id: string, childId?: string) => request<{ book: ImportedBookDto & { chapters: Array<{ order: number; title: string }> } }>(`/api/content/imports/${encodeURIComponent(id)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string } }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   publicDomainBooks: (token: string) => request<{ books: Array<{ id: string; title: string; author: string }> }>('/api/content/imports/public-domain', { token }),
