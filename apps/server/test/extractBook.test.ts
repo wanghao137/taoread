@@ -56,9 +56,11 @@ describe('结构化 EPUB 提取', () => {
     expect(result.cover).toStrictEqual(image)
   })
 
-  it('近空页（封面/版权）剔除，不产生空章', async () => {
+  it('近空页处理：纯文字近空页剔除，含图近空页保留为图片章节（零遗漏）', async () => {
+    const coverImg = randomBytes(32 * 1024)
     const epub = buildEpub({
       withNcx: true,
+      images: { 'c.jpg': coverImg },
       chapters: [
         { title: '总封面', href: 'text/cover.xhtml', html: '<img src="c.jpg"/>' },
         { title: '版权页', href: 'text/colophon.xhtml', html: '<p>Copyright 2023</p>' },
@@ -66,8 +68,12 @@ describe('结构化 EPUB 提取', () => {
       ],
     })
     const result = await extractEpubStructured('book.epub', epub)
-    expect(result.chapters).toHaveLength(1)
-    expect(result.chapters[0]!.title).toBe('真正的故事')
+    // 含图近空页保留（图片章节），纯文字近空页剔除
+    expect(result.chapters).toHaveLength(2)
+    expect(result.chapters[0]!.title).toBe('总封面')
+    expect(result.chapters[0]!.text).toContain('[[img:OEBPS/c.jpg]]')
+    expect(result.chapters[1]!.title).toBe('真正的故事')
+    expect(result.chapters.some((c) => c.title === '版权页')).toBe(false)
   })
 
   it('无目录 EPUB 回退单章，脚本能跑通', async () => {

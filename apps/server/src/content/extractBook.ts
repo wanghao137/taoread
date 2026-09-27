@@ -230,7 +230,16 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       const text = htmlToBlocks(readText(path), resolveImage)
       const entry = tocByPath.get(path)
       const last = chapters[chapters.length - 1]
-      if (text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length < MIN_CHAPTER_CHARS) continue
+      const textLength = text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
+      const hasImages = /\[\[img:[^\]]+\]\]/.test(text)
+      // 近空页：纯文字近空页剔除；含图近空页保留为图片章节（绘本页/扉页/封面页，零遗漏）
+      if (textLength < MIN_CHAPTER_CHARS) {
+        if (!hasImages) continue
+        if (entry) { pushChapter(entry.section ? `${entry.section} · ${entry.title}` : entry.title, text); continue }
+        if (last) { last.text = `${last.text}\n\n${text}`.trim(); continue }
+        pushChapter('封面', text)
+        continue
+      }
       if (!entry) {
         if (last) last.text = `${last.text}\n\n${text}`.trim()
         else pushChapter('第 1 节', text)
