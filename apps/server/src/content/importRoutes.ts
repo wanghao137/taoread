@@ -7,17 +7,21 @@ import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
 import { extractBook } from './extractBook'
 
 const MAX_BYTES = 4 * 1024 * 1024
-const MAX_CHAPTERS = 160
+const MAX_CHAPTERS = 300
 const MAX_CHAPTER_CHARS = 100_000
 const MAX_PDF_BYTES = 4 * 1024 * 1024
+const MAX_EPUB_BYTES = 32 * 1024 * 1024
+const MAX_EPUB_B64_CHARS = Math.ceil(MAX_EPUB_BYTES / 3) * 4
+// EPUB 解出的纯文本上限（图片不占体积、文本比原文件小，8 MB 足够容纳 32 MB 图文混排书）
+const MAX_EXTRACTED_BYTES = 8 * 1024 * 1024
 const ALLOWED_ENGLISH_BOOKS = [
   { id: 'gutenberg-11', title: "Alice's Adventures in Wonderland", author: 'Lewis Carroll', ebookId: 11 },
 ] as const
 
-export function parsePlainTextBook(input: string): Array<{ title: string; text: string }> {
+export function parsePlainTextBook(input: string, maxBytes: number = MAX_BYTES): Array<{ title: string; text: string }> {
   const normalized = input.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').trim()
-  if (!normalized || Buffer.byteLength(normalized, 'utf8') > MAX_BYTES || normalized.includes('\0')) {
-    throw new ValidationError('文本为空、包含非法字符或超过 4 MB')
+  if (!normalized || Buffer.byteLength(normalized, 'utf8') > maxBytes || normalized.includes('\0')) {
+    throw new ValidationError(`文本为空、包含非法字符或超过 ${Math.round(maxBytes / (1024 * 1024))} MB`)
   }
   const lines = normalized.split('\n')
   const chapters: Array<{ title: string; text: string }> = []
@@ -27,7 +31,7 @@ export function parsePlainTextBook(input: string): Array<{ title: string; text: 
   const flush = () => {
     const text = paragraphs.join('\n').trim()
     if (text) {
-      if (text.length > MAX_CHAPTER_CHARS || chapters.length >= MAX_CHAPTERS) throw new ValidationError('章节过长或超过 160 章')
+      if (text.length > MAX_CHAPTER_CHARS || chapters.length >= MAX_CHAPTERS) throw new ValidationError(`章节过长或超过 ${MAX_CHAPTERS} 章`)
       chapters.push({ title, text })
     }
     paragraphs = []
@@ -53,7 +57,7 @@ const importSchema = z.object({
   ageStage: z.enum(['3-5', '6-8', '9-12']),
   sourceName: z.string().trim().min(1).max(160).regex(/\.(?:txt|pdf|epub)$/i, '仅支持 TXT、PDF、EPUB'),
   text: z.string().min(1).max(MAX_BYTES).optional(),
-  fileBase64: z.string().max(12 * 1024 * 1024).optional(),
+  fileBase64: z.string().max(MAX_EPUB_B64_CHARS).optional(),
   rightsConfirmed: z.literal(true),
 })
 
@@ -125,7 +129,7 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     return reply.code(201).send({ id: created.id, chapterCount: chapters.length, duplicate: false })
   })
 
-  app.post('/api/content/imports', { preHandler: parent, bodyLimit: 12 * 1024 * 1024 }, async (request, reply) => {
+  app.post('/api/content/imports', { preHandler: parent, bodyLimit: MAX_EPUB_B64_CHARS + 1024 * 1024 }, async (request, reply) => {
     if (!request.auth) throw new UnauthorizedError()
     const parsed = importSchema.safeParse(request.body)
     if (!parsed.success) throw new ValidationError('请填写书名、年龄段、电子书并确认家庭阅读使用权')
@@ -133,11 +137,11 @@ export function registerImportRoutes(app: FastifyInstance, deps: { db: PrismaCli
     if (Boolean(input.text) === Boolean(input.fileBase64)) throw new ValidationError('仅允许一种文件内容')
     if (input.text && !/\.txt$/i.test(input.sourceName)) throw new ValidationError('TXT 文件名不匹配')
     if (input.fileBase64 && !/\.(?:pdf|epub)$/i.test(input.sourceName)) throw new ValidationError('电子书文件名不匹配')
-    if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : 8 * 1024 * 1024) / 3) * 4) throw new ValidationError('文件超过格式限制')
+    if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES) / 3) * 4) throw new ValidationError(input.sourceName.toLowerCase().endsWith('.pdf') ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
     const binary = input.fileBase64 ? Buffer.from(input.fileBase64, 'base64') : null
     if (binary && binary.toString('base64') !== input.fileBase64) throw new ValidationError('文件编码错误')
     const text = binary ? await extractBook(input.sourceName, binary) : input.text!
-    const chapters = parsePlainTextBook(text)
+    const chapters = binary ? parsePlainTextBook(text, MAX_EXTRACTED_BYTES) : parsePlainTextBook(text)
     const sha256 = createHash('sha256').update(binary ?? Buffer.from(text.replace(/\r\n?/g, '\n'))).digest('hex')
     const existing = await db.importedBook.findUnique({ where: { familyId_sha256: { familyId: request.auth.fid, sha256 } }, select: { id: true } })
     if (existing) return reply.send({ id: existing.id, chapterCount: chapters.length, duplicate: true })

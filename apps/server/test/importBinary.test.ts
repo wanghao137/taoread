@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest'
+import { randomBytes } from 'node:crypto'
 import AdmZip from 'adm-zip'
 import { authHeaders, createChild, createFamilyAsParent, makeApp, type TestHarness } from './helper'
 let h: TestHarness
@@ -24,5 +25,18 @@ describe('EPUB 家庭导入链路', () => {
     expect(again.json()).toMatchObject({ duplicate: true, id })
     const fake = await h.app.inject({ method: 'POST', url: '/api/content/imports', headers: authHeaders(token), payload: { ...payload, fileBase64: Buffer.from('fake').toString('base64') } })
     expect(fake.statusCode).toBe(400)
+  })
+  it('图片为主的大体积 EPUB（约 9 MB）可入库', async () => {
+    const zip = new AdmZip()
+    zip.addFile('mimetype', Buffer.from('application/epub+zip'))
+    zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
+    zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
+    zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>big picture book</p></body></html>'))
+    zip.addFile('OEBPS/pictures.jpg', randomBytes(9 * 1024 * 1024))
+    expect(zip.toBuffer().length).toBeGreaterThan(8 * 1024 * 1024)
+    const payload = { title: '大图 EPUB', lang: 'zh', ageStage: '6-8', sourceName: 'big.epub', fileBase64: zip.toBuffer().toString('base64'), rightsConfirmed: true }
+    const create = await h.app.inject({ method: 'POST', url: '/api/content/imports', headers: authHeaders(token), payload })
+    expect(create.statusCode).toBe(201)
+    expect(create.json().chapterCount).toBe(1)
   })
 })

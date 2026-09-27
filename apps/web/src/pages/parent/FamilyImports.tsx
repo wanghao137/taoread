@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type ImportedBookDto, type PhonicsSummaryDto } from '../../lib/api'
 import type { ChildDto } from '../../lib/api'
 
-const MAX_SIZE = 8 * 1024 * 1024
+const MAX_EPUB_SIZE = 32 * 1024 * 1024
+const MAX_OTHER_SIZE = 4 * 1024 * 1024
 
 export function FamilyImports({ token }: { token: string }) {
   const [books, setBooks] = useState<ImportedBookDto[]>([])
@@ -22,7 +23,8 @@ export function FamilyImports({ token }: { token: string }) {
   async function upload(event: React.FormEvent) {
     event.preventDefault()
     if (!file || !confirmed) return
-    if (file.size > MAX_SIZE) { setMessage('文件不能超过 8 MB'); return }
+    const isEpub = /\.epub$/i.test(file.name)
+    if (file.size > (isEpub ? MAX_EPUB_SIZE : MAX_OTHER_SIZE)) { setMessage(isEpub ? 'EPUB 不能超过 32 MB' : '文件不能超过 4 MB'); return }
     setBusy(true); setMessage('')
     try {
       const bytes = new Uint8Array(await file.arrayBuffer())
@@ -43,7 +45,7 @@ export function FamilyImports({ token }: { token: string }) {
   }
   return <section className="panel" style={{ marginTop: 16 }}>
     <h3>家庭私有电子书</h3>
-    <p>支持你有权供家庭阅读的 UTF-8 TXT、文本型 EPUB/PDF（EPUB 最多 8 MB、PDF 最多 4 MB；扫描 PDF 需先 OCR）。书籍只在本家庭可见；按孩子年龄段展示。</p>
+    <p>支持你有权供家庭阅读的 UTF-8 TXT、文本型 EPUB/PDF（EPUB 最多 32 MB、TXT/PDF 最多 4 MB；扫描 PDF 需先 OCR）。书籍只在本家庭可见；按孩子年龄段展示。</p>
     <form onSubmit={(event) => void upload(event)} style={{ display: 'grid', gap: 12 }}>
       <label>书名 <input required maxLength={120} value={title} onChange={(event) => setTitle(event.target.value)} /></label>
       <label>作者 <input maxLength={100} value={author} onChange={(event) => setAuthor(event.target.value)} /></label>
