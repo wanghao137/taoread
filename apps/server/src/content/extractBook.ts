@@ -215,33 +215,60 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       if (!tocByPath.has(path)) tocByPath.set(path, entry)
     }
 
-    // 逐 spine 文件提取：目录命中→按目录章题成章；未命中→并入上一章；近空页剔除。
     const chapters: StructuredChapter[] = []
     const referenced = new Set<string>()
     const pushChapter = (title: string, text: string): void => {
       for (const marker of text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
       chapters.push({ title, text })
     }
+    // calibre 等工具会产出不在 spine 里的孤儿页（其插图因此丢失）：按文件名顺序穿插进遍历序列。
+    // 跳过目录文档；孤儿页复用下方同一套近空页规则，孤儿页上的新图一律保留——零遗漏。
+    const navPath = tocItem?.href ? resolveManifest(tocItem.href) : null
+    const spinePaths = new Set<string>()
     for (const ref of spineRefs) {
       const item = manifest.get(ref)
-      if (!item?.href || item.type !== 'application/xhtml+xml' || /(?:^|\/)\.\.(?:\/|$)|^[a-z]+:|^\//i.test(item.href)) continue
-      const path = resolveManifest(item.href)
-      if (!byName.has(path)) continue
+      if (!item?.href || item.type !== 'application/xhtml+xml') continue
+      spinePaths.add(resolveManifest(item.href))
+    }
+    const orphanPaths = [...byName.keys()]
+      .filter((name) => /\.(?:xhtml|html)$/i.test(name) && !spinePaths.has(name) && name !== navPath)
+      .sort()
+    const traversal: string[] = []
+    {
+      let orphanCursor = 0
+      for (const ref of spineRefs) {
+        const item = manifest.get(ref)
+        if (!item?.href || item.type !== 'application/xhtml+xml') continue
+        const spinePath = resolveManifest(item.href)
+        while (orphanCursor < orphanPaths.length && orphanPaths[orphanCursor]! < spinePath) {
+          traversal.push(orphanPaths[orphanCursor++]!)
+        }
+        if (byName.has(spinePath)) traversal.push(spinePath)
+      }
+      while (orphanCursor < orphanPaths.length) traversal.push(orphanPaths[orphanCursor++]!)
+    }
+    for (const path of traversal) {
       const text = htmlToBlocks(readText(path), resolveImage)
       const entry = tocByPath.get(path)
       const last = chapters[chapters.length - 1]
       const textLength = text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
       const hasImages = /\[\[img:[^\]]+\]\]/.test(text)
+      // 合并进上一章：必须同样登记图片引用（referenced 漏记会让 cleanDropped 把标记洗掉）
+      const mergeIntoLast = (): void => {
+        if (!last) return
+        last.text = `${last.text}\n\n${text}`.trim()
+        for (const marker of text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
+      }
       // 近空页：纯文字近空页剔除；含图近空页保留为图片章节（绘本页/扉页/封面页，零遗漏）
       if (textLength < MIN_CHAPTER_CHARS) {
         if (!hasImages) continue
         if (entry) { pushChapter(entry.section ? `${entry.section} · ${entry.title}` : entry.title, text); continue }
-        if (last) { last.text = `${last.text}\n\n${text}`.trim(); continue }
+        if (last) { mergeIntoLast(); continue }
         pushChapter('封面', text)
         continue
       }
       if (!entry) {
-        if (last) last.text = `${last.text}\n\n${text}`.trim()
+        if (last) mergeIntoLast()
         else pushChapter('第 1 节', text)
         continue
       }
