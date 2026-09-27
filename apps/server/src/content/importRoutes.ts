@@ -61,11 +61,13 @@ const importSchema = z.object({
   rightsConfirmed: z.literal(true),
 })
 
-// ── 分块导入：家庭上行 ~95KB/s 撑不住十几 MB 的单连接（生产实测 142s/28.5s 两断），
-// 切 1MB 块逐块上传，每块独立可重试。会话存内存（生产单进程即完整边界），30 分钟 TTL 惰性清理。
-const CHUNK_SIZE = 1024 * 1024
-const MAX_CHUNKS = 64
-const CHUNK_SESSION_TTL_MS = 30 * 60 * 1000
+// ── 分块导入：家庭上行实测低至 ~13KB/s（1MB 块要 100-112s，120s 超时赌命必挂），
+// 切 256KB 块逐块上传（慢链路 ~26s/块），每块独立可重试。会话存内存（生产单进程即完整边界），
+// TTL 2 小时（慢链路整本要 30 分钟上下，30min 会话会被中途清掉）。
+export const IMPORT_CHUNK_SIZE = 256 * 1024
+const CHUNK_SIZE = IMPORT_CHUNK_SIZE
+const MAX_CHUNKS = 160
+const CHUNK_SESSION_TTL_MS = 2 * 60 * 60 * 1000
 interface ImportMeta { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string }
 interface ChunkSession {
   familyId: string

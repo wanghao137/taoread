@@ -35,14 +35,15 @@ export function FamilyImports({ token }: { token: string }) {
         const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes)
         result = await api.importTextBook(token, { title, author, lang, ageStage, sourceName: file.name, text, rightsConfirmed: true })
       } else if (bytes.length > 4 * 1024 * 1024) {
-        // 大文件走分块：家庭上行撑不住单连接（生产实测 28-165s 即断），1MB 一块独立重试，
-        // 会话被服务端清掉（404）就重开会话从头传——每块只有约 15s 传输量，几乎必然能过
-        const meta = { title, author: author || undefined, lang, ageStage, sourceName: file.name, totalBytes: bytes.length, totalChunks: Math.ceil(bytes.length / (1024 * 1024)), rightsConfirmed: true as const }
+        // 大文件走分块：家庭上行实测低至 ~13KB/s，256KB 一块（约 26s）独立重试，
+        // 会话被服务端清掉（404）就重开会话从头传
+        const CHUNK_BYTES = 256 * 1024
+        const meta = { title, author: author || undefined, lang, ageStage, sourceName: file.name, totalBytes: bytes.length, totalChunks: Math.ceil(bytes.length / CHUNK_BYTES), rightsConfirmed: true as const }
         let sessionId = (await api.initChunkedImport(token, meta)).sessionId
         let fails = 0
         for (let index = 0; index < meta.totalChunks;) {
           setMessage(`正在上传 ${index + 1}/${meta.totalChunks}…`)
-          const data = toBase64(bytes.subarray(index * 1024 * 1024, Math.min((index + 1) * 1024 * 1024, bytes.length)))
+          const data = toBase64(bytes.subarray(index * CHUNK_BYTES, Math.min((index + 1) * CHUNK_BYTES, bytes.length)))
           try {
             await api.uploadImportChunk(token, sessionId, index, data)
             fails = 0

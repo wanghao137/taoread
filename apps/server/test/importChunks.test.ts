@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { randomBytes } from 'node:crypto'
 import AdmZip from 'adm-zip'
 import { authHeaders, createFamilyAsParent, makeApp, type TestHarness } from './helper'
+import { IMPORT_CHUNK_SIZE } from '../src/content/importRoutes'
 
 let h: TestHarness
 let token: string
@@ -14,7 +15,7 @@ beforeAll(async () => {
   tokenOther = other.token
 })
 
-const CHUNK = 1024 * 1024
+const CHUNK = IMPORT_CHUNK_SIZE
 function bigEpub(): Buffer {
   const zip = new AdmZip()
   zip.addFile('mimetype', Buffer.from('application/epub+zip'))
@@ -100,12 +101,12 @@ describe('分块导入', () => {
   })
 
   it('参数与内容校验', async () => {
-    // 超过 EPUB 上限
+    // 超过 EPUB 上限（33MB / 256KB = 133 块，块数合法但总量超限）
     const tooBig = await h.app.inject({
       method: 'POST',
       url: '/api/content/imports/chunks/init',
       headers: authHeaders(token),
-      payload: { title: '超大', lang: 'zh', ageStage: '6-8', sourceName: 'big.epub', totalBytes: 33 * CHUNK, totalChunks: 33, rightsConfirmed: true },
+      payload: { title: '超大', lang: 'zh', ageStage: '6-8', sourceName: 'big.epub', totalBytes: 33 * 1024 * 1024, totalChunks: 133, rightsConfirmed: true },
     })
     expect(tooBig.statusCode).toBe(400)
     // totalChunks 与 totalBytes 不匹配
