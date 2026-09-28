@@ -233,6 +233,15 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       const voice = findVoice(body.voiceId ?? (lang === 'en' ? 'en-storyteller' : undefined))
       const speed = clampSpeed(body.speed)
       const segments = chunkText(fullText)
+      // 每段在「全文（行 trim 后以 '\n' 相连）」坐标里的权威起点 = Σ_{j<i}(len_j + 1)：
+      // 段由整行组成，每段末行后随一个换行符。下发给客户端做高亮/跳读定位，
+      // 客户端无需自行拼接（服务端跳过某段时客户端拼不出真值，会整体漂移）。
+      const segmentStarts: number[] = []
+      let startAcc = 0
+      for (const seg of segments) {
+        segmentStarts.push(startAcc)
+        startAcc += seg.length + 1
+      }
 
       reply.raw.writeHead(200, {
         'Content-Type': 'text/event-stream',
@@ -296,6 +305,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
               : `/api/media/tts-public/${pubKey}.mp3`
           await send('segment', {
             index: i,
+            start: segmentStarts[i],
             text: seg,
             audioUrl,
             durationMs: pub.durationMs,
@@ -321,6 +331,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
             await ownAudio(hit.urlPath.slice('/api/media/'.length), request.auth.fid)
             await send('segment', {
               index: i,
+              start: segmentStarts[i],
               text: seg,
               audioUrl: mediaUrl(hit.urlPath, request.auth!, tokenSecret),
               durationMs: hit.durationMs,
@@ -342,6 +353,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
           await ownAudio(entry.urlPath.slice('/api/media/'.length), request.auth.fid)
           await send('segment', {
             index: i,
+            start: segmentStarts[i],
             text: seg,
             audioUrl: mediaUrl(entry.urlPath, request.auth!, tokenSecret),
             durationMs,

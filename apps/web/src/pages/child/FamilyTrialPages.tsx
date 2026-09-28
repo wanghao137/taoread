@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError, type ImportedBookDto, type PhonicsLessonDto } from '../../lib/api'
 import { uid } from '../../lib/uid'
@@ -50,6 +50,60 @@ export function parseBlocks(text: string): ReaderBlock[] {
   return blocks
 }
 
+/** 段 k 在「行 trim 后以 '\n' 相连」全文中的起点 = Σ_{j<k}(len_j + 1)：
+ * 段由整行组成（chunkText），每段末行在全文里后随一个换行符。
+ * 2026-09-28 高亮漂移修复：此前起点用纯长度和，第 k 段的高亮整体前移 k 字。 */
+export function segmentStarts(lengths: number[]): number[] {
+  const starts: number[] = []
+  let acc = 0
+  for (const len of lengths) {
+    starts.push(acc)
+    acc += len + 1
+  }
+  return starts
+}
+
+/** 全文字符坐标 → 所在渲染块与块内偏移（字级高亮定位；img 块与块间换行不占坐标） */
+export function locateChar(blocks: ReaderBlock[], globalChar: number): { index: number; localChar: number } | null {
+  if (globalChar < 0) return null
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i]!
+    if (block.kind !== 'p') continue
+    if (globalChar >= block.cleanStart && globalChar < block.cleanStart + block.cleanLen) {
+      return { index: i, localChar: globalChar - block.cleanStart }
+    }
+  }
+  return null
+}
+
+/** 字级时间轴按码点计（服务端 [...text] 切分），块坐标按 UTF-16 计：下标换算 */
+export function codePointToUtf16Offset(text: string, cpIndex: number): number {
+  let utf16 = 0
+  let i = 0
+  for (const ch of text) {
+    if (i >= cpIndex) break
+    utf16 += ch.length
+    i += 1
+  }
+  return utf16
+}
+
+/** 正读块逐字渲染：当前字加粗、已读字略淡（与主阅读器同一视觉语言；按 UTF-16 偏移切分，增补平面字安全） */
+function renderReadingChars(text: string, localChar: number): ReactNode {
+  let utf16 = 0
+  return Array.from(text).map((ch, i) => {
+    const start = utf16
+    utf16 += ch.length
+    const isCurrent = localChar >= start && localChar < utf16
+    const isPast = utf16 <= localChar
+    return (
+      <span key={i} style={{ fontWeight: isCurrent ? 800 : undefined, opacity: isPast && !isCurrent ? 0.72 : 1 }}>
+        {ch}
+      </span>
+    )
+  })
+}
+
 export function FamilyLibraryPage() {
   const token = useSession((state) => state.token)
   const childId = useSession((state) => state.childId)
@@ -67,7 +121,13 @@ export function FamilyLibraryPage() {
   </button>)}</div>{books.length === 0 && !error && <p>这里暂时没有适合你年龄段的家庭书。</p>}</>
 }
 
-interface TtsSegment { index: number; text: string; audioUrl: string }
+interface TtsSegment {
+  index: number
+  text: string
+  audioUrl: string
+  /** 字级时间轴（服务端按时长估算）：驱动「读到哪个字哪个字变粗」 */
+  chars: Array<{ char: string; start: number; end: number }>
+}
 
 export function FamilyReaderPage() {
   const token = useSession((state) => state.token)
@@ -84,6 +144,8 @@ export function FamilyReaderPage() {
   const [tocOpen, setTocOpen] = useState(false)
   const [tts, setTts] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle')
   const [speakingRange, setSpeakingRange] = useState<{ start: number; end: number } | null>(null)
+  /** 字级高亮：正在读的块下标 + 块内字符偏移（UTF-16；null = 无字级定位，回退整段铺黄） */
+  const [playingChar, setPlayingChar] = useState<{ index: number; localChar: number } | null>(null)
   const blocksRef = useRef<HTMLDivElement>(null)
   const sseRef = useRef<AbortController | null>(null)
   const jumpRef = useRef<number>(-1)
@@ -93,6 +155,10 @@ export function FamilyReaderPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const playingIndexRef = useRef(-1)
   const ttsStateRef = useRef<'idle' | 'loading' | 'playing' | 'paused'>('idle')
+  /** 字级高亮 rAF 句柄与去重键（每字一渲染，不逐帧刷） */
+  const charRafRef = useRef<number | null>(null)
+  const charKeyRef = useRef('')
+  const renderBlocksRef = useRef<ReturnType<typeof parseBlocks>>([])
   const ink = FAMILY_THEME[theme]
   const chapterOrder = Number(order)
 
@@ -100,6 +166,10 @@ export function FamilyReaderPage() {
   useEffect(() => { localStorage.setItem('taoread-family-reader-font', String(font)) }, [font])
 
   const blocks = useMemo(() => (chapter ? parseBlocks(chapter.text) : []), [chapter])
+  // 字级定位在 rAF 回调里读块表：提交后再写 ref，不违反渲染期不可写 ref 约束
+  useLayoutEffect(() => {
+    renderBlocksRef.current = blocks
+  })
   const chapterIndex = book?.chapters.findIndex((item) => item.order === chapterOrder) ?? -1
 
   // 停掉朗读：换章/离开页面时必须断流（后台不再白合成）
@@ -107,10 +177,13 @@ export function FamilyReaderPage() {
     sseRef.current?.abort()
     sseRef.current = null
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.onended = null }
+    stopCharLoop()
     segmentsRef.current = []
     startsRef.current = []
     playingIndexRef.current = -1
     jumpRef.current = -1
+    charKeyRef.current = ''
+    setPlayingChar(null)
     ttsStateRef.current = 'idle'
     setSpeakingRange(null)
     setTts('idle')
@@ -178,20 +251,79 @@ export function FamilyReaderPage() {
   }
 
   // 朗读播放器（ref 控制器）：SSE 逐段拉取 → 顺序播放；段落高亮区间 = 当前段在「剔除标记后文本」中的范围。
-  // 段文本顺序拼接即服务端合成的全文，段起点 = 前面各段长度之和。
+  // 段由整行组成，段起点 = Σ前面各段(长度+1)——每段末行在全文里后随一个换行符（segmentStarts）。
+  function stopCharLoop() {
+    if (charRafRef.current !== null) {
+      globalThis.cancelAnimationFrame(charRafRef.current)
+      charRafRef.current = null
+    }
+  }
+
+  /** 字级高亮驱动：rAF + 二分查当前段音频时间轴（与主阅读器 audioPlayer 同款），换算到全文坐标后定位渲染块 */
+  function startCharLoop() {
+    stopCharLoop()
+    const tick = () => {
+      charRafRef.current = globalThis.requestAnimationFrame(tick)
+      const index = playingIndexRef.current
+      const seg = index >= 0 ? segmentsRef.current[index] : undefined
+      const audio = audioRef.current
+      if (!seg || seg.chars.length === 0 || !audio || audio.paused || audio.ended) return
+      const t = audio.currentTime * 1000
+      let lo = 0
+      let hi = seg.chars.length - 1
+      let cp = -1
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1
+        const c = seg.chars[mid]
+        if (!c) break
+        if (t < c.start) hi = mid - 1
+        else if (t >= c.end) { cp = mid; lo = mid + 1 }
+        else { cp = mid; break }
+      }
+      if (cp < 0) return
+      const start = startsRef.current[index] ?? 0
+      const hit = locateChar(renderBlocksRef.current, start + codePointToUtf16Offset(seg.text, cp))
+      if (!hit) return
+      const key = `${hit.index}:${hit.localChar}`
+      if (key !== charKeyRef.current) {
+        charKeyRef.current = key
+        setPlayingChar(hit)
+      }
+    }
+    charRafRef.current = globalThis.requestAnimationFrame(tick)
+  }
+
   function applyTtsState(state: 'idle' | 'loading' | 'playing' | 'paused') {
     ttsStateRef.current = state
     setTts(state)
+    if (state !== 'playing') stopCharLoop()
+    if (state === 'idle' || state === 'loading') {
+      charKeyRef.current = ''
+      scrolledBlockRef.current = -1
+      setPlayingChar(null)
+    }
   }
 
   function playSegment(index: number) {
     const segment = segmentsRef.current[index]
     const start = startsRef.current[index]
     if (!segment || start === undefined) {
-      // 段未到达（服务端串行合成，冷段可达数十秒）：短轮询等待到达；已停止/流结束则收尾
-      if (sseRef.current && !sseRef.current.signal.aborted && ttsStateRef.current === 'playing') {
-        window.setTimeout(() => { if (ttsStateRef.current === 'playing') playSegment(index) }, 800)
+      // 段未到达（服务端串行合成，冷段可达数十秒）：短轮询等待到达。
+      // 轮询闭包绑定当前 SSE 会话与 playing|paused 两态：stop 后旧轮询自我作废，
+      // 段间隙点暂停只冻结会话、不再把它误重置成 idle（恢复后继续等下一段）。
+      const sess = sseRef.current
+      if (sess && !sess.signal.aborted && (ttsStateRef.current === 'playing' || ttsStateRef.current === 'paused')) {
+        window.setTimeout(() => {
+          if (sseRef.current === sess && (ttsStateRef.current === 'playing' || ttsStateRef.current === 'paused')) playSegment(index)
+        }, 800)
         return
+      }
+      // 流已结束仍缺段（该段被服务端跳过/合成失败）：顺延到下一个已到达的段，否则收尾
+      for (let next = index + 1; next < segmentsRef.current.length; next++) {
+        if (segmentsRef.current[next]) {
+          playSegment(next)
+          return
+        }
       }
       applyTtsState('idle')
       return
@@ -199,6 +331,7 @@ export function FamilyReaderPage() {
     playingIndexRef.current = index
     applyTtsState('playing')
     setSpeakingRange({ start, end: start + segment.text.length })
+    if (segment.chars.length > 0) startCharLoop()
     const audio = audioRef.current ?? (audioRef.current = new Audio())
     audio.onended = () => {
       if (ttsStateRef.current !== 'playing') return
@@ -217,8 +350,9 @@ export function FamilyReaderPage() {
     if (paragraphCleanStart !== null) jumpRef.current = paragraphCleanStart
     void api.ttsChapterStream(id, Number(order), { lang: (book?.lang as 'zh' | 'en') ?? 'zh' }, {
       onSegment: (segment) => {
-        startsRef.current[segment.index] = segmentsRef.current.reduce((sum, item) => sum + (item?.text.length ?? 0), 0)
-        segmentsRef.current[segment.index] = { index: segment.index, text: segment.text, audioUrl: segment.audioUrl }
+        // 段起点用服务端权威值（服务端跳段时客户端拼不出真值）；缺失时退回 Σ(len+1) 自算
+        startsRef.current[segment.index] = segment.start ?? segmentsRef.current.reduce((sum, item) => sum + (item ? item.text.length + 1 : 0), 0)
+        segmentsRef.current[segment.index] = { index: segment.index, text: segment.text, audioUrl: segment.audioUrl, chars: segment.chars }
         const jump = jumpRef.current
         const start = startsRef.current[segment.index]!
         if (jump >= 0 && start + segment.text.length > jump) {
@@ -235,7 +369,11 @@ export function FamilyReaderPage() {
         setError(message)
         if (playingIndexRef.current < 0) applyTtsState('idle')
       },
-      onDone: () => { if (jumpRef.current >= 0) { jumpRef.current = -1; applyTtsState('idle') } },
+      onDone: () => {
+        // 流结束即释放会话引用：末段播完后的等待轮询据此走顺延/收尾，不再永久空转卡在暂停态
+        sseRef.current = null
+        if (jumpRef.current >= 0) { jumpRef.current = -1; applyTtsState('idle') }
+      },
     }, { signal: controller.signal })
   }
 
@@ -246,7 +384,10 @@ export function FamilyReaderPage() {
       return
     }
     if (ttsStateRef.current === 'paused') {
-      void audioRef.current?.play().then(() => applyTtsState('playing')).catch(() => applyTtsState('idle'))
+      void audioRef.current?.play().then(() => {
+        applyTtsState('playing')
+        startCharLoop()
+      }).catch(() => applyTtsState('idle'))
       return
     }
     playFrom(null)
@@ -259,21 +400,23 @@ export function FamilyReaderPage() {
     if (index >= 0) playSegment(index)
   }
 
-  // 朗读高亮 + 跟随滚动
+  // 朗读跟随滚动：正在读的块滚到视野中央（字级定位优先，无字级时间轴时回退段区间首块）；只在块切换时滚
+  const scrolledBlockRef = useRef(-1)
   useEffect(() => {
-    if (!speakingRange) return
     const container = blocksRef.current
     if (!container) return
-    for (const element of container.querySelectorAll<HTMLElement>('[data-block][data-clean-start]')) {
-      const start = Number(element.dataset.cleanStart ?? 0)
-      const length = Number(element.dataset.cleanLen ?? 0)
-      if (start < speakingRange.end && start + length > speakingRange.start) {
-        const rect = element.getBoundingClientRect()
-        if (rect.top < 0 || rect.bottom > window.innerHeight) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        break
-      }
+    let targetIndex = -1
+    if (playingChar) targetIndex = playingChar.index
+    else if (speakingRange) {
+      targetIndex = renderBlocksRef.current.findIndex((block) => block.kind === 'p' && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start)
     }
-  }, [speakingRange])
+    if (targetIndex < 0 || targetIndex === scrolledBlockRef.current) return
+    const element = container.querySelector<HTMLElement>(`[data-block="${targetIndex}"]`)
+    if (!element) return
+    scrolledBlockRef.current = targetIndex
+    const rect = element.getBoundingClientRect()
+    if (rect.top < 0 || rect.bottom > window.innerHeight) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  }, [playingChar, speakingRange])
 
   const tocGroups = useMemo(() => {
     const groups: Array<{ label: string | null; chapters: Array<{ order: number; title: string }> }> = []
@@ -330,7 +473,7 @@ export function FamilyReaderPage() {
             <h2 style={{ fontSize: Math.round(font * 1.25) }}>{chapter?.title ?? '正在打开章节…'}</h2>
             {blocks.map((block, index) => block.kind === 'img'
               ? <div key={index} data-block={index} style={{ margin: '14px 0' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div>
-              : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{block.text}</p>)}
+              : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: (playingChar && playingChar.index === index) || (speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start) ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{playingChar && playingChar.index === index ? renderReadingChars(block.text, playingChar.localChar) : block.text}</p>)}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 24 }}>
             <button disabled={chapterOrder <= 1} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder - 1}`)}>上一章</button>

@@ -563,6 +563,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         setSpeaking(true)
         return
       }
+      // 双重朗读防护（2026-09-28）：服务端音频已在出声、或被自动播放策略拦下等手势
+      // 恢复时，绝不能叠加浏览器语音——宁可安静等一次点击，不让两个引擎先后念整章
+      if (audioPlayer.isPlaying || audioPlayer.isPaused) return
       const text = ch.blocks
         .filter((b) => b.kind === 'text' || b.kind === 'poem')
         .map((b) => b.text)

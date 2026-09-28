@@ -485,6 +485,8 @@ export const api = {
     handlers: {
       onSegment: (seg: {
         index: number
+        /** 该段在「全文（行 trim 后以 '\n' 相连）」坐标里的权威起点（服务端下发） */
+        start: number
         text: string
         audioUrl: string
         durationMs: number
@@ -507,6 +509,8 @@ async function fetchSseChapter(
   handlers: {
     onSegment: (seg: {
       index: number
+      /** 该段在「全文（行 trim 后以 '\n' 相连）」坐标里的权威起点（服务端下发） */
+      start: number
       text: string
       audioUrl: string
       durationMs: number

@@ -102,6 +102,11 @@ class ServerAudioPlayer {
     return this.playing && !this.cancelled
   }
 
+  /** 被自动播放策略拦下、队列仍在等手势恢复（此态绝不能叠加 Web Speech 兜底） */
+  get isPaused(): boolean {
+    return this.paused && this.queue.length > 0
+  }
+
   onProgress(fn: ProgressListener): () => void {
     this.progressListeners.add(fn)
     return () => this.progressListeners.delete(fn)
@@ -208,9 +213,17 @@ class ServerAudioPlayer {
               if (this.queue.length === 1) {
                 this.currentIndex = 0
                 this.emitProgress(-1)
-                void this.playSegment(0).then((ok) => {
-                  if (!gotSegment) this.settleFirst(ok)
-                })
+                // 首段开播（或确定失败）即结清：settleFirst 幂等，后续 stop()/finish()
+                // 再触发只是空操作。此前的 `if (!gotSegment)` 是死守卫——gotSegment 在
+                // 同一同步块里已置 true，承诺永远结不了，直到整章播完经 finish(false)
+                // 兜底 → 调用方误判失败回退 Web Speech，把整章用机械音再读一遍。
+                void this.playSegment(0)
+                  .then((ok) => {
+                    this.settleFirst(ok)
+                  })
+                  .catch(() => {
+                    this.settleFirst(false)
+                  })
               }
               gotSegment = true
             },
@@ -220,19 +233,26 @@ class ServerAudioPlayer {
               this.emitNotice(msg)
             },
             onDone: () => {
-              // 零段整章（图片章/全段被拦）：不假装在朗读，让调用方走 Web Speech 回退
-              if (!gotSegment) this.settleFirst(false)
+              // 零段整章（图片章/全段被拦/配额）：不假装在朗读，复位状态后让调用方走 Web Speech 回退
+              if (!gotSegment) {
+                this.abandon()
+                this.settleFirst(false)
+              }
             },
           },
           { signal: options.signal },
         )
         .then(() => {
-          // SSE 正常结束：首段已开播则维持 true；中止/收尾时兜底定音
-          if (!gotSegment) this.settleFirst(false)
+          // SSE 正常结束：首段已开播则维持 true；零段中止时兜底定音
+          if (!gotSegment) {
+            this.abandon()
+            this.settleFirst(false)
+          }
         })
         .catch(() => {
           if (!gotSegment) {
             this.emitError('整章朗读没准备好，可以一段一段听')
+            this.abandon()
             this.settleFirst(false)
           }
         })
@@ -244,6 +264,14 @@ class ServerAudioPlayer {
     const resolve = this.firstResolve
     this.firstResolve = null
     resolve?.(ok)
+  }
+
+  /** 零段整章的收尾：复位播放状态。漏掉会让 isPlaying 恒 true，
+   * 调用方的「服务端在播则不回退 Web Speech」守卫误杀合法回退（配额/纯图章/503） */
+  private abandon(): void {
+    this.stopTimelineLoop()
+    this.playing = false
+    this.paused = false
   }
 
   /** 懒创建唯一的 Audio 元素并挂接事件（所有播放共用同一元素） */
