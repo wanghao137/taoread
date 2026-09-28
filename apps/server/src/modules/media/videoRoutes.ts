@@ -72,7 +72,8 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       z.object({
         scene: z.string().min(1).max(128),
         /** 画面描述（中文；与插画的 prompt 同源，保证动起来的是同一幅画） */
-        description: z.string().trim().min(2).max(500),
+        /** 可缺省：缺省时回退该场景插画的 prompt（家长端封面动画只传 scene） */
+        description: z.string().trim().min(2).max(500).optional(),
         seconds: z.number().int().min(4).max(12).optional(),
         aspectRatio: z.enum(['16:9', '9:16', '1:1', '3:4', '4:3', '21:9']).optional(),
       }),
@@ -111,8 +112,13 @@ export function registerVideoRoutes(app: FastifyInstance, deps: VideoRoutesDeps)
       // A3：真正出网建任务前过每家庭每日配额（插画+动画合计）
       await assertDailyGenQuota(db, fid, genDailyLimit)
 
-      // 静态画面描述 + 运镜指令：视频复用插画的画面构图，保证动起来后和插图一致
-      const motionPrompt = `${body.description.trim()}，gentle camera slowly panning, soft animation, particles drifting, cinematic children book scene in motion`
+      // description 回退链：请求显式给出 > 该场景已有插画的 prompt（封面动画只传 scene 时同源）
+      // > 场景键兜底。静态画面描述 + 运镜指令：视频复用插画的画面构图，保证动起来后和插图一致
+      const description =
+        body.description?.trim() ??
+        (await db.artAsset.findUnique({ where: { scene: body.scene }, select: { prompt: true } }))?.prompt ??
+        body.scene
+      const motionPrompt = `${description}，gentle camera slowly panning, soft animation, particles drifting, cinematic children book scene in motion`
 
       let taskId: string
       try {

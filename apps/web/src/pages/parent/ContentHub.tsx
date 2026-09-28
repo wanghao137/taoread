@@ -345,11 +345,11 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
     }
   }
 
-  /** docs/34 P0-2：生成封面动画（异步任务，5s 轮询，最多等 4 分钟） */
+  /** docs/34 P0-2：生成封面动画（异步任务，5s 轮询到终态）；description 缺省时服务端回退插画 prompt */
   async function genVideo(row: HubRow) {
     if (!row.contentId || busyKey) return
     setBusyKey(row.key)
-    setNotice('正在生成封面动画…')
+    setNotice(`正在生成《${row.title}》的封面动画…`)
     try {
       const scene = `cover:${row.contentId}`
       await api.generateSceneVideo(scene, token)

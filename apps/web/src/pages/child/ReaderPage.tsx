@@ -1191,15 +1191,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           </div>
           <h2>{chapter?.title}</h2>
 
-          {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11） */}
-          <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} style={{ aspectRatio: '16 / 9', height: 'auto' }}>
+          {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
+              data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径） */}
+          <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
                 src={heroArtUrl!}
                 alt={`${chapter?.title ?? book.title} 插图`}
                 style={{ cursor: 'zoom-in' }}
-                onClick={() => setLightbox(heroArtUrl!)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setLightbox(heroArtUrl!)
+                }}
                 onError={() => setArtBroken((prev) => new Set(prev).add(heroArtUrl!))}
               />
             ) : null}
