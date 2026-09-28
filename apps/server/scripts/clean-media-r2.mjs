@@ -7,12 +7,21 @@
  *   tts-public/   ←→ 本地 tts-public/（正本所在；陈旧 cacheKey 残留即孤儿）
  *   其他前缀       ←→ 本地无对应文件的键一律视为孤儿（报告单列，便于人工识别异常前缀）
  *
+ * --tts-dead：TTS 死键治理（2026-09-28）。缓存键含音色/语速/lang/模型（cache.ts），
+ * 参数一变旧键即成死键——09-26 英文书 mom-warm→en-storyteller 重预生成，旧音色段
+ * 3,932 个/872MB 整批留存（本地+R2+清单三处）。本模式以 DB 正文按当前参数重算期望键集
+ * （与 pregen-tts.mjs 同口径），实际键中不在期望集的即死键 → 按孤儿删除，
+ * 并同步删本地死文件 + 瘦身 .tts-public-state.json。
+ * 注意：--tts-dead 必须从部署 checkout（apps/server）运行——prisma 与 src TS
+ * 按相对路径解析，从 dev 仓库跑会连错库（轻则查询失败退化，重则期望集为空触发护栏）。
+ *
  * 用法（apps/server 目录，需 .env.r2 凭据）：
- *   node scripts/clean-media-r2.mjs            # DRY-RUN，只打印将删对象
- *   node scripts/clean-media-r2.mjs --delete   # 真删（每批 1000，DeleteObjects）
+ *   node --import tsx scripts/clean-media-r2.mjs            # DRY-RUN，只打印将删对象
+ *   node --import tsx scripts/clean-media-r2.mjs --tts-dead # DRY-RUN + TTS 死键纳入孤儿
+ *   node --import tsx scripts/clean-media-r2.mjs --tts-dead --delete  # 真删（R2+本地+清单）
  *   --force：孤儿占比超 50% 时仍执行（默认拒删——多半是本地目录挂错）
  */
-import { existsSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, statSync, unlinkSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import dotenv from 'dotenv'
 import { DeleteObjectsCommand, DeleteObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'
@@ -28,6 +37,7 @@ const bucket = process.env.TAO_R2_MEDIA_BUCKET || 'taoread-media'
 const mediaDir = process.env.TAO_MEDIA_DIR || join(process.cwd(), 'media')
 const doDelete = process.argv.includes('--delete')
 const force = process.argv.includes('--force')
+const ttsDead = process.argv.includes('--tts-dead')
 
 const s3 = new S3Client({
   region: 'auto',
@@ -90,6 +100,53 @@ walk(mediaDir, (abs) => {
   if (isPrivateName(rel)) return // 私有文件不入真值：公共桶上出现即待删
   desired.add(rel)
 })
+
+// --tts-dead：期望键集 = DB 正文按当前参数（与 pregen-tts.mjs 完全同口径）。
+// 期望集 <1000 视为查询失败（连错库/空库），拒绝继续——空期望集会把全部 TTS 当死键。
+let expectedTtsKeys = null
+if (ttsDead) {
+  const dbUrl = process.env.TAO_DATABASE_URL
+  if (!dbUrl) throw new Error('--tts-dead 需要 TAO_DATABASE_URL')
+  const { PrismaClient } = await import('@prisma/client')
+  const prisma = new PrismaClient({ datasources: { db: { url: dbUrl } } })
+  const { cacheKey } = await import('../src/modules/tts/cache.ts')
+  const { chunkText } = await import('../src/modules/tts/client.ts')
+  const { DEFAULT_VOICE_ID, DEFAULT_SPEED } = await import('../src/modules/tts/voices.ts')
+  const { TTS_PUBLIC_NS } = await import('../src/modules/tts/publicCache.ts')
+  const { loadConfig } = await import('../src/config.ts')
+  const model = loadConfig().TTS_MODEL || 'stepaudio-3-gen-preview'
+  const books = await prisma.book.findMany({ select: { id: true, lang: true } })
+  expectedTtsKeys = new Set()
+  for (const book of books) {
+    const lang = book.lang === 'en' ? 'en' : 'zh'
+    const voiceId = lang === 'en' ? 'en-storyteller' : DEFAULT_VOICE_ID
+    const chapters = await prisma.chapter.findMany({ where: { bookId: book.id }, orderBy: { order: 'asc' }, select: { id: true } })
+    for (const ch of chapters) {
+      const blocks = await prisma.block.findMany({
+        where: { chapterId: ch.id, kind: { in: ['text', 'poem'] } },
+        orderBy: { order: 'asc' },
+        select: { text: true },
+      })
+      const fullText = blocks.map((b) => b.text).join('\n')
+      if (!fullText.trim()) continue
+      for (const seg of chunkText(fullText)) {
+        expectedTtsKeys.add(cacheKey(seg, voiceId, DEFAULT_SPEED, 'mp3', lang, TTS_PUBLIC_NS, model))
+      }
+    }
+  }
+  await prisma.$disconnect()
+  if (expectedTtsKeys.size < 1000) throw new Error(`期望键集仅 ${expectedTtsKeys.size}（<1000），疑似连错库，中止`)
+  let deadCount = 0
+  for (const rel of [...desired]) {
+    if (!rel.startsWith('tts-public/') || !rel.endsWith('.mp3')) continue
+    const key = rel.slice('tts-public/'.length, -'.mp3'.length)
+    if (!expectedTtsKeys.has(key)) {
+      desired.delete(rel)
+      deadCount++
+    }
+  }
+  log(`TTS 死键（本地+远端同在）：${deadCount} 个（期望键集 ${expectedTtsKeys.size}）`)
+}
 log(`本地真值：${desired.size} 个公共对象`)
 
 // ── 远端对账 ──
@@ -145,5 +202,37 @@ for (let i = 0; i < orphans.length; i += 1000) {
     }
   }
   log(`进度 ${deleted}/${orphans.length}`)
+}
+
+// --tts-dead：R2 删除成功后，同步清理本地死文件 + 瘦身清单（三处一致）
+if (ttsDead && deleted > 0) {
+  let localRemoved = 0
+  for (const k of orphans) {
+    if (!k.key.startsWith('tts-public/') || !k.key.endsWith('.mp3')) continue
+    const abs = join(mediaDir, ...k.key.split('/'))
+    if (existsSync(abs)) {
+      unlinkSync(abs)
+      localRemoved++
+    }
+  }
+  const manifestPath = join(mediaDir, '.tts-public-state.json')
+  if (existsSync(manifestPath)) {
+    try {
+      const m = JSON.parse(readFileSync(manifestPath, 'utf8'))
+      let pruned = 0
+      for (const k of orphans) {
+        if (!k.key.startsWith('tts-public/') || !k.key.endsWith('.mp3')) continue
+        const key = k.key.slice('tts-public/'.length, -'.mp3'.length)
+        if (m[key]) {
+          delete m[key]
+          pruned++
+        }
+      }
+      writeFileSync(manifestPath, JSON.stringify(m))
+      log(`本地同步清理：死文件 ${localRemoved} 个，清单瘦身 ${pruned} 条`)
+    } catch (err) {
+      log(`清单瘦身失败（不阻塞）：${err.message?.slice(0, 80)}`)
+    }
+  }
 }
 log(`结束：删除 ${deleted}/${orphans.length} 个孤儿对象，释放 ${(orphans.reduce((s, k) => s + k.size, 0) / 1048576).toFixed(1)}MB`)
