@@ -28,6 +28,22 @@ function fileExists(mediaDir: string, urlPath: string | null): boolean {
   return existsSync(abs)
 }
 
+/** dev.db 的实际位置 = Prisma schema 目录（Prisma 对 file: 相对 URL 的解析基准），cwd 是兜底 */
+function resolveSqlitePath(url: string): string | null {
+  const raw = url.startsWith('file:') ? url.slice(5) : url
+  if (!raw || raw.startsWith(':memory:')) return null
+  const clean = raw.split('?')[0]!
+  if (isAbsolute(clean)) return clean
+  // 相对路径：Prisma CLI/migrate 按 schema 目录解析，client 运行时按其生成时记录的
+  // schema 目录解析——demo 的 schema 在 cwd/prisma 下，两个基准都探测
+  const cwd = process.cwd()
+  for (const base of [join(cwd, 'prisma'), cwd]) {
+    const candidate = join(base, clean)
+    if (existsSync(candidate)) return candidate
+  }
+  return null
+}
+
 /**
  * 从 dev.db 读取媒体台账并播种进演示库。
  *
@@ -43,6 +59,12 @@ export async function seedMediaLedger(
   // 延迟引入，避免演示库与源库相同时的无谓自连
   const { PrismaClient: Prisma } = await import('@prisma/client')
   if (sourceUrl === process.env.TAO_DATABASE_URL) {
+    return { art: 0, video: 0, skipped: 0 }
+  }
+  // 源库文件不存在（CI/全新 checkout 没有 dev.db）：没什么可播种，优雅跳过。
+  // 若不拦，Prisma 对 sqlite 连接自动建空文件 → findMany 撞 P2021 → 整个演示服务起不来
+  // （2026-09-28：CI e2e 23 连红的根因，本地有 dev.db 恒绿掩盖了它）。
+  if (resolveSqlitePath(sourceUrl) === null) {
     return { art: 0, video: 0, skipped: 0 }
   }
   const src = new Prisma({ datasources: { db: { url: sourceUrl } } })
