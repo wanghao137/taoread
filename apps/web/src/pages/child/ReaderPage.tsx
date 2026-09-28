@@ -1310,21 +1310,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                     <p
                       className={isSpeakingBlock ? 'speaking' : undefined}
                       style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em', cursor: speaking ? 'pointer' : undefined }}
-                      onPointerDown={speaking ? () => onBlockPressStart(b.order, b.text) : undefined}
-                      onPointerUp={speaking ? onBlockPressEnd : undefined}
-                      onPointerLeave={speaking ? onBlockPressEnd : undefined}
-                      onClick={
-                        speaking
-                          ? (e) => {
-                              e.stopPropagation()
-                              if (longPressRef.current) {
-                                longPressRef.current = false
-                                return
-                              }
-                              jumpToBlock(b.id)
-                            }
-                          : undefined
-                      }
+                      onPointerDown={() => onBlockPressStart(b.order, b.text)}
+                      onPointerUp={onBlockPressEnd}
+                      onPointerLeave={onBlockPressEnd}
+                      onClick={(e) => {
+                        // docs/34 验收修正：划线随时可用（此前仅朗读中绑定，非朗读时长按
+                        // 无效且 click 冒泡误触专注模式）；跳读仍仅朗读中生效
+                        e.stopPropagation()
+                        if (longPressRef.current) {
+                          longPressRef.current = false
+                          return
+                        }
+                        if (speaking) jumpToBlock(b.id)
+                      }}
                     >
                       {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
                       {savedBlocks.has(b.order) ? ' ✒️' : null}
@@ -1360,21 +1358,18 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   }}
                   className={isSpeakingBlock ? 'speaking' : undefined}
                   style={{ cursor: speaking ? 'pointer' : undefined }}
-                  onPointerDown={speaking ? () => onBlockPressStart(b.order, b.text) : undefined}
-                  onPointerUp={speaking ? onBlockPressEnd : undefined}
-                  onPointerLeave={speaking ? onBlockPressEnd : undefined}
-                  onClick={
-                    speaking
-                      ? (e) => {
-                          e.stopPropagation()
-                          if (longPressRef.current) {
-                            longPressRef.current = false
-                            return
-                          }
-                          jumpToBlock(b.id)
-                        }
-                      : undefined
-                  }
+                  onPointerDown={() => onBlockPressStart(b.order, b.text)}
+                  onPointerUp={onBlockPressEnd}
+                  onPointerLeave={onBlockPressEnd}
+                  onClick={(e) => {
+                    // 划线随时可用；长按消耗掉 click，不冒泡进专注模式；跳读仅朗读中
+                    e.stopPropagation()
+                    if (longPressRef.current) {
+                      longPressRef.current = false
+                      return
+                    }
+                    if (speaking) jumpToBlock(b.id)
+                  }}
                 >
                   {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
                   {savedBlocks.has(b.order) ? ' ✒️' : null}

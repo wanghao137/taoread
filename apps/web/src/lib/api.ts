@@ -565,13 +565,14 @@ export const api = {
       timeoutMs: 600_000,
     }),
 
-  /** AI 场景视频（docs/34 P0-2，仅家长）：异步任务，轮询 videoStatus 到 completed */
+  /** AI 场景视频（docs/34 P0-2，仅家长）：异步任务，轮询 videoStatus 到 completed。
+   * 创建请求给足 300s——agnes 队列满时服务端有界退避重试（验收实测 >120s）。 */
   generateSceneVideo: (scene: string, token: string) =>
     request<{ status: string; urlPath?: string | null }>(`/api/video/generate`, {
       method: 'POST',
       body: { scene },
       token,
-      timeoutMs: 120_000,
+      timeoutMs: 300_000,
     }),
 
   videoStatus: (scene: string, token: string) =>
