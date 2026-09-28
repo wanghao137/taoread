@@ -40,12 +40,17 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     // R-08：Service Worker 运行在 worker 全局——声明其真实全局，不做文件级豁免
+    // （docs/34 P1-4 起 SW 有 fetch 拦截，补 URL/Response/fetch 等平台全局）
     files: ['apps/web/public/sw.js'],
     languageOptions: {
       globals: {
         self: 'readonly',
         caches: 'readonly',
         clients: 'readonly',
+        fetch: 'readonly',
+        Response: 'readonly',
+        URL: 'readonly',
+        URLSearchParams: 'readonly',
       },
     },
   },

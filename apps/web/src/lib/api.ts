@@ -180,8 +180,8 @@ export const api = {
   answerPhonics: (token: string, attemptId: string, itemId: string, answerId: string) => request<{ correct: boolean; repeated: boolean }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/responses`, { method: 'POST', token, body: { itemId, answerId } }),
   finishPhonics: (token: string, attemptId: string, status: 'completed' | 'paused') => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/finish`, { method: 'POST', token, body: { status } }),
 
-  createFamily: (deviceId: string) =>
-    request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId } }),
+  createFamily: (deviceId: string, agreeVersion: string) =>
+    request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId, agreeVersion } }),
 
   joinFamily: (familyCode: string, role: DeviceRole, deviceId: string) =>
     request<FamilySessionDto>('/api/family/join', {
@@ -456,6 +456,166 @@ export const api = {
       { method: 'PUT', body: { blocked }, token },
     ),
 
+  // ── docs/34 缺失功能清单（2026-09-28）新增接口 ──
+
+  /** 仪式窗口（docs/34 P1-2）：mode=daily_limit 表示今日已到家长设定的提醒上限（温柔收尾，非强制） */
+  ritualWindow: (childId: string, token: string) =>
+    request<RitualWindowDto>(`/api/ritual/window?childId=${encodeURIComponent(childId)}`, { token }),
+
+  /** 纸质书共读（docs/34 P0-1）：家长/孩子端录入书名即开一场纸质书会话 */
+  startPaperCosession: (childId: string, paperTitle: string, token: string) =>
+    request<CosessionDto>('/api/cosession', {
+      method: 'POST',
+      body: { childId, paperTitle },
+      token,
+    }),
+
+  /** 读后小测（docs/34 P1-5）：机械理解检查；quiz=null 表示本章出不了题，前端隐藏入口 */
+  readingQuiz: (contentId: string, order: number, token: string) =>
+    request<{ quiz: WordQuizDto | null }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/chapters/${order}/quiz`,
+      { token },
+    ),
+
+  reportQuizResult: (
+    contentId: string,
+    body: { childId: string; chapterOrder: number; correct: boolean; difficulty: 1 | 2 | 3 },
+    token: string,
+  ) =>
+    request<{ ok: boolean }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/quiz-result`,
+      { method: 'POST', body, token },
+    ),
+
+  /** 识字量速测（docs/34 P1-8）：每周一份，test=null 表示样本不足未出题 */
+  literacyTest: (childId: string, token: string) =>
+    request<{ test: { items: LiteracyItemDto[] } | null; suggestion: LiteracySuggestionDto | null }>(
+      `/api/content/literacy-test?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+
+  submitLiteracyTest: (childId: string, correctCount: number, total: number, token: string) =>
+    request<{ suggestion: LiteracySuggestionDto }>('/api/content/literacy-test', {
+      method: 'POST',
+      body: { childId, correctCount, total },
+      token,
+    }),
+
+  /** 划线收藏（docs/34 P1-11）：长按段落收下，同段落重复收藏=幂等更新 */
+  addBookHighlight: (childId: string, bookId: string, body: { chapterOrder: number; blockOrder: number; text: string }, token: string) =>
+    request<{ highlight: { id: string } }>('/api/content/highlights', {
+      method: 'POST',
+      body: { childId, bookId, ...body },
+      token,
+    }),
+
+  listBookHighlights: (childId: string, token: string) =>
+    request<{ total: number; highlights: BookHighlightDto[] }>(
+      `/api/content/highlights?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+
+  removeBookHighlight: (highlightId: string, childId: string, token: string) =>
+    request<{ ok: boolean }>(
+      `/api/content/highlights/${encodeURIComponent(highlightId)}?childId=${encodeURIComponent(childId)}`,
+      { method: 'DELETE', token },
+    ),
+
+  /** 主题书单（docs/34 P1-12） */
+  collections: (token: string) =>
+    request<{ collections: CollectionDto[] }>('/api/content/collections', { token }),
+
+  collectionBooks: (id: string, childId: string, token: string) =>
+    request<{ collection: { id: string; title: string; subtitle: string }; total: number; books: ContentBookDto[] }>(
+      `/api/content/collections/${encodeURIComponent(id)}?childId=${encodeURIComponent(childId)}`,
+      { token },
+    ),
+
+  /** 共读历史（docs/34 P2-5，仅家长） */
+  cosessionHistory: (token: string, take = 30) =>
+    request<CosessionHistoryDto>(`/api/cosession/history?take=${take}`, { token }),
+
+  /** 读完分享卡 SVG（docs/34 P2-6，仅家长） */
+  readingCardSvg: async (familyId: string, cosessionId: string, token: string): Promise<string> => {
+    const headers: Record<string, string> = {}
+    if (token) headers['Authorization'] = `Bearer ${token}`
+    const res = await fetch(
+      `${API_BASE}/api/reports/reading-card?familyId=${encodeURIComponent(familyId)}&cosessionId=${encodeURIComponent(cosessionId)}`,
+      { headers, signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(30_000) : undefined },
+    ).catch(() => {
+      throw new ApiError(0, 'NETWORK', '分享卡生成失败，请稍后再试')
+    })
+    if (res.status === 401) {
+      useSession.getState().signOut()
+      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
+        location.assign('/login')
+      }
+      throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
+    }
+    if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
+    return res.text()
+  },
+
+  /** AI 插画批量生成（docs/34 P0-2，仅家长）：一本书封面+全章题图，串行出网可能要几分钟 */
+  generateBookArt: (contentId: string, token: string) =>
+    request<Record<string, unknown>>(`/api/art/book/${encodeURIComponent(contentId)}`, {
+      method: 'POST',
+      body: {},
+      token,
+      timeoutMs: 600_000,
+    }),
+
+  /** AI 场景视频（docs/34 P0-2，仅家长）：异步任务，轮询 videoStatus 到 completed */
+  generateSceneVideo: (scene: string, token: string) =>
+    request<{ status: string; urlPath?: string | null }>(`/api/video/generate`, {
+      method: 'POST',
+      body: { scene },
+      token,
+      timeoutMs: 120_000,
+    }),
+
+  videoStatus: (scene: string, token: string) =>
+    request<{ status: string; urlPath?: string | null }>(`/api/video/${encodeURIComponent(scene)}`, { token }),
+
+  /** 编辑孩子档案（docs/34 P0-9）：服务端 PATCH 此前无 UI 入口 */
+  updateChildDoc: (childId: string, token: string, body: { nickname?: string; stage?: string }) =>
+    request<{ ok: boolean }>(`/api/children/${encodeURIComponent(childId)}`, { method: 'PATCH', body, token }),
+
+  /** 解绑微信读书（docs/34 P0-9）：密文销毁 + 服务端逐出进程内实例 */
+  unbindWeread: (familyId: string, token: string) =>
+    request<{ ok: boolean }>(`/api/family/${encodeURIComponent(familyId)}/bind-weread`, { method: 'DELETE', token }),
+
+  /** 家庭数据导出（docs/34 P2-9，仅家长）：JSON 下载 */
+  exportFamilyData: async (familyId: string, token: string): Promise<string> => {
+    const headers: Record<string, string> = {}
+    if (token) headers['Authorization'] = `Bearer ${token}`
+    const res = await fetch(`${API_BASE}/api/family/${encodeURIComponent(familyId)}/export`, {
+      headers,
+      signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(30_000) : undefined,
+    }).catch(() => {
+      throw new ApiError(0, 'NETWORK', '导出失败，请稍后再试')
+    })
+    if (res.status === 401) {
+      useSession.getState().signOut()
+      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
+        location.assign('/login')
+      }
+      throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
+    }
+    if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '导出失败，请稍后再试')
+    return res.text()
+  },
+
+  /** 运营摘要（docs/34 P2-10，仅家长；孩子端无入口） */
+  opsSummary: (token: string) => request<OpsSummaryDto>('/api/ops/summary', { token }),
+
+  /** 共读脚手架（docs/34 P0-3）：阅读中给爸妈的「讲什么/问什么」浮层 */
+  readingScaffold: (contentId: string, chapterOrder: number, token: string) =>
+    request<{ card: ReadingCardDto['card']; chapterOrder: number | null }>(
+      `/api/content/books/${encodeURIComponent(contentId)}/scaffold${chapterOrder ? `?chapterOrder=${chapterOrder}` : ''}`,
+      { token },
+    ),
+
   // ── 第四轮（docs/13 P0-B）：服务端 TTS ──
 
   ttsVoices: () =>
@@ -620,6 +780,12 @@ export interface ContentBookDto {
   blocked: boolean
   /** 孩子是否收藏（docs/15 P1-A） */
   favorite: boolean
+  /** 续读章序（docs/34 P0-4）；无进度/已读完为 null */
+  resumeChapter: number | null
+  /** 最近一次进度上报时间（docs/34 P0-4） */
+  lastReadAt: string | null
+  /** 难度徽章（docs/34 P1-7）：同类书每章字数中位数三档 */
+  difficulty: 'easy' | 'fit' | 'stretch'
 }
 
 /** 生词本卡片（docs/15 P1-B） */
@@ -675,6 +841,40 @@ export interface WeeklyReportDataDto {
 export interface FamilySettingsDto {
   /** 安静模式（docs/15 P1-C）：开启即应用内强制 reducedMotion，覆盖系统设置 */
   calmMode: boolean | null
+  /** 每日阅读时长提醒上限（分钟，docs/34 P1-2）；null=不限 */
+  dailyReadingLimitMin: number | null
+}
+
+/** docs/34 新增 DTO（2026-09-28） */
+export interface WordQuizDto { kind: 'word'; prompt: string; word: string; options: string[]; answerIndex: number }
+export interface LiteracyItemDto { char: string; options: string[]; answerIndex: number }
+export interface LiteracySuggestionDto { level: 'easy' | 'fit' | 'stretch'; message: string }
+export interface BookHighlightDto { id: string; bookId: string; bookTitle: string; chapterOrder: number; text: string; createdAt: string }
+export interface CollectionDto { id: string; title: string; subtitle: string; total: number }
+export interface CosessionHistoryDto {
+  sessions: Array<{
+    id: string
+    childName: string
+    title: string
+    startedAt: string
+    durationSec: number | null
+    progressMark: string | null
+    mood: string | null
+  }>
+}
+export interface RitualWindowDto {
+  mode: 'open' | 'daily_limit' | 'bedtime' | 'overtime'
+  hasActive: boolean
+  usedMin: number | null
+  limitMin: number | null
+}
+export interface OpsSummaryDto {
+  generatedAt: string
+  library: { booksTotal: number; booksZh: number; booksEn: number; chapters: number; importedBooks: number }
+  household: { families: number; children: number }
+  reading: { cosessionsTotal: number; cosessionsMine: number; cosessionsToday: number; words: number; highlights: number; bookHighlights: number; achievements: number }
+  costGuards: { ttsSegmentsToday: number; artAssetsTotal: number; videosTotal: number }
+  eventsLast7d: Array<{ event: string; count: number }>
 }
 
 export interface ReadingCardDto {

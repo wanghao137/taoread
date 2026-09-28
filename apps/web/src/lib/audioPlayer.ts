@@ -21,6 +21,8 @@ export interface AudioSegment {
   /** 字级时间轴：每项 {char, startMs, endMs} */
   chars: Array<{ char: string; start: number; end: number }>
   cached: boolean
+  /** 该段在章节全文坐标里的权威起点（服务端 SSE 下发）；点段跳读的对齐依据 */
+  start?: number
 }
 
 export interface VoiceOption {
@@ -501,18 +503,48 @@ class ServerAudioPlayer {
   }
 
   pause(): void {
-    if (this.audio && this.playing) {
+    if (this.audio && this.playing && !this.paused) {
+      this.paused = true
       this.audio.pause()
       this.stopTimelineLoop()
     }
   }
 
   resume(): void {
-    if (this.audio && this.playing) {
-      void this.audio.play()
+    if (!this.playing) return
+    this.paused = false
+    if (this.audio) {
+      void this.audio.play().catch(() => undefined)
       const seg = this.queue[this.currentIndex]
       if (seg) this.startTimelineLoop(seg)
     }
+  }
+
+  /** 段总数（阅读器上一段/下一段按钮的可用性） */
+  get segmentCount(): number {
+    return this.queue.length
+  }
+
+  /** 当前段下标 */
+  get currentSegmentIndex(): number {
+    return this.currentIndex
+  }
+
+  /** 各段在章节全文坐标里的起点（未带 start 的段为 -1；点段跳读对齐用） */
+  segmentStarts(): number[] {
+    return this.queue.map((s) => s.start ?? -1)
+  }
+
+  /** 跳到指定段（点段落跳读 / 上一段下一段）；未在播或越界返回 false。
+   * 会话代号 +1 作废被打断段的挂起重试；playSegment 内部复位 paused 并重挂时间轴。 */
+  jumpToSegment(index: number): boolean {
+    if (!this.playing || this.cancelled) return false
+    if (index < 0 || index >= this.queue.length) return false
+    this.session += 1
+    this.currentIndex = index
+    this.emitProgress(-1)
+    void this.playSegment(index)
+    return true
   }
 
   /**

@@ -34,6 +34,10 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const [deleteCode, setDeleteCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
+  // docs/34 P0-9：编辑孩子档案（PATCH 服务端此前无 UI 入口）
+  const [editingChild, setEditingChild] = useState<{ id: string; nickname: string; stage: string } | null>(null)
+  // docs/34 P1-2：每日阅读提醒上限（分钟；空=不限）
+  const [limitDraft, setLimitDraft] = useState('')
 
   useEffect(() => {
     let alive = true
@@ -42,6 +46,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         if (!alive) return
         setView({ kind: 'ready', view: viewDto })
         setSettings(settingsDto)
+        setLimitDraft(settingsDto.dailyReadingLimitMin ? String(settingsDto.dailyReadingLimitMin) : '')
       })
       .catch((err: unknown) => {
         if (alive)
@@ -144,6 +149,19 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             <p className="mono-line" style={{ fontSize: 11 }}>
               API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位
             </p>
+            <button
+              type="button"
+              className="sticker-btn sm"
+              style={{ marginTop: 8 }}
+              disabled={busy}
+              onClick={() =>
+                void run(() => api.unbindWeread(familyId, token), '已解绑，书架将在下次同步后消失').then((r) => {
+                  if (r !== undefined) onChanged()
+                })
+              }
+            >
+              解绑
+            </button>
           </div>
         ) : (
           <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
@@ -155,22 +173,85 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
               {view.view.children.map((c: ChildDto) => (
                 <div key={c.id} className="kid-row">
-                  <span>
-                    {c.nickname}（{c.stage}）
-                  </span>
-                  <button
-                    type="button"
-                    className="sticker-btn sm"
-                    disabled={busy}
-                    onClick={() =>
-                      void run(
-                        () => api.deleteChildDoc(familyId, token, c.id),
-                        '已移除',
-                      ).then((r) => r !== undefined && onChanged())
-                    }
-                  >
-                    移除
-                  </button>
+                  {editingChild?.id === c.id ? (
+                    <>
+                      <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+                        <input
+                          value={editingChild.nickname}
+                          onChange={(e) => setEditingChild({ ...editingChild, nickname: e.target.value })}
+                          maxLength={20}
+                          aria-label="修改昵称"
+                          className="field"
+                          style={{ width: 110 }}
+                        />
+                        <select
+                          value={editingChild.stage}
+                          onChange={(e) => setEditingChild({ ...editingChild, stage: e.target.value })}
+                          aria-label="修改年龄段"
+                          className="field"
+                        >
+                          <option value="3-5">3-5 岁</option>
+                          <option value="6-8">6-8 岁</option>
+                          <option value="9-12">9-12 岁</option>
+                        </select>
+                      </span>
+                      <span style={{ display: 'inline-flex', gap: 6 }}>
+                        <button
+                          type="button"
+                          className="sticker-btn primary sm"
+                          disabled={busy || editingChild.nickname.trim().length < 1}
+                          onClick={() =>
+                            void run(
+                              () =>
+                                api.updateChildDoc(c.id, token, {
+                                  nickname: editingChild.nickname.trim(),
+                                  stage: editingChild.stage,
+                                }),
+                              '已保存',
+                            ).then((r) => {
+                              if (r !== undefined) {
+                                setEditingChild(null)
+                                onChanged()
+                              }
+                            })
+                          }
+                        >
+                          保存
+                        </button>
+                        <button type="button" className="sticker-btn sm" onClick={() => setEditingChild(null)}>
+                          取消
+                        </button>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>
+                        {c.nickname}（{c.stage}）
+                      </span>
+                      <span style={{ display: 'inline-flex', gap: 6 }}>
+                        <button
+                          type="button"
+                          className="sticker-btn sm"
+                          onClick={() => setEditingChild({ id: c.id, nickname: c.nickname, stage: c.stage })}
+                        >
+                          编辑
+                        </button>
+                        <button
+                          type="button"
+                          className="sticker-btn sm"
+                          disabled={busy}
+                          onClick={() =>
+                            void run(
+                              () => api.deleteChildDoc(familyId, token, c.id),
+                              '已移除',
+                            ).then((r) => r !== undefined && onChanged())
+                          }
+                        >
+                          移除
+                        </button>
+                      </span>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -248,6 +329,73 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="panel">
+          <h3>每日阅读提醒</h3>
+          <p>
+            约定孩子每天一共读多久。到时间后孩子端会出现一张「该休息啦」的温柔卡片（不强制锁死），连续阅读 25 分钟也会有护眼眨眼提醒。留空 = 不限时。
+          </p>
+          <div className="setting-row" style={{ marginTop: 12 }}>
+            <input
+              value={limitDraft}
+              onChange={(e) => setLimitDraft(e.target.value.replace(/[^\d]/g, '').slice(0, 3))}
+              inputMode="numeric"
+              aria-label="每日阅读提醒上限（分钟）"
+              placeholder="不限"
+              className="field"
+              style={{ width: 110 }}
+            />
+            <span className="mono-label" style={{ alignSelf: 'center' }}>
+              分钟 / 天
+            </span>
+            <button
+              type="button"
+              className="sticker-btn primary sm"
+              disabled={busy}
+              onClick={() =>
+                void run(() =>
+                  api.updateSettings(familyId, token, {
+                    dailyReadingLimitMin: limitDraft.trim() === '' ? null : Number.parseInt(limitDraft, 10),
+                  }),
+                ).then((r) => {
+                  if (r) {
+                    setSettings(r)
+                    setLimitDraft(r.dailyReadingLimitMin ? String(r.dailyReadingLimitMin) : '')
+                    setMessage(r.dailyReadingLimitMin ? `已约定每天 ${r.dailyReadingLimitMin} 分钟` : '已改为不限时')
+                  }
+                })
+              }
+            >
+              保存
+            </button>
+          </div>
+        </div>
+
+        <div className="panel">
+          <h3>导出家庭数据</h3>
+          <p>把孩子的共读记录、金句、生词导出成一个 JSON 文件——数据是你们自己的。</p>
+          <button
+            type="button"
+            className="sticker-btn"
+            style={{ marginTop: 10 }}
+            disabled={busy}
+            onClick={() =>
+              void run(async () => {
+                const text = await api.exportFamilyData(familyId, token)
+                const blob = new Blob([text], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `taoread-export-${new Date().toISOString().slice(0, 10)}.json`
+                a.click()
+                URL.revokeObjectURL(url)
+                return true
+              }, '已开始下载')
+            }
+          >
+            导出 JSON
+          </button>
         </div>
 
         <div className="panel">

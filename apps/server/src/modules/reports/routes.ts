@@ -8,6 +8,7 @@ import {
   generateWeeklyReport,
   isSundayEveningRun,
   parseWeekStart,
+  renderBookCardSvg,
   renderShareCardSvg,
   type ReportDb,
 } from './service'
@@ -29,8 +30,12 @@ function parse<T>(schema: z.ZodType<T>, data: unknown): T {
 export function registerReportsRoutes(app: FastifyInstance, deps: ReportsRoutesDeps): void {
   const { db, tokenSecret } = deps
   const auth = requireAuth(tokenSecret)
+  // 分享卡只有家长会下载（孩子端零外链红线 + 最小数据面）：收家长角色
+  const parentAuth = requireAuth(tokenSecret, { roles: ['parent'] })
   const reportDb = db as ReportDb
 
+  // 周报按角色裁剪（docs/34 P0-10）：孩子端只需聚合数与金句（「本周共读 N 次」侧卡 +
+  // 阅读记忆金句流），书目清单/下周寄语是家长面向字段——孩子角色不回传。
   app.get('/api/reports/weekly', { preHandler: auth }, async (request) => {
     if (!request.auth) throw new NotFoundError('请先登录')
     const { familyId, start } = parse(
@@ -43,10 +48,23 @@ export function registerReportsRoutes(app: FastifyInstance, deps: ReportsRoutesD
     if (request.auth.fid !== familyId) throw new NotFoundError('没有找到这个家庭')
     const weekStart = parseWeekStart(start, new Date())
     const report = await generateWeeklyReport(reportDb, familyId, weekStart)
+    if (request.auth.role === 'child') {
+      return {
+        report: {
+          weekStart: report.weekStart,
+          nights: report.nights,
+          totalMinutes: report.totalMinutes,
+          booksCompleted: report.booksCompleted,
+          highlightsTotal: report.highlightsTotal,
+          achievementsUnlocked: report.achievementsUnlocked,
+          highlights: report.highlights,
+        },
+      }
+    }
     return { report }
   })
 
-  app.get('/api/reports/weekly/share-card', { preHandler: auth }, async (request, reply) => {
+  app.get('/api/reports/weekly/share-card', { preHandler: parentAuth }, async (request, reply) => {
     if (!request.auth) throw new NotFoundError('请先登录')
     const { familyId, start } = parse(
       z.object({
@@ -61,6 +79,61 @@ export function registerReportsRoutes(app: FastifyInstance, deps: ReportsRoutesD
     reply.type('image/svg+xml')
     return renderShareCardSvg(report)
   })
+
+  // ── 读完分享卡（docs/34 P2-6，仅家长）：单次共读的纪念卡，视觉与隐私红线同周报卡 ──
+  app.get('/api/reports/reading-card', { preHandler: parentAuth }, async (request, reply) => {
+    if (!request.auth) throw new NotFoundError('请先登录')
+    const { familyId, cosessionId } = parse(
+      z.object({ familyId: z.string().min(1), cosessionId: z.string().min(1) }),
+      request.query ?? {},
+    )
+    if (request.auth.fid !== familyId) throw new NotFoundError('没有找到这个家庭')
+    const session = await db.cosession.findFirst({
+      where: { id: cosessionId, familyId },
+      select: { bookId: true, paperTitle: true, startedAt: true, durationSec: true, progressMark: true, mood: true },
+    })
+    if (!session) throw new NotFoundError('没有找到这次共读')
+    const title = await resolveCosessionTitle(db, session.bookId, session.paperTitle)
+    const moodLabel = MOOD_LABELS[session.mood ?? ''] ?? null
+    const minutes = Math.max(1, Math.round((session.durationSec ?? 0) / 60))
+    const started = session.startedAt
+    const data = {
+      headline: `《${title}》${session.progressMark === 'done' ? '读完啦' : '共读时光'}`,
+      dateLine: `${started.getFullYear()}-${String(started.getMonth() + 1).padStart(2, '0')}-${String(started.getDate()).padStart(2, '0')} 的晚上`,
+      bigNumber: String(minutes),
+      bigLabel: '分钟的共读时光',
+      lines: moodLabel ? [moodLabel] : ['今晚的故事，讲完了'],
+    }
+    reply.type('image/svg+xml')
+    return renderBookCardSvg(data)
+  })
+}
+
+const MOOD_LABELS: Record<string, string> = {
+  happy: '孩子说：今晚很开心',
+  excited: '孩子说：太惊喜啦',
+  calm: '孩子说：很安静很舒服',
+  curious: '孩子说：还有好多好奇',
+  thinking: '孩子说：我在想一想',
+  sleepy: '孩子说：有点困了，晚安',
+}
+
+/** 共读会话书名解析（与周报/历史同口径）：cbf→内容域；weread→缓存；纸书用原名 */
+async function resolveCosessionTitle(
+  db: ReportsRoutesDeps['db'],
+  bookId: string | null,
+  paperTitle: string | null,
+): Promise<string> {
+  if (paperTitle) return paperTitle
+  if (bookId?.startsWith('cbf:')) {
+    const book = await db.book.findUnique({ where: { id: bookId.slice(4) }, select: { title: true } })
+    return book?.title ?? '桃书架的故事'
+  }
+  if (bookId) {
+    const cached = await db.bookCache.findUnique({ where: { bookId }, select: { title: true } })
+    return cached?.title ?? bookId
+  }
+  return '今晚的故事'
 }
 
 /**

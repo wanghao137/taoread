@@ -12,6 +12,14 @@ import { FootprintBar } from './parent/FootprintBar'
 // V8 Phase 6：一级导航收敛为四项；书架/桃书库合并进「内容」
 const TABS = ['今天', '内容', '足迹', '设置'] as const
 
+/** 本周一的 YYYY-MM-DD（本地日历，与 ReportPanel 同口径） */
+function thisMondayKey(): string {
+  const d = new Date()
+  const back = (d.getDay() + 6) % 7
+  d.setDate(d.getDate() - back)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 type FamilyState =
   | { kind: 'loading' }
   | { kind: 'error'; message?: string }
@@ -40,6 +48,37 @@ export function ParentHome() {
   // 「今天」实时同步（V8）：15s 静默轮询计数，传给 TonightPanel 原地刷新
   const [refreshKey, setRefreshKey] = useState(0)
   const bumpRefresh = useCallback(() => setRefreshKey((n) => n + 1), [])
+
+  // docs/34 P1-14：周报生成后的红点提醒——本周报告已生成且未看过时，「足迹」标签亮点
+  const [reportDot, setReportDot] = useState(false)
+  useEffect(() => {
+    if (!token || !familyId) return
+    let alive = true
+    void api
+      .weeklyReport(familyId, token, thisMondayKey())
+      .then(() => {
+        if (!alive) return
+        try {
+          setReportDot(localStorage.getItem('taoread-report-seen') !== thisMondayKey())
+        } catch {
+          setReportDot(false)
+        }
+      })
+      .catch(() => undefined)
+    return () => {
+      alive = false
+    }
+  }, [token, familyId, refreshKey])
+
+  const openFootprint = useCallback(() => {
+    setTab('足迹')
+    setReportDot(false)
+    try {
+      localStorage.setItem('taoread-report-seen', thisMondayKey())
+    } catch {
+      /* 隐私模式写不进就算了 */
+    }
+  }, [])
 
   const load = useCallback(() => {
     if (!token || !familyId) return
@@ -143,8 +182,20 @@ export function ParentHome() {
 
   function navButtons() {
     return TABS.map((t) => (
-      <button key={t} type="button" onClick={() => setTab(t)} aria-current={tab === t} className={tab === t ? 'on' : ''}>
+      <button
+        key={t}
+        type="button"
+        onClick={() => (t === '足迹' ? openFootprint() : setTab(t))}
+        aria-current={tab === t}
+        className={tab === t ? 'on' : ''}
+      >
         {t}
+        {t === '足迹' && reportDot ? (
+          <span
+            aria-hidden
+            style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 999, background: '#ff6b4a', marginLeft: 6, verticalAlign: 'middle' }}
+          />
+        ) : null}
       </button>
     ))
   }
@@ -178,7 +229,7 @@ export function ParentHome() {
               <p>小读者的设备输入家庭码即可加入</p>
             </div>
           </aside>
-          <main className="main">{body()}</main>
+          <main className="main" id="main-content">{body()}</main>
         </div>
       </div>
 

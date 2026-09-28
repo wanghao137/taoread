@@ -11,6 +11,8 @@ export const TEST_DB_URL = 'file:./test.db'
 export const tokenSecret = tokenSecretFrom(TEST_MASTER_KEY)
 /** 测试专用假 key：真实 key 只允许存在于 .env（gitignored），绝不写入任何源码 */
 export const FAKE_KEY = 'wrk-test-fake-key-0001'
+/** docs/34 P1-3：创建家庭必带隐私同意版本（监护人首次登记） */
+export const TEST_AGREE_VERSION = '2026-09-28-test'
 
 export interface TestHarness {
   app: FastifyInstance
@@ -127,7 +129,8 @@ export async function createFamilyAsParent(
   const res = await app.inject({
     method: 'POST',
     url: '/api/family',
-    payload: { deviceId },
+    // docs/34 P1-3：创建家庭必须携带隐私政策同意版本（监护人首次登记）
+    payload: { deviceId, agreeVersion: TEST_AGREE_VERSION },
   })
   if (res.statusCode !== 201) {
     throw new Error(`createFamilyAsParent 失败：${res.statusCode} ${res.body}`)

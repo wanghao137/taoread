@@ -299,16 +299,21 @@ export async function deleteChild(
 
 /** 家庭设置：null=回落服务端默认。
  * 就寝时刻/软封顶已随阅读时间限制取消（2026-09-25）停用——DB 列保留不动，
- * 读写路径不再暴露，防旧客户端继续依赖已失效的配置项。 */
+ * 读写路径不再暴露，防旧客户端继续依赖已失效的配置项。
+ * dailyReadingLimitMin（docs/34 P1-2）：家长可选的每日阅读时长提醒上限（分钟），
+ * null=不限；语义是「温柔收尾」不是强制锁定（服务端不阻断任何请求）。 */
 export interface FamilySettings {
   /** 安静模式（docs/15 P1-C）：null/false=跟随系统 reduced-motion */
   calmMode: boolean | null
+  /** 每日阅读时长提醒上限（分钟）；null=不限 */
+  dailyReadingLimitMin: number | null
 }
 
 export async function getSettings(db: FamilyDb, familyId: string): Promise<FamilySettings> {
   const family = await assertFamilyExists(db, familyId)
   return {
     calmMode: family.calmMode,
+    dailyReadingLimitMin: family.dailyReadingLimitMin,
   }
 }
 
@@ -320,12 +325,126 @@ export async function updateSettings(
   await assertFamilyExists(db, familyId)
   const data: {
     calmMode?: boolean | null
+    dailyReadingLimitMin?: number | null
   } = {}
   if (input.calmMode !== undefined) {
     data.calmMode = input.calmMode
   }
+  if (input.dailyReadingLimitMin !== undefined) {
+    // 0 视为「不限」——设置页数字输入允许清零表达关闭，落库统一 null
+    data.dailyReadingLimitMin =
+      input.dailyReadingLimitMin === 0 ? null : input.dailyReadingLimitMin
+  }
   await db.family.update({ where: { id: familyId }, data })
   return getSettings(db, familyId)
+}
+
+/** 解绑微信读书（docs/34 P0-9）：删除绑定行，key 密文随之销毁；
+ * 进程内的服务实例/同步指纹由 app 层 onWereadUnbound 回调逐出。 */
+export async function unbindWeread(db: FamilyDb, familyId: string): Promise<void> {
+  await assertFamilyExists(db, familyId)
+  const binding = await db.wereadBinding.findUnique({ where: { familyId } })
+  if (!binding) {
+    throw new NotFoundError('还没有绑定微信读书')
+  }
+  await db.wereadBinding.delete({ where: { familyId } })
+}
+
+/** 家庭数据导出（docs/34 P2-9）：孩子阅读足迹的「数据可携带」。
+ * 只含阅读行为数据，绝不含令牌/密文/家庭码（导出文件本身会离开设备）。
+ * 昵称映射在导出内完成，孩子档案删除后旧记录仍可读。 */
+export async function exportFamilyData(db: PrismaClient, familyId: string) {
+  await assertFamilyExists(db, familyId)
+  const children = await db.childProfile.findMany({
+    where: { familyId },
+    select: { id: true, nickname: true, stage: true, createdAt: true },
+    orderBy: { createdAt: 'asc' },
+  })
+  const childIds = children.map((c) => c.id)
+  const [cosessions, highlights, achievements, wordCards, readingProgress, favorites, bookHighlights, importedBooks] =
+    await Promise.all([
+      db.cosession.findMany({
+        where: { familyId },
+        select: { childId: true, bookId: true, paperTitle: true, startedAt: true, durationSec: true, progressMark: true, mood: true },
+        orderBy: { startedAt: 'asc' },
+      }),
+      db.highlightStar.findMany({
+        where: { familyId },
+        select: { childId: true, source: true, text: true, createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      db.achievement.findMany({
+        where: { familyId },
+        select: { childId: true, kind: true, value: true, unlockedAt: true },
+        orderBy: { unlockedAt: 'asc' },
+      }),
+      childIds.length > 0
+        ? db.wordCard.findMany({
+            where: { childId: { in: childIds } },
+            select: { childId: true, word: true, lang: true, context: true, createdAt: true },
+            orderBy: { createdAt: 'asc' },
+          })
+        : Promise.resolve([]),
+      childIds.length > 0
+        ? db.readingProgress.findMany({
+            where: { childId: { in: childIds } },
+            select: { childId: true, bookId: true, chapterOrder: true, finished: true, updatedAt: true },
+            orderBy: { updatedAt: 'asc' },
+          })
+        : Promise.resolve([]),
+      childIds.length > 0
+        ? db.bookFavorite.findMany({
+            where: { childId: { in: childIds } },
+            select: { childId: true, bookId: true, createdAt: true },
+            orderBy: { createdAt: 'asc' },
+          })
+        : Promise.resolve([]),
+      childIds.length > 0
+        ? db.bookHighlight.findMany({
+            where: { childId: { in: childIds } },
+            select: { childId: true, bookId: true, chapterOrder: true, text: true, createdAt: true },
+            orderBy: { createdAt: 'asc' },
+          })
+        : Promise.resolve([]),
+      db.importedBook.findMany({
+        where: { familyId },
+        select: { title: true, createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+    ])
+  const childName = new Map(children.map((c) => [c.id, c.nickname]))
+  return {
+    exportedAt: new Date().toISOString(),
+    app: 'taoread' as const,
+    schemaVersion: 1 as const,
+    children: children.map((c) => ({ nickname: c.nickname, stage: c.stage, createdAt: c.createdAt })),
+    reading: {
+      cosessions: cosessions.map((s) => ({
+        child: childName.get(s.childId) ?? '',
+        bookId: s.bookId,
+        paperTitle: s.paperTitle,
+        startedAt: s.startedAt,
+        durationSec: s.durationSec,
+        progressMark: s.progressMark,
+        mood: s.mood,
+      })),
+      bookProgress: readingProgress.map((p) => ({
+        child: childName.get(p.childId) ?? '',
+        bookId: p.bookId,
+        chapterOrder: p.chapterOrder,
+        finished: p.finished,
+        updatedAt: p.updatedAt,
+      })),
+      importedBooks: importedBooks.map((b) => ({ title: b.title, createdAt: b.createdAt })),
+      favorites: favorites.map((f) => ({ child: childName.get(f.childId) ?? '', bookId: f.bookId })),
+    },
+    keepsakes: {
+      highlights: highlights.map((h) => ({ child: childName.get(h.childId) ?? '', text: h.text, source: h.source, createdAt: h.createdAt })),
+      bookHighlights: bookHighlights.map((h) => ({ child: childName.get(h.childId) ?? '', bookId: h.bookId, chapterOrder: h.chapterOrder, text: h.text })),
+      words: wordCards.map((w) => ({ child: childName.get(w.childId) ?? '', word: w.word, lang: w.lang, context: w.context })),
+      achievements: achievements.map((a) => ({ child: childName.get(a.childId) ?? '', kind: a.kind, value: a.value, unlockedAt: a.unlockedAt })),
+    },
+  }
 }
 
 /** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复。

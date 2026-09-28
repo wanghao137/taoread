@@ -234,7 +234,7 @@ describe('屏蔽策略与生成角色门（T03）', () => {
         direct.app.inject({
           method: 'POST',
           url: '/api/family',
-          payload: {},
+          payload: { agreeVersion: '2026-09-28-test' },
           remoteAddress: '10.9.0.1',
           ...(xff ? { headers: { 'x-forwarded-for': xff } } : {}),
         })
@@ -255,7 +255,7 @@ describe('屏蔽策略与生成角色门（T03）', () => {
         proxied.app.inject({
           method: 'POST',
           url: '/api/family',
-          payload: {},
+          payload: { agreeVersion: '2026-09-28-test' },
           remoteAddress: '10.9.0.1',
           headers: { 'x-forwarded-for': xff },
         })

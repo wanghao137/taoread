@@ -44,6 +44,21 @@ export function ritualWindowOf(
   return 'open'
 }
 
+/** 每日时长提醒判定（docs/34 P1-2）：纯函数，limitMin=null/≤0 恒 open。
+ * 语义是「温柔收尾」而非锁定：到点后孩子端展示收尾卡片，服务端不阻断任何请求。 */
+export function dailyLimitMode(
+  limitMin: number | null,
+  usedSec: number,
+): 'open' | 'daily_limit' {
+  if (limitMin === null || limitMin <= 0) return 'open'
+  return usedSec >= limitMin * 60 ? 'daily_limit' : 'open'
+}
+
+/** 本地日历日的零点（与 nights.ts 本地夜桶同口径；TZ 由部署钉 Asia/Shanghai） */
+export function startOfLocalDay(now = new Date()): Date {
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
+}
+
 export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDeps): void {
   const { db, tokenSecret } = deps
   const auth = requireAuth(tokenSecret)
@@ -57,7 +72,9 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
     return child
   }
 
-  // ── 仪式时段窗口：阅读时间限制已取消，恒 open（保留 hasActive 供断线续传）──
+  // ── 仪式时段窗口：就寝闸已取消恒放行；docs/34 P1-2 在此叠加「家长可选的
+  // 每日时长提醒」——今日已用时长（已收尾会话 durationSec 求和 + 活跃会话已进行
+  // 时间）达到家庭上限时返回 daily_limit，孩子端展示温柔收尾卡（非强制）──
   app.get('/api/ritual/window', { preHandler: auth }, async (request) => {
     const { childId } = parse(
       z.object({ childId: z.string().min(1) }),
@@ -69,7 +86,29 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
       where: { familyId: request.auth.fid, childId, endedAt: null },
       orderBy: { startedAt: 'desc' },
     })
-    return { mode: 'open' as const, hasActive: active !== null }
+    const nowSec = deps.nowSec ?? (() => Math.floor(Date.now() / 1000))
+    const family = await db.family.findUnique({
+      where: { id: request.auth.fid },
+      select: { dailyReadingLimitMin: true },
+    })
+    const limitMin = family?.dailyReadingLimitMin ?? null
+    let usedSec = 0
+    if (limitMin !== null && limitMin > 0) {
+      const finished = await db.cosession.aggregate({
+        where: { familyId: request.auth.fid, childId, startedAt: { gte: startOfLocalDay() } },
+        _sum: { durationSec: true },
+      })
+      usedSec = finished._sum.durationSec ?? 0
+      if (active) {
+        usedSec += Math.max(0, nowSec() - Math.floor(active.startedAt.getTime() / 1000))
+      }
+    }
+    return {
+      mode: dailyLimitMode(limitMin, usedSec),
+      hasActive: active !== null,
+      usedMin: Math.floor(usedSec / 60),
+      limitMin: limitMin ?? null,
+    }
   })
 
   // ── 成就墙数据（纪念式展示；防重复解锁由表唯一约束保证，此处只读） ──

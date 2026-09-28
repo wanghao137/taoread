@@ -48,7 +48,7 @@ describe('家庭域 API', () => {
       const res = await h.app.inject({
         method: 'POST',
         url: '/api/family',
-        payload: { deviceId: 'p1' },
+        payload: { deviceId: 'p1', agreeVersion: '2026-09-28-test' },
       })
       expect(res.statusCode).toBe(201)
       const body = res.json()

@@ -43,9 +43,9 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await expect(page.getByText(/为你挑了三本/)).toBeVisible()
     await expect(page.getByText('今天想读哪种感觉？')).toBeVisible()
     await expect(page.getByText('最近的家庭阅读记忆')).toBeVisible()
-    // 阅读节奏（近 8 周阅读足迹日历）在「我的 → 阅读记忆」页签
+    // 阅读节奏（近 8 周阅读足迹日历）在「我的 → 阅读记忆」页签（docs/34 P2-7：页签为 tab 语义）
     await goMy(page)
-    await page.getByRole('button', { name: '阅读记忆' }).click()
+    await page.getByRole('tab', { name: '阅读记忆' }).click()
     await expect(page.getByText('近 8 周阅读足迹')).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-home.png', fullPage: true })
   })
@@ -91,8 +91,8 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await page.screenshot({ path: 'test-results/v8-reader-sepia.png' })
     await page.getByRole('button', { name: '夜间', exact: true }).click()
     await page.getByRole('button', { name: '纸白', exact: true }).click()
-    // 设置浮层为遮罩点击收起（Overlay onClose）：选完主题先关面板再点读完啦
-    await page.mouse.click(195, 100)
+    // 设置浮层为 Esc 收起（Overlay onClose 支持键盘；浮层加高后坐标点背板不再可靠）
+    await page.keyboard.press('Escape')
 
     // 读完啦 → 结算
     await page.getByRole('button', { name: '读完啦' }).click()
@@ -117,11 +117,11 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await likeBtn.click()
     await expect(page.getByRole('button', { name: likedLabel })).toBeVisible()
 
-    await page.getByRole('button', { name: '喜欢', exact: true }).click()
+    await page.getByRole('tab', { name: '喜欢', exact: true }).click()
     await expect(page.getByRole('button', { name: likedLabel })).toBeVisible()
 
     // 切回「正在读」再取消收藏（取消后书会离开「喜欢」页签）
-    await page.getByRole('button', { name: '正在读', exact: true }).click()
+    await page.getByRole('tab', { name: '正在读', exact: true }).click()
     await page.getByRole('button', { name: likedLabel }).first().click()
     await expect(page.getByRole('button', { name: /^喜欢《/ }).first()).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-shelf-fav.png' })

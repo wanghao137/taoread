@@ -101,7 +101,7 @@ describe('共读域 API（第 4 夜）', () => {
         where: { familyId: f.familyId },
         orderBy: { ts: 'asc' },
       })
-      expect(events.map((e) => e.event)).toEqual(['ritual_started', 'cosession_finished'])
+      expect(events.map((e) => e.event)).toEqual(['privacy_consent', 'ritual_started', 'cosession_finished'])
     })
 
     it('幂等开课（第 6 夜防连点）：已有未收尾会话时复用，绝不开第二场', async () => {

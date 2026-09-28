@@ -31,6 +31,7 @@ import type { VideoGenDeps } from './modules/media/video'
 import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
+import { registerOpsRoutes } from './modules/ops/routes'
 
 export interface BuildAppOptions {
   db: PrismaClient
@@ -89,9 +90,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     reply.header('Referrer-Policy', 'no-referrer')
     // R-07（docs/31）：基线安全头。nosniff 防 MIME 嗅探（SPA fallback 的 text/html
     // 绝不能被当脚本解析）；frame 限制防点击劫持；权限策略收窄设备能力。
+    // microphone=(self)（docs/34 P1-6）：「跟我读」录音回放仅用本站 MediaRecorder，
+    // 不授予任何第三方帧。
     reply.header('X-Content-Type-Options', 'nosniff')
     reply.header('X-Frame-Options', 'SAMEORIGIN')
-    reply.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+    reply.header('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()')
     // R-07：CSP 先走 report-only 观察期（未配置报告端点，违规只在浏览器控制台可见），
     // 观察无违规后再切强制版。指令依据全仓外联域名盘点：
     //  - connect-src：同源 API/SSE + 公共媒体外链（media.taostudioai.com，R2 自定义域，
@@ -161,6 +164,11 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       registry.remove(familyId)
       invalidateSyncFingerprint(familyId)
     },
+    onWereadUnbound: (familyId) => {
+      // docs/34 P0-9：解绑同样要逐出实例与指纹，防止旧 key 继续服务到进程重启
+      registry.remove(familyId)
+      invalidateSyncFingerprint(familyId)
+    },
   })
 
   registerWereadRoutes(app, {
@@ -201,6 +209,9 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
+
+  // 运营摘要（docs/34 P2-10）：只读体检数据，家长角色，孩子端无入口
+  registerOpsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
 
 
   // 第四轮（docs/13）：媒体静态服务 + 服务端 TTS

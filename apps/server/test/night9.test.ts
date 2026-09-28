@@ -39,7 +39,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       headers: authHeaders(f.token),
     })
     // 阅读时间限制已取消：bedtimeMin/overtimeCapSec 不再暴露，设置只剩 calmMode
-    expect(initial.json()).toEqual({ calmMode: null })
+    expect(initial.json()).toEqual({ calmMode: null, dailyReadingLimitMin: null })
 
     const patch = await h.app.inject({
       method: 'PATCH',
@@ -48,7 +48,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { bedtimeMin: 1320, overtimeCapSec: 600, calmMode: true },
     })
     expect(patch.statusCode).toBe(200)
-    expect(patch.json()).toEqual({ calmMode: true })
+    expect(patch.json()).toEqual({ calmMode: true, dailyReadingLimitMin: null })
   })
 
   it('就寝残留字段：旧客户端传入被忽略（不报错也不落库），非法 calmMode 仍拒绝', async () => {
@@ -58,7 +58,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
     // 旧字段原样忽略（zod 非严格模式剔除），不能 500 也不能写库
     const legacy = await h.app.inject({ method: 'PATCH', url, headers, payload: { bedtimeMin: 1440, overtimeCapSec: 59 } })
     expect(legacy.statusCode).toBe(200)
-    expect(legacy.json()).toEqual({ calmMode: null })
+    expect(legacy.json()).toEqual({ calmMode: null, dailyReadingLimitMin: null })
     const bad = await h.app.inject({ method: 'PATCH', url, headers, payload: { calmMode: 'yes' } })
     expect(bad.statusCode).toBe(400)
   })
@@ -100,7 +100,7 @@ describe('家庭设置与注销（第 9 夜）', () => {
       payload: { calmMode: true },
     })
     expect(on.statusCode).toBe(200)
-    expect(on.json()).toEqual({ calmMode: true })
+    expect(on.json()).toEqual({ calmMode: true, dailyReadingLimitMin: null })
 
     // 孩子端再读已能拿到开闸后的值
     const childReadOn = await h.app.inject({

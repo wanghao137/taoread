@@ -1,0 +1,17 @@
+{
+  "name": "桃阅读 · 亲子共读",
+  "short_name": "桃阅读",
+  "description": "家庭的睡前共读仪式：公版与原创绘本、AI 朗读、共读足迹",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFF8EF",
+  "theme_color": "#FF8E75",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -28,6 +28,10 @@ model Family {
   /// 学龄前儿童找不到系统辅助功能开关，这是 WCAG 2.3.3「交互动效可被禁用」
   /// 在儿童产品里的正确实现形式。null/false=跟随系统。
   calmMode       Boolean?
+  /// 每日阅读时长提醒上限（分钟，家长可选；docs/34 P1-2）。null=不限。
+  /// 语义是「温柔收尾」不是强制锁死：/api/ritual/window 返回 daily_limit，
+  /// 孩子端展示收尾卡片，服务端不阻断任何请求（红线：锁定≠惩罚）。
+  dailyReadingLimitMin Int?
 
   children     ChildProfile[]
   binding      WereadBinding?
@@ -71,6 +75,7 @@ model ChildProfile {
   reading      ReadingProgress[]
   favorites    BookFavorite[]
   wordCards    WordCard[]
+  bookHighlights BookHighlight[]
   phonicsEnrollment PhonicsEnrollment?
   phonicsAttempts PhonicsAttempt[]
   importedReadingProgress ImportedReadingProgress[]
@@ -222,6 +227,7 @@ model Book {
   progress  ReadingProgress[]
   favorites BookFavorite[]
   wordCards WordCard[]
+  highlights BookHighlight[]
 
   @@index([lang, category])
 }
@@ -434,6 +440,23 @@ model BookFavorite {
   createdAt DateTime     @default(now())
 
   @@unique([childId, bookId])
+  @@index([childId])
+}
+
+/// 孩子在公版书里划下的句子（docs/34 P1-11）：长按段落即收藏，进「阅读记忆」金句流。
+/// 与共读金句 HighlightStar 分开：划线不需要共读会话，是纯阅读行为。
+model BookHighlight {
+  id           String       @id @default(cuid())
+  childId      String
+  child        ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  bookId       String
+  book         Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterOrder Int
+  blockOrder   Int
+  text         String // 划下的原句（≤200 字，路由层校验）
+  createdAt    DateTime     @default(now())
+
+  @@unique([childId, bookId, chapterOrder, blockOrder]) // 同一段落重复划线=幂等
   @@index([childId])
 }
 

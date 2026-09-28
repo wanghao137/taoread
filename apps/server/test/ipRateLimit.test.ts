@@ -74,7 +74,7 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
         h.app.inject({
           method: 'POST',
           url: '/api/family',
-          payload: { deviceId: 'p1' },
+          payload: { deviceId: 'p1', agreeVersion: '2026-09-28-test' },
           remoteAddress: ip,
         })
       expect((await create('10.0.0.1')).statusCode).toBe(201)
@@ -90,7 +90,7 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
 
     it('join 走同一限流器：配额耗尽后返回 429', async () => {
       const create = () =>
-        h.app.inject({ method: 'POST', url: '/api/family', payload: {}, remoteAddress: '10.0.1.1' })
+        h.app.inject({ method: 'POST', url: '/api/family', payload: { agreeVersion: '2026-09-28-test' }, remoteAddress: '10.0.1.1' })
       expect((await create()).statusCode).toBe(201)
       expect((await create()).statusCode).toBe(201)
       const join = await h.app.inject({
@@ -105,7 +105,7 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
 
     it('直连场景伪造 CF-Connecting-IP 不换桶：request.ip 非回环时一律按真实对端地址计数', async () => {
       const create = (ip: string, headers: Record<string, string> = {}) =>
-        h.app.inject({ method: 'POST', url: '/api/family', payload: {}, remoteAddress: ip, headers })
+        h.app.inject({ method: 'POST', url: '/api/family', payload: { agreeVersion: '2026-09-28-test' }, remoteAddress: ip, headers })
       // 同一对端地址伪造不同 CF 头：共享同一个桶，第 3 次 429
       expect((await create('10.9.0.1', { 'cf-connecting-ip': '1.1.1.1' })).statusCode).toBe(201)
       expect((await create('10.9.0.1', { 'cf-connecting-ip': '2.2.2.2' })).statusCode).toBe(201)
@@ -120,7 +120,7 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
         h.app.inject({
           method: 'POST',
           url: '/api/family',
-          payload: {},
+          payload: { agreeVersion: '2026-09-28-test' },
           remoteAddress: '127.0.0.1',
           headers: { 'cf-connecting-ip': cfIp },
         })
@@ -130,7 +130,7 @@ describe('IP 级限流（N2-007：无凭据入口）', () => {
       // 另一位隧道访客独立配额
       expect((await create('203.0.113.11')).statusCode).toBe(201)
       // 不带 CF 头的回环请求回落 request.ip 自成一桶
-      expect((await h.app.inject({ method: 'POST', url: '/api/family', payload: {}, remoteAddress: '127.0.0.1' })).statusCode).toBe(201)
+      expect((await h.app.inject({ method: 'POST', url: '/api/family', payload: { agreeVersion: '2026-09-28-test' }, remoteAddress: '127.0.0.1' })).statusCode).toBe(201)
     })
   })
 })

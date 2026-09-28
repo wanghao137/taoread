@@ -246,3 +246,46 @@ export function renderShareCardSvg(data: WeeklyReportData): string {
 export function isSundayEveningRun(now: Date): boolean {
   return now.getDay() === 0 && now.getHours() === 19
 }
+
+export interface BookCardData {
+  /** 顶部主标题，如《爱丽丝》读完啦 */
+  headline: string
+  /** 日期行，如 2026-09-28 的晚上 */
+  dateLine: string
+  /** 大字数字与单位 */
+  bigNumber: string
+  bigLabel: string
+  /** 补充行（书名/金句等，逐行居中展示） */
+  lines: string[]
+}
+
+/** 读完分享卡 SVG（1080×1440，docs/34 P2-6）：与周报分享卡同一套视觉与隐私红线
+ * （系统字体、不含 key/家庭码/孩子昵称），复用周报卡的渐变与排版骨架。 */
+export function renderBookCardSvg(data: BookCardData): string {
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  const truncate = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s)
+  const lines = data.lines.slice(0, 6).map((l) => `「${esc(truncate(l, 30))}」`)
+  const startY = 620
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E1A38"/>
+      <stop offset="1" stop-color="#16244C"/>
+    </linearGradient>
+    <linearGradient id="peach" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFB3A0"/>
+      <stop offset="1" stop-color="#FF8E75"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1440" fill="url(#bg)"/>
+  <text x="540" y="150" text-anchor="middle" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="56" font-weight="bold" fill="#F4F1FF">桃阅读 · 读完啦</text>
+  <text x="540" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="40" fill="#B8C1E2">${esc(truncate(data.headline, 22))}</text>
+  <text x="540" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" fill="#B8C1E2">${esc(data.dateLine)}</text>
+  <text x="540" y="470" text-anchor="middle" font-family="system-ui, sans-serif" font-size="140" font-weight="bold" fill="#FFD97A">${esc(data.bigNumber)}</text>
+  <text x="540" y="540" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" fill="#B8C1E2">${esc(data.bigLabel)}</text>
+  ${lines.map((line, i) => `<text x="540" y="${startY + i * 60}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" fill="#FFD3C4">${line}</text>`).join('\n  ')}
+  <rect x="390" y="1250" width="300" height="72" rx="36" fill="url(#peach)"/>
+  <text x="540" y="1298" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" font-weight="bold" fill="#0E1A38">桃阅读 · 亲子共读</text>
+</svg>`
+}

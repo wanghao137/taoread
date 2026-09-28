@@ -1,11 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
-import { api, ApiError, type WeeklyReportDataDto } from '../../lib/api'
+import { api, ApiError, type CosessionHistoryDto, type WeeklyReportDataDto } from '../../lib/api'
 import { Loading, ErrorState } from '../../components/ui'
 import { PageHead } from '../child/V8App'
 
 export interface ReportPanelProps {
   familyId: string
   token: string
+}
+
+const MOOD_LABEL: Record<string, string> = {
+  happy: '开心',
+  excited: '惊喜',
+  calm: '安静',
+  curious: '好奇',
+  thinking: '想一想',
+  sleepy: '想睡了',
 }
 
 /** 本周一的 YYYY-MM-DD（本地日历） */
@@ -31,6 +40,17 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [error, setError] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const [exportError, setExportError] = useState<string | null>(null)
+  // docs/34 P2-5：共读历史时间线（周报只有周聚合，逐次记录此前没有页面）
+  const [history, setHistory] = useState<CosessionHistoryDto['sessions']>([])
+  // docs/34 P2-6：读完分享卡按会话下载
+  const [cardBusyId, setCardBusyId] = useState<string | null>(null)
+
+  useEffect(() => {
+    api
+      .cosessionHistory(token, 20)
+      .then((r) => setHistory(r.sessions))
+      .catch(() => undefined)
+  }, [token])
 
   const load = useCallback(() => {
     let alive = true
@@ -88,6 +108,40 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       setExportError('分享卡导出没有成功，请稍后再试')
     } finally {
       setExporting(false)
+    }
+  }
+
+  /** docs/34 P2-6：单次共读的「读完卡」PNG 下载（与周报分享卡同一渲染链路） */
+  async function downloadBookCard(cosessionId: string) {
+    if (cardBusyId) return
+    setCardBusyId(cosessionId)
+    try {
+      const svg = await api.readingCardSvg(familyId, cosessionId, token)
+      const img = new Image()
+      const src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg)
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve()
+        img.onerror = () => reject(new Error('svg load failed'))
+        img.src = src
+      })
+      const canvas = document.createElement('canvas')
+      canvas.width = 1080
+      canvas.height = 1440
+      const ctx = canvas.getContext('2d')
+      if (!ctx) throw new Error('no canvas')
+      ctx.drawImage(img, 0, 0, 1080, 1440)
+      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'))
+      if (!blob) throw new Error('toBlob failed')
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `taoread-reading-${cosessionId.slice(-6)}.png`
+      a.click()
+      setTimeout(() => URL.revokeObjectURL(url), 10_000)
+    } catch {
+      setExportError('读完卡导出没有成功，请稍后再试')
+    } finally {
+      setCardBusyId(null)
     }
   }
 
@@ -169,6 +223,43 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
           </button>
         </div>
       )}
+
+      {/* docs/34 P2-5：共读时间线（最近 20 次）+ P2-6 读完卡 */}
+      {history.length > 0 ? (
+        <div className="panel" style={{ marginTop: 16 }}>
+          <h3>共读时间线</h3>
+          <p className="mono-line" style={{ fontSize: 11 }}>
+            每一次一起读过的晚上都在这里；点「存张卡」可以把这次共读保存成图片
+          </p>
+          <div className="chapter-list" style={{ marginTop: 10 }}>
+            {history.map((s) => {
+              const d = new Date(s.startedAt)
+              const minutes = s.durationSec !== null ? Math.max(1, Math.round(s.durationSec / 60)) : null
+              return (
+                <div key={s.id} className="chapter" style={{ cursor: 'default' }}>
+                  <span className="num">{`${d.getMonth() + 1}/${d.getDate()}`}</span>
+                  <b>
+                    {s.childName} · 《{s.title}》
+                    {s.progressMark === 'done' ? ' · 读完' : ''}
+                    {s.mood && MOOD_LABEL[s.mood] ? ` · ${MOOD_LABEL[s.mood]}` : ''}
+                  </b>
+                  <em style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+                    {minutes !== null ? `${minutes} 分钟` : ''}
+                    <button
+                      type="button"
+                      className="sticker-btn sm"
+                      disabled={cardBusyId === s.id}
+                      onClick={() => void downloadBookCard(s.id)}
+                    >
+                      {cardBusyId === s.id ? '生成中…' : '存张卡'}
+                    </button>
+                  </em>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }

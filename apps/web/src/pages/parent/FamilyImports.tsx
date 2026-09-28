@@ -69,6 +69,13 @@ export function FamilyImports({ token }: { token: string }) {
     if (!window.confirm(`删除《${book.title}》及全部章节？`)) return
     try { await api.removeImportedBook(token, book.id); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '删除失败') }
   }
+  // docs/34 P0-9：EPUB 重新解析（服务端 refresh 端点此前无 UI 入口）——
+  // 管线升级后用归档原文按当前管线重建章节与插图
+  async function reparse(book: ImportedBookDto) {
+    if (!window.confirm(`按当前管线重新解析《${book.title}》？章节与插图会重建。`)) return
+    setMessage('正在重新解析…')
+    try { const r = await api.refreshImportedBook(token, book.id); setMessage(`已重建 ${r.chapterCount} 章`); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '重新解析失败') }
+  }
   return <section className="panel" style={{ marginTop: 16 }}>
     <h3>家庭私有电子书</h3>
     <p>支持你有权供家庭阅读的 UTF-8 TXT、文本型 EPUB/PDF（EPUB 最多 32 MB、TXT/PDF 最多 4 MB；扫描 PDF 需先 OCR）。书籍只在本家庭可见；按孩子年龄段展示。</p>
@@ -84,7 +91,7 @@ export function FamilyImports({ token }: { token: string }) {
     </form>
     <div><h4>公版书源</h4><p>从 Project Gutenberg 下载已核对的原始英文经典文学；并非自然拼读分级读物。</p>{publicBooks.map((book) => <p key={book.id}>{book.title} · {book.author} <button type="button" disabled={busy} onClick={() => void addPublic(book.id)}>导入家庭书架</button></p>)}</div>
     {message && <p role="status">{message}</p>}
-    <ul>{books.map((book) => <li key={book.id}>{book.title} · {book.ageStage} · {book.chapterCount} 章 <button type="button" onClick={() => void remove(book)}>删除</button></li>)}</ul>
+    <ul>{books.map((book) => <li key={book.id}>{book.title} · {book.ageStage} · {book.chapterCount} 章 {(book.format ?? '').toLowerCase() === 'epub' ? <button type="button" onClick={() => void reparse(book)}>重新解析</button> : null} <button type="button" onClick={() => void remove(book)}>删除</button></li>)}</ul>
   </section>
 }
 

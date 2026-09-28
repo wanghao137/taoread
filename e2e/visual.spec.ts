@@ -13,6 +13,13 @@ async function loginAs(page: import('@playwright/test').Page, role: 'parent' | '
   // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）
   await page.getByRole('button', { name: role === 'parent' ? '爸爸妈妈' : '小朋友' }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
+  // docs/34 P1-1 家长门：解析乘算题并作答
+  if (role === 'parent') {
+    const gateText = await page.locator('[aria-label="家长确认"]').locator('.code-display').innerText()
+    const [a, b] = gateText.split('×').map((part) => Number.parseInt(part.trim(), 10))
+    await page.getByLabel('计算结果').fill(String(a! * b!))
+    await page.getByRole('button', { name: /确认进入家长端/ }).click()
+  }
 }
 
 test.describe('交付视觉终扫', () => {

@@ -5,6 +5,7 @@ import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
 import { IconFamily, IconPeach } from '../components/ui/icons'
 import { AiContentAgreement } from './AiContentAgreement'
+import { PRIVACY_VERSION } from './PrivacyPage'
 
 function deviceId(): string {
   // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
@@ -20,6 +21,10 @@ function deviceId(): string {
   }
 }
 
+function randomGate(): { a: number; b: number } {
+  return { a: 3 + Math.floor(Math.random() * 7), b: 3 + Math.floor(Math.random() * 7) }
+}
+
 type Mode = 'choose' | 'join' | 'create'
 
 /** 登录入口（v8 贴纸绘本语言）：品牌 mast + 贴纸面板 + 药丸按钮，与孩子端/家长端同一套 token */
@@ -33,6 +38,35 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [agreementOpen, setAgreementOpen] = useState(false)
   const [createdCode, setCreatedCode] = useState<{ familyCode: string } | null>(null)
+  // docs/34 P1-3：创建家庭=监护人首次登记，必须先勾选同意隐私政策（服务端留痕）
+  const [consented, setConsented] = useState(false)
+  // docs/34 P1-1：家长门——进家长端前答一道乘算题（防孩子误入，不新增凭据）
+  const [gate, setGate] = useState<{ a: number; b: number } | null>(null)
+  const [gateAnswer, setGateAnswer] = useState('')
+  const [gateError, setGateError] = useState<string | null>(null)
+  const gatePassRef = useRef<(() => void) | null>(null)
+
+  function askParentGate(action: () => void) {
+    gatePassRef.current = action
+    setGate(randomGate())
+    setGateAnswer('')
+    setGateError(null)
+  }
+
+  function tryGate() {
+    if (!gate) return
+    const answer = Number.parseInt(gateAnswer, 10)
+    if (answer === gate.a * gate.b) {
+      const action = gatePassRef.current
+      setGate(null)
+      gatePassRef.current = null
+      action?.()
+    } else {
+      setGateError('不对哦，再算一次')
+      setGate(randomGate())
+      setGateAnswer('')
+    }
+  }
 
   async function enter(path: '/child' | '/parent', session: { token: string; familyId: string; familyCode: string }) {
     signIn({ token: session.token, familyId: session.familyId, familyCode: session.familyCode, role })
@@ -44,7 +78,15 @@ export function LoginPage() {
     setError(null)
     try {
       const session = await api.joinFamily(code.trim().toUpperCase(), role, deviceId())
-      await enter(role === 'child' ? '/child' : '/parent', session)
+      if (role === 'parent') {
+        // 家长门（docs/34 P1-1）：单一家庭码形态下，这道题是孩子误入家长端的唯一软闸
+        askParentGate(() => {
+          signIn({ token: session.token, familyId: session.familyId, familyCode: session.familyCode, role })
+          navigate('/parent', { replace: true })
+        })
+        return
+      }
+      await enter('/child', session)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : '加入没有成功，请稍后再试')
     } finally {
@@ -56,7 +98,7 @@ export function LoginPage() {
     setBusy(true)
     setError(null)
     try {
-      const session = await api.createFamily(deviceId())
+      const session = await api.createFamily(deviceId(), PRIVACY_VERSION)
       setCreatedCode({ familyCode: session.familyCode })
       signIn({
         token: session.token,
@@ -140,7 +182,11 @@ export function LoginPage() {
             <p data-testid="family-code" className="code-display">
               {createdCode.familyCode}
             </p>
-            <button type="button" className="sticker-btn primary block" onClick={() => navigate('/parent', { replace: true })}>
+            <button
+              type="button"
+              className="sticker-btn primary block"
+              onClick={() => askParentGate(() => navigate('/parent', { replace: true }))}
+            >
               进入家长端
             </button>
           </div>
@@ -203,12 +249,38 @@ export function LoginPage() {
           <div className="panel">
             <h2>创建新家庭</h2>
             <p>创建后会得到一个 8 位家庭码，家里的平板、手机都能加入</p>
+            <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginTop: 12, textIndent: 0, cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={consented}
+                onChange={(e) => setConsented(e.target.checked)}
+                style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0 }}
+              />
+              <span style={{ textIndent: 0 }}>
+                我是监护人，已阅读并同意
+                <button
+                  type="button"
+                  className="linklike"
+                  style={{ padding: '0 4px' }}
+                  onClick={() => navigate('/privacy')}
+                >
+                  《隐私政策》
+                </button>
+                （会记录同意版本与时间）
+              </span>
+            </label>
             {error && (
               <p role="alert" className="msg" style={{ marginTop: 12 }}>
                 {error}
               </p>
             )}
-            <button type="button" className="sticker-btn primary block" style={{ marginTop: 14 }} disabled={busy} onClick={handleCreate}>
+            <button
+              type="button"
+              className="sticker-btn primary block"
+              style={{ marginTop: 14 }}
+              disabled={busy || !consented}
+              onClick={handleCreate}
+            >
               {busy ? '正在准备…' : '创建我的家庭'}
             </button>
             <button type="button" className="linklike" onClick={() => setMode('choose')}>
@@ -227,7 +299,46 @@ export function LoginPage() {
         <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => setAgreementOpen(true)}>
           AI 生成内容标识说明
         </button>
+        <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => navigate('/privacy')}>
+          隐私政策
+        </button>
       </div>
+
+      {/* 家长门（docs/34 P1-1）：一道乘算题，防孩子拿到家庭码后误入家长端 */}
+      {gate ? (
+        <div className="sheet-backdrop" role="dialog" aria-modal="true" aria-label="家长确认" onClick={() => setGate(null)}>
+          <div className="sheet-card" onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
+            <h2>请大人来回答</h2>
+            <p>这道题给爸爸妈妈——小朋友去选「小朋友」就好啦</p>
+            <p className="code-display" aria-live="polite">
+              {gate.a} × {gate.b} = ?
+            </p>
+            <input
+              className="field code-input"
+              style={{ width: '100%', marginTop: 8 }}
+              inputMode="numeric"
+              autoComplete="off"
+              aria-label="计算结果"
+              value={gateAnswer}
+              onChange={(e) => setGateAnswer(e.target.value.replace(/[^\d]/g, ''))}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') tryGate()
+              }}
+            />
+            {gateError && (
+              <p role="alert" className="msg" style={{ marginTop: 8 }}>
+                {gateError}
+              </p>
+            )}
+            <button type="button" className="sticker-btn primary block" style={{ marginTop: 12 }} disabled={!gateAnswer} onClick={tryGate}>
+              确认进入家长端
+            </button>
+            <button type="button" className="linklike" style={{ marginTop: 8 }} onClick={() => setGate(null)}>
+              ← 我先不进了
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       {agreementOpen && (
         <div

@@ -89,6 +89,63 @@ export function registerCosessionRoutes(
     return svc.getSessionDetail(db, request.auth.fid, id)
   })
 
+  // ── 共读历史时间线（docs/34 P2-5，仅家长）：逐次共读记录（周报只有周聚合）──
+  app.get('/api/cosession/history', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const query = parse(
+      z.object({ take: z.coerce.number().int().min(1).max(100).default(30) }),
+      request.query ?? {},
+    )
+    const rows = await db.cosession.findMany({
+      where: { familyId: request.auth.fid },
+      orderBy: { startedAt: 'desc' },
+      take: query.take,
+      select: {
+        id: true,
+        childId: true,
+        bookId: true,
+        paperTitle: true,
+        startedAt: true,
+        durationSec: true,
+        progressMark: true,
+        mood: true,
+        child: { select: { nickname: true } },
+      },
+    })
+    // 书名解析与周报同口径：cbf 书查内容域，weread 书查缓存，纸书用原名
+    const cbfIds = rows
+      .map((r) => (r.bookId && r.bookId.startsWith('cbf:') ? r.bookId.slice(4) : null))
+      .filter((x): x is string => x !== null)
+    const wereadIds = rows
+      .map((r) => (r.bookId && !r.bookId.startsWith('cbf:') ? r.bookId : null))
+      .filter((x): x is string => x !== null)
+    const [cbfBooks, cachedBooks] = await Promise.all([
+      cbfIds.length > 0 ? db.book.findMany({ where: { id: { in: cbfIds } }, select: { id: true, title: true } }) : Promise.resolve([]),
+      wereadIds.length > 0 ? db.bookCache.findMany({ where: { bookId: { in: wereadIds } }, select: { bookId: true, title: true } }) : Promise.resolve([]),
+    ])
+    const titleByContentId = new Map(cbfBooks.map((b) => [b.id, b.title]))
+    const titleByBookId = new Map(cachedBooks.map((b) => [b.bookId, b.title]))
+    return {
+      sessions: rows.map((r) => ({
+        id: r.id,
+        childName: r.child.nickname,
+        title:
+          r.paperTitle ??
+          (r.bookId && r.bookId.startsWith('cbf:')
+            ? titleByContentId.get(r.bookId.slice(4)) ?? '桃书架的故事'
+            : r.bookId
+              ? titleByBookId.get(r.bookId) ?? r.bookId
+              : '今晚的故事'),
+        startedAt: r.startedAt,
+        durationSec: r.durationSec,
+        progressMark: r.progressMark,
+        mood: r.mood,
+      })),
+    }
+  })
+
   app.post('/api/cosession/:id/finish', { preHandler: auth }, async (request) => {
     if (!request.auth) throw new UnauthorizedError()
     const { id } = parse(z.object({ id: z.string().min(1) }), request.params)

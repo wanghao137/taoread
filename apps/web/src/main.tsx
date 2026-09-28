@@ -51,10 +51,9 @@ createRoot(rootEl).render(
 )
 
 /**
- * Service Worker：仅注册「清理型」SW（public/sw.js）。
- * 历史 vite-plugin-pwa 预缓存外壳在部署后会给老访客供应已删除资源的旧壳 → 白屏。
- * 本 SW 无 fetch 处理器（永远走网络），activate 时清空全部 Cache Storage，
- * 从而自动治愈所有已装旧 SW 的设备；此后本产品明确不支持离线（F39）。
+ * Service Worker：v2（docs/34 P1-4）可安装 PWA + 静态外壳轻缓存。
+ * API 与导航绝不缓存（家庭数据带会话凭据）；仅 /assets//fonts//icons//brand/
+ * cache-first。v1 时代的「清理历史预缓存」能力保留（activate 清旧版本缓存）。
  */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

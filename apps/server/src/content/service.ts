@@ -45,6 +45,12 @@ export interface BookSummaryDto {
   coverThumbUrl: string | null
   /** 孩子是否收藏了这本书（docs/15 P1-A） */
   favorite: boolean
+  /** 续读章序（docs/34 P0-4）：无进度为 null；「今天/继续读」直接跳本章 */
+  resumeChapter: number | null
+  /** 最近一次上报进度时间（docs/34 P0-4）：今天页据此挑「最近读的那本」 */
+  lastReadAt: string | null
+  /** 难度徽章（docs/34 P1-7）：同类书按每章字数的中位数三档；单书视图取不到分布时默认 fit */
+  difficulty: 'easy' | 'fit' | 'stretch'
 }
 
 export interface ChapterDto {
@@ -122,6 +128,7 @@ function summarize(
   coverArtUrl: string | null,
   coverThumbUrl: string | null,
   favorite: boolean,
+  extra?: { resumeChapter?: number | null; lastReadAt?: Date | null; difficulty?: 'easy' | 'fit' | 'stretch' },
 ): BookSummaryDto {
   return {
     id: book.id,
@@ -143,6 +150,9 @@ function summarize(
     coverArtUrl,
     coverThumbUrl,
     favorite,
+    resumeChapter: extra?.resumeChapter ?? null,
+    lastReadAt: extra?.lastReadAt ? extra.lastReadAt.toISOString() : null,
+    difficulty: extra?.difficulty ?? 'fit',
   }
 }
 
@@ -199,10 +209,13 @@ export async function listBooks(
      * 只搜书名会让孩子搜不到自己真正想读的东西。
      */
     q?: string | null
+    /** 限定书集合（docs/34 P1-12 主题书单）：先按策展条件选 id，再走统一 DTO 组装 */
+    ids?: string[]
   } = {},
 ): Promise<BookSummaryDto[]> {
-  const where: { lang?: string } = {}
+  const where: { lang?: string; id?: { in: string[] } } = {}
   if (options.lang) where.lang = options.lang
+  if (options.ids) where.id = { in: options.ids }
   const needle = matchKey(options.q)
   const books = await db.book.findMany({
     where,
@@ -225,19 +238,20 @@ export async function listBooks(
     return true
   })
 
-  // 进度批量查询（无 childId 时一律 0）
-  const progressMap: Map<string, { pct: number; finished: boolean }> = new Map()
+  // 进度批量查询（无 childId 时一律 0）；docs/34 P0-4：带章序与最近读时间，
+  // 今天页的「继续读」要跳到最近读的那本书的那一章
+  const progressMap: Map<string, { pct: number; finished: boolean; chapterOrder: number | null; updatedAt: Date | null }> = new Map()
   if (options.childId) {
     const rows = await db.readingProgress.findMany({
       where: { childId: options.childId },
-      select: { bookId: true, chapterOrder: true, finished: true },
+      select: { bookId: true, chapterOrder: true, finished: true, updatedAt: true },
     })
     for (const row of rows) {
       const book = books.find((b) => b.id === row.bookId)
       if (!book) continue
       const total = book.chapters.length
       const pct = total > 0 ? Math.min(99, Math.round((row.chapterOrder / total) * 100)) : 0
-      progressMap.set(row.bookId, { pct: row.finished ? 100 : pct, finished: row.finished })
+      progressMap.set(row.bookId, { pct: row.finished ? 100 : pct, finished: row.finished, chapterOrder: row.chapterOrder, updatedAt: row.updatedAt })
     }
   }
 
@@ -251,9 +265,46 @@ export async function listBooks(
 
   const artMap = await artUrlMap(db, visible.map((b) => coverScene(b.id)))
   const favIds = options.childId ? await listFavoriteIds(db, options.childId) : new Set<string>()
+
+  // 难度徽章（docs/34 P1-7）：同类书内部按「每章字数」的中位数三档——
+  // 纯语料统计、零人工标注；孩子视角是「刚好/进阶/挑战」，不是评分
+  const perCat = new Map<string, number[]>()
+  for (const b of visible) {
+    const per = b.chapters.length > 0 ? Math.round(b.words / b.chapters.length) : b.words
+    if (!perCat.has(b.category)) perCat.set(b.category, [])
+    perCat.get(b.category)!.push(per)
+  }
+  const medianByCat = new Map<string, number>()
+  for (const [cat, arr] of perCat) {
+    arr.sort((a, b) => a - b)
+    const mid = Math.floor(arr.length / 2)
+    medianByCat.set(cat, arr.length % 2 === 1 ? arr[mid]! : Math.round(((arr[mid - 1] ?? 0) + arr[mid]!) / 2))
+  }
+  const difficultyOf = (b: (typeof visible)[number]): 'easy' | 'fit' | 'stretch' => {
+    const median = medianByCat.get(b.category)
+    if (!median || median <= 0) return 'fit'
+    const per = b.chapters.length > 0 ? Math.round(b.words / b.chapters.length) : b.words
+    if (per <= median * 0.7) return 'easy'
+    if (per >= median * 1.4) return 'stretch'
+    return 'fit'
+  }
+
   return visible.map((b) => {
-    const p = progressMap.get(b.id) ?? { pct: 0, finished: false }
-    return summarize(b, p.pct, p.finished, false, artUrlFor(artMap, b.id), variantUrl(artMap.get(coverScene(b.id)), 'thumb'), favIds.has(b.id))
+    const p = progressMap.get(b.id) ?? { pct: 0, finished: false, chapterOrder: null, updatedAt: null }
+    return summarize(
+      b,
+      p.pct,
+      p.finished,
+      false,
+      artUrlFor(artMap, b.id),
+      variantUrl(artMap.get(coverScene(b.id)), 'thumb'),
+      favIds.has(b.id),
+      {
+        resumeChapter: p.finished ? null : p.chapterOrder,
+        lastReadAt: p.updatedAt,
+        difficulty: difficultyOf(b),
+      },
+    )
   })
 }
 

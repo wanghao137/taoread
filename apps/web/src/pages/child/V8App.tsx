@@ -19,6 +19,7 @@ import { useSession } from '../../stores/session'
 import { audioPlayer } from '../../lib/audioPlayer'
 import { tts } from '../../lib/tts'
 import { AiBadge } from '../../components/art/AiBadge'
+import { haptic } from '../../lib/haptics'
 import { ReaderPage } from './ReaderPage'
 import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
 
@@ -42,6 +43,10 @@ export interface V8Book {
   finished: boolean
   fav: boolean
   chapterCount: number
+  /** 续读章序 / 最近读时间 / 难度徽章（docs/34 P0-4、P1-7） */
+  resumeChapter: number | null
+  lastReadAt: string | null
+  difficulty: 'easy' | 'fit' | 'stretch'
 }
 
 const TONES = ['mint', 'rose', 'sun', 'orange', 'sky']
@@ -76,12 +81,14 @@ function toV8(b: ContentBookDto): V8Book {
     finished: b.finished,
     fav: b.favorite,
     chapterCount: b.chapterCount,
+    resumeChapter: b.resumeChapter ?? null,
+    lastReadAt: b.lastReadAt ?? null,
+    difficulty: b.difficulty ?? 'fit',
   }
 }
 
 export const LABELS = {
-  brandSub: '贴纸绘本 · 儿童阅读空间',
-  memory: '阅读记忆',
+  brandSub: '贴纸绘本 · 儿童阅读空间',  memory: '阅读记忆',
   discover: '找故事',
   navHome: '今天',
   navMy: '我的',
@@ -92,7 +99,7 @@ export const LABELS = {
   mood: '今天想读哪种感觉？',
   moodSub: '先凭感觉，再看分类',
   discoverSub: '先看封面，再决定要不要打开。',
-  searchPlaceholder: '搜书名、作者，或者“兔子”“下雨”…',
+  searchPlaceholder: '搜书名、作者，或章节标题…',
   random: '帮我挑一本',
   mySub: '正在读、喜欢、读完，还有收下来的词',
   reading: '正在读',
@@ -138,6 +145,33 @@ export const MOODS: Array<{ key: string; label: string; match: (b: V8Book) => bo
   { key: 'curious', label: '想知道为什么', match: (b) => b.category === 'primer' || b.category === 'science' },
   { key: 'english', label: '想听英文', match: (b) => b.lang === 'en' },
 ]
+
+/** 结算心情（与服务端 MOODS 枚举对齐；纸质书收尾浮层用） */
+const FINISH_MOODS: Array<[string, string]> = [
+  ['happy', '开心'],
+  ['excited', '惊喜'],
+  ['calm', '安静'],
+  ['curious', '好奇'],
+  ['thinking', '想一想'],
+]
+
+/** docs/34 P0-6：成就解锁反馈——finishCosession 回包里的 unlocked 此前被丢弃，
+ * 现在解锁时给文案 + 专属触感（纪念式，无积分无兑换）。 */
+export function announceUnlocked(
+  unlocked: Array<{ kind: string; value: number }> | undefined,
+  showToast: (m: string) => void,
+): void {
+  if (!unlocked || unlocked.length === 0) return
+  const labels: Record<string, string> = {
+    night_lamp: '夜灯',
+    streak_best: '连读纪录',
+    book_done: '读完一本书',
+  }
+  for (const u of unlocked) {
+    showToast(`解锁新成就：${labels[u.kind] ?? u.kind} × ${u.value}`)
+  }
+  haptic('achievement')
+}
 
 interface V8ContextValue {
   childName: string
@@ -316,7 +350,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 <p>本周共读 {report?.nights ?? 0} 次</p>
               </div>
             </aside>
-            <main className="main">
+            <main className="main" id="main-content">
               <Routes>
                 <Route path="/" element={<TodayPage />} />
                 <Route path="/today" element={<TodayPage />} />
@@ -352,7 +386,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
           </nav>
         ) : null}
       </div>
-      {toastMsg ? <div className="toast">{toastMsg}</div> : null}
+      {toastMsg ? (
+        <div className="toast" role="status" aria-live="polite">
+          {toastMsg}
+        </div>
+      ) : null}
       {!inReader ? (
         <button
           onClick={onSwitchChild}
@@ -469,7 +507,7 @@ export function Calendar({ nights }: { nights: string[] }) {
     const key = new Date(dayStart).toISOString().slice(0, 10)
     const localKey = `${new Date(dayStart).getFullYear()}-${String(new Date(dayStart).getMonth() + 1).padStart(2, '0')}-${String(new Date(dayStart).getDate()).padStart(2, '0')}`
     const hit = nightSet.has(localKey) || nightSet.has(key)
-    cells.push(<i key={i} className={`cell ${hit ? 'hit' : ''}`} title={localKey} />)
+    cells.push(<i key={i} className={`cell ${hit ? 'hit' : ''}`} title={localKey} aria-label={`${localKey}${hit ? '，一起读过' : ''}`} />)
   }
   return (
     <div className="calendar">
@@ -497,16 +535,33 @@ function greetingNow(now: Date = new Date()): string {
 function TodayPage() {
   const v = useV8()
   const navigate = useNavigate()
-  const continueBook = v.books.find((b) => b.progress > 0 && !b.finished) ?? null
-  // 规则推荐（A7 P1 / Phase 5）：未读优先 → 收藏优先 → 中文书优先（产品红线：书架/推荐
-  // 中文排序靠前）→ 读过的降权，取 3 本
+  const token = useSession((s) => s.token)
+  const childId = useSession((s) => s.childId)
+  // docs/34 P0-4：「继续读」= 最近读的那本（按进度上报时间），而不是书架序里第一本在读
+  const inProgress = v.books.filter((b) => b.progress > 0 && !b.finished)
+  const continueBook =
+    inProgress.slice().sort((a, b) => (b.lastReadAt ?? '').localeCompare(a.lastReadAt ?? ''))[0] ?? null
+  // 规则推荐（A7 P1 / docs/34 P1-9）：未读优先 → 收藏优先 → 中文书优先 → 读过的降权；
+  // 新增孩子维度：难度「刚好」加分 + 读过同类书的画像偏好加分（纯本地统计，零成本）
+  const startedByCat = useMemo(() => {
+    const map = new Map<string, number>()
+    for (const b of v.books) {
+      if (b.progress > 0) map.set(b.category, (map.get(b.category) ?? 0) + 1)
+    }
+    return map
+  }, [v.books])
   const picks = useMemo(() => {
     const pool = v.books.filter((b) => b.id !== continueBook?.id)
     const scored = pool
       .map((b) => ({
         b,
         score:
-          (b.progress === 0 ? 2 : 0) + (b.fav ? 1 : 0) + (b.lang === 'zh' ? 0.5 : 0) + (b.finished ? -2 : 0),
+          (b.progress === 0 ? 2 : 0) +
+          (b.fav ? 1 : 0) +
+          (b.lang === 'zh' ? 0.5 : 0) +
+          (b.finished ? -2 : 0) +
+          (b.difficulty === 'fit' ? 0.5 : 0) +
+          ((startedByCat.get(b.category) ?? 0) > 0 ? 0.5 : 0),
       }))
       .sort((x, y) => y.score - x.score)
     const out: V8Book[] = []
@@ -518,8 +573,73 @@ function TodayPage() {
       out.push(b)
     }
     return out
-  }, [v.books, continueBook])
+  }, [v.books, continueBook, startedByCat])
   const firstMemory = v.report?.highlights?.[0] ?? null
+
+  // ── 纸质书共读（docs/34 P0-1）：今晚读纸书的孩子端入口 ──
+  const [paper, setPaper] = useState<{ id: string; title: string } | null>(null)
+  const [paperTitle, setPaperTitle] = useState('')
+  const [paperBusy, setPaperBusy] = useState(false)
+  const [finishOpen, setFinishOpen] = useState(false)
+  const [finishMood, setFinishMood] = useState<string | null>(null)
+  // ── 每日阅读提醒（docs/34 P1-2）：到点温柔收尾，不强制 ──
+  const [windowMode, setWindowMode] = useState<'open' | 'daily_limit'>('open')
+  const [usage, setUsage] = useState<{ usedMin: number | null; limitMin: number | null }>({ usedMin: null, limitMin: null })
+  const [limitAcked, setLimitAcked] = useState(false)
+
+  const loadPaperAndWindow = useCallback(() => {
+    if (!token || !childId) return
+    api
+      .activeCosession(childId, token)
+      .then(({ session }) => {
+        setPaper(session?.paperTitle ? { id: session.id, title: session.paperTitle } : null)
+      })
+      .catch(() => undefined)
+    api
+      .ritualWindow(childId, token)
+      .then((w) => {
+        setWindowMode(w.mode === 'daily_limit' ? 'daily_limit' : 'open')
+        setUsage({ usedMin: w.usedMin, limitMin: w.limitMin })
+      })
+      .catch(() => undefined)
+  }, [token, childId])
+
+  useEffect(() => {
+    loadPaperAndWindow()
+  }, [loadPaperAndWindow])
+
+  const startPaper = async () => {
+    const title = paperTitle.trim()
+    if (!title || !token || !childId || paperBusy) return
+    setPaperBusy(true)
+    try {
+      const session = await api.startPaperCosession(childId, title, token)
+      setPaper({ id: session.id, title })
+      setPaperTitle('')
+      v.showToast('共读开始，和爸爸妈妈一起读吧')
+    } catch (err) {
+      v.showToast(err instanceof Error ? err.message : '没成功，再试一次')
+    } finally {
+      setPaperBusy(false)
+    }
+  }
+
+  const finishPaper = async (progressMark: 'lot' | 'done') => {
+    if (!paper || !token) return
+    setPaperBusy(true)
+    try {
+      const result = await api.finishCosession(paper.id, { progressMark, ...(finishMood ? { mood: finishMood } : {}) }, token)
+      setFinishOpen(false)
+      setPaper(null)
+      setFinishMood(null)
+      announceUnlocked(result.unlocked, v.showToast)
+      loadPaperAndWindow()
+    } catch (err) {
+      v.showToast(err instanceof Error ? err.message : '没成功，再试一次')
+    } finally {
+      setPaperBusy(false)
+    }
+  }
 
   return (
     <>
@@ -535,7 +655,7 @@ function TodayPage() {
             <div className="hero-actions">
               <button
                 className="sticker-btn primary"
-                onClick={() => continueBook && v.readBook(continueBook.id, undefined)}
+                onClick={() => continueBook && v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined)}
                 disabled={!continueBook}
               >
                 {LABELS.continueRead}
@@ -547,6 +667,52 @@ function TodayPage() {
           </div>
           {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : null}
         </div>
+      </section>
+      {windowMode === 'daily_limit' && !limitAcked ? (
+        <section className="section" role="status">
+          <div className="side-card" style={{ borderColor: '#FFD97A' }}>
+            <b>🌙 今天的阅读时间到啦</b>
+            <p>
+              已经读了 {usage.usedMin ?? 0} 分钟（家长约定 {usage.limitMin ?? 0} 分钟）。小眼睛该休息了，明天再一起读吧！
+            </p>
+            <button className="sticker-btn" onClick={() => setLimitAcked(true)}>
+              我知道啦
+            </button>
+          </div>
+        </section>
+      ) : null}
+      <section className="section">
+        <div className="section-head">
+          <span className="section-no">05</span>
+          <h3>今晚读纸质书？</h3>
+          <p>纸质书也一起记进共读足迹</p>
+        </div>
+        {paper ? (
+          <div className="side-card">
+            <b>正在共读《{paper.title}》</b>
+            <p>和爸爸妈妈读完，回来收尾今天的共读，就会被好好记住。</p>
+            <button className="sticker-btn primary" onClick={() => setFinishOpen(true)}>
+              读完收尾
+            </button>
+          </div>
+        ) : (
+          <div className="search-wrap">
+            <input
+              className="search"
+              aria-label="纸质书书名"
+              placeholder="输入今晚纸质书的名字…"
+              value={paperTitle}
+              maxLength={120}
+              onChange={(e) => setPaperTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') void startPaper()
+              }}
+            />
+            <button className="sticker-btn hot" onClick={() => void startPaper()} disabled={paperBusy || !paperTitle.trim()}>
+              {paperBusy ? '开始中…' : '开始共读'}
+            </button>
+          </div>
+        )}
       </section>
       <section className="section">
         <div className="section-head">
@@ -574,6 +740,7 @@ function TodayPage() {
             <button
               key={m.key}
               className="mood"
+              aria-label={`${m.label}，去书架挑一本`}
               onClick={() => navigate(`/child/discover?mood=${m.key}`)}
             >
               {m.label}
@@ -605,6 +772,53 @@ function TodayPage() {
           )}
         </div>
       </section>
+      {finishOpen && paper ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="纸质书共读收尾"
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setFinishOpen(false)
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setFinishOpen(false)
+          }}
+          style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(20,16,12,0.45)', display: 'grid', placeItems: 'center', padding: 16 }}
+        >
+          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
+            <b>《{paper.title}》读得怎么样？</b>
+            <div className="mood-row" role="radiogroup" aria-label="今晚的心情">
+              {FINISH_MOODS.map(([key, label]) => (
+                <button
+                  key={key}
+                  className="mood"
+                  aria-pressed={finishMood === key}
+                  onClick={() => setFinishMood(key)}
+                >
+                  {label}
+                  {finishMood === key ? ' ✓' : ''}
+                </button>
+              ))}
+            </div>
+            <div className="hero-actions" style={{ marginTop: 12 }}>
+              <button className="sticker-btn" disabled={paperBusy} onClick={() => void finishPaper('lot')}>
+                读了一段
+              </button>
+              <button className="sticker-btn primary" disabled={paperBusy} onClick={() => void finishPaper('done')}>
+                读完整本
+              </button>
+              <button
+                className="mono-label"
+                style={{ border: 0, background: 'transparent', cursor: 'pointer' }}
+                onClick={() => setFinishOpen(false)}
+              >
+                还没读完
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   )
 }
@@ -629,6 +843,33 @@ function DiscoverPage() {
   const [langFilter, setLangFilter] = useState<'all' | 'zh' | 'en'>('all')
   const [serverHits, setServerHits] = useState<V8Book[] | null>(null)
   const [visible, setVisible] = useState(60)
+  // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
+  const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number }>>([])
+  const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
+  const collectionKey = searchParams.get('collection')
+  useEffect(() => {
+    if (!token) return
+    api
+      .collections(token)
+      .then((r) => setCollections(r.collections))
+      .catch(() => undefined)
+  }, [token])
+  useEffect(() => {
+    if (!collectionKey || !token || !childId) {
+      setCollectionBooks(null)
+      return
+    }
+    api
+      .collectionBooks(collectionKey, childId, token)
+      .then((r) => setCollectionBooks(r.books.map(toV8)))
+      .catch(() => setCollectionBooks(null))
+  }, [collectionKey, token, childId])
+  const setCollectionKey = (key: string | null) => {
+    const next = new URLSearchParams(searchParams)
+    if (key) next.set('collection', key)
+    else next.delete('collection')
+    setSearchParams(next, { replace: true })
+  }
   // Phase 5：≥2 字走服务端搜索（含章节标题命中，审计 A4「后端章节搜索被 V8 丢失」）
   const searchSeq = useRef(0)
   useEffect(() => {
@@ -652,6 +893,8 @@ function DiscoverPage() {
     return () => clearTimeout(t)
   }, [query, token, stage, childId])
   const filtered = useMemo(() => {
+    // 书单模式：只看书单内书目（服务端已按孩子适龄过滤）
+    if (collectionKey) return collectionBooks ?? []
     if (serverHits) return serverHits
     const q = query.trim().toLowerCase()
     let arr = v.books
@@ -660,7 +903,7 @@ function DiscoverPage() {
     if (mood) arr = arr.filter(mood.match)
     if (langFilter !== 'all') arr = arr.filter((b) => b.lang === langFilter)
     return arr
-  }, [v.books, query, moodKey, langFilter, serverHits])
+  }, [v.books, query, moodKey, langFilter, serverHits, collectionKey, collectionBooks])
 
   return (
     <>
@@ -685,19 +928,74 @@ function DiscoverPage() {
         </button>
       </div>
       <div className="filter-row">
-        <button className={`filter ${!moodKey && langFilter === 'all' ? 'on' : ''}`} onClick={() => { setMoodKey(null); setLangFilter('all') }}>
+        <button
+          className={`filter ${!moodKey && langFilter === 'all' && !collectionKey ? 'on' : ''}`}
+          aria-pressed={!moodKey && langFilter === 'all' && !collectionKey}
+          onClick={() => {
+            setMoodKey(null)
+            setLangFilter('all')
+            setCollectionKey(null)
+          }}
+        >
           {LABELS.all}
         </button>
         {MOODS.map((m) => (
           <button
             key={m.key}
             className={`filter ${moodKey === m.key ? 'on' : ''}`}
-            onClick={() => { setMoodKey(m.key); setLangFilter('all') }}
+            aria-pressed={moodKey === m.key}
+            onClick={() => {
+              setMoodKey(m.key)
+              setLangFilter('all')
+              setCollectionKey(null)
+            }}
           >
             {m.label}
           </button>
         ))}
+        {/* docs/34 P0-8：语言筛选此前是死状态（state 存在但没有按钮）——激活它 */}
+        <button
+          className={`filter ${langFilter === 'zh' ? 'on' : ''}`}
+          aria-pressed={langFilter === 'zh'}
+          onClick={() => {
+            setMoodKey(null)
+            setLangFilter('zh')
+            setCollectionKey(null)
+          }}
+        >
+          中文
+        </button>
+        <button
+          className={`filter ${langFilter === 'en' ? 'on' : ''}`}
+          aria-pressed={langFilter === 'en'}
+          onClick={() => {
+            setMoodKey(null)
+            setLangFilter('en')
+            setCollectionKey(null)
+          }}
+        >
+          英文
+        </button>
       </div>
+      {collections.length > 0 ? (
+        <div className="filter-row" aria-label="主题书单">
+          {collections.map((c) => (
+            <button
+              key={c.id}
+              className={`filter ${collectionKey === c.id ? 'on' : ''}`}
+              aria-pressed={collectionKey === c.id}
+              title={c.subtitle}
+              onClick={() => {
+                setMoodKey(null)
+                setLangFilter('all')
+                setCollectionKey(collectionKey === c.id ? null : c.id)
+              }}
+            >
+              📚 {c.title}
+            </button>
+          ))}
+        </div>
+      ) : null}
       <div className="library">
         {!v.loaded ? (
           <div>
@@ -736,14 +1034,55 @@ function MyPage() {
   const [words, setWords] = useState<Array<{ id: string; word: string; lang: string; context: string | null; bookTitle: string | null }>>([])
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
+  // docs/34 P0-7：生词复习（本地翻卡，不打分不评判）+ 删除
+  const [review, setReview] = useState<Array<{ id: string; word: string; lang: string; context: string | null; bookTitle: string | null }>>([])
+  const [reviewIdx, setReviewIdx] = useState(0)
+  const [reviewing, setReviewing] = useState(false)
 
-  useEffect(() => {
-    if (tab !== 'words' || !token || !childId) return
+  const loadWords = useCallback(() => {
+    if (!token || !childId) return
     api
       .listWords(childId, token)
       .then((res) => setWords(res.cards.map((c) => ({ id: c.id, word: c.word, lang: c.lang, context: c.context ?? null, bookTitle: c.bookTitle ?? null }))))
       .catch(() => setWords([]))
-  }, [tab, token, childId])
+  }, [token, childId])
+
+  useEffect(() => {
+    if (tab !== 'words') return
+    loadWords()
+  }, [tab, loadWords])
+
+  const startReview = () => {
+    const pool = [...words].sort(() => Math.random() - 0.5).slice(0, 5)
+    if (pool.length === 0) return
+    setReview(pool)
+    setReviewIdx(0)
+    setReviewing(true)
+  }
+
+  const speakWord = async (word: string, lang: string) => {
+    const l = lang === 'en' ? ('en' as const) : ('zh' as const)
+    const ok = await audioPlayer.speak(word, { lang: l })
+    if (!ok) tts.speak(word, { lang: l })
+  }
+
+  const advanceReview = () => {
+    if (reviewIdx + 1 >= review.length) {
+      setReviewing(false)
+      v.showToast(`复习完 ${review.length} 个词，真棒`)
+    } else {
+      setReviewIdx((i) => i + 1)
+    }
+  }
+
+  const deleteWord = (id: string) => {
+    if (!token || !childId) return
+    setWords((prev) => prev.filter((x) => x.id !== id))
+    api.removeWord(id, childId, token).catch(() => {
+      v.showToast('没删掉，再试一次')
+      loadWords()
+    })
+  }
 
   const lists = {
     reading: v.books.filter((b) => b.progress > 0 && !b.finished),
@@ -759,33 +1098,124 @@ function MyPage() {
   ]
   const arr = tab === 'reading' || tab === 'liked' || tab === 'done' ? lists[tab] : []
 
+  // ── 识字小测（docs/34 P1-8）：每周一份 20 题，只给「读什么难度」的建议，不做能力评估 ──
+  const [litOpen, setLitOpen] = useState(false)
+  const [litItems, setLitItems] = useState<Array<{ char: string; options: string[]; answerIndex: number }> | null>(null)
+  const [litIdx, setLitIdx] = useState(0)
+  const [litCorrect, setLitCorrect] = useState(0)
+  const [litPicked, setLitPicked] = useState<number | null>(null)
+  const [litSuggestion, setLitSuggestion] = useState<{ level: string; message: string } | null>(null)
+
+  const startLiteracy = async () => {
+    if (!token || !childId) return
+    try {
+      const res = await api.literacyTest(childId, token)
+      if (!res.test) {
+        v.showToast('小测还在准备中，过几天再来')
+        return
+      }
+      setLitItems(res.test.items)
+      setLitIdx(0)
+      setLitCorrect(0)
+      setLitPicked(null)
+      setLitSuggestion(null)
+      setLitOpen(true)
+    } catch {
+      v.showToast('小测没打开，再试一次')
+    }
+  }
+
+  const pickLiteracy = (i: number) => {
+    if (litPicked !== null || !litItems) return
+    setLitPicked(i)
+    if (i === litItems[litIdx]?.answerIndex) setLitCorrect((n) => n + 1)
+  }
+
+  const nextLiteracy = async () => {
+    if (!litItems || !token || !childId) return
+    if (litIdx + 1 < litItems.length) {
+      setLitIdx((i) => i + 1)
+      setLitPicked(null)
+      return
+    }
+    try {
+      const res = await api.submitLiteracyTest(childId, litCorrect, litItems.length, token)
+      setLitSuggestion(res.suggestion)
+    } catch {
+      setLitSuggestion({ level: 'fit', message: '做完啦！继续保持每天读一点。' })
+    }
+  }
+
   return (
     <>
       <PageHead title={LABELS.navMy} sub={LABELS.mySub} index="03" />
-      <div className="tabs">
+      <div className="tabs" role="tablist" aria-label="我的分类">
         {tabs.map(([k, label]) => (
-          <button key={k} className={`tab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
+          <button key={k} role="tab" aria-selected={tab === k} className={`tab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
             {label}
           </button>
         ))}
       </div>
       {tab === 'words' ? (
-        words.length === 0 ? (
+        reviewing && review.length > 0 ? (
+          <div className="side-card" style={{ maxWidth: 460 }}>
+            <p className="mono-label">
+              复习 {reviewIdx + 1} / {review.length}
+            </p>
+            <div className="detail-title">
+              <span className="marker">{review[reviewIdx]?.word}</span>
+            </div>
+            {review[reviewIdx]?.context ? <p>“{review[reviewIdx]?.context}”</p> : null}
+            {review[reviewIdx]?.bookTitle ? <p className="mono-label">出自《{review[reviewIdx]?.bookTitle}》</p> : null}
+            <div className="hero-actions" style={{ marginTop: 12 }}>
+              <button
+                className="sticker-btn"
+                onClick={() => {
+                  const w = review[reviewIdx]
+                  if (w) void speakWord(w.word, w.lang)
+                }}
+              >
+                听一听
+              </button>
+              <button className="sticker-btn primary" onClick={advanceReview}>
+                认识啦
+              </button>
+              <button className="sticker-btn" onClick={advanceReview}>
+                再看看
+              </button>
+            </div>
+          </div>
+        ) : words.length === 0 ? (
           <p className="mono-label">还没有收下生词。阅读时看到「收下这个词」就能收进来。</p>
         ) : (
-          <div className="speech-list">
-            {words.map((w) => (
-              <div className="speech-row" key={w.id}>
-                <div className="avatar">{w.lang === 'en' ? 'EN' : '词'}</div>
-                <div className="speech">
-                  <p>
-                    <b>{w.word}</b>
-                    {w.bookTitle ? <span className="mono-label"> · 《{w.bookTitle}》</span> : null}
-                  </p>
+          <>
+            <div className="hero-actions" style={{ marginBottom: 12 }}>
+              <button className="sticker-btn primary" onClick={startReview}>
+                复习 5 个词
+              </button>
+            </div>
+            <div className="speech-list">
+              {words.map((w) => (
+                <div className="speech-row" key={w.id}>
+                  <div className="avatar">{w.lang === 'en' ? 'EN' : '词'}</div>
+                  <div className="speech">
+                    <p>
+                      <b>{w.word}</b>
+                      {w.bookTitle ? <span className="mono-label"> · 《{w.bookTitle}》</span> : null}
+                    </p>
+                  </div>
+                  <button
+                    className="mono-label"
+                    style={{ border: 0, background: 'transparent', cursor: 'pointer', flexShrink: 0, padding: '8px 12px' }}
+                    aria-label={`删除生词 ${w.word}`}
+                    onClick={() => deleteWord(w.id)}
+                  >
+                    删除
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )
       ) : tab === 'memory' ? (
         <>
@@ -806,12 +1236,72 @@ function MyPage() {
         </>
       ) : (
         <div className="library">
+          {tab === 'reading' ? (
+            <div className="hero-actions" style={{ gridColumn: '1 / -1', marginBottom: 8 }}>
+              <button className="sticker-btn" onClick={() => void startLiteracy()}>
+                🔤 识字小测 · 每周一次
+              </button>
+            </div>
+          ) : null}
           {arr.map((b) => (
             <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />
           ))}
           {v.loaded && arr.length === 0 ? <p className="mono-label">这里还空着，去 找故事 逛逛。</p> : null}
         </div>
       )}
+      {litOpen && litItems ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="识字小测"
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape' && !litSuggestion) setLitOpen(false)
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget && !litSuggestion) setLitOpen(false)
+          }}
+          style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(20,16,12,0.45)', display: 'grid', placeItems: 'center', padding: 16 }}
+        >
+          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
+            {litSuggestion ? (
+              <>
+                <b>做完啦！认识了 {litCorrect} / {litItems.length} 个字</b>
+                <p style={{ marginTop: 8 }}>{litSuggestion.message}</p>
+                <p className="mono-label">想调整书架难度，请爸爸妈妈在家长端改</p>
+                <button className="sticker-btn primary" style={{ marginTop: 10 }} onClick={() => setLitOpen(false)}>
+                  知道啦
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="mono-label">
+                  第 {litIdx + 1} / {litItems.length} 题 · 你认识这个字吗？
+                </p>
+                <div className="detail-title">
+                  <span className="marker">{litItems[litIdx]?.char}</span>
+                </div>
+                <div className="mood-row" role="radiogroup" aria-label="选一个字">
+                  {litItems[litIdx]?.options.map((opt, i) => (
+                    <button
+                      key={`${litIdx}-${i}`}
+                      className="mood"
+                      aria-pressed={litPicked === i}
+                      onClick={() => pickLiteracy(i)}
+                    >
+                      {opt}
+                      {litPicked !== null && i === litItems[litIdx]?.answerIndex ? ' ✓' : ''}
+                    </button>
+                  ))}
+                </div>
+                <button className="sticker-btn primary" style={{ marginTop: 10 }} disabled={litPicked === null} onClick={() => void nextLiteracy()}>
+                  {litIdx + 1 < litItems.length ? '下一题' : '看结果'}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      ) : null}
     </>
   )
 }
@@ -958,6 +1448,11 @@ function BookDetailPage() {
                 <div className="info">
                   <small>{book.lang === 'en' ? '语言' : '拼音'}</small>
                   <b>{book.lang === 'en' ? '英文' : '带拼音'}</b>
+                </div>
+                {/* 难度徽章（docs/34 P1-7）：同类书每章字数中位数三档，不是评分 */}
+                <div className="info">
+                  <small>读起来</small>
+                  <b>{book.difficulty === 'easy' ? '很轻松' : book.difficulty === 'stretch' ? '有点挑战' : '刚刚好'}</b>
                 </div>
                 <div className="info">
                   <small>朗读方式</small>

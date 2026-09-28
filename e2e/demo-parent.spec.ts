@@ -13,6 +13,11 @@ test.describe('家长端', () => {
     // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）：选「爸爸妈妈」即家长身份
     await page.getByRole('button', { name: '爸爸妈妈' }).click()
     await page.getByRole('button', { name: /进入桃阅读/ }).click()
+    // docs/34 P1-1 家长门：一道乘算题（从题目文本解析两个乘数算出答案）
+    const gateText = await page.locator('[aria-label="家长确认"]').locator('.code-display').innerText()
+    const [a, b] = gateText.split('×').map((part) => Number.parseInt(part.trim(), 10))
+    await page.getByLabel('计算结果').fill(String(a! * b!))
+    await page.getByRole('button', { name: /确认进入家长端/ }).click()
     await page.getByText('家长端').waitFor()
 
     // ── 今天：足迹条 + 家庭码 + 孩子状态（种子小桃有历史账本但无 active 会话）──

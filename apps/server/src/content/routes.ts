@@ -16,6 +16,10 @@ import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
 import { generateReadingCard } from '../modules/cosession/readingCard'
 import * as svc from './service'
 import { registerImportRoutes } from './importRoutes'
+import { buildWordQuiz } from './quiz'
+import { buildLiteracyTest, literacySuggestion } from './literacy'
+import { COLLECTIONS, findCollection, collectionWhere } from './collections'
+import { weekStartDate } from '../lib/week'
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
   const result = schema.safeParse(data)
@@ -228,13 +232,14 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
   )
 
   /**
-   * 阅读中共读脚手架（docs/09 B1）：把「讲什么、问什么」从收尾后的一次性卡片
-   * 前移到阅读过程中。家长在孩子阅读时打开即可看到本章可聊的话题。
+   * 阅读中共读脚手架（docs/09 B1 / docs/34 P0-3）：把「讲什么、问什么」从收尾后的一次性卡片
+   * 前移到阅读过程中。共读发生在同一块屏幕前（睡前家庭场景），孩子端阅读器「给爸妈」按钮
+   * 直接触发，故对全部登录角色开放（内容仅模板话题 + 本章前 60 字摘要，无敏感数据）。
    * 内容域书按章节正文摘要生成，无网络依赖。
    */
   app.get<{ Params: { id: string } }>(
     '/api/content/books/:id/scaffold',
-    { preHandler: requireAuth(tokenSecret, { roles: ['parent'] }) },
+    { preHandler: auth },
     async (request, reply) => {
       if (!request.auth) throw new UnauthorizedError()
       const query = parse(
@@ -372,4 +377,275 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       return reply.send({ ok: true })
     },
   )
+
+  // ── 读后小测（docs/34 P1-5）：机械理解检查，正确答案可从原文验证 ──
+
+  app.get<{ Params: { id: string; order: string } }>(
+    '/api/content/books/:id/chapters/:order/quiz',
+    { preHandler: auth },
+    async (request, reply) => {
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
+      const order = parse(z.coerce.number().int().min(1).max(999), request.params.order)
+      const book = await db.book.findUnique({
+        where: { id: request.params.id },
+        select: { id: true, title: true, lang: true },
+      })
+      if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      const chapter = await db.chapter.findFirst({
+        where: { bookId: book.id, order },
+        include: { blocks: { orderBy: { order: 'asc' } } },
+      })
+      if (!chapter) throw new AppError('这一章还藏在云朵后面', 'CHAPTER_NOT_FOUND', 404)
+      const chapterTexts = chapter.blocks
+        .filter((b) => b.kind === 'text' || b.kind === 'poem')
+        .map((b) => b.text)
+      // 干扰项取同书其他章的正文，保证「可证伪」
+      const otherBlocks = await db.block.findMany({
+        where: { chapter: { bookId: book.id, order: { not: order } }, kind: { in: ['text', 'poem'] } },
+        select: { text: true },
+        take: 40,
+      })
+      const seed = `${book.id}:${order}:${new Date().toISOString().slice(0, 10)}`
+      const quiz = buildWordQuiz({
+        bookTitle: book.title,
+        chapterOrder: order,
+        lang: book.lang === 'en' ? 'en' : 'zh',
+        chapterTexts,
+        distractorTexts: otherBlocks.map((b) => b.text),
+        seed,
+      })
+      return reply.send({ quiz })
+    },
+  )
+
+  app.post<{ Params: { id: string } }>(
+    '/api/content/books/:id/quiz-result',
+    { preHandler: auth },
+    async (request, reply) => {
+      if (!request.auth) throw new UnauthorizedError()
+      const body = parse(
+        z.object({
+          childId: z.string().min(1).max(64),
+          chapterOrder: z.coerce.number().int().min(1).max(999),
+          correct: z.boolean(),
+          // 难度自报：1 有点难 | 2 刚刚好 | 3 太简单（docs/34 P1-5/P1-7 信号）
+          difficulty: z.number().int().min(1).max(3),
+        }),
+        request.body ?? {},
+      )
+      await assertOwnChild(request, body.childId)
+      await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
+      await db.eventLog.createMany({
+        data: [
+          {
+            familyId: request.auth.fid,
+            role: request.auth.role,
+            event: 'quiz_answered',
+            props: JSON.stringify({ childId: body.childId, bookId: request.params.id, chapterOrder: body.chapterOrder, correct: body.correct }),
+          },
+          {
+            familyId: request.auth.fid,
+            role: request.auth.role,
+            event: 'difficulty_reported',
+            props: JSON.stringify({ childId: body.childId, bookId: request.params.id, chapterOrder: body.chapterOrder, difficulty: body.difficulty }),
+          },
+        ],
+      })
+      return reply.send({ ok: true })
+    },
+  )
+
+  // ── 识字量速测（docs/34 P1-8）：只给阅读建议，不做能力评估 ──
+
+  app.get('/api/content/literacy-test', { preHandler: auth }, async (request, reply) => {
+    const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+    await assertOwnChild(request, query.childId)
+    if (!request.auth) throw new UnauthorizedError()
+    const child = await db.childProfile.findFirst({
+      where: { id: query.childId, familyId: request.auth.fid },
+      select: { stage: true },
+    })
+    if (!child) throw new AppError('没有找到孩子档案', 'CHILD_NOT_FOUND', 404)
+    const stages = cumulativeStages(child.stage)
+    const sampleBlocks = await db.block.findMany({
+      where: { chapter: { book: { lang: 'zh', ageStage: { in: stages } } }, kind: 'text' },
+      select: { text: true },
+      take: 400,
+    })
+    // 每周换一份题（防背题；确定性 seed 便于复现与测试）
+    const weekKey = weekStartDate(new Date()).toISOString().slice(0, 10)
+    const test = buildLiteracyTest({
+      seed: `${query.childId}:${weekKey}`,
+      sampleTexts: sampleBlocks.map((b) => b.text),
+    })
+    return reply.send({ test, suggestion: null })
+  })
+
+  app.post('/api/content/literacy-test', { preHandler: auth }, async (request, reply) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const body = parse(
+      z.object({
+        childId: z.string().min(1).max(64),
+        correctCount: z.coerce.number().int().min(0).max(20),
+        total: z.coerce.number().int().min(5).max(20),
+      }),
+      request.body ?? {},
+    )
+    await assertOwnChild(request, body.childId)
+    const suggestion = literacySuggestion(body.correctCount, body.total)
+    await db.eventLog.create({
+      data: {
+        familyId: request.auth.fid,
+        role: request.auth.role,
+        event: 'literacy_test_taken',
+        props: JSON.stringify({ childId: body.childId, correctCount: body.correctCount, total: body.total, level: suggestion.level }),
+      },
+    })
+    return reply.send({ suggestion })
+  })
+
+  // ── 划线收藏（docs/34 P1-11）：长按段落收下，进阅读记忆金句流 ──
+
+  app.post(
+    '/api/content/highlights',
+    { preHandler: auth },
+    async (request, reply) => {
+      const body = parse(
+        z.object({
+          childId: z.string().min(1).max(64),
+          bookId: z.string().trim().min(1).max(64),
+          chapterOrder: z.coerce.number().int().min(1).max(999),
+          blockOrder: z.coerce.number().int().min(0).max(9999),
+          text: z.string().trim().min(1).max(200),
+        }),
+        request.body ?? {},
+      )
+      await assertOwnChild(request, body.childId)
+      if (body.bookId.startsWith('imp:')) {
+        // 划线外键指向公版 Book 表；家庭书长按收藏走生词本路径
+        throw new ValidationError('家庭书暂时不支持划线')
+      }
+      await svc.assertContentReadable(db, request.auth!.fid, body.bookId, { role: request.auth!.role })
+      const book = await db.book.findUnique({ where: { id: body.bookId }, select: { id: true } })
+      if (!book) throw new AppError('这本书还在桃树上长着呢', 'BOOK_NOT_FOUND', 404)
+      const highlight = await db.bookHighlight.upsert({
+        where: {
+          childId_bookId_chapterOrder_blockOrder: {
+            childId: body.childId,
+            bookId: body.bookId,
+            chapterOrder: body.chapterOrder,
+            blockOrder: body.blockOrder,
+          },
+        },
+        create: {
+          childId: body.childId,
+          bookId: body.bookId,
+          chapterOrder: body.chapterOrder,
+          blockOrder: body.blockOrder,
+          text: body.text,
+        },
+        update: { text: body.text },
+      })
+      reply.code(201)
+      return reply.send({ highlight: { id: highlight.id } })
+    },
+  )
+
+  app.get(
+    '/api/content/highlights',
+    { preHandler: auth },
+    async (request, reply) => {
+      const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+      await assertOwnChild(request, query.childId)
+      const rows = await db.bookHighlight.findMany({
+        where: { childId: query.childId },
+        include: { book: { select: { title: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 100,
+      })
+      return reply.send({
+        total: rows.length,
+        highlights: rows.map((h) => ({
+          id: h.id,
+          bookId: h.bookId,
+          bookTitle: h.book.title,
+          chapterOrder: h.chapterOrder,
+          text: h.text,
+          createdAt: h.createdAt,
+        })),
+      })
+    },
+  )
+
+  app.delete<{ Params: { highlightId: string } }>(
+    '/api/content/highlights/:highlightId',
+    { preHandler: auth },
+    async (request, reply) => {
+      const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+      await assertOwnChild(request, query.childId)
+      const row = await db.bookHighlight.findUnique({ where: { id: request.params.highlightId } })
+      if (!row || row.childId !== query.childId) {
+        throw new AppError('没有找到这条划线', 'HIGHLIGHT_NOT_FOUND', 404)
+      }
+      await db.bookHighlight.delete({ where: { id: request.params.highlightId } })
+      return reply.send({ ok: true })
+    },
+  )
+
+  // ── 主题书单（docs/34 P1-12）：策展式合集，孩子端仍走适龄过滤 ──
+
+  app.get('/api/content/collections', { preHandler: auth }, async (_request, reply) => {
+    const defs = await Promise.all(
+      COLLECTIONS.map(async (def) => {
+        const total = await db.book.count({ where: collectionWhere(def) })
+        return { id: def.id, title: def.title, subtitle: def.subtitle, total }
+      }),
+    )
+    return reply.send({ collections: defs.filter((c) => c.total > 0) })
+  })
+
+  app.get<{ Params: { id: string } }>(
+    '/api/content/collections/:id',
+    { preHandler: auth },
+    async (request, reply) => {
+      const def = findCollection(request.params.id)
+      if (!def) throw new AppError('没有找到这份书单', 'COLLECTION_NOT_FOUND', 404)
+      const query = parse(
+        z.object({ childId: z.string().min(1).max(64).optional() }),
+        request.query,
+      )
+      if (query.childId) await assertOwnChild(request, query.childId)
+      if (!request.auth) throw new UnauthorizedError()
+      let stage: string | undefined
+      if (request.auth.role === 'child') {
+        stage = await deriveChildStage(request, query.childId)
+      }
+      // docs/34 P1-12（对抗审查 P2-5）：孩子角色先按累进适龄过滤再截 take——
+      // 否则 take 名额被不适龄书占用，孩子看到的书单会短于预期
+      const matched = await db.book.findMany({
+        where:
+          stage && request.auth.role === 'child'
+            ? { AND: [collectionWhere(def), { ageStage: { in: cumulativeStages(stage) } }] }
+            : collectionWhere(def),
+        select: { id: true },
+        orderBy: { title: 'asc' },
+        take: def.take,
+      })
+      if (matched.length === 0) return reply.send({ collection: def, total: 0, books: [] })
+      const books = await svc.listBooks(db, {
+        familyId: request.auth.fid,
+        ...(query.childId ? { childId: query.childId } : {}),
+        ...(stage ? { stage } : {}),
+        ids: matched.map((b) => b.id),
+      })
+      return reply.send({ collection: { id: def.id, title: def.title, subtitle: def.subtitle }, total: books.length, books })
+    },
+  )
+}
+
+/** 累进年龄段（与 listBooks 同口径）：3-5→[3-5]；6-8→[3-5,6-8]；9-12→全部 */
+function cumulativeStages(stage: string): string[] {
+  if (stage === '3-5') return ['3-5']
+  if (stage === '6-8') return ['3-5', '6-8']
+  return ['3-5', '6-8', '9-12']
 }

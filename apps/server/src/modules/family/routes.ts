@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { callWereadApi } from '../../services/weread/gateway'
 import {
@@ -78,6 +79,8 @@ export interface FamilyRoutesDeps {
   sessionGuard: SessionGuard
   /** 注销后逐出进程内该家庭的缓存/服务实例（N9-205，app 层注入 registry.remove+指纹失效） */
   onFamilyDeleted?: (familyId: string) => void
+  /** 解绑微信读书后逐出进程内该家庭的服务实例与同步指纹（docs/34 P0-9） */
+  onWereadUnbound?: (familyId: string) => void
 }
 
 /** 默认探针：真实网关 /_list；fetchImpl 可注入（测试）。
@@ -122,14 +125,29 @@ export function registerFamilyRoutes(
   const ipLimit = deps.ipLimiter ? { preHandler: ipRateLimit(deps.ipLimiter) } : {}
 
   // ── 创建家庭（无需认证：家庭码即身份的起点）──
+  // docs/34 P1-3：创建家庭即监护人首次登记，必须携带同意的隐私政策版本；
+  // 同意留痕写 EventLog（privacy_consent），版本常量随政策页发布（PRIVACY_VERSION）。
   app.post('/api/family', {
     ...ipLimit,
   }, async (request, reply) => {
     const body = parse(
-      z.object({ deviceId: deviceIdSchema }),
+      z.object({
+        deviceId: deviceIdSchema,
+        agreeVersion: z.string().min(4).max(32),
+      }),
       request.body ?? {},
     )
     const session = await svc.createFamily(db, tokenSecret, body.deviceId)
+    // 路由层的 db 运行时是完整 PrismaClient；FamilyDb 只是服务函数的最小子集类型
+    const full = db as PrismaClient
+    await full.eventLog.create({
+      data: {
+        familyId: session.familyId,
+        role: 'parent',
+        event: 'privacy_consent',
+        props: JSON.stringify({ version: body.agreeVersion, deviceId: body.deviceId ?? null }),
+      },
+    })
     reply.code(201)
     return session
   })
@@ -218,6 +236,32 @@ export function registerFamilyRoutes(
     return svc.bindWeread(db, masterKey, familyId, body.apiKey, probe)
   })
 
+  // ── 解绑微信读书（仅家长，docs/34 P0-9）：删除密文并逐出进程内实例/指纹 ──
+  app.delete('/api/family/:familyId/bind-weread', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    await svc.unbindWeread(db, familyId)
+    deps.onWereadUnbound?.(familyId)
+    return { ok: true }
+  })
+
+  // ── 家庭数据导出（仅家长，docs/34 P2-9）：JSON 下载，数据可携带 ──
+  app.get('/api/family/:familyId/export', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async (request, reply) => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    const data = await svc.exportFamilyData(db as PrismaClient, familyId)
+    reply.header('Content-Type', 'application/json; charset=utf-8')
+    reply.header(
+      'Content-Disposition',
+      `attachment; filename="taoread-export-${new Date().toISOString().slice(0, 10)}.json"`,
+    )
+    return data
+  })
+
   // ── 孩子档案 CRUD ──
   app.post('/api/family/:familyId/children', {
     preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
@@ -276,7 +320,7 @@ export function registerFamilyRoutes(
     return null
   })
 
-  // ── 家庭设置（第 9 夜）：安静模式；null=回落服务端默认。
+  // ── 家庭设置（第 9 夜）：安静模式 + 每日阅读提醒上限（docs/34 P1-2）。
   // 读取对家长与孩子都开放（只读）：安静模式必须能在孩子设备上生效（docs/15 P1-C），
   // 学龄前儿童找不到系统辅助功能开关，只有应用内家庭级开关这一条落地路径。
   // 就寝相关 bedtimeMin/overtimeCapSec 已随阅读时间限制取消（2026-09-25）停用：
@@ -287,7 +331,7 @@ export function registerFamilyRoutes(
     const { familyId } = parse(familyIdParamSchema, request.params)
     assertSameFamily(request, familyId)
     const settings = await svc.getSettings(db, familyId)
-    return { calmMode: settings.calmMode }
+    return { calmMode: settings.calmMode, dailyReadingLimitMin: settings.dailyReadingLimitMin }
   })
 
   app.patch('/api/family/:familyId/settings', {
@@ -298,6 +342,8 @@ export function registerFamilyRoutes(
     const body = parse(
       z.object({
         calmMode: z.boolean().nullable().optional(),
+        // 10-480 分钟=开启提醒；null/0=不限（service 层把 0 归一为 null）
+        dailyReadingLimitMin: z.number().int().min(0).max(480).nullable().optional(),
       }),
       request.body ?? {},
     )

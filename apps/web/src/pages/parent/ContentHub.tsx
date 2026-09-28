@@ -53,6 +53,7 @@ type Slice<T> =
 interface TaoData {
   books: ContentFamilyBookDto[]
   nicknames: Map<string, string>
+  children: Array<{ id: string; nickname: string; stage: string }>
 }
 
 interface WereadData {
@@ -120,6 +121,11 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   const [category, setCategory] = useState<CategoryKey>('all')
   const [busyKey, setBusyKey] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
+  // docs/34 P0-1：纸质书共读（后端早已支持 paperTitle，此前前端无入口）
+  const [paperTitle, setPaperTitle] = useState('')
+  const [paperChild, setPaperChild] = useState('')
+  const [paperBusy, setPaperBusy] = useState(false)
+  const [paperSession, setPaperSession] = useState<{ id: string; title: string } | null>(null)
 
   // ── 数据加载：两个来源并行，各自独立三态 ──
   const loadTao = useCallback(() => {
@@ -134,6 +140,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
           data: {
             books: res.books,
             nicknames: new Map(res.children.map((c) => [c.id, c.nickname])),
+            children: res.children,
           },
         })
       })
@@ -323,14 +330,136 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
     return <HubCover row={row} />
   }
 
+  /** docs/34 P0-2：为桃书库的书批量生成 AI 插画（封面+全章题图），串行出网可能要几分钟 */
+  async function genArt(row: HubRow) {
+    if (!row.contentId || busyKey) return
+    setBusyKey(row.key)
+    setNotice('正在为这本书生成插画（封面+每章题图），可能要几分钟，请保持页面打开…')
+    try {
+      await api.generateBookArt(row.contentId, token)
+      setNotice('插画生成完成，孩子端刷新书架即可看到')
+    } catch (err) {
+      setNotice(err instanceof ApiError ? err.message : '生成没有成功，请稍后再试')
+    } finally {
+      setBusyKey(null)
+    }
+  }
+
+  /** docs/34 P0-2：生成封面动画（异步任务，5s 轮询，最多等 4 分钟） */
+  async function genVideo(row: HubRow) {
+    if (!row.contentId || busyKey) return
+    setBusyKey(row.key)
+    setNotice('正在生成封面动画…')
+    try {
+      const scene = `cover:${row.contentId}`
+      await api.generateSceneVideo(scene, token)
+      for (let i = 0; i < 48; i++) {
+        const status = await api.videoStatus(scene, token)
+        if (status.status === 'completed') {
+          setNotice('封面动画生成完成')
+          setBusyKey(null)
+          return
+        }
+        if (status.status === 'failed') {
+          setNotice('动画生成失败，请稍后再试')
+          setBusyKey(null)
+          return
+        }
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+      }
+      setNotice('动画还在后台生成中，稍后再点一次可查看结果')
+    } catch (err) {
+      setNotice(err instanceof ApiError ? err.message : '生成没有成功，请稍后再试')
+    } finally {
+      setBusyKey(null)
+    }
+  }
+
+  /** docs/34 P0-1：开一场纸质书共读；孩子端「今天」页会出现这本书 */
+  async function startPaper() {
+    if (!paperChild || !paperTitle.trim() || paperBusy) return
+    setPaperBusy(true)
+    setNotice(null)
+    try {
+      const session = await api.startPaperCosession(paperChild, paperTitle.trim(), token)
+      setPaperSession({ id: session.id, title: paperTitle.trim() })
+      setPaperTitle('')
+      setNotice('共读开始啦——孩子的「今天」页会出现这本书')
+    } catch (err) {
+      setNotice(err instanceof ApiError ? err.message : '共读没有开始，请稍后再试')
+    } finally {
+      setPaperBusy(false)
+    }
+  }
+
+  /** docs/34 P0-1：家长代收尾纸质书共读（孩子端收尾也行） */
+  async function finishPaper() {
+    if (!paperSession || paperBusy) return
+    setPaperBusy(true)
+    try {
+      await api.finishCosession(paperSession.id, { progressMark: 'lot' }, token)
+      setPaperSession(null)
+      setNotice('今晚的纸质书共读收好啦，足迹里见')
+    } catch (err) {
+      setNotice(err instanceof ApiError ? err.message : '收尾没有成功，请稍后再试')
+    } finally {
+      setPaperBusy(false)
+    }
+  }
+
   function listArea() {
     if (source === 'paper') {
-      // 纸质书记录未接入，先给说明卡——不放假数据
+      // docs/34 P0-1：纸质书共读接通（此前是「即将支持」说明卡，后端能力早已齐备）
+      if (tao.kind !== 'ready') return <Loading label="正在准备…" />
+      const children = tao.data.children
+      if (children.length === 0) {
+        return (
+          <div className="panel">
+            <h3>纸质书</h3>
+            <p>先在「设置 → 小读者」添加孩子档案，就可以记录纸质书共读了。</p>
+          </div>
+        )
+      }
       return (
         <div className="panel">
-          <h3>纸质书</h3>
-          <p>纸质书记录即将支持。</p>
-          <p>到时可以把家里读的纸质绘本也记进来，和桃书库、微信读书放在一起看。</p>
+          <h3>今晚读纸质书</h3>
+          <p>把家里正在读的纸质绘本也记进共读足迹：开一场共读后，孩子的「今天」页会出现这本书；读完在任一端收尾，都会进周报与成就。</p>
+          <div className="setting-row" style={{ marginTop: 12 }}>
+            <input
+              type="text"
+              className="field"
+              placeholder="纸质书书名，如《晚安月亮》"
+              value={paperTitle}
+              maxLength={120}
+              aria-label="纸质书书名"
+              style={{ width: 200 }}
+              onChange={(e) => setPaperTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') void startPaper()
+              }}
+            />
+            <select className="field" value={paperChild} aria-label="选孩子" onChange={(e) => setPaperChild(e.target.value)}>
+              <option value="">选孩子…</option>
+              {children.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.nickname}
+                </option>
+              ))}
+            </select>
+            <button type="button" className="sticker-btn primary sm" disabled={paperBusy || !paperTitle.trim() || !paperChild} onClick={() => void startPaper()}>
+              开始共读
+            </button>
+          </div>
+          {paperSession ? (
+            <div style={{ marginTop: 12 }}>
+              <p role="status" className="msg">
+                正在共读《{paperSession.title}》
+              </p>
+              <button type="button" className="sticker-btn sm" disabled={paperBusy} onClick={() => void finishPaper()}>
+                收尾今晚共读
+              </button>
+            </div>
+          ) : null}
         </div>
       )
     }
@@ -426,6 +555,17 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
               <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void toggleBlocked(row)}>
                 {row.blocked ? '恢复显示' : '屏蔽'}
               </button>
+              {/* docs/34 P0-2：AI 生成入口（服务端 API+配额+互斥早已齐备，此前无 UI） */}
+              {row.contentId ? (
+                <>
+                  <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void genArt(row)}>
+                    生成插画
+                  </button>
+                  <button type="button" className="sticker-btn sm" disabled={busyKey === row.key} onClick={() => void genVideo(row)}>
+                    让封面动起来
+                  </button>
+                </>
+              ) : null}
             </div>
           </article>
         ))}

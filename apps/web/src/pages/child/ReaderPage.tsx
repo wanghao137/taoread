@@ -9,7 +9,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, API_BASE, type ContentChapterDto } from '../../lib/api'
+import { api, ApiError, API_BASE, type ContentChapterDto, type WordQuizDto } from '../../lib/api'
 import { tts } from '../../lib/tts'
 import { audioPlayer, type VoiceOption } from '../../lib/audioPlayer'
 import { useSession } from '../../stores/session'
@@ -19,7 +19,7 @@ import { haptic } from '../../lib/haptics'
 import { defaultReadingTheme } from '../../lib/readingTheme'
 import { AiBadge } from '../../components/art/AiBadge'
 import { PoemRuby } from '../../components/art/PoemRuby'
-import { useV8, LABELS, type V8Book } from './V8App'
+import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
 
@@ -33,6 +33,40 @@ const SPEED_STEPS: Array<{ label: string; value: number }> = [
   { label: '刚好', value: 1 },
   { label: '快一点', value: 1.2 },
 ]
+
+/** 朗读定时（docs/34 P2-1）：到点渐弱收尾，哄睡不惊醒 */
+const SLEEP_STEPS: Array<{ label: string; value: number | null }> = [
+  { label: '不限', value: null },
+  { label: '15 分钟', value: 15 },
+  { label: '30 分钟', value: 30 },
+  { label: '45 分钟', value: 45 },
+]
+
+/** 行距三档（docs/34 P1-10） */
+const LINE_STEPS: Array<{ label: string; value: number }> = [
+  { label: '紧凑', value: 1.7 },
+  { label: '舒适', value: 1.9 },
+  { label: '宽松', value: 2.1 },
+]
+
+const SANS_STACK = "-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif"
+
+/** 排版偏好持久化（docs/34 P1-10；主阅读器此前字号/主题都不记忆，与家庭书阅读器对齐） */
+function loadPref<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw === null ? fallback : (JSON.parse(raw) as T)
+  } catch {
+    return fallback
+  }
+}
+function savePref(key: string, value: unknown): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    /* 隐私模式等写不进就算了 */
+  }
+}
 
 /** 结算浮层心情五档（A7 mood taxonomy 的孩子语义） */
 const MOOD_OPTIONS: Array<{ key: string; label: string }> = [
@@ -163,13 +197,21 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 排版与专注 ── */
   // 安静时段（20:00-06:00）默认夜间护眼主题，白天纸白；仅默认值，可手动切换
-  const [theme, setTheme] = useState<ReaderTheme>(() => defaultReadingTheme())
-  const [font, setFont] = useState(22)
+  const [theme, setTheme] = useState<ReaderTheme>(() => loadPref('taoread-reader-theme', defaultReadingTheme()))
+  const [font, setFont] = useState(() => loadPref('taoread-reader-font', 22))
+  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => loadPref('taoread-reader-fontfamily', 'serif'))
+  const [lineHeight, setLineHeight] = useState(() => loadPref('taoread-reader-lineheight', 1.9))
   const [focused, setFocused] = useState(false)
   const focusHintShown = useRef(false)
+  useEffect(() => savePref('taoread-reader-theme', theme), [theme])
+  useEffect(() => savePref('taoread-reader-font', font), [font])
+  useEffect(() => savePref('taoread-reader-fontfamily', fontFamily), [fontFamily])
+  useEffect(() => savePref('taoread-reader-lineheight', lineHeight), [lineHeight])
 
   /* ── 朗读 ── */
   const [speaking, setSpeaking] = useState(false)
+  /** 暂停态（docs/34 P0-5：主阅读器此前只有停止没有暂停，引擎 pause/resume 早已实现） */
+  const [paused, setPaused] = useState(false)
   /** 服务端朗读合成中（首次点击到首段音频开播，约 10-40 秒）——给用户可见的等待状态 */
   const [preparing, setPreparing] = useState(false)
   /** 整章 SSE 合成的中止器：停止朗读/离开页面时断流，后台不再白拉 */
@@ -180,6 +222,26 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [serverVoices, setServerVoices] = useState<VoiceOption[]>([])
   const [voiceId, setVoiceId] = useState<string | null>(null)
   const [speed, setSpeed] = useState(1)
+
+  /* ── docs/34 阅读器新增（2026-09-28）── */
+  /** 共读脚手架浮层（P0-3） */
+  const [showScaffold, setShowScaffold] = useState(false)
+  const [scaffold, setScaffold] = useState<{ tellPoints: string[]; questions: string[]; hook: string } | null>(null)
+  const [scaffoldLoading, setScaffoldLoading] = useState(false)
+  /** 读后小测（P1-5） */
+  const [quiz, setQuiz] = useState<WordQuizDto | null>(null)
+  const [quizPick, setQuizPick] = useState<number | null>(null)
+  /** 朗读定时（P2-1） */
+  const [sleepMin, setSleepMin] = useState<number | null>(null)
+  /** 已划线块（P1-11） */
+  const [savedBlocks, setSavedBlocks] = useState<Set<number>>(new Set())
+  const longPressRef = useRef(false)
+  const pressTimerRef = useRef<number | null>(null)
+  /** 书签（P1-11；本机 localStorage，跨章持久） */
+  const bookmarkKey = `taoread-bookmarks-${book.id}`
+  const [bookmarks, setBookmarks] = useState<Array<{ chapter: number; block: number }>>([])
+  /** 插图灯箱（P1-11/P2-4） */
+  const [lightbox, setLightbox] = useState<string | null>(null)
 
   /* ── 浮层开关 ── */
   const [showSettings, setShowSettings] = useState(false)
@@ -389,10 +451,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     const offAp = audioPlayer.onProgress((p) => setHighlight({ index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
     const offAe = audioPlayer.onEnd(() => {
       setSpeaking(false)
+      setPaused(false)
       setHighlight(null)
     })
     const offAerr = audioPlayer.onError((msg) => {
       setSpeaking(false)
+      setPaused(false)
       setHighlight(null)
       showToast(msg)
     })
@@ -401,10 +465,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     const offTp = tts.onProgress((p) => setHighlight({ index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
     const offTe = tts.onEnd(() => {
       setSpeaking(false)
+      setPaused(false)
       setHighlight(null)
     })
     const offTerr = tts.onError((msg) => {
       setSpeaking(false)
+      setPaused(false)
       setHighlight(null)
       showToast(msg)
     })
@@ -453,6 +519,43 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     },
     [],
   )
+
+  /* ── 书签（docs/34 P1-11）：本机 localStorage，按书记存 ── */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(bookmarkKey)
+      setBookmarks(raw ? (JSON.parse(raw) as Array<{ chapter: number; block: number }>) : [])
+    } catch {
+      setBookmarks([])
+    }
+  }, [bookmarkKey])
+
+  /* ── 朗读定时（docs/34 P2-1）：到点渐弱收尾（哄睡不惊醒），手动停止即取消 ── */
+  useEffect(() => {
+    if (!speaking || !sleepMin) return
+    const timer = window.setTimeout(() => {
+      audioPlayer.fadeOutAndStop()
+      tts.stop()
+      setSpeaking(false)
+      setPaused(false)
+      setHighlight(null)
+      showToast('朗读时间到，晚安')
+    }, sleepMin * 60_000)
+    return () => window.clearTimeout(timer)
+  }, [speaking, sleepMin, showToast])
+
+  /* ── 键盘翻章（docs/34 P2-4，桌面端）：←/→，浮层打开时不抢 ── */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
+      if (showSettings || showChapters || showFinish || showScaffold || conflict || lightbox) return
+      if (e.key === 'ArrowLeft') goChapterRef.current(order - 1)
+      if (e.key === 'ArrowRight') goChapterRef.current(order + 1)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [order, showSettings, showChapters, showFinish, showScaffold, conflict, lightbox])
 
   /* ── 滚动节流上报（5s；挂在 main 容器上——scroll 不冒泡到 window） ── */
   useEffect(() => {
@@ -513,6 +616,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     audioPlayer.stop()
     tts.stop()
     setSpeaking(false)
+    setPaused(false)
     setHighlight(null)
   }, [])
 
@@ -738,6 +842,119 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     },
     [book.chapterCount, loadChapter, stopSpeaking],
   )
+  // 键盘翻章 effect 在 goChapter 定义之前挂载，用 ref 取最新实现
+  const goChapterRef = useRef<(target: number) => void>(() => undefined)
+  goChapterRef.current = goChapter
+
+  /* ── 暂停/继续（docs/34 P0-5）：双引擎安全——各自在不活跃时是空操作 ── */
+  const togglePause = useCallback(() => {
+    if (!speaking) return
+    if (paused) {
+      audioPlayer.resume()
+      tts.resume()
+      setPaused(false)
+    } else {
+      audioPlayer.pause()
+      tts.pause()
+      setPaused(true)
+    }
+  }, [speaking, paused])
+
+  /** 点段落跳读（docs/34 P0-5，对齐家庭书阅读器）：朗读中点任意段落跳到覆盖它的音频段 */
+  const jumpToBlock = useCallback(
+    (blockId: string) => {
+      if (!chapterAlign || !speaking || audioPlayer.isPaused) return
+      const range = chapterAlign.ranges.find((x) => x.id === blockId)
+      if (!range) return
+      const starts = audioPlayer.segmentStarts()
+      let best = -1
+      for (let i = 0; i < starts.length; i++) {
+        const s = starts[i]!
+        if (s >= 0 && s <= range.start) best = i
+      }
+      if (best < 0) return
+      if (audioPlayer.jumpToSegment(best)) {
+        setPaused(false)
+        haptic('chapter')
+      }
+    },
+    [chapterAlign, speaking],
+  )
+
+  /* ── 划线（docs/34 P1-11）：长按段落 600ms 收进金句（幂等，重复划线=更新） ── */
+  const saveHighlight = useCallback(
+    async (blockOrder: number, text: string) => {
+      if (!childId || !token) return
+      const trimmed = text.trim().slice(0, 200)
+      if (!trimmed) return
+      try {
+        await api.addBookHighlight(childId, book.id, { chapterOrder: order, blockOrder, text: trimmed }, token)
+        setSavedBlocks((prev) => new Set(prev).add(blockOrder))
+        haptic('stamp')
+        showToast('收进金句啦')
+      } catch (err) {
+        showToast(err instanceof Error ? err.message : '这句话没收进来，再试一次')
+      }
+    },
+    [childId, token, book.id, order, showToast],
+  )
+
+  const onBlockPressStart = useCallback(
+    (blockOrder: number, text: string) => {
+      longPressRef.current = false
+      if (pressTimerRef.current) window.clearTimeout(pressTimerRef.current)
+      pressTimerRef.current = window.setTimeout(() => {
+        pressTimerRef.current = null
+        longPressRef.current = true
+        void saveHighlight(blockOrder, text)
+      }, 600)
+    },
+    [saveHighlight],
+  )
+  const onBlockPressEnd = useCallback(() => {
+    if (pressTimerRef.current) {
+      window.clearTimeout(pressTimerRef.current)
+      pressTimerRef.current = null
+    }
+  }, [])
+
+  /* ── 书签（docs/34 P1-11）：当前章+当前块，同章重复点击=收起 ── */
+  const toggleBookmark = useCallback(() => {
+    const current = { chapter: order, block: currentBlockRef.current }
+    const exists = bookmarks.some((b) => b.chapter === current.chapter)
+    const next = exists
+      ? bookmarks.filter((b) => b.chapter !== current.chapter)
+      : [...bookmarks, current].sort((a, b) => a.chapter - b.chapter)
+    setBookmarks(next)
+    savePref(bookmarkKey, next)
+    showToast(exists ? '书签收起来了' : '夹了张书签')
+  }, [bookmarks, order, bookmarkKey, showToast])
+
+  /** 从书签跳：带块定位（与续读同路径） */
+  const goBookmark = useCallback(
+    (target: { chapter: number; block: number }) => {
+      if (target.chapter < 1 || target.chapter > book.chapterCount) return
+      stopSpeaking()
+      haptic('chapter')
+      void loadChapter(target.chapter, target.block)
+    },
+    [book.chapterCount, loadChapter, stopSpeaking],
+  )
+
+  /* ── 共读脚手架（docs/34 P0-3）：把「讲什么/问什么」前移到阅读中 ── */
+  const loadScaffold = useCallback(async () => {
+    if (!token) return
+    setScaffoldLoading(true)
+    try {
+      const res = await api.readingScaffold(book.id, order, token)
+      setScaffold(res.card)
+      setShowScaffold(true)
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : '悄悄话没拿到，再试一次')
+    } finally {
+      setScaffoldLoading(false)
+    }
+  }, [token, book.id, order, showToast])
 
   /* ── 专注模式：点正文留白收起/恢复顶栏与控制条 ── */
   const toggleFocus = useCallback(
@@ -780,7 +997,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     [childId, token, book.lang, book.id, showToast],
   )
 
-  /* ── 读完啦：先报进度（completed 只在最后一章为 true），再开结算浮层 ── */
+  /* ── 读完啦：先报进度（completed 只在最后一章为 true），再开结算浮层；
+   * 同时预取读后小测（docs/34 P1-5）——出不了题就静默隐藏，绝不造假题 ── */
   const openFinish = useCallback(async () => {
     if (!childId || !token) return
     if (speaking) stopSpeaking()
@@ -803,6 +1021,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       showToast(err instanceof Error ? err.message : '进度没存上，再试一次')
       return
     }
+    setQuizPick(null)
+    api
+      .readingQuiz(book.id, order, token)
+      .then((r) => setQuiz(r.quiz))
+      .catch(() => setQuiz(null))
     setShowFinish(true)
   }, [childId, token, book.id, book.chapterCount, order, speaking, stopSpeaking, showToast])
 
@@ -824,7 +1047,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     }
   }, [noteText, sessionId, startSession, token, showToast])
 
-  /** 「今天先读到这里」：收尾会话（末章 done / 其余 lot）后回今天 */
+  /** 「今天先读到这里」：收尾会话（末章 done / 其余 lot）后回今天；解锁成就有可见反馈 */
   const goHomeFromFinish = useCallback(async () => {
     if (!token) return
     let sid = sessionId
@@ -832,11 +1055,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     if (!sid) return
     setFinishing(true)
     try {
-      await api.finishCosession(
+      const result = await api.finishCosession(
         sid,
         { progressMark: order >= book.chapterCount ? 'done' : 'lot', ...(mood ? { mood } : {}) },
         token,
       )
+      announceUnlocked(result.unlocked, showToast)
       navigate('/child/today')
     } catch (err) {
       showToast(err instanceof Error ? err.message : '收尾没有成功，再试一次')
@@ -944,6 +1168,16 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           )}
         </span>
         <span style={{ display: 'inline-flex', gap: 10 }}>
+          <button
+            onClick={toggleBookmark}
+            aria-pressed={bookmarks.some((b) => b.chapter === order)}
+            title="在当前页夹一张书签"
+          >
+            {bookmarks.some((b) => b.chapter === order) ? '🔖 已夹' : '🔖 书签'}
+          </button>
+          <button onClick={() => void loadScaffold()} disabled={scaffoldLoading} title="给爸妈的共读话题">
+            {scaffoldLoading ? '悄悄话…' : '给爸妈'}
+          </button>
           <button onClick={() => setShowChapters(true)}>{LABELS.toc}</button>
           <button onClick={() => setShowSettings(true)}>{LABELS.typeset}</button>
         </span>
@@ -957,20 +1191,29 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           </div>
           <h2>{chapter?.title}</h2>
 
-          {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标 */}
+          {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11） */}
           <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
                 src={heroArtUrl!}
                 alt={`${chapter?.title ?? book.title} 插图`}
+                style={{ cursor: 'zoom-in' }}
+                onClick={() => setLightbox(heroArtUrl!)}
                 onError={() => setArtBroken((prev) => new Set(prev).add(heroArtUrl!))}
               />
             ) : null}
             {showHeroArt ? <AiBadge /> : null}
           </div>
 
-          <div className="reader-text" style={{ fontSize: font }}>
+          <div
+            className="reader-text"
+            style={{
+              fontSize: font,
+              lineHeight,
+              ...(fontFamily === 'sans' ? { fontFamily: SANS_STACK } : {}),
+            }}
+          >
             {blocks.map((b) => {
               const isSpeakingBlock = speakingBlockId === b.id
               if (b.kind === 'image') {
@@ -995,6 +1238,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                           src={url!}
                           alt={b.text || `${chapter?.title ?? ''}插图`}
                           loading="lazy"
+                          style={{ cursor: 'zoom-in' }}
+                          onClick={() => setLightbox(url!)}
                           onError={() => setArtBroken((prev) => new Set(prev).add(url!))}
                         />
                       ) : null}
@@ -1064,9 +1309,25 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   >
                     <p
                       className={isSpeakingBlock ? 'speaking' : undefined}
-                      style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em' }}
+                      style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em', cursor: speaking ? 'pointer' : undefined }}
+                      onPointerDown={speaking ? () => onBlockPressStart(b.order, b.text) : undefined}
+                      onPointerUp={speaking ? onBlockPressEnd : undefined}
+                      onPointerLeave={speaking ? onBlockPressEnd : undefined}
+                      onClick={
+                        speaking
+                          ? (e) => {
+                              e.stopPropagation()
+                              if (longPressRef.current) {
+                                longPressRef.current = false
+                                return
+                              }
+                              jumpToBlock(b.id)
+                            }
+                          : undefined
+                      }
                     >
                       {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
+                      {savedBlocks.has(b.order) ? ' ✒️' : null}
                     </p>
                     {/* 逐字拼音对注（朗读高亮时退回正文，避免与高亮分词打架） */}
                     {b.pinyin && !isSpeakingBlock ? (
@@ -1098,8 +1359,25 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                     blockRefs.current.set(b.id, el)
                   }}
                   className={isSpeakingBlock ? 'speaking' : undefined}
+                  style={{ cursor: speaking ? 'pointer' : undefined }}
+                  onPointerDown={speaking ? () => onBlockPressStart(b.order, b.text) : undefined}
+                  onPointerUp={speaking ? onBlockPressEnd : undefined}
+                  onPointerLeave={speaking ? onBlockPressEnd : undefined}
+                  onClick={
+                    speaking
+                      ? (e) => {
+                          e.stopPropagation()
+                          if (longPressRef.current) {
+                            longPressRef.current = false
+                            return
+                          }
+                          jumpToBlock(b.id)
+                        }
+                      : undefined
+                  }
                 >
                   {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
+                  {savedBlocks.has(b.order) ? ' ✒️' : null}
                 </p>
               )
             })}
@@ -1142,6 +1420,32 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter || preparing}>
           {preparing ? '正在准备朗读…' : speaking ? LABELS.stopAloud : LABELS.readAloud}
         </button>
+        {/* 暂停/继续（docs/34 P0-5）+ 上下段（P2-2）：仅朗读中显示 */}
+        {speaking ? (
+          <>
+            <button onClick={togglePause} aria-pressed={paused}>
+              {paused ? '继续朗读' : '暂停朗读'}
+            </button>
+            {serverReady ? (
+              <>
+                <button
+                  onClick={() => {
+                    if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex - 1)) setPaused(false)
+                  }}
+                >
+                  上一段
+                </button>
+                <button
+                  onClick={() => {
+                    if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex + 1)) setPaused(false)
+                  }}
+                >
+                  下一段
+                </button>
+              </>
+            ) : null}
+          </>
+        ) : null}
         <button onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
         <button onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
         <button onClick={() => setShowSettings(true)}>{LABELS.settings}</button>
@@ -1172,6 +1476,52 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               {font}
             </span>
           </div>
+          {/* 字体/行距（docs/34 P1-10） */}
+          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
+            字体
+          </p>
+          <div className="setting-row">
+            <button aria-pressed={fontFamily === 'serif'} style={fontFamily === 'serif' ? { background: 'var(--sun)' } : undefined} onClick={() => setFontFamily('serif')}>
+              宋体
+            </button>
+            <button aria-pressed={fontFamily === 'sans'} style={fontFamily === 'sans' ? { background: 'var(--sun)' } : undefined} onClick={() => setFontFamily('sans')}>
+              黑体
+            </button>
+          </div>
+          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
+            行距
+          </p>
+          <div className="setting-row">
+            {LINE_STEPS.map((s) => (
+              <button
+                key={s.value}
+                aria-pressed={lineHeight === s.value}
+                style={lineHeight === s.value ? { background: 'var(--sun)' } : undefined}
+                onClick={() => setLineHeight(s.value)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+          {/* 朗读定时（docs/34 P2-1）：到点渐弱收尾 */}
+          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
+            朗读定时
+          </p>
+          <div className="setting-row">
+            {SLEEP_STEPS.map((s) => (
+              <button
+                key={s.label}
+                aria-pressed={sleepMin === s.value}
+                style={sleepMin === s.value ? { background: 'var(--sun)' } : undefined}
+                onClick={() => setSleepMin(s.value)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+          <p className="mono-label" style={{ marginTop: 10, textTransform: 'none' }}>
+            {sleepMin ? `朗读 ${sleepMin} 分钟后会慢慢安静下来` : '不限时；睡前可以选一个定时'}
+          </p>
           <p className="mono-label" style={{ margin: '14px 0 8px' }}>
             朗读语速
           </p>
@@ -1270,6 +1620,64 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               ))}
             </div>
           )}
+          {/* 书签（docs/34 P1-11）：本机书签跳回当时的段落 */}
+          {bookmarks.length > 0 ? (
+            <div style={{ marginTop: 14 }}>
+              <p className="mono-label">🔖 书签</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+                {bookmarks.map((bm) => (
+                  <button
+                    key={`${bm.chapter}-${bm.block}`}
+                    style={{ textAlign: 'left' }}
+                    onClick={() => {
+                      setShowChapters(false)
+                      goBookmark(bm)
+                    }}
+                  >
+                    第 {bm.chapter} 章 · 回到书签
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </Overlay>
+      ) : null}
+
+      {/* ── 共读脚手架（docs/34 P0-3）：给爸妈的悄悄话 ── */}
+      {showScaffold && scaffold ? (
+        <Overlay onClose={() => setShowScaffold(false)} label="给爸妈的悄悄话">
+          <h3>给爸妈的悄悄话</h3>
+          <p className="mono-label" style={{ textTransform: 'none' }}>
+            读完或读中，都可以和孩子聊聊这些——
+          </p>
+          <p className="mono-label" style={{ textTransform: 'none', marginTop: 10 }}>
+            讲什么
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {scaffold.tellPoints.map((t, i) => (
+              <p key={i} style={{ textIndent: 0, margin: 0 }}>
+                · {t}
+              </p>
+            ))}
+          </div>
+          <p className="mono-label" style={{ textTransform: 'none', marginTop: 10 }}>
+            问什么
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {scaffold.questions.map((q, i) => (
+              <p key={i} style={{ textIndent: 0, margin: 0 }}>
+                {i + 1}. {q}
+              </p>
+            ))}
+          </div>
+          {scaffold.hook ? (
+            <>
+              <p className="mono-label" style={{ textTransform: 'none', marginTop: 10 }}>
+                聊什么
+              </p>
+              <p style={{ textIndent: 0 }}>{scaffold.hook}</p>
+            </>
+          ) : null}
         </Overlay>
       ) : null}
 
@@ -1334,6 +1742,70 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               {savingNote ? '收着…' : '收下'}
             </button>
           </div>
+          {/* 读后小测（docs/34 P1-5）：机械理解检查 + 难度自报；出不了题时整块隐藏 */}
+          {quiz ? (
+            <div style={{ marginTop: 16 }}>
+              <p className="mono-label" style={{ textTransform: 'none' }}>
+                小检查 · {quiz.prompt}
+              </p>
+              <div className="setting-row" style={{ marginTop: 8 }}>
+                {quiz.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    disabled={quizPick !== null}
+                    aria-pressed={quizPick === i}
+                    style={
+                      quizPick === null
+                        ? undefined
+                        : i === quiz.answerIndex
+                          ? { background: 'var(--mint, #dcf5e3)' }
+                          : quizPick === i
+                            ? { background: 'var(--rose, #ffd6cc)' }
+                            : undefined
+                    }
+                    onClick={() => setQuizPick(i)}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+              {quizPick !== null ? (
+                <>
+                  <p className="mono-label" style={{ textTransform: 'none', marginTop: 10 }}>
+                    {quizPick === quiz.answerIndex ? '答对啦，这一章读懂了！' : '没关系，回头再看看那一段。'}
+                  </p>
+                  <p className="mono-label" style={{ textTransform: 'none', marginTop: 6 }}>
+                    这一章读起来：
+                  </p>
+                  <div className="setting-row" style={{ marginTop: 6 }}>
+                    {[
+                      [1, '有点难'],
+                      [2, '刚刚好'],
+                      [3, '太简单'],
+                    ].map(([value, label]) => (
+                      <button
+                        key={value}
+                        onClick={() => {
+                          if (childId && token) {
+                            void api
+                              .reportQuizResult(
+                                book.id,
+                                { childId, chapterOrder: order, correct: quizPick === quiz.answerIndex, difficulty: value as 1 | 2 | 3 },
+                                token,
+                              )
+                              .catch(() => undefined)
+                          }
+                        }}
+                        style={{ fontSize: 12, minHeight: 38 }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+            </div>
+          ) : null}
           <div className="setting-row" style={{ marginTop: 14 }}>
             {!isLastChapter ? (
               <button
@@ -1348,6 +1820,16 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             <button style={{ background: 'var(--sun)' }} disabled={finishing} onClick={() => void goHomeFromFinish()}>
               {LABELS.backToday}
             </button>
+          </div>
+        </Overlay>
+      ) : null}
+
+      {/* ── 插图灯箱（docs/34 P1-11）── */}
+      {lightbox ? (
+        <Overlay onClose={() => setLightbox(null)} label="放大插图">
+          <img src={lightbox} alt="放大插图" style={{ width: '100%', borderRadius: 10, display: 'block' }} />
+          <div className="setting-row" style={{ marginTop: 12 }}>
+            <button onClick={() => setLightbox(null)}>收起</button>
           </div>
         </Overlay>
       ) : null}

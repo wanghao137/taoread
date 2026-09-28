@@ -4,6 +4,7 @@ import { MotionConfig } from 'framer-motion'
 import { useSession } from './stores/session'
 import { api } from './lib/api'
 import { LoginPage } from './pages/LoginPage'
+import { PrivacyPage } from './pages/PrivacyPage'
 import { Loading } from './components/ui'
 
 /**
@@ -16,6 +17,7 @@ const ChildHome = lazy(() =>
 const ParentHome = lazy(() =>
   import('./pages/ParentHome').then((m) => ({ default: m.ParentHome })),
 )
+const OpsPage = lazy(() => import('./pages/OpsPage').then((m) => ({ default: m.OpsPage })))
 // DEV 条件下才产生动态 import：生产构建时 import.meta.env.DEV 被静态替换为 false，
 // rollup 会把该分支连同 chunk 一起裁掉（此前 KitchenSink chunk 一直随产包发布）。
 const KitchenSink = import.meta.env.DEV
@@ -93,11 +95,17 @@ export default function App() {
   }, [calmMode])
   return (
     <MotionConfig reducedMotion={calmMode ? 'always' : 'user'}>
+      {/* docs/34 P2-7：跳到主内容（键盘/读屏用户跳过导航） */}
+      <a className="skip-link" href="#main-content">
+        跳到主要内容
+      </a>
       <CalmModeBootstrap />
       <Suspense fallback={<Loading label="桃阅读正在开门…" />}>
         <Routes>
           <Route path="/" element={<HomeRedirect />} />
           <Route path="/login" element={<LoginPage />} />
+          {/* 隐私政策（docs/34 P1-3）：公开静态页，孩子端红线内无外链 */}
+          <Route path="/privacy" element={<PrivacyPage />} />
           <Route
             /* 尾部 * 必须保留：ChildHome→V8App 用「后代 <Routes>」做子路由（/child/today、
              * /child/book/:id…），父路由不带 * 时任何子路径都匹配失败、被兜底重定向回首页
@@ -114,6 +122,15 @@ export default function App() {
             element={
               <RequireRole role="parent">
                 <ParentHome />
+              </RequireRole>
+            }
+          />
+          {/* 运营体检（docs/34 P2-10）：家长角色、不在导航内，直接访问 /ops */}
+          <Route
+            path="/ops"
+            element={
+              <RequireRole role="parent">
+                <OpsPage />
               </RequireRole>
             }
           />
