@@ -13,6 +13,7 @@ import { ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'
 
 dotenv.config()
 dotenv.config({ path: '.env.r2', override: true })
+dotenv.config({ path: '.env.backup', override: true })
 
 const accountId = process.env.R2_ACCOUNT_ID
 const accessKey = process.env.R2_ACCESS_KEY_ID
@@ -20,14 +21,23 @@ const secretKey = process.env.R2_SECRET_ACCESS_KEY
 if (!accountId || !accessKey || !secretKey) throw new Error('R2 凭据缺失')
 
 const only = process.argv.find((a) => a.startsWith('--bucket='))?.split('=')[1]
+// --bucket + BACKUP_S3_ENDPOINT 同时给出 → 清点离机备份目标（如 B2），用 BACKUP_* 凭据
+const useBackupTarget = Boolean(only && process.env.BACKUP_S3_ENDPOINT)
+const endpoint = useBackupTarget
+  ? process.env.BACKUP_S3_ENDPOINT
+  : `https://${accountId}.r2.cloudflarestorage.com`
+const targetKey = useBackupTarget ? (process.env.BACKUP_ACCESS_KEY_ID || accessKey) : accessKey
+const targetSecret = useBackupTarget ? (process.env.BACKUP_SECRET_ACCESS_KEY || secretKey) : secretKey
+const region = process.env.BACKUP_S3_REGION
+  || (useBackupTarget ? (/\.s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint)?.[1] ?? 'auto') : 'auto')
 const buckets = only
   ? [only]
   : [process.env.R2_BUCKET || 'taoread-backup', process.env.TAO_R2_MEDIA_BUCKET || 'taoread-media']
 
 const s3 = new S3Client({
-  region: 'auto',
-  endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-  credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
+  region,
+  endpoint,
+  credentials: { accessKeyId: targetKey, secretAccessKey: targetSecret },
 })
 
 function log(msg) {

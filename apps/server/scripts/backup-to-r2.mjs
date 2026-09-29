@@ -11,12 +11,16 @@
  *
  * 可再生产物不进备份（见 isDerivedMedia）：tts-public/、videos/、缩图变体、清单文件。
  *
- * 环境变量（.env.r2，绝不提交）：
- *   TAO_DATABASE_URL（如 file:./prod.db）、R2_ACCOUNT_ID、R2_ACCESS_KEY_ID、
- *   R2_SECRET_ACCESS_KEY、R2_BUCKET（默认 taoread-backup）
+ * 环境变量（.env → .env.r2 → 可选 .env.backup 逐层覆盖）：
+ *   TAO_DATABASE_URL（如 file:./prod.db）
+ *   备份目标（缺省 = R2）：BACKUP_S3_ENDPOINT + BACKUP_ACCESS_KEY_ID + BACKUP_SECRET_ACCESS_KEY
+ *   + BACKUP_BUCKET（region 从 B2 endpoint 自动解析，也可 BACKUP_S3_REGION 显式给）。
+ *   配 .env.backup 即把离机备份切到任意 S3 兼容端点（如 Backblaze B2），R2 media 桶不受影响。
  * 用法（apps/server 目录）：
  *   node --import tsx scripts/backup-to-r2.mjs [--full] [--dry-run]
- *   --dry-run：只出孤儿对账报告，不上传不删除
+ *   --dry-run：只出对账报告，不上传不删除
+ *   切换目标后首次必须 --full（.backup-state 是 mtime 水位清单，不区分目标，
+ *   否则增量会把「已在旧目标传过」的文件误判为已传）。
  */
 import { createReadStream, existsSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
@@ -24,17 +28,23 @@ import { DeleteObjectsCommand, DeleteObjectCommand, HeadBucketCommand, ListObjec
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
-// 先 .env 再 .env.r2（后者可覆盖）
+// 先 .env 再 .env.r2（后者可覆盖），最后可选 .env.backup（离机备份目标）
 dotenv.config()
 dotenv.config({ path: '.env.r2', override: true })
+dotenv.config({ path: '.env.backup', override: true })
 
 const dbUrl = process.env.TAO_DATABASE_URL
 if (!dbUrl) throw new Error('TAO_DATABASE_URL 必填')
 const accountId = process.env.R2_ACCOUNT_ID
-const accessKey = process.env.R2_ACCESS_KEY_ID
-const secretKey = process.env.R2_SECRET_ACCESS_KEY
-if (!accountId || !accessKey || !secretKey) throw new Error('R2 凭据缺失（R2_ACCOUNT_ID / R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY）')
-const bucket = process.env.R2_BUCKET || 'taoread-backup'
+// 备份目标：BACKUP_* 优先，缺省沿用 R2（向后兼容）
+const endpoint = process.env.BACKUP_S3_ENDPOINT
+  || (accountId ? `https://${accountId}.r2.cloudflarestorage.com` : null)
+const accessKey = process.env.BACKUP_ACCESS_KEY_ID || process.env.R2_ACCESS_KEY_ID
+const secretKey = process.env.BACKUP_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCESS_KEY
+if (!endpoint || !accessKey || !secretKey) {
+  throw new Error('备份目标缺失：BACKUP_S3_ENDPOINT/BACKUP_ACCESS_KEY_ID/BACKUP_SECRET_ACCESS_KEY（或缺省 R2_*）')
+}
+const bucket = process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
 // 离机 DB 快照保留份数（2026-09-28 从 7 降到 3：快照 ~11MB，7 份无必要）
 const DB_KEEP = 3
 // 本地对账安全水位：walk 出的真值清单低于该数说明 media/ 可能挂错/损坏，拒绝删除
@@ -46,9 +56,14 @@ const prismaDir = join(serverDir, 'prisma')
 const mediaDir = join(serverDir, 'media')
 const stateFile = join(mediaDir, '.backup-state')
 
+// B2 的 SigV4 需真实 region（从 endpoint 主机名解析，如 s3.us-west-004 → us-west-004）；R2 用 auto
+const region = process.env.BACKUP_S3_REGION
+  || /\.s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint ?? '')?.[1]
+  || 'auto'
+
 const s3 = new S3Client({
-  region: 'auto',
-  endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+  region,
+  endpoint,
   credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
 })
 
