@@ -111,23 +111,24 @@ if (ttsDead) {
   const prisma = new PrismaClient({ datasources: { db: { url: dbUrl } } })
   const { cacheKey } = await import('../src/modules/tts/cache.ts')
   const { chunkText } = await import('../src/modules/tts/client.ts')
-  const { DEFAULT_VOICE_ID, DEFAULT_SPEED } = await import('../src/modules/tts/voices.ts')
+  const { DEFAULT_SPEED } = await import('../src/modules/tts/voices.ts')
   const { TTS_PUBLIC_NS } = await import('../src/modules/tts/publicCache.ts')
+  const { chapterSpeakText, speakVoiceId } = await import('../src/modules/tts/chapterText.ts')
   const { loadConfig } = await import('../src/config.ts')
   const model = loadConfig().TTS_MODEL || 'stepaudio-3-gen-preview'
   const books = await prisma.book.findMany({ select: { id: true, lang: true } })
   expectedTtsKeys = new Set()
   for (const book of books) {
     const lang = book.lang === 'en' ? 'en' : 'zh'
-    const voiceId = lang === 'en' ? 'en-storyteller' : DEFAULT_VOICE_ID
+    const voiceId = speakVoiceId(lang)
     const chapters = await prisma.chapter.findMany({ where: { bookId: book.id }, orderBy: { order: 'asc' }, select: { id: true } })
     for (const ch of chapters) {
       const blocks = await prisma.block.findMany({
-        where: { chapterId: ch.id, kind: { in: ['text', 'poem'] } },
+        where: { chapterId: ch.id },
         orderBy: { order: 'asc' },
-        select: { text: true },
+        select: { kind: true, text: true },
       })
-      const fullText = blocks.map((b) => b.text).join('\n')
+      const fullText = chapterSpeakText(blocks)
       if (!fullText.trim()) continue
       for (const seg of chunkText(fullText)) {
         expectedTtsKeys.add(cacheKey(seg, voiceId, DEFAULT_SPEED, 'mp3', lang, TTS_PUBLIC_NS, model))

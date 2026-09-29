@@ -27,6 +27,7 @@ import { TtsCache, cacheKey } from './cache'
 import { PublicTtsIndex, TTS_PUBLIC_NS, type PublicSegmentHit } from './publicCache'
 import { publicMediaBase } from '../../lib/publicMedia'
 import { buildCharTimeline, timelineFromMp3, type CharTime } from './timeline'
+import { chapterSpeakText, speakVoiceId } from './chapterText'
 
 export interface TtsRoutesDeps {
   db: PrismaClient
@@ -221,16 +222,15 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         // 审计 F16：语言从书目推导——英文书整章合成必须带 en，不再写死 zh
         const bookRow = await db.book.findUnique({ where: { id: params.contentId }, select: { lang: true } })
         lang = bookRow?.lang === 'en' ? 'en' : 'zh'
-        // 拼接可朗读文本（跳过图片块）
-        fullText = chapter.blocks
-          .filter((b) => b.kind !== 'image')
-          .map((b) => b.text)
-          .join('\n')
+        // 拼接可朗读文本：键空间单一事实源（chapterText.ts）——只取 text+poem，
+        // 与预生成/清理/覆盖率验收同源。生词卡（note）不入朗读文本（客户端兜底口径亦然）
+        fullText = chapterSpeakText(chapter.blocks)
         chapterTitle = chapter.title
       }
       // 2026-09-26 音色优化：未选音色时按书语言取默认——英文书用英语母播音色，
       // 不再让中文「温柔妈妈」硬读英文（用户反馈怪腔调的主要来源）
-      const voice = findVoice(body.voiceId ?? (lang === 'en' ? 'en-storyteller' : undefined))
+      // 默认音色必须与预生成键空间同源（chapterText.speakVoiceId），否则公共缓存永不命中
+      const voice = findVoice(body.voiceId ?? speakVoiceId(lang))
       const speed = clampSpeed(body.speed)
       const segments = chunkText(fullText)
       // 每段在「全文（行 trim 后以 '\n' 相连）」坐标里的权威起点 = Σ_{j<i}(len_j + 1)：

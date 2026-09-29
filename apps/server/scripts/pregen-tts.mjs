@@ -25,6 +25,7 @@ import { cacheKey } from '../src/modules/tts/cache.ts'
 import { DEFAULT_VOICE_ID, findVoice, DEFAULT_SPEED } from '../src/modules/tts/voices.ts'
 import { TTS_PUBLIC_NS } from '../src/modules/tts/publicCache.ts'
 import { parseMp3 } from '../src/modules/tts/mp3duration.ts'
+import { chapterSpeakText, speakVoiceId } from '../src/modules/tts/chapterText.ts'
 
 dotenv.config()
 dotenv.config({ path: '.env.r2', override: true })
@@ -64,7 +65,9 @@ const retryUploadOnly = process.argv.includes('--retry-upload')
 const langFilter = arg('lang') ?? null // 'zh' | 'en'：只处理某语言的书的预生成
 const voiceOverride = arg('voice') ?? null // 指定音色（如 en-storyteller 重合成英文书）
 
-const voice = findVoice(voiceOverride ?? DEFAULT_VOICE_ID)
+// 音色默认值与运行时同源（chapterText.speakVoiceId）：--lang=en 不带 --voice 时
+// 自动用英文默认音色，避免生成一批运行时永远请求不到的 mom-warm 英文键
+const voice = findVoice(voiceOverride ?? (langFilter === 'en' ? speakVoiceId('en') : DEFAULT_VOICE_ID))
 const speed = DEFAULT_SPEED
 
 function log(msg) {
@@ -186,13 +189,15 @@ try {
       select: { id: true },
     })
     for (const ch of chapters) {
-      // 与服务端整章合成完全一致：逐章拼块后 chunkText（跨章拼接会改变切段边界 → 键不匹配）
+      // 与运行时完全同源：取文口径 = chapterText.chapterSpeakText（键空间单一事实源）。
+      // 英文书的默认音色是 en-storyteller（chapterText.speakVoiceId）——用 --lang=en
+      // --voice=en-storyteller 单独跑一遍，否则英文书键不匹配（覆盖率脚本会卡关）
       const blocks = await db.block.findMany({
-        where: { chapterId: ch.id, kind: { in: ['text', 'poem'] } },
+        where: { chapterId: ch.id },
         orderBy: { order: 'asc' },
-        select: { text: true },
+        select: { kind: true, text: true },
       })
-      const fullText = blocks.map((b) => b.text).join('\n')
+      const fullText = chapterSpeakText(blocks)
       if (!fullText.trim()) continue
       const segments = chunkText(fullText)
       const pending = []

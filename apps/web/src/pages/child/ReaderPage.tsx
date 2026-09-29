@@ -27,10 +27,12 @@ const FONT_MIN = 18
 const FONT_MAX = 30
 const FONT_STEP = 2
 
-/** 语速档位（朗读给跟读用，不给无极滑杆） */
-const SPEED_STEPS: Array<{ label: string; value: number }> = [
+/** 语速档位（朗读给跟读用，不给无极滑杆）。「刚好」= 不传 speed → 服务端默认 0.92：
+ * 预生成键空间（chapterText.ts 单一事实源）只覆盖默认语速，客户端必须同源——
+ * 慢一点/快一点属按需实时合成的合法未命中（家庭缓存会让重复收听秒回） */
+const SPEED_STEPS: Array<{ label: string; value: number | null }> = [
   { label: '慢一点', value: 0.8 },
-  { label: '刚好', value: 1 },
+  { label: '刚好', value: null },
   { label: '快一点', value: 1.2 },
 ]
 
@@ -221,7 +223,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [serverReady, setServerReady] = useState<boolean | null>(null)
   const [serverVoices, setServerVoices] = useState<VoiceOption[]>([])
   const [voiceId, setVoiceId] = useState<string | null>(null)
-  const [speed, setSpeed] = useState(1)
+  /** null = 「刚好」：不传 speed，服务端取默认 0.92（与预生成键空间同源，缓存必中） */
+  const [speed, setSpeed] = useState<number | null>(null)
 
   /* ── docs/34 阅读器新增（2026-09-28）── */
   /** 共读脚手架浮层（P0-3） */
@@ -653,7 +656,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             book.id,
             order,
             { title: ch.title, bookTitle: book.title },
-            { lang: book.lang, ...(voiceId ? { voiceId } : {}), speed, signal: ac.signal },
+            { lang: book.lang, ...(voiceId ? { voiceId } : {}), ...(speed !== null ? { speed } : {}), signal: ac.signal },
           )
         }
       } catch {
@@ -674,7 +677,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         .filter((b) => b.kind === 'text' || b.kind === 'poem')
         .map((b) => b.text)
         .join('\n')
-      const fallbackStarted = tts.speak(text, { lang: book.lang, rate: speed })
+      const fallbackStarted = tts.speak(text, { lang: book.lang, ...(speed !== null ? { rate: speed } : {}) })
       if (fallbackStarted) {
         setSpeaking(true)
       } else {
@@ -705,7 +708,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     const ranges: Array<{ id: string; start: number; end: number }> = []
     let pos = 0
     for (const b of chapter.blocks) {
-      if (b.kind === 'image') continue
+      // 只对参与朗读的块建坐标（text+poem）：服务端整章朗读文本已排除 note/image，
+      // 高亮坐标系必须与段文本同空间，否则含生词卡章节的全局对齐错位
+      if (!(b.kind === 'text' || b.kind === 'poem')) continue
       const t = b.text.trim()
       if (!t) continue
       if (text.length > 0) {
@@ -742,7 +747,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     const ranges: Array<{ id: string; start: number; end: number }> = []
     let from = 0
     for (const b of chapter.blocks) {
-      if (b.kind === 'image' || !b.text) continue
+      if (!(b.kind === 'text' || b.kind === 'poem') || !b.text) continue
       const hit = segText.indexOf(b.text, from)
       if (hit < 0) continue
       ranges.push({ id: b.id, start: hit, end: hit + b.text.length })
@@ -976,8 +981,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 生词：note 块听词/收词 ── */
   const speakWord = useCallback(
     (word: string) => {
-      void audioPlayer.speak(word, { lang: 'en', speed }).then((ok) => {
-        if (!ok) tts.speak(word, { lang: 'en', rate: speed })
+      void audioPlayer.speak(word, { lang: 'en', ...(speed !== null ? { speed } : {}) }).then((ok) => {
+        if (!ok) tts.speak(word, { lang: 'en', ...(speed !== null ? { rate: speed } : {}) })
       })
     },
     [speed],
@@ -1527,12 +1532,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           <div className="setting-row">
             {SPEED_STEPS.map((r) => (
               <button
-                key={r.value}
+                key={String(r.value)}
                 aria-pressed={speed === r.value}
                 style={speed === r.value ? { background: 'var(--sun)' } : undefined}
                 onClick={() => {
                   setSpeed(r.value)
-                  tts.configure({ rate: r.value, lang: book.lang })
+                  // null（刚好）→ Web Speech 用其默认 0.92 = 服务端 DEFAULT_SPEED（键空间同源）
+                  tts.configure({ rate: r.value ?? 0.92, lang: book.lang })
                 }}
               >
                 {r.label}
