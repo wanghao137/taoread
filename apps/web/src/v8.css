@@ -179,7 +179,7 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .fam-imports .fam-hint{color:var(--ink2);font-size:13px;margin:0 0 4px}
 .fam-form{display:grid;gap:12px;margin-top:12px}
 .fam-field{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:13px}
-.fam-field input:not([type=checkbox]),.fam-field select{min-height:46px;border:var(--border);border-radius:12px;box-shadow:var(--shadow-sm);background:var(--card);padding:0 12px;font-size:15px}
+.fam-field input:not([type=checkbox]),.fam-field select{min-width:0;width:100%;min-height:46px;border:var(--border);border-radius:12px;box-shadow:var(--shadow-sm);background:var(--card);padding:0 12px;font-size:15px}
 .fam-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 @media(max-width:560px){.fam-row{grid-template-columns:1fr}}
 .fam-field input[type=file]{font-size:13px;max-width:100%;min-height:46px;padding:8px 0 8px 12px;background:var(--card)}
