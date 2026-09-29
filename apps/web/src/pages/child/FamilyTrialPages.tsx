@@ -113,12 +113,20 @@ export function FamilyLibraryPage() {
   const [progress, setProgress] = useState<Record<string, { order: number; completed: boolean }>>({})
   useEffect(() => { if (!token || !childId || !books.length) return; let live = true; void Promise.all(books.map(async (book) => [book.id, (await api.importedProgress(token, book.id, childId)).progress] as const)).then((rows) => { if (live) setProgress(Object.fromEntries(rows.filter((row) => row[1]).map(([id, value]) => [id, value!])) ) }); return () => { live = false } }, [token, childId, books])
   useEffect(() => { if (!token || !childId) return; let live = true; void api.importedBooks(token, childId).then((result) => { if (live) setBooks(result.books) }).catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '无法加载家庭书架') }); return () => { live = false } }, [token, childId])
-  return <><PageHead title="家庭书架" sub="家长挑选、只供本家庭阅读的书" /><button className="sticker-btn" onClick={() => navigate('/child/discover')}>返回找故事</button>{error && <p role="alert">{error}</p>}<div className="library">{books.map((book) => <button className="panel" key={book.id} style={{ display: 'flex', gap: 14, alignItems: 'center', textAlign: 'left', width: '100%' }} onClick={() => navigate(`/child/family-book/${encodeURIComponent(book.id)}`)}>
-    {book.coverUrl
-      ? <img src={book.coverUrl} alt="" style={{ width: 72, height: 96, objectFit: 'cover', borderRadius: 12, flexShrink: 0 }} />
-      : <span style={{ width: 72, height: 96, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30, background: '#FFE0B2' }}>{book.title.slice(0, 1)}</span>}
-    <span><b>{book.title}</b><br /><span style={{ fontSize: 13 }}>{book.author ?? '作者未标注'} · {book.chapterCount} 章<br />{progress[book.id]?.completed ? '已读完' : progress[book.id] ? `读至第 ${progress[book.id]!.order} 章` : '未开始'}</span></span>
-  </button>)}</div>{books.length === 0 && !error && <p>这里暂时没有适合你年龄段的家庭书。</p>}</>
+  return <><PageHead title="家庭书架" sub="家长挑选、只供本家庭阅读的书" />{error && <p role="alert">{error}</p>}<div className="fam-shelf">{books.map((book) => {
+    const p = progress[book.id]
+    return <button className="fam-card" key={book.id} onClick={() => navigate(`/child/family-book/${encodeURIComponent(book.id)}`)}>
+      <span className="fam-cover">
+        {book.coverUrl
+          ? <img src={book.coverUrl} alt="" loading="lazy" />
+          : <span className="fam-cover-fallback">{book.title.slice(0, 1)}</span>}
+        {p?.completed && <span className="fam-done">读完啦</span>}
+      </span>
+      <b>{book.title}</b>
+      <small className="mono-line">{book.author ?? '作者未标注'} · {book.chapterCount} 章</small>
+      <small className={`fam-progress ${p?.completed ? 'done' : ''}`}>{p?.completed ? '已读完' : p ? `读至第 ${p.order} 章` : '未开始'}</small>
+    </button>
+  })}</div>{books.length === 0 && !error && <p className="mono-label">这里暂时没有适合你年龄段的家庭书。请家长在「内容 → 家庭书」里上传。</p>}</>
 }
 
 interface TtsSegment {

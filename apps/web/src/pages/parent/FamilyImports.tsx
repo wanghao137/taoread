@@ -76,22 +76,79 @@ export function FamilyImports({ token }: { token: string }) {
     setMessage('正在重新解析…')
     try { const r = await api.refreshImportedBook(token, book.id); setMessage(`已重建 ${r.chapterCount} 章`); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '重新解析失败') }
   }
-  return <section className="panel" style={{ marginTop: 16 }}>
-    <h3>家庭私有电子书</h3>
-    <p>支持你有权供家庭阅读的 UTF-8 TXT、文本型 EPUB/PDF（EPUB 最多 32 MB、TXT/PDF 最多 4 MB；扫描 PDF 需先 OCR）。书籍只在本家庭可见；按孩子年龄段展示。</p>
-    <form onSubmit={(event) => void upload(event)} style={{ display: 'grid', gap: 12 }}>
-      <label>书名 <input required maxLength={120} value={title} onChange={(event) => setTitle(event.target.value)} /></label>
-      <label>作者 <input maxLength={100} value={author} onChange={(event) => setAuthor(event.target.value)} /></label>
-      <label>语言 <select value={lang} onChange={(event) => setLang(event.target.value as 'zh' | 'en')}><option value="zh">中文</option><option value="en">英文</option></select></label>
-      <label>适龄 <select value={ageStage} onChange={(event) => setAgeStage(event.target.value as '3-5' | '6-8' | '9-12')}><option>3-5</option><option>6-8</option><option>9-12</option></select></label>
-      <label>选择电子书 <input required type="file" accept=".txt,.epub,.pdf,text/plain,application/epub+zip,application/pdf" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /></label>
-      <label><input type="checkbox" checked={confirmed} onChange={(event) => setConfirmed(event.target.checked)} /> 我确认拥有这份文本的家庭阅读使用权</label>
-      {file && file.size > 8 * 1024 * 1024 && <p style={{ fontSize: 12, margin: 0, color: '#795548' }}>这本书比较大，上传需要几分钟，请保持页面打开，点一次就好。</p>}
+  return <section className="panel fam-imports" style={{ marginTop: 16 }}>
+    <h3>上传家庭书</h3>
+    <p className="fam-hint">支持你有权供家庭阅读的 UTF-8 TXT、文本型 EPUB/PDF（EPUB 最多 32 MB、TXT/PDF 最多 4 MB；扫描 PDF 需先 OCR）。书籍只在本家庭可见，按孩子年龄段展示在孩子的「家庭书架」里。</p>
+    <form onSubmit={(event) => void upload(event)} className="fam-form">
+      <label className="fam-field">
+        <span>书名</span>
+        <input required maxLength={120} value={title} onChange={(event) => setTitle(event.target.value)} />
+      </label>
+      <div className="fam-row">
+        <label className="fam-field">
+          <span>作者（可选）</span>
+          <input maxLength={100} value={author} onChange={(event) => setAuthor(event.target.value)} />
+        </label>
+        <label className="fam-field">
+          <span>语言</span>
+          <select value={lang} onChange={(event) => setLang(event.target.value as 'zh' | 'en')}><option value="zh">中文</option><option value="en">英文</option></select>
+        </label>
+        <label className="fam-field">
+          <span>适龄</span>
+          <select value={ageStage} onChange={(event) => setAgeStage(event.target.value as '3-5' | '6-8' | '9-12')}><option>3-5</option><option>6-8</option><option>9-12</option></select>
+        </label>
+      </div>
+      <label className="fam-field">
+        <span>选择电子书</span>
+        <input
+          required
+          type="file"
+          accept=".txt,.epub,.pdf,text/plain,application/epub+zip,application/pdf"
+          onChange={(event) => setFile(event.target.files?.[0] ?? null)}
+        />
+      </label>
+      <label className="fam-rights">
+        <input type="checkbox" checked={confirmed} onChange={(event) => setConfirmed(event.target.checked)} />
+        <span>我确认拥有这份文本的家庭阅读使用权</span>
+      </label>
+      {file && file.size > 8 * 1024 * 1024 && <p className="fam-warn">这本书比较大，上传需要几分钟，请保持页面打开，点一次就好。</p>}
       <button className="sticker-btn primary" type="submit" disabled={busy || !file || !confirmed}>{busy ? '正在导入…' : '导入家庭书架'}</button>
     </form>
-    <div><h4>公版书源</h4><p>从 Project Gutenberg 下载已核对的原始英文经典文学；并非自然拼读分级读物。</p>{publicBooks.map((book) => <p key={book.id}>{book.title} · {book.author} <button type="button" disabled={busy} onClick={() => void addPublic(book.id)}>导入家庭书架</button></p>)}</div>
-    {message && <p role="status">{message}</p>}
-    <ul>{books.map((book) => <li key={book.id}>{book.title} · {book.ageStage} · {book.chapterCount} 章 {(book.format ?? '').toLowerCase() === 'epub' ? <button type="button" onClick={() => void reparse(book)}>重新解析</button> : null} <button type="button" onClick={() => void remove(book)}>删除</button></li>)}</ul>
+    {message && <p role="status" className="fam-msg">{message}</p>}
+    {books.length > 0 && (
+      <div className="fam-books">
+        <h4>已上传的书（{books.length}）</h4>
+        <div className="fam-book-grid">
+          {books.map((book) => (
+            <div className="fam-book" key={book.id}>
+              {book.coverUrl
+                ? <img src={book.coverUrl} alt="" loading="lazy" />
+                : <span className="fam-book-fallback">{book.title.slice(0, 1)}</span>}
+              <div className="fam-book-body">
+                <b>{book.title}</b>
+                <span className="mono-line">{book.author ?? '作者未标注'} · {book.ageStage} · {book.chapterCount} 章</span>
+                <div className="fam-book-actions">
+                  {(book.format ?? '').toLowerCase() === 'epub' && (
+                    <button type="button" className="sticker-btn sm" onClick={() => void reparse(book)}>重新解析</button>
+                  )}
+                  <button type="button" className="sticker-btn sm hot" onClick={() => void remove(book)}>删除</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+    <div className="fam-pd">
+      <h4>公版书源</h4>
+      <p className="mono-line" style={{ fontSize: 12 }}>从 Project Gutenberg 下载已核对的原始英文经典文学；并非自然拼读分级读物。</p>
+      {publicBooks.length === 0 ? <p className="mono-line">暂无可导入的公版书。</p> : publicBooks.map((book) => (
+        <div className="fam-pd-row" key={book.id}>
+          <span><b>{book.title}</b> · {book.author}</span>
+          <button type="button" className="sticker-btn sm" disabled={busy} onClick={() => void addPublic(book.id)}>导入家庭书架</button>
+        </div>
+      ))}
+    </div>
   </section>
 }
 

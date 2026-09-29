@@ -392,11 +392,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
         </div>
       ) : null}
       {!inReader ? (
-        <button
-          onClick={onSwitchChild}
-          className="mono-label"
-          style={{ position: 'fixed', right: 12, bottom: 10, zIndex: 60, border: 0, background: 'transparent', cursor: 'pointer' }}
-        >
+        <button onClick={onSwitchChild} className="switch-user-btn">
           换人
         </button>
       ) : null}
@@ -982,7 +978,7 @@ function DiscoverPage() {
           {collections.map((c) => (
             <button
               key={c.id}
-              className={`filter ${collectionKey === c.id ? 'on' : ''}`}
+              className={`filter with-icon ${collectionKey === c.id ? 'on' : ''}`}
               aria-pressed={collectionKey === c.id}
               title={c.subtitle}
               onClick={() => {
@@ -991,7 +987,8 @@ function DiscoverPage() {
                 setCollectionKey(collectionKey === c.id ? null : c.id)
               }}
             >
-              📚 {c.title}
+              <img className="chip-icon" src={`/icons/collections/${c.id}.webp`} alt="" loading="lazy" />
+              {c.title}
             </button>
           ))}
         </div>

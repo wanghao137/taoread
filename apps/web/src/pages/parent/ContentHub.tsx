@@ -23,12 +23,13 @@ export interface ContentHubProps {
   token: string
 }
 
-type SourceKey = 'tao' | 'weread' | 'paper' | 'blocked'
+type SourceKey = 'tao' | 'weread' | 'paper' | 'family' | 'blocked'
 
 const SOURCES: Array<{ key: SourceKey; label: string }> = [
   { key: 'tao', label: '桃书库' },
   { key: 'weread', label: '微信读书' },
   { key: 'paper', label: '纸质书' },
+  { key: 'family', label: '家庭书' },
   { key: 'blocked', label: '已屏蔽' },
 ]
 
@@ -408,6 +409,10 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   }
 
   function listArea() {
+    if (source === 'family') {
+      // docs/34 移动端优化二轮：上传入口从「桃书库列表末尾」提升为独立 tab（此前不好找）
+      return <FamilyImports token={token} />
+    }
     if (source === 'paper') {
       // docs/34 P0-1：纸质书共读接通（此前是「即将支持」说明卡，后端能力早已齐备）
       if (tao.kind !== 'ready') return <Loading label="正在准备…" />
@@ -575,7 +580,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
 
   return (
     <div>
-      <PageHead index="02" title="内容中心" sub="桃书库、微信读书、纸质书记录与屏蔽管理，都在这里" />
+      <PageHead index="02" title="内容中心" sub="桃书库、微信读书、纸质书、家庭书上传与屏蔽管理，都在这里" />
 
       {/* 来源切换 */}
       <div className="tabs" role="tablist" aria-label="内容来源">
@@ -595,8 +600,8 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
         ))}
       </div>
 
-      {/* 搜索：书名/作者，客户端过滤，500ms 防抖 */}
-      {source !== 'paper' && (
+      {/* 搜索：书名/作者，客户端过滤，500ms 防抖（家庭书 tab 自带上传表单，不需要搜索框） */}
+      {source !== 'paper' && source !== 'family' && (
         <div className="search-wrap">
           <input
             type="search"
@@ -633,7 +638,6 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
       )}
 
       <div style={{ marginTop: 10 }}>{listArea()}</div>
-      {source === 'tao' && <FamilyImports token={token} />}
 
       {(source === 'tao' || source === 'blocked') && (
         <p className="mono-line" style={{ marginTop: 12, fontSize: 11, lineHeight: 1.7 }}>
