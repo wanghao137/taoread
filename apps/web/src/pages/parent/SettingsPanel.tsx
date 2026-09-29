@@ -100,13 +100,14 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
     return (
       <div className="set-grid">
-        {/* 已登录设备（A1/F04）：家长可查看并撤销任意设备，撤销后该设备令牌立即失效 */}
-        {sessions && sessions.length > 0 ? (
+        {/* 已登录设备（A1/F04）：只显示活跃设备（已请出的历史记录不再刷屏）；
+            家长可撤销任意设备，撤销后该设备令牌立即失效 */}
+        {sessions && sessions.some((s) => !s.revokedAt) ? (
           <div className="panel" data-testid="device-sessions">
             <h3>已登录设备</h3>
             <p>所有设备都凭家庭码加入；发现陌生设备可立即请出</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-              {sessions.map((session) => (
+              {sessions.filter((s) => !s.revokedAt).map((session) => (
                 <div key={session.id} className="kid-row">
                   <span>
                     {session.current ? '本机' : session.role === 'parent' ? '家长设备' : '孩子设备'}
@@ -135,7 +136,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               ))}
             </div>
             <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
-              被请出的设备会马上退出登录；再次加入需要家庭码
+              被请出的设备会马上退出登录，并从上面的列表收起；再次加入需要家庭码
             </p>
           </div>
         ) : null}
