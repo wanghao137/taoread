@@ -40,7 +40,7 @@ describe('结构化 EPUB 提取', () => {
       images: { 'pic.jpg': image },
       coverId: 'img-pic.jpg',
       chapters: [
-        { title: '焦大和刘姥姥', href: 'text/c1.xhtml', html: `<p>${LONG_TEXT}</p><img src="pic.jpg"/><p>第二段结尾。</p>` },
+        { title: '焦大和刘姥姥', href: 'text/c1.xhtml', html: `<p>${LONG_TEXT}</p><img src="../pic.jpg"/><p>第二段结尾。</p>` },
         { title: '公主的保镖', section: '红楼梦', href: 'text/c2.xhtml', html: `<p>${LONG_TEXT}又一页。</p>` },
       ],
     })
@@ -62,7 +62,7 @@ describe('结构化 EPUB 提取', () => {
       withNcx: true,
       images: { 'c.jpg': coverImg },
       chapters: [
-        { title: '总封面', href: 'text/cover.xhtml', html: '<img src="c.jpg"/>' },
+        { title: '总封面', href: 'text/cover.xhtml', html: '<img src="../c.jpg"/>' },
         { title: '版权页', href: 'text/colophon.xhtml', html: '<p>Copyright 2023</p>' },
         { title: '真正的故事', href: 'text/story.xhtml', html: `<p>${LONG_TEXT}</p>` },
       ],

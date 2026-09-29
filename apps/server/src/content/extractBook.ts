@@ -186,8 +186,10 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
         imagePaths.add(path)
       }
     }
-    const resolveImage = (rawSrc: string): string | null => {
-      const path = joinPath(base, rawSrc)
+    // 页面内的相对 src 必须相对「页面所在目录」解析（不是 OPF 目录——目录层级不同的书会全部落空）
+    const dirnameOf = (path: string): string => path.split('/').slice(0, -1).join('/')
+    const resolveImageFrom = (pagePath: string) => (rawSrc: string): string | null => {
+      const path = joinPath(dirnameOf(pagePath), rawSrc)
       return imagePaths.has(path) ? path : null
     }
 
@@ -248,7 +250,7 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       while (orphanCursor < orphanPaths.length) traversal.push(orphanPaths[orphanCursor++]!)
     }
     for (const path of traversal) {
-      const text = htmlToBlocks(readText(path), resolveImage)
+      const text = htmlToBlocks(readText(path), resolveImageFrom(path))
       const entry = tocByPath.get(path)
       const last = chapters[chapters.length - 1]
       const textLength = text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
