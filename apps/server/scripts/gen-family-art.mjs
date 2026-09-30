@@ -36,7 +36,7 @@ const hex = book.id.startsWith('imp:') ? book.id.slice(4) : book.id
 const scenePrefix = `fam:${familyId}:imp:${hex}`
 
 const gen = new ImageGenerator(
-  { base: config.TAO_IMAGE_BASE!, apiKey: config.TAO_IMAGE_KEY!, model: config.TAO_IMAGE_MODEL },
+  { base: config.TAO_IMAGE_BASE, apiKey: config.TAO_IMAGE_KEY, model: config.TAO_IMAGE_MODEL },
   config.TAO_MEDIA_DIR,
   compressPngToWebP,
   (webp, scene, kind) => labelWebpImage(webp, { provider: 'taoread', model: config.TAO_IMAGE_MODEL, scene, kind }),
