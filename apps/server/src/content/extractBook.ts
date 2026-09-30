@@ -11,8 +11,9 @@ const MAX_RATIO = 100
 const MAX_PDF_INPUT = 4 * 1024 * 1024
 
 // ── 结构化 EPUB 提取上限：目录对齐后的章数/章长/插图数。
+// 章数上限 800：故事合集类 EPUB（如 365 夜故事）一文件多故事、按目录片段切章后章数可达 700+。
 // 章长超限不再硬拒（对读者来说一刀切报错不如自动分册），按段落边界切成（一）（二）。
-export const MAX_STRUCTURED_CHAPTERS = 300
+export const MAX_STRUCTURED_CHAPTERS = 800
 export const MAX_STRUCTURED_CHAPTER_CHARS = 100_000
 export const MAX_STRUCTURED_IMAGES = 300
 const MIN_CHAPTER_CHARS = 50
@@ -33,12 +34,23 @@ function decodeEntities(input: string): string {
   })
 }
 
-/** XHTML → 分段纯文本：块级标签出段落（\n\n），br 出换行，img 出独立标记行 [[img:解析后的路径]]。 */
-function htmlToBlocks(html: string, resolveImage: (rawSrc: string) => string | null): string {
-  const withImages = html
+/** XHTML → 分段纯文本：块级标签出段落（\n\n），br 出换行，img 出独立标记行 [[img:解析后的路径]]。
+ *  anchorIds 提供时，携带这些 id/name 的标签前会插入 [[anchor:id]] 标记行（供目录片段切章）。 */
+function htmlToBlocks(html: string, resolveImage: (rawSrc: string) => string | null, anchorIds?: Set<string>): string {
+  let working = html
     .replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, ' ')
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+  if (anchorIds && anchorIds.size > 0) {
+    working = working.replace(/<[^>]+>/g, (tag) => {
+      let markers = ''
+      for (const m of tag.matchAll(/\b(?:id|name)\s*=\s*["']([^"']+)["']/gi)) {
+        if (anchorIds.has(m[1]!)) markers += `\n[[anchor:${m[1]!}]]\n`
+      }
+      return markers + tag
+    })
+  }
+  const withImages = working
     .replace(/<(?:img|image)\b[^>]*>/gi, (tag) => {
       const src = tag.match(/\b(?:src|xlink:href|href)=["']([^"']+)["']/i)?.[1]
       const key = src ? resolveImage(src) : null
@@ -211,9 +223,17 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
     if (ncxItem?.href) toc = parseNcxToc(readText(resolveManifest(ncxItem.href)))
     if (toc.length === 0 && tocItem?.href) toc = parseNavToc(readText(resolveManifest(tocItem.href)))
     const tocByPath = new Map<string, TocEntry>()
+    // 片段级目录：文件 → 有序锚点表（一个文件装多个故事、目录用 #fragment 定位的故事合集）
+    const tocByFileOrdered = new Map<string, Array<{ fragment: string; entry: TocEntry }>>()
     for (const entry of toc) {
       if (/^[a-z]+:/i.test(entry.href)) continue
-      const path = resolveManifest(entry.href)
+      const fragment = entry.href.includes('#') ? entry.href.split('#')[1]! : null
+      const path = resolveManifest(entry.href.split('#')[0]!)
+      if (fragment) {
+        const list = tocByFileOrdered.get(path) ?? []
+        if (!list.some((a) => a.fragment === fragment)) list.push({ fragment, entry })
+        tocByFileOrdered.set(path, list)
+      }
       if (!tocByPath.has(path)) tocByPath.set(path, entry)
     }
 
@@ -250,7 +270,9 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       while (orphanCursor < orphanPaths.length) traversal.push(orphanPaths[orphanCursor++]!)
     }
     for (const path of traversal) {
-      const text = htmlToBlocks(readText(path), resolveImageFrom(path))
+      const anchorList = tocByFileOrdered.get(path)
+      const anchorIds = anchorList ? new Set(anchorList.map((a) => a.fragment)) : undefined
+      const text = htmlToBlocks(readText(path), resolveImageFrom(path), anchorIds)
       const entry = tocByPath.get(path)
       const last = chapters[chapters.length - 1]
       const textLength = text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
@@ -261,6 +283,47 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
         last.text = `${last.text}\n\n${text}`.trim()
         for (const marker of text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
       }
+
+      // 片段锚点切章：一个文件装多个故事、目录逐故事定位（如 365 夜故事，770 条目录/30 个文件）
+      if (anchorList && /\[\[anchor:[^\]]+\]\]/.test(text)) {
+        const byFragment = new Map(anchorList.map((a) => [a.fragment, a.entry]))
+        const segments: Array<{ id: string | null; text: string }> = []
+        let currentId: string | null = null
+        let buffer: string[] = []
+        for (const line of text.split('\n')) {
+          const m = /^\[\[anchor:([^\]]+)\]\]$/.exec(line)
+          if (m) {
+            segments.push({ id: currentId, text: buffer.join('\n').trim() })
+            buffer = []
+            currentId = m[1]!
+            continue
+          }
+          buffer.push(line)
+        }
+        segments.push({ id: currentId, text: buffer.join('\n').trim() })
+        // 首锚点之前的引导内容并入第一个锚点章
+        if (segments.length > 1 && segments[0]!.id === null) {
+          const lead = segments.shift()!
+          if (lead.text) segments[0]!.text = `${lead.text}\n\n${segments[0]!.text}`
+        }
+        for (const seg of segments) {
+          const anchorEntry = seg.id ? byFragment.get(seg.id) : undefined
+          const segHasImages = /\[\[img:[^\]]+\]\]/.test(seg.text)
+          const segTextLen = seg.text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
+          const segTitle = anchorEntry ? (anchorEntry.section ? `${anchorEntry.section} · ${anchorEntry.title}` : anchorEntry.title) : '第 1 节'
+          // 近空故事段并入上一章（保内容不丢；无上一章则独立成章）
+          if (segTextLen < MIN_CHAPTER_CHARS && !segHasImages && chapters.length > 0) {
+            const previous = chapters[chapters.length - 1]!
+            previous.text = `${previous.text}\n\n${seg.text}`.trim()
+            for (const marker of seg.text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
+            continue
+          }
+          pushChapter(segTitle, seg.text)
+        }
+        continue
+      }
+
+      // 合并进上一章：必须同样登记图片引用（referenced 漏记会让 cleanDropped 把标记洗掉）
       // 近空页：纯文字近空页剔除；含图近空页保留为图片章节（绘本页/扉页/封面页，零遗漏）
       if (textLength < MIN_CHAPTER_CHARS) {
         if (!hasImages) continue

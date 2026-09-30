@@ -99,6 +99,22 @@ describe('结构化 EPUB 提取', () => {
     expect(result.chapters[1]!.title).toBe('故事二')
   })
 
+  it('片段锚点切章：一文件多故事按目录逐故事成章', async () => {
+    const zip = new AdmZip()
+    zip.addFile('mimetype', Buffer.from('application/epub+zip'))
+    zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/content.opf"/></container>'))
+    zip.addFile('OEBPS/content.opf', Buffer.from('<package><manifest><item id="c1" href="one.xhtml" media-type="application/xhtml+xml"/><item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/></manifest><spine toc="ncx"><itemref idref="c1"/></spine></package>'))
+    const story = (title: string) => `<p>${title}的开头。</p><p>${LONG_TEXT}</p>`
+    zip.addFile('OEBPS/one.xhtml', Buffer.from(`<html><body><div id="s1">${story('狮子照哈哈镜')}</div><div id="s2">${story('雪孩子')}</div><div id="s3">${story('水娃娃')}</div></body></html>`))
+    zip.addFile('OEBPS/toc.ncx', Buffer.from(`<ncx><navMap><navPoint id="n1"><navLabel><text>01.狮子照哈哈镜</text></navLabel><content src="one.xhtml#s1"/></navPoint><navPoint id="n2"><navLabel><text>02.雪孩子</text></navLabel><content src="one.xhtml#s2"/></navPoint><navPoint id="n3"><navLabel><text>05.水娃娃</text></navLabel><content src="one.xhtml#s3"/></navPoint></navMap></ncx>`))
+    const result = await extractEpubStructured('book.epub', zip.toBuffer())
+    expect(result.chapters).toHaveLength(3)
+    expect(result.chapters.map((c) => c.title)).toEqual(['01.狮子照哈哈镜', '02.雪孩子', '05.水娃娃'])
+    expect(result.chapters[0]!.text).toContain('狮子照哈哈镜的开头')
+    expect(result.chapters[0]!.text).not.toContain('雪孩子')
+    expect(result.chapters[1]!.text).toContain('雪孩子')
+  })
+
   it('守卫保留：伪造文件、超限、炸弹', async () => {
     await expect(extractBook('a.pdf', Buffer.from('not pdf'))).rejects.toThrow()
     const fake = Buffer.concat([Buffer.from('PK\x03\x04'), randomBytes(33 * 1024 * 1024)])

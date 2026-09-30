@@ -11,7 +11,7 @@ import { compressImageToWebP } from '../modules/media/compress'
 import { mediaUrl } from '../modules/media/access'
 
 const MAX_BYTES = 4 * 1024 * 1024
-const MAX_CHAPTERS = 300
+const MAX_CHAPTERS = 800
 const MAX_CHAPTER_CHARS = 100_000
 const MAX_PDF_BYTES = 4 * 1024 * 1024
 const MAX_EPUB_BYTES = 32 * 1024 * 1024
