@@ -215,6 +215,10 @@ function importMediaDirFor(bookId: string): string {
   }
 
   async function coverUrlFor(bookId: string, claims: { fid: string; sid: string }): Promise<string | null> {
+    // 优先家庭 AI 封面（fam: 场景），回退原书提取封面
+    const hex = bookId.startsWith('imp:') ? bookId.slice(4) : bookId
+    const artRow = await db.artAsset.findUnique({ where: { scene: `fam:${claims.fid}:imp:${hex}:cover` }, select: { urlPath: true } })
+    if (artRow) return mediaUrl(artRow.urlPath, claims, tokenSecret)
     try {
       await stat(join(importMediaDirFor(bookId), 'cover.webp'))
       return mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.webp`, claims, tokenSecret)
@@ -435,7 +439,11 @@ function importMediaDirFor(bookId: string): string {
       const key = match[1]!
       if (!images[key]) images[key] = mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(book.id)}/${key}`, request.auth, tokenSecret)
     }
-    return { chapter, images }
+    // 家庭 AI 插画题图（fam: 场景，2026-09-30 生图机制）：有则随章节下发
+    const artScene = `fam:${request.auth.fid}:imp:${importDiskName(book.id)}:ch:${order}`
+    const artRow = await db.artAsset.findUnique({ where: { scene: artScene }, select: { urlPath: true } })
+    const artUrl = artRow ? mediaUrl(artRow.urlPath, request.auth, tokenSecret) : null
+    return { chapter, images, artUrl }
   })
 
   app.get<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/progress', { preHandler: auth }, async (request) => {

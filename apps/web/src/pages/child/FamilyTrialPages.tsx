@@ -145,6 +145,7 @@ export function FamilyReaderPage() {
   const [book, setBook] = useState<{ title: string; lang: string; chapters: Array<{ order: number; title: string }> } | null>(null)
   const [chapter, setChapter] = useState<{ order: number; title: string; text: string } | null>(null)
   const [images, setImages] = useState<Record<string, string>>({})
+  const [artUrl, setArtUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [progress, setProgress] = useState<{ order: number; offset: number; completed: boolean; updatedAt: string } | null>(null)
   const [theme, setTheme] = useState<ReadingTheme>(() => (localStorage.getItem('taoread-family-reader-theme') as ReadingTheme) || defaultReadingTheme())
@@ -201,9 +202,9 @@ export function FamilyReaderPage() {
 
   useEffect(() => { setBook(null); if (!token || !childId || !id) return; let live = true; setError(''); void api.importedBook(token, id, childId).then(({ book: value }) => { if (live) setBook(value) }).catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '书籍不可用') }); return () => { live = false } }, [token, childId, id])
   useEffect(() => {
-    setChapter(null); setImages({}); if (!token || !childId || !id || !order) return
+    setChapter(null); setImages({}); setArtUrl(null); if (!token || !childId || !id || !order) return
     let live = true; setError('')
-    void api.importedChapter(token, id, Number(order), childId).then((result) => { if (live) { setChapter(result.chapter); setImages(result.images ?? {}) } }).catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '章节不可用') })
+    void api.importedChapter(token, id, Number(order), childId).then((result) => { if (live) { setChapter(result.chapter); setImages(result.images ?? {}); setArtUrl(result.artUrl ?? null) } }).catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '章节不可用') })
     return () => { live = false }
   }, [token, childId, id, order])
 
@@ -479,6 +480,7 @@ export function FamilyReaderPage() {
         <article className="panel" onScroll={onScroll} style={{ background: ink.bg, color: ink.fg, lineHeight: 2, overflowWrap: 'anywhere', padding: '20px 24px', maxHeight: 'calc(100dvh - 220px)', overflowY: 'auto' }}>
           <div ref={blocksRef}>
             <h2 style={{ fontSize: Math.round(font * 1.25) }}>{chapter?.title ?? '正在打开章节…'}</h2>
+            {artUrl && <div style={{ margin: '0 0 14px' }}><img src={artUrl} alt="" style={{ width: '100%', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div>}
             {blocks.map((block, index) => block.kind === 'img'
               ? <div key={index} data-block={index} style={{ margin: '14px 0' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div>
               : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: (playingChar && playingChar.index === index) || (speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start) ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{playingChar && playingChar.index === index ? renderReadingChars(block.text, playingChar.localChar) : block.text}</p>)}

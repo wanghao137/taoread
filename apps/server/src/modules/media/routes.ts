@@ -62,13 +62,19 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
         await deps.sessionGuard!.assertActive(claims.fid, claims.sid)
       }
       if (deps.db && /^art\/(?:covers|chapters)\/.+\.(thumb|reader)\.webp$/.test(path)) {
-        // 缩图/阅读器档（2026-09-25 性能方案）：随基准素材同权限——基准存在且非家庭私有才放行
+        // 缩图/阅读器档（2026-09-25 性能方案）：随基准素材同权限——公共素材放行；
+        // 家庭私有场景（fam:）的变体走同一家庭鉴权（家庭书 AI 插画，2026-09-30）
         const base = path.replace(/\.(thumb|reader)\.webp$/, '.webp')
         const baseRow = await deps.db.artAsset.findFirst({
           where: { urlPath: `/api/media/${base}` },
           select: { scene: true },
         })
-        if (!baseRow || baseRow.scene.startsWith('fam:')) throw new ForbiddenError('没有可访问的素材记录')
+        if (!baseRow) throw new ForbiddenError('没有可访问的素材记录')
+        if (baseRow.scene.startsWith('fam:')) {
+          rowIsPrivate = true
+          const familyId = baseRow.scene.slice(4).split(':')[0]!
+          await authorize(familyId)
+        }
       } else if (deps.db && path.startsWith('tts-public/')) {
         // 公共预生成朗读音频（2026-09-25 性能方案）：与公版插图同权限，无家庭归属
       } else if (deps.db && path.startsWith('tts/')) {
