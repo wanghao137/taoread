@@ -6,6 +6,15 @@ export default defineConfig({
   // iPad 旧版 Safari 白屏整改：显式目标 + legacy 双包（旧浏览器走 SystemJS+polyfill）
   build: {
     target: 'es2018',
+    rollupOptions: {
+      output: {
+        // docs/35 C2：framer-motion 独立 chunk——动画库与业务主包并行加载，
+        // 主包（index-*.js，gzip ~103KB）减负，且该 chunk 长缓存（库不随业务改动）
+        manualChunks: {
+          'framer-motion': ['framer-motion'],
+        },
+      },
+    },
   },
   plugins: [
     react(),

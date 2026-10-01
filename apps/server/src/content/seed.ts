@@ -5,6 +5,7 @@
  */
 import type { PrismaClient } from '@prisma/client'
 import type { PackBook } from './types'
+import { invalidateBookCatalog } from './service'
 
 /** 统计正文字数（中文按字、英文按词；note/image 图注不计入） */
 export function countWords(book: PackBook): number {
@@ -115,6 +116,10 @@ export async function seedPack(db: PrismaClient, pack: PackBook): Promise<void> 
       ...(r.note ? { note: r.note } : {}),
     },
   })
+
+  // docs/35 B3：每包入库后即失效目录缓存（seedPack 单包增量 seed 同样生效，
+  // seedAllPacks 循环调用本函数故一并覆盖）
+  invalidateBookCatalog()
 }
 
 export async function seedAllPacks(db: PrismaClient, packs: PackBook[]): Promise<void> {

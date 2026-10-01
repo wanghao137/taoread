@@ -18,9 +18,10 @@ import { ImageGenerator, type ArtKind, type GenerateArtInput, type ImageGenDeps 
 import { compressPngToWebP } from './compress'
 import { labelWebpImage } from './label'
 import { assertSceneReadable, familyScene, mediaUrl } from './access'
-import { assertContentReadable } from '../../content/service'
+import { assertContentReadable, invalidatePublicArtCache } from '../../content/service'
 import { assertDailyGenQuota, dedupeInFlight, runGeneration } from './generationGuard'
 import { writeArtVariants } from './variants'
+import { pushPublicFilesToR2 } from './r2Push'
 import { join } from 'node:path'
 
 export interface ArtRoutesDeps {
@@ -118,10 +119,21 @@ export function registerArtRoutes(app: FastifyInstance, deps: ArtRoutesDeps): vo
       if (input.kind !== 'mascot') {
         try {
           await writeArtVariants(join(mediaDir, art.urlPath.slice('/api/media/'.length)))
+          // docs/35 A4：即产即传 R2（fire-and-forget），失败由 sync 脚本兜底。
+          // 注意（对抗审查 P2-3）：应用内生成经 familyScene 一律 fam: 命名空间，
+          // 公共书库插画只能离线脚本生成——此推送对当前形态是空转的安全网，
+          // 守卫按 basename 判 fam-（与 r2Push/sync 同语义），未来放开公共生成时即刻生效
+          const rel = art.urlPath.slice('/api/media/'.length)
+          const base = rel.replaceAll('\\', '/').split('/').pop() ?? ''
+          if (!base.startsWith('fam-')) {
+            void pushPublicFilesToR2(mediaDir, [rel, rel.replace(/\.webp$/, '.thumb.webp'), rel.replace(/\.webp$/, '.reader.webp')])
+          }
         } catch {
           /* 变体缺失由前端回退原图兜底 */
         }
       }
+      // docs/35 B3：ArtAsset 变更后失效公共插画缓存
+      invalidatePublicArtCache()
       return art.urlPath
     })
   }

@@ -72,6 +72,8 @@ export interface ChapterDto {
     art: string | null
     /** 图片/笔记块解析出的 AI 插画 URL（getChapter 实际返回；占位键 lamp-hint 为 null） */
     artUrl: string | null
+    /** 图片块 reader 档（800w/R2 外链，docs/35 A1）；null 回退 artUrl */
+    artReaderUrl: string | null
   }>
 }
 
@@ -82,11 +84,37 @@ export interface ChapterDto {
  */
 async function artUrlMap(db: PrismaClient, scenes: string[]): Promise<Map<string, { urlPath: string; isPublic: boolean }>> {
   if (scenes.length === 0) return new Map()
+  // docs/35 B3：公共场景走进程内缓存（ArtAsset 对公共书库是准静态内容；生成后由
+  // invalidatePublicArtCache 显式失效）。fam: 私有素材不进缓存，仍走直查。
+  const cacheables = scenes.filter((s) => !s.startsWith('fam:'))
+  if (cacheables.length === scenes.length) {
+    const map = await publicArtMap(db)
+    return new Map(scenes.map((s) => [s, map.get(s)]).filter(([, v]) => v !== undefined) as Array<[string, { urlPath: string; isPublic: boolean }]>)
+  }
   const rows = await db.artAsset.findMany({
     where: { scene: { in: scenes } },
     select: { scene: true, urlPath: true },
   })
   return new Map(rows.map((r) => [r.scene, { urlPath: r.urlPath, isPublic: !r.scene.startsWith('fam:') }]))
+}
+
+/** 公共插画全量映射缓存（docs/35 B3）：key=scene，value 含 isPublic=true */
+let publicArtCache: { map: Map<string, { urlPath: string; isPublic: true }>; at: number } | null = null
+const PUBLIC_ART_TTL_MS = 300_000
+
+export function invalidatePublicArtCache(): void {
+  publicArtCache = null
+}
+
+async function publicArtMap(db: PrismaClient): Promise<Map<string, { urlPath: string; isPublic: true }>> {
+  if (publicArtCache && Date.now() - publicArtCache.at < PUBLIC_ART_TTL_MS) return publicArtCache.map
+  const rows = await db.artAsset.findMany({
+    where: { NOT: { scene: { startsWith: 'fam:' } } },
+    select: { scene: true, urlPath: true },
+  })
+  const map = new Map(rows.map((r) => [r.scene, { urlPath: r.urlPath, isPublic: true as const }]))
+  publicArtCache = { map, at: Date.now() }
+  return map
 }
 
 /** 公共插画的缩图/阅读器档外链；私有或非 webp 一律 null（前端回退原图/SVG） */
@@ -120,7 +148,7 @@ export function chapterScene(bookId: string, order: number, art: string | null |
 
 function summarize(
   book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words'> & {
-    chapters: unknown[]
+    chapterCount: number
   },
   progressPct: number,
   finished: boolean,
@@ -143,7 +171,7 @@ function summarize(
     coverFrom: book.coverFrom,
     coverTo: book.coverTo,
     words: book.words,
-    chapterCount: book.chapters.length,
+    chapterCount: book.chapterCount,
     progress: progressPct,
     finished,
     blocked,
@@ -154,6 +182,67 @@ function summarize(
     lastReadAt: extra?.lastReadAt ? extra.lastReadAt.toISOString() : null,
     difficulty: extra?.difficulty ?? 'fit',
   }
+}
+
+/**
+ * 书目目录缓存（docs/35 B3）：书库元数据与章节标题是准静态内容（仅 seed 变更），
+ * 此前每请求全表 findMany(include chapters)。进程内缓存 + 显式失效（seedPack 等）
+ * + 5min TTL 兜底。单家庭自部署，进程级缓存即完整边界。
+ */
+export interface CatalogRow {
+  id: string
+  title: string
+  author: string | null
+  lang: string
+  category: string
+  ageStage: string
+  intro: string | null
+  coverArt: string
+  coverFrom: string | null
+  coverTo: string | null
+  words: number
+  chapterCount: number
+}
+
+interface BookCatalog {
+  rows: CatalogRow[]
+  titlesByBook: Map<string, string[]>
+  at: number
+}
+
+let bookCatalogCache: BookCatalog | null = null
+const BOOK_CATALOG_TTL_MS = 300_000
+
+/** seed/内容变更后调用（seedPack/seedAllPacks 已挂钩） */
+export function invalidateBookCatalog(): void {
+  bookCatalogCache = null
+}
+
+async function getBookCatalog(db: PrismaClient): Promise<Omit<BookCatalog, 'at'>> {
+  if (bookCatalogCache && Date.now() - bookCatalogCache.at < BOOK_CATALOG_TTL_MS) {
+    return bookCatalogCache
+  }
+  const books = await db.book.findMany({
+    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
+    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
+    select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true },
+  })
+  const chapterRows = await db.chapter.findMany({ select: { bookId: true, title: true }, orderBy: { order: 'asc' } })
+  const titlesByBook = new Map<string, string[]>()
+  const counts = new Map<string, number>()
+  for (const c of chapterRows) {
+    const list = titlesByBook.get(c.bookId)
+    if (list) list.push(c.title)
+    else titlesByBook.set(c.bookId, [c.title])
+    counts.set(c.bookId, (counts.get(c.bookId) ?? 0) + 1)
+  }
+  const catalog: BookCatalog = {
+    rows: books.map((b) => ({ ...b, chapterCount: counts.get(b.id) ?? 0 })),
+    titlesByBook,
+    at: Date.now(),
+  }
+  bookCatalogCache = catalog
+  return catalog
 }
 
 /**
@@ -213,26 +302,22 @@ export async function listBooks(
     ids?: string[]
   } = {},
 ): Promise<BookSummaryDto[]> {
-  const where: { lang?: string; id?: { in: string[] } } = {}
-  if (options.lang) where.lang = options.lang
-  if (options.ids) where.id = { in: options.ids }
+  const catalog = await getBookCatalog(db)
   const needle = matchKey(options.q)
-  const books = await db.book.findMany({
-    where,
-    // q 非空时需要章节标题参与匹配；否则只取 id 计数，省掉多余字段
-    include: {
-      chapters: { select: { id: true, ...(needle ? { title: true } : {}) }, orderBy: { order: 'asc' } },
-    },
-    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
-    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
-  })
+  // docs/35 B3：书目过滤全部基于进程内目录缓存（含章节标题索引），零全表查询
+  let rows = catalog.rows
+  if (options.lang) rows = rows.filter((b) => b.lang === options.lang)
+  if (options.ids) {
+    const allow = new Set(options.ids)
+    rows = rows.filter((b) => allow.has(b.id))
+  }
 
   const stageRank: Record<string, number> = { '3-5': 1, '6-8': 2, '9-12': 3 }
   const maxRank = options.stage ? (stageRank[options.stage] ?? 3) : 3
-  const filtered = books.filter((b) => {
+  const filtered = rows.filter((b) => {
     if ((stageRank[b.ageStage] ?? 3) > maxRank) return false
     if (needle.length > 0) {
-      const inChapters = b.chapters.some((c) => matchKey(c.title).includes(needle))
+      const inChapters = (catalog.titlesByBook.get(b.id) ?? []).some((t) => matchKey(t).includes(needle))
       return matchKey(b.title).includes(needle) || matchKey(b.author).includes(needle) || inChapters
     }
     return true
@@ -242,14 +327,14 @@ export async function listBooks(
   // 今天页的「继续读」要跳到最近读的那本书的那一章
   const progressMap: Map<string, { pct: number; finished: boolean; chapterOrder: number | null; updatedAt: Date | null }> = new Map()
   if (options.childId) {
-    const rows = await db.readingProgress.findMany({
+    const progRows = await db.readingProgress.findMany({
       where: { childId: options.childId },
       select: { bookId: true, chapterOrder: true, finished: true, updatedAt: true },
     })
-    for (const row of rows) {
-      const book = books.find((b) => b.id === row.bookId)
+    for (const row of progRows) {
+      const book = rows.find((b) => b.id === row.bookId)
       if (!book) continue
-      const total = book.chapters.length
+      const total = book.chapterCount
       const pct = total > 0 ? Math.min(99, Math.round((row.chapterOrder / total) * 100)) : 0
       progressMap.set(row.bookId, { pct: row.finished ? 100 : pct, finished: row.finished, chapterOrder: row.chapterOrder, updatedAt: row.updatedAt })
     }
@@ -270,7 +355,7 @@ export async function listBooks(
   // 纯语料统计、零人工标注；孩子视角是「刚好/进阶/挑战」，不是评分
   const perCat = new Map<string, number[]>()
   for (const b of visible) {
-    const per = b.chapters.length > 0 ? Math.round(b.words / b.chapters.length) : b.words
+    const per = b.chapterCount > 0 ? Math.round(b.words / b.chapterCount) : b.words
     if (!perCat.has(b.category)) perCat.set(b.category, [])
     perCat.get(b.category)!.push(per)
   }
@@ -283,7 +368,7 @@ export async function listBooks(
   const difficultyOf = (b: (typeof visible)[number]): 'easy' | 'fit' | 'stretch' => {
     const median = medianByCat.get(b.category)
     if (!median || median <= 0) return 'fit'
-    const per = b.chapters.length > 0 ? Math.round(b.words / b.chapters.length) : b.words
+    const per = b.chapterCount > 0 ? Math.round(b.words / b.chapterCount) : b.words
     if (per <= median * 0.7) return 'easy'
     if (per >= median * 1.4) return 'stretch'
     return 'fit'
@@ -320,7 +405,7 @@ export async function getBook(
 ): Promise<BookSummaryDto | null> {
   const book = await db.book.findUnique({
     where: { id: contentId },
-    include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
+    include: { _count: { select: { chapters: true } } },
   })
   if (!book) return null
   const artMap = await artUrlMap(db, [coverScene(book.id)])
@@ -335,7 +420,15 @@ export async function getBook(
       : Promise.resolve(false),
     opts.childId ? listFavoriteIds(db, opts.childId).then((ids) => ids.has(contentId)) : Promise.resolve(false),
   ])
-  return summarize(book, 0, false, blocked, artUrlFor(artMap, book.id), variantUrl(artMap.get(coverScene(book.id)), 'thumb'), favorite)
+  return summarize(
+    { ...book, chapterCount: book._count.chapters },
+    0,
+    false,
+    blocked,
+    artUrlFor(artMap, book.id),
+    variantUrl(artMap.get(coverScene(book.id)), 'thumb'),
+    favorite,
+  )
 }
 
 /**
@@ -347,11 +440,9 @@ export async function listBooksForParent(
   familyId: string,
   childrenIds: string[],
 ): Promise<Array<BookSummaryDto & { readers: Array<{ childId: string; progress: number; finished: boolean }> }>> {
-  const books = await db.book.findMany({
-    include: { chapters: { select: { id: true }, orderBy: { order: 'asc' } } },
-    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
-    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
-  })
+  // docs/35 B3：走目录缓存（与孩子端 listBooks 同源），本接口不再全表 include
+  const catalog = await getBookCatalog(db)
+  const books = catalog.rows
   const blockedRows = await db.shelfSnapshot.findMany({
     where: { familyId, kind: 'cbf' },
     select: { bookId: true, blocked: true },
@@ -363,7 +454,7 @@ export async function listBooksForParent(
   })
   const artMap = await artUrlMap(db, books.map((b) => coverScene(b.id)))
   return books.map((b) => {
-    const total = b.chapters.length
+    const total = b.chapterCount
     const readers = progressRows
       .filter((r) => r.bookId === b.id)
       .map((r) => {
@@ -421,6 +512,9 @@ export async function getChapter(
       translation: b.translation,
       art: b.art,
       artUrl: artUrlEntry(artMap, b.art),
+      /** docs/35 A1：图片块暴露 reader 档（800w/R2）——原档此前是唯一选项，
+       *  310-479KB 冷穿透走家庭上行 ~5s/张；变体 ~120KB 且永不回源家庭 */
+      artReaderUrl: b.art ? variantUrl(artMap.get(b.art), 'reader') : null,
     })),
   }
 }

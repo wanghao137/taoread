@@ -12,6 +12,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-180.png" />
     <!-- docs/34 P1-4：可安装 PWA（图标资产此前已存在但无清单引用=闲置） -->
     <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- docs/35 A5：预连接公共媒体域（R2）——书架缩图/阅读器插图的必经之路，省 DNS+TLS 往返 -->
+    <link rel="preconnect" href="https://media.taostudioai.com" />
     <!-- 展示字体自托管（红线：孩子端零第三方外链）；swap 保证弱网下先渲染系统回退字体 -->
     <link
       rel="preload"

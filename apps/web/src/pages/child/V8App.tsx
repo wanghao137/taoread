@@ -239,12 +239,37 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
       })
   }, [token, stage, childId])
 
-  // 审计 A10.5：阅读会改进度，回到列表页时必须重拉书架——
-  // 否则卡片上的「读到 N%」停留在进 App 时的旧值，阅读了也不涨
+  // 审计 A10.5 的初衷保留：读完回列表要看到新进度——但触发点收窄为
+  // 「从阅读器/家庭书返回列表页」（docs/35 B2：此前每次切 tab 全量重拉 178KB，
+  // 孩子 today→discover→my 逛一圈 = 4 次全量请求；现改为定向刷新 + 60s 节流兜底）
+  const lastFetchRef = useRef(0)
+  const prevPathRef = useRef('')
   useEffect(() => {
-    if (!['/child', '/child/today', '/child/my', '/child/discover'].includes(location.pathname)) return
-    void reloadBooks()
+    const listRoutes = ['/child', '/child/today', '/child/my', '/child/discover']
+    if (!listRoutes.includes(location.pathname)) {
+      prevPathRef.current = location.pathname
+      return
+    }
+    // 对抗审查 P2-4：来源判定泛化——「从任何非列表路由回到列表」都定向刷新
+    // （覆盖阅读器→详情页→返回 的最常见浏览路径；chapter 路由本身也属非列表）
+    const cameFromElsewhere = prevPathRef.current !== '' && !listRoutes.includes(prevPathRef.current)
+    prevPathRef.current = location.pathname
+    if (cameFromElsewhere || Date.now() - lastFetchRef.current > 60_000) {
+      lastFetchRef.current = Date.now()
+      void reloadBooks()
+    }
   }, [location.pathname, reloadBooks])
+  // 回前台且距上次拉取 >60s 时静默刷新（家长在另一端屏蔽/孩子换设备读完的场景）
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && Date.now() - lastFetchRef.current > 60_000) {
+        lastFetchRef.current = Date.now()
+        void reloadBooks()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [reloadBooks])
 
   useEffect(() => {
     if (!token || !familyId || !childId) return
@@ -1314,6 +1339,9 @@ function BookDetailPage() {
   const [chapters, setChapters] = useState<Array<{ order: number; title: string }>>([])
   const [resumeOrder, setResumeOrder] = useState(0)
   const [previewing, setPreviewing] = useState(false)
+  // docs/35 A2：详情页封面优先缩图（28KB/R2），失败回退原档
+  const [coverFallback, setCoverFallback] = useState(false)
+  const detailCoverSrc = !coverFallback && book?.coverThumb ? book.coverThumb : book?.cover ?? null
 
   useEffect(() => {
     if (!bookId || !token) return
@@ -1408,11 +1436,22 @@ function BookDetailPage() {
         <main className="main">
           <div className="detail-grid">
             <div className="detail-cover">
-              <div className={`book-cover ${book.tone} ${book.cover ? 'has-art' : ''}`}>
-                {book.cover ? <img className="cover-art" src={book.cover} alt="" loading="lazy" /> : null}
+              <div className={`book-cover ${book.tone} ${detailCoverSrc ? 'has-art' : ''}`}>
+                {detailCoverSrc ? (
+                  <img
+                    className="cover-art"
+                    src={detailCoverSrc}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    onError={() => {
+                      if (!coverFallback) setCoverFallback(true)
+                    }}
+                  />
+                ) : null}
                 <span className="cover-kicker">桃阅读 · {CATEGORY_LABEL[book.category] ?? (book.lang === 'en' ? 'Story' : '故事')}</span>
                 <span className="cover-title">{book.title}</span>
-                {book.cover ? <AiBadge /> : null}
+                {detailCoverSrc ? <AiBadge /> : null}
               </div>
             </div>
             <div>

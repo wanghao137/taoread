@@ -1,5 +1,6 @@
 import Fastify, { type FastifyInstance } from 'fastify'
 import cors from '@fastify/cors'
+import compress from '@fastify/compress'
 import fastifyStatic from '@fastify/static'
 import { join } from 'node:path'
 import type { PrismaClient } from '@prisma/client'
@@ -122,6 +123,29 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
   await app.register(cors, {
     origin: options.allowedOrigin ?? true,
+  })
+
+  // docs/35 B1：gzip 压缩——书架接口 178KB JSON 压后 ~30KB，家庭上行是全站瓶颈。
+  // SSE（TTS 整章）走 reply.raw 直写，天然绕过本插件的 onSend 管道，不受影响。
+  await app.register(compress, {
+    threshold: 1024,
+    encodings: ['gzip', 'deflate'],
+  })
+
+  // docs/35 D1：慢端点观测——>500ms 的 API 记一行结构化日志，积累 p95 证据
+  app.addHook('onResponse', async (request, reply) => {
+    const elapsed = typeof reply.elapsedTime === 'number' ? reply.elapsedTime : 0
+    if (elapsed > 500 && request.url?.startsWith('/api/')) {
+      console.log(
+        JSON.stringify({
+          slow: true,
+          method: request.method,
+          path: request.url.split('?')[0],
+          ms: Math.round(elapsed),
+          status: reply.statusCode,
+        }),
+      )
+    }
   })
 
   app.get('/api/health', async () => ({

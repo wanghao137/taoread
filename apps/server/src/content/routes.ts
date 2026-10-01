@@ -10,6 +10,7 @@
  */
 import type { FastifyInstance, FastifyRequest } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
+import { createHash } from 'node:crypto'
 import { z } from 'zod'
 import { requireAuth } from '../modules/family/routes'
 import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
@@ -90,6 +91,19 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       ...(query.lang ? { lang: query.lang } : {}),
       ...(query.q ? { q: query.q } : {}),
     })
+    // docs/35 B4：ETag + 30s 浏览器缓存——内容指纹（总数+收藏数+最近读时间原文）做真哈希，
+    // 变化则 304 失效；切 tab / 短时间重进的重复全量拉取免传输（CF 不缓存带 Authorization
+    // 的响应，此头只作用于浏览器）。对抗审查 P0-1：ISO 时间戳定长，早期版本取「指纹字节长度」
+    // 恒定不变 → 永久 304 陈旧；必须哈希原文。
+    const favCount = books.filter((b) => b.favorite).length
+    const lastRead = books.reduce((m, b) => (b.lastReadAt && b.lastReadAt > m ? b.lastReadAt : m), '')
+    const etag = `W/"shelf-${createHash('sha1').update(`${books.length}-${favCount}-${lastRead}`).digest('hex').slice(0, 16)}"`
+    reply.header('ETag', etag)
+    reply.header('Cache-Control', 'private, max-age=30')
+    if (request.headers['if-none-match'] === etag) {
+      reply.code(304)
+      return reply.send()
+    }
     return reply.send({ total: books.length, books })
   })
 

@@ -824,6 +824,8 @@ export interface ContentChapterDto {
     art: string | null
     /** 图片块的 AI 插画 URL（docs/24）；无则 null，前端回退 SVG 场景 */
     artUrl: string | null
+    /** 图片块 reader 档（800w/R2，docs/35 A1）；null 回退 artUrl */
+    artReaderUrl: string | null
   }>
 }
 

@@ -109,6 +109,32 @@ interface ChapterTitleItem {
   title: string
 }
 
+/* ── docs/35 C1：章节正文模块级缓存（翻章即时开 + 预取落点）。
+ *    TTL 10min / 上限 40 章逐出最旧——章节正文不可变，缓存天然安全 ── */
+const CHAPTER_CACHE_TTL_MS = 10 * 60_000
+const CHAPTER_CACHE_MAX = 40
+const chapterCache = new Map<string, { at: number; chapter: ContentChapterDto }>()
+
+function takeChapterCache(bookId: string, order: number): ContentChapterDto | null {
+  const hit = chapterCache.get(`${bookId}:${order}`)
+  if (!hit) return null
+  if (Date.now() - hit.at > CHAPTER_CACHE_TTL_MS) {
+    chapterCache.delete(`${bookId}:${order}`)
+    return null
+  }
+  return hit.chapter
+}
+
+function putChapterCache(bookId: string, order: number, chapter: ContentChapterDto): void {
+  const key = `${bookId}:${order}`
+  chapterCache.set(key, { at: Date.now(), chapter })
+  while (chapterCache.size > CHAPTER_CACHE_MAX) {
+    const oldest = chapterCache.keys().next().value
+    if (oldest === undefined) break
+    chapterCache.delete(oldest)
+  }
+}
+
 /** 浮层壳：.settings 样式 + 半透明背板；dialog 语义 + Esc + 焦点圈定与归还（对齐 TaSheet 的 R-06） */
 function Overlay({
   onClose,
@@ -377,7 +403,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       setLoading(true)
       setChapterError(null)
       try {
-        const res = await api.contentChapter(book.id, target, token)
+        // docs/35 C1：章节正文缓存命中则零网络开章（预取已 warmed）
+        const res = { chapter: takeChapterCache(book.id, target) ?? (await api.contentChapter(book.id, target, token)).chapter }
+        putChapterCache(book.id, target, res.chapter)
         restoredBlockRef.current = restoreBlock
         currentBlockRef.current = restoreBlock
         chapterRef.current = res.chapter
@@ -409,6 +437,33 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     },
     [token, book.id, childId, showToast],
   )
+
+  /* ── docs/35 C1：下一章空闲预取——进章 1.8s 后 idle 拉下一章 JSON + 预热题图，
+   *    翻章从「点击后等待」变「缓存即时开」；末章/已缓存不动作 ── */
+  useEffect(() => {
+    if (!chapter || !token || order >= book.chapterCount) return
+    const timer = window.setTimeout(() => {
+      const run = () => {
+        if (takeChapterCache(book.id, order + 1)) return
+        void api
+          .contentChapter(book.id, order + 1, token)
+          .then(({ chapter: next }) => {
+            putChapterCache(book.id, order + 1, next)
+            const hero = next.artReaderUrl ?? next.blocks.find((b) => b.kind === 'image')?.artReaderUrl
+            if (hero) {
+              const img = new Image()
+              img.decoding = 'async'
+              img.src = hero
+            }
+          })
+          .catch(() => undefined)
+      }
+      if ('requestIdleCallback' in globalThis) globalThis.requestIdleCallback(run, { timeout: 4000 })
+      else run()
+    }, 1800)
+    return () => window.clearTimeout(timer)
+    // chapter 引用变化即当前章就绪；book.id/order 变化重挂
+  }, [chapter, token, book.id, book.chapterCount, order])
 
   /* ── 首次进入：先取已存进度（续读定位），再载入章节 ── */
   useEffect(() => {
@@ -1126,12 +1181,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   const blocks = chapter?.blocks ?? []
   // 性能方案阶段 1：题图优先 800px reader 档（回退图片块原档 → 封面缩图 → 封面原档）
+  // 对抗审查 P1-2：hero 与图片块同款的 artBroken 感知回退链——
+  // reader 变体（R2）→ 本地原档 → 封面缩图 → 封面原档，任一档失败逐级下探而非直接落 CSS 占位
+  const heroImgBlock = blocks.find((b) => b.kind === 'image' && (b.artReaderUrl ?? b.artUrl))
   const heroArtUrl =
-    chapter?.artReaderUrl ??
-    blocks.find((b) => b.kind === 'image' && b.artUrl)?.artUrl ??
-    book.coverThumb ??
-    book.cover
-  const showHeroArt = Boolean(heroArtUrl) && !artBroken.has(heroArtUrl!)
+    [
+      chapter?.artReaderUrl,
+      chapter?.artUrl,
+      heroImgBlock?.artReaderUrl,
+      heroImgBlock?.artUrl,
+      book.coverThumb,
+      book.cover,
+    ].find((u): u is string => Boolean(u) && !artBroken.has(u!)) ?? null
+  const showHeroArt = heroArtUrl !== null
 
   return (
     <div className={`reader ${theme}`} style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
@@ -1197,13 +1259,17 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           <h2>{chapter?.title}</h2>
 
           {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
-              data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径） */}
+              data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
+              fetchpriority=high（docs/35 A5）：题图是阅读器 LCP，优先于懒加载图块 */}
           <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
                 src={heroArtUrl!}
                 alt={`${chapter?.title ?? book.title} 插图`}
+                decoding="async"
+                // React 18 未知小写属性透传为 DOM attribute
+                {...{ fetchpriority: 'high' }}
                 style={{ cursor: 'zoom-in' }}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -1226,8 +1292,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             {blocks.map((b) => {
               const isSpeakingBlock = speakingBlockId === b.id
               if (b.kind === 'image') {
-                const url = b.artUrl
-                const showImg = Boolean(url) && !artBroken.has(url!)
+                // docs/35 A1：优先 reader 档（800w/R2，冷穿透不再走家庭上行），失败回退原档
+                const url =
+                  (b.artReaderUrl && !artBroken.has(b.artReaderUrl) ? b.artReaderUrl : null) ??
+                  (b.artUrl && !artBroken.has(b.artUrl) ? b.artUrl : null)
+                const showImg = Boolean(url)
                 return (
                   <figure
                     key={b.id}
@@ -1247,8 +1316,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                           src={url!}
                           alt={b.text || `${chapter?.title ?? ''}插图`}
                           loading="lazy"
+                          decoding="async"
                           style={{ cursor: 'zoom-in' }}
-                          onClick={() => setLightbox(url!)}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setLightbox(url!)
+                          }}
                           onError={() => setArtBroken((prev) => new Set(prev).add(url!))}
                         />
                       ) : null}
