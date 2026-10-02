@@ -1,5 +1,5 @@
 /**
- * 桃阅读离机备份 → Cloudflare R2（交接文档 G2/F38：同机复制不是完整灾备）。
+ * 桃阅读离机备份 → 显式配置的 B2 桶（同机复制不是完整灾备）。
  *
  * 每次运行：
  *   1. SQLite 一致快照（VACUUM INTO，可在服务运行时执行）；
@@ -11,9 +11,8 @@
  *
  * 环境变量（.env → .env.r2 → 可选 .env.backup 逐层覆盖）：
  *   TAO_DATABASE_URL（如 file:./prod.db）
- *   备份目标（缺省 = R2）：BACKUP_S3_ENDPOINT + BACKUP_ACCESS_KEY_ID + BACKUP_SECRET_ACCESS_KEY
+ *   BACKUP_S3_ENDPOINT + BACKUP_ACCESS_KEY_ID + BACKUP_SECRET_ACCESS_KEY
  *   + BACKUP_BUCKET（region 从 B2 endpoint 自动解析，也可 BACKUP_S3_REGION 显式给）。
- *   配 .env.backup 即把离机备份切到任意 S3 兼容端点（如 Backblaze B2），R2 media 桶不受影响。
  * 用法（apps/server 目录）：
  *   node --import tsx scripts/backup-to-r2.mjs [--full] [--dry-run]
  *   --dry-run：只出对账报告，不上传不删除
@@ -21,7 +20,7 @@
  */
 import { createReadStream, existsSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
-import { DeleteObjectsCommand, DeleteObjectCommand, GetObjectCommand, HeadObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { DeleteObjectsCommand, DeleteObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 import { createHash } from 'node:crypto'
@@ -34,17 +33,12 @@ dotenv.config({ path: '.env.backup', override: true })
 
 const dbUrl = process.env.TAO_DATABASE_URL
 if (!dbUrl) throw new Error('TAO_DATABASE_URL 必填')
-const accountId = process.env.R2_ACCOUNT_ID
-const r2Fallback = process.argv.includes('--r2-fallback')
-// 备份目标：BACKUP_* 优先，缺省沿用 R2（向后兼容）
-const endpoint = (r2Fallback ? null : process.env.BACKUP_S3_ENDPOINT)
-  || (accountId ? `https://${accountId}.r2.cloudflarestorage.com` : null)
-const accessKey = (r2Fallback ? null : process.env.BACKUP_ACCESS_KEY_ID) || process.env.R2_ACCESS_KEY_ID
-const secretKey = (r2Fallback ? null : process.env.BACKUP_SECRET_ACCESS_KEY) || process.env.R2_SECRET_ACCESS_KEY
-if (!endpoint || !accessKey || !secretKey) {
-  throw new Error('备份目标缺失：BACKUP_S3_ENDPOINT/BACKUP_ACCESS_KEY_ID/BACKUP_SECRET_ACCESS_KEY（或缺省 R2_*）')
-}
-const bucket = r2Fallback ? 'taoread-backup' : process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
+if (process.argv.includes('--r2-fallback')) throw new Error('R2 备份回退已禁用')
+const endpoint = process.env.BACKUP_S3_ENDPOINT
+const accessKey = process.env.BACKUP_ACCESS_KEY_ID
+const secretKey = process.env.BACKUP_SECRET_ACCESS_KEY
+const bucket = process.env.BACKUP_BUCKET
+if (!endpoint || !accessKey || !secretKey || !bucket) throw new Error('必须显式配置 BACKUP_* 离机备份目标')
 // 离机 DB 快照保留份数（2026-09-28 从 7 降到 3：快照 ~11MB，7 份无必要）
 // 本地对账安全水位：walk 出的真值清单低于该数说明 media/ 可能挂错/损坏，拒绝删除
 const RECONCILE_MIN_LOCAL = 1000
@@ -57,7 +51,7 @@ const targetId = createHash('sha256').update(`${endpoint}|${bucket}`).digest('he
 const stateFile = join(mediaDir, `.backup-state-${targetId}`)
 
 // B2 的 SigV4 需真实 region（从 endpoint 主机名解析，如 s3.us-west-004 → us-west-004）；R2 用 auto
-const region = (r2Fallback ? null : process.env.BACKUP_S3_REGION)
+const region = process.env.BACKUP_S3_REGION
   || /(?:\/\/|\.)s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint ?? '')?.[1]
   || 'auto'
 
@@ -207,48 +201,46 @@ async function syncMedia() {
     }
   }
   const next = {}
-  const pending = []
+  // Listing is a bounded request; per-object HEAD exhausts B2's daily Class B cap.
+  const remoteArchives = full ? new Map() : new Map((await listKeys('media-archive/')).map(({ key, size }) => [key, size]))
+  const pending = new Map()
   walkMedia(mediaDir, (abs, st) => {
     const rel = relative(mediaDir, abs).split(sep).join('/')
     if (rel.startsWith('.backup-state')) return
     if (isDerivedMedia(rel)) return
     const hash = createHash('sha256').update(readFileSync(abs)).digest('hex')
-    if (full || manifest[rel]?.hash !== hash) pending.push({ rel, abs, hash, bytes: st.size })
-    else next[rel] = manifest[rel]
+    const archiveKey = `media-archive/${hash}`
+    if (!full && manifest[rel]?.hash === hash && remoteArchives.get(archiveKey) === st.size) {
+      next[rel] = manifest[rel]
+    } else {
+      const group = pending.get(hash) ?? { hash, abs, bytes: st.size, paths: [] }
+      group.paths.push(rel)
+      pending.set(hash, group)
+    }
   })
-  log(`媒体待上传 ${pending.length} 个${full ? '（--full）' : ''}`)
+  const groups = [...pending.values()]
+  log(`媒体待上传 ${groups.length} 个唯一原图归档${full ? '（--full）' : ''}`)
   let uploaded = 0
   let failed = 0
   async function upload(item) {
     try {
       const bytes = readFileSync(item.abs)
       if (createHash('sha256').update(bytes).digest('hex') !== item.hash || bytes.length !== item.bytes) throw new Error('Media changed during scan; retry backup')
-      if (process.argv.includes('--mirror')) await s3.send(new PutObjectCommand({ Bucket: bucket, Key: `media/${item.rel}`, Body: bytes }))
-      const archiveKey = `media-archive/${item.hash}`
-      let archived = false
-      if (!full) {
-        try {
-          const head = await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: archiveKey }))
-          if (head.ContentLength === bytes.length && head.Metadata?.sha256 === item.hash) archived = true
-          else {
-            const remote = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: archiveKey }))
-            const actual = Buffer.from(await remote.Body.transformToByteArray())
-            archived = actual.length === bytes.length && createHash('sha256').update(actual).digest('hex') === item.hash
-            if (!archived) throw new Error('Existing content-addressed archive failed integrity check; refusing overwrite')
-          }
-        } catch (err) { if (err?.$metadata?.httpStatusCode !== 404 && err.name !== 'NotFound' && err.name !== 'NoSuchKey') throw err }
+      if (process.argv.includes('--mirror')) {
+        for (const rel of item.paths) await s3.send(new PutObjectCommand({ Bucket: bucket, Key: `media/${rel}`, Body: bytes }))
       }
-      if (!archived) await s3.send(new PutObjectCommand({ Bucket: bucket, Key: archiveKey, Body: bytes, Metadata: { sha256: item.hash } }))
-      next[item.rel] = { hash: item.hash, key: archiveKey, bytes: item.bytes }
+      const archiveKey = `media-archive/${item.hash}`
+      await s3.send(new PutObjectCommand({ Bucket: bucket, Key: archiveKey, Body: bytes, Metadata: { sha256: item.hash } }))
+      for (const rel of item.paths) next[rel] = { hash: item.hash, key: archiveKey, bytes: item.bytes }
       uploaded++
-      if (uploaded % 100 === 0) log(`原图归档进度 ${uploaded}/${pending.length}`)
+      if (uploaded % 100 === 0) log(`原图归档进度 ${uploaded}/${groups.length}`)
     } catch (err) {
-      failed++
-      log(`上传失败 ${item.rel}: ${err.message}（清单未记录，下次补传）`)
+      failed += item.paths.length
+      log(`上传失败 ${item.paths[0]}: ${err.message}（清单未记录，下次补传）`)
     }
   }
-  for (let offset = 0; offset < pending.length; offset += 16) {
-    await Promise.all(pending.slice(offset, offset + 16).map(upload))
+  for (let offset = 0; offset < groups.length; offset += 64) {
+    await Promise.all(groups.slice(offset, offset + 64).map(upload))
     writeFileSync(stateFile, JSON.stringify(next), 'utf8')
   }
   writeFileSync(stateFile, JSON.stringify(next), 'utf8')
