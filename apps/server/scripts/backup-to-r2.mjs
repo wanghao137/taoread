@@ -35,15 +35,16 @@ dotenv.config({ path: '.env.backup', override: true })
 const dbUrl = process.env.TAO_DATABASE_URL
 if (!dbUrl) throw new Error('TAO_DATABASE_URL 必填')
 const accountId = process.env.R2_ACCOUNT_ID
+const r2Fallback = process.argv.includes('--r2-fallback')
 // 备份目标：BACKUP_* 优先，缺省沿用 R2（向后兼容）
-const endpoint = process.env.BACKUP_S3_ENDPOINT
+const endpoint = (r2Fallback ? null : process.env.BACKUP_S3_ENDPOINT)
   || (accountId ? `https://${accountId}.r2.cloudflarestorage.com` : null)
-const accessKey = process.env.BACKUP_ACCESS_KEY_ID || process.env.R2_ACCESS_KEY_ID
-const secretKey = process.env.BACKUP_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCESS_KEY
+const accessKey = (r2Fallback ? null : process.env.BACKUP_ACCESS_KEY_ID) || process.env.R2_ACCESS_KEY_ID
+const secretKey = (r2Fallback ? null : process.env.BACKUP_SECRET_ACCESS_KEY) || process.env.R2_SECRET_ACCESS_KEY
 if (!endpoint || !accessKey || !secretKey) {
   throw new Error('备份目标缺失：BACKUP_S3_ENDPOINT/BACKUP_ACCESS_KEY_ID/BACKUP_SECRET_ACCESS_KEY（或缺省 R2_*）')
 }
-const bucket = process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
+const bucket = r2Fallback ? 'taoread-backup' : process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
 // 离机 DB 快照保留份数（2026-09-28 从 7 降到 3：快照 ~11MB，7 份无必要）
 // 本地对账安全水位：walk 出的真值清单低于该数说明 media/ 可能挂错/损坏，拒绝删除
 const RECONCILE_MIN_LOCAL = 1000
@@ -56,8 +57,8 @@ const targetId = createHash('sha256').update(`${endpoint}|${bucket}`).digest('he
 const stateFile = join(mediaDir, `.backup-state-${targetId}`)
 
 // B2 的 SigV4 需真实 region（从 endpoint 主机名解析，如 s3.us-west-004 → us-west-004）；R2 用 auto
-const region = process.env.BACKUP_S3_REGION
-  || /\.s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint ?? '')?.[1]
+const region = (r2Fallback ? null : process.env.BACKUP_S3_REGION)
+  || /(?:\/\/|\.)s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint ?? '')?.[1]
   || 'auto'
 
 const s3 = new S3Client({

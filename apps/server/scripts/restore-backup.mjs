@@ -12,10 +12,11 @@ const targetArg = process.argv.find((v) => v.startsWith('--target='))?.slice(9)
 if (!targetArg) throw new Error('A new --target=ABSOLUTE_DIRECTORY is required')
 const target = resolve(targetArg)
 if (existsSync(target) || !isAbsolute(targetArg)) throw new Error('Restore destination must be a new absolute directory')
-const endpoint = process.env.BACKUP_S3_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`
-const bucket = process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
-const region = process.env.BACKUP_S3_REGION || /\.s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint)?.[1] || 'auto'
-const s3 = new S3Client({ endpoint, region, credentials: { accessKeyId: process.env.BACKUP_ACCESS_KEY_ID || process.env.R2_ACCESS_KEY_ID, secretAccessKey: process.env.BACKUP_SECRET_ACCESS_KEY || process.env.R2_SECRET_ACCESS_KEY } })
+const r2Fallback = process.argv.includes('--r2-fallback')
+const endpoint = (r2Fallback ? null : process.env.BACKUP_S3_ENDPOINT) || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`
+const bucket = r2Fallback ? 'taoread-backup' : process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
+const region = (r2Fallback ? null : process.env.BACKUP_S3_REGION) || /(?:\/\/|\.)s3\.([a-z0-9-]+)\.backblazeb2\.com/.exec(endpoint)?.[1] || 'auto'
+const s3 = new S3Client({ endpoint, region, credentials: { accessKeyId: (r2Fallback ? null : process.env.BACKUP_ACCESS_KEY_ID) || process.env.R2_ACCESS_KEY_ID, secretAccessKey: (r2Fallback ? null : process.env.BACKUP_SECRET_ACCESS_KEY) || process.env.R2_SECRET_ACCESS_KEY } })
 async function get(key) {
   const r = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
   if (!r.Body || (r.ContentLength ?? 0) > 100 * 1024 * 1024) throw new Error('Backup object missing or too large')
