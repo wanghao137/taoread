@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { api, ApiError, type CosessionHistoryDto, type WeeklyReportDataDto } from '../../lib/api'
+import { api, ApiError, type ChildDto, type CosessionHistoryDto, type WeeklyReportDataDto } from '../../lib/api'
 import { Loading, ErrorState } from '../../components/ui'
 import { PageHead } from '../child/V8App'
 
@@ -35,6 +35,9 @@ function lastMonday(): string {
 /** 足迹页（原周报）：本周/上周切换 + 分享卡 PNG 下载（SVG 客户端栅格化，1080×1440）。v8 贴纸绘本语言 */
 export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [week, setWeek] = useState<string>(thisMonday())
+  const [children, setChildren] = useState<ChildDto[]>([])
+  const [childId, setChildId] = useState('')
+  const [historyError, setHistoryError] = useState(false)
   const [report, setReport] = useState<WeeklyReportDataDto | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -46,18 +49,21 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
   const [cardBusyId, setCardBusyId] = useState<string | null>(null)
 
   useEffect(() => {
+    let alive = true
+    api.familyView(familyId, token).then((r) => { if (alive) setChildren(r.children) }).catch(() => undefined)
     api
-      .cosessionHistory(token, 20)
-      .then((r) => setHistory(r.sessions))
-      .catch(() => undefined)
-  }, [token])
+      .cosessionHistory(token, 20, childId || undefined)
+      .then((r) => { if (alive) { setHistory(r.sessions); setHistoryError(false) } })
+      .catch(() => { if (alive) setHistoryError(true) })
+    return () => { alive = false }
+  }, [token, familyId, childId])
 
   const load = useCallback(() => {
     let alive = true
     setLoading(true)
     setError(null)
     api
-      .weeklyReport(familyId, token, week)
+      .weeklyReport(familyId, token, week, childId || undefined)
       .then(({ report: r }) => {
         if (alive) setReport(r)
       })
@@ -70,7 +76,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
     return () => {
       alive = false
     }
-  }, [familyId, token, week])
+  }, [familyId, token, week, childId])
 
   useEffect(() => load(), [load])
 
@@ -80,7 +86,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
     setExporting(true)
     setExportError(null)
     try {
-      const svg = await api.shareCardSvg(familyId, token, week)
+      const svg = await api.shareCardSvg(familyId, token, week, childId || undefined)
       const img = new Image()
       const src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg)
       await new Promise<void>((resolve, reject) => {
@@ -150,6 +156,13 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       <PageHead index="03" title="足迹" sub="这一周家里的阅读足迹，可以保存成卡片分享给家人" />
 
       <div className="filter-row" style={{ marginTop: 0 }}>
+        <label>查看孩子 <select className="field" value={childId} onChange={(e) => setChildId(e.target.value)}><option value="">全家</option>{children.map((c) => <option key={c.id} value={c.id}>{c.nickname}</option>)}</select></label>
+        <label>历史周（选择任意日期） <input type="date" className="field" value={week} onChange={(e) => {
+          if (!e.target.value) return
+          const d = new Date(`${e.target.value}T12:00:00`)
+          d.setDate(d.getDate() - (d.getDay() + 6) % 7)
+          setWeek(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`)
+        }} /></label>
         <button type="button" className={`filter ${week === thisMonday() ? 'on' : ''}`} aria-pressed={week === thisMonday()} onClick={() => setWeek(thisMonday())}>
           本周
         </button>
@@ -171,10 +184,12 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
             </div>
             <p className="hero-copy">
               累计 {report.totalMinutes} 分钟 · 读过 {report.books.length} 本
-              {report.booksCompleted > 0 && ` · 真正读完 ${report.booksCompleted} 本`}
+              {report.booksCompleted > 0 && ` · 确认读完 ${report.booksCompleted} 本`}
               {' · '}收金句 {report.highlightsTotal} 句
               {report.achievementsUnlocked > 0 && ` · 解锁成就 ${report.achievementsUnlocked} 枚`}
             </p>
+            <p className="mono-label">{report.basis}</p>
+            {!!report.legacyUnverifiedCompletions && <p>有 {report.legacyUnverifiedCompletions} 条旧公共书完成记录缺少当时依据，保留原记录，未计入本页读完数。</p>}
             <p className="hero-copy" style={{ marginTop: 6 }}>
               {report.nextWeekHint}
             </p>
@@ -225,22 +240,23 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       )}
 
       {/* docs/34 P2-5：共读时间线（最近 20 次）+ P2-6 读完卡 */}
-      {history.length > 0 ? (
+      {history.length > 0 || historyError ? (
         <div className="panel" style={{ marginTop: 16 }}>
           <h3>共读时间线</h3>
           <p className="mono-line" style={{ fontSize: 11 }}>
             每一次一起读过的晚上都在这里；点「存张卡」可以把这次共读保存成图片
           </p>
           <div className="chapter-list" style={{ marginTop: 10 }}>
-            {history.map((s) => {
+            {historyError && <p role="alert">逐次记录未加载，请刷新页面重试。</p>}
+            {history.filter((s) => !childId || s.childId === childId).map((s) => {
               const d = new Date(s.startedAt)
-              const minutes = s.durationSec !== null ? Math.max(1, Math.round(s.durationSec / 60)) : null
+              const minutes = s.durationSec !== null ? Math.round(s.durationSec / 60) : null
               return (
                 <div key={s.id} className="chapter" style={{ cursor: 'default' }}>
                   <span className="num">{`${d.getMonth() + 1}/${d.getDate()}`}</span>
                   <b>
                     {s.childName} · 《{s.title}》
-                    {s.progressMark === 'done' ? ' · 读完' : ''}
+                    {s.completionVerified === true ? ' · 读完' : s.progressMark === 'done' ? ' · 完成依据未核实' : ''}
                     {s.mood && MOOD_LABEL[s.mood] ? ` · ${MOOD_LABEL[s.mood]}` : ''}
                   </b>
                   <em style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>

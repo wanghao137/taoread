@@ -29,15 +29,15 @@ export function ChildPicker({
         </header>
 
         <div className="pick-grid">
-          {children.map((c) => (
+          {children.map((c, index) => (
             <button
               key={c.id}
               type="button"
               className="pick-card"
               onClick={() => onPick({ childId: c.id, stage: c.stage })}
             >
-              <span aria-hidden className="avatar big">
-                {c.nickname.slice(0, 1)}
+              <span aria-hidden className="avatar big" style={{ background: ['var(--rose)', 'var(--sky)', 'var(--mint)', 'var(--sun)'][index % 4] }}>
+                {['🌸', '🌿', '🌙', '⭐'][index % 4]}
               </span>
               <span className="pick-name">{c.nickname}</span>
             </button>

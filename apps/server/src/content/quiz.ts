@@ -84,7 +84,7 @@ export function buildWordQuiz(opts: {
     kind: 'word',
     prompt:
       opts.lang === 'zh'
-        ? `《${opts.bookTitle}》第 ${opts.chapterOrder} 章里，哪个词出现过？`
+        ? `回忆一下：《${opts.bookTitle}》第 ${opts.chapterOrder} 章里，哪段文字出现过？`
         : `Which word appears in Chapter ${opts.chapterOrder} of "${opts.bookTitle}"?`,
     word,
     options,

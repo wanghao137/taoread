@@ -156,9 +156,11 @@ describe('P1-8 识字量速测', () => {
       expect(new Set(item.options).size).toBe(4)
     }
   })
-  it('建议阈值：85% 以上建议上调，60% 以下温柔保持', () => {
-    expect(literacySuggestion(18, 20).level).toBe('easy')
-    expect(literacySuggestion(14, 20).level).toBe('fit')
-    expect(literacySuggestion(8, 20).level).toBe('stretch')
+  it('配对结果不推断识字量、能力或建议换年龄段', () => {
+    for (const score of [0, 8, 14, 18, 20]) {
+      expect(literacySuggestion(score, 20).level).toBe('fit')
+      expect(literacySuggestion(score, 20).message).toContain('不代表识字量')
+      expect(literacySuggestion(score, 20).message).not.toContain('下一个年龄段')
+    }
   })
 })

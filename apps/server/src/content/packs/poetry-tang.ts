@@ -525,10 +525,11 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "故人西辞黄鹤楼，烟花三月下扬州。\n孤帆远影碧空尽，唯见长江天际流。 (唯 通：惟)",
-        pinyin: "gù rén xī cí huáng hè lóu， yān huā sān yuè xià yáng zhōu。\ngū fān yuǎn yǐng bì kōng jìn， wéi jiàn cháng jiāng tiān jì liú。 ( wéi tōng： wéi)",
+        text: "故人西辞黄鹤楼，烟花三月下扬州。\n孤帆远影碧空尽，唯见长江天际流。",
+        pinyin: "gù rén xī cí huáng hè lóu， yān huā sān yuè xià yáng zhōu。\ngū fān yuǎn yǐng bì kōng jìn， wéi jiàn cháng jiāng tiān jì liú。",
         translation: "老朋友告别了黄鹤楼，在这柳絮如烟、繁花似锦的三月，坐船下扬州去。那只孤船的帆影越走越远，最后消失在蓝天的尽头，只看见长江水浩浩荡荡向天边流去。",
-      }
+      },
+      { kind: 'note', text: '版本说明：“唯见”亦有版本作“惟见”。本页正文采用“唯见”，异文不混入正文与拼音。' }
       ],
     },
     {

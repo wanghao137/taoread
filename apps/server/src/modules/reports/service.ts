@@ -23,6 +23,8 @@ export interface ReportDb {
   book: PrismaClient['book']
   /** 「真正读完」口径需要核对内容域书的阅读进度（A3.3/A3.6） */
   readingProgress: PrismaClient['readingProgress']
+  bookHighlight: PrismaClient['bookHighlight']
+  importedBook: PrismaClient['importedBook']
 }
 
 export interface WeeklyReportData {
@@ -35,6 +37,8 @@ export interface WeeklyReportData {
   highlightsTotal: number // 本周金句总数（计数与展示分离，N10-005）
   achievementsUnlocked: number // 本周解锁成就数
   nextWeekHint: string // 下周建议（正向模板）
+  legacyUnverifiedCompletions: number
+  basis: string
 }
 
 /**
@@ -57,6 +61,7 @@ function resolveSessionTitle(
     return titleByContentId.get(toContentId(session.bookId)) ?? '桃书架的故事'
   }
   if (session.bookId) {
+    if (session.bookId.startsWith('imp:')) return titleByBookId.get(session.bookId) ?? '家庭书架的书'
     return titleByBookId.get(session.bookId) ?? session.bookId
   }
   return session.paperTitle ?? null
@@ -100,19 +105,24 @@ export async function generateWeeklyReport(
   db: ReportDb,
   familyId: string,
   weekStart: Date,
+  childId?: string,
 ): Promise<WeeklyReportData> {
   const family = await db.family.findUnique({ where: { id: familyId }, select: { id: true } })
   if (!family) throw new NotFoundError('没有找到这个家庭')
+  if (childId && !await db.childProfile.findFirst({ where: { id: childId, familyId }, select: { id: true } })) throw new NotFoundError('没有找到这个孩子档案')
+  const childFilter = childId ? { childId } : {}
 
   const { fromSec, toSec } = weekRangeSec(weekStart)
   const from = new Date(fromSec * 1000)
   const to = new Date(toSec * 1000)
 
-  const [sessions, highlights, achievements] = await Promise.all([
+  const [sessions, highlights, achievements, bookHighlights] = await Promise.all([
     db.cosession.findMany({
-      where: { familyId, startedAt: { gte: from, lt: to } },
+      where: { familyId, ...childFilter, endedAt: { gte: from, lt: to } },
       select: {
         startedAt: true,
+        endedAt: true,
+        completionVerified: true,
         durationSec: true,
         bookId: true,
         paperTitle: true,
@@ -121,12 +131,17 @@ export async function generateWeeklyReport(
       },
     }),
     db.highlightStar.findMany({
-      where: { familyId, createdAt: { gte: from, lt: to } },
+      where: { familyId, ...childFilter, createdAt: { gte: from, lt: to } },
       select: { text: true, source: true },
       orderBy: { createdAt: 'asc' },
     }),
     db.achievement.count({
-      where: { familyId, unlockedAt: { gte: from, lt: to } },
+      where: { familyId, ...childFilter, unlockedAt: { gte: from, lt: to } },
+    }),
+    db.bookHighlight.findMany({
+      where: { child: { familyId }, ...childFilter, createdAt: { gte: from, lt: to } },
+      select: { text: true, book: { select: { title: true } } },
+      orderBy: { createdAt: 'asc' },
     }),
   ])
 
@@ -137,7 +152,7 @@ export async function generateWeeklyReport(
   ]
   const wereadBookIds = bookIds.filter((b) => !isContentBookId(b))
   const contentBookIds = bookIds.filter(isContentBookId).map(toContentId)
-  const [cachedBooks, contentBooks] = await Promise.all([
+  const [cachedBooks, contentBooks, importedBooks] = await Promise.all([
     db.bookCache.findMany({
       where: { bookId: { in: wereadBookIds } },
       select: { bookId: true, title: true },
@@ -146,8 +161,13 @@ export async function generateWeeklyReport(
       where: { id: { in: contentBookIds } },
       select: { id: true, title: true },
     }),
+    db.importedBook.findMany({
+      where: { familyId, id: { in: bookIds.filter((id) => id.startsWith('imp:')) } },
+      select: { id: true, title: true },
+    }),
   ])
   const titleByBookId = new Map(cachedBooks.map((b) => [b.bookId, b.title]))
+  for (const b of importedBooks) titleByBookId.set(b.id, b.title)
   const titleByContentId = new Map(contentBooks.map((b) => [b.id, b.title]))
 
   const nightKeys = new Set<string>()
@@ -156,30 +176,19 @@ export async function generateWeeklyReport(
   /** done 收尾的（孩子|书）对：内容域书还需 ReadingProgress.finished 才算「真正读完」（A3.3/A3.6 统一口径） */
   const donePairs: Array<{ childId: string; contentBookId: string | null; key: string; done: boolean }> = []
   for (const s of sessions) {
-    nightKeys.add(nightKeyOf(Math.floor(s.startedAt.getTime() / 1000)))
+    nightKeys.add(nightKeyOf(Math.floor((s.endedAt ?? s.startedAt).getTime() / 1000)))
     if (s.durationSec && s.durationSec > 0) totalSec += s.durationSec
     const key = s.bookId ?? `paper:${s.paperTitle ?? ''}`
     const title = resolveSessionTitle(s, titleByBookId, titleByContentId)
     if (title) bookMap.set(key, title)
-    if (s.progressMark === 'done' && s.bookId) {
-      if (isContentBookId(s.bookId)) {
-        donePairs.push({ childId: s.childId, contentBookId: toContentId(s.bookId), key: s.bookId, done: false })
-      } else {
-        donePairs.push({ childId: s.childId, contentBookId: null, key, done: true })
-      }
+    if (s.progressMark === 'done') {
+      // Legacy public-book rows lack historical evidence. Do not infer it from today's progress.
+      const verified = s.completionVerified ?? !(s.bookId && isContentBookId(s.bookId))
+      donePairs.push({ childId: s.childId, contentBookId: null, key, done: verified })
     }
   }
-  if (donePairs.some((p) => p.contentBookId !== null)) {
-    const childIds = [...new Set(donePairs.filter((p) => p.contentBookId).map((p) => p.childId))]
-    const contentIds = [...new Set(donePairs.filter((p) => p.contentBookId).map((p) => p.contentBookId!))]
-    const finishedRows = await db.readingProgress.findMany({
-      where: { childId: { in: childIds }, bookId: { in: contentIds }, finished: true },
-      select: { childId: true, bookId: true },
-    })
-    const finishedSet = new Set(finishedRows.map((r) => `${r.childId}|${r.bookId}`))
-    for (const p of donePairs) if (p.contentBookId) p.done = finishedSet.has(`${p.childId}|${p.contentBookId}`)
-  }
   const booksCompleted = new Set(donePairs.filter((p) => p.done).map((p) => p.key)).size
+  const allHighlights = dedupeByText([...highlights, ...bookHighlights.map((h) => ({ text: h.text, source: `桃书架 · ${h.book.title}` }))])
 
   const data: WeeklyReportData = {
     weekStart: weekStart.toISOString().slice(0, 10),
@@ -187,8 +196,10 @@ export async function generateWeeklyReport(
     totalMinutes: Math.round(totalSec / 60),
     books: [...bookMap.entries()].map(([key, title]) => ({ key, title })),
     booksCompleted,
-    highlights: dedupeByText(highlights).slice(0, 12).map((h) => ({ text: h.text, source: h.source })),
-    highlightsTotal: dedupeByText(highlights).length,
+    legacyUnverifiedCompletions: sessions.filter((s) => s.progressMark === 'done' && s.completionVerified === null && s.bookId && isContentBookId(s.bookId)).length,
+    basis: '按收尾日期统计已结束共读；时长为会话跨度（单次最多 120 分钟），不是专注或能力测量。旧公共书完成记录无当时依据时不计入读完。',
+    highlights: allHighlights.slice(0, 12),
+    highlightsTotal: allHighlights.length,
     achievementsUnlocked: achievements,
     nextWeekHint:
       nightKeys.size === 0
@@ -198,7 +209,7 @@ export async function generateWeeklyReport(
 
   // upsert 周报行（任意历史周可重生成；并发/重复生成以唯一约束兜底不产生重复行）
   const statsJson = JSON.stringify(data)
-  await db.weeklyReport.upsert({
+  if (!childId) await db.weeklyReport.upsert({
     where: { familyId_weekStart: { familyId, weekStart } },
     create: { familyId, weekStart, stats: statsJson },
     update: { stats: statsJson },

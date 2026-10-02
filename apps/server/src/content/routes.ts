@@ -95,9 +95,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     // 变化则 304 失效；切 tab / 短时间重进的重复全量拉取免传输（CF 不缓存带 Authorization
     // 的响应，此头只作用于浏览器）。对抗审查 P0-1：ISO 时间戳定长，早期版本取「指纹字节长度」
     // 恒定不变 → 永久 304 陈旧；必须哈希原文。
-    const favCount = books.filter((b) => b.favorite).length
-    const lastRead = books.reduce((m, b) => (b.lastReadAt && b.lastReadAt > m ? b.lastReadAt : m), '')
-    const etag = `W/"shelf-${createHash('sha1').update(`${books.length}-${favCount}-${lastRead}`).digest('hex').slice(0, 16)}"`
+    const etag = `W/"shelf-${createHash('sha256').update(JSON.stringify(books)).digest('hex').slice(0, 24)}"`
     reply.header('ETag', etag)
     reply.header('Cache-Control', 'private, max-age=30')
     if (request.headers['if-none-match'] === etag) {
@@ -606,12 +604,19 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     },
   )
 
+  app.get<{ Params: { id: string } }>('/api/content/books/:id/provenance', { preHandler: auth }, async (request) => {
+    if (!request.auth) throw new UnauthorizedError()
+    await svc.assertContentReadable(db, request.auth.fid, request.params.id, { role: request.auth.role, allowParentPreview: true })
+    const book = await db.book.findUniqueOrThrow({ where: { id: request.params.id }, select: { source: true, contentVersion: true, reviewStatus: true } })
+    const rights = await db.rightsLedger.findUnique({ where: { bookId: request.params.id }, select: { workTitle: true, author: true, translator: true, basis: true, jurisdiction: true, sourceUrl: true, note: true } })
+    return { ...book, rights }
+  })
   // ── 主题书单（docs/34 P1-12）：策展式合集，孩子端仍走适龄过滤 ──
 
   app.get('/api/content/collections', { preHandler: auth }, async (_request, reply) => {
     const defs = await Promise.all(
       COLLECTIONS.map(async (def) => {
-        const total = await db.book.count({ where: collectionWhere(def) })
+        const total = await db.book.count({ where: { AND: [collectionWhere(def), { publicationStatus: 'published' }] } })
         return { id: def.id, title: def.title, subtitle: def.subtitle, total }
       }),
     )
@@ -639,8 +644,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       const matched = await db.book.findMany({
         where:
           stage && request.auth.role === 'child'
-            ? { AND: [collectionWhere(def), { ageStage: { in: cumulativeStages(stage) } }] }
-            : collectionWhere(def),
+            ? { AND: [collectionWhere(def), { ageStage: { in: cumulativeStages(stage) } }, { publicationStatus: 'published' }] }
+            : { AND: [collectionWhere(def), { publicationStatus: 'published' }] },
         select: { id: true },
         orderBy: { title: 'asc' },
         take: def.take,

@@ -41,7 +41,7 @@ export default tseslint.config(
   {
     // R-08：Service Worker 运行在 worker 全局——声明其真实全局，不做文件级豁免
     // （docs/34 P1-4 起 SW 有 fetch 拦截，补 URL/Response/fetch 等平台全局）
-    files: ['apps/web/public/sw.js'],
+    files: ['apps/web/public/sw.js', 'apps/web/public/offline-reader.js'],
     languageOptions: {
       globals: {
         self: 'readonly',
@@ -51,6 +51,9 @@ export default tseslint.config(
         Response: 'readonly',
         URL: 'readonly',
         URLSearchParams: 'readonly',
+        Set: 'readonly',
+        indexedDB: 'readonly',
+        document: 'readonly',
       },
     },
   },

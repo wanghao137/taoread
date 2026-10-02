@@ -137,12 +137,14 @@ model Cosession {
   endedAt      DateTime?
   durationSec  Int? // endedAt - startedAt，秒
   progressMark String? // little | lot | done
+  completionVerified Boolean? // frozen at finish; null = legacy record, not verified
   mood         String? // happy | excited | calm | sleepy | thinking
   createdAt    DateTime     @default(now())
 
   highlights HighlightStar[]
 
   @@index([familyId, startedAt])
+  @@index([familyId, endedAt])
   @@index([childId])
 }
 
@@ -222,6 +224,10 @@ model Book {
   coverTo   String? // 封面渐变终点色
   words     Int               @default(0)
   source    String // 版权台账摘要：公版来源与年限说明
+  publicationStatus String @default("published") // draft | validated | reviewed | published | withdrawn
+  reviewStatus String @default("pending") // human review is not inferred from structural checks
+  reviewEvidence String?
+  contentVersion String @default("legacy")
   createdAt DateTime          @default(now())
   chapters  Chapter[]
   progress  ReadingProgress[]
@@ -410,6 +416,7 @@ model ReadingProgress {
   chapterOrder Int          @default(1)
   blockOrder   Int          @default(0)
   finished     Boolean      @default(false)
+  contentVersion String?
   updatedAt    DateTime     @updatedAt
 
   @@unique([childId, bookId])

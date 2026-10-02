@@ -226,6 +226,7 @@ export async function finishSession(
       endedAtSec: Math.floor(session.endedAt.getTime() / 1000),
       bookId: session.bookId,
       progressMark: session.progressMark,
+      completionVerified: session.completionVerified,
     })
     return {
       id: session.id,
@@ -238,6 +239,16 @@ export async function finishSession(
   }
 
   const endedAtSec = nowSec()
+  // Freeze the evidence now; later rereading must not rewrite an old week's facts.
+  let completionVerified = input.progressMark === 'done'
+  if (completionVerified && session.bookId && isContentBookId(session.bookId)) {
+    const progress = await db.readingProgress.findUnique({
+      where: { childId_bookId: { childId: session.childId, bookId: toContentId(session.bookId) } },
+      select: { finished: true, contentVersion: true },
+    })
+    const book = await db.book.findUnique({ where: { id: toContentId(session.bookId) }, select: { contentVersion: true } })
+    completionVerified = progress?.finished === true && progress.contentVersion === book?.contentVersion
+  }
   // 时长上限保护：会话开了忘记收尾（隔夜/换设备）时，按真实时差会记出「24 小时阅读」
   // 污染周报。睡前共读单次不会超过 2 小时，超出部分视为会话搁置，不计入时长。
   const DURATION_CAP_SEC = 2 * 60 * 60
@@ -252,6 +263,7 @@ export async function finishSession(
       endedAt: new Date(endedAtSec * 1000),
       durationSec,
       progressMark: input.progressMark ?? null,
+      completionVerified,
       mood: input.mood ?? null,
     },
   })
@@ -262,6 +274,7 @@ export async function finishSession(
       endedAtSec: Math.floor((fresh?.endedAt ?? session.startedAt).getTime() / 1000),
       bookId: session.bookId,
       progressMark: fresh?.progressMark ?? null,
+      completionVerified: fresh?.completionVerified ?? null,
     })
     return {
       id: session.id,
@@ -277,6 +290,7 @@ export async function finishSession(
     endedAtSec,
     bookId: session.bookId,
     progressMark: input.progressMark ?? null,
+    completionVerified,
   })
   await logEvent(db, familyId, role, 'cosession_finished', {
     sessionId: session.id,
@@ -300,13 +314,13 @@ async function evaluateAchievements(
   familyId: string,
   childId: string,
   currentSessionId: string,
-  current: { endedAtSec: number; bookId: string | null; progressMark: string | null },
+  current: { endedAtSec: number; bookId: string | null; progressMark: string | null; completionVerified?: boolean | null },
 ): Promise<UnlockPlanItem[]> {
   const [pastSessions, existing] = await Promise.all([
     db.cosession.findMany({
       // 排除当前会话：它已先行落库，若混入 past 会把「本次读完」误判为「重读」
       where: { childId, endedAt: { not: null }, id: { not: currentSessionId } },
-      select: { endedAt: true, bookId: true, progressMark: true },
+      select: { endedAt: true, bookId: true, progressMark: true, completionVerified: true },
     }),
     db.achievement.findMany({
       where: { childId },
@@ -316,21 +330,15 @@ async function evaluateAchievements(
   // P0（V8 审计 A3.3）：book_done 只能代表「整本真实读完」（ReadingProgress.finished）。
   // 仅对内容域书（cbf:）生效——微信读书书没有进度模型，progressMark=done 就是其完成信号。
   // 会话 progressMark=done 而内容书进度未 finished（把章节收尾误报为 done）时，降级为 lot。
-  let effectiveMark = current.progressMark
-  if (effectiveMark === 'done' && current.bookId !== null && isContentBookId(current.bookId)) {
-    const prog = await db.readingProgress.findUnique({
-      where: { childId_bookId: { childId, bookId: current.bookId } },
-      select: { finished: true },
-    })
-    if (!prog?.finished) effectiveMark = 'lot'
-  }
+  const effective = (mark: string | null, verified: boolean | null | undefined, bookId: string | null) => mark === 'done' && (verified === false || (verified !== true && bookId !== null && isContentBookId(bookId))) ? 'lot' : mark
+  const effectiveMark = effective(current.progressMark, current.completionVerified, current.bookId)
   const plan = planUnlocks({
     past: pastSessions
       .filter((s) => s.endedAt !== null)
       .map((s) => ({
         endedAtSec: Math.floor(s.endedAt!.getTime() / 1000),
         bookId: s.bookId,
-        progressMark: s.progressMark,
+        progressMark: effective(s.progressMark, s.completionVerified, s.bookId),
       })),
     current: { ...current, progressMark: effectiveMark },
     existing,
@@ -484,7 +492,7 @@ export async function generateCardForSession(
   })
   // N4-007（第 9 夜）：共读卡按（家庭, 书, 阶段, 夜键）唯一化——同一晚重复调用返回同一张卡，
   // 消费方不再读到重复行；卡内容确定性生成，命中旧行时直接回放存储的 JSON。
-  const bookKey = session.bookId ?? title
+  const bookKey = `template-v2:${session.bookId ?? title}`
   const nightKey = nightKeyOf(nowSec())
   const existingPrompt = await db.parentPrompt.findFirst({
     where: { familyId, bookId: bookKey, stage: child.stage, nightKey },

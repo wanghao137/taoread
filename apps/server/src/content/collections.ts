@@ -20,7 +20,7 @@ export interface CollectionDef {
 
 export const COLLECTIONS: CollectionDef[] = [
   { id: 'bedtime-poems', title: '睡前轻轻读', subtitle: '读一首小诗，做个好梦', filter: { category: ['poetry'] }, take: 12 },
-  { id: 'quick-stories', title: '十分钟小故事', subtitle: '短短的一篇，刚刚好', filter: { category: ['story'] }, take: 12 },
+  { id: 'quick-stories', title: '故事时光', subtitle: '挑一篇感兴趣的，慢慢读', filter: { category: ['story'] }, take: 12 },
   { id: 'classic-tales', title: '经典童话', subtitle: '爸爸妈妈小时候也读过的故事', filter: { category: ['tale'] }, take: 12 },
   { id: 'wonder-why', title: '十万个为什么', subtitle: '好奇宝宝的最爱', filter: { idPrefix: ['why-'] }, take: 6 },
   { id: 'first-steps', title: '刚开始识字', subtitle: '给最小的读者', filter: { ageStage: ['3-5'] }, take: 12 },

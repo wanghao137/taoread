@@ -23,6 +23,7 @@ D:\taoread-prod\bin\nssm.exe set taoread-api AppRotateBytes 10485760 || goto :fa
 D:\taoread-prod\bin\nssm.exe set taoread-api Start SERVICE_AUTO_START || goto :fail
 
 echo [2/4] 创建每日 03:30 备份计划任务...
+copy /Y "scripts\deploy\backup-consistent.ps1" "D:\taoread-prod\bin\backup-consistent.ps1" || goto :fail
 schtasks /Create /F /SC DAILY /ST 03:30 /TN "taoread-backup" /TR "D:\taoread-prod\bin\backup.cmd" || goto :fail
 
 echo [3/4] 应用 cloudflared 配置（新增 read.taostudioai.com，保留 cpa）...

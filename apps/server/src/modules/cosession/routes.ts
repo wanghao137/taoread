@@ -12,7 +12,7 @@ import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { requireAuth } from '../family/routes'
-import { UnauthorizedError, ValidationError } from '../../lib/errors'
+import { UnauthorizedError, ValidationError, NotFoundError } from '../../lib/errors'
 import { MOODS, PROGRESS_MARKS } from '@taoread/shared'
 import { assertContentReadable, isContentBookId, toContentId } from '../../content/service'
 import type { WereadServiceRegistry } from '../../services/weread/registry'
@@ -62,6 +62,7 @@ export function registerCosessionRoutes(
     if (body.bookId && isContentBookId(body.bookId)) {
       await assertContentReadable(db, request.auth.fid, toContentId(body.bookId), { role: request.auth.role })
     }
+    if (body.bookId?.startsWith('imp:') && !await db.importedBook.findFirst({ where: { id: body.bookId, familyId: request.auth.fid }, select: { id: true } })) throw new NotFoundError('没有找到这本家庭书')
     const session = await svc.startSession(
       db,
       request.auth.fid,
@@ -95,11 +96,11 @@ export function registerCosessionRoutes(
   }, async (request) => {
     if (!request.auth) throw new UnauthorizedError()
     const query = parse(
-      z.object({ take: z.coerce.number().int().min(1).max(100).default(30) }),
+      z.object({ take: z.coerce.number().int().min(1).max(100).default(30), childId: z.string().min(1).max(64).optional() }),
       request.query ?? {},
     )
     const rows = await db.cosession.findMany({
-      where: { familyId: request.auth.fid },
+      where: { familyId: request.auth.fid, endedAt: { not: null }, ...(query.childId ? { childId: query.childId } : {}) },
       orderBy: { startedAt: 'desc' },
       take: query.take,
       select: {
@@ -110,6 +111,7 @@ export function registerCosessionRoutes(
         startedAt: true,
         durationSec: true,
         progressMark: true,
+        completionVerified: true,
         mood: true,
         child: { select: { nickname: true } },
       },
@@ -121,26 +123,30 @@ export function registerCosessionRoutes(
     const wereadIds = rows
       .map((r) => (r.bookId && !r.bookId.startsWith('cbf:') ? r.bookId : null))
       .filter((x): x is string => x !== null)
-    const [cbfBooks, cachedBooks] = await Promise.all([
+    const [cbfBooks, cachedBooks, importedBooks] = await Promise.all([
       cbfIds.length > 0 ? db.book.findMany({ where: { id: { in: cbfIds } }, select: { id: true, title: true } }) : Promise.resolve([]),
       wereadIds.length > 0 ? db.bookCache.findMany({ where: { bookId: { in: wereadIds } }, select: { bookId: true, title: true } }) : Promise.resolve([]),
+      db.importedBook.findMany({ where: { familyId: request.auth.fid, id: { in: wereadIds.filter((id) => id.startsWith('imp:')) } }, select: { id: true, title: true } }),
     ])
     const titleByContentId = new Map(cbfBooks.map((b) => [b.id, b.title]))
     const titleByBookId = new Map(cachedBooks.map((b) => [b.bookId, b.title]))
+    for (const b of importedBooks) titleByBookId.set(b.id, b.title)
     return {
       sessions: rows.map((r) => ({
         id: r.id,
+        childId: r.childId,
         childName: r.child.nickname,
         title:
           r.paperTitle ??
           (r.bookId && r.bookId.startsWith('cbf:')
             ? titleByContentId.get(r.bookId.slice(4)) ?? '桃书架的故事'
             : r.bookId
-              ? titleByBookId.get(r.bookId) ?? r.bookId
+              ? titleByBookId.get(r.bookId) ?? (r.bookId.startsWith('imp:') ? '家庭书架的书' : r.bookId)
               : '今晚的故事'),
         startedAt: r.startedAt,
         durationSec: r.durationSec,
         progressMark: r.progressMark,
+          completionVerified: r.completionVerified,
         mood: r.mood,
       })),
     }

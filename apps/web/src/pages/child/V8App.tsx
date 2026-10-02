@@ -20,6 +20,8 @@ import { audioPlayer } from '../../lib/audioPlayer'
 import { tts } from '../../lib/tts'
 import { AiBadge } from '../../components/art/AiBadge'
 import { haptic } from '../../lib/haptics'
+import { Dialog } from '../../components/ui/Dialog'
+import { saveOfflineBook } from '../../lib/offline'
 import { ReaderPage } from './ReaderPage'
 import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
 
@@ -43,6 +45,8 @@ export interface V8Book {
   finished: boolean
   fav: boolean
   chapterCount: number
+  words: number
+  contentVersion: string
   /** 续读章序 / 最近读时间 / 难度徽章（docs/34 P0-4、P1-7） */
   resumeChapter: number | null
   lastReadAt: string | null
@@ -81,6 +85,8 @@ function toV8(b: ContentBookDto): V8Book {
     finished: b.finished,
     fav: b.favorite,
     chapterCount: b.chapterCount,
+    words: b.words,
+    contentVersion: b.contentVersion ?? 'legacy',
     resumeChapter: b.resumeChapter ?? null,
     lastReadAt: b.lastReadAt ?? null,
     difficulty: b.difficulty ?? 'fit',
@@ -121,7 +127,7 @@ export const LABELS = {
   settings: '阅读设置',
   finish: '读完啦',
   paper: '纸白',
-  sepia: '护眼',
+  sepia: '暖纸',
   night: '夜间',
   smaller: '小一点',
   bigger: '大一点',
@@ -216,7 +222,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
   const showToast = useCallback((m: string) => {
     setToastMsg(m)
     if (toastTimer.current) clearTimeout(toastTimer.current)
-    toastTimer.current = setTimeout(() => setToastMsg(''), 1400)
+    toastTimer.current = setTimeout(() => setToastMsg(''), 4000)
   }, [])
 
   // 卸载时清掉未触发的 toast 定时器，避免卸载后 setState
@@ -329,11 +335,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
-  const inReader = /^\/child\/(?:book|family-book)\/[^/]+\/chapter\//.test(location.pathname)
+  const inReader = /^\/child\/book\/[^/]+\/chapter\//.test(location.pathname) || /^\/child\/family-book\//.test(location.pathname)
 
   return (
     <V8Context.Provider value={ctx}>
-      <div className="app">
+      <div className={`app ${inReader ? 'reading-layout' : ''}`}>
         <div className="wrap">
           <header className="mast">
             <div className="logo">
@@ -344,8 +350,8 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
               <p>{LABELS.brandSub}</p>
             </div>
             <div className="mast-actions">
-              <button className="sticker-btn" onClick={() => navigate('/child/my')}>
-                {LABELS.memory}
+              <button className="sticker-btn keep" onClick={onSwitchChild}>
+                {childName} · 换人
               </button>
               <button className="sticker-btn primary" onClick={() => navigate('/child/discover')}>
                 {LABELS.discover}
@@ -361,8 +367,6 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                     ['/child/today', LABELS.navHome],
                     ['/child/discover', LABELS.discover],
                     ['/child/my', LABELS.navMy],
-                    ['/child/family-books', '家庭书架'],
-                    ['/child/phonics', '英语练习'],
                   ] as Array<[string, string]>
                 ).map(([to, label]) => (
                   <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
@@ -400,8 +404,6 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 ['/child/today', LABELS.navHome],
                 ['/child/discover', LABELS.discover],
                 ['/child/my', LABELS.navMy],
-                ['/child/family-books', '家庭书架'],
-                ['/child/phonics', '英语练习'],
               ] as Array<[string, string]>
             ).map(([to, label]) => (
               <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
@@ -416,11 +418,6 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
           {toastMsg}
         </div>
       ) : null}
-      {!inReader ? (
-        <button onClick={onSwitchChild} className="switch-user-btn">
-          换人
-        </button>
-      ) : null}
     </V8Context.Provider>
   )
 }
@@ -428,7 +425,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
 export function PageHead({ title, sub, index = '01' }: { title: string; sub: string; index?: string }) {
   return (
     <div className="page-head">
-      <span className="page-index">{index} / 桃阅读</span>
+      <span className="page-index" aria-hidden="true">{index} / 桃阅读</span>
       <h2>{title}</h2>
       <p>{sub}</p>
     </div>
@@ -452,7 +449,7 @@ export function V8Cover({
   const [artOk, setArtOk] = useState(Boolean(src))
   return (
     <div className={`book-cover ${book.tone} ${artOk ? 'has-art' : ''}`}>
-      {src ? (
+      {src && artOk ? (
         <img
           className="cover-art"
           src={src}
@@ -676,14 +673,14 @@ function TodayPage() {
             <div className="hero-actions">
               <button
                 className="sticker-btn primary"
-                onClick={() => continueBook && v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined)}
-                disabled={!continueBook}
+                onClick={() => continueBook ? v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined) : navigate('/child/discover')}
+                disabled={!v.loaded}
               >
-                {LABELS.continueRead}
+                {continueBook ? LABELS.continueRead : '挑一本开始'}
               </button>
-              <button className="sticker-btn" onClick={() => continueBook && v.openBook(continueBook.id)} disabled={!continueBook}>
+              {continueBook && <button className="sticker-btn" onClick={() => v.openBook(continueBook.id)}>
                 看看这本书
-              </button>
+              </button>}
             </div>
           </div>
           {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : null}
@@ -703,6 +700,20 @@ function TodayPage() {
         </section>
       ) : null}
       <section className="section">
+        <div className="section-head">
+          <span className="section-no">02</span>
+          <h3>
+            给你的推荐 · {picks.length} 本
+          </h3>
+          <p>未读、收藏和读过的类别，帮你发现下一本。</p>
+        </div>
+        <div className="story-row">
+          {picks.map((b) => (
+            <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />
+          ))}
+        </div>
+      </section>
+      <section className="section paper-entry">
         <div className="section-head">
           <span className="section-no">05</span>
           <h3>今晚读纸质书？</h3>
@@ -734,21 +745,6 @@ function TodayPage() {
             </button>
           </div>
         )}
-      </section>
-      <section className="section">
-        <div className="section-head">
-          <span className="section-no">02</span>
-          <h3>
-            {v.childName}
-            {LABELS.pick3}
-          </h3>
-          <p>{LABELS.pickDesc}</p>
-        </div>
-        <div className="story-row">
-          {picks.map((b) => (
-            <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />
-          ))}
-        </div>
       </section>
       <section className="section">
         <div className="section-head">
@@ -793,23 +789,15 @@ function TodayPage() {
           )}
         </div>
       </section>
+      <section className="section"><div className="hero-actions">
+        <button className="sticker-btn" onClick={() => navigate('/child/family-books')}>家庭书架</button>
+        <button className="sticker-btn" onClick={() => navigate('/child/phonics')}>英语练习 · 内测</button>
+      </div></section>
       {finishOpen && paper ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="纸质书共读收尾"
-          tabIndex={-1}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') setFinishOpen(false)
-          }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setFinishOpen(false)
-          }}
-          style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(20,16,12,0.45)', display: 'grid', placeItems: 'center', padding: 16 }}
-        >
+        <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
             <b>《{paper.title}》读得怎么样？</b>
-            <div className="mood-row" role="radiogroup" aria-label="今晚的心情">
+            <div className="mood-row" role="group" aria-label="今晚的心情">
               {FINISH_MOODS.map(([key, label]) => (
                 <button
                   key={key}
@@ -838,7 +826,7 @@ function TodayPage() {
               </button>
             </div>
           </div>
-        </div>
+        </Dialog>
       ) : null}
     </>
   )
@@ -867,6 +855,8 @@ function DiscoverPage() {
   // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
   const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number }>>([])
   const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
+  const [collectionError, setCollectionError] = useState(false)
+  const [collectionRetry, setCollectionRetry] = useState(0)
   const collectionKey = searchParams.get('collection')
   useEffect(() => {
     if (!token) return
@@ -876,15 +866,19 @@ function DiscoverPage() {
       .catch(() => undefined)
   }, [token])
   useEffect(() => {
+    let alive = true
     if (!collectionKey || !token || !childId) {
       setCollectionBooks(null)
       return
     }
+    setCollectionBooks(null)
+    setCollectionError(false)
     api
       .collectionBooks(collectionKey, childId, token)
-      .then((r) => setCollectionBooks(r.books.map(toV8)))
-      .catch(() => setCollectionBooks(null))
-  }, [collectionKey, token, childId])
+      .then((r) => { if (alive) setCollectionBooks(r.books.map(toV8)) })
+      .catch(() => { if (alive) setCollectionError(true) })
+    return () => { alive = false }
+  }, [collectionKey, token, childId, collectionRetry])
   const setCollectionKey = (key: string | null) => {
     const next = new URLSearchParams(searchParams)
     if (key) next.set('collection', key)
@@ -894,13 +888,14 @@ function DiscoverPage() {
   // Phase 5：≥2 字走服务端搜索（含章节标题命中，审计 A4「后端章节搜索被 V8 丢失」）
   const searchSeq = useRef(0)
   useEffect(() => {
+    const seq = ++searchSeq.current
+    setServerHits(null)
     const q = query.trim()
     if (q.length < 2 || !token) {
       setServerHits(null)
       return
     }
     const t = setTimeout(() => {
-      const seq = ++searchSeq.current
       api
         .contentBooks(token, { ...(stage ? { stage } : {}), ...(childId ? { childId } : {}), q })
         .then((res) => {
@@ -911,15 +906,16 @@ function DiscoverPage() {
           if (seq === searchSeq.current) setServerHits(null)
         })
     }, 300)
-    return () => clearTimeout(t)
+    return () => { clearTimeout(t); searchSeq.current = seq + 1 }
   }, [query, token, stage, childId])
   const filtered = useMemo(() => {
     // 书单模式：只看书单内书目（服务端已按孩子适龄过滤）
-    if (collectionKey) return collectionBooks ?? []
-    if (serverHits) return serverHits
     const q = query.trim().toLowerCase()
-    let arr = v.books
-    if (q) return arr.filter((b) => `${b.title} ${b.author}`.toLowerCase().includes(q))
+    let arr = collectionKey ? collectionBooks ?? [] : serverHits ?? v.books
+    if (collectionKey && serverHits) {
+      const ids = new Set(serverHits.map((b) => b.id))
+      arr = arr.filter((b) => ids.has(b.id))
+    } else if (q && !serverHits) arr = arr.filter((b) => `${b.title} ${b.author}`.toLowerCase().includes(q))
     const mood = MOODS.find((m) => m.key === moodKey)
     if (mood) arr = arr.filter(mood.match)
     if (langFilter !== 'all') arr = arr.filter((b) => b.lang === langFilter)
@@ -929,6 +925,11 @@ function DiscoverPage() {
   return (
     <>
       <PageHead title={LABELS.discover} sub={LABELS.discoverSub} index="02" />
+      {collectionKey && !collectionBooks && <p role={collectionError ? 'alert' : 'status'}>
+        {collectionError ? '书单未加载成功。' : '书单正在加载…'}
+        {collectionError && <button className="sticker-btn" onClick={() => setCollectionRetry((n) => n + 1)}>重试书单</button>}
+      </p>}
+      <p role="status" className="mono-label">当前找到 {filtered.length} 本；分类、语言、搜索与书单可组合筛选。</p>
       <div className="search-wrap">
         <input
           id="shelf-search"
@@ -1054,6 +1055,8 @@ function MyPage() {
   const v = useV8()
   const [tab, setTab] = useState<'reading' | 'liked' | 'done' | 'words' | 'memory'>('reading')
   const [words, setWords] = useState<Array<{ id: string; word: string; lang: string; context: string | null; bookTitle: string | null }>>([])
+  const [wordsError, setWordsError] = useState(false)
+  const [wordsLoading, setWordsLoading] = useState(false)
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   // docs/34 P0-7：生词复习（本地翻卡，不打分不评判）+ 删除
@@ -1063,10 +1066,13 @@ function MyPage() {
 
   const loadWords = useCallback(() => {
     if (!token || !childId) return
+    setWordsLoading(true)
+    setWordsError(false)
     api
       .listWords(childId, token)
       .then((res) => setWords(res.cards.map((c) => ({ id: c.id, word: c.word, lang: c.lang, context: c.context ?? null, bookTitle: c.bookTitle ?? null }))))
-      .catch(() => setWords([]))
+      .catch(() => setWordsError(true))
+      .finally(() => setWordsLoading(false))
   }, [token, childId])
 
   useEffect(() => {
@@ -1120,7 +1126,7 @@ function MyPage() {
   ]
   const arr = tab === 'reading' || tab === 'liked' || tab === 'done' ? lists[tab] : []
 
-  // ── 识字小测（docs/34 P1-8）：每周一份 20 题，只给「读什么难度」的建议，不做能力评估 ──
+  // ── 找相同的字（docs/34 P1-8）：每周一份 20 题，只给「读什么难度」的建议，不做能力评估 ──
   const [litOpen, setLitOpen] = useState(false)
   const [litItems, setLitItems] = useState<Array<{ char: string; options: string[]; answerIndex: number }> | null>(null)
   const [litIdx, setLitIdx] = useState(0)
@@ -1171,13 +1177,15 @@ function MyPage() {
   return (
     <>
       <PageHead title={LABELS.navMy} sub={LABELS.mySub} index="03" />
-      <div className="tabs" role="tablist" aria-label="我的分类">
+      <div className="tabs" role="group" aria-label="我的分类">
         {tabs.map(([k, label]) => (
-          <button key={k} role="tab" aria-selected={tab === k} className={`tab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
+          <button key={k} aria-pressed={tab === k} className={`tab ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)}>
             {label}
           </button>
         ))}
       </div>
+      {tab === 'words' && wordsLoading && <p role="status">生词正在加载…</p>}
+      {tab === 'words' && wordsError && <p role="alert">生词没加载成功。<button className="sticker-btn" onClick={loadWords}>再试一次</button></p>}
       {tab === 'words' ? (
         reviewing && review.length > 0 ? (
           <div className="side-card" style={{ maxWidth: 460 }}>
@@ -1261,7 +1269,7 @@ function MyPage() {
           {tab === 'reading' ? (
             <div className="hero-actions" style={{ gridColumn: '1 / -1', marginBottom: 8 }}>
               <button className="sticker-btn" onClick={() => void startLiteracy()}>
-                🔤 识字小测 · 每周一次
+                🔤 找相同的字 · 每周一次
               </button>
             </div>
           ) : null}
@@ -1272,25 +1280,13 @@ function MyPage() {
         </div>
       )}
       {litOpen && litItems ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="识字小测"
-          tabIndex={-1}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape' && !litSuggestion) setLitOpen(false)
-          }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget && !litSuggestion) setLitOpen(false)
-          }}
-          style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(20,16,12,0.45)', display: 'grid', placeItems: 'center', padding: 16 }}
-        >
+        <Dialog label="找相同的字" onClose={() => setLitOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
             {litSuggestion ? (
               <>
-                <b>做完啦！认识了 {litCorrect} / {litItems.length} 个字</b>
+                <b>完成啦！找对了 {litCorrect} / {litItems.length} 次</b>
                 <p style={{ marginTop: 8 }}>{litSuggestion.message}</p>
-                <p className="mono-label">想调整书架难度，请爸爸妈妈在家长端改</p>
+                <p className="mono-label">这是文字配对活动，不用它调整阅读建议</p>
                 <button className="sticker-btn primary" style={{ marginTop: 10 }} onClick={() => setLitOpen(false)}>
                   知道啦
                 </button>
@@ -1298,12 +1294,12 @@ function MyPage() {
             ) : (
               <>
                 <p className="mono-label">
-                  第 {litIdx + 1} / {litItems.length} 题 · 你认识这个字吗？
+                  第 {litIdx + 1} / {litItems.length} 题 · 找一个和上面一样的字
                 </p>
                 <div className="detail-title">
                   <span className="marker">{litItems[litIdx]?.char}</span>
                 </div>
-                <div className="mood-row" role="radiogroup" aria-label="选一个字">
+                <div className="mood-row" role="group" aria-label="选一个字">
                   {litItems[litIdx]?.options.map((opt, i) => (
                     <button
                       key={`${litIdx}-${i}`}
@@ -1322,7 +1318,7 @@ function MyPage() {
               </>
             )}
           </div>
-        </div>
+        </Dialog>
       ) : null}
     </>
   )
@@ -1339,23 +1335,35 @@ function BookDetailPage() {
   const [chapters, setChapters] = useState<Array<{ order: number; title: string }>>([])
   const [resumeOrder, setResumeOrder] = useState(0)
   const [previewing, setPreviewing] = useState(false)
+  const [offlineBusy, setOfflineBusy] = useState(false)
+  const [provenance, setProvenance] = useState<Awaited<ReturnType<typeof api.contentProvenance>> | null>(null)
+  const [provenanceError, setProvenanceError] = useState(false)
+  const [chapterRetry, setChapterRetry] = useState(0)
+  const [chapterListError, setChapterListError] = useState(false)
   // docs/35 A2：详情页封面优先缩图（28KB/R2），失败回退原档
   const [coverFallback, setCoverFallback] = useState(false)
-  const detailCoverSrc = !coverFallback && book?.coverThumb ? book.coverThumb : book?.cover ?? null
+  const [coverFailed, setCoverFailed] = useState(false)
+  const detailCoverSrc = coverFailed ? null : !coverFallback && book?.coverThumb ? book.coverThumb : book?.cover ?? null
 
   useEffect(() => {
     if (!bookId || !token) return
+    let alive = true
+    setChapterListError(false)
+    setChapters([])
     api
       .contentChapterList(bookId, token)
-      .then((res) => setChapters(res.chapters))
-      .catch(() => setChapters([]))
-  }, [bookId, token])
+      .then((res) => { if (alive) setChapters(res.chapters) })
+      .catch(() => { if (alive) setChapterListError(true) })
+    api.contentProvenance(bookId, token).then((r) => { if (alive) { setProvenance(r); setProvenanceError(false) } })
+      .catch(() => { if (alive) setProvenanceError(true) })
+    return () => { alive = false }
+  }, [bookId, token, chapterRetry])
 
   useEffect(() => {
     if (!bookId || !childId || !token) return
     api
       .contentProgress(bookId, childId, token)
-      .then((res) => setResumeOrder(res.progress.finished ? 0 : res.progress.chapterOrder))
+      .then((res) => setResumeOrder(res.progress.finished || !res.progress.updatedAt ? 0 : res.progress.chapterOrder))
       .catch(() => undefined)
   }, [bookId, childId, token])
 
@@ -1410,30 +1418,15 @@ function BookDetailPage() {
       const ok = await audioPlayer.speak(text, { lang: book.lang })
       if (!ok) tts.speak(text, { lang: book.lang })
     } catch {
-      /* 试听失败静默（toast 不打断） */
+      v.showToast('试听暂时没打开，可以直接开始阅读，或稍后再试')
     } finally {
       setPreviewing(false)
     }
   }
 
   return (
-    <div className="app">
-      <div className="wrap">
-        <header className="mast">
-          <div className="logo">
-            <img src="/brand/logo-256.png" alt="桃阅读" />
-          </div>
-          <div className="brand">
-            <h1>桃阅读</h1>
-            <p>书籍详情</p>
-          </div>
-          <div className="mast-actions">
-            <button className="sticker-btn" onClick={() => navigate(-1)}>
-              {LABELS.back}
-            </button>
-          </div>
-        </header>
-        <main className="main">
+    <section className="book-detail">
+        <button className="sticker-btn" onClick={() => navigate('/child/discover')}>← 返回找故事</button>
           <div className="detail-grid">
             <div className="detail-cover">
               <div className={`book-cover ${book.tone} ${detailCoverSrc ? 'has-art' : ''}`}>
@@ -1446,6 +1439,7 @@ function BookDetailPage() {
                     decoding="async"
                     onError={() => {
                       if (!coverFallback) setCoverFallback(true)
+                      else setCoverFailed(true)
                     }}
                   />
                 ) : null}
@@ -1463,12 +1457,19 @@ function BookDetailPage() {
                 {book.author} / {book.meta}
               </div>
               <p className="detail-intro">
-                {book.desc} 这里不用星级给孩子贴“难度”标签，只告诉家庭这本书怎么读会更舒服。
+                {book.desc}
               </p>
               <div className="hero-actions">
                 <button className="sticker-btn primary" onClick={() => v.readBook(book.id, resumeOrder || undefined)}>
                   {book.progress > 0 && !book.finished ? LABELS.continueRead : LABELS.start}
                 </button>
+                <button className="sticker-btn" disabled={offlineBusy} onClick={() => {
+                  if (!token || offlineBusy) return
+                  setOfflineBusy(true)
+                  void saveOfflineBook(book, token).then(() => v.showToast('文字已保存；本机离线书架可读 7 天'))
+                    .catch((e: Error) => v.showToast(e.message)).finally(() => setOfflineBusy(false))
+                }}>{offlineBusy ? '正在保存…' : '保存文字到本机 · 试点'}</button>
+                <button className="sticker-btn" onClick={() => navigate('/offline')}>离线书架</button>
                 <button className="sticker-btn" onClick={() => void speakPreview()}>
                   {previewing ? '正在合成…' : LABELS.preview}
                 </button>
@@ -1479,16 +1480,16 @@ function BookDetailPage() {
               <div className="info-stickers">
                 <div className="info">
                   <small>每章大约</small>
-                  <b>一个小故事</b>
+                  <b>{Math.round(book.words / Math.max(1, book.chapterCount))} 字 / 词</b>
                 </div>
                 <div className="info">
-                  <small>{book.lang === 'en' ? '语言' : '拼音'}</small>
-                  <b>{book.lang === 'en' ? '英文' : '带拼音'}</b>
+                  <small>{'语言'}</small>
+                  <b>{book.lang === 'en' ? '英文' : '中文'}</b>
                 </div>
                 {/* 难度徽章（docs/34 P1-7）：同类书每章字数中位数三档，不是评分 */}
                 <div className="info">
-                  <small>读起来</small>
-                  <b>{book.difficulty === 'easy' ? '很轻松' : book.difficulty === 'stretch' ? '有点挑战' : '刚刚好'}</b>
+                  <small>平均章节篇幅</small>
+                  <b>{book.difficulty === 'easy' ? '短篇' : book.difficulty === 'stretch' ? '长篇' : '中篇'}</b>
                 </div>
                 <div className="info">
                   <small>朗读方式</small>
@@ -1498,12 +1499,20 @@ function BookDetailPage() {
             </div>
           </div>
           <section className="section">
+            <details><summary style={{ minHeight: 44, cursor: 'pointer' }}>来源、加工说明与版本</summary>
+              {provenanceError ? <p role="alert">来源说明未加载。<button onClick={() => setChapterRetry((n) => n + 1)}>重试</button></p> : provenance ? <>
+                <p>{provenance.source}</p><p>{provenance.rights?.workTitle}</p><p>{provenance.rights?.note}</p>
+                <p className="mono-label">版本 {provenance.contentVersion} · {provenance.reviewStatus === 'reviewed' ? '已留存人工审核记录' : '人工精审待完成'} · 插图可能由 AI 生成</p>
+                <p>{provenance.rights?.translator ? `译者：${provenance.rights.translator}` : ''}</p>
+              </> : <p role="status">来源说明正在加载…</p>}
+            </details>
             <div className="section-head">
               <span className="section-no">02</span>
               <h3>{LABELS.chaptersFrom}</h3>
               <p>{LABELS.chaptersSub}</p>
             </div>
             <div className="chapter-list">
+              {chapterListError && <p role="alert">目录没加载成功。<button className="sticker-btn" onClick={() => setChapterRetry((n) => n + 1)}>重试目录</button></p>}
               {chapters.map((c, i) => (
                 <button key={c.order} className="chapter" onClick={() => v.readBook(book.id, c.order)}>
                   <span className="num">{String(i + 1).padStart(2, '0')}</span>
@@ -1513,14 +1522,7 @@ function BookDetailPage() {
               ))}
             </div>
           </section>
-        </main>
-      </div>
-      <nav className="mobile-nav">
-        <button onClick={() => navigate('/child/today')}>{LABELS.navHome}</button>
-        <button onClick={() => navigate('/child/discover')}>{LABELS.discover}</button>
-        <button onClick={() => navigate('/child/my')}>{LABELS.navMy}</button>
-      </nav>
-    </div>
+    </section>
   )
 }
 

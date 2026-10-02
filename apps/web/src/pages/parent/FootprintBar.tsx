@@ -22,7 +22,7 @@ export function FootprintBar({ familyId, token }: { familyId: string; token: str
   if (!report) return null
   const stats = [
     { label: '共读天数', value: `${report.nights} 天` },
-    { label: '累计时长', value: `${report.totalMinutes} 分钟` },
+    { label: '已收尾会话时长', value: `${report.totalMinutes} 分钟` },
     { label: '读过的书', value: `${report.books.length} 本` },
     { label: '收下的金句', value: `${report.highlightsTotal} 句` },
   ]

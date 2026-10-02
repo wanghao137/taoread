@@ -1,3 +1,5 @@
+import { readerTheme, readerFont, writePreference } from '../../lib/storage'
+import { Dialog } from '../../components/ui/Dialog'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError, type ImportedBookDto, type PhonicsLessonDto } from '../../lib/api'
@@ -148,8 +150,8 @@ export function FamilyReaderPage() {
   const [artUrl, setArtUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [progress, setProgress] = useState<{ order: number; offset: number; completed: boolean; updatedAt: string } | null>(null)
-  const [theme, setTheme] = useState<ReadingTheme>(() => (localStorage.getItem('taoread-family-reader-theme') as ReadingTheme) || defaultReadingTheme())
-  const [font, setFont] = useState(() => Number(localStorage.getItem('taoread-family-reader-font')) || 19)
+  const [theme, setTheme] = useState<ReadingTheme>(() => readerTheme(defaultReadingTheme()))
+  const [font, setFont] = useState(readerFont)
   const [tocOpen, setTocOpen] = useState(false)
   const [tts, setTts] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle')
   const [speakingRange, setSpeakingRange] = useState<{ start: number; end: number } | null>(null)
@@ -159,6 +161,9 @@ export function FamilyReaderPage() {
   const sseRef = useRef<AbortController | null>(null)
   const jumpRef = useRef<number>(-1)
   const saveTimerRef = useRef<number | null>(null)
+  const saveGeneration = useRef(0)
+  useEffect(() => { const generation = saveGeneration; generation.current++; return () => { generation.current++ } }, [token, childId, id, order])
+  useEffect(() => () => { if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current); saveTimerRef.current = null }, [token, childId, id, order])
   const segmentsRef = useRef<Array<TtsSegment | undefined>>([])
   const startsRef = useRef<number[]>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -171,8 +176,8 @@ export function FamilyReaderPage() {
   const ink = FAMILY_THEME[theme]
   const chapterOrder = Number(order)
 
-  useEffect(() => { localStorage.setItem('taoread-family-reader-theme', theme) }, [theme])
-  useEffect(() => { localStorage.setItem('taoread-family-reader-font', String(font)) }, [font])
+  useEffect(() => { writePreference('taoread-reader-theme', theme) }, [theme])
+  useEffect(() => { writePreference('taoread-reader-font', font) }, [font])
 
   const blocks = useMemo(() => (chapter ? parseBlocks(chapter.text) : []), [chapter])
   // 字级定位在 rAF 回调里读块表：提交后再写 ref，不违反渲染期不可写 ref 约束
@@ -212,15 +217,19 @@ export function FamilyReaderPage() {
 
   async function save(offset: number, completed = false) {
     if (!token || !childId || !id || !order) return
+    const generation = saveGeneration.current
     try {
       // B3：携带本机所基于的服务器版本；409=其他设备已写入更新进度，重新拉取并采用服务器版本
       const result = await api.saveImportedProgressV2(token, id, childId, { order: Number(order), offset, completed, ...(progress ? { baseUpdatedAt: progress.updatedAt } : {}) })
+      if (generation !== saveGeneration.current) return
       setProgress(result.progress)
       setError('')
     } catch (err) {
+      if (generation !== saveGeneration.current) return
       if (err instanceof ApiError && err.status === 409) {
         try {
           const latest = await api.importedProgress(token, id, childId)
+          if (generation !== saveGeneration.current) return
           setProgress(latest.progress)
           setError('进度已在别的设备更新，已按最新进度继续')
         } catch { setError('保存没成功，再点一次试试') }
@@ -445,7 +454,7 @@ export function FamilyReaderPage() {
     {!order ? <div className="library">
       {progress && !progress.completed && <button className="sticker-btn primary" onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress.order}`)}>从第 {progress.order} 章续读</button>}
       <button className="sticker-btn" onClick={() => setTocOpen(true)}>打开目录</button>
-      {tocOpen && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 40, display: 'flex', justifyContent: 'flex-end' }} onClick={() => setTocOpen(false)}>
+      {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
         <div style={{ width: 'min(360px, 86vw)', background: ink.bg, color: ink.fg, overflowY: 'auto', padding: 16 }} onClick={(event) => event.stopPropagation()}>
           <b>目录</b>
           {tocGroups.map((group, groupIndex) => <div key={groupIndex} style={{ marginTop: 12 }}>
@@ -453,7 +462,7 @@ export function FamilyReaderPage() {
             {group.chapters.map((item) => <button key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', borderRadius: 10, background: item.order === chapterOrder ? ink.highlight : 'transparent', color: ink.fg, border: 'none', cursor: 'pointer' }} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}</button>)}
           </div>)}
         </div>
-      </div>}
+      </Dialog>}
       {book?.chapters.map((item) => <button className="panel" key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left' }} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`)}>{item.order}. {item.title}</button>)}
     </div>
       : <div style={{ maxWidth: 780, margin: '24px auto', position: 'relative' }}>
@@ -462,13 +471,13 @@ export function FamilyReaderPage() {
           <div style={{ flex: 1, height: 6, borderRadius: 3, background: ink.highlight, opacity: 0.5, minWidth: 80 }}>
             <div style={{ width: `${chapterTotal ? ((chapterIndex + 1) / chapterTotal) * 100 : 0}%`, height: '100%', borderRadius: 3, background: ink.fg }} />
           </div>
-          <button className="sticker-btn" style={{ minHeight: 34, fontSize: 12 }} onClick={() => setTocOpen(true)}>目录</button>
-          <button className="sticker-btn" style={{ minHeight: 34, fontSize: 12 }} onClick={() => setTheme(theme === 'paper' ? 'sepia' : theme === 'sepia' ? 'night' : 'paper')}>{theme === 'paper' ? '☀' : theme === 'sepia' ? '📜' : '🌙'}</button>
-          <button className="sticker-btn" style={{ minHeight: 34, fontSize: 12 }} onClick={() => setFont((value) => Math.max(14, value - 2))}>A-</button>
-          <button className="sticker-btn" style={{ minHeight: 34, fontSize: 12 }} onClick={() => setFont((value) => Math.min(30, value + 2))}>A+</button>
-          <button className="sticker-btn primary" style={{ minHeight: 34, fontSize: 12 }} onClick={togglePlay}>{tts === 'loading' ? '准备中…' : tts === 'playing' ? '⏸ 暂停朗读' : tts === 'paused' ? '▶ 继续朗读' : '▶ 朗读本章'}</button>
+          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setTocOpen(true)}>目录</button>
+          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} aria-label="切换阅读主题" onClick={() => setTheme(theme === 'paper' ? 'sepia' : theme === 'sepia' ? 'night' : 'paper')}>{theme === 'paper' ? '☀' : theme === 'sepia' ? '📜' : '🌙'}</button>
+          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setFont((value) => Math.max(18, value - 2))}>A-</button>
+          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setFont((value) => Math.min(30, value + 2))}>A+</button>
+          <button className="sticker-btn primary" style={{ minHeight: 44, fontSize: 14 }} onClick={togglePlay}>{tts === 'loading' ? '准备中…' : tts === 'playing' ? '⏸ 暂停朗读' : tts === 'paused' ? '▶ 继续朗读' : '▶ 朗读本章'}</button>
         </div>
-        {tocOpen && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 40, display: 'flex', justifyContent: 'flex-end' }} onClick={() => setTocOpen(false)}>
+        {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
           <div style={{ width: 'min(360px, 86vw)', background: ink.bg, color: ink.fg, overflowY: 'auto', padding: 16 }} onClick={(event) => event.stopPropagation()}>
             <b>目录</b>
             {tocGroups.map((group, groupIndex) => <div key={groupIndex} style={{ marginTop: 12 }}>
@@ -476,7 +485,7 @@ export function FamilyReaderPage() {
               {group.chapters.map((item) => <button key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', borderRadius: 10, background: item.order === chapterOrder ? ink.highlight : 'transparent', color: ink.fg, border: 'none', cursor: 'pointer' }} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}</button>)}
             </div>)}
           </div>
-        </div>}
+        </Dialog>}
         <article className="panel" onScroll={onScroll} style={{ background: ink.bg, color: ink.fg, lineHeight: 2, overflowWrap: 'anywhere', padding: '20px 24px', maxHeight: 'calc(100dvh - 220px)', overflowY: 'auto' }}>
           <div ref={blocksRef}>
             <h2 style={{ fontSize: Math.round(font * 1.25) }}>{chapter?.title ?? '正在打开章节…'}</h2>

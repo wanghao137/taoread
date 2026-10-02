@@ -40,12 +40,12 @@ async function goMy(page: Page): Promise<void> {
 test.describe('v8 贴纸绘本孩子端', () => {
   test('首页：hero/挑三本/心情/家庭阅读记忆；我的页含阅读节奏日历', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await expect(page.getByText(/为你挑了三本/)).toBeVisible()
+    await expect(page.getByText(/给你的推荐/)).toBeVisible()
     await expect(page.getByText('今天想读哪种感觉？')).toBeVisible()
     await expect(page.getByText('最近的家庭阅读记忆')).toBeVisible()
     // 阅读节奏（近 8 周阅读足迹日历）在「我的 → 阅读记忆」页签（docs/34 P2-7：页签为 tab 语义）
     await goMy(page)
-    await page.getByRole('tab', { name: '阅读记忆' }).click()
+    await page.getByRole('button', { name: '阅读记忆', exact: true }).click()
     await expect(page.getByText('近 8 周阅读足迹')).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-home.png', fullPage: true })
   })
@@ -87,7 +87,7 @@ test.describe('v8 贴纸绘本孩子端', () => {
 
     // 阅读设置：三主题
     await page.getByRole('button', { name: '阅读设置' }).click()
-    await page.getByRole('button', { name: '护眼', exact: true }).click()
+    await page.getByRole('button', { name: '暖纸', exact: true }).click()
     await page.screenshot({ path: 'test-results/v8-reader-sepia.png' })
     await page.getByRole('button', { name: '夜间', exact: true }).click()
     await page.getByRole('button', { name: '纸白', exact: true }).click()
@@ -117,11 +117,11 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await likeBtn.click()
     await expect(page.getByRole('button', { name: likedLabel })).toBeVisible()
 
-    await page.getByRole('tab', { name: '喜欢', exact: true }).click()
+    await page.getByRole('button', { name: '喜欢', exact: true }).click()
     await expect(page.getByRole('button', { name: likedLabel })).toBeVisible()
 
     // 切回「正在读」再取消收藏（取消后书会离开「喜欢」页签）
-    await page.getByRole('tab', { name: '正在读', exact: true }).click()
+    await page.getByRole('button', { name: '正在读', exact: true }).click()
     await page.getByRole('button', { name: likedLabel }).first().click()
     await expect(page.getByRole('button', { name: /^喜欢《/ }).first()).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-shelf-fav.png' })
@@ -130,7 +130,7 @@ test.describe('v8 贴纸绘本孩子端', () => {
   test('换人入口打开选人页，重选后仍在孩子端', async ({ page }) => {
     await loginAsChild(page, '小桃')
     // A4（审计）：换人=选小读者（不再弹换家庭确认；换家庭=登录页退出）
-    await page.getByRole('button', { name: '换人' }).click()
+    await page.getByRole('button', { name: /换人/ }).click()
     await expect(page.getByText('今天是谁的故事时间？')).toBeVisible()
     await page.getByRole('button', { name: /小桃/ }).click()
     await expect(page.getByText('今天想读什么？')).toBeVisible()

@@ -1,0 +1,127 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { makeApp, createFamilyAsParent, createChild, authHeaders, type TestHarness } from './helper'
+import { wipeDb } from '../src/lib/db'
+import { seedPack } from '../src/content/seed'
+import { chapterLength, getProgress, invalidateBookCatalog, reportProgress } from '../src/content/service'
+import { generateWeeklyReport } from '../src/modules/reports/service'
+import { finishSession } from '../src/modules/cosession/service'
+import { weekStartFromParts } from '../src/lib/week'
+import type { PackBook } from '../src/content/types'
+
+const pack: PackBook = { id: 'upgrade-probe', title: '升级验证', author: '桃阅读', lang: 'zh', category: 'story', ageStage: '3-5', coverArt: 'probe', source: '测试原创', rights: { workTitle: '升级验证', jurisdiction: 'CN', basis: 'original' }, chapters: [{ title: '一章', blocks: [{ kind: 'text', text: '一起慢慢阅读。' }] }] }
+const start = new Date(2026, 8, 7, 20)
+describe('整体升级的行为与隔离回归', () => {
+  let h: TestHarness
+  beforeAll(async () => { h = await makeApp(); await h.app.ready() })
+  afterAll(async () => { await h.app.close(); await h.db.$disconnect() })
+  beforeEach(async () => { await wipeDb(h.db); invalidateBookCatalog() })
+  it('篇幅不随比较池改变，且不声称适合某个孩子', () => {
+    expect(chapterLength({ words: 300, chapterCount: 1 })).toBe('easy')
+    expect(chapterLength({ words: 1000, chapterCount: 1 })).toBe('fit')
+    expect(chapterLength({ words: 1001, chapterCount: 1 })).toBe('stretch')
+  })
+  it('重复播种保持章块 id；修改正文后的进度有版本变化提示', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    await seedPack(h.db, pack)
+    const before = await h.db.chapter.findFirstOrThrow({ where: { bookId: pack.id }, include: { blocks: true } })
+    await reportProgress(h.db, child, pack.id, 1, 1)
+    await h.db.book.update({ where: { id: pack.id }, data: { reviewStatus: 'reviewed', reviewEvidence: 'old' } })
+    await seedPack(h.db, { ...pack, chapters: [{ title: '一章', blocks: [{ kind: 'text', text: '正文更新了，仍保留稳定的位置。' }] }] })
+    const after = await h.db.chapter.findFirstOrThrow({ where: { bookId: pack.id }, include: { blocks: true } })
+    expect(after.id).toBe(before.id)
+    expect(after.blocks[0]!.id).toBe(before.blocks[0]!.id)
+    expect((await getProgress(h.db, child, pack.id))?.versionChanged).toBe(true)
+    expect(await h.db.book.findUnique({ where: { id: pack.id }, select: { reviewStatus: true, reviewEvidence: true } })).toEqual({ reviewStatus: 'pending', reviewEvidence: null })
+  })
+  it('收尾冻结完成依据；修改今天的进度不改变历史周，未结束会话不计数', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    await seedPack(h.db, pack)
+    await reportProgress(h.db, child, pack.id, 1, 1, true)
+    const session = await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: `cbf:${pack.id}`, startedAt: start } })
+    await finishSession(h.db, f.familyId, 'parent', session.id, { progressMark: 'done' }, () => Math.floor(start.getTime() / 1000) + 600)
+    await h.db.readingProgress.updateMany({ where: { childId: child }, data: { finished: false } })
+    await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, paperTitle: '未收尾', startedAt: start } })
+    const report = await generateWeeklyReport(h.db, f.familyId, weekStartFromParts(2026, 9, 7))
+    expect(report.booksCompleted).toBe(1)
+    expect(report.books).toHaveLength(1)
+    expect(report.totalMinutes).toBe(10)
+  })
+  it('旧版本完成不算新版本完成；真实新版完成解锁成就且重试沿用冻结证据', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    await seedPack(h.db, pack)
+    await reportProgress(h.db, child, pack.id, 1, 0, true)
+    await seedPack(h.db, { ...pack, chapters: [...pack.chapters, { title: '新章', blocks: [{ kind: 'text', text: '新的故事。' }] }] })
+    await reportProgress(h.db, child, pack.id, 1, 0)
+    expect((await getProgress(h.db, child, pack.id))?.finished).toBe(false)
+    const first = await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: `cbf:${pack.id}`, startedAt: start } })
+    await finishSession(h.db, f.familyId, 'parent', first.id, { progressMark: 'done' }, () => Math.floor(start.getTime() / 1000) + 60)
+    expect((await h.db.cosession.findUniqueOrThrow({ where: { id: first.id } })).completionVerified).toBe(false)
+    await reportProgress(h.db, child, pack.id, 2, 0, true)
+    const second = await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: `cbf:${pack.id}`, startedAt: start } })
+    const result = await finishSession(h.db, f.familyId, 'parent', second.id, { progressMark: 'done' }, () => Math.floor(start.getTime() / 1000) + 120)
+    expect(result.unlocked.some((item) => item.kind === 'book_done')).toBe(true)
+    await h.db.readingProgress.updateMany({ data: { finished: false } })
+    expect((await finishSession(h.db, f.familyId, 'parent', second.id, {}, () => 0)).alreadyFinished).toBe(true)
+  })
+  it('导入书不能跨家庭开会话，历史恶意引用也不能在分享卡泄露私有书名', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    const other = await createFamilyAsParent(h.app)
+    const book = await h.db.importedBook.create({ data: { id: 'imp:private-probe', familyId: other.familyId, title: '保密书名测试', lang: 'zh', ageStage: '6-8', sourceName: 'test', sha256: 'probe' } })
+    const response = await h.app.inject({ method: 'POST', url: '/api/cosession', headers: authHeaders(f.token), payload: { childId: child, bookId: book.id } })
+    expect(response.statusCode).toBe(404)
+    const session = await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: book.id, startedAt: start, endedAt: start } })
+    const card = await h.app.inject({ method: 'GET', url: `/api/reports/reading-card?familyId=${f.familyId}&cosessionId=${session.id}`, headers: authHeaders(f.token) })
+    expect(card.statusCode).toBe(200)
+    expect(card.body).not.toContain(book.title)
+  })
+  it('无版本旧完成不能绑定新版本；旧纸书完成补偿仍沿用用户确认', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    await seedPack(h.db, pack)
+    await h.db.readingProgress.create({ data: { childId: child, bookId: pack.id, finished: true } })
+    await reportProgress(h.db, child, pack.id, 1, 0)
+    expect((await getProgress(h.db, child, pack.id))?.finished).toBe(false)
+    const legacy = await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: 'legacy-weread', startedAt: start, endedAt: start, progressMark: 'done' } })
+    const result = await finishSession(h.db, f.familyId, 'parent', legacy.id, {}, () => 0)
+    expect(result.unlocked.some((item) => item.kind === 'book_done')).toBe(true)
+  })
+  it('跨周按收尾周归属；纸书完成和公共划线纳入，旧公共完成不伪造历史证据', async () => {
+    const f = await createFamilyAsParent(h.app)
+    const child = await createChild(h.app, f.token, f.familyId)
+    await seedPack(h.db, pack)
+    await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, paperTitle: '纸书', startedAt: new Date(2026, 8, 6, 23, 59), endedAt: new Date(2026, 8, 7, 0, 2), durationSec: 180, progressMark: 'done', completionVerified: true } })
+    await h.db.cosession.create({ data: { familyId: f.familyId, childId: child, bookId: `cbf:${pack.id}`, startedAt: start, endedAt: start, progressMark: 'done' } })
+    await h.db.bookHighlight.create({ data: { childId: child, bookId: pack.id, chapterOrder: 1, blockOrder: 1, text: '一起慢慢阅读。', createdAt: start } })
+    const report = await generateWeeklyReport(h.db, f.familyId, weekStartFromParts(2026, 9, 7))
+    expect(report.booksCompleted).toBe(1)
+    expect(report.legacyUnverifiedCompletions).toBe(1)
+    expect(report.highlightsTotal).toBe(1)
+    expect((await generateWeeklyReport(h.db, f.familyId, weekStartFromParts(2026, 8, 31))).books).toHaveLength(0)
+  })
+  it('普通家长只看到自家庭统计，按孩子周报不能跨家庭取数据', async () => {
+    const f = await createFamilyAsParent(h.app)
+    await createChild(h.app, f.token, f.familyId)
+    const other = await createFamilyAsParent(h.app)
+    const otherChild = await createChild(h.app, other.token, other.familyId)
+    const response = await h.app.inject({ method: 'GET', url: '/api/ops/summary', headers: authHeaders(f.token) })
+    expect(response.statusCode).toBe(200)
+    expect(response.json().household).toEqual({ families: 1, children: 1 })
+    const cross = await h.app.inject({ method: 'GET', url: `/api/reports/weekly?familyId=${f.familyId}&childId=${otherChild}`, headers: authHeaders(f.token) })
+    expect(cross.statusCode).toBe(404)
+  })
+  it('下架后列表、正文和来源接口均不可访问，历史正文和账本保留', async () => {
+    const f = await createFamilyAsParent(h.app)
+    await seedPack(h.db, pack)
+    await h.db.book.update({ where: { id: pack.id }, data: { publicationStatus: 'withdrawn' } })
+    invalidateBookCatalog()
+    for (const suffix of ['', '/chapters/1', '/provenance']) {
+      const r = await h.app.inject({ method: 'GET', url: `/api/content/books/${pack.id}${suffix}`, headers: authHeaders(f.token) })
+      expect(r.statusCode).toBe(404)
+    }
+    expect(await h.db.chapter.count({ where: { bookId: pack.id } })).toBe(1)
+  })
+})

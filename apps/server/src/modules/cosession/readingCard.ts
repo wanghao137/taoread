@@ -33,46 +33,6 @@ function stableHash(text: string): number {
   return Math.abs(h)
 }
 
-function pick<T>(items: readonly T[], seed: number, offset: number): T {
-  return items[(seed + offset) % items.length]!
-}
-
-const QUESTIONS_BY_STAGE: Record<string, readonly string[]> = {
-  '3-5': [
-    '你最喜欢《{title}》里的哪一个画面呀？',
-    '如果是你，你想和《{title}》里的谁做好朋友？',
-    '故事里哪个地方让你笑出来了？',
-    '你猜猜看，故事后面还会发生什么？',
-    '《{title}》里的这个地方，你在别的地方见过吗？',
-    '要是能给故事里的小家伙送一件礼物，你想送什么？',
-  ],
-  '6-8': [
-    '《{title}》里的小朋友当时是什么心情？你从哪里看出来的？',
-    '如果你在故事里，你会怎么帮他？',
-    '故事开始和结束的时候，有什么不一样了？',
-    '你有没有和《{title}》差不多的经历？当时是什么感觉？',
-    '故事里哪句话你最想记下来？为什么呀？',
-    '你觉得作者为什么把这个故事留到最后才讲完？',
-  ],
-  '9-12': [
-    '《{title}》里如果要挑一个最重要的选择，你选哪一个？为什么？',
-    '你同意故事里那个做法吗？有没有别的办法？',
-    '这个故事让你想到了什么别的事？书里或生活里都算。',
-    '如果换个角度，从另一个角色的眼睛看这一天，会是什么样？',
-    '故事结束之后，你觉得主角接下来最想做什么？',
-    '这本书和你之前读过的哪本有点像？哪里不一样？',
-  ],
-}
-
-const HOOKS: readonly string[] = [
-  '爸妈小时候也读过类似的故事，那时候我们……（讲一段你自己的小往事）',
-  '我们家的书架上，这本书是哪一天来到我们家的？还记得吗？',
-  '如果你来给这本书画一张封面，你会画什么？',
-  '今晚故事里的那句话，适合写在我们家的哪扇门上？',
-  '明年再读这本书的时候，你猜自己会有什么新发现？',
-  '把今晚最喜欢的一个词悄悄告诉对方，不说理由。',
-]
-
 const STAGE_TIPS: Record<string, string> = {
   '3-5': '读到孩子指着的那个地方时，可以停一停，一起看看那张画。',
   '6-8': '可以让孩子轮流读一小段，声音大小随他，读对读错都没关系。',
@@ -85,8 +45,15 @@ function clip(text: string, max: number): string {
 
 export function generateReadingCard(input: ReadingCardInput): ReadingCard {
   const seed = stableHash(`${input.bookTitle}:${input.childId}`)
-  const questions = (QUESTIONS_BY_STAGE[input.childStage] ?? QUESTIONS_BY_STAGE['6-8']!)
-    .map((q) => q.replaceAll('{title}', clip(input.bookTitle, 12)))
+  const questions = [
+    '《{title}》里，你想再看一次的是哪一段或哪张图？',
+    '读到这里，你发现了什么？可以指给我看。',
+    '这段文字让你想到了生活里的什么事？',
+    '有没有想问的地方？我们可以一起找找。',
+    '你会怎样把刚读到的内容说给家人听？',
+    '你最想留下哪一句话？为什么？',
+  ]
+    .map((q) => q.includes('{title}') ? q.replaceAll('{title}', clip(input.bookTitle, 12)) : `读《${clip(input.bookTitle, 12)}》时，${q}`)
   // 从题库稳定取 3 个不重复的问题：起点由 seed 决定，步进取 2 避免相邻话题扎堆
   const picked: string[] = []
   for (let i = 0; i < 3 && i < questions.length; i++) {
@@ -101,7 +68,7 @@ export function generateReadingCard(input: ReadingCardInput): ReadingCard {
   }
   if (input.topBookmarks.length > 0) {
     tellPoints.push(
-      `很多读者都被这句话打动过：「${clip(input.topBookmarks[seed % input.topBookmarks.length]!, 40)}」`,
+      `可以从这句话聊起：「${clip(input.topBookmarks[seed % input.topBookmarks.length]!, 40)}」`,
     )
   } else {
     tellPoints.push('读到喜欢的句子，可以一起读出声，读两遍也很好。')
@@ -113,7 +80,7 @@ export function generateReadingCard(input: ReadingCardInput): ReadingCard {
     stage: input.childStage,
     tellPoints,
     questions: [...new Set(picked)],
-    hook: pick(HOOKS, seed, 3),
+    hook: '把今天读到的一个画面或一句话说给对方听，也可以只听一听。',
     genType: 'template',
   }
 }

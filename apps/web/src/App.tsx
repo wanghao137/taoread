@@ -6,6 +6,7 @@ import { api } from './lib/api'
 import { LoginPage } from './pages/LoginPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { Loading } from './components/ui'
+import { OfflinePage } from './pages/OfflinePage'
 
 /**
  * 路由级代码分割（docs/11 P0-7）：登录页直出，孩子端/家长端/演示页各自懒加载。
@@ -25,6 +26,8 @@ const KitchenSink = import.meta.env.DEV
   : null
 
 function prefetchOtherHalf(role: 'parent' | 'child'): void {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
+  if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '')) return
   // 登录后浏览器空闲时把另一端也拉下来，家长/孩子切换零等待
   const run = () => {
     if (role === 'child') void import('./pages/ParentHome')
@@ -54,6 +57,7 @@ function HomeRedirect() {
   useEffect(() => {
     if (role) prefetchOtherHalf(role)
   }, [role])
+  if (!navigator.onLine) return <Navigate to="/offline" replace />
   if (!token || !role) return <Navigate to="/login" replace />
   return <Navigate to={role === 'child' ? '/child' : '/parent'} replace />
 }
@@ -106,6 +110,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           {/* 隐私政策（docs/34 P1-3）：公开静态页，孩子端红线内无外链 */}
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/offline" element={<OfflinePage />} />
           <Route
             /* 尾部 * 必须保留：ChildHome→V8App 用「后代 <Routes>」做子路由（/child/today、
              * /child/book/:id…），父路由不带 * 时任何子路径都匹配失败、被兜底重定向回首页

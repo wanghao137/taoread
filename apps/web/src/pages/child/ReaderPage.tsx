@@ -19,6 +19,9 @@ import { haptic } from '../../lib/haptics'
 import { defaultReadingTheme } from '../../lib/readingTheme'
 import { AiBadge } from '../../components/art/AiBadge'
 import { PoemRuby } from '../../components/art/PoemRuby'
+import { Dialog } from '../../components/ui/Dialog'
+import { LocalRecorder } from '../../components/ui/LocalRecorder'
+import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
@@ -54,21 +57,6 @@ const LINE_STEPS: Array<{ label: string; value: number }> = [
 const SANS_STACK = "-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif"
 
 /** 排版偏好持久化（docs/34 P1-10；主阅读器此前字号/主题都不记忆，与家庭书阅读器对齐） */
-function loadPref<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key)
-    return raw === null ? fallback : (JSON.parse(raw) as T)
-  } catch {
-    return fallback
-  }
-}
-function savePref(key: string, value: unknown): void {
-  try {
-    localStorage.setItem(key, JSON.stringify(value))
-  } catch {
-    /* 隐私模式等写不进就算了 */
-  }
-}
 
 /** 结算浮层心情五档（A7 mood taxonomy 的孩子语义） */
 const MOOD_OPTIONS: Array<{ key: string; label: string }> = [
@@ -147,62 +135,11 @@ function Overlay({
   dismissable?: boolean
   label: string
 }) {
-  const panelRef = useRef<HTMLElement | null>(null)
-  const onCloseRef = useRef(onClose)
-  onCloseRef.current = onClose
-  useEffect(() => {
-    const panel = panelRef.current
-    if (!panel) return
-    const prevFocus = document.activeElement as HTMLElement | null
-    const focusables = () =>
-      Array.from(panel.querySelectorAll<HTMLElement>('button, input, [href], select, textarea')).filter(
-        (el) => !el.hasAttribute('disabled'),
-      )
-    const first = focusables()[0]
-    if (first) first.focus()
-    else panel.focus()
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && dismissable) {
-        e.stopPropagation()
-        onCloseRef.current()
-        return
-      }
-      if (e.key !== 'Tab') return
-      const els = focusables()
-      if (els.length === 0) return
-      const firstEl = els[0]!
-      const lastEl = els[els.length - 1]!
-      const active = document.activeElement
-      if (e.shiftKey && (active === firstEl || !panel.contains(active))) {
-        e.preventDefault()
-        lastEl.focus()
-      } else if (!e.shiftKey && (active === lastEl || !panel.contains(active))) {
-        e.preventDefault()
-        firstEl.focus()
-      }
-    }
-    document.addEventListener('keydown', onKey, true)
-    return () => {
-      document.removeEventListener('keydown', onKey, true)
-      prevFocus?.focus?.()
-    }
-    // 只在开/关与 dismissable 变化时重建；onClose 走 ref 防朗读高亮频繁重渲染反复搬焦点
-  }, [dismissable])
-  return (
-    <>
-      <div
-        aria-hidden
-        onClick={dismissable ? onClose : undefined}
-        style={{ position: 'fixed', inset: 0, background: 'rgba(38,32,26,.45)', zIndex: 25 }}
-      />
-      <section ref={panelRef} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} className="settings" style={{ zIndex: 30 }}>
-        {children}
-      </section>
-    </>
-  )
+  return <Dialog label={label} onClose={onClose} dismissable={dismissable} className="settings">{children}</Dialog>
 }
 
 export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order: number }): JSX.Element {
+  const cacheBookKey = `${book.id}@${book.contentVersion}`
   const { showToast } = useV8()
   const navigate = useNavigate()
   const token = useSession((s) => s.token)
@@ -225,10 +162,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 排版与专注 ── */
   // 安静时段（20:00-06:00）默认夜间护眼主题，白天纸白；仅默认值，可手动切换
-  const [theme, setTheme] = useState<ReaderTheme>(() => loadPref('taoread-reader-theme', defaultReadingTheme()))
-  const [font, setFont] = useState(() => loadPref('taoread-reader-font', 22))
-  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => loadPref('taoread-reader-fontfamily', 'serif'))
-  const [lineHeight, setLineHeight] = useState(() => loadPref('taoread-reader-lineheight', 1.9))
+  const [theme, setTheme] = useState<ReaderTheme>(() => readerTheme(defaultReadingTheme()))
+  const [font, setFont] = useState(readerFont)
+  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => loadPref<string>('taoread-reader-fontfamily', 'serif') === 'sans' ? 'sans' : 'serif')
+  const [lineHeight, setLineHeight] = useState(() => { const value = loadPref('taoread-reader-lineheight', 1.9); return [1.7, 1.9, 2.1].includes(value) ? value : 1.9 })
   const [focused, setFocused] = useState(false)
   const focusHintShown = useRef(false)
   useEffect(() => savePref('taoread-reader-theme', theme), [theme])
@@ -267,13 +204,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const longPressRef = useRef(false)
   const pressTimerRef = useRef<number | null>(null)
   /** 书签（P1-11；本机 localStorage，跨章持久） */
-  const bookmarkKey = `taoread-bookmarks-${book.id}`
+  const familyId = useSession((s) => s.familyId)
+  const bookmarkKey = `taoread-bookmarks-v2:${familyId}:${childId}:public:${book.id}:${book.contentVersion}`
   const [bookmarks, setBookmarks] = useState<Array<{ chapter: number; block: number }>>([])
   /** 插图灯箱（P1-11/P2-4） */
   const [lightbox, setLightbox] = useState<string | null>(null)
 
   /* ── 浮层开关 ── */
   const [showSettings, setShowSettings] = useState(false)
+  const [settingsTab, setSettingsTab] = useState<'layout' | 'audio' | 'record'>('layout')
   const [showChapters, setShowChapters] = useState(false)
   const [showFinish, setShowFinish] = useState(false)
   const [mood, setMood] = useState<string | null>(null)
@@ -367,16 +306,23 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 会话：开启共读；409 异书冲突 → 三选一浮层 ──
    * 审计 A10.5：内容域书进会话必须带 cbf: 前缀（服务端据此解析书名/判定 book_done/
    * 放行「继续读旧书」）——裸内容 id 会被当成微信读书书，污染周报与成就口径。 */
+  const sessionRequest = useRef(0)
+  useEffect(() => () => { sessionRequest.current++ }, [])
   const startSession = useCallback(async (): Promise<string | null> => {
     if (!token || !childId) return null
+    const request = ++sessionRequest.current
     try {
       const s = await api.startCosession(childId, `${CBF_PREFIX}${book.id}`, token)
+      if (request !== sessionRequest.current) return null
       setSessionId(s.id)
+      setConflict(null)
       return s.id
     } catch (err) {
+      if (request !== sessionRequest.current) return null
       if (err instanceof ApiError && err.code === 'ACTIVE_SESSION_OTHER_BOOK') {
         try {
           const res = await api.activeCosession(childId, token)
+          if (request !== sessionRequest.current) return null
           if (res.session) {
             setConflict({ id: res.session.id, bookId: res.session.bookId ?? null })
             return null
@@ -397,15 +343,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   }, [startSession])
 
   /* ── 章节加载：进入即报进度（带恢复块），失败给错误态/翻章失败留在原章 ── */
+  const chapterRequest = useRef(0)
+  useEffect(() => () => { chapterRequest.current++ }, [])
   const loadChapter = useCallback(
     async (target: number, restoreBlock = 0) => {
       if (!token) return
+      const request = ++chapterRequest.current
       setLoading(true)
       setChapterError(null)
       try {
         // docs/35 C1：章节正文缓存命中则零网络开章（预取已 warmed）
-        const res = { chapter: takeChapterCache(book.id, target) ?? (await api.contentChapter(book.id, target, token)).chapter }
-        putChapterCache(book.id, target, res.chapter)
+        const res = { chapter: takeChapterCache(cacheBookKey, target) ?? (await api.contentChapter(book.id, target, token)).chapter }
+        if (request !== chapterRequest.current) return
+        putChapterCache(cacheBookKey, target, res.chapter)
         restoredBlockRef.current = restoreBlock
         currentBlockRef.current = restoreBlock
         chapterRef.current = res.chapter
@@ -418,12 +368,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             void api
               .reportContentProgress(book.id, childId, { chapterOrder: target, blockOrder: restoreBlock, baseUpdatedAt: progressVerRef.current }, token)
               .then((r) => {
-                progressVerRef.current = r.updatedAt
+                if (request === chapterRequest.current) progressVerRef.current = r.updatedAt
               })
               .catch(() => {})
           }
         }
       } catch (err) {
+        if (request !== chapterRequest.current) return
         const msg = err instanceof Error ? err.message : '这一章还藏在云朵后面'
         if (chapterRef.current) {
           // 翻章失败：留在当前章，错误用 toast 可见
@@ -432,23 +383,25 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           setChapterError(msg)
         }
       } finally {
-        setLoading(false)
+        if (request === chapterRequest.current) setLoading(false)
       }
     },
-    [token, book.id, childId, showToast],
+    [token, book.id, cacheBookKey, childId, showToast],
   )
 
   /* ── docs/35 C1：下一章空闲预取——进章 1.8s 后 idle 拉下一章 JSON + 预热题图，
    *    翻章从「点击后等待」变「缓存即时开」；末章/已缓存不动作 ── */
   useEffect(() => {
     if (!chapter || !token || order >= book.chapterCount) return
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
+    if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '')) return
     const timer = window.setTimeout(() => {
       const run = () => {
-        if (takeChapterCache(book.id, order + 1)) return
+        if (takeChapterCache(cacheBookKey, order + 1)) return
         void api
           .contentChapter(book.id, order + 1, token)
           .then(({ chapter: next }) => {
-            putChapterCache(book.id, order + 1, next)
+            putChapterCache(cacheBookKey, order + 1, next)
             const hero = next.artReaderUrl ?? next.blocks.find((b) => b.kind === 'image')?.artReaderUrl
             if (hero) {
               const img = new Image()
@@ -463,7 +416,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     }, 1800)
     return () => window.clearTimeout(timer)
     // chapter 引用变化即当前章就绪；book.id/order 变化重挂
-  }, [chapter, token, book.id, book.chapterCount, order])
+  }, [chapter, token, book.id, cacheBookKey, book.chapterCount, order])
 
   /* ── 首次进入：先取已存进度（续读定位），再载入章节 ── */
   useEffect(() => {
@@ -474,7 +427,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         try {
           const res = await api.contentProgress(book.id, childId, token)
           progressVerRef.current = res.progress.updatedAt
-          if (alive && !res.progress.finished && res.progress.chapterOrder === startOrder) {
+          if (alive && res.progress.versionChanged) showToast('内容有更新，已回到本章开头；原完成记录仍保留')
+          if (alive && !res.progress.versionChanged && !res.progress.finished && res.progress.chapterOrder === startOrder) {
             restore = res.progress.blockOrder
           }
         } catch {
@@ -582,11 +536,14 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   useEffect(() => {
     try {
       const raw = localStorage.getItem(bookmarkKey)
-      setBookmarks(raw ? (JSON.parse(raw) as Array<{ chapter: number; block: number }>) : [])
+      const data: unknown = raw ? JSON.parse(raw) : []
+      setBookmarks(Array.isArray(data) ? data.filter((b): b is { chapter: number; block: number } =>
+        !!b && Number.isInteger(b.chapter) && b.chapter >= 1 && b.chapter <= book.chapterCount &&
+        Number.isInteger(b.block) && b.block >= 0).slice(0, 200) : [])
     } catch {
       setBookmarks([])
     }
-  }, [bookmarkKey])
+  }, [bookmarkKey, book.chapterCount])
 
   /* ── 朗读定时（docs/34 P2-1）：到点渐弱收尾（哄睡不惊醒），手动停止即取消 ── */
   useEffect(() => {
@@ -623,7 +580,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       const ch = chapterRef.current
       if (!ch || !childId || !token) return
       const now = Date.now()
-      if (now - lastReport.current < 5000) return
       // 视口顶部之下第一个可见块（旧 ReaderScreen 同款算法）
       const probe = 120
       let idx = 0
@@ -635,8 +591,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         }
         idx = i
       }
-      lastReport.current = now
       currentBlockRef.current = idx
+      if (now - lastReport.current < 5000) return
+      lastReport.current = now
       const payload = { chapterOrder: order, blockOrder: idx }
       unsavedRef.current = payload
       void persistProgress(payload)
@@ -981,9 +938,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 书签（docs/34 P1-11）：当前章+当前块，同章重复点击=收起 ── */
   const toggleBookmark = useCallback(() => {
     const current = { chapter: order, block: currentBlockRef.current }
-    const exists = bookmarks.some((b) => b.chapter === current.chapter)
+    const exists = bookmarks.some((b) => b.chapter === current.chapter && b.block === current.block)
     const next = exists
-      ? bookmarks.filter((b) => b.chapter !== current.chapter)
+      ? bookmarks.filter((b) => b.chapter !== current.chapter || b.block !== current.block)
       : [...bookmarks, current].sort((a, b) => a.chapter - b.chapter)
     setBookmarks(next)
     savePref(bookmarkKey, next)
@@ -1198,9 +1155,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   return (
     <div className={`reader ${theme}`} style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
       {/* ── 顶栏三段：返回 / 第 N 章 · 书名 / 目录 + 排版 ── */}
+      {focused && <button className="sticker-btn focus-restore" onClick={() => setFocused(false)}>显示阅读工具</button>}
       <header
         className="reader-top"
         aria-hidden={focused}
+        {...(focused ? { inert: "" } : {})}
         style={{
           transition: 'opacity .2s, transform .2s',
           opacity: focused ? 0 : 1,
@@ -1235,16 +1194,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           )}
         </span>
         <span style={{ display: 'inline-flex', gap: 10 }}>
-          <button
-            onClick={toggleBookmark}
-            aria-pressed={bookmarks.some((b) => b.chapter === order)}
-            title="在当前页夹一张书签"
-          >
-            {bookmarks.some((b) => b.chapter === order) ? '🔖 已夹' : '🔖 书签'}
-          </button>
-          <button onClick={() => void loadScaffold()} disabled={scaffoldLoading} title="给爸妈的共读话题">
-            {scaffoldLoading ? '悄悄话…' : '给爸妈'}
-          </button>
           <button onClick={() => setShowChapters(true)}>{LABELS.toc}</button>
           <button onClick={() => setShowSettings(true)}>{LABELS.typeset}</button>
         </span>
@@ -1271,6 +1220,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                 // React 18 未知小写属性透传为 DOM attribute
                 {...{ fetchpriority: 'high' }}
                 style={{ cursor: 'zoom-in' }}
+                role="button"
+                tabIndex={0}
+                aria-label={`放大${chapter?.title ?? book.title}插图`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); setLightbox(heroArtUrl!) } }}
                 onClick={(e) => {
                   e.stopPropagation()
                   setLightbox(heroArtUrl!)
@@ -1318,6 +1271,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                           loading="lazy"
                           decoding="async"
                           style={{ cursor: 'zoom-in' }}
+                          role="button"
+                          tabIndex={0}
+                          aria-label="放大插图"
+                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); setLightbox(url!) } }}
                           onClick={(e) => {
                             e.stopPropagation()
                             setLightbox(url!)
@@ -1394,6 +1351,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                       style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em', cursor: speaking ? 'pointer' : undefined }}
                       onPointerDown={() => onBlockPressStart(b.order, b.text)}
                       onPointerUp={onBlockPressEnd}
+                      onPointerCancel={onBlockPressEnd}
+                      onPointerMove={onBlockPressEnd}
                       onPointerLeave={onBlockPressEnd}
                       onClick={(e) => {
                         // docs/34 验收修正：划线随时可用（此前仅朗读中绑定，非朗读时长按
@@ -1442,6 +1401,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   style={{ cursor: speaking ? 'pointer' : undefined }}
                   onPointerDown={() => onBlockPressStart(b.order, b.text)}
                   onPointerUp={onBlockPressEnd}
+                  onPointerCancel={onBlockPressEnd}
+                  onPointerMove={onBlockPressEnd}
                   onPointerLeave={onBlockPressEnd}
                   onClick={(e) => {
                     // 划线随时可用；长按消耗掉 click，不冒泡进专注模式；跳读仅朗读中
@@ -1487,6 +1448,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       <footer
         className="reader-controls"
         aria-hidden={focused}
+        {...(focused ? { inert: "" } : {})}
         style={{
           transition: 'opacity .2s, transform .2s',
           opacity: focused ? 0 : 1,
@@ -1503,36 +1465,27 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             <button onClick={togglePause} aria-pressed={paused}>
               {paused ? '继续朗读' : '暂停朗读'}
             </button>
-            {serverReady ? (
-              <>
-                <button
-                  onClick={() => {
-                    if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex - 1)) setPaused(false)
-                  }}
-                >
-                  上一段
-                </button>
-                <button
-                  onClick={() => {
-                    if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex + 1)) setPaused(false)
-                  }}
-                >
-                  下一段
-                </button>
-              </>
-            ) : null}
           </>
         ) : null}
-        <button onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
-        <button onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
         <button onClick={() => setShowSettings(true)}>{LABELS.settings}</button>
         <button onClick={() => void openFinish()}>{LABELS.finish}</button>
       </footer>
 
       {/* ── 排版设置浮层 ── */}
       {showSettings ? (
-        <Overlay onClose={() => setShowSettings(false)} label="排版设置">
-          <h3>{LABELS.settings}</h3>
+        <Overlay onClose={() => setShowSettings(false)} label="阅读设置">
+          <div className="setting-row" role="group" aria-label="设置分类">
+            <button aria-pressed={settingsTab === 'layout'} onClick={() => setSettingsTab('layout')}>排版</button>
+            <button aria-pressed={settingsTab === 'audio'} onClick={() => setSettingsTab('audio')}>听读</button>
+            <button aria-pressed={settingsTab === 'record'} onClick={() => { stopSpeaking(); setSettingsTab('record') }}>跟读录音 · 试点</button>
+          </div>
+          {settingsTab === 'record' && <LocalRecorder />}
+          {settingsTab === 'layout' && <>
+          <div className="setting-row">
+            <button onClick={toggleBookmark}>在当前位置夹书签</button>
+            <button onClick={() => { setShowSettings(false); void loadScaffold() }} disabled={scaffoldLoading}>给爸妈的共读话题</button>
+          </div>
+          <button className="sticker-btn" onClick={() => { const block = blocks[currentBlockRef.current]; if (block) void saveHighlight(block.order, block.text) }}>收藏当前段落为金句</button>
           <p className="mono-label" style={{ marginBottom: 8 }}>
             主题
           </p>
@@ -1580,6 +1533,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               </button>
             ))}
           </div>
+          </>}
+          {settingsTab === 'audio' && <>
+          {speaking && <div className="setting-row">
+            <button onClick={togglePause}>{paused ? '继续朗读' : '暂停朗读'}</button>
+            {serverReady && <>
+              <button onClick={() => { if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex - 1)) setPaused(false) }}>上一段</button>
+              <button onClick={() => { if (audioPlayer.jumpToSegment(audioPlayer.currentSegmentIndex + 1)) setPaused(false) }}>下一段</button>
+            </>}
+          </div>}
           {/* 朗读定时（docs/34 P2-1）：到点渐弱收尾 */}
           <p className="mono-label" style={{ margin: '14px 0 8px' }}>
             朗读定时
@@ -1662,13 +1624,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   ? '读到哪段，哪段铺上黄光'
                   : '朗读时文字不变样'}
           </p>
+          </>}
         </Overlay>
       ) : null}
 
       {/* ── 章节目录抽屉 ── */}
       {showChapters ? (
-        <Overlay onClose={() => setShowChapters(false)} label="章节目录">
-          <h3>{LABELS.toc}</h3>
+        <Overlay onClose={() => setShowChapters(false)} label="目录">
           {titlesError ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
               <p className="mono-label">目录暂时没拿到</p>
@@ -1762,7 +1724,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       {/* ── 共读会话冲突三选一（不可点背板关掉，必须选一个） ── */}
       {conflict ? (
         <Overlay onClose={() => undefined} dismissable={false} label="上一本还没收尾">
-          <h3>上一本还没收尾</h3>
           <p className="mono-label" style={{ textTransform: 'none', marginBottom: 12 }}>
             一次只打开一个小故事。想读这本，先给上一本收个尾。
           </p>
@@ -1850,7 +1811,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               {quizPick !== null ? (
                 <>
                   <p className="mono-label" style={{ textTransform: 'none', marginTop: 10 }}>
-                    {quizPick === quiz.answerIndex ? '答对啦，这一章读懂了！' : '没关系，回头再看看那一段。'}
+                    {quizPick === quiz.answerIndex ? '你记得这段文字！也可以聊聊你想到的事。' : '可以回头看看，也可以跳过。'}
                   </p>
                   <p className="mono-label" style={{ textTransform: 'none', marginTop: 6 }}>
                     这一章读起来：

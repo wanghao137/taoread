@@ -6,6 +6,7 @@ import { useSession } from '../stores/session'
 import { IconFamily, IconPeach } from '../components/ui/icons'
 import { AiContentAgreement } from './AiContentAgreement'
 import { PRIVACY_VERSION } from './PrivacyPage'
+import { Dialog } from '../components/ui/Dialog'
 
 function deviceId(): string {
   // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
@@ -162,7 +163,7 @@ export function LoginPage() {
 
   return (
     <div className="app">
-      <div className="wrap login-wrap">
+      <div className="wrap login-wrap" id="main-content">
         {/* 品牌锚点唯一：桃子 logo 贴纸卡 + 字标（与孩子端 v8 壳同一 mast 语言） */}
         <header className="login-brand">
           <div className="logo big">
@@ -193,7 +194,7 @@ export function LoginPage() {
         ) : mode === 'choose' ? (
           <>
             <div className="panel">
-              <h2>今天谁来讲故事？</h2>
+              <h2>一起读书，留下阅读记忆</h2>
               <p>选择这次的故事从谁开始</p>
               <div className="setting-row" style={{ marginTop: 12 }}>
                 {(Object.keys(ROLE_LABEL) as DeviceRole[]).map(roleSticker)}
@@ -302,11 +303,12 @@ export function LoginPage() {
         <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => navigate('/privacy')}>
           隐私政策
         </button>
+        <button type="button" className="linklike" onClick={() => navigate('/offline')}>打开本机离线书架</button>
       </div>
 
       {/* 家长门（docs/34 P1-1）：一道乘算题，防孩子拿到家庭码后误入家长端 */}
       {gate ? (
-        <div className="sheet-backdrop" role="dialog" aria-modal="true" aria-label="家长确认" onClick={() => setGate(null)}>
+        <Dialog label="家长确认" onClose={() => { setGate(null); gatePassRef.current = null }}>
           <div className="sheet-card" onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
             <h2>请大人来回答</h2>
             <p>这道题给爸爸妈妈——小朋友去选「小朋友」就好啦</p>
@@ -337,7 +339,7 @@ export function LoginPage() {
               ← 我先不进了
             </button>
           </div>
-        </div>
+        </Dialog>
       ) : null}
 
       {agreementOpen && (

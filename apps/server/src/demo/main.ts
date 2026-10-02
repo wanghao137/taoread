@@ -9,6 +9,7 @@ const E2E_ISOLATION = process.env.TAO_E2E_ISOLATION === '1'
 if (!E2E_ISOLATION) await import('dotenv/config')
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
+import { closeSync, existsSync, openSync } from 'node:fs'
 import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from '../config'
 import { buildApp } from '../app'
 import { IpRateLimiter } from '../lib/ipRateLimit'
@@ -35,6 +36,8 @@ async function main(): Promise<void> {
     process.exit(1)
   }
   // 演示库自迁移：全新环境零配置可跑（demo 指向独立 sqlite 文件时自动建表）
+  const demoFile = join(process.cwd(), 'prisma', config.TAO_DATABASE_URL.slice('file:./'.length))
+  if (!existsSync(demoFile)) closeSync(openSync(demoFile, 'wx'))
   execSync('npx --no-install prisma migrate deploy', {
     cwd: process.cwd(),
     env: { ...process.env, TAO_DATABASE_URL: config.TAO_DATABASE_URL },

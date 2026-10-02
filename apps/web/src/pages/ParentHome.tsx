@@ -59,7 +59,7 @@ export function ParentHome() {
       .then(() => {
         if (!alive) return
         try {
-          setReportDot(localStorage.getItem('taoread-report-seen') !== thisMondayKey())
+          setReportDot(localStorage.getItem(`taoread-report-seen:${familyId}`) !== thisMondayKey())
         } catch {
           setReportDot(false)
         }
@@ -74,11 +74,11 @@ export function ParentHome() {
     setTab('足迹')
     setReportDot(false)
     try {
-      localStorage.setItem('taoread-report-seen', thisMondayKey())
+      localStorage.setItem(`taoread-report-seen:${familyId}`, thisMondayKey())
     } catch {
       /* 隐私模式写不进就算了 */
     }
-  }, [])
+  }, [familyId])
 
   const load = useCallback(() => {
     if (!token || !familyId) return
@@ -137,10 +137,11 @@ export function ParentHome() {
     if (tab === '今天')
       return (
         <>
+          <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
           <FootprintBar familyId={familyId ?? ''} token={token ?? ''} />
 
           {/* 家庭码贴纸卡：小读者的设备输入即可加入 */}
-          <div className="panel family-code">
+          <details className="panel"><summary style={{ minHeight: 44, cursor: 'pointer' }}>邀请设备加入家庭</summary><div className="family-code">
             <div>
               <span className="mono-label">家庭码 · FAMILY CODE</span>
               <p data-testid="family-code" className="code-display">
@@ -162,9 +163,7 @@ export function ParentHome() {
                 {copied ? '✓ 已复制' : '复制'}
               </button>
             ) : null}
-          </div>
-
-          <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
+          </div></details>
         </>
       )
     if (tab === '内容') return <><ContentHub familyId={familyId ?? ''} token={token ?? ''} /><ParentPhonics token={token ?? ''} children={childrenList} /></>

@@ -37,7 +37,7 @@ export function OpsPage() {
             <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
           <div className="brand">
-            <h1>桃阅读 · 运营体检</h1>
+            <h1>桃阅读 · 家庭使用摘要</h1>
             <p>只读摘要 · 家长角色可见 · 不进导航</p>
           </div>
           <div className="mast-actions">
@@ -61,11 +61,11 @@ export function OpsPage() {
               </div>
               <div className="panel">
                 <h3>家庭</h3>
-                <p className="mono-line">全库家庭 {summary.household.families} · 孩子档案 {summary.household.children}</p>
+                <p className="mono-line">当前家庭 {summary.household.families} · 孩子档案 {summary.household.children}</p>
               </div>
               <div className="panel">
                 <h3>本家庭阅读</h3>
-                <p className="mono-line">共读会话：全库 {summary.reading.cosessionsTotal} · 本家庭 {summary.reading.cosessionsMine}（今日 {summary.reading.cosessionsToday}）</p>
+                <p className="mono-line">本家庭共读会话 {summary.reading.cosessionsMine}（今日 {summary.reading.cosessionsToday}）</p>
                 <p className="mono-line">生词 {summary.reading.words} · 共读金句 {summary.reading.highlights} · 划线 {summary.reading.bookHighlights} · 成就 {summary.reading.achievements}</p>
               </div>
               <div className="panel">

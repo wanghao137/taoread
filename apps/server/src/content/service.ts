@@ -51,6 +51,7 @@ export interface BookSummaryDto {
   lastReadAt: string | null
   /** 难度徽章（docs/34 P1-7）：同类书按每章字数的中位数三档；单书视图取不到分布时默认 fit */
   difficulty: 'easy' | 'fit' | 'stretch'
+  contentVersion: string
 }
 
 export interface ChapterDto {
@@ -147,7 +148,7 @@ export function chapterScene(bookId: string, order: number, art: string | null |
 }
 
 function summarize(
-  book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words'> & {
+  book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words' | 'contentVersion'> & {
     chapterCount: number
   },
   progressPct: number,
@@ -180,8 +181,15 @@ function summarize(
     favorite,
     resumeChapter: extra?.resumeChapter ?? null,
     lastReadAt: extra?.lastReadAt ? extra.lastReadAt.toISOString() : null,
-    difficulty: extra?.difficulty ?? 'fit',
+    difficulty: chapterLength(book),
+    contentVersion: book.contentVersion,
   }
+}
+
+/** Absolute chapter length; this is not a child's reading ability assessment. */
+export function chapterLength(book: { words: number; chapterCount: number }): 'easy' | 'fit' | 'stretch' {
+  const average = book.words / Math.max(1, book.chapterCount)
+  return average <= 300 ? 'easy' : average <= 1000 ? 'fit' : 'stretch'
 }
 
 /**
@@ -190,6 +198,7 @@ function summarize(
  * + 5min TTL 兜底。单家庭自部署，进程级缓存即完整边界。
  */
 export interface CatalogRow {
+  contentVersion: string
   id: string
   title: string
   author: string | null
@@ -223,9 +232,10 @@ async function getBookCatalog(db: PrismaClient): Promise<Omit<BookCatalog, 'at'>
     return bookCatalogCache
   }
   const books = await db.book.findMany({
+    where: { publicationStatus: 'published' },
     // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
     orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
-    select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true },
+    select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true, contentVersion: true },
   })
   const chapterRows = await db.chapter.findMany({ select: { bookId: true, title: true }, orderBy: { order: 'asc' } })
   const titlesByBook = new Map<string, string[]>()
@@ -275,6 +285,10 @@ export async function assertContentReadable(
     const owner = await db.importedBook.findUnique({ where: { id: contentId }, select: { familyId: true } })
     if (!owner || owner.familyId !== familyId) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     return
+  }
+  const publication = await db.book.findUnique({ where: { id: contentId }, select: { publicationStatus: true } })
+  if (!publication || publication.publicationStatus !== 'published') {
+    throw new AppError('这本书暂未开放，先看看其他书吧', 'BOOK_UNAVAILABLE', 404)
   }
   const snap = await db.shelfSnapshot.findUnique({
     where: { familyId_bookId_kind: { familyId, bookId: contentId, kind: 'cbf' } },
@@ -353,26 +367,6 @@ export async function listBooks(
 
   // 难度徽章（docs/34 P1-7）：同类书内部按「每章字数」的中位数三档——
   // 纯语料统计、零人工标注；孩子视角是「刚好/进阶/挑战」，不是评分
-  const perCat = new Map<string, number[]>()
-  for (const b of visible) {
-    const per = b.chapterCount > 0 ? Math.round(b.words / b.chapterCount) : b.words
-    if (!perCat.has(b.category)) perCat.set(b.category, [])
-    perCat.get(b.category)!.push(per)
-  }
-  const medianByCat = new Map<string, number>()
-  for (const [cat, arr] of perCat) {
-    arr.sort((a, b) => a - b)
-    const mid = Math.floor(arr.length / 2)
-    medianByCat.set(cat, arr.length % 2 === 1 ? arr[mid]! : Math.round(((arr[mid - 1] ?? 0) + arr[mid]!) / 2))
-  }
-  const difficultyOf = (b: (typeof visible)[number]): 'easy' | 'fit' | 'stretch' => {
-    const median = medianByCat.get(b.category)
-    if (!median || median <= 0) return 'fit'
-    const per = b.chapterCount > 0 ? Math.round(b.words / b.chapterCount) : b.words
-    if (per <= median * 0.7) return 'easy'
-    if (per >= median * 1.4) return 'stretch'
-    return 'fit'
-  }
 
   return visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false, chapterOrder: null, updatedAt: null }
@@ -387,7 +381,7 @@ export async function listBooks(
       {
         resumeChapter: p.finished ? null : p.chapterOrder,
         lastReadAt: p.updatedAt,
-        difficulty: difficultyOf(b),
+        difficulty: chapterLength(b),
       },
     )
   })
@@ -557,7 +551,7 @@ export async function reportProgress(
 ): Promise<ProgressReportResult> {
   const book = await db.book.findUnique({
     where: { id: contentId },
-    select: { id: true, chapters: { select: { order: true }, orderBy: { order: 'asc' }, take: 1 } },
+    select: { id: true, contentVersion: true, chapters: { select: { order: true }, orderBy: { order: 'asc' }, take: 1 } },
   })
   if (!book) throw new Error('BOOK_NOT_FOUND')
   const last = await db.chapter.count({ where: { bookId: contentId } })
@@ -568,7 +562,7 @@ export async function reportProgress(
   const finished = atLast && completed
   const existing = await db.readingProgress.findUnique({
     where: { childId_bookId: { childId, bookId: contentId } },
-    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true },
+    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true, contentVersion: true },
   })
   if (existing && baseUpdatedAt) {
     const base = new Date(baseUpdatedAt)
@@ -584,8 +578,8 @@ export async function reportProgress(
   }
   await db.readingProgress.upsert({
     where: { childId_bookId: { childId, bookId: contentId } },
-    create: { childId, bookId: contentId, chapterOrder: clamped, blockOrder, finished },
-    update: { chapterOrder: clamped, blockOrder, ...(finished ? { finished: true } : {}) },
+    create: { childId, bookId: contentId, contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, finished },
+    update: { contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, ...(finished || (existing && existing.contentVersion !== book.contentVersion) ? { finished } : {}) },
   })
   const persisted = await db.readingProgress.findUniqueOrThrow({
     where: { childId_bookId: { childId, bookId: contentId } },
@@ -604,13 +598,14 @@ export async function getProgress(
   db: PrismaClient,
   childId: string,
   contentId: string,
-): Promise<{ chapterOrder: number; blockOrder: number; finished: boolean; updatedAt: string } | null> {
+): Promise<{ chapterOrder: number; blockOrder: number; finished: boolean; updatedAt: string; versionChanged: boolean } | null> {
   const row = await db.readingProgress.findUnique({
     where: { childId_bookId: { childId, bookId: contentId } },
-    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true },
+    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true, contentVersion: true },
   })
   if (!row) return null
-  return { ...row, updatedAt: row.updatedAt.toISOString() }
+  const book = await db.book.findUnique({ where: { id: contentId }, select: { contentVersion: true } })
+  return { ...row, versionChanged: row.contentVersion !== book?.contentVersion, updatedAt: row.updatedAt.toISOString() }
 }
 
 // ── 收藏（docs/15 P1-A）──

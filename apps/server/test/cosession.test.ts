@@ -563,7 +563,7 @@ describe('共读域 API（第 4 夜）', () => {
       expect(card.hook).toBeTruthy()
       // 要点引用了热门划线原文（稳定散列二选一，两条都是文档回包里的划线）
       const joined = card.tellPoints.join()
-      expect(joined).toContain('打动过')
+      expect(joined).toContain('从这句话聊起')
       expect(
         joined.includes('重要的不是所见') || joined.includes('所有的大人都曾经是小孩'),
       ).toBe(true)

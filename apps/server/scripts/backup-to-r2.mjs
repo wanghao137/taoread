@@ -3,11 +3,9 @@
  *
  * 每次运行：
  *   1. SQLite 一致快照（VACUUM INTO，可在服务运行时执行）；
- *   2. 上传快照到 r2://<bucket>/db/（保留最近 3 份，其余删除）；
- *   3. 增量同步 media/：media/.backup-state 是 JSON 清单（相对路径 → 上次上传时 mtimeMs），
- *      mtime 与清单一致的上传过即跳过——断点续传，网络闪断后只补漏；
- *   4. 以本地 media/ 为唯一真值对账远端：孤儿对象（本地已删/历史误传/可再生产物）删除，
- *      治理「只增不删」的桶膨胀（2026-09-28 二次治理）。
+ *   2. SHA256 原图归档，增量状态绑定目标；历史版本永不自动删除；
+ *   3. 上传数据库快照，最后发布引用不可变媒体的完整恢复清单；
+ *   4. 只有显式 --prune-mirror 才对账删除旧 media/ 镜像，不影响归档。
  *
  * 可再生产物不进备份（见 isDerivedMedia）：tts-public/、videos/、缩图变体、清单文件。
  *
@@ -19,14 +17,15 @@
  * 用法（apps/server 目录）：
  *   node --import tsx scripts/backup-to-r2.mjs [--full] [--dry-run]
  *   --dry-run：只出对账报告，不上传不删除
- *   切换目标后首次必须 --full（.backup-state 是 mtime 水位清单，不区分目标，
- *   否则增量会把「已在旧目标传过」的文件误判为已传）。
+ *   --full：重传全部原图；切换目标自动使用独立状态清单。
  */
 import { createReadStream, existsSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
-import { DeleteObjectsCommand, DeleteObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { DeleteObjectsCommand, DeleteObjectCommand, GetObjectCommand, HeadObjectCommand, HeadBucketCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
+import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
 
 // 先 .env 再 .env.r2（后者可覆盖），最后可选 .env.backup（离机备份目标）
 dotenv.config()
@@ -46,7 +45,6 @@ if (!endpoint || !accessKey || !secretKey) {
 }
 const bucket = process.env.BACKUP_BUCKET || process.env.R2_BUCKET || 'taoread-backup'
 // 离机 DB 快照保留份数（2026-09-28 从 7 降到 3：快照 ~11MB，7 份无必要）
-const DB_KEEP = 3
 // 本地对账安全水位：walk 出的真值清单低于该数说明 media/ 可能挂错/损坏，拒绝删除
 const RECONCILE_MIN_LOCAL = 1000
 
@@ -54,7 +52,8 @@ const full = process.argv.includes('--full')
 const serverDir = process.cwd() // apps/server
 const prismaDir = join(serverDir, 'prisma')
 const mediaDir = join(serverDir, 'media')
-const stateFile = join(mediaDir, '.backup-state')
+const targetId = createHash('sha256').update(`${endpoint}|${bucket}`).digest('hex').slice(0, 16)
+const stateFile = join(mediaDir, `.backup-state-${targetId}`)
 
 // B2 的 SigV4 需真实 region（从 endpoint 主机名解析，如 s3.us-west-004 → us-west-004）；R2 用 auto
 const region = process.env.BACKUP_S3_REGION
@@ -77,7 +76,7 @@ async function putFile(key, absPath) {
 
 /** SQLite 一致快照：VACUUM INTO（SQLite ≥3.27），服务运行中也可安全执行 */
 async function snapshotDb() {
-  const stamp = new Date().toISOString().slice(0, 10)
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-')
   const snapshotPath = join(prismaDir, `backup-${stamp}.db`)
   const tmpPath = `${snapshotPath}.${Math.random().toString(36).slice(2, 8)}.tmp`
   const db = new PrismaClient({ datasources: { db: { url: dbUrl } } })
@@ -108,12 +107,9 @@ async function uploadDbSnapshot() {
   const key = `db/${snap.split(sep).pop()}`
   await putFile(key, snap)
   log(`数据库快照已上传：${key} (${statSync(snap).size} bytes)`)
-  const all = (await listKeys('db/')).sort((a, b) => a.key.localeCompare(b.key))
-  for (const old of all.slice(0, Math.max(0, all.length - DB_KEEP))) {
-    await s3.send(new DeleteObjectCommand({ Bucket: bucket, Key: old.key }))
-    log(`清理过期快照：${old.key}`)
-  }
+  return { key, snap }
 }
+
 
 /**
  * 可再生产物不进备份（2026-09-26 R2 超免费线治理，2026-09-28 扩充）：
@@ -147,7 +143,7 @@ async function reconcileRemoteMedia(dryRun) {
   const desired = new Set()
   walkMedia(mediaDir, (abs) => {
     const rel = relative(mediaDir, abs).split(sep).join('/')
-    if (rel === '.backup-state' || isDerivedMedia(rel)) return
+    if (rel.startsWith('.backup-state') || isDerivedMedia(rel)) return
     desired.add(`media/${rel}`)
   })
   if (desired.size < RECONCILE_MIN_LOCAL) {
@@ -198,8 +194,7 @@ function walkMedia(dir, cb) {
 
 async function syncMedia() {
   if (!existsSync(mediaDir)) {
-    log('media/ 目录不存在，跳过媒体同步')
-    return
+    throw new Error('media/ 目录不存在，拒绝发布不完整恢复点')
   }
   // 清单：相对路径 → 上次成功上传时的 mtimeMs；mtime 一致即已上过
   let manifest = {}
@@ -210,33 +205,69 @@ async function syncMedia() {
       manifest = {}
     }
   }
-  const next = { ...manifest }
+  const next = {}
   const pending = []
   walkMedia(mediaDir, (abs, st) => {
     const rel = relative(mediaDir, abs).split(sep).join('/')
-    if (rel === '.backup-state') return
+    if (rel.startsWith('.backup-state')) return
     if (isDerivedMedia(rel)) return
-    if (full || manifest[rel] !== st.mtimeMs) pending.push({ rel, abs, mtimeMs: st.mtimeMs })
+    const hash = createHash('sha256').update(readFileSync(abs)).digest('hex')
+    if (full || manifest[rel]?.hash !== hash) pending.push({ rel, abs, hash, bytes: st.size })
+    else next[rel] = manifest[rel]
   })
   log(`媒体待上传 ${pending.length} 个${full ? '（--full）' : ''}`)
   let uploaded = 0
   let failed = 0
-  for (const item of pending) {
+  async function upload(item) {
     try {
-      await putFile(`media/${item.rel}`, item.abs)
-      next[item.rel] = item.mtimeMs
+      const bytes = readFileSync(item.abs)
+      if (createHash('sha256').update(bytes).digest('hex') !== item.hash || bytes.length !== item.bytes) throw new Error('Media changed during scan; retry backup')
+      if (process.argv.includes('--mirror')) await s3.send(new PutObjectCommand({ Bucket: bucket, Key: `media/${item.rel}`, Body: bytes }))
+      const archiveKey = `media-archive/${item.hash}`
+      let archived = false
+      if (!full) {
+        try {
+          const head = await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: archiveKey }))
+          if (head.ContentLength === bytes.length && head.Metadata?.sha256 === item.hash) archived = true
+          else {
+            const remote = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: archiveKey }))
+            const actual = Buffer.from(await remote.Body.transformToByteArray())
+            archived = actual.length === bytes.length && createHash('sha256').update(actual).digest('hex') === item.hash
+            if (!archived) throw new Error('Existing content-addressed archive failed integrity check; refusing overwrite')
+          }
+        } catch (err) { if (err?.$metadata?.httpStatusCode !== 404 && err.name !== 'NotFound' && err.name !== 'NoSuchKey') throw err }
+      }
+      if (!archived) await s3.send(new PutObjectCommand({ Bucket: bucket, Key: archiveKey, Body: bytes, Metadata: { sha256: item.hash } }))
+      next[item.rel] = { hash: item.hash, key: archiveKey, bytes: item.bytes }
       uploaded++
+      if (uploaded % 100 === 0) log(`原图归档进度 ${uploaded}/${pending.length}`)
     } catch (err) {
       failed++
       log(`上传失败 ${item.rel}: ${err.message}（清单未记录，下次补传）`)
     }
   }
+  for (let offset = 0; offset < pending.length; offset += 16) {
+    await Promise.all(pending.slice(offset, offset + 16).map(upload))
+    writeFileSync(stateFile, JSON.stringify(next), 'utf8')
+  }
   writeFileSync(stateFile, JSON.stringify(next), 'utf8')
+  if (failed) throw new Error(`媒体备份 ${failed} 个失败，本次不发布恢复清单`)
   log(`媒体同步完成：本次 ${uploaded} 个上传，${failed} 个失败；清单共 ${Object.keys(next).length} 个文件`)
+  return next
 }
 
 async function main() {
+  if (process.argv.includes('--prune-db')) throw new Error('禁止独立删除恢复清单引用的数据库；请制定完整恢复点保留策略')
   const dryRun = process.argv.includes('--dry-run')
+  const archiveOnly = process.argv.includes('--archive-only')
+  if (!dryRun && !archiveOnly) {
+    if (!process.argv.includes('--quiescent')) throw new Error('完整恢复点要求停写；先停止 API/生成任务，再传 --quiescent。在线预传用 --archive-only')
+    if (process.platform === 'win32') {
+      if (process.env.TAO_BACKUP_COORDINATED !== '1') throw new Error('请通过持有全程互斥锁的 backup-consistent.ps1 或发布协调器执行')
+      const status = execFileSync('powershell.exe', ['-NoProfile', '-Command', '(Get-Service taoread-api -ErrorAction Stop).Status.ToString()'], { encoding: 'utf8' }).trim()
+      if (status !== 'Stopped') throw new Error('taoread-api 尚未停止，拒绝声明一致恢复点')
+    }
+  }
   if (!dryRun) {
     try {
       await s3.send(new HeadBucketCommand({ Bucket: bucket }))
@@ -257,10 +288,34 @@ async function main() {
     await reconcileRemoteMedia(true)
     return
   }
-  await uploadDbSnapshot()
-  await reconcileRemoteMedia(false)
-  await syncMedia()
+  if (archiveOnly) { await syncMedia(); log('在线媒体预传完成，尚未发布恢复点'); return }
+  // A mirror is not recovery history. Deletion is explicit; immutable archives are never reconciled.
+  if (process.argv.includes('--prune-mirror')) await reconcileRemoteMedia(false)
+  const snapshot = await uploadDbSnapshot()
+  const media = await syncMedia()
+  await verifyReferences(snapshot.snap, media)
+  await s3.send(new PutObjectCommand({
+    Bucket: bucket, Key: `recovery/${snapshot.key.split('/').pop()}.json`,
+    Body: JSON.stringify({ version: 1, consistency: 'quiescent', createdAt: new Date().toISOString(), database: snapshot.key, databaseSha256: createHash('sha256').update(readFileSync(snapshot.snap)).digest('hex'), databaseBytes: statSync(snapshot.snap).size, media: media ?? {} }),
+    ContentType: 'application/json',
+  }))
+  // Old complete recovery points remain immutable; retention is an explicit operator policy.
   log('备份全部完成')
+}
+
+async function verifyReferences(path, media) {
+  const db = new PrismaClient({ datasources: { db: { url: `file:${path.replace(/\\/g, '/')}` } } })
+  try {
+    const assets = await db.artAsset.findMany({ select: { urlPath: true, bytes: true } })
+    let metadataByteDifferences = 0
+    for (const asset of assets) {
+      if (!asset.urlPath.startsWith('/api/media/')) throw new Error('Unsupported original media reference')
+      const rel = asset.urlPath.slice('/api/media/'.length)
+      if (!media[rel]) throw new Error('Database original media reference missing')
+      if (media[rel].bytes !== asset.bytes) metadataByteDifferences++
+    }
+    log(`数据库原图引用核验 ${assets.length} 项通过；历史台账字节差异 ${metadataByteDifferences} 项，以归档实际 SHA256/字节为准；音频/视频/变体明确排除`)
+  } finally { await db.$disconnect() }
 }
 
 main().catch((err) => {

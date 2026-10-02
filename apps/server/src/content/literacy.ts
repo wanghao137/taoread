@@ -71,18 +71,10 @@ export function literacySuggestion(correctCount: number, total: number): {
   level: 'easy' | 'fit' | 'stretch'
   message: string
 } {
-  const ratio = total > 0 ? correctCount / total : 0
-  if (ratio >= 0.85) {
-    return {
-      level: 'easy',
-      message: '这些字你都认识啦！可以请爸爸妈妈把书架调到下一个年龄段，去认识更多新朋友。',
-    }
-  }
-  if (ratio >= 0.6) {
-    return { level: 'fit', message: '读现在的书刚刚好，继续保持每天读一点，字宝宝会越来越熟。' }
-  }
+  void correctCount
+  void total
   return {
-    level: 'stretch',
-    message: '没关系，认识多少都没关系。多听朗读、多收生词，书会陪你慢慢长大。',
+    level: 'fit',
+    message: '这是找相同字的游戏，不代表识字量或阅读能力。可以和家人一起读读这些字。',
   }
 }

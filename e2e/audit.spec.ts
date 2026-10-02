@@ -194,9 +194,9 @@ test.describe('审计整改回归', () => {
       expect(typeof book.key).toBe('string')
       expect(typeof book.title).toBe('string')
     }
-    // 语义口径：读过 ≠ 读完——未收尾的唐诗也在 books 里，但只有 done 的三字经计入 completed
+    // Only ended sessions belong to weekly aggregation. The active session remains outside the report.
     const titles = report.books.map((b) => b.title)
-    expect(titles).toContain('唐诗三百首')
+    expect(titles).not.toContain('唐诗三百首')
     expect(titles).toContain('三字经')
     expect(report.booksCompleted).toBeGreaterThanOrEqual(1)
     expect(report.booksCompleted).toBeLessThanOrEqual(report.books.length)
@@ -324,6 +324,7 @@ test.describe('审计整改回归', () => {
   })
 
   test('A→B 切书不串 session：三选一浮层 → 结束旧书改读这本', async ({ page, request }) => {
+    await finishAllActiveSessions(request)
     await loginAsChild(page, '小桃')
 
     // 开书 A（三字经）进阅读器
@@ -334,7 +335,7 @@ test.describe('审计整改回归', () => {
     await page.getByRole('button', { name: '退出阅读' }).click()
     await page.getByText('适合一起读').waitFor()
     await openDetail(page, '唐诗三百首')
-    await startReading(page, '唐诗三百首') // 章节照常加载，浮层叠在其上
+    await page.getByRole('button', { name: /开始读|继续读/ }).first().click() // 模态隔离背景
 
     // 冲突浮层：三选一，不可点背板关掉
     await expect(page.getByText('上一本还没收尾')).toBeVisible()

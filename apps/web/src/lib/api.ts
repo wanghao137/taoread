@@ -311,18 +311,18 @@ export const api = {
     }),
 
   /** 周报（任意历史周可重生成；start 缺省=本周） */
-  weeklyReport: (familyId: string, token: string, start?: string) =>
+  weeklyReport: (familyId: string, token: string, start?: string, childId?: string) =>
     request<{ report: WeeklyReportDataDto }>(
-      `/api/reports/weekly?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}`,
+      `/api/reports/weekly?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}${childId ? `&childId=${encodeURIComponent(childId)}` : ''}`,
       { token },
     ),
 
   /** 分享卡 SVG 文本（服务端渲染，系统字体）；401 与 request() 同源处理（清会话回登录） */
-  shareCardSvg: async (familyId: string, token: string, start?: string): Promise<string> => {
+  shareCardSvg: async (familyId: string, token: string, start?: string, childId?: string): Promise<string> => {
     const headers: Record<string, string> = {}
     if (token) headers['Authorization'] = `Bearer ${token}`
     const res = await fetch(
-      `${API_BASE}/api/reports/weekly/share-card?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}`,
+      `${API_BASE}/api/reports/weekly/share-card?familyId=${encodeURIComponent(familyId)}${start ? `&start=${start}` : ''}${childId ? `&childId=${encodeURIComponent(childId)}` : ''}`,
       { headers, signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(30_000) : undefined },
     ).catch(() => {
       throw new ApiError(0, 'NETWORK', '分享卡生成失败，请稍后再试')
@@ -339,6 +339,7 @@ export const api = {
   },
 
   // ── v2 内容域：公版书库 + 自研阅读器正文 ──
+  contentProvenance: (id: string, token: string) => request<{ source: string; contentVersion: string; reviewStatus: string; rights: { workTitle: string; author: string | null; translator: string | null; basis: string; jurisdiction: string; sourceUrl: string | null; note: string | null } | null }>(`/api/content/books/${encodeURIComponent(id)}/provenance`, { token }),
 
   /** 单书概览（cbf: 会话解析书名/封面用；对抗审查修复：不再错走微信书 info 接口） */
   contentBook: async (contentId: string, token: string) => {
@@ -378,7 +379,7 @@ export const api = {
     ),
 
   contentProgress: (contentId: string, childId: string, token: string) =>
-    request<{ progress: { chapterOrder: number; blockOrder: number; finished: boolean; updatedAt?: string } }>(
+    request<{ progress: { chapterOrder: number; blockOrder: number; finished: boolean; updatedAt?: string; versionChanged?: boolean } }>(
       `/api/content/books/${encodeURIComponent(contentId)}/progress?childId=${encodeURIComponent(childId)}`,
       { token },
     ),
@@ -532,8 +533,8 @@ export const api = {
     ),
 
   /** 共读历史（docs/34 P2-5，仅家长） */
-  cosessionHistory: (token: string, take = 30) =>
-    request<CosessionHistoryDto>(`/api/cosession/history?take=${take}`, { token }),
+  cosessionHistory: (token: string, take = 30, childId?: string) =>
+    request<CosessionHistoryDto>(`/api/cosession/history?take=${take}${childId ? `&childId=${encodeURIComponent(childId)}` : ''}`, { token }),
 
   /** 读完分享卡 SVG（docs/34 P2-6，仅家长） */
   readingCardSvg: async (familyId: string, cosessionId: string, token: string): Promise<string> => {
@@ -758,6 +759,7 @@ async function fetchSseChapter(
 }
 
 export interface ContentBookDto {
+  contentVersion?: string
   id: string
   bookId: string
   title: string
@@ -830,6 +832,8 @@ export interface ContentChapterDto {
 }
 
 export interface WeeklyReportDataDto {
+  basis?: string
+  legacyUnverifiedCompletions?: number
   weekStart: string
   nights: number
   totalMinutes: number
@@ -857,11 +861,13 @@ export interface CollectionDto { id: string; title: string; subtitle: string; to
 export interface CosessionHistoryDto {
   sessions: Array<{
     id: string
+    childId: string
     childName: string
     title: string
     startedAt: string
     durationSec: number | null
     progressMark: string | null
+    completionVerified: boolean | null
     mood: string | null
   }>
 }
