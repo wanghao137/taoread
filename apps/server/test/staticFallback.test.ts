@@ -13,6 +13,7 @@ beforeAll(async () => {
   await writeFile(join(staticDir, 'index.html'), '<!doctype html><html><body>SPA-SHELL-MARKER</body></html>')
   await writeFile(join(staticDir, 'assets', 'app-abc123.js'), 'console.log(1)')
   await writeFile(join(staticDir, 'sw.js'), 'self.skipWaiting()')
+  await writeFile(join(staticDir, 'offline-reader.js'), 'console.log("offline")')
   h = await makeApp(undefined, { staticDir })
 })
 
@@ -39,6 +40,9 @@ describe('同源 SPA 托管（部署期资产生存策略）', () => {
     expect(index.headers['cache-control']).toBe('no-cache')
     const sw = await h.app.inject({ method: 'GET', url: '/sw.js' })
     expect(sw.headers['cache-control']).toBe('no-cache')
+    const offlineReader = await h.app.inject({ method: 'GET', url: '/offline-reader.js' })
+    expect(offlineReader.statusCode).toBe(200)
+    expect(offlineReader.headers['cache-control']).toBe('no-cache')
     const hashed = await h.app.inject({ method: 'GET', url: '/assets/app-abc123.js' })
     expect(hashed.headers['cache-control']).toContain('immutable')
     expect(hashed.statusCode).toBe(200)

@@ -278,7 +278,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       setHeaders: (res, filePath) => {
         const base = filePath.replace(/\\/g, '/').split('/').pop() ?? ''
         // 入口/外壳/清单绝不缓存：部署后老访客第一时间拿到新 index
-        if (base === 'index.html' || base === 'sw.js' || base === 'registerSW.js' || base.endsWith('.webmanifest')) {
+        if (base === 'index.html' || base === 'sw.js' || base === 'registerSW.js' || base === 'offline-reader.js' || base.endsWith('.webmanifest')) {
           res.setHeader('Cache-Control', 'no-cache')
           return
         }
