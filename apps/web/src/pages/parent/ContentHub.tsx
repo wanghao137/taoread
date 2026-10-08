@@ -121,6 +121,8 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   const [sortKey, setSortKey] = useState<SortKey>('title')
   const [category, setCategory] = useState<CategoryKey>('all')
   const [busyKey, setBusyKey] = useState<string | null>(null)
+  // docs/40 F3：渐进渲染可见行数；切来源回默认
+  const [visibleCount, setVisibleCount] = useState(40)
   const [notice, setNotice] = useState<string | null>(null)
   // docs/34 P0-1：纸质书共读（后端早已支持 paperTitle，此前前端无入口）
   const [paperTitle, setPaperTitle] = useState('')
@@ -528,7 +530,8 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
 
     return (
       <div className="hub-grid">
-        {rows.map((row) => (
+        {/* docs/40 F3：渐进渲染——首屏 40 行即可交互，重列表不再一次挂 189 张卡 */}
+        {rows.slice(0, visibleCount).map((row) => (
           <article key={row.key} className="hub-card">
             {cover(row)}
             <div className="hub-title">
@@ -574,6 +577,11 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
             </div>
           </article>
         ))}
+        {rows.length > visibleCount ? (
+          <button type="button" className="sticker-btn" style={{ margin: '6px auto 0', display: 'flex', gridColumn: '1 / -1' }} onClick={() => setVisibleCount((n) => n + 80)}>
+            显示更多（还有 {rows.length - visibleCount} 本）
+          </button>
+        ) : null}
       </div>
     )
   }
@@ -592,6 +600,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
             aria-pressed={source === s.key}
             onClick={() => {
               setSource(s.key)
+              setVisibleCount(40)
               setNotice(null)
             }}
           >

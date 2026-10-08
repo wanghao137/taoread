@@ -201,6 +201,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [sleepMin, setSleepMin] = useState<number | null>(null)
   /** 已划线块（P1-11） */
   const [savedBlocks, setSavedBlocks] = useState<Set<number>>(new Set())
+  /* ── docs/40 F1：划线回显——bookId 级「章→块」映射，重进章节 ✒️ 不丢 ── */
+  const highlightsByChapter = useRef<Map<number, Set<number>>>(new Map())
   const longPressRef = useRef(false)
   const pressTimerRef = useRef<number | null>(null)
   /** 书签（P1-11；本机 localStorage，跨章持久） */
@@ -458,6 +460,45 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     loadTitles()
   }, [loadTitles])
 
+  /* ── docs/40 F1：挂载拉全书金句回填 ✒️；换章按映射恢复 ── */
+  const orderRef = useRef(order)
+  orderRef.current = order
+  useEffect(() => {
+    if (!childId || !token) return
+    let alive = true
+    api
+      .listBookHighlights(childId, token, book.id)
+      .then(({ highlights }) => {
+        if (!alive) return
+        const map = new Map<number, Set<number>>()
+        for (const h of highlights) {
+          const set = map.get(h.chapterOrder) ?? new Set<number>()
+          set.add(h.blockOrder)
+          map.set(h.chapterOrder, set)
+        }
+        // 对抗审查 P1：请求飞行期间本会话新保存的划线不在服务端快照里——
+        // 并入本地增量（组件 key 含 book.id，旧映射必属本书）；并用 orderRef 防
+        // 「挂载闭包的旧章」覆盖用户已翻到的新章
+        for (const [ch, local] of highlightsByChapter.current) {
+          const merged = map.get(ch) ?? new Set<number>()
+          for (const b of local) merged.add(b)
+          map.set(ch, merged)
+        }
+        highlightsByChapter.current = map
+        setSavedBlocks(map.get(orderRef.current) ?? new Set())
+      })
+      .catch(() => undefined)
+    return () => {
+      alive = false
+    }
+    // book.id 变化=换书重拉；order 由下方 [order] effect 回填
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [childId, token, book.id])
+
+  useEffect(() => {
+    setSavedBlocks(highlightsByChapter.current.get(order) ?? new Set())
+  }, [order])
+
   /* ── 朗读引擎事件订阅：两条路径共用 highlight 状态，UI 无感差异 ── */
   useEffect(() => {
     const offAp = audioPlayer.onProgress((p) => setHighlight({ index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
@@ -642,6 +683,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       stopSpeaking()
       return
     }
+    // docs/40 F2：冷合成等待期也要有出口——再点一次=放弃本次朗读（断开 SSE，不回退 Web Speech）
+    if (preparing) {
+      stopSpeaking()
+      return
+    }
     void (async () => {
       // 被自动播放策略拦下时，这是用户手势入口：从队列当前段恢复
       if (serverReady) {
@@ -696,7 +742,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         showToast('这台设备暂时不能朗读')
       }
     })()
-  }, [speaking, serverReady, book.id, book.lang, book.title, order, voiceId, speed, stopSpeaking, showToast])
+  }, [speaking, preparing, serverReady, book.id, book.lang, book.title, order, voiceId, speed, stopSpeaking, showToast])
 
   /* ── 高亮档位与正在读的块 ── */
   const effectiveHighlight = useMemo<'word' | 'sentence' | 'off'>(() => {
@@ -907,6 +953,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       try {
         await api.addBookHighlight(childId, book.id, { chapterOrder: order, blockOrder, text: trimmed }, token)
         setSavedBlocks((prev) => new Set(prev).add(blockOrder))
+        const chapterSet = highlightsByChapter.current.get(order) ?? new Set<number>()
+        chapterSet.add(blockOrder)
+        highlightsByChapter.current.set(order, chapterSet)
         haptic('stamp')
         showToast('收进金句啦')
       } catch (err) {
@@ -1456,8 +1505,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           pointerEvents: focused ? 'none' : undefined,
         }}
       >
-        <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter || preparing}>
-          {preparing ? '正在准备朗读…' : speaking ? LABELS.stopAloud : LABELS.readAloud}
+        <button className="main-action min-h-[44px]" onClick={toggleSpeak} disabled={!chapter}>
+          {preparing ? '正在准备朗读…再点一下取消' : speaking ? LABELS.stopAloud : LABELS.readAloud}
         </button>
         {/* 暂停/继续（docs/34 P0-5）+ 上下段（P2-2）：仅朗读中显示 */}
         {speaking ? (

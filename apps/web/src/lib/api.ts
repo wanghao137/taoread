@@ -510,9 +510,9 @@ export const api = {
       token,
     }),
 
-  listBookHighlights: (childId: string, token: string) =>
+  listBookHighlights: (childId: string, token: string, bookId?: string) =>
     request<{ total: number; highlights: BookHighlightDto[] }>(
-      `/api/content/highlights?childId=${encodeURIComponent(childId)}`,
+      `/api/content/highlights?childId=${encodeURIComponent(childId)}${bookId ? `&bookId=${encodeURIComponent(bookId)}` : ''}`,
       { token },
     ),
 
@@ -696,7 +696,13 @@ async function fetchSseChapter(
       body: JSON.stringify(body),
       signal,
     },
-  )
+  ).catch((err: unknown) => {
+    // 对抗审查（docs/40 F2）：准备期主动取消落在响应头未返回的窗口——静默收场，
+    // 不走 emitError 的「没准备好」误导文案
+    if (err instanceof DOMException && err.name === 'AbortError') return null
+    throw err
+  })
+  if (res === null) return
   if (!res.ok || !res.body) {
     const text = await res.text().catch(() => '')
     throw new ApiError(res.status, 'TTS_FAILED', text || '整章朗读没准备好，可以一段一段听')
@@ -856,7 +862,7 @@ export interface FamilySettingsDto {
 export interface WordQuizDto { kind: 'word'; prompt: string; word: string; options: string[]; answerIndex: number }
 export interface LiteracyItemDto { char: string; options: string[]; answerIndex: number }
 export interface LiteracySuggestionDto { level: 'easy' | 'fit' | 'stretch'; message: string }
-export interface BookHighlightDto { id: string; bookId: string; bookTitle: string; chapterOrder: number; text: string; createdAt: string }
+export interface BookHighlightDto { id: string; bookId: string; bookTitle: string; chapterOrder: number; blockOrder: number; text: string; createdAt: string }
 export interface CollectionDto { id: string; title: string; subtitle: string; total: number }
 export interface CosessionHistoryDto {
   sessions: Array<{

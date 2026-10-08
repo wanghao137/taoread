@@ -149,9 +149,6 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 
 /* ── docs/34 移动端优化二轮（2026-09-28 用户反馈 6 项）── */
 /* 换人浮钮：贴纸样式、永不换行；移动端抬到底部导航上方避让 */
-.switch-user-btn{position:fixed;right:12px;bottom:12px;z-index:60;min-height:44px;padding:6px 16px;border:var(--border);border-radius:999px;background:var(--card);box-shadow:var(--shadow-sm);font-family:var(--display);font-weight:700;font-size:13px;white-space:nowrap;cursor:pointer}
-.switch-user-btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
-@media(max-width:760px){.switch-user-btn{right:10px;bottom:calc(64px + env(safe-area-inset-bottom));background:var(--sun)}}
 /* 书单 chips：生图小图标 */
 .filter.with-icon{display:inline-flex;align-items:center;gap:6px;padding-left:9px}
 .chip-icon{width:22px;height:22px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--card);border:1px solid rgba(38,32,26,.18)}

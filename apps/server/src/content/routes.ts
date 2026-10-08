@@ -567,10 +567,17 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     '/api/content/highlights',
     { preHandler: auth },
     async (request, reply) => {
-      const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+      const query = parse(
+        z.object({
+          childId: z.string().min(1).max(64),
+          // docs/40 F1（对抗审查 P2）：阅读器按书拉取，避免全孩 100 条窗口截断当前书
+          bookId: z.string().min(1).max(128).optional(),
+        }),
+        request.query,
+      )
       await assertOwnChild(request, query.childId)
       const rows = await db.bookHighlight.findMany({
-        where: { childId: query.childId },
+        where: { childId: query.childId, ...(query.bookId ? { bookId: query.bookId } : {}) },
         include: { book: { select: { title: true } } },
         orderBy: { createdAt: 'desc' },
         take: 100,
@@ -582,6 +589,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           bookId: h.bookId,
           bookTitle: h.book.title,
           chapterOrder: h.chapterOrder,
+          // docs/40 F1：阅读器划线回显需要块坐标
+          blockOrder: h.blockOrder,
           text: h.text,
           createdAt: h.createdAt,
         })),
