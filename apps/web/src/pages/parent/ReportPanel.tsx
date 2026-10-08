@@ -243,7 +243,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       {history.length > 0 || historyError ? (
         <div className="panel" style={{ marginTop: 16 }}>
           <h3>共读时间线</h3>
-          <p className="mono-line" style={{ fontSize: 11 }}>
+          <p className="mono-line" style={{ fontSize: 12 }}>
             每一次一起读过的晚上都在这里；点「存张卡」可以把这次共读保存成图片
           </p>
           <div className="chapter-list" style={{ marginTop: 10 }}>

@@ -1456,13 +1456,22 @@ function BookDetailPage() {
               <div className="detail-author">
                 {book.author} / {book.meta}
               </div>
-              <p className="detail-intro">
-                {book.desc}
-              </p>
+              {/* docs/39 E6：主行动前置到简介之前，PC/移动首屏即可见（原来是滚动后才到按钮组） */}
               <div className="hero-actions">
                 <button className="sticker-btn primary" onClick={() => v.readBook(book.id, resumeOrder || undefined)}>
                   {book.progress > 0 && !book.finished ? LABELS.continueRead : LABELS.start}
                 </button>
+                <button className="sticker-btn" onClick={() => void speakPreview()}>
+                  {previewing ? '正在合成…' : LABELS.preview}
+                </button>
+                <button className="sticker-btn" onClick={() => v.toggleFav(book.id)}>
+                  {book.fav ? LABELS.likedAlready : LABELS.like}
+                </button>
+              </div>
+              <p className="detail-intro">
+                {book.desc}
+              </p>
+              <div className="hero-actions">
                 <button className="sticker-btn" disabled={offlineBusy} onClick={() => {
                   if (!token || offlineBusy) return
                   setOfflineBusy(true)
@@ -1470,12 +1479,6 @@ function BookDetailPage() {
                     .catch((e: Error) => v.showToast(e.message)).finally(() => setOfflineBusy(false))
                 }}>{offlineBusy ? '正在保存…' : '保存文字到本机 · 试点'}</button>
                 <button className="sticker-btn" onClick={() => navigate('/offline')}>离线书架</button>
-                <button className="sticker-btn" onClick={() => void speakPreview()}>
-                  {previewing ? '正在合成…' : LABELS.preview}
-                </button>
-                <button className="sticker-btn" onClick={() => v.toggleFav(book.id)}>
-                  {book.fav ? LABELS.likedAlready : LABELS.like}
-                </button>
               </div>
               <div className="info-stickers">
                 <div className="info">

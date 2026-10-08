@@ -1185,7 +1185,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                 borderRadius: 999,
                 background: saveState === 'failed' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',
                 fontFamily: 'var(--mono)',
-                fontSize: 10,
+                fontSize: 12,
                 whiteSpace: 'nowrap',
               }}
             >

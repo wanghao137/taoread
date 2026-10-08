@@ -128,7 +128,7 @@ export function FamilyLibraryPage() {
       <small className="mono-line">{book.author ?? '作者未标注'} · {book.chapterCount} 章</small>
       <small className={`fam-progress ${p?.completed ? 'done' : ''}`}>{p?.completed ? '已读完' : p ? `读至第 ${p.order} 章` : '未开始'}</small>
     </button>
-  })}</div>{books.length === 0 && !error && <p className="mono-label">这里暂时没有适合你年龄段的家庭书。请家长在「内容 → 家庭书」里上传。</p>}</>
+  })}</div>{books.length === 0 && !error && <p className="mono-label">这里还空着。让爸爸妈妈在家长端上传家里的书，它们就会出现在这里。</p>}</>
 }
 
 interface TtsSegment {

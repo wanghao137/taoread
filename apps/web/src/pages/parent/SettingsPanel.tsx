@@ -135,7 +135,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
                 </div>
               ))}
             </div>
-            <p className="mono-line" style={{ marginTop: 8, fontSize: 11 }}>
+            <p className="mono-line" style={{ marginTop: 8, fontSize: 12 }}>
               被请出的设备会马上退出登录，并从上面的列表收起；再次加入需要家庭码
             </p>
           </div>
@@ -147,7 +147,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               微信读书已绑定（{view.view.binding.maskedTail}）
               {view.view.binding.status === 'unverified' && ' · 待验证'}
             </p>
-            <p className="mono-line" style={{ fontSize: 11 }}>
+            <p className="mono-line" style={{ fontSize: 12 }}>
               API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位
             </p>
             <button
@@ -409,7 +409,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             <li>· 朗读：AI 语音合成，非真人录音</li>
             <li>· 动画：AI 视频模型生成</li>
           </ul>
-          <p className="mono-line" style={{ marginTop: 10, fontSize: 11, lineHeight: 1.7 }}>
+          <p className="mono-line" style={{ marginTop: 10, fontSize: 12, lineHeight: 1.7 }}>
             依据《人工智能生成合成内容标识办法》（2025 年 9 月 1 日起施行），我们在家长侧向您披露上述内容由人工智能生成。
           </p>
         </div>

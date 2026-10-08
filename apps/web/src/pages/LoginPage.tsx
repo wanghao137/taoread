@@ -170,7 +170,7 @@ export function LoginPage() {
             <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
           <h1>桃阅读</h1>
-          <p className="mono-line" style={{ fontSize: 11 }}>
+          <p className="mono-line" style={{ fontSize: 12 }}>
             贴纸绘本 · 儿童阅读空间
           </p>
         </header>
@@ -291,7 +291,7 @@ export function LoginPage() {
         )}
 
         {mode === 'choose' && (
-          <p className="mono-line" style={{ textAlign: 'center', fontSize: 11 }}>
+          <p className="mono-line" style={{ textAlign: 'center', fontSize: 12 }}>
             家庭码只在自己家人之间使用，请放心输入
           </p>
         )}

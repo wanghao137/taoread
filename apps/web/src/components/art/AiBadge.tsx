@@ -8,7 +8,7 @@
 export function AiBadge({ label = 'AI' }: { label?: string }) {
   return (
     <span
-      className="whitespace-nowrap pointer-events-none absolute bottom-1.5 right-1.5 rounded-full bg-ink-900/55 px-1.5 py-0.5 text-[9px] font-medium leading-none text-paper-100 backdrop-blur-sm"
+      className="whitespace-nowrap pointer-events-none absolute bottom-1.5 right-1.5 rounded-full bg-ink-900/55 px-1.5 py-0.5 text-[11px] font-medium leading-none text-paper-100 backdrop-blur-sm"
       aria-hidden="true"
     >
       {label}

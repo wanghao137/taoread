@@ -640,7 +640,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
       <div style={{ marginTop: 10 }}>{listArea()}</div>
 
       {(source === 'tao' || source === 'blocked') && (
-        <p className="mono-line" style={{ marginTop: 12, fontSize: 11, lineHeight: 1.7 }}>
+        <p className="mono-line" style={{ marginTop: 12, fontSize: 12, lineHeight: 1.7 }}>
           屏蔽后，孩子端会立刻隐藏这本书，且不会有任何提示——孩子不会感到被否定。
         </p>
       )}

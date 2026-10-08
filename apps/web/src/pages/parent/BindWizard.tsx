@@ -52,7 +52,7 @@ export function BindWizard({ familyId, token, onBound }: BindWizardProps) {
           <p>第一步：在自己手机上打开「微信读书」App → 我 → 设置</p>
           <p style={{ marginTop: 6 }}>第二步：找到「账号与安全」里的 API Key（需要先开启）</p>
           <p style={{ marginTop: 6 }}>第三步：复制 wrk- 开头的钥匙，回到这里粘贴</p>
-          <p className="mono-line" style={{ marginTop: 8, fontSize: 11, lineHeight: 1.7 }}>
+          <p className="mono-line" style={{ marginTop: 8, fontSize: 12, lineHeight: 1.7 }}>
             API Key 加密保存到家庭账户，仅用于连接微信读书；页面只显示尾四位。
           </p>
           <button type="button" className="sticker-btn primary block" style={{ marginTop: 14 }} onClick={() => setStep(2)}>

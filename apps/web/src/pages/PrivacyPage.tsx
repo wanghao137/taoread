@@ -55,7 +55,7 @@ export function PrivacyPage() {
             <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
           <h1>隐私政策</h1>
-          <p className="mono-line" style={{ fontSize: 11 }}>
+          <p className="mono-line" style={{ fontSize: 12 }}>
             版本 {PRIVACY_VERSION}
           </p>
         </header>
@@ -69,7 +69,7 @@ export function PrivacyPage() {
             ))}
           </div>
         ))}
-        <p className="mono-line" style={{ textAlign: 'center', fontSize: 11 }}>
+        <p className="mono-line" style={{ textAlign: 'center', fontSize: 12 }}>
           有问题请直接联系搭建这个服务的大人（自部署，联系渠道由部署者提供）
         </p>
         <button type="button" className="sticker-btn primary block" onClick={() => window.history.back()}>

@@ -23,7 +23,7 @@ export function ChildPicker({
             <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
           <h1>今天是谁的故事时间？</h1>
-          <p className="mono-line" style={{ fontSize: 11 }}>
+          <p className="mono-line" style={{ fontSize: 12 }}>
             点点你的名字，故事就开始啦
           </p>
         </header>
