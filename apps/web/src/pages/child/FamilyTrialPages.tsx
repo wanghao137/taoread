@@ -1,4 +1,5 @@
-import { readerTheme, readerFont, writePreference } from '../../lib/storage'
+import { readerTheme, readerFont, writePreference, readPreference } from '../../lib/storage'
+import { usePagedReading } from '../../lib/pagedReading'
 import { Dialog } from '../../components/ui/Dialog'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -179,6 +180,15 @@ export function FamilyReaderPage() {
   useEffect(() => { writePreference('taoread-reader-theme', theme) }, [theme])
   useEffect(() => { writePreference('taoread-reader-font', font) }, [font])
 
+  /* ── docs/41 修复 3：翻页模式（与主阅读器共用偏好键与 usePagedReading） ── */
+  const [pageMode, setPageMode] = useState<'scroll' | 'page'>(() => {
+    const saved = readPreference<'scroll' | 'page'>('taoread-reader-pagemode', typeof window !== 'undefined' && window.innerWidth <= 760 ? 'page' : 'scroll')
+    return saved === 'page' ? 'page' : 'scroll'
+  })
+  useEffect(() => { writePreference('taoread-reader-pagemode', pageMode) }, [pageMode])
+  const articleRef = useRef<HTMLElement | null>(null)
+  const pagerAnchorRef = useRef<HTMLElement | null>(null)
+
   const blocks = useMemo(() => (chapter ? parseBlocks(chapter.text) : []), [chapter])
   // 字级定位在 rAF 回调里读块表：提交后再写 ref，不违反渲染期不可写 ref 约束
   useLayoutEffect(() => {
@@ -239,19 +249,27 @@ export function FamilyReaderPage() {
     }
   }
 
-  // 续读定位：章节打开后滚到上次读到的块
+  // 续读定位：章节打开后定位到上次读到的块（滚动=scrollIntoView；翻页=设锚后跳所在页——
+  // 对抗审查 P1：scrollIntoView 会横向滚动 overflow:hidden 的分页视口造成双重偏移）
   const resumedRef = useRef('')
   useEffect(() => {
     if (!chapter || !progress || progress.order !== Number(order) || progress.offset <= 0) return
-    const key = `${id}:${order}:${chapter.text.length}`
+    const key = `${id}:${order}:${chapter.text.length}:${pageMode}`
     if (resumedRef.current === key) return
     resumedRef.current = key
     const target = blocks.find((block) => block.kind === 'p' && block.cleanStart + block.cleanLen >= progress.offset) ?? blocks[blocks.length - 1]
     if (target) {
-      const element = blocksRef.current?.querySelector(`[data-block="${blocks.indexOf(target)}"]`)
-      element?.scrollIntoView({ block: 'center' })
+      const element = blocksRef.current?.querySelector<HTMLElement>(`[data-block="${blocks.indexOf(target)}"]`)
+      if (!element) return
+      if (pageMode === 'page') {
+        pagerAnchorRef.current = element
+        pager.goToElement(element)
+      } else {
+        element.scrollIntoView({ block: 'center' })
+      }
     }
-  }, [chapter, progress, order, id, blocks])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapter, progress, order, id, blocks, pageMode])
 
   // 自动记进度：滚动停下 2 秒后，取视口顶部可见块的字符位置
   function onScroll() {
@@ -267,6 +285,31 @@ export function FamilyReaderPage() {
       if (offset > 0) void save(offset)
     }, 2000)
   }
+
+  /* ── 翻页模式：手势/页码/章界（docs/41）；进度=当前页首块的 cleanStart ── */
+  const pager = usePagedReading({
+    enabled: pageMode === 'page' && Boolean(order),
+    viewportRef: articleRef,
+    trackRef: blocksRef,
+    anchorRef: pagerAnchorRef,
+    recalcKey: `${id}:${order}:${font}:${theme}:${chapter?.text.length ?? 0}`,
+    onNext: () => { if (chapterOrder < (book?.chapters.length ?? 0)) navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder + 1}`) },
+    onPrev: () => { if (chapterOrder > 1) navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder - 1}`) },
+  })
+  // 翻页进度上报（scroll 模式走 onScroll 节流，这里翻页即存当前页首块位置）
+  const lastPageSaveRef = useRef(0)
+  useEffect(() => {
+    if (pageMode !== 'page' || !chapter || !blocksRef.current) return
+    const now = Date.now()
+    if (now - lastPageSaveRef.current < 3000) return
+    lastPageSaveRef.current = now
+    const els = Array.from(blocksRef.current.querySelectorAll<HTMLElement>('[data-block][data-clean-start]'))
+    const idx = pager.firstVisibleIndex(els)
+    pagerAnchorRef.current = els[idx] ?? null
+    const offset = Number(els[idx]?.dataset.cleanStart ?? 0)
+    if (offset > 0) void save(offset)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pager.page, pageMode, chapter])
 
   // 朗读播放器（ref 控制器）：SSE 逐段拉取 → 顺序播放；段落高亮区间 = 当前段在「剔除标记后文本」中的范围。
   // 段由整行组成，段起点 = Σ前面各段(长度+1)——每段末行在全文里后随一个换行符（segmentStarts）。
@@ -419,6 +462,7 @@ export function FamilyReaderPage() {
   }
 
   // 朗读跟随滚动：正在读的块滚到视野中央（字级定位优先，无字级时间轴时回退段区间首块）；只在块切换时滚
+  // 翻页模式（docs/41）：跳到该块所在页，不滚动
   const scrolledBlockRef = useRef(-1)
   useEffect(() => {
     const container = blocksRef.current
@@ -432,9 +476,14 @@ export function FamilyReaderPage() {
     const element = container.querySelector<HTMLElement>(`[data-block="${targetIndex}"]`)
     if (!element) return
     scrolledBlockRef.current = targetIndex
+    if (pageMode === 'page') {
+      pager.goToElement(element)
+      return
+    }
     const rect = element.getBoundingClientRect()
     if (rect.top < 0 || rect.bottom > window.innerHeight) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
-  }, [playingChar, speakingRange])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playingChar, speakingRange, pageMode])
 
   const tocGroups = useMemo(() => {
     const groups: Array<{ label: string | null; chapters: Array<{ order: number; title: string }> }> = []
@@ -475,6 +524,7 @@ export function FamilyReaderPage() {
           <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} aria-label="切换阅读主题" onClick={() => setTheme(theme === 'paper' ? 'sepia' : theme === 'sepia' ? 'night' : 'paper')}>{theme === 'paper' ? '☀' : theme === 'sepia' ? '📜' : '🌙'}</button>
           <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setFont((value) => Math.max(18, value - 2))}>A-</button>
           <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setFont((value) => Math.min(30, value + 2))}>A+</button>
+          <button className="sticker-btn" aria-pressed={pageMode === 'page'} style={{ minHeight: 44, fontSize: 14, ...(pageMode === 'page' ? { background: 'var(--sun)' } : {}) }} onClick={() => setPageMode((m) => (m === 'page' ? 'scroll' : 'page'))}>{pageMode === 'page' ? '翻页中' : '滚动中'}</button>
           <button className="sticker-btn primary" style={{ minHeight: 44, fontSize: 14 }} onClick={togglePlay}>{tts === 'loading' ? '准备中…' : tts === 'playing' ? '⏸ 暂停朗读' : tts === 'paused' ? '▶ 继续朗读' : '▶ 朗读本章'}</button>
         </div>
         {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
@@ -486,19 +536,39 @@ export function FamilyReaderPage() {
             </div>)}
           </div>
         </Dialog>}
-        <article className="panel" onScroll={onScroll} style={{ background: ink.bg, color: ink.fg, lineHeight: 2, overflowWrap: 'anywhere', padding: '20px 24px', maxHeight: 'calc(100dvh - 220px)', overflowY: 'auto' }}>
-          <div ref={blocksRef}>
+        <article
+          ref={articleRef}
+          className="panel"
+          onScroll={pageMode === 'scroll' ? onScroll : undefined}
+          style={{
+            background: ink.bg, color: ink.fg, lineHeight: 2, overflowWrap: 'anywhere',
+            padding: pageMode === 'page' ? '20px 20px 8px' : '20px 24px',
+            maxHeight: pageMode === 'page' ? 'none' : 'calc(100dvh - 220px)',
+            height: pageMode === 'page' ? 'calc(100dvh - 168px)' : undefined,
+            overflow: pageMode === 'page' ? 'hidden' : 'auto',
+            position: 'relative',
+            // 对抗审查 P1：翻页模式用 flex 列布局——track 弹性占满、
+            // 「上一章/读完本章/下一章」保持在视口内可达（此前被 overflow 裁掉）
+            ...(pageMode === 'page' ? { display: 'flex', flexDirection: 'column' as const } : {}),
+          }}
+        >
+          <div ref={blocksRef} className={pageMode === 'page' ? 'pager-track' : undefined} style={pageMode === 'page' ? { flex: 1, minHeight: 0 } : undefined}>
             <h2 style={{ fontSize: Math.round(font * 1.25) }}>{chapter?.title ?? '正在打开章节…'}</h2>
-            {artUrl && <div style={{ margin: '0 0 14px' }}><img src={artUrl} alt="" style={{ width: '100%', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div>}
+            {artUrl && <div style={{ margin: '0 0 14px' }}><div style={{ aspectRatio: '16 / 9' }}><img src={artUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>}
             {blocks.map((block, index) => block.kind === 'img'
-              ? <div key={index} data-block={index} style={{ margin: '14px 0' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div>
+              ? <div key={index} data-block={index} style={{ margin: '14px 0' }}><div style={{ aspectRatio: '4 / 3' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>
               : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: (playingChar && playingChar.index === index) || (speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start) ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{playingChar && playingChar.index === index ? renderReadingChars(block.text, playingChar.localChar) : block.text}</p>)}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
             <button disabled={chapterOrder <= 1} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder - 1}`)}>上一章</button>
             <button onClick={() => { const lastText = [...blocks].reverse().find((block) => block.kind === 'p'); void save(lastText ? lastText.cleanStart + lastText.cleanLen : 0, chapterOrder === chapterTotal) }}>读完本章</button>
             <button disabled={chapterOrder >= chapterTotal} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder + 1}`)}>下一章</button>
           </div>
+          {pageMode === 'page' ? (
+            <div className="pager-indicator" style={{ background: ink.bg, color: ink.fg, borderColor: ink.fg }}>
+              {pager.page + 1} / {pager.pageCount}
+            </div>
+          ) : null}
         </article>
       </div>}
   </>

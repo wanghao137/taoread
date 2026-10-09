@@ -842,10 +842,22 @@ function DiscoverPage() {
   // （无参数）自然清掉旧筛选，不再出现" mood 卡在旧值"
   const [searchParams, setSearchParams] = useSearchParams()
   const moodKey = searchParams.get('mood')
-  const setMoodKey = (key: string | null) => {
+  // docs/41：书单收纳入口的展开态
+  const [collectionsOpen, setCollectionsOpen] = useState(false)
+  // docs/41 修复 1 根因：chip 点击要同时清/设多个条件，若连续两次 setSearchParams，
+  // 第二次会用本渲染的旧 searchParams 快照构建参数，把第一次写入的 mood 覆盖掉——
+  // 这正是「想笑一笑点了没反应」的真凶。所有 chip 一律走 applyFilters 一次成型。
+  const applyFilters = (patch: { mood?: string | null; collection?: string | null; lang?: 'all' | 'zh' | 'en' }) => {
     const next = new URLSearchParams(searchParams)
-    if (key) next.set('mood', key)
-    else next.delete('mood')
+    if (patch.mood !== undefined) {
+      if (patch.mood) next.set('mood', patch.mood)
+      else next.delete('mood')
+    }
+    if (patch.collection !== undefined) {
+      if (patch.collection) next.set('collection', patch.collection)
+      else next.delete('collection')
+    }
+    if (patch.lang !== undefined) setLangFilter(patch.lang)
     setSearchParams(next, { replace: true })
   }
   const [query, setQuery] = useState('')
@@ -879,11 +891,16 @@ function DiscoverPage() {
       .catch(() => { if (alive) setCollectionError(true) })
     return () => { alive = false }
   }, [collectionKey, token, childId, collectionRetry])
-  const setCollectionKey = (key: string | null) => {
-    const next = new URLSearchParams(searchParams)
-    if (key) next.set('collection', key)
-    else next.delete('collection')
-    setSearchParams(next, { replace: true })
+  // docs/41 修复 1b：筛选激活时的醒目结果条（放 collectionKey 声明后防 TDZ）
+  const activeFilter = useMemo(() => {
+    const mood = MOODS.find((m) => m.key === moodKey)
+    if (mood) return { label: mood.label }
+    const coll = collections.find((c) => c.id === collectionKey)
+    if (coll) return { label: `书单 · ${coll.title}` }
+    return null
+  }, [moodKey, collections, collectionKey])
+  const clearAllFilters = () => {
+    applyFilters({ mood: null, collection: null, lang: 'all' })
   }
   // Phase 5：≥2 字走服务端搜索（含章节标题命中，审计 A4「后端章节搜索被 V8 丢失」）
   const searchSeq = useRef(0)
@@ -929,7 +946,16 @@ function DiscoverPage() {
         {collectionError ? '书单未加载成功。' : '书单正在加载…'}
         {collectionError && <button className="sticker-btn" onClick={() => setCollectionRetry((n) => n + 1)}>重试书单</button>}
       </p>}
-      <p role="status" className="mono-label">当前找到 {filtered.length} 本；分类、语言、搜索与书单可组合筛选。</p>
+      <p role="status" className="mono-label">当前找到 {filtered.length} 本。</p>
+      {/* docs/41 修复 1b：筛选激活时的醒目结果条（含本数与一键清除）——
+          此前唯一的反馈是一行 mono 小字，筛选结果前几屏视觉几乎不变，用户感知为「不生效」 */}
+      {activeFilter ? (
+        <div className="filter-active" role="status">
+          <b>已选：{activeFilter.label}</b>
+          <span>{filtered.length} 本</span>
+          <button className="sticker-btn sm" onClick={clearAllFilters}>✕ 换换</button>
+        </div>
+      ) : null}
       <div className="search-wrap">
         <input
           id="shelf-search"
@@ -953,10 +979,9 @@ function DiscoverPage() {
         <button
           className={`filter ${!moodKey && langFilter === 'all' && !collectionKey ? 'on' : ''}`}
           aria-pressed={!moodKey && langFilter === 'all' && !collectionKey}
-          onClick={() => {
-            setMoodKey(null)
-            setLangFilter('all')
-            setCollectionKey(null)
+          onClick={(e) => {
+            applyFilters({ mood: null, collection: null, lang: 'all' })
+            e.currentTarget.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
           }}
         >
           {LABELS.all}
@@ -966,58 +991,51 @@ function DiscoverPage() {
             key={m.key}
             className={`filter ${moodKey === m.key ? 'on' : ''}`}
             aria-pressed={moodKey === m.key}
-            onClick={() => {
-              setMoodKey(m.key)
-              setLangFilter('all')
-              setCollectionKey(null)
+            onClick={(e) => {
+              applyFilters({ mood: moodKey === m.key ? null : m.key, collection: null, lang: 'all' })
+              // docs/41 修复 1b：选中后把 chip 滚进可视区——横滑容器里点右侧 chip，
+              // 选中态若停在视口外，用户以为没反应
+              e.currentTarget.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
             }}
           >
             {m.label}
           </button>
         ))}
-        {/* docs/34 P0-8：语言筛选此前是死状态（state 存在但没有按钮）——激活它 */}
+        {/* docs/41 整合：书单收进收纳入口（原 5 枚书单 chips 平铺 + 语言 chips 已撤，13→7） */}
         <button
-          className={`filter ${langFilter === 'zh' ? 'on' : ''}`}
-          aria-pressed={langFilter === 'zh'}
-          onClick={() => {
-            setMoodKey(null)
-            setLangFilter('zh')
-            setCollectionKey(null)
-          }}
+          className={`filter with-icon ${collectionKey ? 'on' : ''}`}
+          aria-haspopup="dialog"
+          aria-expanded={collectionsOpen}
+          onClick={() => setCollectionsOpen(true)}
         >
-          中文
-        </button>
-        <button
-          className={`filter ${langFilter === 'en' ? 'on' : ''}`}
-          aria-pressed={langFilter === 'en'}
-          onClick={() => {
-            setMoodKey(null)
-            setLangFilter('en')
-            setCollectionKey(null)
-          }}
-        >
-          英文
+          <img className="chip-icon" src="/icons/collections/bedtime-poems.webp" alt="" loading="lazy" />
+          书单 ▾
         </button>
       </div>
-      {collections.length > 0 ? (
-        <div className="filter-row" aria-label="主题书单">
-          {collections.map((c) => (
-            <button
-              key={c.id}
-              className={`filter with-icon ${collectionKey === c.id ? 'on' : ''}`}
-              aria-pressed={collectionKey === c.id}
-              title={c.subtitle}
-              onClick={() => {
-                setMoodKey(null)
-                setLangFilter('all')
-                setCollectionKey(collectionKey === c.id ? null : c.id)
-              }}
-            >
-              <img className="chip-icon" src={`/icons/collections/${c.id}.webp`} alt="" loading="lazy" />
-              {c.title}
-            </button>
-          ))}
-        </div>
+      {collectionsOpen ? (
+        <Dialog label="主题书单" onClose={() => setCollectionsOpen(false)}>
+          <div className="collect-sheet">
+            <p className="mono-label">按主题挑书，再点一下就可以取消</p>
+            {collections.map((c) => (
+              <button
+                key={c.id}
+                className={`collect-option ${collectionKey === c.id ? 'on' : ''}`}
+                aria-pressed={collectionKey === c.id}
+                onClick={() => {
+                  applyFilters({ mood: null, collection: collectionKey === c.id ? null : c.id, lang: 'all' })
+                  setCollectionsOpen(false)
+                }}
+              >
+                <img src={`/icons/collections/${c.id}.webp`} alt="" loading="lazy" />
+                <span className="collect-text">
+                  <b>{c.title}</b>
+                  <small>{c.subtitle} · {c.total} 本</small>
+                </span>
+                {collectionKey === c.id ? <em>已选</em> : null}
+              </button>
+            ))}
+          </div>
+        </Dialog>
       ) : null}
       <div className="library">
         {!v.loaded ? (
@@ -1036,7 +1054,11 @@ function DiscoverPage() {
             </button>
           </div>
         ) : null}
-        {v.loaded && !v.booksError && filtered.length === 0 ? <p className="mono-label">没找到，换个词试试。</p> : null}
+        {/* docs/41 修复 1a：书单加载中（collectionBooks 未到）不算「没找到」——此前 1-3s
+            加载窗口先闪「没找到，换个词试试」，慢网用户以为书单坏了 */}
+        {v.loaded && !v.booksError && filtered.length === 0 && !(collectionKey && !collectionBooks && !collectionError) ? (
+          <p className="mono-label">{collectionKey ? '这份书单里暂时没有适合你的书。' : '没找到，换个词试试。'}</p>
+        ) : null}
         {filtered.slice(0, visible).map((b) => (
           <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />
         ))}

@@ -391,6 +391,8 @@ test.describe('审计整改回归', () => {
     expect(seeded.ok()).toBeTruthy()
 
     await loginAsChild(page, '小桃')
+    // docs/41：移动端默认翻页模式（main 不滚动），本用例测滚动语义——显式注入滚动偏好
+    await page.evaluate(() => localStorage.setItem('taoread-reader-pagemode', JSON.stringify('scroll')))
     await openDetail(page, '成语故事·动物篇')
     await startReading(page, '成语故事·动物篇')
 

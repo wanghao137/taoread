@@ -29,6 +29,12 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:focus-visib
 @media(max-width:760px){.wrap{padding:20px 16px 96px}.mast{margin-bottom:22px}.logo{width:44px;height:44px}.brand h1{font-size:23px}.mast-actions .sticker-btn:not(.primary){display:none}.layout{display:block}.side{display:none}.page-head h2{font-size:30px}.hero-grid{grid-template-columns:1fr 118px}.hero-title{font-size:30px}.metrics{gap:10px}.metric{padding:13px}.metric strong{font-size:23px}.story-row,.library{grid-template-columns:repeat(2,1fr)}.detail-grid{grid-template-columns:120px 1fr;gap:18px}.detail-title{font-size:28px}.info-stickers{grid-template-columns:1fr}.info:nth-child(n){transform:none}.mobile-nav{position:fixed;left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--paper);border:var(--border);border-radius:999px;box-shadow:var(--shadow);padding:6px;z-index:40}.mobile-nav button{min-height:44px;min-width:0;border:0;border-radius:999px;background:transparent;font-family:var(--display);font-weight:700;font-size:13px;padding:4px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-nav button.on{background:var(--sun);border:1.5px solid var(--ink)}.reader-body{padding-top:30px}.reader-body h2{font-size:30px}}
 @media(min-width:1100px){.story-row,.library{grid-template-columns:repeat(4,1fr)}}
 .reader.night .reader-controls{box-shadow:4px 4px 0 rgba(246,237,220,.22)}
+/* docs/41 修复 3：翻页模式（columns 分页 + translateX 切页） */
+.pager-track{column-fill:auto;overflow:visible;will-change:transform}
+.reader-tail-nav{width:min(640px,calc(100% - 36px));margin-left:auto;margin-right:auto}
+.pager-track>*{break-inside:auto}
+.pager-track .reader-art,.pager-track figure,.pager-track .reader-label,.pager-track h2{break-inside:avoid}
+.pager-indicator{position:absolute;right:14px;bottom:14px;z-index:8;font-family:var(--mono);font-size:12px;font-weight:700;background:var(--card);border:1.5px solid var(--ink);border-radius:999px;padding:4px 10px;box-shadow:2px 2px 0 var(--ink);pointer-events:none;transition:opacity .2s}
 .reader.night .settings{box-shadow:6px 6px 0 rgba(246,237,220,.18)}
 .reader.night .reader-controls button,.reader.night .settings button{box-shadow:2px 2px 0 rgba(246,237,220,.25)}
 @media(max-width:460px){.hero{padding:20px 18px 22px}.hero-grid{grid-template-columns:1fr 92px;gap:14px}.hero-title{font-size:26px}.hero-copy{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.hero-actions .sticker-btn{font-size:13px;padding:9px 12px}.metrics{grid-template-columns:repeat(3,1fr)}.metric span{font-size:11px}.metric strong{font-size:20px}.story-row,.library{grid-template-columns:repeat(2,1fr);gap:12px}.story-meta b{font-size:14px}.section{padding-top:38px}.section-head{display:block}.section-head p{margin-top:3px}.detail-grid{grid-template-columns:100px 1fr}.detail-title{font-size:24px}.reader-art{height:190px}.finish-stats{gap:8px}.finish-stats b{font-size:18px}.mobile-nav{gap:3px;left:6px;right:6px}.mobile-nav button{font-size:12px;min-height:44px}}
@@ -152,6 +158,20 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 /* 书单 chips：生图小图标 */
 .filter.with-icon{display:inline-flex;align-items:center;gap:6px;padding-left:9px}
 .chip-icon{width:22px;height:22px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--card);border:1px solid rgba(38,32,26,.18)}
+/* docs/41：筛选激活结果条（醒目反馈，替代此前只有一行 mono 小字） */
+.filter-active{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--sun);padding:10px 14px;margin:14px 0 4px;transform:rotate(-.4deg)}
+.filter-active b{font-family:var(--display);font-size:16px}
+.filter-active span{font-family:var(--mono);font-size:13px;color:var(--ink2);font-weight:700}
+.filter-active .sticker-btn.sm{margin-left:auto;min-height:40px}
+/* docs/41：书单收纳面板 */
+.collect-sheet{max-width:520px;width:100%;display:flex;flex-direction:column;gap:10px}
+.collect-option{display:flex;align-items:center;gap:12px;border:var(--border);border-radius:14px;box-shadow:var(--shadow-sm);background:var(--card);padding:12px;text-align:left;min-height:64px}
+.collect-option.on{background:var(--sun)}
+.collect-option img{width:44px;height:44px;border-radius:12px;object-fit:cover;border:1.5px solid var(--ink);flex-shrink:0}
+.collect-option .collect-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.collect-option b{font-family:var(--display);font-size:16px}
+.collect-option small{font-size:12px;color:var(--ink2)}
+.collect-option em{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
 /* 移动端：tabs 与 filter 行横滑不换行（5 tab/多 chips 不再挤成多行） */
 @media(max-width:760px){
   .tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}

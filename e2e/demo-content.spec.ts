@@ -81,6 +81,9 @@ test.describe('v8 贴纸绘本孩子端', () => {
 
     // 进阅读器
     await page.getByRole('button', { name: /开始读|继续读/ }).first().click()
+    // docs/41：防脏会话级联（前序用例未收尾时弹 409 冲突浮层）——结束旧书改读这本
+    const conflict = page.getByRole('button', { name: /结束旧书，?改读这本/ })
+    if (await conflict.isVisible().catch(() => false)) await conflict.click()
     await expect(page.getByText(/第 \d+ 章/).first()).toBeVisible()
     await expect(page.getByRole('button', { name: /朗读本章|停止朗读/ })).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-reader.png', fullPage: true })

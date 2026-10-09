@@ -22,6 +22,7 @@ import { PoemRuby } from '../../components/art/PoemRuby'
 import { Dialog } from '../../components/ui/Dialog'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
+import { usePagedReading } from '../../lib/pagedReading'
 import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
@@ -203,6 +204,22 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [savedBlocks, setSavedBlocks] = useState<Set<number>>(new Set())
   /* ── docs/40 F1：划线回显——bookId 级「章→块」映射，重进章节 ✒️ 不丢 ── */
   const highlightsByChapter = useRef<Map<number, Set<number>>>(new Map())
+
+  /* ── docs/41 修复 3：翻页/滚动阅读模式（移动端默认翻页，PC 默认滚动；偏好持久化） ── */
+  const [pageMode, setPageMode] = useState<'scroll' | 'page'>(() => {
+    const saved = loadPref<'scroll' | 'page'>('taoread-reader-pagemode', typeof window !== 'undefined' && window.innerWidth <= 760 ? 'page' : 'scroll')
+    return saved === 'page' ? 'page' : 'scroll'
+  })
+  useEffect(() => { savePref('taoread-reader-pagemode', pageMode) }, [pageMode])
+  const pagerViewportRef = useRef<HTMLDivElement | null>(null)
+  const pagerTrackRef = useRef<HTMLDivElement | null>(null)
+  const pagerAnchorRef = useRef<HTMLElement | null>(null)
+  /* 跨 effect 的稳定引用：定位 effect（定义在 pager 之前）运行时取最新 pager/pageMode */
+  const pageModeRef = useRef(pageMode)
+  pageModeRef.current = pageMode
+  const pagerRef = useRef<ReturnType<typeof usePagedReading> | null>(null)
+  /** 滚动模式章内进度（0-100，细条显示） */
+  const [scrollPct, setScrollPct] = useState(0)
   const longPressRef = useRef(false)
   const pressTimerRef = useRef<number | null>(null)
   /** 书签（P1-11；本机 localStorage，跨章持久） */
@@ -492,7 +509,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       alive = false
     }
     // book.id 变化=换书重拉；order 由下方 [order] effect 回填
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childId, token, book.id])
 
   useEffect(() => {
@@ -618,6 +634,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     const mainEl = mainRef.current
     if (!mainEl) return
     const onScroll = () => {
+      const mainEl = mainRef.current
+      // docs/41 修复 4：滚动模式的章内进度细条（翻页模式由页码指示承担）
+      if (mainEl) {
+        const denom = mainEl.scrollHeight - mainEl.clientHeight
+        setScrollPct(denom > 0 ? Math.min(100, Math.max(0, (mainEl.scrollTop / denom) * 100)) : 0)
+      }
       const ch = chapterRef.current
       if (!ch || !childId || !token) return
       const now = Date.now()
@@ -643,7 +665,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return () => mainEl.removeEventListener('scroll', onScroll)
   }, [chapter, childId, token, order, book.id, persistProgress])
 
-  /* ── 进入章节按已存 blockOrder 滚动定位（消费 restoredBlockRef 一次） ── */
+  /* ── 进入章节按已存 blockOrder 定位（消费 restoredBlockRef 一次）──
+      滚动模式：scrollIntoView；翻页模式：设 pager 锚点后跳所在页（对抗审查 P1-2：
+      scrollIntoView 会横向滚动 overflow:hidden 的分页视口，与 translateX 双重偏移） ── */
   useEffect(() => {
     if (!chapter) return
     const want = restoredBlockRef.current
@@ -656,13 +680,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         const hit = blocks[Math.min(want, blocks.length - 1)]
         const el = hit ? blockRefs.current.get(hit.id) : null
         if (el) {
-          el.scrollIntoView({ behavior: 'instant', block: 'start' })
+          if (pageModeRef.current === 'page') {
+            pagerAnchorRef.current = el
+            pagerRef.current?.goToElement(el)
+          } else {
+            el.scrollIntoView({ behavior: 'instant', block: 'start' })
+          }
           return
         }
       }
-      mainEl.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+      if (pageModeRef.current === 'scroll') mainEl.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     })
     return () => cancelAnimationFrame(raf)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapter])
 
   /* ── 朗读当前章：服务端优先，不可用回退 Web Speech ── */
@@ -839,12 +869,12 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return hit?.id ?? null
   }, [highlight, chapter, effectiveHighlight, activeRange])
 
-  // 朗读的块滚动进视野（只在块切换时滚，不逐字打断）
+  // 朗读的块滚动进视野（只在块切换时滚，不逐字打断；翻页模式由 pager 跳页）
   useEffect(() => {
-    if (!speakingBlockId) return
+    if (!speakingBlockId || pageMode === 'page') return
     const el = blockRefs.current.get(speakingBlockId)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }, [speakingBlockId])
+  }, [speakingBlockId, pageMode])
 
   /** 逐字档：当前字加粗、已读略淡（靠字重与透明度，色盲友好） */
   function renderSpeakingChars(text: string, blockId?: string): ReactNode {
@@ -907,6 +937,57 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   )
   // 键盘翻章 effect 在 goChapter 定义之前挂载，用 ref 取最新实现
   const goChapterRef = useRef<(target: number) => void>(() => undefined)
+
+  /* ── docs/41 修复 3：翻页模式（手势/页码/朗读联动/进度上报/续读定位） ── */
+  const persistProgressNow = useCallback((blockOrder: number) => {
+    if (!childId || !token) return
+    const now = Date.now()
+    const payload = { chapterOrder: order, blockOrder }
+    // 即便被 5s 节流拦下也先记 unsavedRef：翻页模式没有持续的 scroll 事件补报，
+    // 离开页面（pagehide）的 flush 兜底以 unsavedRef 为准（对抗审查 R3：单次翻页
+    // 若落在进入即报的节流窗内，位置会被静默丢弃导致续读回退到第 1 页）
+    unsavedRef.current = payload
+    if (now - lastReport.current < 5000) return
+    lastReport.current = now
+    void persistProgress(payload)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [childId, token, order, persistProgress])
+
+  const pager = usePagedReading({
+    enabled: pageMode === 'page',
+    viewportRef: pagerViewportRef,
+    trackRef: pagerTrackRef,
+    anchorRef: pagerAnchorRef,
+    recalcKey: `${book.id}:${order}:${font}:${lineHeight}:${fontFamily}:${theme}:${chapter?.id ?? ''}`,
+    onNext: () => { if (order < book.chapterCount) goChapterRef.current(order + 1) },
+    onPrev: () => { if (order > 1) goChapterRef.current(order - 1) },
+    onCenterTap: () => setFocused((f) => !f),
+    onPageSettled: () => {
+      const els = (chapter?.blocks ?? []).map((b) => blockRefs.current.get(b.id) ?? null)
+      const idx = pager.firstVisibleIndex(els)
+      // 锚点随页更新：重排（字号/主题）后保持当前页
+      pagerAnchorRef.current = els[idx] ?? null
+      persistProgressNow(idx)
+    },
+  })
+
+  // 朗读高亮块自动翻页（滚动模式走 scrollIntoView，翻页模式跳所在页）
+  useEffect(() => {
+    if (pageMode !== 'page' || !speakingBlockId) return
+    pager.goToElement(blockRefs.current.get(speakingBlockId) ?? null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speakingBlockId, pageMode, order])
+
+  // 新章渲染：翻页模式清锚（定位由上方「按已存 blockOrder 定位」effect 统一消费；
+  // 此前这里有第二套 restoredBlockRef 消费，但注册顺序在后面读到的恒为 0=死代码）
+  useEffect(() => {
+    if (pageMode === 'page') pagerAnchorRef.current = null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageMode, chapter?.id])
+
+  useEffect(() => {
+    pagerRef.current = pager
+  })
   goChapterRef.current = goChapter
 
   /* ── 暂停/继续（docs/34 P0-5）：双引擎安全——各自在不活跃时是空操作 ── */
@@ -1248,18 +1329,43 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         </span>
       </header>
 
-      {/* ── 正文（点击留白切专注模式；本容器是进度上报的 scroll 事件源） ── */}
-      <main ref={mainRef} onClick={toggleFocus} style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
-        <div className="reader-body">
-          <div className="reader-label">
-            第 {order} 章 / 共 {book.chapterCount} 章
+      {/* ── 正文 ──
+          滚动模式：main 是进度上报的 scroll 事件源，点击留白切专注模式。
+          翻页模式（docs/41）：main 不滚动；.reader-body 变分页视口，内层 .pager-track
+          按列分页、translateX 切页，手势由 usePagedReading 接管（点中间=呼出/隐藏工具条）。 ── */}
+      <main
+        ref={mainRef}
+        {...(pageMode === 'scroll' ? { onClick: toggleFocus } : {})}
+        style={pageMode === 'scroll' ? { flex: 1, minHeight: 0, overflowY: 'auto' } : { flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+      >
+        {pageMode === 'scroll' ? (
+          <div aria-hidden style={{ position: 'sticky', top: 0, zIndex: 4, height: 3, background: 'rgba(38,32,26,.12)', borderRadius: 2 }}>
+            <div style={{ width: `${scrollPct}%`, height: '100%', background: 'var(--accent)', borderRadius: 2, transition: 'width .15s' }} />
           </div>
-          <h2>{chapter?.title}</h2>
+        ) : null}
+        <div
+          className="reader-body"
+          ref={pagerViewportRef}
+          style={
+            pageMode === 'page'
+              ? { width: '100%', maxWidth: 'none', margin: 0, padding: '18px 20px 12px', height: '100%', minHeight: 0, flex: 1, overflow: 'hidden', display: 'block' }
+              : undefined
+          }
+        >
+          <div
+            className={pageMode === 'page' ? 'pager-track' : undefined}
+            ref={pagerTrackRef}
+            style={pageMode === 'page' ? { fontSize: font, lineHeight, height: '100%', ...(fontFamily === 'sans' ? { fontFamily: SANS_STACK } : {}) } : undefined}
+          >
+            <div className="reader-label">
+              第 {order} 章 / 共 {book.chapterCount} 章
+            </div>
+            <h2>{chapter?.title}</h2>
 
-          {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
-              data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
-              fetchpriority=high（docs/35 A5）：题图是阅读器 LCP，优先于懒加载图块 */}
-          <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
+            {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
+                data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
+                fetchpriority=high（docs/35 A5）：题图是阅读器 LCP，优先于懒加载图块 */}
+            <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
@@ -1469,30 +1575,46 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               )
             })}
           </div>
-
-          {/* A8.3：上一章 / 下一章在正文尾部 */}
-          <nav style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 40 }}>
-            <button
-              className="sticker-btn"
-              disabled={order <= 1}
-              style={order <= 1 ? { opacity: 0.4, cursor: 'default' } : undefined}
-              onClick={() => goChapter(order - 1)}
-            >
-              {LABELS.prevChapter}
-            </button>
-            {isLastChapter ? (
-              <button className="sticker-btn primary" onClick={() => void openFinish()}>
-                {LABELS.finish}
-              </button>
-            ) : (
-              <button className="sticker-btn primary" onClick={() => goChapter(order + 1)}>
-                {LABELS.nextChapter}
-              </button>
-            )}
-          </nav>
+          </div>
         </div>
+        {/* A8.3：上一章 / 下一章按钮——位于分页流之外（滚动模式随正文滚动；翻页模式
+            固定在视口底部，与滑动手势互为补充，不占分页空间） */}
+        <nav
+          className="reader-tail-nav"
+          aria-hidden={focused}
+          {...(focused ? { inert: '' } : {})}
+          style={{
+            display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 12,
+            width: pageMode === 'page' ? '100%' : undefined,
+            padding: pageMode === 'page' ? '0 16px 8px' : undefined,
+            opacity: focused ? 0 : 1, pointerEvents: focused ? 'none' : undefined,
+            transition: 'opacity .2s',
+          }}
+        >
+          <button
+            className="sticker-btn"
+            disabled={order <= 1}
+            style={order <= 1 ? { opacity: 0.4, cursor: 'default' } : undefined}
+            onClick={() => goChapter(order - 1)}
+          >
+            {LABELS.prevChapter}
+          </button>
+          {isLastChapter ? (
+            <button className="sticker-btn primary" onClick={() => void openFinish()}>
+              {LABELS.finish}
+            </button>
+          ) : (
+            <button className="sticker-btn primary" onClick={() => goChapter(order + 1)}>
+              {LABELS.nextChapter}
+            </button>
+          )}
+        </nav>
+        {pageMode === 'page' ? (
+          <div className="pager-indicator" aria-hidden={focused} style={{ opacity: focused ? 0 : undefined }}>
+            {pager.page + 1} / {pager.pageCount}
+          </div>
+        ) : null}
       </main>
-
       {/* ── 底部控制条 ── */}
       <footer
         className="reader-controls"
@@ -1565,6 +1687,18 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             </button>
             <button aria-pressed={fontFamily === 'sans'} style={fontFamily === 'sans' ? { background: 'var(--sun)' } : undefined} onClick={() => setFontFamily('sans')}>
               黑体
+            </button>
+          </div>
+          {/* 阅读方式（docs/41 修复 3）：翻页=左右滑动的纸书手感；滚动适合 PC 与长文速读 */}
+          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
+            阅读方式
+          </p>
+          <div className="setting-row">
+            <button aria-pressed={pageMode === 'page'} style={pageMode === 'page' ? { background: 'var(--sun)' } : undefined} onClick={() => setPageMode('page')}>
+              左右翻页
+            </button>
+            <button aria-pressed={pageMode === 'scroll'} style={pageMode === 'scroll' ? { background: 'var(--sun)' } : undefined} onClick={() => setPageMode('scroll')}>
+              上下滚动
             </button>
           </div>
           <p className="mono-label" style={{ margin: '14px 0 8px' }}>
