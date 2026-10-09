@@ -13,11 +13,13 @@ let mediaDir: string
 let pngB64: string
 
 /** 假生图上游：延迟 60ms 返回小 PNG，统计出网次数 */
-function fakeUpstream() {
+function fakeUpstream(control?: { started: () => void; wait: Promise<void> }) {
   let calls = 0
   const fetchFn = (async () => {
     calls++
-    await new Promise((resolve) => setTimeout(resolve, 60))
+    control?.started()
+    if (control) await control.wait
+    else await new Promise((resolve) => setTimeout(resolve, 60))
     return new Response(JSON.stringify({ data: [{ b64_json: pngB64 }] }), {
       status: 200,
       headers: { 'content-type': 'application/json' },
@@ -100,7 +102,11 @@ describe('A3 生成并发去重与每日配额', () => {
 
   it('插画在途时视频跨域请求 409（家庭级互斥，不 join 别人的 Promise/reply）', async () => {
     clearInFlight()
-    const art = fakeUpstream()
+    let signalStarted!: () => void
+    let releaseArt!: () => void
+    const started = new Promise<void>((resolve) => { signalStarted = resolve })
+    const wait = new Promise<void>((resolve) => { releaseArt = resolve })
+    const art = fakeUpstream({ started: signalStarted, wait })
     const video = fakeVideoUpstream()
     h = await makeApp(undefined, {
       mediaDir,
@@ -111,13 +117,13 @@ describe('A3 生成并发去重与每日配额', () => {
     const family = await createFamilyAsParent(h.app, 'gen-cross-parent')
     token = family.token
     const artReq = generate('poster:cross')
-    await new Promise((resolve) => setTimeout(resolve, 15)) // 确保插画先进入家庭临界区
+    await started // 上游已开始且显式保持在途，避免慢机器上的 15ms 时间竞态。
     const videoRes = await h.app.inject({
       method: 'POST',
       url: '/api/video/generate',
       headers: authHeaders(token),
       payload: { scene: 'chapter:cross:1', description: '会动的睡前画面' },
-    })
+    }).finally(releaseArt)
     expect(videoRes.statusCode).toBe(409)
     expect(videoRes.json().code).toBe('GENERATION_BUSY')
     // 插画请求本身不受影响，正常完成

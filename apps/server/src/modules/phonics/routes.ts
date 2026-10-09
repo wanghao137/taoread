@@ -54,7 +54,7 @@ export function registerPhonicsRoutes(app: FastifyInstance, deps: { db: PrismaCl
     if (!lessonId) throw new ValidationError('请指定课程')
     if (!lessonById(lessonId)) throw new AppError('没有找到这节练习', 'LESSON_NOT_FOUND', 404)
     const attempt = await db.phonicsAttempt.findFirst({
-      where: { childId: request.params.childId, lessonId, status: 'started' },
+      where: { childId: request.params.childId, lessonId, status: { in: ['started', 'paused'] } },
       orderBy: { startedAt: 'desc' },
       include: { responses: { select: { itemId: true, correct: true } } },
     })
@@ -79,6 +79,16 @@ export function registerPhonicsRoutes(app: FastifyInstance, deps: { db: PrismaCl
     })
     if (attempt.lessonId !== lessonId) throw new AppError('练习编号已用于另一节课', 'ATTEMPT_CONFLICT', 409)
     return { attempt: { id: attempt.id, lessonId: attempt.lessonId, status: attempt.status } }
+  })
+  app.post<{ Params: { id: string } }>('/api/phonics/attempts/:id/resume', { preHandler: auth }, async (request) => {
+    const attempt = await db.phonicsAttempt.findUnique({ where: { id: request.params.id }, include: { child: { select: { familyId: true } } } })
+    if (!attempt || attempt.child.familyId !== request.auth?.fid) throw new AppError('没有找到这次练习', 'ATTEMPT_NOT_FOUND', 404)
+    await enabled(attempt.childId)
+    if (attempt.status === 'completed') throw new AppError('练习已结束', 'ATTEMPT_CLOSED', 409)
+    await db.phonicsAttempt.updateMany({ where: { id: attempt.id, status: 'paused' }, data: { status: 'started', finishedAt: null } })
+    const resumed = await db.phonicsAttempt.findUniqueOrThrow({ where: { id: attempt.id } })
+    if (resumed.status !== 'started') throw new AppError('练习已结束', 'ATTEMPT_CLOSED', 409)
+    return { id: resumed.id, status: resumed.status }
   })
   app.post<{ Params: { id: string } }>('/api/phonics/attempts/:id/responses', { preHandler: auth }, async (request) => {
     const { itemId, answerId } = parse(z.object({ itemId: z.string().min(1).max(60), answerId: z.string().min(1).max(60) }), request.body)

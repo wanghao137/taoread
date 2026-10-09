@@ -30,7 +30,31 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:focus-visib
 @media(min-width:1100px){.story-row,.library{grid-template-columns:repeat(4,1fr)}}
 .reader.night .reader-controls{box-shadow:4px 4px 0 rgba(246,237,220,.22)}
 /* docs/41 修复 3：翻页模式（columns 分页 + translateX 切页） */
-.pager-track{column-fill:auto;overflow:visible;will-change:transform}
+.pager-track{column-fill:auto;overflow:visible;will-change:transform;position:relative;min-width:0;width:100%;overflow-wrap:anywhere}
+.pager-navigation{display:flex;align-items:center;justify-content:center;gap:12px;flex-shrink:0;padding:6px 12px;color:inherit}
+.pager-navigation button{min-width:64px;min-height:44px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;padding:6px 10px;font-size:14px}
+.pager-navigation button:disabled{opacity:.4}
+.pager-page{font-size:12px;font-family:var(--mono);white-space:nowrap}
+.reader .pager-navigation{position:static}
+.reader-top{flex-shrink:0}
+.pager-track img{max-width:100%;max-height:var(--reading-page-height,none)}
+.pager-track .reader-art,.pager-track [data-block]>div{max-height:var(--reading-page-height,none)}
+.family-reader{height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding:8px;box-sizing:border-box}
+.family-reader-heading{display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:0;padding:4px 0 8px}
+.family-reader-heading .sticker-btn{min-height:44px;padding:6px 10px;font-size:13px;flex-shrink:0}
+.family-reader-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.family-reader-content{width:100%;max-width:780px;margin:0 auto;flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.family-reader-content>article{width:100%;box-sizing:border-box}
+.family-chapter-navigation button{color:inherit;background:transparent;border:1px solid currentColor;border-radius:999px;padding:6px 10px;min-height:44px}
+.family-reader-error{display:flex;align-items:center;gap:8px;flex-shrink:0;font-size:13px}
+.family-reader-error p{margin:0}
+.family-book-detail{padding:16px;max-width:900px;margin:auto}
+.family-book-detail>.library{display:flex;flex-direction:column;gap:12px}
+.family-book-detail .panel{min-height:56px;white-space:normal;overflow-wrap:anywhere}
+.search-wrap .search{min-width:0}
+.search-wrap>.sticker-btn{flex-shrink:0;white-space:nowrap}
+@media(max-width:360px){.search-wrap{flex-wrap:wrap}.search-wrap .search{flex-basis:100%}.search-wrap>.sticker-btn{margin-left:auto;min-height:48px}}
+@media(min-width:761px) and (max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:0}.side{display:none}.mobile-nav{position:fixed;left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--paper);border:var(--border);border-radius:999px;box-shadow:var(--shadow);padding:6px;z-index:40}.mobile-nav button{border:0;border-radius:999px;background:transparent;min-height:44px}.wrap{padding-bottom:96px}}
 .reader-tail-nav{width:min(640px,calc(100% - 36px));margin-left:auto;margin-right:auto}
 .pager-track>*{break-inside:auto}
 .pager-track .reader-art,.pager-track figure,.pager-track .reader-label,.pager-track h2{break-inside:avoid}
@@ -150,6 +174,9 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
   .mast .logo img{width:40px;height:40px}
   .reader-top{padding:6px 14px}
   .reader-controls{padding:8px 12px}
+  .reader-paged-main{display:grid!important;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) auto}
+  .reader-paged-main .reader-body{grid-column:1 / -1}
+  .reader-paged-main .reader-tail-nav{margin-top:0!important;padding:0 12px 8px!important;align-items:center}
   .mobile-nav{padding-bottom:4px}
 }
 

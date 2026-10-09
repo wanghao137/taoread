@@ -261,6 +261,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const saveSeqRef = useRef(0)
   /** R-04：客户端持有的行版本（updatedAt），上报时带回做防乱序覆盖 */
   const progressVerRef = useRef<string | undefined>(undefined)
+  const pendingPageSaveRef = useRef<number | null>(null)
 
   const persistProgress = useCallback(
     async (payload: { chapterOrder: number; blockOrder: number }) => {
@@ -270,7 +271,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       try {
         const res = await api.reportContentProgress(book.id, childId, { ...payload, baseUpdatedAt: progressVerRef.current }, token)
         progressVerRef.current = res.updatedAt
-        if (seq === saveSeqRef.current) {
+        if (seq === saveSeqRef.current && unsavedRef.current === payload) {
           unsavedRef.current = null
           setSaveState('saved')
         }
@@ -289,6 +290,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       if (unsavedRef.current) void persistProgress(unsavedRef.current)
     }, 8000)
     return () => window.clearInterval(timer)
+  }, [persistProgress])
+
+  useEffect(() => () => {
+    if (pendingPageSaveRef.current !== null) window.clearTimeout(pendingPageSaveRef.current)
   }, [persistProgress])
 
   /** 离开页面兜底：sendBeacon 带不了 Authorization，用 keepalive fetch 提交未保存进度 */
@@ -622,8 +627,16 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       const target = e.target as HTMLElement | null
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
       if (showSettings || showChapters || showFinish || showScaffold || conflict || lightbox) return
-      if (e.key === 'ArrowLeft') goChapterRef.current(order - 1)
-      if (e.key === 'ArrowRight') goChapterRef.current(order + 1)
+      if (target?.isContentEditable || e.altKey || e.ctrlKey || e.metaKey) return
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+      e.preventDefault()
+      const direction = e.key === 'ArrowLeft' ? -1 : 1
+      const currentPager = pagerRef.current
+      if (pageModeRef.current === 'page' && currentPager) {
+        const next = currentPager.page + direction
+        if (next >= 0 && next < currentPager.pageCount) currentPager.setPage(next)
+        else goChapterRef.current(order + direction)
+      } else goChapterRef.current(order + direction)
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -692,7 +705,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       if (pageModeRef.current === 'scroll') mainEl.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     })
     return () => cancelAnimationFrame(raf)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapter])
 
   /* ── 朗读当前章：服务端优先，不可用回退 Web Speech ── */
@@ -940,6 +952,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── docs/41 修复 3：翻页模式（手势/页码/朗读联动/进度上报/续读定位） ── */
   const persistProgressNow = useCallback((blockOrder: number) => {
+    currentBlockRef.current = blockOrder
     if (!childId || !token) return
     const now = Date.now()
     const payload = { chapterOrder: order, blockOrder }
@@ -947,10 +960,17 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     // 离开页面（pagehide）的 flush 兜底以 unsavedRef 为准（对抗审查 R3：单次翻页
     // 若落在进入即报的节流窗内，位置会被静默丢弃导致续读回退到第 1 页）
     unsavedRef.current = payload
-    if (now - lastReport.current < 5000) return
+    if (pendingPageSaveRef.current !== null) window.clearTimeout(pendingPageSaveRef.current)
+    if (now - lastReport.current < 5000) {
+      pendingPageSaveRef.current = window.setTimeout(() => {
+        pendingPageSaveRef.current = null
+        lastReport.current = Date.now()
+        if (unsavedRef.current) void persistProgress(unsavedRef.current)
+      }, 5000 - (now - lastReport.current))
+      return
+    }
     lastReport.current = now
     void persistProgress(payload)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childId, token, order, persistProgress])
 
   const pager = usePagedReading({
@@ -958,6 +978,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     viewportRef: pagerViewportRef,
     trackRef: pagerTrackRef,
     anchorRef: pagerAnchorRef,
+    contentKey: `${book.id}:${order}:${chapter?.id ?? ''}`,
     recalcKey: `${book.id}:${order}:${font}:${lineHeight}:${fontFamily}:${theme}:${chapter?.id ?? ''}`,
     onNext: () => { if (order < book.chapterCount) goChapterRef.current(order + 1) },
     onPrev: () => { if (order > 1) goChapterRef.current(order - 1) },
@@ -982,7 +1003,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   // 此前这里有第二套 restoredBlockRef 消费，但注册顺序在后面读到的恒为 0=死代码）
   useEffect(() => {
     if (pageMode === 'page') pagerAnchorRef.current = null
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageMode, chapter?.id])
 
   useEffect(() => {
@@ -1335,6 +1355,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           按列分页、translateX 切页，手势由 usePagedReading 接管（点中间=呼出/隐藏工具条）。 ── */}
       <main
         ref={mainRef}
+        className={pageMode === 'page' ? 'reader-paged-main' : undefined}
         {...(pageMode === 'scroll' ? { onClick: toggleFocus } : {})}
         style={pageMode === 'scroll' ? { flex: 1, minHeight: 0, overflowY: 'auto' } : { flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
       >
@@ -1348,7 +1369,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           ref={pagerViewportRef}
           style={
             pageMode === 'page'
-              ? { width: '100%', maxWidth: 'none', margin: 0, padding: '18px 20px 12px', height: '100%', minHeight: 0, flex: 1, overflow: 'hidden', display: 'block' }
+              ? { width: '100%', maxWidth: 'none', margin: 0, padding: '18px 20px 12px', minHeight: 0, flex: 1, overflow: 'hidden', display: 'block', touchAction: 'pan-y pinch-zoom' }
               : undefined
           }
         >
@@ -1584,7 +1605,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           aria-hidden={focused}
           {...(focused ? { inert: '' } : {})}
           style={{
-            display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 12,
+            display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 12, flexShrink: 0,
             width: pageMode === 'page' ? '100%' : undefined,
             padding: pageMode === 'page' ? '0 16px 8px' : undefined,
             opacity: focused ? 0 : 1, pointerEvents: focused ? 'none' : undefined,
@@ -1609,11 +1630,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             </button>
           )}
         </nav>
-        {pageMode === 'page' ? (
-          <div className="pager-indicator" aria-hidden={focused} style={{ opacity: focused ? 0 : undefined }}>
-            {pager.page + 1} / {pager.pageCount}
-          </div>
-        ) : null}
+        {pageMode === 'page' && <nav className="pager-navigation" aria-label="章内翻页" aria-hidden={focused} {...(focused ? { inert: '' } : {})} style={{ opacity: focused ? 0 : undefined }}>
+          <button className="min-h-[44px]" disabled={pager.page === 0} onClick={() => pager.setPage(pager.page - 1)}>上一页</button>
+          <span className="pager-page" role="status" aria-live="polite">第 {pager.page + 1} / {pager.pageCount} 页</span>
+          <button className="min-h-[44px]" disabled={pager.page === pager.pageCount - 1} onClick={() => pager.setPage(pager.page + 1)}>下一页</button>
+        </nav>}
       </main>
       {/* ── 底部控制条 ── */}
       <footer
@@ -1671,8 +1692,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             字号
           </p>
           <div className="setting-row">
-            <button onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
-            <button onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
+            <button disabled={font <= FONT_MIN} onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
+            <button disabled={font >= FONT_MAX} onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
             <span className="mono-label" style={{ alignSelf: 'center' }}>
               {font}
             </span>

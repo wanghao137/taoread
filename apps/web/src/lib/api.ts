@@ -178,6 +178,7 @@ export const api = {
     request<PhonicsSummaryDto>(`/api/children/${encodeURIComponent(childId)}/phonics/summary`, { token }),
   startPhonicsAttempt: (token: string, childId: string, lessonId: string, clientAttemptId: string) => request<{ attempt: { id: string; status: string } }>(`/api/children/${encodeURIComponent(childId)}/phonics/attempts`, { method: 'POST', token, body: { lessonId, clientAttemptId } }),
   answerPhonics: (token: string, attemptId: string, itemId: string, answerId: string) => request<{ correct: boolean; repeated: boolean }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/responses`, { method: 'POST', token, body: { itemId, answerId } }),
+  resumePhonics: (token: string, attemptId: string) => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/resume`, { method: 'POST', token }),
   finishPhonics: (token: string, attemptId: string, status: 'completed' | 'paused') => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/finish`, { method: 'POST', token, body: { status } }),
 
   createFamily: (deviceId: string, agreeVersion: string) =>

@@ -447,8 +447,10 @@ export function V8Cover({
   const [fallback, setFallback] = useState(false)
   const src = !fallback && book.coverThumb ? book.coverThumb : book.cover
   const [artOk, setArtOk] = useState(Boolean(src))
+  const [artLoaded, setArtLoaded] = useState(false)
+  useEffect(() => setArtLoaded(false), [src])
   return (
-    <div className={`book-cover ${book.tone} ${artOk ? 'has-art' : ''}`}>
+    <div className={`book-cover ${book.tone} ${artOk && artLoaded ? 'has-art' : ''}`}>
       {src && artOk ? (
         <img
           className="cover-art"
@@ -456,7 +458,7 @@ export function V8Cover({
           alt=""
           loading="lazy"
           decoding="async"
-          onLoad={() => setArtOk(true)}
+          onLoad={() => { setArtOk(true); setArtLoaded(true) }}
           onError={() => {
             if (!fallback && book.coverThumb) setFallback(true)
             else setArtOk(false)
@@ -465,7 +467,7 @@ export function V8Cover({
       ) : null}
       <span className="cover-kicker">桃阅读 · {CATEGORY_LABEL[book.category] ?? (book.lang === 'en' ? 'Story' : '故事')}</span>
       <span className="cover-title">{book.title}</span>
-      {artOk ? <AiBadge /> : null}
+      {artOk && artLoaded ? <AiBadge /> : null}
       {/* 打开热区铺满封面（键盘可达）；收藏钮 z-index 更高，两者互不嵌套（读屏不再报「按钮内按钮」） */}
       {onOpen ? (
         <button
@@ -1085,6 +1087,7 @@ function MyPage() {
   const [review, setReview] = useState<Array<{ id: string; word: string; lang: string; context: string | null; bookTitle: string | null }>>([])
   const [reviewIdx, setReviewIdx] = useState(0)
   const [reviewing, setReviewing] = useState(false)
+  const [reviewAgain, setReviewAgain] = useState<Set<string>>(new Set())
 
   const loadWords = useCallback(() => {
     if (!token || !childId) return
@@ -1107,6 +1110,7 @@ function MyPage() {
     if (pool.length === 0) return
     setReview(pool)
     setReviewIdx(0)
+    setReviewAgain(new Set())
     setReviewing(true)
   }
 
@@ -1116,10 +1120,18 @@ function MyPage() {
     if (!ok) tts.speak(word, { lang: l })
   }
 
-  const advanceReview = () => {
+  const advanceReview = (again = false) => {
+    const current = review[reviewIdx]
+    if (again && current && !reviewAgain.has(current.id)) {
+      setReview((cards) => [...cards, current])
+      setReviewAgain((ids) => new Set(ids).add(current.id))
+      setReviewIdx((i) => i + 1)
+      v.showToast('这个词留到这轮最后，再看一次')
+      return
+    }
     if (reviewIdx + 1 >= review.length) {
       setReviewing(false)
-      v.showToast(`复习完 ${review.length} 个词，真棒`)
+      v.showToast(`复习完 ${new Set(review.map((card) => card.id)).size} 个词，真棒`)
     } else {
       setReviewIdx((i) => i + 1)
     }
@@ -1229,12 +1241,13 @@ function MyPage() {
               >
                 听一听
               </button>
-              <button className="sticker-btn primary" onClick={advanceReview}>
+              <button className="sticker-btn primary" onClick={() => advanceReview()}>
                 认识啦
               </button>
-              <button className="sticker-btn" onClick={advanceReview}>
+              <button className="sticker-btn" onClick={() => advanceReview(true)}>
                 再看看
               </button>
+              <button className="sticker-btn" onClick={() => setReviewing(false)}>先休息一下</button>
             </div>
           </div>
         ) : words.length === 0 ? (

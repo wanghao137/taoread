@@ -87,6 +87,22 @@ describe('自然拼读草稿试点', () => {
     expect((await call('POST', `/api/phonics/attempts/${id}/finish`, childToken, { status: 'completed' })).statusCode).toBe(200)
     expect((await call('POST', responseUrl, childToken, { itemId: 'l01-a-find', answerId: 'a' })).statusCode).toBe(409)
   })
+  it('暂停后保留作答，显式恢复可继续且不能恢复已完成或其他家庭的练习', async () => {
+    const started = await call('POST', `/api/children/${childId}/phonics/attempts`, childToken, { lessonId: 'draft-en-l01', clientAttemptId: crypto.randomUUID() })
+    const id = started.json().attempt.id
+    const responseUrl = `/api/phonics/attempts/${id}/responses`
+    await call('POST', responseUrl, childToken, { itemId: 'l01-s-find', answerId: 's' })
+    expect((await call('POST', `/api/phonics/attempts/${id}/finish`, childToken, { status: 'paused' })).statusCode).toBe(200)
+    const active = await call('GET', `/api/children/${childId}/phonics/attempts/active?lessonId=draft-en-l01`, childToken)
+    expect(active.json().attempt).toMatchObject({ id, status: 'paused', answered: [{ itemId: 'l01-s-find', correct: true }] })
+    expect((await call('POST', responseUrl, childToken, { itemId: 'l01-a-find', answerId: 'a' })).statusCode).toBe(409)
+    expect((await call('POST', `/api/phonics/attempts/${id}/resume`, other.token)).statusCode).toBe(404)
+    expect((await call('POST', `/api/phonics/attempts/${id}/resume`, childToken)).statusCode).toBe(200)
+    expect((await call('POST', `/api/phonics/attempts/${id}/resume`, childToken)).statusCode).toBe(200)
+    expect((await call('POST', responseUrl, childToken, { itemId: 'l01-a-find', answerId: 'a' })).statusCode).toBe(200)
+    await call('POST', `/api/phonics/attempts/${id}/finish`, childToken, { status: 'completed' })
+    expect((await call('POST', `/api/phonics/attempts/${id}/resume`, childToken)).statusCode).toBe(409)
+  })
 })
 
 
