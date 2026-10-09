@@ -13,6 +13,8 @@ export default tseslint.config(
       'research/**',
       // 临时脚本目录（调研抓取、一次性转换），非产品代码
       '.tao-tmp/**',
+      // Local audit logs, downloaded sources and generated verification artifacts.
+      'output/**',
     ],
   },
   {
@@ -21,6 +23,7 @@ export default tseslint.config(
     languageOptions: {
       globals: {
         Buffer: 'readonly',
+        URL: 'readonly',
         console: 'readonly',
         process: 'readonly',
         globalThis: 'readonly',

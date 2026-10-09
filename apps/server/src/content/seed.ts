@@ -36,7 +36,7 @@ export function packContentVersion(pack: PackBook): string {
   return createHash('sha256').update(JSON.stringify({ title: pack.title, source: pack.source, intro: pack.intro, rights: pack.rights, chapters: pack.chapters })).digest('hex').slice(0, 16)
 }
 
-async function seedPackTransaction(db: Prisma.TransactionClient, pack: PackBook): Promise<void> {
+export async function seedPackTransaction(db: Prisma.TransactionClient, pack: PackBook): Promise<void> {
   const words = countWords(pack)
   const contentVersion = packContentVersion(pack)
   const prior = await db.book.findUnique({ where: { id: pack.id }, select: { contentVersion: true } })

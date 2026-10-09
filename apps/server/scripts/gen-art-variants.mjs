@@ -28,7 +28,7 @@ for (const dir of dirs) {
       { suffix: 'reader', width: 800 },
     ]) {
       const out = base.replace(/\.webp$/, `.${suffix}.webp`)
-      if (existsSync(out) && statSync(out).size > 0) {
+      if (existsSync(out) && statSync(out).size > 0 && statSync(out).mtimeMs >= statSync(base).mtimeMs) {
         skipped++
         continue
       }

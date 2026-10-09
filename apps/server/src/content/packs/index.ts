@@ -1,4 +1,6 @@
 import type { PackBook } from '../types'
+import { chineseOpenStories } from './chinese-open-stories'
+import { correctChineseEditions } from '../editionCorrections'
 
 /* ── 蒙学 ── */
 import { sanziJing } from './primer-sanzi'
@@ -553,4 +555,5 @@ export const ALL_PACKS: PackBook[] = [
   magicSeed,
   fireflyLamp,
   windKite,
-]
+  ...chineseOpenStories,
+].map(correctChineseEditions)

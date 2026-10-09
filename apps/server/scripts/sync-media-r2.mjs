@@ -15,7 +15,9 @@ import dotenv from 'dotenv'
 import { CreateBucketCommand, HeadBucketCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
 dotenv.config()
+const databaseUrl = process.env.TAO_DATABASE_URL
 dotenv.config({ path: '.env.r2', override: true })
+if (databaseUrl) process.env.TAO_DATABASE_URL = databaseUrl
 
 const accountId = process.env.R2_ACCOUNT_ID
 const accessKey = process.env.R2_ACCESS_KEY_ID
@@ -67,11 +69,12 @@ const isVariant = (n) => /\.(thumb|reader)\.webp$/.test(n)
 const isPrivate = (n) => n.startsWith('fam-')
 
 // 双保险：再按 DB ArtAsset.scene 的 fam: 前缀建一份私有文件名集合（thumb/reader 变体
-// 没有独立行，天然随主图命中文件名规则）。DB 查询失败不阻断同步，退回纯文件名过滤——
+// 没有独立行，天然随主图命中文件名规则）。DB 查询失败时停止同步，
 // 两条路径都判定为公共才会上传。
 const privateDbNames = new Set()
 try {
   const dbUrl = process.env.TAO_DATABASE_URL
+  if (!dbUrl) throw new Error('Database required for private-media exclusion')
   if (dbUrl) {
     const { PrismaClient } = await import('@prisma/client')
     const prisma = new PrismaClient({ datasources: { db: { url: dbUrl } } })
@@ -87,7 +90,8 @@ try {
     log(`DB 私有场景 ${privateDbNames.size} 条已并入过滤集合`)
   }
 } catch (err) {
-  log(`DB 私有场景查询失败，仅按文件名过滤：${String(err?.message ?? err).slice(0, 100)}`)
+  void err
+  throw new Error('Private-media database check failed; no media may be uploaded')
 }
 
 const isPublicName = (n) => !isPrivate(n) && !privateDbNames.has(n.replace(/\.webp$/, ''))

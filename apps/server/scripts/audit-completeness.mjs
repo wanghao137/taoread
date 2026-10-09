@@ -1,46 +1,35 @@
 import { ALL_PACKS } from '../src/content/packs/index.js'
+import { readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 
-/**
- * 内容完整性审计（docs/27）：书名的承诺 vs 章数交付。
- * 全本标准：选集/诗集/名著/童话集按类型定线；单篇绘本 3 章即完整。
- */
-const STD = (p) => {
-  const id = p.id
-  // CC-BY 单篇绘本（African Storybook Project）：故事本身就是完整一篇
-  if (id.startsWith('cc-')) return 3
-  // 声律启蒙：上下卷各 15 韵部，15 章即全本
-  if (id === 'primer-shenglv' || id === 'primer-shenglv2') return 15
-  // 诗集与蒙学选集：≥16 章
-  if (p.category === 'poetry' || p.category === 'primer') return 16
-  // 名著长篇（西游/三国/水浒/红楼/绿野仙踪系列/小妇人/多利特等长篇）
-  const novels = [
-    'xiyou', 'sanguo', 'shuihu', 'honglou', 'fengshen',
-    'oz-', 'alcott', 'dolittle', 'littlewomen', 'nesbit-', 'macdonald',
-    'kingsley', 'lagerlof', 'montgomery', 'wiggin', 'porter-pollyanna',
-    'twain', 'burnett', 'kipling-puck', 'northwind', 'princessgoblin',
-    'tangle', 'wonderbook', 'robinhood', 'robinson', 'gulliver', 'secret',
-    'littleprincess', 'railway', 'fivechildren', 'tomsawyer', 'treasure',
-    'anne', 'heidi', 'blackbeauty', 'jungle', 'windwillows', 'pinocchio',
-    'harris-remus', 'nils',
-  ]
-  if (novels.some((k) => id.includes(k))) return 8
-  // 童话/故事集（安徒生/格林/伊索/Lang/日本童话/中国童话/伊索寓言等合集）
-  const collections = [
-    'andersen', 'grimm', 'aesop', 'lang-', 'ozaki', 'chinfairy', 'jacobs',
-    'essay', 'proverbs', 'heroes', 'idiom', 'myth-shanhaijing',
-    'festivals', 'liaozhai', 'pooh', 'milne', 'solar',
-  ]
-  if (collections.some((k) => id.includes(k))) return 8
-  // 其余（单篇绘本/原创/CC 单篇故事）：3 章即完整
-  return 3
-}
-
-const rows = []
+// A chapter-count threshold cannot prove completeness. Compare exact source
+// pages where available, and disclose the limits of structural validation.
+const evidence = JSON.parse(readFileSync(new URL('./corpus-data/chinese-stories-20261009.json', import.meta.url), 'utf8'))
+const failures = []
+const ids = new Set()
 for (const p of ALL_PACKS) {
-  const std = STD(p)
-  const ch = p.chapters.length
-  if (ch < std) rows.push({ id: p.id, title: p.title, cat: p.category, ch, std, gap: std - ch })
+  if (ids.has(p.id)) failures.push(`${p.id}: duplicate book id`)
+  ids.add(p.id)
+  if (!p.chapters.length || !p.rights?.basis || !p.source) failures.push(`${p.id}: missing chapters/provenance`)
+  for (const [i, ch] of p.chapters.entries()) {
+    if (!ch.title || !ch.blocks.some((b) => (b.kind === 'text' || b.kind === 'poem') && b.text.trim())) failures.push(`${p.id}:${i + 1}: empty body`)
+  }
+  if (p.lang === 'zh') {
+    const scenes = new Map()
+    for (const ch of p.chapters) {
+      if (ch.art && scenes.has(ch.art) && scenes.get(ch.art) !== ch.artPrompt) failures.push(`${p.id}: different episodes share ${ch.art}`)
+      if (ch.art) scenes.set(ch.art, ch.artPrompt)
+    }
+  }
 }
-rows.sort((a, b) => b.gap - a.gap)
-console.log(`审计：${ALL_PACKS.length} 本中 ${rows.length} 本低于全本标准，共缺 ${rows.reduce((s, r) => s + r.gap, 0)} 章`)
-for (const r of rows) console.log(`${r.id}  «${r.title}»  ${r.ch}/${r.std}章  缺${r.gap}`)
+for (const e of evidence) {
+  const p = ALL_PACKS.find((p) => p.id === e.id)
+  if (!p) { failures.push(`${e.id}: absent from catalog`); continue }
+  const pages = p.chapters.flatMap((ch) => ch.blocks.filter((b) => b.kind === 'text').map((b) => b.text))
+  const hash = createHash('sha256').update(pages.join('\n\n')).digest('hex')
+  if (pages.length !== e.pages || hash !== e.textSha256 || p.rights.basis !== 'cc-by') failures.push(`${e.id}: source pages omitted/changed or license mismatch`)
+}
+console.log(`结构核验 ${ALL_PACKS.length} 本，其中中文 ${ALL_PACKS.filter((p) => p.lang === 'zh').length} 本；完整中文开放故事 ${evidence.length} 本／${evidence.reduce((n, e) => n + e.pages, 0)} 原文页逐页 SHA256 一致。`)
+console.log('古籍/长篇的完整性须对照明确底本；本脚本不以最低章数或结构通过宣称全文精审完成。')
+for (const f of failures) console.error(f)
+if (failures.length) process.exitCode = 1

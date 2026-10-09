@@ -20,7 +20,9 @@ import { chapterSpeakText, speakVoiceId } from '../src/modules/tts/chapterText.t
 import { loadConfig } from '../src/config.ts'
 
 dotenv.config()
+const databaseUrl = process.env.TAO_DATABASE_URL
 dotenv.config({ path: '.env.r2', override: true })
+if (databaseUrl) process.env.TAO_DATABASE_URL = databaseUrl
 
 const minArg = process.argv.find((a) => a.startsWith('--min='))
 const min = minArg ? Number(minArg.split('=')[1]) : 0.99
@@ -42,7 +44,7 @@ try {
   process.exit(2)
 }
 
-const db = new PrismaClient()
+const db = new PrismaClient({ datasources: { db: { url: config.TAO_DATABASE_URL } } })
 try {
   const books = await db.book.findMany({ select: { id: true, lang: true } })
   let total = 0

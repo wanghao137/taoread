@@ -28,7 +28,11 @@ import { parseMp3 } from '../src/modules/tts/mp3duration.ts'
 import { chapterSpeakText, speakVoiceId } from '../src/modules/tts/chapterText.ts'
 
 dotenv.config()
+const databaseUrl = process.env.TAO_DATABASE_URL
 dotenv.config({ path: '.env.r2', override: true })
+// Historical media credentials files can contain a dev DB URL. Never replace
+// the explicitly selected production/staging database while loading R2 keys.
+if (databaseUrl) process.env.TAO_DATABASE_URL = databaseUrl
 
 const config = loadConfig()
 if (!config.TTS_BASE || !config.TTS_API_KEY) throw new Error('TTS 未配置（TTS_BASE/TTS_API_KEY）')
@@ -162,7 +166,7 @@ async function ensureSegment(key, text, lang) {
   }
 }
 
-const db = new PrismaClient()
+const db = new PrismaClient({ datasources: { db: { url: config.TAO_DATABASE_URL } } })
 let done = 0
 let failed = 0
 let skipped = 0
@@ -175,9 +179,7 @@ try {
     ...(langFilter ? { where: { lang: langFilter } } : {}),
     select: { id: true, lang: true },
   })
-  const ordered = bookFilter
-    ? [...bookFilter.map((id) => bookRows.find((b) => b.id === id)).filter(Boolean), ...bookRows.filter((b) => !bookFilter.includes(b.id))]
-    : bookRows
+  const ordered = bookFilter ? bookRows.filter((b) => bookFilter.includes(b.id)) : bookRows
   log(`书库 ${ordered.length} 本（stage=${stageFilter?.join(',') ?? '全部'}，音色=${voice.id}，语速=${speed}，模型=${model}，R2=${s3 ? mediaBucket : '关闭'}）`)
 
   let budget = limit
