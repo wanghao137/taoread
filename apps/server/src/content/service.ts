@@ -256,10 +256,6 @@ async function getBookCatalog(db: PrismaClient): Promise<Omit<BookCatalog, 'at'>
 }
 
 /**
- * 书库列表。stage 为孩子年龄段时做适龄过滤：
- * 3-5 只收 3-5；6-8 收 3-5+6-8；9-12 全收（含 9-12）。
- */
-/**
  * 归一化匹配键：大小写折叠 + 去空白。中文不做拼音转换（v3 只做子串匹配，
  * 拼音索引留 P1——需要全量拼音表，且孩子更可能直接念出书名而非打字）。
  */
@@ -304,7 +300,6 @@ export async function listBooks(
   options: {
     childId?: string
     familyId?: string
-    stage?: string | null
     lang?: string | null
     /**
      * 搜索（docs/11 P0-1）：匹配书名、作者，以及**章节标题**。
@@ -326,10 +321,7 @@ export async function listBooks(
     rows = rows.filter((b) => allow.has(b.id))
   }
 
-  const stageRank: Record<string, number> = { '3-5': 1, '6-8': 2, '9-12': 3 }
-  const maxRank = options.stage ? (stageRank[options.stage] ?? 3) : 3
   const filtered = rows.filter((b) => {
-    if ((stageRank[b.ageStage] ?? 3) > maxRank) return false
     if (needle.length > 0) {
       const inChapters = (catalog.titlesByBook.get(b.id) ?? []).some((t) => matchKey(t).includes(needle))
       return matchKey(b.title).includes(needle) || matchKey(b.author).includes(needle) || inChapters

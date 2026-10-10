@@ -206,7 +206,6 @@ export function useV8(): V8ContextValue {
 export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void }) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
-  const stage = useSession((s) => s.childStage)
   const familyId = useSession((s) => s.familyId)
   const navigate = useNavigate()
 
@@ -234,7 +233,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
     if (!token) return
     setBooksError(null)
     api
-      .contentBooks(token, { ...(stage ? { stage } : {}), ...(childId ? { childId } : {}) })
+      .contentBooks(token, { ...(childId ? { childId } : {}) })
       .then((res) => {
         setBooks(res.books.map(toV8))
         setLoaded(true)
@@ -243,7 +242,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
         setLoaded(true)
         setBooksError(err instanceof Error ? err.message : '书架暂时打不开')
       })
-  }, [token, stage, childId])
+  }, [token, childId])
 
   // 审计 A10.5 的初衷保留：读完回列表要看到新进度——但触发点收窄为
   // 「从阅读器/家庭书返回列表页」（docs/35 B2：此前每次切 tab 全量重拉 178KB，
@@ -838,7 +837,6 @@ function TodayPage() {
 function DiscoverPage() {
   const v = useV8()
   const token = useSession((s) => s.token)
-  const stage = useSession((s) => s.childStage)
   const childId = useSession((s) => s.childId)
   // mood 以 URL 为单一事实源：从「今天」心情贴纸进来带 ?mood=，点头部「找故事」
   // （无参数）自然清掉旧筛选，不再出现" mood 卡在旧值"
@@ -916,7 +914,7 @@ function DiscoverPage() {
     }
     const t = setTimeout(() => {
       api
-        .contentBooks(token, { ...(stage ? { stage } : {}), ...(childId ? { childId } : {}), q })
+        .contentBooks(token, { ...(childId ? { childId } : {}), q })
         .then((res) => {
           // 慢响应防护：只认最后一次搜索的结果，防旧词覆盖新词
           if (seq === searchSeq.current) setServerHits(res.books.map(toV8))
@@ -926,9 +924,9 @@ function DiscoverPage() {
         })
     }, 300)
     return () => { clearTimeout(t); searchSeq.current = seq + 1 }
-  }, [query, token, stage, childId])
+  }, [query, token, childId])
   const filtered = useMemo(() => {
-    // 书单模式：只看书单内书目（服务端已按孩子适龄过滤）
+    // 书单模式：只看专题内书目，年龄建议不影响可见性
     const q = query.trim().toLowerCase()
     let arr = collectionKey ? collectionBooks ?? [] : serverHits ?? v.books
     if (collectionKey && serverHits) {

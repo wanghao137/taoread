@@ -1,5 +1,5 @@
 /**
- * 内容域测试（v2）：公版书库 CRUD + 适龄过滤 + 进度 + cbf: 前缀归属。
+ * 内容域测试：公版书库 CRUD + 全年龄可读 + 进度 + cbf: 前缀归属。
  */
 import { describe, it, expect, beforeAll } from 'vitest'
 import {
@@ -59,7 +59,7 @@ describe('内容域 /api/content/books', () => {
     expect(peterRabbit.chapterCount).toBe(3)
   })
 
-  it('3-5 岁孩子过滤掉 6-8 岁书目', async () => {
+  it('旧客户端传 stage=3-5 也可看到全部年龄的书目', async () => {
     const res = await harness.app.inject({
       method: 'GET',
       url: '/api/content/books?stage=3-5',
@@ -67,10 +67,10 @@ describe('内容域 /api/content/books', () => {
     })
     const body = res.json()
     const stages = new Set(body.books.map((b: { ageStage: string }) => b.ageStage))
-    expect(stages.has('6-8')).toBe(false)
+    expect(stages.has('6-8')).toBe(true)
+    expect(stages.has('9-12')).toBe(true)
     expect(stages.has('3-5')).toBe(true)
-    // 西游记与刻舟求剑标注 6-8，应被过滤
-    expect(body.books.find((b: { id: string }) => b.id === 'xiyou-journey')).toBeUndefined()
+    expect(body.books.find((b: { id: string }) => b.id === 'xiyou-journey')).toBeDefined()
     expect(body.books.find((b: { id: string }) => b.id === 'sanzi-jing')).toBeDefined()
   })
 
@@ -498,7 +498,7 @@ describe('内容域 生词本（docs/15 P1-B）', () => {
   })
 })
 
-describe('内容域 适龄强制（孩子角色无法自选 stage）', () => {
+describe('内容域 年龄仅为建议，档案归属仍强制校验', () => {
   let childToken: string
   let familyCode: string
 
@@ -509,20 +509,21 @@ describe('内容域 适龄强制（孩子角色无法自选 stage）', () => {
     childToken = child.token
   })
 
-  it('孩子传 stage=9-12 被忽略：列表按档案 stage（3-5）推导', async () => {
+  it('3-5 岁孩子传旧 stage 参数仍可看到所有年龄和新增故事', async () => {
     const res = await harness.app.inject({
       method: 'GET',
-      url: `/api/content/books?stage=9-12&childId=${childId}`,
+      url: `/api/content/books?stage=3-5&childId=${childId}`,
       headers: authHeaders(childToken),
     })
     expect(res.statusCode).toBe(200)
     const stages = new Set(res.json().books.map((b: { ageStage: string }) => b.ageStage))
-    expect(stages.has('9-12')).toBe(false)
-    expect(stages.has('6-8')).toBe(false)
+    expect(stages.has('9-12')).toBe(true)
+    expect(stages.has('6-8')).toBe(true)
     expect(stages.has('3-5')).toBe(true)
+    expect(res.json().books.map((b: { id: string }) => b.id)).toContain('zh-asb-0201')
   })
 
-  it('孩子不带 childId → 400（阶段必须从孩子档案推导）', async () => {
+  it('孩子不带 childId → 400（必须选择档案）', async () => {
     const res = await harness.app.inject({
       method: 'GET',
       url: '/api/content/books',
@@ -542,15 +543,30 @@ describe('内容域 适龄强制（孩子角色无法自选 stage）', () => {
     expect(res.statusCode).toBe(404)
   })
 
-  it('家长仍可用 query.stage 过滤（管理/预览用途）', async () => {
+  it('家长传旧 query.stage 也可看到全部年龄', async () => {
     const res = await harness.app.inject({
       method: 'GET',
       url: '/api/content/books?stage=3-5',
       headers: authHeaders(token),
     })
     const stages = new Set(res.json().books.map((b: { ageStage: string }) => b.ageStage))
-    expect(stages.has('6-8')).toBe(false)
+    expect(stages.has('6-8')).toBe(true)
+    expect(stages.has('9-12')).toBe(true)
     expect(stages.has('3-5')).toBe(true)
+  })
+
+  it('最小年龄孩子的专题书单与家长一致，并可搜索和阅读高年龄故事', async () => {
+    for (const id of ['quick-stories', 'classic-tales', 'bedtime-poems']) {
+      const url = `/api/content/collections/${id}?childId=${childId}`
+      const parent = await harness.app.inject({ method: 'GET', url, headers: authHeaders(token) })
+      const child = await harness.app.inject({ method: 'GET', url, headers: authHeaders(childToken) })
+      expect(child.statusCode).toBe(200)
+      expect(child.json().books.map((b: { id: string }) => b.id)).toEqual(parent.json().books.map((b: { id: string }) => b.id))
+    }
+    const search = await harness.app.inject({ method: 'GET', url: `/api/content/books?childId=${childId}&q=${encodeURIComponent('为什么河马没有毛发')}`, headers: authHeaders(childToken) })
+    expect(search.json().books.map((b: { id: string }) => b.id)).toContain('zh-asb-0111')
+    const read = await harness.app.inject({ method: 'GET', url: '/api/content/books/zh-asb-0201/chapters/1', headers: authHeaders(childToken) })
+    expect(read.statusCode).toBe(200)
   })
 })
 

@@ -1,10 +1,11 @@
 import { beforeAll, describe, expect, it } from 'vitest'
-import { authHeaders, createChild, createFamilyAsParent, makeApp, type TestHarness } from './helper'
+import { authHeaders, createChild, createFamilyAsParent, joinFamily, makeApp, type TestHarness } from './helper'
 
 let h: TestHarness
 let token: string
 let childId: string
 let bookId: string
+let childToken: string
 
 const TWO_CHAPTERS = ['第一章', 'first chapter body text here', '第二章', 'second chapter body text here'].join('\n')
 
@@ -21,18 +22,52 @@ beforeAll(async () => {
   h = await makeApp()
   const family = await createFamilyAsParent(h.app, 'import-progress-owner')
   token = family.token
-  childId = await createChild(h.app, token, family.familyId, '进度读者', '6-8')
+  childId = await createChild(h.app, token, family.familyId, '进度读者', '3-5')
+  childToken = (await joinFamily(h.app, family.familyCode, 'child')).token
   const created = await h.app.inject({
     method: 'POST',
     url: '/api/content/imports',
     headers: authHeaders(token),
-    payload: { title: '两章家庭书', lang: 'zh', ageStage: '6-8', sourceName: 'two.txt', text: TWO_CHAPTERS, rightsConfirmed: true },
+    payload: { title: '两章家庭书', lang: 'zh', ageStage: '9-12', sourceName: 'two.txt', text: TWO_CHAPTERS, rightsConfirmed: true },
   })
   expect(created.statusCode).toBe(201)
   bookId = created.json().id
 })
 
 describe('家庭导入进度契约（B3）', () => {
+  it('3-5 岁孩子可以找到、阅读并保存 9-12 岁家庭书的进度', async () => {
+    const path = `/api/content/imports/${encodeURIComponent(bookId)}`
+    const list = await h.app.inject({ method: 'GET', url: `/api/content/imports?childId=${childId}`, headers: authHeaders(childToken) })
+    expect(list.statusCode).toBe(200)
+    expect(list.json().books.map((b: { id: string }) => b.id)).toContain(bookId)
+    for (const suffix of ['', '/chapters/1', '/progress']) {
+      const read = await h.app.inject({ method: 'GET', url: `${path}${suffix}?childId=${childId}`, headers: authHeaders(childToken) })
+      expect(read.statusCode, suffix).toBe(200)
+    }
+    const save = await h.app.inject({ method: 'PUT', url: `${path}/progress?childId=${childId}`, headers: authHeaders(childToken), payload: { order: 1, offset: 1, completed: false } })
+    expect(save.statusCode).toBe(200)
+    const progress = await h.app.inject({ method: 'GET', url: `${path}/progress?childId=${childId}`, headers: authHeaders(childToken) })
+    expect(progress.json().progress).toMatchObject({ order: 1, offset: 1 })
+  })
+
+  it('放开年龄后仍拒绝别家图书、别家档案和缺失档案', async () => {
+    const other = await createFamilyAsParent(h.app, 'import-age-other')
+    const otherChild = await createChild(h.app, other.token, other.familyId, '别家读者', '9-12')
+    const path = `/api/content/imports/${encodeURIComponent(bookId)}`
+    for (const suffix of ['', '/chapters/1', '/progress']) {
+      const foreignBook = await h.app.inject({ method: 'GET', url: `${path}${suffix}?childId=${otherChild}`, headers: authHeaders(other.token) })
+      expect(foreignBook.statusCode, suffix).toBe(404)
+      const foreignChild = await h.app.inject({ method: 'GET', url: `${path}${suffix}?childId=${otherChild}`, headers: authHeaders(childToken) })
+      expect(foreignChild.statusCode, suffix).toBe(404)
+      const missing = await h.app.inject({ method: 'GET', url: `${path}${suffix}`, headers: authHeaders(childToken) })
+      expect(missing.statusCode, suffix).toBe(400)
+    }
+    for (const who of [token, childToken]) {
+      const save = await h.app.inject({ method: 'PUT', url: `${path}/progress?childId=${otherChild}`, headers: authHeaders(who), payload: { order: 1, offset: 0, completed: false } })
+      expect(save.statusCode).toBe(404)
+    }
+  })
+
   it('非末章不允许标记读完', async () => {
     const res = await putProgress({ order: 1, offset: 0, completed: true })
     expect(res.statusCode).toBe(400)

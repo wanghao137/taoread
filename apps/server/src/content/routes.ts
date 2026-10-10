@@ -54,17 +54,11 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     }
   }
 
-  /** 孩子角色的年龄段只能来自孩子档案（与 importRoutes.childStage 同口径）：
-   * query.stage 可被任意改写，采信它等于孩子可以自选「9-12」绕过适龄过滤 */
-  async function deriveChildStage(request: FastifyRequest, childId: string | undefined): Promise<string> {
+  /** 年龄仅为阅读建议；孩子端仍必须选择本家庭的档案。 */
+  async function assertSelectedChild(request: FastifyRequest, childId: string | undefined): Promise<void> {
     if (!request.auth) throw new UnauthorizedError()
     if (!childId) throw new ValidationError('请选择孩子档案')
-    const profile = await db.childProfile.findFirst({
-      where: { id: childId, familyId: request.auth.fid },
-      select: { stage: true },
-    })
-    if (!profile) throw new AppError('没有找到孩子档案', 'CHILD_NOT_FOUND', 404)
-    return profile.stage
+    await assertOwnChild(request, childId)
   }
 
   app.get('/api/content/books', { preHandler: auth }, async (request, reply) => {
@@ -79,15 +73,12 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     )
     if (query.childId) await assertOwnChild(request, query.childId)
     if (!request.auth) throw new UnauthorizedError()
-    // 孩子角色忽略 query.stage，从孩子档案推导（防绕过适龄过滤）；家长角色仍可显式传 stage
-    let stage: string | undefined = query.stage
     if (request.auth.role === 'child') {
-      stage = await deriveChildStage(request, query.childId)
+      await assertSelectedChild(request, query.childId)
     }
     const books = await svc.listBooks(db, {
       familyId: request.auth.fid,
       ...(query.childId ? { childId: query.childId } : {}),
-      ...(stage ? { stage } : {}),
       ...(query.lang ? { lang: query.lang } : {}),
       ...(query.q ? { q: query.q } : {}),
     })
@@ -644,17 +635,12 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       )
       if (query.childId) await assertOwnChild(request, query.childId)
       if (!request.auth) throw new UnauthorizedError()
-      let stage: string | undefined
       if (request.auth.role === 'child') {
-        stage = await deriveChildStage(request, query.childId)
+        await assertSelectedChild(request, query.childId)
       }
-      // docs/34 P1-12（对抗审查 P2-5）：孩子角色先按累进适龄过滤再截 take——
-      // 否则 take 名额被不适龄书占用，孩子看到的书单会短于预期
+      // 书单策展条件独立于孩子年龄；已开放书目对所有年龄可见。
       const matched = await db.book.findMany({
-        where:
-          stage && request.auth.role === 'child'
-            ? { AND: [collectionWhere(def), { ageStage: { in: cumulativeStages(stage) } }, { publicationStatus: 'published' }] }
-            : { AND: [collectionWhere(def), { publicationStatus: 'published' }] },
+        where: { AND: [collectionWhere(def), { publicationStatus: 'published' }] },
         select: { id: true },
         orderBy: { title: 'asc' },
         take: def.take,
@@ -663,7 +649,6 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       const books = await svc.listBooks(db, {
         familyId: request.auth.fid,
         ...(query.childId ? { childId: query.childId } : {}),
-        ...(stage ? { stage } : {}),
         ids: matched.map((b) => b.id),
       })
       return reply.send({ collection: { id: def.id, title: def.title, subtitle: def.subtitle }, total: books.length, books })
@@ -671,7 +656,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
   )
 }
 
-/** 累进年龄段（与 listBooks 同口径）：3-5→[3-5]；6-8→[3-5,6-8]；9-12→全部 */
+/** 识字游戏的累进难度范围，仅用于题目选择，不限制图书阅读。 */
 function cumulativeStages(stage: string): string[] {
   if (stage === '3-5') return ['3-5']
   if (stage === '6-8') return ['3-5', '6-8']

@@ -244,12 +244,12 @@ function importMediaDirFor(bookId: string): string {
   const parent = requireAuth(tokenSecret, { roles: ['parent'] })
   const auth = requireAuth(tokenSecret)
 
-  async function childStage(claims: { role: string; fid: string } | undefined, childId: string | undefined): Promise<string | null> {
-    if (claims?.role !== 'child') return null
+  async function assertSelectedChild(claims: { role: string; fid: string } | undefined, childId: string | undefined): Promise<void> {
+    if (claims?.role !== 'child' && !childId) return
+    if (!claims) throw new UnauthorizedError()
     if (!childId) throw new ValidationError('请选择孩子档案')
-    const profile = await db.childProfile.findFirst({ where: { id: childId, familyId: claims.fid }, select: { stage: true } })
+    const profile = await db.childProfile.findFirst({ where: { id: childId, familyId: claims.fid }, select: { id: true } })
     if (!profile) throw new AppError('没有找到孩子档案', 'CHILD_NOT_FOUND', 404)
-    return profile.stage
   }
 
   app.get('/api/content/imports/public-domain', { preHandler: parent }, async () => ({ books: ALLOWED_ENGLISH_BOOKS.map(({ id, title, author }) => ({ id, title, author })) }))
@@ -380,10 +380,10 @@ function importMediaDirFor(bookId: string): string {
   })
 
   app.get('/api/content/imports', { preHandler: auth }, async (request) => {
-    const stage = await childStage(request.auth, (request.query as { childId?: string }).childId)
+    await assertSelectedChild(request.auth, (request.query as { childId?: string }).childId)
     if (!request.auth) throw new UnauthorizedError()
     const books = await db.importedBook.findMany({
-      where: { familyId: request.auth.fid, ...(stage ? { ageStage: stage } : {}) },
+      where: { familyId: request.auth.fid },
       select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { id: true } } },
       orderBy: { createdAt: 'desc' },
     })
@@ -416,20 +416,20 @@ function importMediaDirFor(bookId: string): string {
   })
 
   app.get<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id', { preHandler: auth }, async (request) => {
-    const stage = await childStage(request.auth, request.query.childId)
+    await assertSelectedChild(request.auth, request.query.childId)
     if (!request.auth) throw new UnauthorizedError()
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid, ...(stage ? { ageStage: stage } : {}) }, select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const claims = request.auth
     return { book: { ...book, coverUrl: await coverUrlFor(book.id, claims) } }
   })
 
   app.get<{ Params: { id: string; order: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/chapters/:order', { preHandler: auth }, async (request) => {
-    const stage = await childStage(request.auth, request.query.childId)
+    await assertSelectedChild(request.auth, request.query.childId)
     if (!request.auth) throw new UnauthorizedError()
     const order = Number(request.params.order)
     if (!Number.isInteger(order) || order < 1 || order > MAX_CHAPTERS) throw new ValidationError('章节序号不正确')
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid, ...(stage ? { ageStage: stage } : {}) }, select: { id: true } })
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const chapter = await db.importedChapter.findUnique({ where: { bookId_order: { bookId: book.id, order } }, select: { order: true, title: true, text: true } })
     if (!chapter) throw new AppError('没有找到这一章', 'CHAPTER_NOT_FOUND', 404)
@@ -450,8 +450,8 @@ function importMediaDirFor(bookId: string): string {
     if (!request.auth) throw new UnauthorizedError()
     const childId = request.query.childId
     if (!childId) throw new ValidationError('请选择孩子档案')
-    const child = await db.childProfile.findFirst({ where: { id: childId, familyId: request.auth.fid }, select: { stage: true } })
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid, ageStage: child?.stage ?? '' }, select: { id: true } })
+    await assertSelectedChild(request.auth, childId)
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const progress = await db.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
     return { progress: progress ? { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt } : null }
@@ -461,8 +461,8 @@ function importMediaDirFor(bookId: string): string {
     if (!request.auth) throw new UnauthorizedError()
     const childId = request.query.childId
     if (!childId) throw new ValidationError('请选择孩子档案')
-    const child = await db.childProfile.findFirst({ where: { id: childId, familyId: request.auth.fid }, select: { stage: true } })
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid, ageStage: child?.stage ?? '' }, select: { id: true } })
+    await assertSelectedChild(request.auth, childId)
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     // B3（交接文档）：baseUpdatedAt=客户端所基于的服务器版本；缺省视为最新（兼容旧客户端）
     const parsed = z.object({
