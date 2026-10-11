@@ -233,8 +233,8 @@ async function getBookCatalog(db: PrismaClient): Promise<Omit<BookCatalog, 'at'>
   }
   const books = await db.book.findMany({
     where: { publicationStatus: 'published' },
-    // 中文排前（'zh'>'en'，desc 即 zh 在前）、同类按标题稳定排序
-    orderBy: [{ lang: 'desc' }, { category: 'asc' }, { title: 'asc' }],
+    // 最近加入的书排前；同一时刻加入的书按稳定 ID 排序，内容修订不改变位置。
+    orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
     select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true, contentVersion: true },
   })
   const chapterRows = await db.chapter.findMany({ select: { bookId: true, title: true }, orderBy: { order: 'asc' } })

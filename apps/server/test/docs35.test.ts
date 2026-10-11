@@ -191,6 +191,37 @@ describe('A1 块级 artReaderUrl 契约', () => {
 })
 
 describe('B3 目录缓存', () => {
+  it('书目按加入时间倒序，搜索/语言/书单保序，修订旧书不置顶', async () => {
+    const fixtures = [
+      { id: 'added-order-old', title: 'Added order A', lang: 'zh' as const, createdAt: new Date('2020-01-01T00:00:00Z') },
+      { id: 'added-order-new-a', title: 'Added order Z', lang: 'en' as const, createdAt: new Date('2020-01-02T00:00:00Z') },
+      { id: 'added-order-new-b', title: 'Added order B', lang: 'zh' as const, createdAt: new Date('2020-01-02T00:00:00Z') },
+    ]
+    const ids = fixtures.map((b) => b.id)
+    try {
+      for (const book of fixtures) {
+        await seedPack(db, { ...PROBE, id: book.id, title: book.title, lang: book.lang })
+        await db.book.update({ where: { id: book.id }, data: { createdAt: book.createdAt } })
+      }
+      invalidateBookCatalog()
+      const expected = ['added-order-new-a', 'added-order-new-b', 'added-order-old']
+      const listed = await app.inject({ method: 'GET', url: `/api/content/books?childId=${childId}`, headers: authHeaders(token) })
+      expect(listed.statusCode).toBe(200)
+      expect(listed.json().books.filter((b: { id: string }) => ids.includes(b.id)).map((b: { id: string }) => b.id)).toEqual(expected)
+      const searched = await app.inject({ method: 'GET', url: '/api/content/books?q=Added%20order', headers: authHeaders(token) })
+      expect(searched.statusCode).toBe(200)
+      expect(searched.json().books.map((b: { id: string }) => b.id)).toEqual(expected)
+      expect((await listBooks(db, { familyId, ids: [...ids].reverse() })).map((b) => b.id)).toEqual(expected)
+      expect((await listBooks(db, { familyId, ids, lang: 'zh' })).map((b) => b.id)).toEqual(['added-order-new-b', 'added-order-old'])
+      await seedPack(db, { ...PROBE, id: 'added-order-old', title: 'Added order old revised' })
+      expect((await listBooks(db, { familyId, ids })).map((b) => b.id)).toEqual(expected)
+    } finally {
+      await db.book.deleteMany({ where: { id: { in: ids } } })
+      await db.rightsLedger.deleteMany({ where: { bookId: { in: ids } } })
+      invalidateBookCatalog()
+    }
+  })
+
   it('目录缓存命中后 seedPack 更新立即可见（失效钩子生效，无 TTL 陈旧窗口）', async () => {
     // 先预热缓存
     expect((await listBooks(db, { familyId, childId })).find((b) => b.id === PROBE.id)).toBeDefined()
