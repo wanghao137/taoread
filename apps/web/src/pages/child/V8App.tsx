@@ -967,6 +967,7 @@ function DiscoverPage() {
         />
         <button
           className="sticker-btn hot"
+          disabled={filtered.length === 0}
           onClick={() => {
             const pick = filtered[Math.floor(Math.random() * Math.max(1, filtered.length))]
             if (pick) v.openBook(pick.id)
@@ -1057,7 +1058,10 @@ function DiscoverPage() {
         {/* docs/41 修复 1a：书单加载中（collectionBooks 未到）不算「没找到」——此前 1-3s
             加载窗口先闪「没找到，换个词试试」，慢网用户以为书单坏了 */}
         {v.loaded && !v.booksError && filtered.length === 0 && !(collectionKey && !collectionBooks && !collectionError) ? (
-          <p className="mono-label">{collectionKey ? '这份书单里暂时没有适合你的书。' : '没找到，换个词试试。'}</p>
+          <div>
+            <p className="mono-label">{collectionKey ? '这份书单暂时没有匹配的故事。' : '没找到，换个词试试。'}</p>
+            <button className="sticker-btn" onClick={() => { setQuery(''); setServerHits(null); clearAllFilters() }}>看看全部故事</button>
+          </div>
         ) : null}
         {filtered.slice(0, visible).map((b) => (
           <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />

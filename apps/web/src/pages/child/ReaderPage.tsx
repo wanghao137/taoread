@@ -9,7 +9,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, ApiError, API_BASE, type ContentChapterDto, type WordQuizDto } from '../../lib/api'
+import { api, ApiError, type ContentChapterDto, type WordQuizDto } from '../../lib/api'
 import { tts } from '../../lib/tts'
 import { audioPlayer, type VoiceOption } from '../../lib/audioPlayer'
 import { useSession } from '../../stores/session'
@@ -23,6 +23,7 @@ import { Dialog } from '../../components/ui/Dialog'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
+import { ContentProgressWriter, type ContentPosition, type ProgressSaveState } from '../../lib/contentProgress'
 import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
@@ -255,62 +256,54 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const mainRef = useRef<HTMLElement | null>(null)
 
   /* ── B2/F13：保存状态机——失败可见、自动重试、离开页面 keepalive 兜底提交 ── */
-  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle')
-  /** 尚未成功落库的进度；重试与离开提交都以它为准，成功后清空 */
-  const unsavedRef = useRef<{ chapterOrder: number; blockOrder: number } | null>(null)
-  const saveSeqRef = useRef(0)
-  /** R-04：客户端持有的行版本（updatedAt），上报时带回做防乱序覆盖 */
-  const progressVerRef = useRef<string | undefined>(undefined)
+  const [saveState, setSaveState] = useState<ProgressSaveState>('idle')
+  const progressWriter = useMemo(() => new ContentProgressWriter(
+    async () => {
+      const res = await api.contentProgress(book.id, childId!, token!)
+      return res.progress.updatedAt ?? new Date(0).toISOString()
+    },
+    (payload, version) => api.reportContentProgress(book.id, childId!, { ...payload, baseUpdatedAt: version }, token!),
+    setSaveState,
+  ), [book.id, childId, token])
   const pendingPageSaveRef = useRef<number | null>(null)
 
   const persistProgress = useCallback(
-    async (payload: { chapterOrder: number; blockOrder: number }) => {
-      if (!childId || !token) return
-      const seq = ++saveSeqRef.current
-      setSaveState('saving')
-      try {
-        const res = await api.reportContentProgress(book.id, childId, { ...payload, baseUpdatedAt: progressVerRef.current }, token)
-        progressVerRef.current = res.updatedAt
-        if (seq === saveSeqRef.current && unsavedRef.current === payload) {
-          unsavedRef.current = null
-          setSaveState('saved')
-        }
-        // stale=另一台设备已写入更新进度：本机旧位置不覆盖服务器，也不重试
-      } catch {
-        // 保留 unsavedRef，等 8 秒重试 / 下次滚动 / 离开兜底；顶部状态条可见
-        if (seq === saveSeqRef.current) setSaveState('failed')
-      }
+    (payload: ContentPosition) => {
+      if (!childId || !token) return Promise.resolve(false)
+      return progressWriter.save(payload)
     },
-    [childId, token, book.id],
+    [childId, token, progressWriter],
   )
 
-  /** 失败自动重试（8s）；在途保存由序号保证只认最新一次结果 */
+  const synchronizeProgress = useCallback(async () => {
+    if (!childId || !token) return
+    try {
+      const { progress } = await api.contentProgress(book.id, childId, token)
+      const target = Math.max(1, Math.min(progress.chapterOrder, book.chapterCount))
+      // 同步必须打开服务器的章节；仅刷新旧 URL 会带新版本重新写回旧位置。
+      if (target === startOrder) window.location.reload()
+      else navigate(`/child/book/${encodeURIComponent(book.id)}/chapter/${target}`, { replace: true })
+    } catch {
+      showToast('最新进度没拿到，请稍后再同步')
+    }
+  }, [childId, token, book.id, book.chapterCount, startOrder, navigate, showToast])
+
+  /** 失败自动重试（8s）；冲突停止补写，直到重新打开取得服务器进度。 */
   useEffect(() => {
     const timer = window.setInterval(() => {
-      if (unsavedRef.current) void persistProgress(unsavedRef.current)
+      if (progressWriter.pending) void progressWriter.retry()
     }, 8000)
     return () => window.clearInterval(timer)
-  }, [persistProgress])
+  }, [progressWriter])
 
   useEffect(() => () => {
     if (pendingPageSaveRef.current !== null) window.clearTimeout(pendingPageSaveRef.current)
   }, [persistProgress])
 
-  /** 离开页面兜底：sendBeacon 带不了 Authorization，用 keepalive fetch 提交未保存进度 */
+  /** 所有进度请求都使用 keepalive；离开时仍走同一版本队列，不能并发无条件补写。 */
   useEffect(() => {
     const flush = () => {
-      const payload = unsavedRef.current
-      if (!payload || !childId || !token) return
-      try {
-        void fetch(`${API_BASE}/api/content/books/${encodeURIComponent(book.id)}/progress`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-          body: JSON.stringify({ childId, ...payload }),
-          keepalive: true,
-        }).catch(() => undefined)
-      } catch {
-        /* 已尽力：下次打开按服务器已有进度续读 */
-      }
+      if (progressWriter.pending && childId && token) void progressWriter.retry()
     }
     const onHide = () => {
       if (document.visibilityState === 'hidden') flush()
@@ -320,8 +313,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return () => {
       window.removeEventListener('pagehide', flush)
       document.removeEventListener('visibilitychange', onHide)
+      flush()
     }
-  }, [childId, token, book.id])
+  }, [childId, token, progressWriter])
   const chapterRef = useRef<ContentChapterDto | null>(null)
 
   const isLastChapter = order >= book.chapterCount
@@ -386,16 +380,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         setChapter(res.chapter)
         setOrder(target)
         if (childId) {
-          const now = Date.now()
-          if (now - lastReport.current > 5000) {
-            lastReport.current = now
-            void api
-              .reportContentProgress(book.id, childId, { chapterOrder: target, blockOrder: restoreBlock, baseUpdatedAt: progressVerRef.current }, token)
-              .then((r) => {
-                if (request === chapterRequest.current) progressVerRef.current = r.updatedAt
-              })
-              .catch(() => {})
-          }
+          lastReport.current = Date.now()
+          void persistProgress({ chapterOrder: target, blockOrder: restoreBlock })
         }
       } catch (err) {
         if (request !== chapterRequest.current) return
@@ -410,7 +396,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         if (request === chapterRequest.current) setLoading(false)
       }
     },
-    [token, book.id, cacheBookKey, childId, showToast],
+    [token, book.id, cacheBookKey, childId, showToast, persistProgress],
   )
 
   /* ── docs/35 C1：下一章空闲预取——进章 1.8s 后 idle 拉下一章 JSON + 预热题图，
@@ -450,7 +436,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       if (childId && token) {
         try {
           const res = await api.contentProgress(book.id, childId, token)
-          progressVerRef.current = res.progress.updatedAt
+          if (!alive) return
+          progressWriter.version = res.progress.updatedAt ?? new Date(0).toISOString()
           if (alive && res.progress.versionChanged) showToast('内容有更新，已回到本章开头；原完成记录仍保留')
           if (alive && !res.progress.versionChanged && !res.progress.finished && res.progress.chapterOrder === startOrder) {
             restore = res.progress.blockOrder
@@ -668,15 +655,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         idx = i
       }
       currentBlockRef.current = idx
+      const payload = { chapterOrder: order, blockOrder: idx }
+      progressWriter.pending = payload
       if (now - lastReport.current < 5000) return
       lastReport.current = now
-      const payload = { chapterOrder: order, blockOrder: idx }
-      unsavedRef.current = payload
       void persistProgress(payload)
     }
     mainEl.addEventListener('scroll', onScroll, { passive: true })
     return () => mainEl.removeEventListener('scroll', onScroll)
-  }, [chapter, childId, token, order, book.id, persistProgress])
+  }, [chapter, childId, token, order, book.id, persistProgress, progressWriter])
 
   /* ── 进入章节按已存 blockOrder 定位（消费 restoredBlockRef 一次）──
       滚动模式：scrollIntoView；翻页模式：设 pager 锚点后跳所在页（对抗审查 P1-2：
@@ -956,22 +943,20 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     if (!childId || !token) return
     const now = Date.now()
     const payload = { chapterOrder: order, blockOrder }
-    // 即便被 5s 节流拦下也先记 unsavedRef：翻页模式没有持续的 scroll 事件补报，
-    // 离开页面（pagehide）的 flush 兜底以 unsavedRef 为准（对抗审查 R3：单次翻页
-    // 若落在进入即报的节流窗内，位置会被静默丢弃导致续读回退到第 1 页）
-    unsavedRef.current = payload
+    // 节流期间也保留最后一页，重试与离开提交都使用同一队列。
+    progressWriter.pending = payload
     if (pendingPageSaveRef.current !== null) window.clearTimeout(pendingPageSaveRef.current)
     if (now - lastReport.current < 5000) {
       pendingPageSaveRef.current = window.setTimeout(() => {
         pendingPageSaveRef.current = null
         lastReport.current = Date.now()
-        if (unsavedRef.current) void persistProgress(unsavedRef.current)
+        if (progressWriter.pending) void progressWriter.retry()
       }, 5000 - (now - lastReport.current))
       return
     }
     lastReport.current = now
     void persistProgress(payload)
-  }, [childId, token, order, persistProgress])
+  }, [childId, token, order, persistProgress, progressWriter])
 
   const pager = usePagedReading({
     enabled: pageMode === 'page',
@@ -1170,19 +1155,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     if (!childId || !token) return
     if (speaking) stopSpeaking()
     try {
-      const res = await api.reportContentProgress(
-        book.id,
-        childId,
-        {
+      const saved = await persistProgress({
           chapterOrder: order,
           blockOrder: currentBlockRef.current,
           completed: order >= book.chapterCount,
-          baseUpdatedAt: progressVerRef.current,
-        },
-        token,
-      )
-      progressVerRef.current = res.updatedAt
-      // stale=另一台设备已写入更新进度：不覆盖服务器，但本机照常进入结算
+        })
+      if (!saved) {
+        showToast('进度未保存；若已在另一台设备更新，请重新打开本书同步')
+        return
+      }
       haptic('stamp')
     } catch (err) {
       showToast(err instanceof Error ? err.message : '进度没存上，再试一次')
@@ -1194,7 +1175,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       .then((r) => setQuiz(r.quiz))
       .catch(() => setQuiz(null))
     setShowFinish(true)
-  }, [childId, token, book.id, book.chapterCount, order, speaking, stopSpeaking, showToast])
+  }, [childId, token, book.id, book.chapterCount, order, speaking, stopSpeaking, showToast, persistProgress])
 
   const submitHighlight = useCallback(async () => {
     const text = noteText.trim()
@@ -1336,13 +1317,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                 padding: '3px 8px',
                 border: '1.5px solid var(--ink)',
                 borderRadius: 999,
-                background: saveState === 'failed' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',
+                background: saveState === 'failed' || saveState === 'conflict' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',
                 fontFamily: 'var(--mono)',
                 fontSize: 12,
                 whiteSpace: 'nowrap',
               }}
             >
-              {saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上，重试中'}
+              {saveState === 'conflict' ? <button aria-label="进度已在另一台设备更新，重新打开同步" onClick={() => void synchronizeProgress()}>同步进度</button> : saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上，重试中'}
             </span>
           )}
         </span>

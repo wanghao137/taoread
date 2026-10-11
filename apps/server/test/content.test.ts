@@ -210,7 +210,7 @@ describe('内容域 /api/content/books', () => {
     expect(first.json().blockOrder).toBe(1)
     const ver = first.json().updatedAt as string
 
-    // 同设备短间隔内的连写（同一版本基数）在容差内正常生效——不误伤快速滚动
+    // 同设备串行保存使用上一次确认版本，快速滚动仍正常生效。
     const quick = await post({ childId, chapterOrder: 4, blockOrder: 0, baseUpdatedAt: ver })
     expect(quick.json().stale).toBe(false)
 
@@ -232,6 +232,28 @@ describe('内容域 /api/content/books', () => {
     const fresh = await post({ childId, chapterOrder: 5, blockOrder: 0, baseUpdatedAt: stale.json().updatedAt })
     expect(fresh.json().stale).toBe(false)
     expect(fresh.json().chapterOrder).toBe(5)
+  })
+
+  it('双设备不到 1.5 秒的旧写也不能覆盖新进度', async () => {
+    const db = harness.db as PrismaClient
+    const base = new Date(Date.now() - 100)
+    await db.readingProgress.update({ where: { childId_bookId: { childId, bookId: 'sanzi-jing' } }, data: { chapterOrder: 8, blockOrder: 0, updatedAt: base } })
+    const post = (chapterOrder: number) => harness.app.inject({ method: 'POST', url: '/api/content/books/sanzi-jing/progress', headers: authHeaders(token), payload: { childId, chapterOrder, blockOrder: 0, baseUpdatedAt: base.toISOString() } })
+    const newer = await post(9)
+    expect(newer.json().stale).toBe(false)
+    const old = await post(2)
+    expect(old.json().stale).toBe(true)
+    expect(old.json().chapterOrder).toBe(9)
+  })
+
+  it('并发同版本写入只有一次成功，响应返回真实落库位置', async () => {
+    const db = harness.db as PrismaClient
+    const base = new Date(Date.now() - 100)
+    await db.readingProgress.update({ where: { childId_bookId: { childId, bookId: 'sanzi-jing' } }, data: { updatedAt: base } })
+    const results = await Promise.all([10, 2].map(chapterOrder => harness.app.inject({ method: 'POST', url: '/api/content/books/sanzi-jing/progress', headers: authHeaders(token), payload: { childId, chapterOrder, blockOrder: 0, baseUpdatedAt: base.toISOString() } })))
+    expect(results.map(r => r.json().stale).sort()).toEqual([false, true])
+    const row = await db.readingProgress.findUniqueOrThrow({ where: { childId_bookId: { childId, bookId: 'sanzi-jing' } } })
+    expect(results.map(r => r.json().chapterOrder)).toEqual([row.chapterOrder, row.chapterOrder])
   })
 
   it('末章上报：越界钳到末章；位置上报不再自动 finished，显式 completed 才标记', async () => {
@@ -453,7 +475,7 @@ describe('内容域 生词本（docs/15 P1-B）', () => {
     await db.importedBook.upsert({
       where: { id: impId },
       create: { id: impId, familyId, title: '家庭导入的英文书', lang: 'en', ageStage: '6-8', sourceName: 'family-book.epub', sha256: 'sha-words-imp-1' },
-      update: {},
+      update: { familyId },
     })
     const add = await harness.app.inject({
       method: 'POST',

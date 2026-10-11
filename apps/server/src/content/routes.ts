@@ -196,7 +196,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       await assertOwnChild(request, query.childId)
       await svc.assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
       const progress = await svc.getProgress(db, query.childId, request.params.id)
-      return reply.send({ progress: progress ?? { chapterOrder: 1, blockOrder: 0, finished: false } })
+      return reply.send({ progress: progress ?? { chapterOrder: 1, blockOrder: 0, finished: false, updatedAt: new Date(0).toISOString() } })
     },
   )
 

@@ -190,12 +190,15 @@ export function FamilyReaderPage() {
   const jumpRef = useRef<number>(-1)
   const saveTimerRef = useRef<number | null>(null)
   const saveGeneration = useRef(0)
+  const enteredChapterRef = useRef('')
   useEffect(() => { const generation = saveGeneration; generation.current++; return () => { generation.current++ } }, [token, childId, id, order])
   useEffect(() => () => { if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current); saveTimerRef.current = null }, [token, childId, id, order])
   const segmentsRef = useRef<Array<TtsSegment | undefined>>([])
   const startsRef = useRef<number[]>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const playingIndexRef = useRef(-1)
+  const waitingIndexRef = useRef<number | null>(null)
+  const audioAttemptRef = useRef(0)
   const ttsStateRef = useRef<'idle' | 'loading' | 'playing' | 'paused'>('idle')
   /** 字级高亮 rAF 句柄与去重键（每字一渲染，不逐帧刷） */
   const charRafRef = useRef<number | null>(null)
@@ -225,6 +228,7 @@ export function FamilyReaderPage() {
 
   // 停掉朗读：换章/离开页面时必须断流（后台不再白合成）
   const stopTts = useCallback(() => {
+    audioAttemptRef.current++
     sseRef.current?.abort()
     sseRef.current = null
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.onended = null }
@@ -232,6 +236,7 @@ export function FamilyReaderPage() {
     segmentsRef.current = []
     startsRef.current = []
     playingIndexRef.current = -1
+    waitingIndexRef.current = null
     jumpRef.current = -1
     charKeyRef.current = ''
     setPlayingChar(null)
@@ -266,6 +271,7 @@ export function FamilyReaderPage() {
     setSaveState('saving')
     // Serialize writes so a slow earlier page cannot overwrite the latest page.
     const job = saveQueueRef.current.then(async () => {
+    if (generation !== saveGeneration.current) return
     try {
       // B3：携带本机所基于的服务器版本；409=其他设备已写入更新进度，重新拉取并采用服务器版本
       const version = progressVersionRef.current.key === progressKey ? progressVersionRef.current.value : progress
@@ -294,6 +300,17 @@ export function FamilyReaderPage() {
     saveQueueRef.current = job.catch(() => undefined)
     await job
   }
+
+  // 打开短章也必须记住章号；已有的本章位置用于续读，不能被入口的 offset=0 清掉。
+  useEffect(() => {
+    if (!chapter || chapter.order !== Number(order) || !progressLoaded) return
+    const key = `${progressKey}:${order}`
+    if (enteredChapterRef.current === key) return
+    enteredChapterRef.current = key
+    void save(progress?.order === Number(order) ? progress.offset : 0)
+    // 入口只写一次；之后响应与排版重算不应再次把光标拉回开头。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapter, progressLoaded, progressKey, order])
 
   // 续读定位：章节打开后定位到上次读到的块（滚动=scrollIntoView；翻页=设锚后跳所在页——
   // 对抗审查 P1：scrollIntoView 会横向滚动 overflow:hidden 的分页视口造成双重偏移）
@@ -334,7 +351,7 @@ export function FamilyReaderPage() {
       for (const node of container.querySelectorAll<HTMLElement>('[data-block][data-clean-start]')) {
         if (node.getBoundingClientRect().bottom > containerTop) { offset = Number(node.dataset.cleanStart ?? 0); break }
       }
-      if (offset > 0) void save(offset)
+      void save(offset)
     }, 2000)
   }
 
@@ -425,16 +442,20 @@ export function FamilyReaderPage() {
   }
 
   function playSegment(index: number) {
+    if (ttsStateRef.current === 'paused') {
+      waitingIndexRef.current = index
+      return
+    }
     const segment = segmentsRef.current[index]
     const start = startsRef.current[index]
     if (!segment || start === undefined) {
       // 段未到达（服务端串行合成，冷段可达数十秒）：短轮询等待到达。
-      // 轮询闭包绑定当前 SSE 会话与 playing|paused 两态：stop 后旧轮询自我作废，
-      // 段间隙点暂停只冻结会话、不再把它误重置成 idle（恢复后继续等下一段）。
+      // 暂停时记录目标段并冻结轮询；点击继续后从该段恢复，不能重播已结束的上一段。
+      waitingIndexRef.current = index
       const sess = sseRef.current
-      if (sess && !sess.signal.aborted && (ttsStateRef.current === 'playing' || ttsStateRef.current === 'paused')) {
+      if (sess && !sess.signal.aborted && ttsStateRef.current === 'playing') {
         window.setTimeout(() => {
-          if (sseRef.current === sess && (ttsStateRef.current === 'playing' || ttsStateRef.current === 'paused')) playSegment(index)
+          if (sseRef.current === sess && ttsStateRef.current === 'playing') playSegment(index)
         }, 800)
         return
       }
@@ -449,16 +470,18 @@ export function FamilyReaderPage() {
       return
     }
     playingIndexRef.current = index
+    waitingIndexRef.current = null
+    const attempt = ++audioAttemptRef.current
     applyTtsState('playing')
     setSpeakingRange({ start, end: start + segment.text.length })
     if (segment.chars.length > 0) startCharLoop()
     const audio = audioRef.current ?? (audioRef.current = new Audio())
     audio.onended = () => {
-      if (ttsStateRef.current !== 'playing') return
+      if (attempt !== audioAttemptRef.current || ttsStateRef.current !== 'playing') return
       playSegment(index + 1)
     }
     audio.src = segment.audioUrl
-    void audio.play().catch(() => applyTtsState('paused'))
+    void audio.play().catch(() => { if (attempt === audioAttemptRef.current) applyTtsState('paused') })
   }
 
   function playFrom(paragraphCleanStart: number | null) {
@@ -466,10 +489,12 @@ export function FamilyReaderPage() {
     stopTts()
     const controller = new AbortController()
     sseRef.current = controller
+    setError('')
     applyTtsState('loading')
     if (paragraphCleanStart !== null) jumpRef.current = paragraphCleanStart
     void api.ttsChapterStream(id, Number(order), { lang: (book?.lang as 'zh' | 'en') ?? 'zh' }, {
       onSegment: (segment) => {
+        if (sseRef.current !== controller || controller.signal.aborted) return
         // 段起点用服务端权威值（服务端跳段时客户端拼不出真值）；缺失时退回 Σ(len+1) 自算
         startsRef.current[segment.index] = segment.start ?? segmentsRef.current.reduce((sum, item) => sum + (item ? item.text.length + 1 : 0), 0)
         segmentsRef.current[segment.index] = { index: segment.index, text: segment.text, audioUrl: segment.audioUrl, chars: segment.chars }
@@ -485,16 +510,25 @@ export function FamilyReaderPage() {
         }
       },
       onError: (message) => {
+        if (sseRef.current !== controller || controller.signal.aborted) return
         // 服务端单段失败后仍会继续推后续段：只提示，不断播放链
         setError(message)
         if (playingIndexRef.current < 0) applyTtsState('idle')
       },
       onDone: () => {
+        if (sseRef.current !== controller || controller.signal.aborted) return
         // 流结束即释放会话引用：末段播完后的等待轮询据此走顺延/收尾，不再永久空转卡在暂停态
         sseRef.current = null
         if (jumpRef.current >= 0) { jumpRef.current = -1; applyTtsState('idle') }
+        else if (waitingIndexRef.current !== null && ttsStateRef.current === 'playing') playSegment(waitingIndexRef.current)
       },
-    }, { signal: controller.signal })
+    }, { signal: controller.signal }).catch((err: unknown) => {
+      if (sseRef.current !== controller || controller.signal.aborted) return
+      sseRef.current = null
+      setError(err instanceof Error ? err.message : '朗读连接中断，请重试')
+      if (playingIndexRef.current < 0) applyTtsState('idle')
+      else if (waitingIndexRef.current !== null && ttsStateRef.current === 'playing') playSegment(waitingIndexRef.current)
+    })
   }
 
   function togglePlay() {
@@ -504,10 +538,17 @@ export function FamilyReaderPage() {
       return
     }
     if (ttsStateRef.current === 'paused') {
-      void audioRef.current?.play().then(() => {
+      if (waitingIndexRef.current !== null) {
         applyTtsState('playing')
+        playSegment(waitingIndexRef.current)
+        return
+      }
+      const attempt = audioAttemptRef.current
+      applyTtsState('playing')
+      void audioRef.current?.play().then(() => {
+        if (attempt !== audioAttemptRef.current || ttsStateRef.current !== 'playing') return
         startCharLoop()
-      }).catch(() => applyTtsState('idle'))
+      }).catch(() => { if (attempt === audioAttemptRef.current) applyTtsState('paused') })
       return
     }
     playFrom(null)
@@ -517,7 +558,7 @@ export function FamilyReaderPage() {
   function jumpToParagraph(cleanStart: number) {
     if (ttsStateRef.current === 'idle' || ttsStateRef.current === 'loading') { playFrom(cleanStart); return }
     const index = segmentsRef.current.findIndex((segment) => segment !== undefined && startsRef.current[segment.index] !== undefined && startsRef.current[segment.index]! + segment.text.length > cleanStart)
-    if (index >= 0) playSegment(index)
+    if (index >= 0) { applyTtsState('playing'); playSegment(index) }
   }
 
   // 朗读跟随滚动：正在读的块滚到视野中央（字级定位优先，无字级时间轴时回退段区间首块）；只在块切换时滚
@@ -621,9 +662,9 @@ export function FamilyReaderPage() {
         >
           <div ref={blocksRef} className={pageMode === 'page' ? 'pager-track' : undefined} style={pageMode === 'page' ? { flex: 1, minHeight: 0 } : undefined}>
             <h2 style={{ fontSize: Math.round(font * 1.25) }}>{chapter?.title ?? '正在打开章节…'}</h2>
-            {artUrl && <div style={{ margin: '0 0 14px' }}><div style={{ aspectRatio: '16 / 9' }}><img src={artUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>}
+            {artUrl && <div className="family-illustration family-chapter-art" style={{ margin: '0 0 14px' }}><div style={{ aspectRatio: '16 / 9' }}><img src={artUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>}
             {blocks.map((block, index) => block.kind === 'img'
-              ? <div key={index} data-block={index} style={{ margin: '14px 0' }}><div style={{ aspectRatio: '4 / 3' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>
+              ? <div key={index} className="family-illustration" data-block={index} style={{ margin: '14px 0' }}><div style={{ aspectRatio: '4 / 3' }}><img src={images[block.key]} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 14 }} onError={(event) => { (event.target as HTMLImageElement).style.display = 'none' }} /></div></div>
               : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: (playingChar && playingChar.index === index) || (speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start) ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{playingChar && playingChar.index === index ? renderReadingChars(block.text, playingChar.localChar) : block.text}</p>)}
           </div>
           <div className="family-chapter-navigation" style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginTop: 12, flexWrap: 'wrap', flexShrink: 0 }}>

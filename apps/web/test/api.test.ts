@@ -24,6 +24,14 @@ afterEach(() => {
 })
 
 describe('request / api 客户端', () => {
+  it('阅读进度离开时仍携带认证、版本与完成动作，使用 keepalive', async () => {
+    const { calls } = mockFetch(async () => jsonResponse(200, { stale: false, updatedAt: 'v2' }))
+    await api.reportContentProgress('story', 'child', { chapterOrder: 8, blockOrder: 4, completed: true, baseUpdatedAt: 'v1' }, 'reader-token')
+    expect(calls[0]!.init?.keepalive).toBe(true)
+    expect(calls[0]!.init?.headers).toMatchObject({ Authorization: 'Bearer reader-token' })
+    expect(JSON.parse(String(calls[0]!.init?.body))).toMatchObject({ childId: 'child', chapterOrder: 8, blockOrder: 4, completed: true, baseUpdatedAt: 'v1' })
+  })
+
   it('GET 携带 Bearer 头并解析 JSON', async () => {
     const { calls } = mockFetch(async () => jsonResponse(200, { ok: true, children: [] }))
     const data = await api.familyView('fam-1', 'tok-1')

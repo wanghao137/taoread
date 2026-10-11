@@ -517,7 +517,7 @@ export async function listChapterTitles(
   return rows
 }
 
-/** 进度上报：chapterOrder 越界时钳到末章；末章打 finished=true */
+/** 进度上报：越界钳到末章，只有显式完成末章才写 finished=true。 */
 export interface ProgressReportResult {
   chapterOrder: number
   blockOrder: number
@@ -528,8 +528,8 @@ export interface ProgressReportResult {
   stale: boolean
 }
 
-/** 进度上报：chapterOrder 越界时钳到末章；末章打 finished=true。
- * R-04（docs/31）：baseUpdatedAt 是客户端读到的行版本——服务器行比它新（>1.5s 容差）
+/** 进度上报：chapterOrder 越界时钳到末章；显式完成末章才写 finished=true。
+ * baseUpdatedAt 是客户端读到的行版本，必须与服务器完全一致。
  * 说明有更新的设备已写过，本次旧写拒绝覆盖，返回服务器现状（stale=true）。
  * baseUpdatedAt 缺省 = 旧客户端，退回无条件 upsert（向后兼容）。 */
 export async function reportProgress(
@@ -558,7 +558,7 @@ export async function reportProgress(
   })
   if (existing && baseUpdatedAt) {
     const base = new Date(baseUpdatedAt)
-    if (!Number.isNaN(base.getTime()) && existing.updatedAt.getTime() - base.getTime() > 1500) {
+    if (Number.isNaN(base.getTime()) || existing.updatedAt.getTime() !== base.getTime()) {
       return {
         chapterOrder: existing.chapterOrder,
         blockOrder: existing.blockOrder,
@@ -568,21 +568,34 @@ export async function reportProgress(
       }
     }
   }
-  await db.readingProgress.upsert({
-    where: { childId_bookId: { childId, bookId: contentId } },
-    create: { childId, bookId: contentId, contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, finished },
-    update: { contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, ...(finished || (existing && existing.contentVersion !== book.contentVersion) ? { finished } : {}) },
-  })
+  // 毫秒内连写也生成不同版本；条件更新同时堵住读取后、落库前的并发窗口。
+  const updatedAt = new Date(Math.max(Date.now(), (existing?.updatedAt.getTime() ?? 0) + 1))
+  let written = true
+  if (existing) {
+    const result = await db.readingProgress.updateMany({
+      where: { childId, bookId: contentId, ...(baseUpdatedAt ? { updatedAt: existing.updatedAt } : {}) },
+      data: { contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, updatedAt, ...(finished || existing.contentVersion !== book.contentVersion ? { finished } : {}) },
+    })
+    written = result.count === 1
+  } else {
+    try {
+      await db.readingProgress.create({ data: { childId, bookId: contentId, contentVersion: book.contentVersion, chapterOrder: clamped, blockOrder, finished, updatedAt } })
+    } catch (error) {
+      // 首次阅读两个设备同时建行：保留先到的位置，不把唯一约束报成服务故障。
+      if ((error as { code?: string }).code !== 'P2002') throw error
+      written = false
+    }
+  }
   const persisted = await db.readingProgress.findUniqueOrThrow({
     where: { childId_bookId: { childId, bookId: contentId } },
-    select: { finished: true, updatedAt: true },
+    select: { chapterOrder: true, blockOrder: true, finished: true, updatedAt: true },
   })
   return {
-    chapterOrder: clamped,
-    blockOrder,
+    chapterOrder: persisted.chapterOrder,
+    blockOrder: persisted.blockOrder,
     finished: persisted.finished,
     updatedAt: persisted.updatedAt.toISOString(),
-    stale: false,
+    stale: !written,
   }
 }
 

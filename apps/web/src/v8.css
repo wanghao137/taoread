@@ -30,15 +30,22 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:focus-visib
 @media(min-width:1100px){.story-row,.library{grid-template-columns:repeat(4,1fr)}}
 .reader.night .reader-controls{box-shadow:4px 4px 0 rgba(246,237,220,.22)}
 /* docs/41 修复 3：翻页模式（columns 分页 + translateX 切页） */
-.pager-track{column-fill:auto;overflow:visible;will-change:transform;position:relative;min-width:0;width:100%;overflow-wrap:anywhere}
+.pager-track{column-fill:auto;overflow:visible;will-change:transform;position:relative;min-width:0;width:100%;overflow-wrap:anywhere;--reading-illustration-height:clamp(48px,calc(var(--reading-page-height,600px) * .45 - 36px),320px)}
 .pager-navigation{display:flex;align-items:center;justify-content:center;gap:12px;flex-shrink:0;padding:6px 12px;color:inherit}
 .pager-navigation button{min-width:64px;min-height:44px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;padding:6px 10px;font-size:14px}
 .pager-navigation button:disabled{opacity:.4}
 .pager-page{font-size:12px;font-family:var(--mono);white-space:nowrap}
 .reader .pager-navigation{position:static}
 .reader-top{flex-shrink:0}
-.pager-track img{max-width:100%;max-height:var(--reading-page-height,none)}
-.pager-track .reader-art,.pager-track [data-block]>div{max-height:var(--reading-page-height,none)}
+/* 插图需连同图注放进一页，并给标题和正文留空间；不能直接占满整页高。 */
+.pager-track img{max-width:100%;max-height:var(--reading-illustration-height)}
+.pager-track .reader-art{max-height:var(--reading-illustration-height);max-width:calc(var(--reading-illustration-height) * 16 / 9);margin-inline:auto!important}
+.pager-track .reader-art img.cover-art{object-fit:contain}
+.pager-track .family-illustration{break-inside:avoid}
+.pager-track .family-illustration>div{max-height:var(--reading-illustration-height);max-width:calc(var(--reading-illustration-height) * 4 / 3);margin-inline:auto}
+.pager-track .family-chapter-art>div{max-width:calc(var(--reading-illustration-height) * 16 / 9)}
+.pager-track h2{margin-bottom:12px}
+.pager-track figure{margin-bottom:14px!important}
 .family-reader{height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding:8px;box-sizing:border-box}
 .family-reader-heading{display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:0;padding:4px 0 8px}
 .family-reader-heading .sticker-btn{min-height:44px;padding:6px 10px;font-size:13px;flex-shrink:0}

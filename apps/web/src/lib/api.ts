@@ -21,6 +21,7 @@ export interface RequestOptions {
   token?: string | null
   /** 请求超时毫秒数；缺省 30s（SSE 流式接口不走 request()，不受此限） */
   timeoutMs?: number
+  keepalive?: boolean
 }
 
 interface ErrorBody {
@@ -47,6 +48,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       method: options.method ?? 'GET',
       headers,
       body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      ...(options.keepalive ? { keepalive: true } : {}),
       signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined,
     })
   } catch (err) {
@@ -396,6 +398,7 @@ export const api = {
       `/api/content/books/${encodeURIComponent(contentId)}/progress`,
       {
         method: 'POST',
+        keepalive: true,
         body: {
           childId,
           chapterOrder: body.chapterOrder,
