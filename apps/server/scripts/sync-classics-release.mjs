@@ -7,6 +7,8 @@ import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3
 import dotenv from 'dotenv'
 
 const arg = name => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3)
+const concurrency = Number(arg('concurrency') ?? '4')
+if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw Error('Upload concurrency must be an integer from 1 to 16')
 const manifestPath = arg('manifest'), credentialPath = arg('credentials'), receiptPath = arg('receipt')
 if (!manifestPath || !credentialPath || !receiptPath) throw Error('Explicit --manifest, --credentials and --receipt required')
 const manifestBuffer = await readFile(resolve(manifestPath))
@@ -61,7 +63,7 @@ async function worker() {
   }
 }
 try {
-  const results = await Promise.allSettled(Array.from({ length: 4 }, worker))
+  const results = await Promise.allSettled(Array.from({ length: concurrency }, worker))
   if (results.some(r => r.status === 'rejected') || receipt.verified.length !== manifest.files.length) throw Error('Remote verification incomplete; no success receipt emitted')
   receipt.verified.sort((a, b) => a.path.localeCompare(b.path))
   const statePath = join(media, '.tts-public-state.json')
