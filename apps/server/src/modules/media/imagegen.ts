@@ -32,6 +32,8 @@ export interface GenerateArtInput {
   /** 书名/章节名，仅用于文件命名与台账，不进 prompt（避免文字乱码） */
   label: string
   lang: 'zh' | 'en'
+  /** Locked literary scene: preserve stated cast, objects and lighting. */
+  literalScene?: boolean
 }
 
 export interface GeneratedArt {
@@ -102,6 +104,7 @@ const NIGHT_KEYS = ['夜', '月', '星', '萤火', '晚', '梦', 'moon', 'night'
  */
 export function buildPrompt(input: GenerateArtInput): string {
   const subject = input.description.trim()
+  if (input.literalScene) return `${subject}, radiant watercolor picture book illustration with clean linework and transparent colors, wordless image. Follow the specified scene exactly: preserve character ages and proportions, object counts, setting and time of day. Keep unspecified background simple; include only the described objects and characters.`
   const isNight = NIGHT_KEYS.some((k) => subject.includes(k))
   return isNight ? `${subject}, ${NIGHT_HINT}, ${STYLE}` : `${subject}, ${STYLE}`
 }

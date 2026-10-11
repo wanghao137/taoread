@@ -5,7 +5,7 @@
  * 网络层（stepaudio 出网）用注入的假 fetch 覆盖，不产生真实调用。
  */
 import { afterAll, beforeAll, describe, it, expect } from 'vitest'
-import { chunkText, MAX_SEGMENT_CHARS, synthesizeSegment, synthesizeStream, TtsError, type TtsClientDeps } from '../src/modules/tts/client'
+import { chunkText, narrationInput, segmentOffsets, MAX_SEGMENT_CHARS, synthesizeSegment, synthesizeStream, TtsError, type TtsClientDeps } from '../src/modules/tts/client'
 import { parseMp3 } from '../src/modules/tts/mp3duration'
 import { buildCharTimeline, timelineFromMp3 } from '../src/modules/tts/timeline'
 import { cacheKey, TtsCache } from '../src/modules/tts/cache'
@@ -25,6 +25,37 @@ describe('chunkText 切段', () => {
   it('空文本返回空数组', () => {
     expect(chunkText('')).toEqual([])
     expect(chunkText('   \n  ')).toEqual([])
+  })
+
+  it('不合成独立分隔符或被切出的孤立引号，保留全部可朗读文字', () => {
+    expect(chunkText('***\n——\n”')).toEqual([])
+    expect(narrationInput('前一段。\n***\n后一段。')).toBe('前一段。 后一段。')
+    const text = '甲'.repeat(MAX_SEGMENT_CHARS - 1) + '。”'
+    const segments = chunkText(text)
+    expect(segments).toHaveLength(1)
+    expect(segments[0]).toBe('甲'.repeat(MAX_SEGMENT_CHARS - 1) + '。')
+    expect(chunkText('B612\n1907\nHello!')).toEqual(['B612\n1907\nHello!'])
+  })
+
+  it('保留括号内文字和数字，避免供应商把译注当作不朗读的舞台指令', () => {
+    expect(narrationInput('第一句。\n（这是原文的旁白。）\n***\nB612，1907。')).toBe('第一句。 ，这是原文的旁白。， B612，1907。')
+  })
+
+  it('生僻鸟名以同音输入朗读，显示正文和段落坐标保留原字', () => {
+    const text = '䴙䴘巢靠岸。'
+    expect(narrationInput(text)).toBe('屁踢巢靠岸。')
+    expect(chunkText(text)).toEqual([text])
+    expect(segmentOffsets(text, chunkText(text))).toEqual([0])
+    expect(narrationInput('嗨-喽，赫-喽！')).toBe('嗨喽，赫喽！')
+  })
+
+  it('长行硬切及孤立引号被略过后，后续高亮起点仍指向原文', () => {
+    const text = '甲'.repeat(MAX_SEGMENT_CHARS - 1) + '。”\n下一段。'
+    expect(segmentOffsets(text, chunkText(text))).toEqual([0, MAX_SEGMENT_CHARS])
+    const long = '甲'.repeat(MAX_SEGMENT_CHARS * 2 + 1)
+    expect(segmentOffsets(long, chunkText(long))).toEqual([0, MAX_SEGMENT_CHARS, MAX_SEGMENT_CHARS * 2])
+    const layout = '甲'.repeat(MAX_SEGMENT_CHARS) + '\n***\n' + '乙'.repeat(MAX_SEGMENT_CHARS)
+    expect(segmentOffsets(layout, chunkText(layout))).toEqual([0, MAX_SEGMENT_CHARS + 5])
   })
 
   it('总长不超上限时合并为一段，标点保留在段内', () => {

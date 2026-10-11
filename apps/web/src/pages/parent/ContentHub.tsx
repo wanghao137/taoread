@@ -34,7 +34,7 @@ const SOURCES: Array<{ key: SourceKey; label: string }> = [
 ]
 
 const CATEGORY_LABEL: Record<string, string> = {
-  poetry: '古诗',
+  poetry: '诗歌',
   primer: '蒙学',
   story: '故事',
   tale: '童话',

@@ -82,13 +82,14 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
   await page.getByRole('button', { name: '小朋友' }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
   const picker = page.getByText('今天是谁的故事时间？')
-  try {
-    await picker.waitFor({ timeout: 8_000 })
+  const home = page.getByText('今天想读什么？')
+  // Cold Vite compilation can delay either valid destination. Do not treat
+  // a slow child-picker load as evidence of a single-child family.
+  await expect(picker.or(home)).toBeVisible({ timeout: 30_000 })
+  if (await picker.isVisible()) {
     await page.getByRole('button', { name: new RegExp(name) }).click()
-  } catch {
-    /* 单孩直进 */
   }
-  await page.getByText('今天想读什么？').waitFor({ timeout: 15_000 })
+  await home.waitFor({ timeout: 30_000 })
 }
 
 /** 底部导航（390px 视口下 side 导航隐藏，mobile-nav 是唯一稳定入口）。

@@ -1,5 +1,6 @@
 import type { PackBook } from '../types'
 import { chineseOpenStories } from './chinese-open-stories'
+import { chineseClassics } from './chinese-classics'
 import { correctChineseEditions } from '../editionCorrections'
 
 /* ── 蒙学 ── */
@@ -556,4 +557,5 @@ export const ALL_PACKS: PackBook[] = [
   fireflyLamp,
   windKite,
   ...chineseOpenStories,
+  ...chineseClassics,
 ].map(correctChineseEditions)

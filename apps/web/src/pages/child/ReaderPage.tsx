@@ -1301,6 +1301,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       book.cover,
     ].find((u): u is string => Boolean(u) && !artBroken.has(u!)) ?? null
   const showHeroArt = heroArtUrl !== null
+  const firstImage = blocks[0]?.kind === 'image' ? blocks[0] : null
+  const firstImageUrl = [firstImage?.artReaderUrl, firstImage?.artUrl].find((u) => Boolean(u) && !artBroken.has(u!)) ?? null
+  const heroIsFirstBlock = showHeroArt && heroArtUrl === firstImageUrl
 
   return (
     <div className={`reader ${theme}`} style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
@@ -1386,7 +1389,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
                 data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
                 fetchpriority=high（docs/35 A5）：题图是阅读器 LCP，优先于懒加载图块 */}
-            <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
+            {!heroIsFirstBlock && <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
@@ -1408,7 +1411,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               />
             ) : null}
             {showHeroArt ? <AiBadge /> : null}
-          </div>
+          </div>}
 
           <div
             className="reader-text"
@@ -1444,7 +1447,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                           className="cover-art"
                           src={url!}
                           alt={b.text || `${chapter?.title ?? ''}插图`}
-                          loading="lazy"
+                          loading={b === firstImage && heroIsFirstBlock ? 'eager' : 'lazy'}
+                          {...(b === firstImage && heroIsFirstBlock ? { fetchpriority: 'high' } : {})}
                           decoding="async"
                           style={{ cursor: 'zoom-in' }}
                           role="button"

@@ -45,6 +45,9 @@ export const MAX_SEGMENT_CHARS = 220
  */
 export function chunkText(text: string, maxLen = MAX_SEGMENT_CHARS): string[] {
   const normalized = text.replace(/\r\n/g, '\n')
+  // Layout separators have no spoken content. Sending "***" or a lone quote
+  // to StepAudio can produce extra words such as "星号" or "羊".
+  const hasSpokenContent = (value: string) => /[\p{L}\p{N}]/u.test(value)
   const lines = normalized.split('\n').map((l) => l.trim()).filter(Boolean)
   const segments: string[] = []
   let buf = ''
@@ -93,7 +96,34 @@ export function chunkText(text: string, maxLen = MAX_SEGMENT_CHARS): string[] {
     }
   }
   flush()
-  return segments.filter((s) => s.length > 0)
+  return segments.filter(hasSpokenContent)
+}
+
+/** Keep all spoken words but do not ask the provider to read layout symbols.
+ * Brackets otherwise get interpreted as unspoken stage directions by StepAudio.
+ * Cache keys and displayed text still use the original segment. */
+export function narrationInput(text: string): string {
+  return text.split(/\r?\n/).filter(line => /[\p{L}\p{N}]/u.test(line))
+    .join(' ').replace(/[()（）[\]]/g, '，')
+    // Providers can mistake this rare bird name for the English letters PT.
+    // These common homophones retain the exact Mandarin pì tī pronunciation.
+    .replace(/䴙䴘/g, '屁踢')
+    .replace(/(\p{Script=Han})-(?=\p{Script=Han})/gu, '$1')
+    .replace(/\s+/g, ' ').trim()
+}
+
+/** Segment starts in the same trimmed-line coordinates used by the reader.
+ * Hard cuts do not create newlines, and skipped punctuation is still present
+ * in the displayed source, so summed segment lengths are not source offsets. */
+export function segmentOffsets(text: string, segments: readonly string[]): number[] {
+  const source = text.replace(/\r\n/g, '\n').split('\n').map(line => line.trim()).filter(Boolean).join('\n')
+  let cursor = 0
+  return segments.map(segment => {
+    const start = source.indexOf(segment, cursor)
+    if (start < 0) throw Error('Narration segment does not match source text')
+    cursor = start + segment.length
+    return start
+  })
 }
 
 /** 上游合成超时（秒）：stepaudio 900 字实测 15-45s，60s 是稳妥上限；
@@ -134,7 +164,7 @@ export async function synthesizeSegment(
             description: input.voice.description,
           },
         ],
-        scripts: [{ speaker: 'narrator', text: input.text }],
+        scripts: [{ speaker: 'narrator', text: narrationInput(input.text) }],
         instruction,
         response_format: format,
         speed: clampSpeed(input.speed),
@@ -188,7 +218,7 @@ export async function synthesizeStream(
         model: deps.model,
         task: 'text_to_audio',
         roles: [{ name: 'narrator', description: input.voice.description }],
-        scripts: [{ speaker: 'narrator', text: input.text }],
+        scripts: [{ speaker: 'narrator', text: narrationInput(input.text) }],
         instruction,
         response_format: format,
         speed: clampSpeed(input.speed),

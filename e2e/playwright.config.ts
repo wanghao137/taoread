@@ -53,7 +53,7 @@ export default defineConfig({
       cwd: serverDir,
       port: API_PORT,
       reuseExistingServer: false,
-      timeout: 180_000,
+      timeout: Number(process.env.TAO_E2E_START_TIMEOUT_MS ?? 180_000),
       env: {
         ...INHERITED_ENV,
         // demo 读 config.PORT 决定监听端口：必须与探测端口一致

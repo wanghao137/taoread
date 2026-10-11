@@ -1,0 +1,1946 @@
+[
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 1,
+    "title": "皇帝的新衣",
+    "paragraphs": 31,
+    "sourceSha256": "69f773a5372e6d1e6cb968ed328ba38ce3ccd2355e58ff084aa09d230f796157",
+    "translationSha256": "e2dc41bf280fcf0fb79d28c83ace095b3ef34867ffaf01939ab1a1499e102db8"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 2,
+    "title": "豌豆公主",
+    "paragraphs": 9,
+    "sourceSha256": "fd851107cf8ea0341e122f3765fc4478726e8b7c856ccb37e0b359a864a21be5",
+    "translationSha256": "83b19a57e877da54f4915440c02c6347a44e60039149651ec58ad6b7253162db"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 3,
+    "title": "枞树",
+    "paragraphs": 64,
+    "sourceSha256": "a3df5c60ce4da7446c76cfc34ea6842637371dbdf069934d04a1de55a18f6b0c",
+    "translationSha256": "c09a44c1a19331a25b1aac90346c69ffb9d23ed613d8283f256fff01dc9b4751"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 4,
+    "title": "冰雪女王",
+    "paragraphs": 201,
+    "sourceSha256": "5c406c7e942e1e381ece9a812f94166b50f74e3565eca1348e5acf7e5814e675",
+    "translationSha256": "95276fb190402433ce4fb92108b63cf04e7be283c890a32d5ec39a17081e4157"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 5,
+    "title": "跳高者",
+    "paragraphs": 16,
+    "sourceSha256": "6948a0a16d71a0141ab9e2d8f940a3bdfac79406c6be25df8a6fc8315836747f",
+    "translationSha256": "63adbb43fd1f3903d7d0ee9b1a094bd7eb00eea36af2c9a03ccd0c946683d5bb"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 6,
+    "title": "接骨木树妈妈",
+    "paragraphs": 51,
+    "sourceSha256": "fabece25271872ac138af9779f80cab607a6dce30e299e56f1dba8062b357ef9",
+    "translationSha256": "1cd957f22dc3a2fb5e49d7d19843bca398aed9d17e380e3153c693fef3e3d9b5"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 7,
+    "title": "幸福的家庭",
+    "paragraphs": 21,
+    "sourceSha256": "3e40b63c7a5d730a623c53c506d14445ed475d1a59e4938ae66c77f61f73adda",
+    "translationSha256": "dd02914f782dd4542fc0593cc8133ca745601f89f738c1b157662504ec72eeb3"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 8,
+    "title": "衬衫领子",
+    "paragraphs": 25,
+    "sourceSha256": "e06f1fd48158ec238a49e8c30aac51d15f4ea72f9eb982ae823f094c3e84977d",
+    "translationSha256": "2a9fb6db04e106c247233c049843cd1fc058914171654aecfb66ae0055aa16a0"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 9,
+    "title": "卖火柴的小女孩",
+    "paragraphs": 12,
+    "sourceSha256": "60d7b2f0874d7eb248086e54269b5fc5fd1dd3926d2dc94adb51a97b8eb4eb8b",
+    "translationSha256": "22232f9b9afd1812d0c99f315ccc14214b8d4cf29e903990405f812867470506"
+  },
+  {
+    "book": "zh-classic-andersen",
+    "chapter": 10,
+    "title": "顽皮的孩子",
+    "paragraphs": 14,
+    "sourceSha256": "2eb74ebcc80a0e23de4b545548008c68e44d75e6012aa7a9e5e26e6a82150a20",
+    "translationSha256": "9c19fbb964bc0ce5cfd76246f2a35291c20cb63e2ca0ef878ca5526a656df2ff"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 1,
+    "title": "青蛙王子（铁亨利）",
+    "paragraphs": 13,
+    "sourceSha256": "2facfd236e1e429b67ee9c01728b36ef15555c16a7703592cabfaf8bc8152ec7",
+    "translationSha256": "8d9c734305ff471a0da49128d3847f916064906e719564e4a96e3e5e3b952cbd"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 2,
+    "title": "狼和七只小山羊",
+    "paragraphs": 7,
+    "sourceSha256": "7047a552fef0e310497759a8cb32ff2b9c30b60f4d42983be63577a4e0661441",
+    "translationSha256": "58b7c7c6b15bbc8197e9df53c1e27c146d13fb92409131c503d1a609b90183d4"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 3,
+    "title": "长发姑娘",
+    "paragraphs": 13,
+    "sourceSha256": "3c1451eb190dadf30fa91f62071b7d8fcea1e63bc2b47807582592e02c86a894",
+    "translationSha256": "ffa96ca31a0fcdbb58c943ce5ecdcf6d9c2495e3f5832fb79bcdbd872308a0d7"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 4,
+    "title": "汉塞尔与格蕾特",
+    "paragraphs": 21,
+    "sourceSha256": "dc2f955f7de1f92012cfb663efecf23075766654909cdd9230dc031661607dda",
+    "translationSha256": "17b2c3d494025a66fa12f7722721fe57da70de95b29982aab252b5f958922863"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 5,
+    "title": "勇敢的小裁缝",
+    "paragraphs": 10,
+    "sourceSha256": "85837a4b8c49568656482ca3a71b320570ae303924f89d0c8a9316a643587ebb",
+    "translationSha256": "e7f4a9a56a0331c08908439cc5a1cc086715e929c96162d3d0e0ab8b711855fa"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 6,
+    "title": "灰姑娘",
+    "paragraphs": 25,
+    "sourceSha256": "ba89aed49ef086d715bdf1451b8ad129f0b34ddbc78895d11108f19a9c0cbb09",
+    "translationSha256": "47adb67a71cac57411eb8e2dc25c1ef3a9de92071c84f2e7f3dc0e25c91f5de6"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 7,
+    "title": "霍勒大妈",
+    "paragraphs": 18,
+    "sourceSha256": "fea1a74be488521ceb49318010e92dca4f70bfa98a272953b349eb2a6ea425a3",
+    "translationSha256": "819fd0eeea025aeb1915743428368cae5912bfd816f5c5dc496f3841d91ada6a"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 8,
+    "title": "小红帽",
+    "paragraphs": 34,
+    "sourceSha256": "10232a31a44e8011593a7f4a812f1f1d4f80370b85aed631cb6be1ba31a2feca",
+    "translationSha256": "a6233e1743a469d8722e279fe881e333ef8546e6d2e65057476cc670aaa80acd"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 9,
+    "title": "不来梅的城市乐队",
+    "paragraphs": 20,
+    "sourceSha256": "610f106ffd6afe7850dde7f2a26670f973d419ad84c5cb9ef4d7ad7e14fae7a7",
+    "translationSha256": "3ed7444de9e50c64356819a0b9372b7b92d53e8f0f5f2f0a9759857901410ceb"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 10,
+    "title": "睡美人",
+    "paragraphs": 17,
+    "sourceSha256": "08ea13658a4e08d629c25b20f67a86d90e36d236e486b0d740d344cc46063c0f",
+    "translationSha256": "fce99120e3668965426654c1b74590325054947b3db6f7e9bc7638100883b3c2"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 11,
+    "title": "白雪公主",
+    "paragraphs": 63,
+    "sourceSha256": "4b52d7b19bf1921a3b3e8a6c81da81456675b2d3d4594527d344368d859cdedf",
+    "translationSha256": "905d155a9f0ca3710f9c51bb267ce8ea37c1bdc42564f54b7b75a449e819fa73"
+  },
+  {
+    "book": "zh-classic-grimm",
+    "chapter": 12,
+    "title": "甜粥",
+    "paragraphs": 1,
+    "sourceSha256": "ab48a5d381256c9d7d2057482b63bfbae49bf5e0e2275957ae27816b59e7bc20",
+    "translationSha256": "641a9cfc05222954559cebdd63f4cdbdc7e8d6b1e17db3d11861dca8e13fbebb"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 1,
+    "title": "狮子和老鼠",
+    "paragraphs": 2,
+    "sourceSha256": "fa88130e51da84a700142c29d1f0cd79e32b5b5d5965e8785abe70d8f97e785d",
+    "translationSha256": "b534064c75daf89a5dc90265e35c25afc3c1b71e11d5f12bfc3d27decd753d56"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 2,
+    "title": "狼和小羊",
+    "paragraphs": 1,
+    "sourceSha256": "e7abcebc18bf913bd356f66764e55116bf147b3be06f61384a6e3f544093ab58",
+    "translationSha256": "2194989f6e4414846a5e58b54517c07c9a7eeb6f942f0f5dba88f68bc44eee67"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 3,
+    "title": "父亲和儿子们",
+    "paragraphs": 1,
+    "sourceSha256": "8e7a7dc5389f4e6b987f55f892c23fb54e8da49b75b929ebe834c31c8ea8b517",
+    "translationSha256": "243f2bc6288414415c112382482050264832446c419b2218bd27440b1fec1d53"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 4,
+    "title": "蚂蚁和蚱蜢",
+    "paragraphs": 1,
+    "sourceSha256": "3c67fb0afed4d3bcaa573d82be073a6b65e8dc29338fad0cb1166bf28a25477d",
+    "translationSha256": "715103bbe05bc6748641db00f552b3a8d785b1dfbddd0cbf35dc8f3df7214cea"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 5,
+    "title": "龟兔赛跑",
+    "paragraphs": 2,
+    "sourceSha256": "6e23981fe79f7c73256bc6b6de9cf62974e09f92185fc8d67da4621212ff404c",
+    "translationSha256": "c5e0bf5d833336544f7c4be45e12718fbc8d1bb919534885cc83ae7c8d7364a1"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 6,
+    "title": "狗和影子",
+    "paragraphs": 4,
+    "sourceSha256": "cb61081a3203896b8d3e8a4d05489c8d189b9ed10edf5ad228ceaccf36b5545f",
+    "translationSha256": "3e4e8107adfa756e25f45279b905834bf996a190699bda624704dbb6190660e2"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 7,
+    "title": "农夫和蛇",
+    "paragraphs": 2,
+    "sourceSha256": "b3c208c482794c16b3c1c82d0f44c0da7364b2cf4310758fecda6cc2f5a84563",
+    "translationSha256": "4761a1a0f8c4988f54d4aff2291b727305401de48b6011d03c4457e41a08bd32"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 8,
+    "title": "狐狸和山羊",
+    "paragraphs": 2,
+    "sourceSha256": "0b687cedfb15c144d012e53d9e2d9d2bdb37496316ecd03bead89a96b3568b28",
+    "translationSha256": "f972172172149d8f49744721b1a8c2527c092863655564578e48c3eb41017fd4"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 9,
+    "title": "熊和两个旅人",
+    "paragraphs": 2,
+    "sourceSha256": "bb0c915f0d0864c1b9b587085723a0bb5a0507b728538eb546c676c7dcadc644",
+    "translationSha256": "bf156489bb09c20cdf0dc2326eef53b01639971b61ca997f2b71a54975dfc8c9"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 10,
+    "title": "披着羊皮的狼",
+    "paragraphs": 2,
+    "sourceSha256": "7aa97cf38d38fc256938e0aa358abba0013d44449aa980e3175349133e0258bc",
+    "translationSha256": "c5ddc098e8772cae0fb00bc76e6477bfc0de70ee9dd71eb283fae15c6b9ced91"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 11,
+    "title": "守财奴",
+    "paragraphs": 1,
+    "sourceSha256": "2821b186fa2373ade5f37f4ce0b30aec7411951ca08a17bd840bc9e81a348ce7",
+    "translationSha256": "98358f658de3277d4132ec877178de0b7883ea5f79281fe29ad57bc87d5b5716"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 12,
+    "title": "青蛙求王",
+    "paragraphs": 1,
+    "sourceSha256": "908a39e3467f41216ba905cc4727f16978b2f90380f7661df355d3e4cc83bd3e",
+    "translationSha256": "d3133a4c66ad352bd0e4748376326727814abe3933028e64059f584ba9415981"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 13,
+    "title": "狐狸和葡萄",
+    "paragraphs": 1,
+    "sourceSha256": "f5ee9a14413f96ee867b821a44c5ff518fdd013588c77c7f0235e2a2c5dfd3d5",
+    "translationSha256": "3dbc55096769b106c63e13fa1cb566fef417c129a75b5dc49ae10787b5126152"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 14,
+    "title": "北风和太阳",
+    "paragraphs": 2,
+    "sourceSha256": "e532b4726065d7aed406c04b7aad8fb1c04391768a62dabf7027e683b31e0962",
+    "translationSha256": "d71d994067717a732da49edea02c2d9d47c3d763ba7e79380acbd43fb9643e91"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 15,
+    "title": "母鸡和金蛋",
+    "paragraphs": 1,
+    "sourceSha256": "b71383a4d81cd1fb2bfb5c87d9215cdfd748c6f401a54b3680a1e4213cd4c144",
+    "translationSha256": "53ba84f79a3025a9927a3a3557446637698292fd73ff14a2092b232da529ec46"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 16,
+    "title": "挤奶女和她的奶桶",
+    "paragraphs": 1,
+    "sourceSha256": "090cbafb36bd58bfa45cb4e4bd913619a3ba7ee50c56c667e62baf056403754c",
+    "translationSha256": "3198a21f1ea626bf6fc25dd63ef2bf037afa80dc5e9edf6605c02c5eb76a66ab"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 17,
+    "title": "乌鸦和水罐",
+    "paragraphs": 2,
+    "sourceSha256": "b70e186d5db84cbfbe1b161b22e98e9049990451a22a038225bd5aaee4553f86",
+    "translationSha256": "c7f13a619e2c99306313a2cad2883b7e8e7f0161d081be9e27a628f91d3ea4b8"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 18,
+    "title": "狐狸和乌鸦",
+    "paragraphs": 1,
+    "sourceSha256": "3d804fd6b2bbfbe1608892791c92e88d36e40e9221d2a07dd18969ef4f98ab15",
+    "translationSha256": "3828672e9889c49e7ddfbe45dc626502873c61c8b531d0721f9f3e015b145a1b"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 19,
+    "title": "男孩们和青蛙",
+    "paragraphs": 1,
+    "sourceSha256": "a14c8efa5320a32513a6f70e0b06c469b53193509ac3a231b861276bf0872b4f",
+    "translationSha256": "ace76331cbc4d3fc81a6c7e84829fbc6211657bda6cc743a415cb1fd07edd667"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 20,
+    "title": "橡树和芦苇",
+    "paragraphs": 2,
+    "sourceSha256": "8ed97e56a1689edc468bd963c67c517e54439f0ce229444bd25532c5f606dacf",
+    "translationSha256": "862f085735e1756bfb08282078ed199dd1b2af3e09755c8719d2d5363ebfc185"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 21,
+    "title": "牧童和狼",
+    "paragraphs": 2,
+    "sourceSha256": "3d3a96d5ff628b420f6bcd89b1ed6113fd183be78f01467b704dd41a772fe93f",
+    "translationSha256": "78a96b263365ac3ca6e582a1da831a83eb85a8852bc822515c04bab7fc9f9525"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 22,
+    "title": "城里老鼠和乡下老鼠",
+    "paragraphs": 1,
+    "sourceSha256": "ca5f1d0fb6f08dcd5a954e70ccf237abb64b5262872c20f8dd46accef8206fbc",
+    "translationSha256": "686e8ccf22f2bf89080dc0339b3d40fd98e741904083eb3d6597e74a6487defb"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 23,
+    "title": "狐狸和鹤",
+    "paragraphs": 1,
+    "sourceSha256": "31493ecf882a1847908550fbff2350a19a437216f75254626809868c379a51e9",
+    "translationSha256": "b58f4476e87438caa1bbee9f22dbe4c515003b25fea5220f9389409c5882f33e"
+  },
+  {
+    "book": "zh-classic-aesop",
+    "chapter": 24,
+    "title": "驴和小狗",
+    "paragraphs": 1,
+    "sourceSha256": "333123ec997f26232c8f8a8661464b788194941064f6634b8c6db41f33a56a89",
+    "translationSha256": "c9aa39365bb16d0c7e1ae94c480c6c8841a18dab8d0cf290191c5aa5c159fae4"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 1,
+    "title": "河岸",
+    "paragraphs": 93,
+    "sourceSha256": "7ded08c3fc95bb7cef25a8c69165442deffa6779ba8d8399793286225b45c9ec",
+    "translationSha256": "6d9424163905dffecd57b5abbd214fc7d962f15f15f11bbce28b9a9ceaaaf2c5"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 2,
+    "title": "大路",
+    "paragraphs": 69,
+    "sourceSha256": "166b0db60e16523160fe336178d643ea1dd43c5272cacd3430f8fac38094b83a",
+    "translationSha256": "6d18f7322b0f915ed1b2c88eda09f4fda185cc05b90bf5118e7ae9ae7af3e2dc"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 3,
+    "title": "野林",
+    "paragraphs": 79,
+    "sourceSha256": "3f468837ad5fded38ea09db087364eb5c1a4d15dc676b16bac886e199c1d9a0c",
+    "translationSha256": "2f1ae9353a75bf3dc85bfe05811131e654059caa5d9decdccce21fc2d9880da7"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 4,
+    "title": "獾先生",
+    "paragraphs": 62,
+    "sourceSha256": "e53cd0cf36a56bccfffb18c98a4c63b52bd130e67693b3fd70a2e60f173132f4",
+    "translationSha256": "8a69cd0e6e183f95c0e04c2d03a51db38548788cec8914d2e80312480a1504cd"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 5,
+    "title": "甜蜜的家",
+    "paragraphs": 71,
+    "sourceSha256": "b9c679e8c9be24c8512ab705d72bcd6ae1c1792ed338fb0eec26c8078be3a1ab",
+    "translationSha256": "18190722aa348e7ac7c24fda365c0dc65eb317a39253b103fe7e1dd8710baa37"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 6,
+    "title": "蟾蜍先生",
+    "paragraphs": 83,
+    "sourceSha256": "87c517d7af7bd10931cb1675e241dcca5d8e055e8a3384ba64dadfeacbd7fe65",
+    "translationSha256": "349b8622c9c1b902d2e2b3ff900d92bdb9c07da8239a7566565028dee579d071"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 7,
+    "title": "黎明门口的吹笛人",
+    "paragraphs": 55,
+    "sourceSha256": "e892c2a9ac8a7b3edd0828ce8d84a77de1aa78692dbb852667c00d0f2e215b22",
+    "translationSha256": "be80550a8dbd15674d4a3d75fa2b8035577efb66f8e7b9016f5717d74dadd4e0"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 8,
+    "title": "蟾蜍历险",
+    "paragraphs": 60,
+    "sourceSha256": "2e51b408447f3989167c8a95e420aee42ab3e2cc4e034d97de32fdd0348c301c",
+    "translationSha256": "b49fc32a19aad6f8a1ad7b6d72ed4c68c7242e3371f153eb23f68c2bdbe46f0c"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 9,
+    "title": "四海游子",
+    "paragraphs": 72,
+    "sourceSha256": "1ab68f244b9db9e83468d78ffb1c3a4575ee7eff2031c97127bd2fd5d349bef9",
+    "translationSha256": "ae83df9a825f3e9efb326ab872d104375bd140da51c2096a10e5ae6586602e55"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 10,
+    "title": "蟾蜍的进一步历险",
+    "paragraphs": 97,
+    "sourceSha256": "8803aa0f3bcca25a6668c1befa4346959aea1c6ee20f679087964d6dcd99c2fe",
+    "translationSha256": "1cc14e1ae1ebed4b2b76f248e656e297e8a3087a03cc0116a959ccc670199f38"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 11,
+    "title": "泪如夏日暴雨",
+    "paragraphs": 108,
+    "sourceSha256": "a5c1cf48d7c5cd59a6375a402329b042ac3958a1d0977d2b5d5476197df5bd0d",
+    "translationSha256": "c5475c134cf84b6f57bdfd3a00e211aefa4577165397ae991fbe82356b65d77a"
+  },
+  {
+    "book": "zh-classic-willows",
+    "chapter": 12,
+    "title": "尤利西斯归来",
+    "paragraphs": 67,
+    "sourceSha256": "51086a4e094844d8be7d837cf37be6671169bb5f635ce40fdbfc6b686532c0ad",
+    "translationSha256": "7778e4efd9555f074db89532778fe06b922ff7c97fe0c02b635dcb5f75ef9125"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 1,
+    "title": "序言",
+    "paragraphs": 5,
+    "sourceSha256": "d4c27b52f6be71c25337ff2bedc6b3712f37f7282c51d9d9ccccb8410769197b",
+    "translationSha256": "6c719fda98b5e97ebcb359956e9b574c49013dcd697dfafed58f48c7184ec9ad"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 2,
+    "title": "龙卷风",
+    "paragraphs": 20,
+    "sourceSha256": "1d8c591969dd338fd8f251e3b83d991a76b5a7e5c715b503953c5ce4775ec320",
+    "translationSha256": "5e2eb383d3864f0a7b08170cc7ab2ba9fc3bd31e7eb6621a75d6706f2ccce3d4"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 3,
+    "title": "与芒奇金人商谈",
+    "paragraphs": 59,
+    "sourceSha256": "e2cbfaed9ccf34503f56eba6e4f67b2b579f6c74e52fcc591ca5167d546751d1",
+    "translationSha256": "e9aaa1822ffa2cc5d3973b3737e739938dec9ec1ca7563cb2435bf687239af41"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 4,
+    "title": "多萝西救了稻草人",
+    "paragraphs": 56,
+    "sourceSha256": "1e2e1a8da786c01ce9ac93f3af5cd1135160176fd60e12bc6dd626a18feca40c",
+    "translationSha256": "628c5ab436baf441c8fb9eb284df54091c81f9807615283807e58864fa0f68c8"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 5,
+    "title": "穿过森林的大路",
+    "paragraphs": 37,
+    "sourceSha256": "ffea9d9a0ff93a50ee61e13c17717ecbd6f6d86b865b8301cc6c296f5569785b",
+    "translationSha256": "db8834e021a2cec2549b1bfa249df20a9e85ed3b1fa843043a98d791a2b25a0a"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 6,
+    "title": "营救铁皮樵夫",
+    "paragraphs": 52,
+    "sourceSha256": "68f7ad4fa50c6ffc1f4d06b70e7d9fa3b4ffa2463d4c7959909d534529b21e08",
+    "translationSha256": "c3ac72eea9229d41a075af4fac82f02378eaffa53a14c6b0ef5ecc3762348a0b"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 7,
+    "title": "胆小狮",
+    "paragraphs": 47,
+    "sourceSha256": "1536c6b458ef67c203f9ba1ec8cceb39564478f6c09cd7295caf664f362d1e03",
+    "translationSha256": "d5acdad6b1a57a37ded188755cbb7cd9157c813509172257c4a922cad078e531"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 8,
+    "title": "前往伟大的奥兹",
+    "paragraphs": 41,
+    "sourceSha256": "bb2abede13f49413af9308a435a236dbab18fa6708f343fc1f28aca903b7d22a",
+    "translationSha256": "28fed58274b531abf8a55784d7283498134289f7b436fb37b19e42ce17c31596"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 9,
+    "title": "致命的罂粟花田",
+    "paragraphs": 56,
+    "sourceSha256": "856d48baacd1210d64061ac0d9a76ffc70322cf33381b1a2fc450e34b62a4c22",
+    "translationSha256": "06eb0b01d8fcb951c18c0ccaa2eea5b03dac25e1912fe81e1862df4c6deb055d"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 10,
+    "title": "田鼠女王",
+    "paragraphs": 41,
+    "sourceSha256": "126e0c6ed87a85e44d8fba63f85be0bc1de3561149fd5df13e6a90af1e7c6461",
+    "translationSha256": "2303504fe0942c5aa0f074a1973544db9b70aa22fe76b4e638790e49b3c5ec06"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 11,
+    "title": "城门守卫",
+    "paragraphs": 57,
+    "sourceSha256": "567ede33ba3f0ad601388a0cef93c590436cfe7aa6d2997bb1aacfcb19c7ee8e",
+    "translationSha256": "d785b12850acf15e504dae7035973f86abd5acb619711ad06075b0428db82f2d"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 12,
+    "title": "奇妙的翡翠城",
+    "paragraphs": 101,
+    "sourceSha256": "5710a2887418ad8140d28df264fb309f172ab4b951cf842cbe99a217505f6d9c",
+    "translationSha256": "7218102ed2afb0019dac9da2e34cd31cb49b7c72a14553e225e61b3d09e0819c"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 13,
+    "title": "寻找邪恶女巫",
+    "paragraphs": 83,
+    "sourceSha256": "4bce9fe34fd122013ca41c0fa36c23d089d19150f46833719ceea3c4076b0e7e",
+    "translationSha256": "953a9abdf5eaaadff333be8a53b21b8e92df459ce34cead256c7b2c64b1b20d0"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 14,
+    "title": "救援",
+    "paragraphs": 29,
+    "sourceSha256": "ee21dd6d6d09abedba10e078b594f3bc3bb2acd0c9e42153e0738c3dc3945d05",
+    "translationSha256": "24e1f08bceef659f72dbbf9395a744e8c6de1dca80e4acce62a18cf4a171076f"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 15,
+    "title": "飞猴",
+    "paragraphs": 43,
+    "sourceSha256": "e3b0f17e464d809a280e6f262fe7906b5cefca4b205d4dbca70e472cfa44bdd9",
+    "translationSha256": "544e3e70f6ae1a93a70c48ee523d6e409c1c22bb361f7ed5d565743ada7a0d68"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 16,
+    "title": "揭开可怕的奥兹的面纱",
+    "paragraphs": 92,
+    "sourceSha256": "612d3de7a832b4434f3df9d84cda97e2e7e76fd0aa3787d7b075856dd12eae77",
+    "translationSha256": "0d20f1b304959335d441b88c686ec73c3534ab4f7b81313c743bc7cca2c724bf"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 17,
+    "title": "大骗子的魔法技艺",
+    "paragraphs": 41,
+    "sourceSha256": "cdcb0b4ddfad95fe24892eeb96797ee76e22ab66277f0b0952c14fd46e17a280",
+    "translationSha256": "f01a749ca6ac8c6a8d0e16841544714471858df86700fb9f82e0dc0fcc0eff1e"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 18,
+    "title": "气球升起了",
+    "paragraphs": 33,
+    "sourceSha256": "9cb6b48e6cdcedc3ff862ec41a59dc5a1c1b4a4e345b4a6734ecdcbd17b3f0ec",
+    "translationSha256": "776575c1dcbe8cdaa65c96eb66d9f0002cbab0b9cb2edcfe26a86ee6b46affa1"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 19,
+    "title": "去往南方",
+    "paragraphs": 47,
+    "sourceSha256": "24489e3e82f12fbadf4f68012380f72edb7af2009a698f2327a046714fc56210",
+    "translationSha256": "dff204c7a17624a9dbc12476c56532f7065a4aa30d3703d41bb7f552dd2a53de"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 20,
+    "title": "被会说话的树袭击",
+    "paragraphs": 27,
+    "sourceSha256": "a19158d1e30ee7781f9244fe8e7fafd25ca4fa57259750f809ef95c1fbd3826a",
+    "translationSha256": "bf2b6f8369beca1a7460e5afe657b984c16d1a5eb899fde5da6f4e3d80bf3748"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 21,
+    "title": "精致的瓷器国",
+    "paragraphs": 45,
+    "sourceSha256": "cd59ffdcaec7a1cb50969c7686466f4a5d4a424836b4112328e493320e46a2fa",
+    "translationSha256": "5dc3dc59aeb22f6d11380d1c71e1706025c300cadb05c565d6a3cad99ff9b1e9"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 22,
+    "title": "狮子成为百兽之王",
+    "paragraphs": 25,
+    "sourceSha256": "5c64743d9d1ee1f02f4fc9f986aee8d6744a37fea7951bfde4e1511307283a8e",
+    "translationSha256": "5116eb03d7e1794e007fd176f2f8bfd08479cd42e22cfa330acf3ec5c384b3bb"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 23,
+    "title": "阔德林人的国度",
+    "paragraphs": 29,
+    "sourceSha256": "f32f7264b64b25e79fac94afb730a32dcadcb31a61de5affb38823f4a6743061",
+    "translationSha256": "5d046a1ba397e3595d344da0f816aff59a4c90d68486b924a012937b3fc41434"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 24,
+    "title": "善良女巫格琳达满足了多萝西的愿望",
+    "paragraphs": 40,
+    "sourceSha256": "95239f3354a99865ac420b4f3cebbab799834ef296421821c2fa4504771e6c29",
+    "translationSha256": "1b8bf60f813bf8b2aa327552181dc31851d8e982aaec8688e5ee2f9a2ccd8904"
+  },
+  {
+    "book": "zh-classic-oz",
+    "chapter": 25,
+    "title": "重回家乡",
+    "paragraphs": 3,
+    "sourceSha256": "c1214e2379c09e58805f431f9ccb5431055ffe018e0b461c3f87c052b880a43d",
+    "translationSha256": "3d350254add4c24e9d270f098658e78168253c33130af61ac7fbab4ce47c66ea"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 1,
+    "title": "掉进兔子洞",
+    "paragraphs": 30,
+    "sourceSha256": "7ca5f18f91024fa1bca09d7eca810d5a0cd20c6fd98e83c53657a74793c2aca8",
+    "translationSha256": "cf0f2b608a0a94e34189432eaaf7b6707ccbb4fd72fd53e9ccf6bda71539ca66"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 2,
+    "title": "泪池",
+    "paragraphs": 26,
+    "sourceSha256": "e1a7af6914a854c6c11ef3c05ef322ef4f0a1671e9ca72305af1461e9144bf3f",
+    "translationSha256": "671b0264281af41033c04ba7af460741fa6b4e955be5e03bc7a389265cf9f0fe"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 3,
+    "title": "一场会议式赛跑和一个长故事",
+    "paragraphs": 48,
+    "sourceSha256": "8588d9256231cdc7fb7f44e03232bb9eb10cae9bd45b82db3f4b7afa8cf3bbe5",
+    "translationSha256": "2b067c83490003a8254020842913140a78311138ad9e34c08654bc2e2289d5aa"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 4,
+    "title": "白兔派来了小比尔",
+    "paragraphs": 42,
+    "sourceSha256": "495a811e389ec0b4826abe5f1ff566fd6645b97e9f5607fdac9c1fbc8e34a746",
+    "translationSha256": "f8d2f716425d38b87ece9370a238419a605d5ce995867bed14b6fdb4e1e24519"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 5,
+    "title": "毛毛虫的忠告",
+    "paragraphs": 78,
+    "sourceSha256": "f586ef523fa7ef9f108bf1b307b5e47495600f43b0f94f2c4166a62a92d6b721",
+    "translationSha256": "ba9458d948105231ae9f2f10166ea8e52a8e246a3fb3a9f6cc34cb3bd0fc993b"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 6,
+    "title": "猪和胡椒",
+    "paragraphs": 80,
+    "sourceSha256": "6d69c3e2756bd3262885797b478e30a8aa007c27dc5d541aa87a246b9852d9ac",
+    "translationSha256": "ee8fc1f9f8ba2dd1d57083048e6cfc019cda2f52b2b88f8f733f2e8f0042ef39"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 7,
+    "title": "疯狂的茶会",
+    "paragraphs": 105,
+    "sourceSha256": "7041e0b73be6a63598ce4cf277c69aff8ba5a425606c19898a5a86a04434a9e2",
+    "translationSha256": "48482617997245d53278b1c3fa6e8eb14d68d409590cbf657fd9786122f28b25"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 8,
+    "title": "王后的槌球场",
+    "paragraphs": 71,
+    "sourceSha256": "d8f2fc56ffcb088b7189f9b9be4c1d85e4cd80dee43199c0293babd160f19f52",
+    "translationSha256": "ddf15f4bbccb0809464af0386f36039bdb46e6f0ea970eca5f3ee1e3abf122ee"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 9,
+    "title": "假海龟的故事",
+    "paragraphs": 92,
+    "sourceSha256": "2b68934b39e18289ee67295b712f2bd6c202619c8f03a94c419c3407b49c55a1",
+    "translationSha256": "11bc58895a145046335b2a9e2e2f659386ee76da094905bad8b0ecaf7d818fd9"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 10,
+    "title": "龙虾四对舞",
+    "paragraphs": 81,
+    "sourceSha256": "98642e1d95b926c83be8ddd9791a268b056f73b3bb77007047c5b7f6a32b2a96",
+    "translationSha256": "c441ebe67bea1c858aa54d1cf283d313873773afa66923b9e4296fe4b952d9fb"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 11,
+    "title": "谁偷了馅饼？",
+    "paragraphs": 74,
+    "sourceSha256": "b290374ba1ac68f50059e3bab575a79e093fda7456f7e5354eb9557f20ecf34a",
+    "translationSha256": "b0ddf10b2977078c2a29e28d6335a04143ef2255f8dad5a05a3b307027dd8ad5"
+  },
+  {
+    "book": "zh-classic-alice",
+    "chapter": 12,
+    "title": "爱丽丝的证词",
+    "paragraphs": 72,
+    "sourceSha256": "1855aeb7697ce877337cc41278fb3d3b9e4f17154b29b3103fd4c9289afd4b3f",
+    "translationSha256": "4ec8b268c1659672cc35334a3b3a42295462b82cb2765a6c8f778e60766d42ea"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 1,
+    "title": "献给艾莉森·坎宁安",
+    "paragraphs": 3,
+    "sourceSha256": "afd1cc9487e047a6b325d23b2ff7457a57e73360c65b644b4ec6fa392bd5f3aa",
+    "translationSha256": "6ee3a33cb5278e03d3debc04641b4c160357892f2bb9fab03c12aca9cedf8ec1"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 2,
+    "title": "夏日就寝",
+    "paragraphs": 3,
+    "sourceSha256": "6380d613c468ab753e3b3cc729372af3bbcc9c46200da96bce97ba20f033be1d",
+    "translationSha256": "108cd54ab091f90d5d91c5479c9b9e3f708fbaaa9e496e7a5b8b1ac419867890"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 3,
+    "title": "一个念头",
+    "paragraphs": 1,
+    "sourceSha256": "15ee0623f53c0075145b8f582eb8bf8d9a6c24b0559d4e3ec3a8e7a0e66b9f63",
+    "translationSha256": "b1959abd631cf92915436a605a2c9e71bab0f7ffa232bcba864c58b25e7d0bba"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 4,
+    "title": "在海边",
+    "paragraphs": 2,
+    "sourceSha256": "5e8cf96b4c71f41dec7d12353d65354eeeda0269ba2eb852c0f0ebc7ae75e809",
+    "translationSha256": "f94b5eaadb1fe0085cc837abce3fec647759e63df7f202a417d066c0e373d28a"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 5,
+    "title": "小孩的夜间思绪",
+    "paragraphs": 4,
+    "sourceSha256": "75e41d046c327fd11dceaac6a19b3bbe6f419fe3299289f17a9a8eed243c6a41",
+    "translationSha256": "c3ad5e8c49f7dd478b8fb23e4499b153bfdb6d197bb7137ea12a0f7fc8e937b9"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 6,
+    "title": "孩子的全部本分",
+    "paragraphs": 1,
+    "sourceSha256": "2e0116d01c74a0bd990410444d131c71a99fb53709b438a2d0969f34f24295a9",
+    "translationSha256": "e1c75a94f045c120030df856c20083f1592577a7cee12588860c30941691baf9"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 7,
+    "title": "雨",
+    "paragraphs": 1,
+    "sourceSha256": "9b6d5e85db9a77cff1ad59a390c2d65675516aa6b1926a3b6df9ef241dd19dce",
+    "translationSha256": "e4f1fc3f4e0fbbd4d55a26cc8e07c16b6b70298c589ae73c393bd2c93f354b94"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 8,
+    "title": "海盗的故事",
+    "paragraphs": 3,
+    "sourceSha256": "80af1b7e9b0c9c859a1a248140ee4af51e302d817873ef48851dec622de267df",
+    "translationSha256": "784fbc0dfb57ceb54ce722afc4c9f1e21c370e844e4e86ffac31d29266f8d4bc"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 9,
+    "title": "异乡",
+    "paragraphs": 5,
+    "sourceSha256": "a3ebe59f10dff6584fae55015fcf1c6d87336c10f30d4cbd2baa470e123a1f50",
+    "translationSha256": "304a23e04ed9ef195e74d7c4caed37de1e51e1ce9b4afa0ad3a82217d6b34189"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 10,
+    "title": "风起的夜晚",
+    "paragraphs": 2,
+    "sourceSha256": "e4b7a2815303c3cab1dc5ea0f416a956e4c9e19d57bb9efa8a45daa666811f38",
+    "translationSha256": "8377a872aa79f2d0c3538097bceec6e9e8c8cc6a641584ebb25b103ce1248e00"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 11,
+    "title": "旅行",
+    "paragraphs": 2,
+    "sourceSha256": "1ec36968200162f117483e23807e184586243916820242a1b07e5bb01c842815",
+    "translationSha256": "6c8ab804ce3771a3c9d741f353fa67e964f0878502bca9c200d32bea6c9887fc"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 12,
+    "title": "歌唱",
+    "paragraphs": 2,
+    "sourceSha256": "1a0efab276a9017c613a7195163786a6e521c4c023d0b871f068d8eb779c6cfe",
+    "translationSha256": "905ab2abd51afb082ea83c8a0fe213aef6927f69e92fbb6d62a430ee28f93438"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 13,
+    "title": "盼望长大",
+    "paragraphs": 1,
+    "sourceSha256": "84c918ea0fdfdc16155d4b99c262c28951ec2ab666d955ec73b067ff6afc4059",
+    "translationSha256": "dfe5721ea5371c5e3790c37610976050cba08d82ad3ddcfd04ab67cd5b7f41ff"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 14,
+    "title": "一场好游戏",
+    "paragraphs": 3,
+    "sourceSha256": "e2405a7d5df8ca47b16c6d6990bc94b80b86b3dd84eceefabebce518b3250b64",
+    "translationSha256": "c58babe4f643f4d0fb291187ea028c22c4af18e4ce5c5860b9e3cfc31cadef49"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 15,
+    "title": "小船漂向哪里？",
+    "paragraphs": 4,
+    "sourceSha256": "85bb57a8384d67b969c4e3806983111dcd23ac3017bd6736679c19bb212eefe3",
+    "translationSha256": "3bd9a874f438d2f8a6e27001cdacd2afe46771740cac56fcceab937c8b31f1c2"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 16,
+    "title": "姨妈的裙子",
+    "paragraphs": 1,
+    "sourceSha256": "168a5d2390dfce68120512ec0c3a684a142f421bd783e4837569b485dd712a52",
+    "translationSha256": "0a26f316b8a7cad3cd13f953c1ab6292e75ac8f3006d0861114155829e209571"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 17,
+    "title": "被单的国度",
+    "paragraphs": 4,
+    "sourceSha256": "5895743e374fd90988e78e84286f100972eee0d02860f7301838693a9d9a4f6f",
+    "translationSha256": "d82667bce166d04bf66147076e58df851f86f5378958fbfbb6ea7e8169b16b14"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 18,
+    "title": "睡梦之国",
+    "paragraphs": 4,
+    "sourceSha256": "e873cf2833fe2fa56acaba1f800b686abbc54a825fd71823e9a84e9dd74d57cf",
+    "translationSha256": "a6b19d0881d693738d59aa2822809d92a54705cd95e50db226fbf939063a70ce"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 19,
+    "title": "我的影子",
+    "paragraphs": 4,
+    "sourceSha256": "58fd34c8ffa094c6909e6135c03edc67b15eb1a6a10238857333d1720d50300d",
+    "translationSha256": "432f6562a55707bad421c975810974b7356d40231b7e0551ff8f6874b4ee2b1c"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 20,
+    "title": "奖惩规矩",
+    "paragraphs": 2,
+    "sourceSha256": "7c4d2921b5818e7f0309b49aa7890e8f82ab0988b123708fe97cfba383a2f937",
+    "translationSha256": "fae8a82c2e1b5e142b1fa0cc8c553d2b5b9fd6935654e991e44006f4e5613abf"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 21,
+    "title": "好孩子",
+    "paragraphs": 5,
+    "sourceSha256": "aaa347296b10696f6287429aef58df4220c9f4de9cec11aa9662ddf9c9d295a5",
+    "translationSha256": "2f24dc33ca785d6f6a252354f95dcc0df710a9bd8bca50b4f094e29ab9c1f136"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 22,
+    "title": "睡前的逃跑",
+    "paragraphs": 3,
+    "sourceSha256": "cf613e8d3dc9515f118edbba4f00227fbe96ac3d59b8a06952cf60ef2c1badda",
+    "translationSha256": "817faae268a84cf3a628c003f825005ca850cb8bfe88cf5579d9321465dcfc19"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 23,
+    "title": "行进曲",
+    "paragraphs": 4,
+    "sourceSha256": "66bcf6b8f4f4bd3641bbe21a39aeee5cb4a20cab3cca1f82d9b257f73f028c2b",
+    "translationSha256": "c3a6bdb01b22b8d93c583dd7df185eea6452653c6d63eedbd67ac06469e6c69d"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 24,
+    "title": "奶牛",
+    "paragraphs": 3,
+    "sourceSha256": "376053487584b8f1ff4affe3b56e29af67db27213de061992a05d19256829e0a",
+    "translationSha256": "64bef711341c1ae48a981c682497ec0a0a5957a6c8cd20a15b72d06a02049ecb"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 25,
+    "title": "快乐的念头",
+    "paragraphs": 1,
+    "sourceSha256": "efd31bbabadbf8a125ebff2cd9ed28acfc595e3adf938909ce8f48ad6779cd91",
+    "translationSha256": "b20e5cdc31eb1b338462e2461f8be9aa0868d0855a589a8dc62a00f0619954a4"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 26,
+    "title": "风",
+    "paragraphs": 3,
+    "sourceSha256": "9f10e968f9d1d2218f01ba90aa212d1cc3fbfc41acf518dd82dd2937b1e3633c",
+    "translationSha256": "867f12bb75f22f6f67f0ba15457f8da40a0f2700c7a3e287e075728f342b8990"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 27,
+    "title": "纪念磨坊",
+    "paragraphs": 6,
+    "sourceSha256": "60c1b873df239f4c6a5cb29c885f28a6340aa24e8322da845e5ca0ce32d53474",
+    "translationSha256": "ff90727935ab532a68fc9e73cdb4d466346de87fbc75f49616af472e01007a34"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 28,
+    "title": "好孩子和坏孩子",
+    "paragraphs": 5,
+    "sourceSha256": "c4b8a95d2ab7f7cd8e38bb1a8c29b49cac69e08c5d0ab5dc7d823a799601bc24",
+    "translationSha256": "69d1c95f7c15927ad04b9a0e48d722ea103e7b3b7ae3f750f9e253aa8df53164"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 29,
+    "title": "异国的孩子",
+    "paragraphs": 4,
+    "sourceSha256": "343c5cd4c071810bdfe24687351e5dc92996a1ecd166aea7f1151007d6011abc",
+    "translationSha256": "b4e6f9eef6ab86a7198352a2a487475e28ba0ab4eb2dd1f6aa9e3a4861dbce94"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 30,
+    "title": "太阳的旅程",
+    "paragraphs": 3,
+    "sourceSha256": "e983399341b179dca07d845f3a2c7b8bbd5ce8658f54cb75a29df2bef28842ab",
+    "translationSha256": "b75459f8dbe1dc1c414f8db594121e4b5d45542c8dc5162b68bbc03e6d9be353"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 31,
+    "title": "点灯人",
+    "paragraphs": 3,
+    "sourceSha256": "e5e12a625120c4c09571c910c776e4330a5d44de158e12c0545ed02dd5fb192c",
+    "translationSha256": "fd307e39366506cd3e06eda9c7a907351bc560a2f085f7a893a210aef5886c9c"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 32,
+    "title": "我的床是一条船",
+    "paragraphs": 4,
+    "sourceSha256": "399b377b6147b2cac139832a83589a313bc764be4bc5fa619df822ca7567af77",
+    "translationSha256": "cdb0b95745537a65b83f5319d2b9f5c8613eeaabe5240e841b20f555b42580ae"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 33,
+    "title": "月亮",
+    "paragraphs": 3,
+    "sourceSha256": "9346ec662a6fe6d4fa32e7a2861dd53d747e34584224f05fe9a2cdf066b6f9ba",
+    "translationSha256": "600b332834f9e286121c39717bb489aac4d95b2a3a897d7b13f3f2dd1117f504"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 34,
+    "title": "秋千",
+    "paragraphs": 3,
+    "sourceSha256": "ff5d7ed4c39624745525f74c9f58b3ab121e84880619de78374714a822f9f166",
+    "translationSha256": "e96673ac3079574af266d6fbcc05b44074f698686e9f70d6d7185d53c1c05ce9"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 35,
+    "title": "该起床了",
+    "paragraphs": 1,
+    "sourceSha256": "6577a2512c5d109d64b159c8c1ae90f19b1751e780e538e7cc75661bd8f89374",
+    "translationSha256": "abd2981d29635929e381cc623f39378ace23b36265540cf60539b33172e82faf"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 36,
+    "title": "镜子般的河流",
+    "paragraphs": 6,
+    "sourceSha256": "251d9292883b546ef5fef67c566b42aa1f00b65cc5552e84fd0ccd319412d9dc",
+    "translationSha256": "3d2b928efb68dbf3f8a6530019dc581320baceecd4e32b9e907208deee30ed65"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 37,
+    "title": "仙子的面包",
+    "paragraphs": 1,
+    "sourceSha256": "224de00043fbe0c627cd34b0d016a419c111e643a735cdf2788f8033e10dc0db",
+    "translationSha256": "1827fe8ecc52aebc44a12c7dc216e1163cbc93caad876c6044303efb7e2993a7"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 38,
+    "title": "从火车车厢望出去",
+    "paragraphs": 1,
+    "sourceSha256": "d8705cdabef5508c066b3090b3eae6296a65e219b3d85931311adb66693864a1",
+    "translationSha256": "03fcba270697f68385e2a2c6bc4e5688f5525daa46666b79a3107f3c52a56507"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 39,
+    "title": "冬日",
+    "paragraphs": 5,
+    "sourceSha256": "ce2537862c49168b6b8b0ed112d5ae5283955c9fc5fbd56d39c02c31ca3a59a0",
+    "translationSha256": "e8bd7ee168088f8a04df29221af7ef3f2923fc618b9a7cd8907b10df8d5e57a8"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 40,
+    "title": "干草阁楼",
+    "paragraphs": 4,
+    "sourceSha256": "dabb5fe2574b98dd0a07d22ce9381c759e0cea016713c007d5c10046eb66781c",
+    "translationSha256": "1dc3f78c8d8faf67966bf6217576431033e16faa49ea223f3669cc547e384781"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 41,
+    "title": "告别农场",
+    "paragraphs": 4,
+    "sourceSha256": "f8224a67f8359d5efa23df99ebddf7363441b19b6c00e5b5f13027e021aababb",
+    "translationSha256": "6fa6aa9873ac17ba254b71299716ba87d73e2a81a7ed5d4cc5829dd100e715ca"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 42,
+    "title": "西北航道",
+    "paragraphs": 13,
+    "sourceSha256": "946ef4606f29061391a37ce5524f4e8ea34d0988df739fdf019291cb605bc353",
+    "translationSha256": "2ac2f9a979228fd71b13438d109e317c410f625641afc63b2c438d9f6e36be62"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 43,
+    "title": "看不见的玩伴",
+    "paragraphs": 5,
+    "sourceSha256": "e16f3e759f9f912ec1150dd474a9de35fd7bf1704c52ee814695c4f0dbc0f39e",
+    "translationSha256": "3120b567d5894363d8efc33b15e854592101737ba70b15b3b38cab24c8880b4f"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 44,
+    "title": "我的船和我",
+    "paragraphs": 3,
+    "sourceSha256": "a7260a516fc53fd99fe54adc7c39760186a23d77aee5c1c5cf72d01b048bd411",
+    "translationSha256": "42bb343c13587f69c8f555a86c9b283548904ff486a4aaa577c41af673e4ce1b"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 45,
+    "title": "我的王国",
+    "paragraphs": 5,
+    "sourceSha256": "58914e8449a5da031f5c80a1205b0be8145ff65073d521813c731e86a089f8f2",
+    "translationSha256": "447dae975d34bbef55012b50ce7252585ef321ba6172bf250f2630ba508d12a2"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 46,
+    "title": "冬日里的图画书",
+    "paragraphs": 5,
+    "sourceSha256": "fbccf13d825601165bc02cdc42732c85a9b7476e9639a35c4112dd8a28e9e7a5",
+    "translationSha256": "c0e1109796aab19c911eb8086351fa9cd517f9c9b738f1904fedd6f73b22164d"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 47,
+    "title": "我的宝贝",
+    "paragraphs": 4,
+    "sourceSha256": "ae14bd60e7b7769d329f4b9afeb832f9ad001aa6a91024e29217fbb1410d390b",
+    "translationSha256": "23fbac54b28afed3e44a6a7548d89f47577cb95bb36a275aa66109e7d620bde5"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 48,
+    "title": "积木城",
+    "paragraphs": 6,
+    "sourceSha256": "556e27b8cc1932ea42ed309124f3d98aeadf57e730c8178a16bbdaf6715d5687",
+    "translationSha256": "fcedf217768accd4e798fdadd4c4691a7d237d73d974eabd12bd84b285847eca"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 49,
+    "title": "故事书的国度",
+    "paragraphs": 6,
+    "sourceSha256": "c2757e1503ec64b63218973b2af71db12560b7b202c18f09ec7578df4de74d9b",
+    "translationSha256": "fec559a93671d44960084418378df60d2582b010f87255c0b559b1c68f3b1368"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 50,
+    "title": "火中的军队",
+    "paragraphs": 5,
+    "sourceSha256": "9ad288cd5f465089610f44d5e725974ab9f8768695e8819ef698198482efa879",
+    "translationSha256": "d12d30b1241bae2b0e1e67be2edae37711aff0e5b57e9fc84cd47a7b84e6e2f5"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 51,
+    "title": "小小国度",
+    "paragraphs": 5,
+    "sourceSha256": "33cbd770ccdf011962e12ebcfe4a22a63676b876b4966b5debdf7767f806b8a4",
+    "translationSha256": "38a66ff82552155bc8512fe3b3ba16b2378192afb566f4c598f12470262bf4c1"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 52,
+    "title": "白昼与黑夜",
+    "paragraphs": 11,
+    "sourceSha256": "6379b1b0ea9d779406e39d83e80b53fd8bc75c4b5806897ce0332921f26149fe",
+    "translationSha256": "71d53fe50daefba8cc153f737581dac0d5a0f8ed5d5ff88159789bb9b70c32b3"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 53,
+    "title": "窝里的鸟蛋",
+    "paragraphs": 8,
+    "sourceSha256": "1a3bbb4349696b9bbdb939abf8712474ae3ede4f158ba124ea50561346122e02",
+    "translationSha256": "c297a1cdbae555ae9f75328342a3e6e7aa4025f9ca922e3b9803e94242b82ced"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 54,
+    "title": "花朵",
+    "paragraphs": 4,
+    "sourceSha256": "5929c88193a60af9636dcc929f49658f3fbc981b10d0a7e9def3e0ce2bda6bb7",
+    "translationSha256": "4d08a07fc70ed58b3cfe20a414792c4f36d68502998c7cc2546072e71bd1a636"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 55,
+    "title": "夏日的太阳",
+    "paragraphs": 5,
+    "sourceSha256": "e783a07819810bc6cef65f8ba254a6c88aad448ef94602043364535cfc35f981",
+    "translationSha256": "e88187d9073b850bb73b35d4cdbc3afbb0a533d46d7ef548a556717d24cd14ab"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 56,
+    "title": "沉默的士兵",
+    "paragraphs": 9,
+    "sourceSha256": "b91d6c3819e9972514be288e370d35cb39879ab777adbb59cc99684a5c010ceb",
+    "translationSha256": "cf815d0bb679bfe0d84e0f6b50b6556debdb344a09d05ea19d235b814f909234"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 57,
+    "title": "秋日的篝火",
+    "paragraphs": 3,
+    "sourceSha256": "6a7d079465888f4062bb83cc20d3201acf675579d77669db618d4664783fbbd1",
+    "translationSha256": "fb59ce583a7f3a43d35bd97f0e06814546c1913925a1f4e30674b9ae058a3e60"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 58,
+    "title": "园丁",
+    "paragraphs": 5,
+    "sourceSha256": "9b3016c61dda73c84e055222bcb23d52f8acad168754ed4003331215578f94ea",
+    "translationSha256": "56f3b579c53b043c7d19547c9fd63084981514b70960cc47436967c0f7b871a9"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 59,
+    "title": "历史的联想",
+    "paragraphs": 4,
+    "sourceSha256": "117322c68efa585c83ecb8db8b24aedcda28f3bfc15b7e705a729883040ad8a2",
+    "translationSha256": "1d6d7243e678e30a0982cb621a146d16a883b1c71763eb132dd2dcd3770decf4"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 60,
+    "title": "献给威利和亨丽埃塔",
+    "paragraphs": 4,
+    "sourceSha256": "df8f37dec2c4ef023dc56101b89c6402305ed171fa31e55dfcd87f4e780d5b6e",
+    "translationSha256": "e5304ed2c42645ed04c40c4453c4c3f6c402466b01162e6536b85aa925a0325a"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 61,
+    "title": "献给我的母亲",
+    "paragraphs": 1,
+    "sourceSha256": "62a5a6179eb80cffdfb7b35eb638b132dfa70eaf464f6294c71b97f2b7c8fada",
+    "translationSha256": "e64c99c2aa36918bfaeb75dc3cdc87f80b3121350014cce5dc220f1809ffc4c5"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 62,
+    "title": "献给姨妈",
+    "paragraphs": 1,
+    "sourceSha256": "50b0957ff59bbb298603d82c070fe3cfeee5e3b4384c4919f47cd22a308de9aa",
+    "translationSha256": "0291d136ec982376b6ad4e2a32b98abc5701af84e302d5c23b19f234a7f97315"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 63,
+    "title": "献给明妮",
+    "paragraphs": 3,
+    "sourceSha256": "b5366a88a43094ed2ae4f7910a8cf157e007e733d0ec6e4c3ea547a66ad0990e",
+    "translationSha256": "90f0d4b2462cd75dbf736344ee8603ecc674d47076f86c4885fde31718fb59db"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 64,
+    "title": "献给与我同名的孩子",
+    "paragraphs": 7,
+    "sourceSha256": "356cf9b40a017336e0e31b87dbc53ffff020624cf61a863ff451cc9c03f74493",
+    "translationSha256": "0c8883f9675af335e7b4f8e3125ffda2527f7ce57f8c1533746596b170f001bd"
+  },
+  {
+    "book": "zh-classic-garden",
+    "chapter": 65,
+    "title": "献给所有读者",
+    "paragraphs": 1,
+    "sourceSha256": "e9e2fb2ebcf7b990f4b696f90a91b6836001486b1fc015edf86aaee810adf3bf",
+    "translationSha256": "28eaa4572704c06fc9531e3e55afec1abc92fd3bbda8db774ea67421a601bf9d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 1,
+    "title": "男孩",
+    "paragraphs": 130,
+    "sourceSha256": "a225d91aa07e9302cf46828934b16956e63e7d56ed7c7f261706754ecea3e29e",
+    "translationSha256": "166fedad7bf65cd7d46d35c864b03e10756c732e5368d0a81e4e405fce5f1ea5"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 2,
+    "title": "来自凯布讷山的阿卡",
+    "paragraphs": 105,
+    "sourceSha256": "8007c7235485bb083b8fafe43f3ca37e4a212b028128753763ba5853fbf916f8",
+    "translationSha256": "67aeccf86849e9c4a4af00f2a898d25ad5f95c225462ee05e6e3f1ffc6aa86f1"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 3,
+    "title": "野鸟的生活",
+    "paragraphs": 110,
+    "sourceSha256": "28cc21d5ef5faa487e82e8de28006390aa8dcfd32c16563b4422cbaab41af9f7",
+    "translationSha256": "bb81db3a2b0abe0aae33091bd7046fa4f30c3c277454cb0e7e6313db2ce5ae2d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 4,
+    "title": "格利明古堡",
+    "paragraphs": 62,
+    "sourceSha256": "60327c909aeebac22c6b3e0437e0812a4c49c51febed1b3dab8a9f9973768754",
+    "translationSha256": "14cbaf64fbbf03d30fc63c4a95b9825bf2ca144f61a5cb678b41fdec68818077"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 5,
+    "title": "库拉山上的鹤群大会",
+    "paragraphs": 38,
+    "sourceSha256": "dc683b170925564ac8912057502f5de97c908c3a9e64288363d7af11bec92c33",
+    "translationSha256": "085da417bc623031d7035ee3283c06e3adbab1ce123342e8fefe42dacc4a84ef"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 6,
+    "title": "雨天",
+    "paragraphs": 36,
+    "sourceSha256": "e2c719a29ec1687925d5484a20b3437526840490372c2eb99f4af7515d26ee43",
+    "translationSha256": "f559fa6b8c7d5e79b3391772f0141965b3829df58595c5214957159958d1ffeb"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 7,
+    "title": "三级阶梯",
+    "paragraphs": 19,
+    "sourceSha256": "e642866bbc6f3c0a4c5e14aa26906097f279a2909ebc877b2385bbe10410875d",
+    "translationSha256": "28c34e97279034c7c7c126c6ff5062e2ad0ec1d3569dbd66129ef4164f0cb02b"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 8,
+    "title": "龙讷比河边",
+    "paragraphs": 38,
+    "sourceSha256": "c639658d5231a22adb36a41cc6cb3eddd0b33eaec987aa4b2eb80e226305bf4f",
+    "translationSha256": "37f102a30f454efe06a136c47e12050d7508fe8a646d947c0f03b4d41ad7e67c"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 9,
+    "title": "卡尔斯克鲁纳",
+    "paragraphs": 57,
+    "sourceSha256": "9e1dea462f2c5f79bad931feba49ce77b05c7409171cae6cb323a05c38a214f9",
+    "translationSha256": "1099fde6f8936964e4127348f6ad16eaee24e1f760dfe211798754997f399897"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 10,
+    "title": "前往厄兰岛",
+    "paragraphs": 29,
+    "sourceSha256": "a792092a136d4a7d0e925a02b0bf7ec07154582d77c0db59080fb1c31830fc7a",
+    "translationSha256": "4a712fd71933b1d1bec5b8cebddff804c88e9565b606fba4dbf9cb3f946e06dd"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 11,
+    "title": "厄兰岛南端",
+    "paragraphs": 45,
+    "sourceSha256": "fcd76b7789951cab44aa215e0e76b1dbb80ea1468ad845e19423d3a1434bd30f",
+    "translationSha256": "b21124394fc2d906d22bfc3f016a6895923e9de5141cdb33821ff9cc3ff48d2d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 12,
+    "title": "大蝴蝶",
+    "paragraphs": 22,
+    "sourceSha256": "a22a2435ec891401755b686edc8554bf1f143d97a26802dd1375474131c4b513",
+    "translationSha256": "51e69b61bc349e30f1aef7cac0f84f1126b8cc4409809c4c5370f01b094eee45"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 13,
+    "title": "小卡尔斯岛",
+    "paragraphs": 59,
+    "sourceSha256": "2f0d46afa2186de8d8867664b6503bf545560725912904b68ce0c52b48b717d5",
+    "translationSha256": "a2295dbbd5a16088e50a038ff3c31b06a7eac618c17867bc44e276c7297198d9"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 14,
+    "title": "两座城市",
+    "paragraphs": 82,
+    "sourceSha256": "7d616f340738b100d1f55a7f52e9a19f308b3c124d9c2c3851c3a28240c0e103",
+    "translationSha256": "41d7654dcc2ab47b1dd5324427054908956221cc2f71ecc19dd8795c0b87bebe"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 15,
+    "title": "斯莫兰的故事",
+    "paragraphs": 26,
+    "sourceSha256": "baa7c170d89f4ff29cb24f5cf1db1b42caec812acbad2091e74f894438fa13be",
+    "translationSha256": "0e0c734b0b93ad8cca986d4eb3aa464998999c58a28cc22f54d662956c5c69a2"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 16,
+    "title": "乌鸦",
+    "paragraphs": 91,
+    "sourceSha256": "3a1587c2151fa10c1b818e3c7f5e4a1fcbe5dd737b61be51221c15b48a3acc73",
+    "translationSha256": "1d5d7b729ab510b6ab8962207282ff8b964b6b515b9c0d6ac09ed17650eec49f"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 17,
+    "title": "老农妇",
+    "paragraphs": 55,
+    "sourceSha256": "263ff15f1719fd2e73cbeb060d27542cab8f5033c682839c829488ce017badb3",
+    "translationSha256": "9fac4ebfd4f48c23977671b56a975ec2a946c00b0efb1f074b3ec4d34655cd90"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 18,
+    "title": "从塔贝里到胡斯克瓦纳",
+    "paragraphs": 15,
+    "sourceSha256": "82ea75c50f4663dd5d5af55b7c785d19433d6f644cea23c9913c66d5062895d3",
+    "translationSha256": "f995a2e2466e0ae0c16303ed8b93b51bf0f1f96351ae66a59634d35c9e3ba0d4"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 19,
+    "title": "大鸟湖",
+    "paragraphs": 81,
+    "sourceSha256": "f610cc76a7cb66e8ee4dc055381abf097c0efb60c4ff726781a47668b5ff1dac",
+    "translationSha256": "a50f22e2d5e733139508bfcd4aae8edb34da11cefdffd48710457734abcdd903"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 20,
+    "title": "预言",
+    "paragraphs": 39,
+    "sourceSha256": "9133e4f6f044e9f5b09a6dee034269515b27e733e82844145fa7e9ccb8d4fbd2",
+    "translationSha256": "5e50e4d8358d52d582c4409804f621996c4aea09a07437fec5a295a43044d64e"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 21,
+    "title": "粗呢布",
+    "paragraphs": 28,
+    "sourceSha256": "6a7fad2006da044a5bb1f24eaa6306d338a9607dcfbda70d15a312083af6a548",
+    "translationSha256": "10a23ec3ba2fb84850e385fc394bc57ceb8ded805dc458c0a584b576cee24b5a"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 22,
+    "title": "卡尔和灰皮的故事",
+    "paragraphs": 156,
+    "sourceSha256": "845192dbdf73cff6beb028466a4e0f9cf58e685eadd928b4eaaa85055ffc923d",
+    "translationSha256": "f38b9b92d955ce0a16fcfc19134a10522633c2227ce524805e8a8b64b4906da7"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 23,
+    "title": "美丽的乐园",
+    "paragraphs": 74,
+    "sourceSha256": "d4e793e14fb458cfe9d4f7b7c71b65942041b0d26ef6976677ba8dfd1a246b45",
+    "translationSha256": "c5457e3bfd59996088b77078b46d6ce942385099e9f124ae2e495b30c5eac575"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 24,
+    "title": "在奈尔克",
+    "paragraphs": 97,
+    "sourceSha256": "5f495ca5315a2282fc3a36c2ec5dc1748ddb484c8fc01ee5ffaf197491d2c7ad",
+    "translationSha256": "51377c390bd485e36d9bd4da4a5c6e123192ccaed08b004bc4067e273fe8e78b"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 25,
+    "title": "冰雪消融",
+    "paragraphs": 30,
+    "sourceSha256": "232045ec1f9420d1feabc18db4500309f421147e5b075590f3762426347e1ca2",
+    "translationSha256": "d2540b29acae92e124cc6169bf6fdc4777136ed1a2f4fb502b5ff781c9b4ad8e"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 26,
+    "title": "分割遗产",
+    "paragraphs": 23,
+    "sourceSha256": "d7ba93cfb6a6a5bb39a28302bffe35b24b6870ed93fc56079f9b7b17ca1734df",
+    "translationSha256": "1b3b2e0ad2b0bfdb790c95f8e9a00777c7914ad40b972cb98fc192fe40c20b2f"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 27,
+    "title": "在贝里斯拉根",
+    "paragraphs": 35,
+    "sourceSha256": "5436e8dcb655512eaeae54deeb60fdfb3ceef73f3864a70bb8a90b58c043690c",
+    "translationSha256": "f9724137d9d7afd4fe305bd9a570be3ca38863e38998fb9dc87150a432704ac4"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 28,
+    "title": "钢铁厂",
+    "paragraphs": 96,
+    "sourceSha256": "61b80dba45cdbb711e21375f7a0be66bf369209ee4cececc8ad3c344311991ab",
+    "translationSha256": "f6ac4de0d5d8cdc6d947394ccfa37c0c6fb635f2e09534d30855ff26e96dc4b8"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 29,
+    "title": "达尔河",
+    "paragraphs": 68,
+    "sourceSha256": "2476421c0eeb614385fdc5a19feae0e433e386a76ab79811e90690cb1bf9a72d",
+    "translationSha256": "b2cf4cfcfb08d4d255f162ace46e82545f9b98e9c0a7d76f15a1b2209cc02822"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 30,
+    "title": "兄弟的那一份",
+    "paragraphs": 73,
+    "sourceSha256": "2c4c312ba2ae7584c074682e51f89589e6caf3be8fc2f8bbbc85a711d33c6154",
+    "translationSha256": "0ddd517df2585c3f39875edc9aa373da7814532a65a10d80056f99feb3f99dc7"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 31,
+    "title": "瓦尔普吉斯之夜",
+    "paragraphs": 37,
+    "sourceSha256": "3bcd2e52a37812711d681794742e1fb890484d527f1b6bce8360f35d06cb7df2",
+    "translationSha256": "d65f1714c4f9fa3de3ff513c2a3947567a3ff5b02e45b73d806c285e08707acc"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 32,
+    "title": "教堂旁",
+    "paragraphs": 15,
+    "sourceSha256": "3704eccda6d772b915edd1806100d66f5dd20e9b5e53fff59beb1f41da68b03a",
+    "translationSha256": "a19b39fb526166dacfa6984c58320a7ac37399d0e6f63ab80fe519642ee3fd2e"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 33,
+    "title": "洪水",
+    "paragraphs": 68,
+    "sourceSha256": "c8e0dc7a8e7e9167bb930c5b4569dafad01766b90eb8f00f8b6e6fd364d7f170",
+    "translationSha256": "a0aa930eb31385a7c53f1fc18c2bb2f8a43d0d952ac1bf4da89e9a84140e9103"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 34,
+    "title": "乌普兰的故事",
+    "paragraphs": 32,
+    "sourceSha256": "fa96d2415d27142bb68b47a3ce2e4de523ca7961ed20ce9a008a62dee85546c8",
+    "translationSha256": "9ee1c9d8d22dd6e883a8f3391965f6e87f0fc30cbd0462f4e7791f01e25a40fa"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 35,
+    "title": "在乌普萨拉",
+    "paragraphs": 92,
+    "sourceSha256": "ce57efe0d3233fa2ae37b9a12e82141935a27da1dd7414bd163d3e9121bb2d0c",
+    "translationSha256": "ae81eff53b1b842d5b2b816252cc96e910ed4dad4589a5892d4440a599d257df"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 36,
+    "title": "邓芬",
+    "paragraphs": 50,
+    "sourceSha256": "8a09af994b95241ae3a524fc59afa2561d5bf47ac34e2290535b93a201827b22",
+    "translationSha256": "c033a5c1393b64b12102eab8356905a49c43f66879b709cd6b962d93cadbd557"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 37,
+    "title": "斯德哥尔摩",
+    "paragraphs": 71,
+    "sourceSha256": "10fcea3aea8523dcc003db4eb5d01475c9ae6ad9589add22fdc355924bfb622e",
+    "translationSha256": "e803de16a26c8d99e2e73e6416339c1b29bea4248b8e143bab257fcf54b3a503"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 38,
+    "title": "老鹰高尔果",
+    "paragraphs": 59,
+    "sourceSha256": "f99b43f2c294ff1a2dca34e778ba36d71fdea8982040392b022fe2b1e5f0ca3c",
+    "translationSha256": "ef226555c0569c250596c46b9c5c41cf3242f0e358f02baf5d64fbccfe5dcaa7"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 39,
+    "title": "飞越耶斯特里克兰",
+    "paragraphs": 35,
+    "sourceSha256": "e2a2f6bfe64d9cce1adba641a080ec078d8b34bad7c172de58ef297b27d5fea1",
+    "translationSha256": "9358cdc1315fbf751aa98c4d4d16b107f32e88a08fe7a79885d9a1a167d6c574"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 40,
+    "title": "在海尔辛兰的一天",
+    "paragraphs": 77,
+    "sourceSha256": "155d595f7bff231d9f08d726453753ec6f661d6fb4e2c2ca411c7d3b04f712ec",
+    "translationSha256": "9bf3de4bc30c43e5b866bfa573beac9c9951befc463b57852a8d509c6af898ff"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 41,
+    "title": "在梅德尔帕德",
+    "paragraphs": 34,
+    "sourceSha256": "bc21a8de8da4c377fcb81ef8430ace98a68311c968b9e3e297dbf43f8dc0b2fa",
+    "translationSha256": "2f5ba5ff1796ea86430bf65b3450e537845d4e2cea0d1e38cd58c31e26bfaac6"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 42,
+    "title": "翁厄曼兰的清晨",
+    "paragraphs": 50,
+    "sourceSha256": "d367fae809da94529a75e5eb85afdec3663c89cad871d00170f744e89d076cbc",
+    "translationSha256": "4573f9de90388d4eaf0caa54ccda0ec60462cc4fb6bfb2542698c35b5f9704f8"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 43,
+    "title": "西博滕和拉普兰",
+    "paragraphs": 78,
+    "sourceSha256": "f051758b3d7eb0ef8cbe0af3ef721a2332955431a317390a76cceac113f65367",
+    "translationSha256": "d1a4e8b5ee9b4b30102505ceeec3999b363e7d5140543576fc7c27af209aae2f"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 44,
+    "title": "放鹅姑娘奥萨和小马茨",
+    "paragraphs": 72,
+    "sourceSha256": "344b30469fa57abb8b39c0302f50dc5350df5d7db490402d7926e72687c0d937",
+    "translationSha256": "89495ef1db7f812650608532265c9755ad72fd875cdb1c0a3660ef894ac903b4"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 45,
+    "title": "在拉普人那里",
+    "paragraphs": 42,
+    "sourceSha256": "131d6c1c85a0f75f2b77c8bc788dce0fdf3ab10d98a797474e9aaa4cd52b94a9",
+    "translationSha256": "20bc861af46254657d14b621e0468a9e7d477c20e3fb4d50a478f902b6e1440e"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 46,
+    "title": "向南！向南！",
+    "paragraphs": 47,
+    "sourceSha256": "3adf91efcb1abae422a8177e019ec36bc3b37e8fb28f10149542d38ed6f5e034",
+    "translationSha256": "aea2b6bd32026186574e0e6f752a2e4c928f6190615f4883f4df23e89dc5b38d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 47,
+    "title": "海里耶达伦的传说",
+    "paragraphs": 41,
+    "sourceSha256": "1b520e492dfa4d14f58b9511849c4d8ec4083685387324a1fe987ed726f9dffb",
+    "translationSha256": "a37da0f1f0384add9551846e52b7266682d4397686763aed48021b74bb69cfe7"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 48,
+    "title": "韦姆兰和达尔斯兰",
+    "paragraphs": 29,
+    "sourceSha256": "88a6d301a1e98f6a8a5fdec975e12b5b2001333d4a26a4ffb2738090fcb1e1a0",
+    "translationSha256": "14822dc511c76dc16e529a4c46c50ae06d5b99ff73ee6639b73de3b86a1671ae"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 49,
+    "title": "小庄园",
+    "paragraphs": 43,
+    "sourceSha256": "26007215ea64c3ae8ffb93b9181f7fb99fb1942b73dc68c9480e6996e53ad42e",
+    "translationSha256": "e9e433dff97448cf543124560fb4c29b31584f537fcaa9ecb81cb0af824d582d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 50,
+    "title": "礁岛上的宝藏",
+    "paragraphs": 25,
+    "sourceSha256": "c87fd2cc205d1784f7b44a76c905da09c2d7b41244d68341951043d5896b881e",
+    "translationSha256": "bc81bc689ab10e4e44b880aef3d544ebcf0eba405c6e04894b94869d39262ce8"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 51,
+    "title": "海上的银子",
+    "paragraphs": 24,
+    "sourceSha256": "154a68cdc289b3d12d47cf3ec30acd946c1b05d19cedf9efc61959079d8f27f2",
+    "translationSha256": "47a75f5a85153f842f9ee015443b25181b8217ffea0086f29f36a77a1c870598"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 52,
+    "title": "大庄园",
+    "paragraphs": 90,
+    "sourceSha256": "4f3647dae9f3b9dd42f056d1119d0399a85ec57c12e5b3f03d2ebb16a1f6fa46",
+    "translationSha256": "e2b643563cdcd0c2e5df561f7f85bd9f65821dec832530b5614f9007a7c7dd5d"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 53,
+    "title": "前往韦门赫格",
+    "paragraphs": 20,
+    "sourceSha256": "0202b3a7d9cb9d1686292f740551d4eb052dd36d28e69699f96b94d0312e05a5",
+    "translationSha256": "ecb2d6e3ffc7a162f7632bb2dc2edd29205b42fad288efc840ba91b30f3fe6a9"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 54,
+    "title": "在豪尔耶·尼尔松家",
+    "paragraphs": 40,
+    "sourceSha256": "0c63d335dcd33b775fe61f5db44db76db786a1b17da9886ee07818a4707112e2",
+    "translationSha256": "77a1590a72c21ea3a39d6febfddb4a8596b8e758f2609e77bc39689bc314cae7"
+  },
+  {
+    "book": "zh-classic-nils",
+    "chapter": 55,
+    "title": "告别大雁",
+    "paragraphs": 22,
+    "sourceSha256": "72f99082694e2a88b002856bb8febbea73608a6eb132579bbecac9830f2b4ffc",
+    "translationSha256": "784c974f195e16c17bd1763bd6198fbddb68dbfd631cb8911878de5109f6c012"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 1,
+    "title": "献词",
+    "paragraphs": 3,
+    "sourceSha256": "d3f720d31f5c2cd62767d17415285dcfde9ceeebb712fdf529407b7fdaf78a14",
+    "translationSha256": "69d3b7863900af0679b7b7cd9cbaba166d8a4342995934fe2010708293dabcec"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 2,
+    "title": "第一章",
+    "paragraphs": 10,
+    "sourceSha256": "97bb3fc0f821b1eb9569a3db60386bfa456b09e4db141d480d252a2f612a4b8d",
+    "translationSha256": "b381b28924228f62bdb9388c16a68284974ba646f2dc822d42bce85e512aa720"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 3,
+    "title": "第二章",
+    "paragraphs": 35,
+    "sourceSha256": "2ac3b6b455eacaacd3e5d4c6b2ed35abf08515b99c021752a9a58e8d0c3771a2",
+    "translationSha256": "9b64597e23841bc4d8c80a9d9a867b7c09387903a33a4c9eb97439dd6f8070f6"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 4,
+    "title": "第三章",
+    "paragraphs": 29,
+    "sourceSha256": "aed5f3da417c2be698aa52e2fcde93569931bb922ff1959197f732e6c92fc475",
+    "translationSha256": "9881e66b2ab3f3c093229e77fce390bd788bf210bdfa79319b9d3d4b80f04723"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 5,
+    "title": "第四章",
+    "paragraphs": 10,
+    "sourceSha256": "3ba790ee42ad974e7242110f94456489df130627a20f4bc27d068c327f3d38df",
+    "translationSha256": "a003af4214ca3fdd18c4c2b0ac7861c558e367e0340dc04ec9bc5c718aa30ab2"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 6,
+    "title": "第五章",
+    "paragraphs": 18,
+    "sourceSha256": "e1ad77be793a9de13772800b5e9313248d29f80495a3a4f0c1e4056894669407",
+    "translationSha256": "fa6ac6c5c5b53bd27c07c62143da2be0ec695ca022ec4a074f4a67a0c98db012"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 7,
+    "title": "第六章",
+    "paragraphs": 13,
+    "sourceSha256": "48e48dc568c7470dbb695ea74f080485ee94a5cfa62ecf651f597e76cb345b0e",
+    "translationSha256": "d30a2fa1512b0e25b8c23a7829ebbc5737a481644152712db82e7c35cc27b765"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 8,
+    "title": "第七章",
+    "paragraphs": 31,
+    "sourceSha256": "78426a59d48e0f15236f3b98c104bb54b146e9f75a575121d70d745361c06d0a",
+    "translationSha256": "418a52ec877266d88ce0dd9cb1d2bd87430b321d83d398a3a403d0f1e78f4ede"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 9,
+    "title": "第八章",
+    "paragraphs": 25,
+    "sourceSha256": "ecc7090fe74de6f0446ef12c5f46da8aea23a3b80c3f7d9488e446ec73aa03e5",
+    "translationSha256": "1566b94cf58f5c112c8cd9148135bcd996faa64e152986f36ad25d19eb634253"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 10,
+    "title": "第九章",
+    "paragraphs": 16,
+    "sourceSha256": "125acccdc6c45b81d606920b70a19d527ef7eebbcb54597a18b14888dcc236b8",
+    "translationSha256": "c4f12488fff450b9aa18532dda58c5151ec33d1045e40419e789a0c6e7e2e990"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 11,
+    "title": "第十章",
+    "paragraphs": 58,
+    "sourceSha256": "11e71609696a8411f82ac314c6826699ea6b0eab757b5320b01cf39a4d84f336",
+    "translationSha256": "1d0288b490b22403d22837cdd70ac62fd9134e6c4db363f35552225ec44fc589"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 12,
+    "title": "第十一章",
+    "paragraphs": 20,
+    "sourceSha256": "2f7f7ce5a413d22375bd7b7799c37c158ffd69684dd1cf12e5d01823f967542d",
+    "translationSha256": "b2a346d119f08882503aac76a2888840f5551badce16b8644a23bfe83515e306"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 13,
+    "title": "第十二章",
+    "paragraphs": 11,
+    "sourceSha256": "92f4bfc8d23af7cd7f87701603ec95d7f8282b73d15592c87f517f6f4d615035",
+    "translationSha256": "544d9bcfc188b74d1e9fa13e128f17ac4e0977f5c328fab1ae87aff01b1b48bd"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 14,
+    "title": "第十三章",
+    "paragraphs": 53,
+    "sourceSha256": "24e2b694196a00d0c7b155fc0163f78991ceed5dc37985b98a7f04b7d0bc91e8",
+    "translationSha256": "491e0a5fccbfcb1c38776971a2c19c6dba67ed645e071c556466b7d4d0101c0c"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 15,
+    "title": "第十四章",
+    "paragraphs": 38,
+    "sourceSha256": "ad2fd21a577abcd42c70c8b1675c181f86527bec749548f3ccc75c581d1a152a",
+    "translationSha256": "2ba4036ce1ff3543ff9ba6008c60182772833de0760f1a579404d8b631826905"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 16,
+    "title": "第十五章",
+    "paragraphs": 48,
+    "sourceSha256": "2e5ba10b7c6f36136231ec1054cda1a7b9b64282df5161a86bed312eec76b61c",
+    "translationSha256": "5a0865530f53adf2177d0291086a6194ae4e16c39dc273c672450bf89a9ba1cb"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 17,
+    "title": "第十六章",
+    "paragraphs": 5,
+    "sourceSha256": "2a9c56766d90908435cbfbb7830633187cd3c06cc6af6f250225b307e7557234",
+    "translationSha256": "1c4438b755a2382bbd181769fbdb07a2111431f77b190944389f1270083f25f2"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 18,
+    "title": "第十七章",
+    "paragraphs": 30,
+    "sourceSha256": "54cb83695e4eee9b64d381af8f15805fefb129e9aeabea5e8406d7673725e0c3",
+    "translationSha256": "5f2e07eb401fc37bc7d9ae71575f3c047a8847182ba2cbe001665536f607b01f"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 19,
+    "title": "第十八章",
+    "paragraphs": 8,
+    "sourceSha256": "2bb51727bbe8741216f91e0b5cce148d73541bd88b698f6eae334bf06dcea7fc",
+    "translationSha256": "3b4d0c8d7bf9dacae60c572286672e9cca4c533f6cdfc29b6976ba0292a75e0e"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 20,
+    "title": "第十九章",
+    "paragraphs": 8,
+    "sourceSha256": "ef3b304a97511f94e9be74f89543c9183b39b9e4fb89172ecf50fa4cada0a0a1",
+    "translationSha256": "36077d2d9e64843772c8eda01422af95e2fcb8cfd1e96ced7e916ee50ec35881"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 21,
+    "title": "第二十章",
+    "paragraphs": 11,
+    "sourceSha256": "5281f74d4dce33078715e2982cb58bddacb796f99f7c16cfeeeab3c1e5934b95",
+    "translationSha256": "1ca47cd6c2c78a402c00506480b35085b04c0c082f36da9e7675276bf5debe6c"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 22,
+    "title": "第二十一章",
+    "paragraphs": 63,
+    "sourceSha256": "988c88ed8f219635225b561afd07779675fa96859f0729458338187c814d678c",
+    "translationSha256": "3d0545925f0d7d83823c4f24f2d946a5fa50823e0e7bb7715d406b9d9b07e6ae"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 23,
+    "title": "第二十二章",
+    "paragraphs": 17,
+    "sourceSha256": "2795e226f17e83a6bcd6a9d9133f025f83dc6d378257486ed956f81d0686a712",
+    "translationSha256": "842cf928dc2e3a23a39db632afdadf50c3ebefc860b873e6e973da642b7ed9e1"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 24,
+    "title": "第二十三章",
+    "paragraphs": 8,
+    "sourceSha256": "012e26e4cd853274f3d6ff8c415e8aa4d5d5c2dab3f046d2417b140a3c7f62db",
+    "translationSha256": "260a62bed44ff4b5ab798d945dab3ae20cd342b682e26ba34593562892b1cf30"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 25,
+    "title": "第二十四章",
+    "paragraphs": 29,
+    "sourceSha256": "876a0d7696faf65fcaa2eb75668bfb1cb51eef145d79e59da121eaefc4b222aa",
+    "translationSha256": "342c4a3aca710d33165a65af05f83479bf4e6e7207ac83b569431d9a56515553"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 26,
+    "title": "第二十五章",
+    "paragraphs": 48,
+    "sourceSha256": "2aaf7fe22b492cbaf230dc5f6810b16d41bd08981c32a28db929c06a3291ec43",
+    "translationSha256": "76c4968b62f050e073ee8dc0855d0d8907f9447b48ccd901392ab8178be00f81"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 27,
+    "title": "第二十六章",
+    "paragraphs": 86,
+    "sourceSha256": "a2a9e09b0ed7e1a5ba630d2d4b240cfd720df7ce532967839506a22afd54e284",
+    "translationSha256": "3ddc63decc58b3f36b9a06424e1cfd471db9586a76504cd42f7088ea1244f763"
+  },
+  {
+    "book": "zh-classic-prince",
+    "chapter": 28,
+    "title": "第二十七章",
+    "paragraphs": 10,
+    "sourceSha256": "54ac614bc99bbe2f83f5d27c1922d6054a57613b028037467c1737be8da1313d",
+    "translationSha256": "1aea458c950f80a3f3857b908b4b6ee370514a8cb686bd9c11578a60cfd3ce10"
+  }
+]

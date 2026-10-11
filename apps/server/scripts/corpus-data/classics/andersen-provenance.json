@@ -1,0 +1,153 @@
+{
+  "bookId": "zh-classic-andersen",
+  "lockedSourceSha256": "f886b6c92c0c7884cb64059d84363f10977cfb12d0bc0b120c2207ce2f57b2f2",
+  "jurisdiction": "CN",
+  "note": "Publication witnesses establish historical wording; they do not make all stories one uniquely attributed translation. Window matches measure exact normalized text reuse, not whole-chapter semantic or legal equivalence.",
+  "witnesses": [
+    {
+      "chapters": [
+        1,
+        2
+      ],
+      "year": 1848,
+      "title": "A Picture-Book without Pictures and Other Stories",
+      "url": "https://en.wikisource.org/wiki/A_Picture-Book_without_Pictures_and_Other_Stories",
+      "translatorCredit": "Mary Howitt (1799–1888), as credited on the edition; refrain from attributing every PG1597 story to her.",
+      "differences": "PG1597 modernizes spelling and punctuation; princess ending has minor variant. Three peas already occur in this witness."
+    },
+    {
+      "chapters": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "year": 1847,
+      "title": "The Shoes of Fortune and Other Fairy Tales",
+      "url": "https://archive.org/details/shoesfortuneand00andegoog",
+      "translatorCredit": "Charles Boner (1815–1870)",
+      "differences": "Scanned OCR has letter errors, hyphenation and page headers. All 16 Leap-Frog paragraphs compared in source order; low exact-window score is chiefly OCR, not a new translation."
+    },
+    {
+      "chapters": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "year": "nineteenth century; New Juveniles for 1864 advertisement appears in source",
+      "title": "A Christmas Greeting: A Series of Stories",
+      "url": "https://www.gutenberg.org/ebooks/31103",
+      "translatorCredit": "Uncredited on this digital title page; not asserted to be a named modern translator.",
+      "differences": "Normalized 40-character-window match 98.1–100%; advertisement and original dedication retained as dating evidence."
+    }
+  ],
+  "corroboration": [
+    {
+      "url": "https://andersen.sdu.dk/forskning/bib/bibpost.html?BibID=13845",
+      "note": "Andersen Centre documents three peas in Caroline Peachey 1846 translation; corroborates early variant, not exact provenance of all PG1597 text."
+    }
+  ],
+  "comparison": [
+    {
+      "chapter": 1,
+      "title": "THE EMPEROR'S NEW CLOTHES",
+      "bestTextWitness": {
+        "file": "andersen-emperor-1909.txt",
+        "matched40charWindows": 366,
+        "total": 407,
+        "coverage": 0.8992628992628993
+      }
+    },
+    {
+      "chapter": 2,
+      "title": "THE REAL PRINCESS",
+      "bestTextWitness": {
+        "file": "andersen-1847-boner-ocr.txt",
+        "matched40charWindows": 0,
+        "total": 83,
+        "coverage": 0
+      }
+    },
+    {
+      "chapter": 3,
+      "title": "THE FIR TREE",
+      "bestTextWitness": {
+        "file": "andersen-1847-boner-ocr.txt",
+        "matched40charWindows": 498,
+        "total": 658,
+        "coverage": 0.756838905775076
+      }
+    },
+    {
+      "chapter": 4,
+      "title": "THE SNOW QUEEN",
+      "bestTextWitness": {
+        "file": "andersen-1847-boner-ocr.txt",
+        "matched40charWindows": 1885,
+        "total": 2450,
+        "coverage": 0.7693877551020408
+      }
+    },
+    {
+      "chapter": 5,
+      "title": "THE LEAP-FROG",
+      "bestTextWitness": {
+        "file": "andersen-1847-boner-ocr.txt",
+        "matched40charWindows": 48,
+        "total": 138,
+        "coverage": 0.34782608695652173
+      }
+    },
+    {
+      "chapter": 6,
+      "title": "THE ELDERBUSH",
+      "bestTextWitness": {
+        "file": "andersen-1847-boner-ocr.txt",
+        "matched40charWindows": 472,
+        "total": 611,
+        "coverage": 0.7725040916530278
+      }
+    },
+    {
+      "chapter": 7,
+      "title": "THE HAPPY FAMILY",
+      "bestTextWitness": {
+        "file": "andersen-provenance-31103.txt",
+        "matched40charWindows": 262,
+        "total": 264,
+        "coverage": 0.9924242424242424
+      }
+    },
+    {
+      "chapter": 8,
+      "title": "THE FALSE COLLAR",
+      "bestTextWitness": {
+        "file": "andersen-provenance-31103.txt",
+        "matched40charWindows": 170,
+        "total": 170,
+        "coverage": 1
+      }
+    },
+    {
+      "chapter": 9,
+      "title": "THE LITTLE MATCH GIRL",
+      "bestTextWitness": {
+        "file": "andersen-provenance-31103.txt",
+        "matched40charWindows": 208,
+        "total": 212,
+        "coverage": 0.9811320754716981
+      }
+    },
+    {
+      "chapter": 10,
+      "title": "THE NAUGHTY BOY",
+      "bestTextWitness": {
+        "file": "andersen-provenance-31103.txt",
+        "matched40charWindows": 163,
+        "total": 163,
+        "coverage": 1
+      }
+    }
+  ]
+}
