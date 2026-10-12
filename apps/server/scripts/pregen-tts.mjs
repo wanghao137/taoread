@@ -2,7 +2,7 @@
  * 公共书库 TTS 预生成（性能方案阶段 2，2026-09-25）。
  *
  * 离线把全书库可读文本按「与整章合成完全一致的切分/音色/语速/模型」合成 mp3，
- * 落盘 media/tts-public/<key>.mp3 + 上传 R2 + 写清单 media/.tts-public-state.json。
+ * 落盘 media/tts-public/<key>.mp3 + 上传公共音频存储 + 写清单 media/.tts-public-state.json。
  * 运行中的服务通过清单惰性重载直接命中（秒回、不计家庭配额、不写归属）。
  *
  * 与运行时一致的保证：chunkText / cacheKey(text,voice,speed,'mp3',lang,'__public__',model) /
@@ -26,6 +26,7 @@ import { DEFAULT_VOICE_ID, findVoice, DEFAULT_SPEED } from '../src/modules/tts/v
 import { TTS_PUBLIC_NS } from '../src/modules/tts/publicCache.ts'
 import { parseMp3 } from '../src/modules/tts/mp3duration.ts'
 import { chapterSpeakText, speakVoiceId } from '../src/modules/tts/chapterText.ts'
+import { loadAudioEnvironment, audioSettings, audioClient, putAudio } from './lib/public-audio-store.mjs'
 
 dotenv.config()
 const databaseUrl = process.env.TAO_DATABASE_URL
@@ -33,6 +34,7 @@ dotenv.config({ path: '.env.r2', override: true })
 // Historical media credentials files can contain a dev DB URL. Never replace
 // the explicitly selected production/staging database while loading R2 keys.
 if (databaseUrl) process.env.TAO_DATABASE_URL = databaseUrl
+await loadAudioEnvironment(process.env)
 
 const config = loadConfig()
 if (!config.TTS_BASE || !config.TTS_API_KEY) throw new Error('TTS 未配置（TTS_BASE/TTS_API_KEY）')
@@ -41,21 +43,10 @@ const mediaDir = config.TAO_MEDIA_DIR || join(process.cwd(), 'media')
 const outDir = join(mediaDir, 'tts-public')
 const manifestPath = join(mediaDir, '.tts-public-state.json')
 
-// ── R2 上传（凭据来自 .env.r2；未配置或 --no-upload 时仅落盘）──
-const accountId = process.env.R2_ACCOUNT_ID
-const accessKey = process.env.R2_ACCESS_KEY_ID
-const secretKey = process.env.R2_SECRET_ACCESS_KEY
-const mediaBucket = process.env.TAO_R2_MEDIA_BUCKET || 'taoread-media'
-const wantUpload = !process.argv.includes('--no-upload') && accountId && accessKey && secretKey
-let s3 = null
-if (wantUpload) {
-  const { S3Client } = await import('@aws-sdk/client-s3')
-  s3 = new S3Client({
-    region: 'auto',
-    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-    credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
-  })
-}
+// 公共音频目标来自 .env.audio；未迁移时兼容 .env.r2，--no-upload 仅落盘。
+const store = process.argv.includes('--no-upload') ? null : audioSettings(process.env)
+const s3 = store ? audioClient(store) : null
+const mediaBucket = store?.bucket
 
 const arg = (name) => {
   const hit = process.argv.find((a) => a.startsWith(`--${name}=`))
@@ -104,15 +95,8 @@ async function saveManifest() {
   }
 }
 
-async function uploadR2(key, buf) {
-  const { PutObjectCommand } = await import('@aws-sdk/client-s3')
-  await s3.send(new PutObjectCommand({
-    Bucket: mediaBucket,
-    Key: `tts-public/${key}.mp3`,
-    Body: buf,
-    ContentType: 'audio/mpeg',
-    CacheControl: 'public, max-age=31536000, immutable',
-  }))
+async function uploadAudio(key, buf) {
+  await putAudio(s3, store, `tts-public/${key}.mp3`, buf)
 }
 
 /** 合成+落盘+上传+记账；返回 'ok' | 'skip' | 'fail' */
@@ -122,8 +106,9 @@ async function ensureSegment(key, text, lang) {
     if (!info || info.uploaded || !s3) return 'skip'
     try {
       const { readFile: rf } = await import('node:fs/promises')
-      await uploadR2(key, await rf(join(outDir, `${key}.mp3`)))
+      await uploadAudio(key, await rf(join(outDir, `${key}.mp3`)))
       info.uploaded = true
+      info.store = store.target
       manifestDirty = true
       return 'ok'
     } catch (err) {
@@ -143,10 +128,10 @@ async function ensureSegment(key, text, lang) {
       await mkdir(outDir, { recursive: true })
       const { writeFile: wf } = await import('node:fs/promises')
       await wf(join(outDir, `${key}.mp3`), out.audio)
-      const rec = { durationMs, bytes: out.audio.length, uploaded: false }
+      const rec = { durationMs, bytes: out.audio.length, uploaded: false, store: store?.target }
       if (s3) {
         try {
-          await uploadR2(key, out.audio)
+          await uploadAudio(key, out.audio)
           rec.uploaded = true
         } catch (err) {
           log(`上传失败（本地已存）${key.slice(0, 8)}: ${err.message?.slice(0, 80)}`)
@@ -180,7 +165,7 @@ try {
     select: { id: true, lang: true },
   })
   const ordered = bookFilter ? bookRows.filter((b) => bookFilter.includes(b.id)) : bookRows
-  log(`书库 ${ordered.length} 本（stage=${stageFilter?.join(',') ?? '全部'}，音色=${voice.id}，语速=${speed}，模型=${model}，R2=${s3 ? mediaBucket : '关闭'}）`)
+  log(`书库 ${ordered.length} 本（stage=${stageFilter?.join(',') ?? '全部'}，音色=${voice.id}，语速=${speed}，模型=${model}，音频存储=${s3 ? `${store.target}/${mediaBucket}` : '关闭'}）`)
 
   let budget = limit
   outer: for (const book of ordered) {

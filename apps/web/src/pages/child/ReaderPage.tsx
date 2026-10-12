@@ -1471,6 +1471,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                       border: '2px solid var(--ink)',
                       borderRadius: 14,
                       background: 'var(--card)',
+                      color: 'var(--ink)',
                       boxShadow: '3px 3px 0 var(--ink)',
                     }}
                   >

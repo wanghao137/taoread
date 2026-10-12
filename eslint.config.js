@@ -15,6 +15,8 @@ export default tseslint.config(
       '.tao-tmp/**',
       // Local audit logs, downloaded sources and generated verification artifacts.
       'output/**',
+      '**/.wrangler/**',
+      'workers/public-audio/worker-configuration.d.ts',
     ],
   },
   {
@@ -32,6 +34,7 @@ export default tseslint.config(
         setInterval: 'readonly',
         clearInterval: 'readonly',
         fetch: 'readonly',
+        AbortSignal: 'readonly',
         // Playwright addInitScript 回调运行在浏览器上下文（混合脚本）
         window: 'readonly',
         localStorage: 'readonly',
@@ -41,6 +44,14 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['workers/public-audio/src/**/*.mjs'],
+    languageOptions: { globals: {
+      caches: 'readonly', fetch: 'readonly', URL: 'readonly', Request: 'readonly', Response: 'readonly', Headers: 'readonly',
+      TextEncoder: 'readonly', crypto: 'readonly', TransformStream: 'readonly',
+      console: 'readonly',
+    } },
+  },
   {
     // R-08：Service Worker 运行在 worker 全局——声明其真实全局，不做文件级豁免
     // （docs/34 P1-4 起 SW 有 fetch 拦截，补 URL/Response/fetch 等平台全局）

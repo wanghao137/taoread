@@ -24,6 +24,7 @@ import { Dialog } from '../../components/ui/Dialog'
 import { saveOfflineBook } from '../../lib/offline'
 import { ReaderPage } from './ReaderPage'
 import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
+import { DailyPoemCard } from './DailyPoemCard'
 
 export type V8Theme = 'paper' | 'sepia' | 'night'
 
@@ -687,6 +688,7 @@ function TodayPage() {
           {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : null}
         </div>
       </section>
+      <DailyPoemCard readPoem={v.readBook} />
       {windowMode === 'daily_limit' && !limitAcked ? (
         <section className="section" role="status">
           <div className="side-card" style={{ borderColor: '#FFD97A' }}>

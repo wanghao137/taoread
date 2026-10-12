@@ -42,6 +42,10 @@ const schema = z
     TAO_DAILY_GEN_LIMIT: z.coerce.number().int().positive().max(10_000).default(60),
     // 媒体目录（AI 插画/TTS/视频落地）。缺省=服务进程 cwd 下的 media/；生产部署指向独立卷
     TAO_MEDIA_DIR: z.string().min(1).optional(),
+    TAO_TTS_PUBLIC_BASE: z.string().url().refine((value) => {
+      const url = new URL(value)
+      return url.protocol === 'https:' && !url.username && !url.password && !url.search && !url.hash && url.pathname === '/'
+    }, 'TAO_TTS_PUBLIC_BASE 必须是无认证、路径或查询的 HTTPS 源').optional(),
     // 前端构建产物目录（apps/web/dist）。设置后服务端同源托管 SPA；不设置=纯 API（开发态）
     TAO_STATIC_DIR: z.string().min(1).optional(),
   })

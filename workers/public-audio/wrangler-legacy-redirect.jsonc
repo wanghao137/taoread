@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "taoread-legacy-audio",
+  "account_id": "c9bfec733c53297d509a3f1ddc740e7e",
+  "main": "src/legacy-redirect.mjs",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": false,
+  "routes": [{ "pattern": "media.taostudioai.com/tts-public/*", "zone_id": "7cdd7c6289d2fc7a3ec8451f04f05615" }],
+  "observability": { "enabled": true, "traces": { "enabled": true, "head_sampling_rate": 0.01 } }
+}

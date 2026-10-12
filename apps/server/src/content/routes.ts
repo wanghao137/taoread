@@ -21,6 +21,7 @@ import { buildWordQuiz } from './quiz'
 import { buildLiteracyTest, literacySuggestion } from './literacy'
 import { COLLECTIONS, findCollection, collectionWhere } from './collections'
 import { weekStartDate } from '../lib/week'
+import { dailyPoem } from './dailyPoem'
 
 function parse<T>(schema: z.ZodType<T>, data: unknown): T {
   const result = schema.safeParse(data)
@@ -60,6 +61,14 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     if (!childId) throw new ValidationError('请选择孩子档案')
     await assertOwnChild(request, childId)
   }
+
+  app.get('/api/content/daily-poem', { preHandler: auth }, async (request, reply) => {
+    const query = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+    await assertOwnChild(request, query.childId)
+    const child = await db.childProfile.findUniqueOrThrow({ where: { id: query.childId }, select: { stage: true } })
+    reply.header('Cache-Control', 'private, no-store')
+    return reply.send(await dailyPoem(db, request.auth!.fid, child.stage))
+  })
 
   app.get('/api/content/books', { preHandler: auth }, async (request, reply) => {
     const query = parse(

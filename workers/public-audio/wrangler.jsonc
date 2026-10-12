@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "taoread-public-audio",
+  "account_id": "c9bfec733c53297d509a3f1ddc740e7e",
+  "main": "src/r2-proxy.mjs",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": true,
+  "routes": [{ "pattern": "audio.taostudioai.com", "custom_domain": true }],
+  "observability": { "enabled": true, "traces": { "enabled": true, "head_sampling_rate": 0.01 } }
+}

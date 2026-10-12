@@ -10,8 +10,14 @@ export function publicMediaBase(): string {
   return base ? base.replace(/\/+$/, '') : ''
 }
 
+/** Independent public narration origin; images and family audio keep their paths. */
+export function publicAudioBase(): string {
+  const base = process.env.TAO_TTS_PUBLIC_BASE
+  return base ? base.replace(/\/+$/, '') : publicMediaBase()
+}
+
 /** relPath 为媒体目录相对路径（art/covers/x.webp、tts-public/y.mp3） */
 export function publicMediaUrl(relPath: string): string {
-  const base = publicMediaBase()
+  const base = relPath.startsWith('tts-public/') ? publicAudioBase() : publicMediaBase()
   return base ? `${base}/${relPath}` : `/api/media/${relPath}`
 }

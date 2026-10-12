@@ -1,0 +1,13 @@
+{
+  "name": "taoread-audio-origin",
+  "account_id": "b39a61b902f00682c734676cbe147934",
+  "main": "src/r2-origin.mjs",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": true,
+  "r2_buckets": [{ "binding": "AUDIO", "bucket_name": "taoread-public-audio" }],
+  "vars": {
+    "AUDIO_ACCOUNT_ID": "b39a61b902f00682c734676cbe147934",
+    "UPLOAD_TOKEN_SHA256": "8d06457e6626267d57594c53b77401d8d742eda8b4bab5f0ff7eda705ce009e3"
+  },
+  "observability": { "enabled": true, "traces": { "enabled": true, "head_sampling_rate": 0.01 } }
+}

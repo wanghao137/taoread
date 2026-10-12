@@ -8,6 +8,7 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { guardedR2Upload } from '../../../scripts/lib/r2-capacity.mjs'
 
 let client: S3Client | null | undefined
 
@@ -55,20 +56,20 @@ export function pushPublicFilesToR2(mediaDir: string, relPaths: string[]): Promi
       // 对抗审查 P2-3：fam 判定与 sync 脚本同源——按 basename 前缀（文件名形如
       // fam-<fid>-…webp；rel 形如 art/covers/fam-….webp，按 rel.startsWith 永远拦不住）
       const base = rel.replaceAll('\\', '/').split('/').pop() ?? ''
-      if (base.startsWith('fam-')) continue
+      if (base.startsWith('fam-') || !/^art\/(covers|chapters)\/[^/]+\.webp$/.test(rel.replaceAll('\\', '/'))) continue
       try {
         const abs = join(mediaDir, rel)
         if (!existsSync(abs)) continue
         const { readFile } = await import('node:fs/promises')
         const body = await readFile(abs)
-        await s3.send(
+        await guardedR2Upload(s3, process.env.R2_ACCOUNT_ID!, body.length, () => s3.send(
           new PutObjectCommand({
             Bucket: bucket(),
             Key: rel.replace(/\\/g, '/'),
             Body: body,
             ContentType: rel.endsWith('.webp') ? 'image/webp' : rel.endsWith('.mp3') ? 'audio/mpeg' : 'application/octet-stream',
           }),
-        )
+        ))
       } catch (err) {
         console.log(
           JSON.stringify({

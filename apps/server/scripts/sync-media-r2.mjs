@@ -13,6 +13,7 @@ import { createReadStream, existsSync, readdirSync, readFileSync, statSync, writ
 import { join, sep } from 'node:path'
 import dotenv from 'dotenv'
 import { CreateBucketCommand, HeadBucketCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { guardedR2Upload } from './lib/r2-capacity.mjs'
 
 dotenv.config()
 const databaseUrl = process.env.TAO_DATABASE_URL
@@ -130,13 +131,13 @@ for (const rel of files) {
     continue
   }
   try {
-    await s3.send(new PutObjectCommand({
+    await guardedR2Upload(s3, accountId, st.size, () => s3.send(new PutObjectCommand({
       Bucket: bucket,
       Key: rel,
       Body: createReadStream(abs),
       ContentType: MIME[rel.slice(rel.lastIndexOf('.'))] ?? 'application/octet-stream',
       CacheControl: 'public, max-age=31536000, immutable',
-    }))
+    })))
     state[rel] = { mtimeMs: st.mtimeMs, size: st.size }
     uploaded++
     bytes += st.size

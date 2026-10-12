@@ -26,7 +26,7 @@ import {
 } from './client'
 import { TtsCache, cacheKey } from './cache'
 import { PublicTtsIndex, TTS_PUBLIC_NS, type PublicSegmentHit } from './publicCache'
-import { publicMediaBase } from '../../lib/publicMedia'
+import { publicAudioBase } from '../../lib/publicMedia'
 import { buildCharTimeline, timelineFromMp3, type CharTime } from './timeline'
 import { chapterSpeakText, speakVoiceId } from './chapterText'
 
@@ -293,7 +293,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         const pubKey = cacheKey(seg, voice.id, speed, 'mp3', lang, TTS_PUBLIC_NS, client.model)
         const pub: PublicSegmentHit | null = await publicTts.get(pubKey)
         if (pub) {
-          const base = publicMediaBase()
+          const base = publicAudioBase()
           const audioUrl =
             pub.uploaded && base
               ? `${base}/tts-public/${pubKey}.mp3`

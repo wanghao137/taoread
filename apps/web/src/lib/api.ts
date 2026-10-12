@@ -150,7 +150,13 @@ export interface PhonicsSummaryDto { status: 'draft'; attempts: Array<{ id: stri
 export interface DeviceSessionDto { id: string; role: 'parent' | 'child'; deviceId: string | null; createdAt: string; revokedAt: string | null; current: boolean }
 export interface ImportedProgressDto { order: number; offset: number; completed: boolean; updatedAt: string }
 
+export interface DailyPoemDto {
+  date: string
+  poem: { bookId: string; bookTitle: string; chapterOrder: number; title: string; author: string; preview: string } | null
+}
+
 export const api = {
+  dailyPoem: (childId: string, token: string) => request<DailyPoemDto>(`/api/content/daily-poem?childId=${encodeURIComponent(childId)}`, { token }),
   importedBooks: (token: string, childId?: string) => request<{ books: ImportedBookDto[] }>(`/api/content/imports${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   // 导入是重请求：最大 32MB 文件 base64 后约 45MB，家庭上行（约 95KB/s）全程要数分钟，
   // 绝不能落默认 30s 超时——浏览器中途放弃，服务端还在收 body，白烧流量还报「再试一次」
