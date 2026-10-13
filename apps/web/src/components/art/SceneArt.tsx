@@ -6,7 +6,7 @@
  * 内容包里 coverArt / chapter.art / block.art 的键名对应这里的场景。
  */
 
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 import { MOTION, useReducedMotion } from '../../lib/motion'
 
 /* ── 通用元件 ── */

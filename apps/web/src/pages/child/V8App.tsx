@@ -6,6 +6,9 @@
  */
 import {
   createContext,
+  lazy,
+  memo,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -22,13 +25,28 @@ import { AiBadge } from '../../components/art/AiBadge'
 import { haptic } from '../../lib/haptics'
 import { Dialog } from '../../components/ui/Dialog'
 import { saveOfflineBook } from '../../lib/offline'
-import { ReaderPage } from './ReaderPage'
-import { FamilyLibraryPage, FamilyReaderPage, PhonicsTrialPage } from './FamilyTrialPages'
+import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
-import { ListeningPage } from './ListeningPage'
 import type { WordCardDto } from '../../lib/api'
+
+const loadReader = () => import('./ReaderPage')
+const loadFamilyPages = () => import('./FamilyTrialPages')
+const loadListening = () => import('./ListeningPage')
+const ReaderPage = lazy(() => loadReader().then(m => ({ default: m.ReaderPage })))
+const FamilyLibraryPage = lazy(() => loadFamilyPages().then(m => ({ default: m.FamilyLibraryPage })))
+const FamilyReaderPage = lazy(() => loadFamilyPages().then(m => ({ default: m.FamilyReaderPage })))
+const PhonicsTrialPage = lazy(() => loadFamilyPages().then(m => ({ default: m.PhonicsTrialPage })))
+const ListeningPage = lazy(() => loadListening().then(m => ({ default: m.ListeningPage })))
+
+/** Load only the requested route, alongside family validation/catalogue reads. */
+export function prepareChildRoute(path: string): void {
+  const pending = /^\/child\/book\/[^/]+\/chapter\//.test(path) ? loadReader()
+    : /^\/child\/(family-books|family-book|phonics)(\/|$)/.test(path) ? loadFamilyPages()
+    : path.startsWith('/child/listen/') ? loadListening() : null
+  void pending?.catch(() => undefined)
+}
 
 export type V8Theme = 'paper' | 'sepia' | 'night'
 
@@ -212,10 +230,18 @@ export function useV8(): V8ContextValue {
 }
 
 /** 路由壳 + 数据上下文 */
-export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void }) {
+export interface InitialBooksRequest {
+  token: string
+  childId: string
+  result: Promise<{ books: ContentBookDto[] } | null>
+}
+
+export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void; initialBooks?: InitialBooksRequest | null }) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   const familyId = useSession((s) => s.familyId)
+  const initialBooksRef = useRef(initialBooks)
+  const booksRequest = useRef(0)
   const navigate = useNavigate()
 
   const [books, setBooks] = useState<V8Book[]>([])
@@ -240,14 +266,21 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
 
   const reloadBooks = useCallback(() => {
     if (!token) return
+    const sequence = ++booksRequest.current
+    const initial = initialBooksRef.current
+    initialBooksRef.current = null
     setBooksError(null)
-    api
-      .contentBooks(token, { ...(childId ? { childId } : {}) })
+    const fetchBooks = () => api.contentBooks(token, { ...(childId ? { childId } : {}) })
+    const result = initial?.token === token && initial.childId === childId
+      ? initial.result.then(res => res ?? fetchBooks()) : fetchBooks()
+    result
       .then((res) => {
+        if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
         setBooks(res.books.map(toV8))
         setLoaded(true)
       })
       .catch((err: unknown) => {
+        if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
         setLoaded(true)
         setBooksError(err instanceof Error ? err.message : '书架暂时打不开')
       })
@@ -392,6 +425,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
               </div>
             </aside>
             <main className="main" id="main-content">
+              <Suspense fallback={<p className="mono-label" role="status">正在翻开…</p>}>
               <Routes>
                 <Route path="/" element={<TodayPage />} />
                 <Route path="/today" element={<TodayPage />} />
@@ -406,6 +440,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
                 <Route path="/book/:bookId/chapter/:order" element={<ReaderRoute />} />
                 <Route path="*" element={<Navigate to="/child/today" replace />} />
               </Routes>
+              </Suspense>
             </main>
           </div>
         </div>
@@ -432,16 +467,6 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild }: { childName:
         </div>
       ) : null}
     </V8Context.Provider>
-  )
-}
-
-export function PageHead({ title, sub, index = '01' }: { title: string; sub: string; index?: string }) {
-  return (
-    <div className="page-head">
-      <span className="page-index" aria-hidden="true">{index} / 桃阅读</span>
-      <h2>{title}</h2>
-      <p>{sub}</p>
-    </div>
   )
 }
 
@@ -504,7 +529,7 @@ export function V8Cover({
   )
 }
 
-export function StoryCard({
+export const StoryCard = memo(function StoryCard({
   book,
   onOpen,
   onFav,
@@ -526,7 +551,7 @@ export function StoryCard({
       </div>
     </div>
   )
-}
+})
 
 /** 8 周阅读足迹（A4 P1 修正时间语义：8 周 × 7 天 = 56 格，一格一天，7 列 × 8 行） */
 export function Calendar({ nights }: { nights: string[] }) {
@@ -886,7 +911,8 @@ function DiscoverPage() {
   const [serverHits, setServerHits] = useState<V8Book[] | null>(null)
   const [searchStatus, setSearchStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [searchRetry, setSearchRetry] = useState(0)
-  const [visible, setVisible] = useState(60)
+  // Keep first paint small; search/filter still uses the complete catalogue.
+  const [visible, setVisible] = useState(24)
   // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
   const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number; selectedCount?: number }>>([])
   const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
@@ -1095,8 +1121,8 @@ function DiscoverPage() {
           <div key={b.id}><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
         ))}
         {filtered.length > visible ? (
-          <button className="sticker-btn" style={{ gridColumn: '1 / -1' }} onClick={() => setVisible((n) => n + 60)}>
-            再看 60 本
+          <button className="sticker-btn" style={{ gridColumn: '1 / -1' }} onClick={() => setVisible((n) => n + 24)}>
+            再看 24 本
           </button>
         ) : null}
       </div>

@@ -4,7 +4,7 @@ import { api, ApiError, type ChildDto, type DeviceSessionDto, type FamilySetting
 import { useSession } from '../../stores/session'
 import { Loading, ErrorState } from '../../components/ui'
 import { BindWizard } from './BindWizard'
-import { PageHead } from '../child/V8App'
+import { PageHead } from '../../components/PageHead'
 import { FeedbackForm, FeedbackHistory, WeeklyPlan } from '../../components/ReadingSupport'
 import { RecordRestore } from '../../components/RecordRestore'
 

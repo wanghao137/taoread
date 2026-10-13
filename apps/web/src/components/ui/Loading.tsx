@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 
 /** 加载态（docs/26 二轮复盘重做）：
  * 品牌桃子 logo 贴纸卡呼吸 + 三颗跳动的贴纸圆点 + 正向文案 + aria-busy。

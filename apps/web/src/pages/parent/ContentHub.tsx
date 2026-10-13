@@ -14,7 +14,7 @@ import {
 import { Loading, ErrorState, EmptyState } from '../../components/ui'
 import { SceneArt } from '../../components/art/SceneArt'
 import { AiBadge } from '../../components/art/AiBadge'
-import { PageHead } from '../child/V8App'
+import { PageHead } from '../../components/PageHead'
 import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
 import { FamilyImports } from './FamilyImports'
 

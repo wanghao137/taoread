@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api, ApiError, type ChildDto, type CosessionHistoryDto, type WeeklyReportDataDto } from '../../lib/api'
 import { Loading, ErrorState } from '../../components/ui'
-import { PageHead } from '../child/V8App'
+import { PageHead } from '../../components/PageHead'
 
 export interface ReportPanelProps {
   familyId: string

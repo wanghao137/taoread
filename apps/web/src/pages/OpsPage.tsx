@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { api, ApiError, type OpsSummaryDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState } from '../components/ui'
-import { PageHead } from './child/V8App'
+import { PageHead } from '../components/PageHead'
 
 export function OpsPage() {
   const token = useSession((s) => s.token)

@@ -374,14 +374,14 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const chapterRequest = useRef(0)
   useEffect(() => () => { chapterRequest.current++ }, [])
   const loadChapter = useCallback(
-    async (target: number, restoreBlock = 0) => {
+    async (target: number, restoreBlock = 0, prepared?: Promise<ContentChapterDto>) => {
       if (!token) return
       const request = ++chapterRequest.current
       setLoading(true)
       setChapterError(null)
       try {
         // docs/35 C1：章节正文缓存命中则零网络开章（预取已 warmed）
-        const res = { chapter: takeChapterCache(cacheBookKey, target) ?? (await api.contentChapter(book.id, target, token)).chapter }
+        const res = { chapter: prepared ? await prepared : takeChapterCache(cacheBookKey, target) ?? (await api.contentChapter(book.id, target, token)).chapter }
         if (request !== chapterRequest.current) return
         putChapterCache(cacheBookKey, target, res.chapter)
         restoredBlockRef.current = restoreBlock
@@ -438,9 +438,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     // chapter 引用变化即当前章就绪；book.id/order 变化重挂
   }, [chapter, token, book.id, cacheBookKey, book.chapterCount, order])
 
-  /* ── 首次进入：先取已存进度（续读定位），再载入章节 ── */
+  /* 首次进入：并行读取正文与进度；位置和版本就绪后才展示正文、上报进度。 */
   useEffect(() => {
     let alive = true
+    const cached = takeChapterCache(cacheBookKey, startOrder)
+    const prepared = cached ? Promise.resolve(cached) : token ? api.contentChapter(book.id, startOrder, token).then(res => res.chapter) : undefined
+    // A chapter failure may arrive before progress. loadChapter owns its UI error.
+    void prepared?.catch(() => undefined)
     void (async () => {
       let restore = 0
       if (childId && token) {
@@ -458,7 +462,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       }
       const explicitBlock = new URLSearchParams(window.location.search).get('block')
       if (explicitBlock && /^\d+$/.test(explicitBlock)) restore = Number(explicitBlock)
-      if (alive) void loadChapter(startOrder, restore)
+      if (alive) void loadChapter(startOrder, restore, prepared)
     })()
     return () => {
       alive = false
@@ -642,13 +646,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 滚动节流上报（5s；挂在 main 容器上——scroll 不冒泡到 window） ── */
   useEffect(() => {
     const mainEl = mainRef.current
-    if (!mainEl) return
-    const onScroll = () => {
+    if (!mainEl || pageMode !== 'scroll') return
+    let frame: number | null = null
+    const updatePosition = () => {
+      frame = null
       const mainEl = mainRef.current
       // docs/41 修复 4：滚动模式的章内进度细条（翻页模式由页码指示承担）
       if (mainEl) {
         const denom = mainEl.scrollHeight - mainEl.clientHeight
-        setScrollPct(denom > 0 ? Math.min(100, Math.max(0, (mainEl.scrollTop / denom) * 100)) : 0)
+        setScrollPct(denom > 0 ? Math.round(Math.min(100, Math.max(0, (mainEl.scrollTop / denom) * 100))) : 0)
       }
       const ch = chapterRef.current
       if (!ch || !childId || !token) return
@@ -671,9 +677,25 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       lastReport.current = now
       void persistProgress(payload)
     }
+    const onScroll = () => { if (frame === null) frame = requestAnimationFrame(updatePosition) }
+    const flushFrame = () => {
+      if (frame !== null) { cancelAnimationFrame(frame); updatePosition() }
+    }
+    const flushOnHide = () => {
+      flushFrame()
+      if (progressWriter.pending) void progressWriter.retry()
+    }
+    const onHide = () => { if (document.visibilityState === 'hidden') flushOnHide() }
     mainEl.addEventListener('scroll', onScroll, { passive: true })
-    return () => mainEl.removeEventListener('scroll', onScroll)
-  }, [chapter, childId, token, order, book.id, persistProgress, progressWriter])
+    document.addEventListener('visibilitychange', onHide)
+    window.addEventListener('pagehide', flushOnHide)
+    return () => {
+      mainEl.removeEventListener('scroll', onScroll)
+      document.removeEventListener('visibilitychange', onHide)
+      window.removeEventListener('pagehide', flushOnHide)
+      if (frame !== null) cancelAnimationFrame(frame)
+    }
+  }, [chapter, childId, token, order, book.id, persistProgress, progressWriter, pageMode])
 
   /* ── 进入章节按已存 blockOrder 定位（消费 restoredBlockRef 一次）──
       滚动模式：scrollIntoView；翻页模式：设 pager 锚点后跳所在页（对抗审查 P1-2：

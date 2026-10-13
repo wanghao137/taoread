@@ -3,16 +3,18 @@
  * 旧仪式流（门屏/出发/星海/庆祝）由 v8 的 首页-找故事-书架-阅读器-结算 承接；
  * 家庭码登录、多孩选择、服务端共读会话与进度全部保留。
  */
-import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { api, ApiError, type ChildDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState, TaSheet, TaButton } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
-import { V8App } from './child/V8App'
+import { V8App, prepareChildRoute, type InitialBooksRequest } from './child/V8App'
 
 export function ChildHome() {
   const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => prepareChildRoute(location.pathname), [location.pathname])
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
   const setChild = useSession((s) => s.setChild)
@@ -26,11 +28,21 @@ export function ChildHome() {
   const [confirmSwitch, setConfirmSwitch] = useState(false)
 
   const [childName, setChildName] = useState('小读者')
+  const initialBooks = useRef<InitialBooksRequest | null>(null)
 
   const loadChildren = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
     setLoading(true)
+    setLoadError(undefined)
+    const selected = useSession.getState().childId
+    const usesCatalogue = !/^\/child\/(family-books|family-book|phonics|listen)(\/|$)/.test(window.location.pathname)
+    // Only read ahead for a selected profile. The API checks family ownership;
+    // the result is not displayed until familyView validates that selection.
+    initialBooks.current = selected && usesCatalogue ? {
+      token, childId: selected,
+      result: api.contentBooks(token, { childId: selected }).catch(() => null),
+    } : null
     api
       .familyView(familyId, token)
       .then((view) => {
@@ -106,7 +118,7 @@ export function ChildHome() {
         />
       )
     }
-    return <V8App childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
+    return <V8App key={`${token}:${childId}`} initialBooks={initialBooks.current} childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
   }
 
   return (

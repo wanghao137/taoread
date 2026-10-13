@@ -1,18 +1,19 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { MotionConfig } from 'framer-motion'
+import { LazyMotion, MotionConfig } from 'framer-motion'
 import { useSession } from './stores/session'
 import { api } from './lib/api'
 import { LoginPage } from './pages/LoginPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { Loading } from './components/ui'
-import { OfflinePage } from './pages/OfflinePage'
-import { TrialPage } from './pages/TrialPage'
+const OfflinePage = lazy(() => import('./pages/OfflinePage').then(m => ({ default: m.OfflinePage })))
+const TrialPage = lazy(() => import('./pages/TrialPage').then(m => ({ default: m.TrialPage })))
 const EditorPage = lazy(() => import('./pages/EditorPage').then(m => ({ default: m.EditorPage })))
+const loadMotionFeatures = () => import('./lib/motionFeatures').then(m => m.default)
 
 /**
  * 路由级代码分割（docs/11 P0-7）：登录页直出，孩子端/家长端/演示页各自懒加载。
- * 浏览器闲置时预取另一端，切换角色时不再卡首屏。
+ * 仅在进入对应角色或页面时加载，避免预取另一端占用孩子端弱网带宽。
  */
 const ChildHome = lazy(() =>
   import('./pages/ChildHome').then((m) => ({ default: m.ChildHome })),
@@ -26,21 +27,6 @@ const OpsPage = lazy(() => import('./pages/OpsPage').then((m) => ({ default: m.O
 const KitchenSink = import.meta.env.DEV
   ? lazy(() => import('./pages/KitchenSink').then((m) => ({ default: m.KitchenSink })))
   : null
-
-function prefetchOtherHalf(role: 'parent' | 'child'): void {
-  const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
-  if (connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '')) return
-  // 登录后浏览器空闲时把另一端也拉下来，家长/孩子切换零等待
-  const run = () => {
-    if (role === 'child') void import('./pages/ParentHome')
-    else void import('./pages/ChildHome')
-  }
-  if ('requestIdleCallback' in globalThis) {
-    globalThis.requestIdleCallback(run, { timeout: 4000 })
-  } else {
-    setTimeout(run, 2000)
-  }
-}
 
 /** 路由守卫：无会话去登录；角色与路由不匹配时纠正到自己的端 */
 function RequireRole({ role, children }: { role: 'parent' | 'child'; children: JSX.Element }) {
@@ -56,9 +42,6 @@ function RequireRole({ role, children }: { role: 'parent' | 'child'; children: J
 function HomeRedirect() {
   const token = useSession((s) => s.token)
   const role = useSession((s) => s.role)
-  useEffect(() => {
-    if (role) prefetchOtherHalf(role)
-  }, [role])
   if (!navigator.onLine) return <Navigate to="/offline" replace />
   if (!token || !role) return <Navigate to="/login" replace />
   return <Navigate to={role === 'child' ? '/child' : '/parent'} replace />
@@ -100,6 +83,7 @@ export default function App() {
     else document.documentElement.removeAttribute('data-calm')
   }, [calmMode])
   return (
+    <LazyMotion features={loadMotionFeatures} strict>
     <MotionConfig reducedMotion={calmMode ? 'always' : 'user'}>
       {/* docs/34 P2-7：跳到主内容（键盘/读屏用户跳过导航） */}
       <a className="skip-link" href="#main-content">
@@ -151,5 +135,6 @@ export default function App() {
         </Routes>
       </Suspense>
     </MotionConfig>
+    </LazyMotion>
   )
 }

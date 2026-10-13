@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { motion, type HTMLMotionProps } from 'framer-motion'
+import { m as motion, type HTMLMotionProps } from 'framer-motion'
 
 type Variant = 'primary' | 'ink' | 'secondary' | 'ghost'
 type Size = 'lg' | 'md'
