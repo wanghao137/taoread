@@ -303,6 +303,7 @@ export function LoginPage() {
         <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => navigate('/privacy')}>
           隐私政策
         </button>
+        <button type="button" className="sticker-btn" onClick={() => navigate('/trial')}>无需家庭码，先试读一段</button>
         <button type="button" className="linklike" onClick={() => navigate('/offline')}>打开本机离线书架</button>
       </div>
 

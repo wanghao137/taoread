@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, expect, it } from 'vitest'
 import { makeApp, createChild, createFamilyAsParent, authHeaders, type TestHarness } from './helper'
 import { ALL_PACKS } from '../src/content/packs'
-import { seedPack } from '../src/content/seed'
 import { dailyPoem, shanghaiDay } from '../src/content/dailyPoem'
 import { DAILY_POEM_POOL } from '../src/content/daily-poem-pool'
 let h: TestHarness, familyId: string, token: string, childId: string
@@ -50,6 +49,12 @@ it('excludes blocked, unpublished, and altered editions, returning null when no 
   await h.db.book.updateMany({ where: { id: { in: ids } }, data: { publicationStatus: 'published' } })
   await h.db.block.updateMany({ where: { chapter: { bookId: { in: ids } }, kind: 'poem' }, data: { translation: 'changed edition' } })
   expect((await dailyPoem(h.db, familyId, '9-12')).poem).toBeNull()
-  // Restore shared fixtures so unrelated test files keep their own baseline.
-  for (const id of ids) await seedPack(h.db, ALL_PACKS.find(p => p.id === id)!)
+  // Restore only the sparse chapters this test changed, rather than reseeding
+  // 1,365 poems at the end of a quota/availability test.
+  for (const entry of DAILY_POEM_POOL) {
+    const pack = ALL_PACKS.find(p => p.id === entry.bookId)!
+    for (const [i, block] of pack.chapters[entry.order - 1]!.blocks.entries()) {
+      await h.db.block.updateMany({ where: { chapter: { bookId: entry.bookId, order: entry.order }, order: i + 1 }, data: { translation: block.translation ?? null } })
+    }
+  }
 }, 60_000)

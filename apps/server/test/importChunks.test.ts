@@ -1,29 +1,35 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { randomBytes } from 'node:crypto'
 import AdmZip from 'adm-zip'
+import { mkdtemp, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { authHeaders, createFamilyAsParent, makeApp, type TestHarness } from './helper'
 import { IMPORT_CHUNK_SIZE } from '../src/content/importRoutes'
 
 let h: TestHarness
 let token: string
 let tokenOther: string
+let mediaDir: string
 beforeAll(async () => {
-  h = await makeApp()
+  mediaDir = await mkdtemp(join(tmpdir(), 'taoread-chunk-contract-'))
+  h = await makeApp(undefined, { mediaDir })
   const family = await createFamilyAsParent(h.app, 'chunk-import-owner')
   token = family.token
   const other = await createFamilyAsParent(h.app, 'chunk-import-other')
   tokenOther = other.token
 })
+afterAll(async () => { await h.app.close(); await h.db.$disconnect(); await rm(mediaDir, { recursive: true, force: true }) })
 
 const CHUNK = IMPORT_CHUNK_SIZE
-function bigEpub(): Buffer {
+function bigEpub(padding = 2.5 * CHUNK): Buffer {
   const zip = new AdmZip()
   zip.addFile('mimetype', Buffer.from('application/epub+zip'))
   zip.addFile('META-INF/container.xml', Buffer.from('<container><rootfile full-path="OEBPS/book.opf"/></container>'))
   zip.addFile('OEBPS/book.opf', Buffer.from('<package><manifest><item id="a" href="one.xhtml" media-type="application/xhtml+xml"/></manifest><spine><itemref idref="a"/></spine></package>'))
   zip.addFile('OEBPS/one.xhtml', Buffer.from('<html><body><p>chunked book</p><p>the little cat chased butterflies in the garden all afternoon and fell asleep under the sunflower.</p></body></html>'))
   // 随机图片撑到跨多块（约 2.5MB → 3 块）；不解码不参与文本统计
-  zip.addFile('OEBPS/pictures.jpg', randomBytes(2.5 * CHUNK))
+  zip.addFile('OEBPS/pictures.jpg', randomBytes(padding))
   return zip.toBuffer()
 }
 
@@ -50,6 +56,41 @@ async function putChunk(sessionId: string, index: number, binary: Buffer, overri
 }
 
 describe('分块导入', () => {
+  it('取消和过期会话不能继续传；边界大小可创建而超限拒绝', async () => {
+    const binary = bigEpub()
+    const session = await initSession(binary)
+    expect(await putChunk(session, 0, binary)).toBe(200)
+    const status = await h.app.inject({ method: 'GET', url: `/api/content/imports/chunks/${session}`, headers: authHeaders(token) })
+    expect(status.json().received).toEqual([0])
+    expect((await h.app.inject({ method: 'DELETE', url: `/api/content/imports/chunks/${session}`, headers: authHeaders(tokenOther) })).statusCode).toBe(404)
+    expect((await h.app.inject({ method: 'DELETE', url: `/api/content/imports/chunks/${session}`, headers: authHeaders(token) })).statusCode).toBe(200)
+    expect(await putChunk(session, 1, binary)).toBe(404)
+    const expiring = await initSession(binary)
+    const now = Date.now()
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(now + 2 * 60 * 60 * 1000 + 1)
+    try { expect((await h.app.inject({ method: 'GET', url: `/api/content/imports/chunks/${expiring}`, headers: authHeaders(token) })).statusCode).toBe(404) } finally { clock.mockRestore() }
+    const max = await h.app.inject({ method: 'POST', url: '/api/content/imports/chunks/init', headers: authHeaders(token), payload: { title: '上限测试', lang: 'zh', ageStage: '6-8', sourceName: 'max.epub', totalBytes: 32 * 1024 * 1024, totalChunks: 128, rightsConfirmed: true } })
+    expect(max.statusCode).toBe(201)
+    await h.app.inject({ method: 'DELETE', url: `/api/content/imports/chunks/${max.json().sessionId}`, headers: authHeaders(token) })
+  })
+  it('接近32MB的真实EPUB完成分块、预览、刷新状态续传与去重确认', async () => {
+    const binary = bigEpub(31 * 1024 * 1024)
+    expect(binary.length).toBeGreaterThan(31 * 1024 * 1024)
+    expect(binary.length).toBeLessThanOrEqual(32 * 1024 * 1024)
+    const session = await initSession(binary)
+    expect(await putChunk(session, 0, binary)).toBe(200)
+    const status = await h.app.inject({ method: 'GET', url: `/api/content/imports/chunks/${session}`, headers: authHeaders(token) })
+    expect(status.json().received).toEqual([0])
+    for (let index = 1; index < Math.ceil(binary.length / CHUNK); index++) expect(await putChunk(session, index, binary)).toBe(200)
+    const preview = await h.app.inject({ method: 'POST', url: `/api/content/imports/chunks/${session}/preview`, headers: authHeaders(token), payload: {} })
+    expect(preview.statusCode).toBe(200)
+    expect(preview.json().chapterCount).toBe(1)
+    const complete = await h.app.inject({ method: 'POST', url: `/api/content/imports/chunks/${session}/complete`, headers: authHeaders(token), payload: {} })
+    expect(complete.statusCode).toBe(201)
+    const again = await h.app.inject({ method: 'POST', url: `/api/content/imports/chunks/${session}/complete`, headers: authHeaders(token), payload: {} })
+    expect(again.json().id).toBe(complete.json().id)
+    expect(await h.db.importedBook.count({ where: { id: complete.json().id } })).toBe(1)
+  }, 60000)
   it('分块上传→拼装入库→重复导入去重', async () => {
     const binary = bigEpub()
     expect(Math.ceil(binary.length / CHUNK)).toBeGreaterThanOrEqual(3)

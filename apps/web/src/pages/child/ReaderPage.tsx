@@ -20,6 +20,8 @@ import { defaultReadingTheme } from '../../lib/readingTheme'
 import { AiBadge } from '../../components/art/AiBadge'
 import { PoemRuby } from '../../components/art/PoemRuby'
 import { Dialog } from '../../components/ui/Dialog'
+import { FeedbackForm } from '../../components/ReadingSupport'
+import { useBookmarks } from '../../hooks/useBookmarks'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
@@ -169,11 +171,17 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => loadPref<string>('taoread-reader-fontfamily', 'serif') === 'sans' ? 'sans' : 'serif')
   const [lineHeight, setLineHeight] = useState(() => { const value = loadPref('taoread-reader-lineheight', 1.9); return [1.7, 1.9, 2.1].includes(value) ? value : 1.9 })
   const [focused, setFocused] = useState(false)
+  const [showPinyin, setShowPinyin] = useState(() => loadPref('taoread-reader-pinyin', true))
+  const [showTranslation, setShowTranslation] = useState(() => loadPref('taoread-reader-translation', false))
+  const [dimImages, setDimImages] = useState(() => loadPref('taoread-reader-dim-images', true))
   const focusHintShown = useRef(false)
   useEffect(() => savePref('taoread-reader-theme', theme), [theme])
   useEffect(() => savePref('taoread-reader-font', font), [font])
   useEffect(() => savePref('taoread-reader-fontfamily', fontFamily), [fontFamily])
   useEffect(() => savePref('taoread-reader-lineheight', lineHeight), [lineHeight])
+  useEffect(() => savePref('taoread-reader-pinyin', showPinyin), [showPinyin])
+  useEffect(() => savePref('taoread-reader-translation', showTranslation), [showTranslation])
+  useEffect(() => savePref('taoread-reader-dim-images', dimImages), [dimImages])
 
   /* ── 朗读 ── */
   const [speaking, setSpeaking] = useState(false)
@@ -225,13 +233,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const pressTimerRef = useRef<number | null>(null)
   /** 书签（P1-11；本机 localStorage，跨章持久） */
   const familyId = useSession((s) => s.familyId)
-  const bookmarkKey = `taoread-bookmarks-v2:${familyId}:${childId}:public:${book.id}:${book.contentVersion}`
-  const [bookmarks, setBookmarks] = useState<Array<{ chapter: number; block: number }>>([])
+  const bookmarkSync = useBookmarks({ token, familyId, childId, bookId: book.id, source: 'public', version: book.contentVersion })
+  const bookmarks = bookmarkSync.bookmarks.map(row => ({ ...row, block: row.position }))
   /** 插图灯箱（P1-11/P2-4） */
   const [lightbox, setLightbox] = useState<string | null>(null)
+  const [imagesExpanded, setImagesExpanded] = useState(false)
 
   /* ── 浮层开关 ── */
   const [showSettings, setShowSettings] = useState(false)
+  const [sentencePicker, setSentencePicker] = useState(false)
   const [settingsTab, setSettingsTab] = useState<'layout' | 'audio' | 'record'>('layout')
   const [showChapters, setShowChapters] = useState(false)
   const [showFinish, setShowFinish] = useState(false)
@@ -446,6 +456,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           /* 没有进度记录就从头读 */
         }
       }
+      const explicitBlock = new URLSearchParams(window.location.search).get('block')
+      if (explicitBlock && /^\d+$/.test(explicitBlock)) restore = Number(explicitBlock)
       if (alive) void loadChapter(startOrder, restore)
     })()
     return () => {
@@ -475,8 +487,17 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   useEffect(() => {
     if (!childId || !token) return
     let alive = true
-    api
-      .listBookHighlights(childId, token, book.id)
+    const loadHighlights = async () => {
+      const all: Awaited<ReturnType<typeof api.listBookHighlights>>['highlights'] = []
+      let cursor: string | undefined
+      do {
+        const result = await api.listBookHighlights(childId, token, book.id, cursor)
+        if (!alive) return { highlights: [] }
+        all.push(...result.highlights); cursor = result.nextCursor ?? undefined
+      } while (cursor)
+      return { highlights: all }
+    }
+    void loadHighlights()
       .then(({ highlights }) => {
         if (!alive) return
         const map = new Map<number, Set<number>>()
@@ -582,17 +603,6 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   )
 
   /* ── 书签（docs/34 P1-11）：本机 localStorage，按书记存 ── */
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(bookmarkKey)
-      const data: unknown = raw ? JSON.parse(raw) : []
-      setBookmarks(Array.isArray(data) ? data.filter((b): b is { chapter: number; block: number } =>
-        !!b && Number.isInteger(b.chapter) && b.chapter >= 1 && b.chapter <= book.chapterCount &&
-        Number.isInteger(b.block) && b.block >= 0).slice(0, 200) : [])
-    } catch {
-      setBookmarks([])
-    }
-  }, [bookmarkKey, book.chapterCount])
 
   /* ── 朗读定时（docs/34 P2-1）：到点渐弱收尾（哄睡不惊醒），手动停止即取消 ── */
   useEffect(() => {
@@ -964,7 +974,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     trackRef: pagerTrackRef,
     anchorRef: pagerAnchorRef,
     contentKey: `${book.id}:${order}:${chapter?.id ?? ''}`,
-    recalcKey: `${book.id}:${order}:${font}:${lineHeight}:${fontFamily}:${theme}:${chapter?.id ?? ''}`,
+    recalcKey: `${book.id}:${order}:${font}:${lineHeight}:${fontFamily}:${theme}:${showPinyin}:${showTranslation}:${imagesExpanded}:${chapter?.id ?? ''}`,
     onNext: () => { if (order < book.chapterCount) goChapterRef.current(order + 1) },
     onPrev: () => { if (order > 1) goChapterRef.current(order - 1) },
     onCenterTap: () => setFocused((f) => !f),
@@ -1071,16 +1081,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   }, [])
 
   /* ── 书签（docs/34 P1-11）：当前章+当前块，同章重复点击=收起 ── */
-  const toggleBookmark = useCallback(() => {
-    const current = { chapter: order, block: currentBlockRef.current }
-    const exists = bookmarks.some((b) => b.chapter === current.chapter && b.block === current.block)
-    const next = exists
-      ? bookmarks.filter((b) => b.chapter !== current.chapter || b.block !== current.block)
-      : [...bookmarks, current].sort((a, b) => a.chapter - b.chapter)
-    setBookmarks(next)
-    savePref(bookmarkKey, next)
-    showToast(exists ? '书签收起来了' : '夹了张书签')
-  }, [bookmarks, order, bookmarkKey, showToast])
+  const toggleBookmark = () => {
+    bookmarkSync.toggle(order, currentBlockRef.current, chapterRef.current?.blocks[currentBlockRef.current]?.text ?? '')
+    showToast('书签已在本机保存')
+  }
 
   /** 从书签跳：带块定位（与续读同路径） */
   const goBookmark = useCallback(
@@ -1139,14 +1143,14 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     async (word: string) => {
       if (!childId || !token) return
       try {
-        await api.addWord(childId, { word, lang: book.lang, bookId: book.id, context: chapterRef.current?.title }, token)
+        await api.addWord(childId, { word, lang: book.lang, bookId: book.id, context: chapterRef.current?.blocks[currentBlockRef.current]?.text.slice(0, 200) ?? chapterRef.current?.title, chapterOrder: order, blockOrder: currentBlockRef.current }, token)
         setCollectedWords((prev) => new Set(prev).add(word))
         showToast('已收进生词本')
       } catch (err) {
         showToast(err instanceof Error ? err.message : '这个词没收进来，再试一次')
       }
     },
-    [childId, token, book.lang, book.id, showToast],
+    [childId, token, book.lang, book.id, order, showToast],
   )
 
   /* ── 读完啦：先报进度（completed 只在最后一章为 true），再开结算浮层；
@@ -1287,7 +1291,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const heroIsFirstBlock = showHeroArt && heroArtUrl === firstImageUrl
 
   return (
-    <div className={`reader ${theme}`} style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+    <div className={`reader ${theme} ${dimImages ? 'dim-images' : ''} ${imagesExpanded ? 'images-expanded' : ''}`} style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
       {/* ── 顶栏三段：返回 / 第 N 章 · 书名 / 目录 + 排版 ── */}
       {focused && <button className="sticker-btn focus-restore" onClick={() => setFocused(false)}>显示阅读工具</button>}
       <header
@@ -1315,6 +1319,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               className="mono-label"
               style={{
                 padding: '3px 8px',
+                color: '#30271f',
                 border: '1.5px solid var(--ink)',
                 borderRadius: 999,
                 background: saveState === 'failed' || saveState === 'conflict' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',
@@ -1330,6 +1335,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         <span style={{ display: 'inline-flex', gap: 10 }}>
           <button onClick={() => setShowChapters(true)}>{LABELS.toc}</button>
           <button onClick={() => setShowSettings(true)}>{LABELS.typeset}</button>
+          <button className="compact-art-toggle" aria-pressed={imagesExpanded} onClick={() => setImagesExpanded(x => !x)}>{imagesExpanded ? '收起插画' : '显示插画'}</button>
         </span>
       </header>
 
@@ -1365,7 +1371,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             <div className="reader-label">
               第 {order} 章 / 共 {book.chapterCount} 章
             </div>
-            <h2>{chapter?.title}</h2>
+            <h2 className="reader-chapter-title">{book.category === 'poetry' ? chapter?.title.split(' · ')[0] : chapter?.title}</h2>
+            {book.category === 'poetry' && chapter?.title.includes(' · ') && <p className="reader-poem-author">{chapter.title.split(' · ').slice(1).join(' · ')}</p>}
 
             {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
                 data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
@@ -1413,6 +1420,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                 return (
                   <figure
                     key={b.id}
+                    className="reader-illustration"
                     ref={(el) => {
                       blockRefs.current.set(b.id, el)
                     }}
@@ -1508,7 +1516,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                     }}
                     style={{ margin: '0 0 24px' }}
                   >
-                    <p
+                    <div
                       className={isSpeakingBlock ? 'speaking' : undefined}
                       style={{ whiteSpace: 'pre-line', textAlign: 'center', letterSpacing: '0.04em', cursor: speaking ? 'pointer' : undefined }}
                       onPointerDown={() => onBlockPressStart(b.order, b.text)}
@@ -1527,21 +1535,16 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                         if (speaking) jumpToBlock(b.id)
                       }}
                     >
-                      {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
+                      {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : showPinyin && b.pinyin ? <PoemRuby text={b.text} pinyin={b.pinyin} color={ink} fontSize={font} /> : <p>{b.text}</p>}
                       {savedBlocks.has(b.order) ? ' ✒️' : null}
-                    </p>
-                    {/* 逐字拼音对注（朗读高亮时退回正文，避免与高亮分词打架） */}
-                    {b.pinyin && !isSpeakingBlock ? (
-                      <PoemRuby text={b.text} pinyin={b.pinyin} color={ink} fontSize={font} />
-                    ) : null}
-                    {b.translation ? (
+                    </div>
+                    {b.translation && showTranslation ? (
                       <p
                         style={{
                           textIndent: 0,
                           whiteSpace: 'pre-line',
                           textAlign: 'center',
-                          fontSize: Math.round(font * 0.66),
-                          opacity: 0.78,
+                          fontSize: Math.max(16, Math.round(font * 0.78)),
                           borderTop: '1px solid rgba(38,32,26,.2)',
                           paddingTop: 12,
                         }}
@@ -1588,10 +1591,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             固定在视口底部，与滑动手势互为补充，不占分页空间） */}
         <nav
           className="reader-tail-nav"
-          aria-hidden={focused}
-          {...(focused ? { inert: '' } : {})}
+          aria-hidden={focused || (pageMode === 'page' && pager.page < pager.pageCount - 1)}
+          {...(focused || (pageMode === 'page' && pager.page < pager.pageCount - 1) ? { inert: '' } : {})}
           style={{
-            display: 'flex', justifyContent: 'space-between', gap: 10, marginTop: 12, flexShrink: 0,
+            display: 'flex', visibility: pageMode === 'page' && pager.page < pager.pageCount - 1 ? 'hidden' : undefined, justifyContent: 'space-between', gap: 10, marginTop: 12, flexShrink: 0,
             width: pageMode === 'page' ? '100%' : undefined,
             padding: pageMode === 'page' ? '0 16px 8px' : undefined,
             opacity: focused ? 0 : 1, pointerEvents: focused ? 'none' : undefined,
@@ -1611,15 +1614,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               {LABELS.finish}
             </button>
           ) : (
-            <button className="sticker-btn primary" onClick={() => goChapter(order + 1)}>
+            <button className={`sticker-btn ${pageMode === 'scroll' || pager.page === pager.pageCount - 1 ? 'primary' : ''}`} onClick={() => goChapter(order + 1)}>
               {LABELS.nextChapter}
             </button>
           )}
         </nav>
         {pageMode === 'page' && <nav className="pager-navigation" aria-label="章内翻页" aria-hidden={focused} {...(focused ? { inert: '' } : {})} style={{ opacity: focused ? 0 : undefined }}>
-          <button className="min-h-[44px]" disabled={pager.page === 0} onClick={() => pager.setPage(pager.page - 1)}>上一页</button>
+          <button className="min-h-[44px]" disabled={pager.page === 0} onClick={() => pager.setPage(pager.page - 1)}>这章上一页</button>
           <span className="pager-page" role="status" aria-live="polite">第 {pager.page + 1} / {pager.pageCount} 页</span>
-          <button className="min-h-[44px]" disabled={pager.page === pager.pageCount - 1} onClick={() => pager.setPage(pager.page + 1)}>下一页</button>
+          <button className="min-h-[44px] page-forward" disabled={pager.page === pager.pageCount - 1} onClick={() => pager.setPage(pager.page + 1)}>这章下一页</button>
         </nav>}
       </main>
       {/* ── 底部控制条 ── */}
@@ -1650,6 +1653,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       </footer>
 
       {/* ── 排版设置浮层 ── */}
+      {sentencePicker && <Overlay label="选择金句" onClose={() => setSentencePicker(false)}><h3>《{book.title}》 · 第 {order} 章</h3><p>选择要收藏的段落，每段最多保留 200 字。</p>{blocks.filter(b => b.kind === 'text' || b.kind === 'poem').map(b => <button className="sentence-choice" key={b.id} aria-pressed={savedBlocks.has(b.order)} onClick={() => void saveHighlight(b.order, b.text)}>{b.text.slice(0, 200)}{savedBlocks.has(b.order) ? ' · 已收藏' : ''}</button>)}</Overlay>}
       {showSettings ? (
         <Overlay onClose={() => setShowSettings(false)} label="阅读设置">
           <div className="setting-row" role="group" aria-label="设置分类">
@@ -1659,6 +1663,10 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           </div>
           {settingsTab === 'record' && <LocalRecorder />}
           {settingsTab === 'layout' && <>
+          <fieldset className="reading-options"><legend>诗歌辅助</legend><label><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /> 显示拼音</label><label><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /> 显示白话解释</label><label><input type="checkbox" checked={dimImages} onChange={e => setDimImages(e.target.checked)} /> 夜间调暗插图</label></fieldset>
+          {token && <FeedbackForm token={token} bookId={book.id} version={book.contentVersion} chapter={order} position={currentBlockRef.current} />}
+          <p>长按正文可以收藏这一段；也可以用下面的按钮选择句子。</p>
+          <button className="sticker-btn" onClick={() => { setShowSettings(false); setSentencePicker(true) }}>选择并收藏句子</button>
           <div className="setting-row">
             <button onClick={toggleBookmark}>在当前位置夹书签</button>
             <button onClick={() => { setShowSettings(false); void loadScaffold() }} disabled={scaffoldLoading}>给爸妈的共读话题</button>
@@ -1850,22 +1858,24 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               ))}
             </div>
           )}
-          {/* 书签（docs/34 P1-11）：本机书签跳回当时的段落 */}
+          <p role="status">{bookmarkSync.status}</p><button className="sticker-btn" onClick={() => void bookmarkSync.sync()}>同步书签</button>
+          {bookmarkSync.conflict && <button className="sticker-btn" onClick={() => { if (window.confirm('采用服务器书签会舍弃本机未同步的修改，是否继续？')) void bookmarkSync.adoptServer() }}>采用服务器书签</button>}
           {bookmarks.length > 0 ? (
             <div style={{ marginTop: 14 }}>
               <p className="mono-label">🔖 书签</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
                 {bookmarks.map((bm) => (
-                  <button
-                    key={`${bm.chapter}-${bm.block}`}
+                  <div key={bm.id}><button
+                    key={bm.id}
+                    disabled={bm.version !== book.contentVersion}
                     style={{ textAlign: 'left' }}
                     onClick={() => {
                       setShowChapters(false)
                       goBookmark(bm)
                     }}
                   >
-                    第 {bm.chapter} 章 · 回到书签
-                  </button>
+                    第 {bm.chapter} 章 · {bm.version === book.contentVersion ? '回到书签' : '正文已更新，等待定位'}
+                  </button><button className="sticker-btn" onClick={() => bookmarkSync.remove(bm.id)}>移除这条书签</button></div>
                 ))}
               </div>
             </div>

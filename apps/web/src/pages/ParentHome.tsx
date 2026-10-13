@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { api, ApiError, type ChildDto, type FamilyViewDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState } from '../components/ui'
@@ -31,7 +32,10 @@ export function ParentHome() {
   const familyId = useSession((s) => s.familyId)
   const familyCode = useSession((s) => s.familyCode)
   const signOut = useSession((s) => s.signOut)
-  const [tab, setTab] = useState<(typeof TABS)[number]>('今天')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requestedTab = searchParams.get('tab')
+  const tab = TABS.find(value => value === requestedTab) ?? '今天'
+  const setTab = useCallback((value: (typeof TABS)[number]) => { const next = new URLSearchParams(searchParams); next.set('tab', value); setSearchParams(next) }, [searchParams, setSearchParams])
   const [state, setState] = useState<FamilyState>({ kind: 'loading' })
   // 变更计数：子面板改动后触发「今天」重拉（家庭视图 → 孩子列表）
   const [revision, setRevision] = useState(0)
@@ -78,7 +82,7 @@ export function ParentHome() {
     } catch {
       /* 隐私模式写不进就算了 */
     }
-  }, [familyId])
+  }, [familyId, setTab])
 
   const load = useCallback(() => {
     if (!token || !familyId) return
@@ -137,6 +141,7 @@ export function ParentHome() {
     if (tab === '今天')
       return (
         <>
+          {childrenList.length === 0 && <section className="panel"><h2>从第一本书开始</h2><p>先在设置里添加一个小读者昵称和年龄段，无需真实姓名或生日。再选择桃书库里的书，切换孩子端就能打开正文；也可以先试读。</p><button className="sticker-btn primary" onClick={() => setTab('设置')}>添加小读者</button></section>}
           <TonightPanel token={token ?? ''} childrenList={childrenList} refreshKey={refreshKey} />
           <FootprintBar familyId={familyId ?? ''} token={token ?? ''} />
 

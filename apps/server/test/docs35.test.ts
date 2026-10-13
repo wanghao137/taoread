@@ -214,6 +214,11 @@ describe('B3 目录缓存', () => {
       expect((await listBooks(db, { familyId, ids: [...ids].reverse() })).map((b) => b.id)).toEqual(expected)
       expect((await listBooks(db, { familyId, ids, lang: 'zh' })).map((b) => b.id)).toEqual(['added-order-new-b', 'added-order-old'])
       await seedPack(db, { ...PROBE, id: 'added-order-old', title: 'Added order old revised' })
+      expect((await db.book.findUniqueOrThrow({ where: { id: 'added-order-old' } })).publicationStatus).toBe('draft')
+      expect((await listBooks(db, { familyId, ids })).map((b) => b.id)).toEqual(expected.slice(0, 2))
+      // Synthetic publication models re-approval; changed content is hidden until explicitly released.
+      await db.book.update({ where: { id: 'added-order-old' }, data: { publicationStatus: 'published' } })
+      invalidateBookCatalog()
       expect((await listBooks(db, { familyId, ids })).map((b) => b.id)).toEqual(expected)
     } finally {
       await db.book.deleteMany({ where: { id: { in: ids } } })
@@ -227,6 +232,10 @@ describe('B3 目录缓存', () => {
     expect((await listBooks(db, { familyId, childId })).find((b) => b.id === PROBE.id)).toBeDefined()
     // 更新书名（upsert 同 id）——缓存若未失效将读到旧标题
     await seedPack(db, { ...PROBE, title: 'docs35 性能探针书·改名' })
+    expect((await db.book.findUniqueOrThrow({ where: { id: PROBE.id } })).publicationStatus).toBe('draft')
+    expect((await listBooks(db, { familyId, childId })).find(b => b.id === PROBE.id)).toBeUndefined()
+    await db.book.update({ where: { id: PROBE.id }, data: { publicationStatus: 'published' } })
+    invalidateBookCatalog()
     const books = await listBooks(db, { familyId, childId })
     const hit = books.find((b) => b.id === PROBE.id)
     expect(hit!.title).toBe('docs35 性能探针书·改名')

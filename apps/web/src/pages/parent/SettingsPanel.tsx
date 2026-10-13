@@ -5,6 +5,8 @@ import { useSession } from '../../stores/session'
 import { Loading, ErrorState } from '../../components/ui'
 import { BindWizard } from './BindWizard'
 import { PageHead } from '../child/V8App'
+import { FeedbackForm, FeedbackHistory, WeeklyPlan } from '../../components/ReadingSupport'
+import { RecordRestore } from '../../components/RecordRestore'
 
 export interface SettingsPanelProps {
   familyId: string
@@ -27,6 +29,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const [settings, setSettings] = useState<FamilySettingsDto | null>(null)
   /** 已登录设备（A1/F04）：列表 + 单设备撤销 */
   const [sessions, setSessions] = useState<DeviceSessionDto[] | null>(null)
+  const [sessionsError, setSessionsError] = useState(false)
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -52,11 +55,12 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
         if (alive)
           setView({ kind: 'error', message: err instanceof ApiError ? err.message : undefined })
       })
-    // 设备列表独立拉取：失败只隐藏设备卡
+    setSessions(null)
+    setSessionsError(false)
     api
       .listSessions(familyId, token)
       .then((dto) => alive && setSessions(dto.sessions))
-      .catch(() => undefined)
+      .catch(() => { if (alive) setSessionsError(true) })
     return () => {
       alive = false
     }
@@ -100,20 +104,24 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
 
     return (
       <div className="set-grid">
+        <nav className="settings-jump" aria-label="设置分类"><a href="#setting-readers">小读者</a><a href="#setting-reading">阅读习惯</a><a href="#setting-data">数据与隐私</a><a href="#setting-danger">注销家庭</a></nav>
+        {sessionsError && <div role="alert" className="panel">设备列表没有加载成功。<button className="sticker-btn" onClick={onChanged}>重新加载</button></div>}
         {/* 已登录设备（A1/F04）：只显示活跃设备（已请出的历史记录不再刷屏）；
             家长可撤销任意设备，撤销后该设备令牌立即失效 */}
         {sessions && sessions.some((s) => !s.revokedAt) ? (
           <div className="panel" data-testid="device-sessions">
             <h3>已登录设备</h3>
-            <p>所有设备都凭家庭码加入；发现陌生设备可立即请出</p>
+            <p>所有设备都凭家庭码加入。最多保留 20 个活跃设备，继续加入时最早的设备会退出；发现陌生设备可立即请出。</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
               {sessions.filter((s) => !s.revokedAt).map((session) => (
                 <div key={session.id} className="kid-row">
                   <span>
-                    {session.current ? '本机' : session.role === 'parent' ? '家长设备' : '孩子设备'}
-                    {session.deviceId ? ` · ${session.deviceId}` : ''}
+                    {session.label ?? (session.current ? '本机' : session.role === 'parent' ? '家长设备' : '孩子设备')}
+                    {session.current ? ' · 当前设备' : ''}
+                    <small style={{ display: 'block' }}>最近活动：{new Date(session.lastSeenAt ?? session.createdAt).toLocaleString('zh-CN')}</small>
                     {session.revokedAt ? ' · 已请出' : ''}
                   </span>
+                  <button className="sticker-btn sm" disabled={busy} onClick={() => { const label = window.prompt('给设备起个名字（如：客厅平板）', session.label ?? ''); if (label?.trim()) void run(() => api.nameDevice(familyId, session.id, label.trim(), token)).then(r => { if (r) onChanged() }) }}>命名</button>
                   {!session.current && !session.revokedAt ? (
                     <button
                       type="button"
@@ -168,7 +176,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           <BindWizard familyId={familyId} token={token} onBound={() => onChanged()} />
         )}
 
-        <div className="panel">
+          <div className="panel" id="setting-readers">
           <h3>小读者</h3>
           {view.view.children.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
@@ -332,10 +340,10 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           </div>
         </div>
 
-        <div className="panel">
+        <div className="panel" id="setting-reading">
           <h3>每日阅读提醒</h3>
           <p>
-            约定孩子每天一共读多久。到时间后孩子端会出现一张「该休息啦」的温柔卡片（不强制锁死），连续阅读 25 分钟也会有护眼眨眼提醒。留空 = 不限时。
+            按阅读活动开始到收尾之间经过的时间提醒休息，包含听读、暂停及未收尾时的离开时间；跨午夜只计入当天部分。这不是注意力或实际盯屏时长测量。提醒不会强制停止阅读，留空表示不限时。
           </p>
           <div className="setting-row" style={{ marginTop: 12 }}>
             <input
@@ -373,9 +381,9 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           </div>
         </div>
 
-        <div className="panel">
+        <div className="panel" id="setting-data">
           <h3>导出家庭数据</h3>
-          <p>把孩子的共读记录、金句、生词导出成一个 JSON 文件——数据是你们自己的。</p>
+          <p>版本 2 JSON 包含孩子档案、阅读记录、精确位置、已同步书签和家庭书解析文字，可恢复到空家庭。不含原始上传文件、插画、音频和登录凭据；完整系统恢复需要运营备份。请妥善保管包含家庭阅读内容的导出文件。</p>
           <button
             type="button"
             className="sticker-btn"
@@ -397,12 +405,13 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           >
             导出 JSON
           </button>
+          <RecordRestore token={token} familyId={familyId} onChanged={onChanged} />
         </div>
 
         <div className="panel">
           <h3>AI 生成内容说明</h3>
           <p>
-            桃阅读中的绘本插画、拟人化朗读配音和「让画面动起来」动画由人工智能生成，文本内容为公版书籍原文。
+            插画、合成朗读和动画可能由 AI 生成。正文包括公版原作、译文、节选、改编与原创，部分译文使用 AI 辅助；每本书的来源说明和审校状态分别展示，机器校验不等于人工审校。
           </p>
           <ul style={{ margin: '10px 0 0', paddingLeft: 18, fontSize: 14, color: 'var(--ink2)' }}>
             <li>· 插画：AI 绘画模型生成，每幅画在生成时已标注来源</li>
@@ -414,9 +423,12 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
           </p>
         </div>
 
-        <div className="panel" style={{ background: 'var(--paper)' }}>
+        <FeedbackForm token={token} />
+        <FeedbackHistory token={token} />
+        {view.view.children.map(child => <div key={child.id}><h3>{child.nickname}的共读安排</h3><WeeklyPlan token={token} childId={child.id} /></div>)}
+        <div className="panel settings-danger" id="setting-danger" style={{ background: 'var(--paper)' }}>
           <h3>注销家庭</h3>
-          <p>删除全部家庭数据（书架记录、共读记录、成就），不可恢复</p>
+          <p>注销当前家庭，删除线上数据库中的家庭书正文与阅读记录，撤销媒体访问权，并使所有设备退出。原始上传文件、媒体和历史备份需由部署者清理，目前备份没有自动到期删除期限。其他设备上的离线副本需自行清除。操作不可撤销，请先导出需要的记录。</p>
           {confirmDelete ? (
             <div className="setting-row" style={{ marginTop: 12 }}>
               <input

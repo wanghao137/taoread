@@ -10,6 +10,7 @@ if (!E2E_ISOLATION) await import('dotenv/config')
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { closeSync, existsSync, openSync } from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from '../config'
 import { buildApp } from '../app'
 import { IpRateLimiter } from '../lib/ipRateLimit'
@@ -51,7 +52,7 @@ async function main(): Promise<void> {
   // 「让画面动起来」按钮不渲染——演示看起来像半成品。这里按可用性按需接线：
   // 仅内容域（公版书 + 媒体）用真实 AI 能力，网关仍是 mock（零微信出网）。
   // 审计 F35（T01）：TAO_E2E_ISOLATION=1（e2e）时无论宿主配置如何，供应商一律 null。
-  const mediaDir = join(process.cwd(), 'media')
+  const mediaDir = E2E_ISOLATION ? (process.env.TAO_E2E_MEDIA_DIR || join(process.cwd(), '.e2e-media', config.TAO_DATABASE_URL.slice('file:./'.length).replace(/[^a-zA-Z0-9_-]/g, '_'))) : join(process.cwd(), 'media')
   const ttsDeps: TtsClientDeps | null = !E2E_ISOLATION && ttsAvailable(config)
     ? { base: config.TTS_BASE!, apiKey: config.TTS_API_KEY!, model: config.TTS_MODEL }
     : null
@@ -74,6 +75,7 @@ async function main(): Promise<void> {
     allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
     logger: false,
     mediaDir,
+    staticDir: E2E_ISOLATION ? process.env.TAO_E2E_STATIC_DIR : undefined,
     ttsDeps,
     imageDeps,
     videoDeps,
@@ -86,7 +88,19 @@ async function main(): Promise<void> {
 
   // 媒体台账播种：把磁盘上已生成的插画/视频登记进演示库（幂等），
   // 否则 coverArtUrl/artUrl 恒为 null，前端回退 SVG 矢量图。
-  const seeded = await seedMediaLedger(db, mediaDir)
+  // Isolation never reads another database or shares generated family media.
+  // A synthetic image exercises the real public media/reader variant contract.
+  if (E2E_ISOLATION) {
+    const scenes = [...new Set(ALL_PACKS.filter(p => p.id.startsWith('cc-')).flatMap(p => p.chapters[0]?.blocks ?? []).filter(b => b.kind === 'image' && b.art).map(b => b.art!))]
+    if (scenes.length) {
+      const { default: sharp } = await import('sharp')
+      const buffer = await sharp({ create: { width: 80, height: 60, channels: 3, background: '#edc9a0' } }).webp().toBuffer()
+      await mkdir(join(mediaDir, 'art', 'chapters'), { recursive: true })
+      for (const suffix of ['', '.reader', '.thumb']) await writeFile(join(mediaDir, 'art', 'chapters', `isolated-fixture${suffix}.webp`), buffer)
+      for (const scene of scenes) await db.artAsset.upsert({ where: { scene }, create: { scene, kind: 'chapter', urlPath: '/api/media/art/chapters/isolated-fixture.webp', width: 80, height: 60, bytes: buffer.length, prompt: 'Synthetic isolation fixture', model: 'fixture' }, update: { urlPath: '/api/media/art/chapters/isolated-fixture.webp' } })
+    }
+  }
+  const seeded = E2E_ISOLATION ? { art: 0, video: 0, skipped: 0 } : await seedMediaLedger(db, mediaDir)
   if (seeded.art > 0 || seeded.video > 0) {
     console.log(`   媒体台账: +${seeded.art} 插画 / +${seeded.video} 视频`)
   }

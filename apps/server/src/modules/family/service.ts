@@ -1,4 +1,6 @@
 import type { PrismaClient } from '@prisma/client'
+import { createHash } from 'node:crypto'
+import { exportRecords } from './records'
 import {
   decryptSecret,
   encryptSecret,
@@ -350,108 +352,17 @@ export async function unbindWeread(db: FamilyDb, familyId: string): Promise<void
   await db.wereadBinding.delete({ where: { familyId } })
 }
 
-/** 家庭数据导出（docs/34 P2-9）：孩子阅读足迹的「数据可携带」。
- * 只含阅读行为数据，绝不含令牌/密文/家庭码（导出文件本身会离开设备）。
- * 昵称映射在导出内完成，孩子档案删除后旧记录仍可读。 */
+/** 阅读记录导出：版本 2、稳定孩子引用、明确媒体排除范围。 */
 export async function exportFamilyData(db: PrismaClient, familyId: string) {
   await assertFamilyExists(db, familyId)
-  const children = await db.childProfile.findMany({
-    where: { familyId },
-    select: { id: true, nickname: true, stage: true, createdAt: true },
-    orderBy: { createdAt: 'asc' },
-  })
-  const childIds = children.map((c) => c.id)
-  const [cosessions, highlights, achievements, wordCards, readingProgress, favorites, bookHighlights, importedBooks] =
-    await Promise.all([
-      db.cosession.findMany({
-        where: { familyId },
-        select: { childId: true, bookId: true, paperTitle: true, startedAt: true, durationSec: true, progressMark: true, mood: true },
-        orderBy: { startedAt: 'asc' },
-      }),
-      db.highlightStar.findMany({
-        where: { familyId },
-        select: { childId: true, source: true, text: true, createdAt: true },
-        orderBy: { createdAt: 'asc' },
-      }),
-      db.achievement.findMany({
-        where: { familyId },
-        select: { childId: true, kind: true, value: true, unlockedAt: true },
-        orderBy: { unlockedAt: 'asc' },
-      }),
-      childIds.length > 0
-        ? db.wordCard.findMany({
-            where: { childId: { in: childIds } },
-            select: { childId: true, word: true, lang: true, context: true, createdAt: true },
-            orderBy: { createdAt: 'asc' },
-          })
-        : Promise.resolve([]),
-      childIds.length > 0
-        ? db.readingProgress.findMany({
-            where: { childId: { in: childIds } },
-            select: { childId: true, bookId: true, chapterOrder: true, finished: true, updatedAt: true },
-            orderBy: { updatedAt: 'asc' },
-          })
-        : Promise.resolve([]),
-      childIds.length > 0
-        ? db.bookFavorite.findMany({
-            where: { childId: { in: childIds } },
-            select: { childId: true, bookId: true, createdAt: true },
-            orderBy: { createdAt: 'asc' },
-          })
-        : Promise.resolve([]),
-      childIds.length > 0
-        ? db.bookHighlight.findMany({
-            where: { childId: { in: childIds } },
-            select: { childId: true, bookId: true, chapterOrder: true, text: true, createdAt: true },
-            orderBy: { createdAt: 'asc' },
-          })
-        : Promise.resolve([]),
-      db.importedBook.findMany({
-        where: { familyId },
-        select: { title: true, createdAt: true },
-        orderBy: { createdAt: 'asc' },
-      }),
-    ])
-  const childName = new Map(children.map((c) => [c.id, c.nickname]))
-  return {
-    exportedAt: new Date().toISOString(),
-    app: 'taoread' as const,
-    schemaVersion: 1 as const,
-    children: children.map((c) => ({ nickname: c.nickname, stage: c.stage, createdAt: c.createdAt })),
-    reading: {
-      cosessions: cosessions.map((s) => ({
-        child: childName.get(s.childId) ?? '',
-        bookId: s.bookId,
-        paperTitle: s.paperTitle,
-        startedAt: s.startedAt,
-        durationSec: s.durationSec,
-        progressMark: s.progressMark,
-        mood: s.mood,
-      })),
-      bookProgress: readingProgress.map((p) => ({
-        child: childName.get(p.childId) ?? '',
-        bookId: p.bookId,
-        chapterOrder: p.chapterOrder,
-        finished: p.finished,
-        updatedAt: p.updatedAt,
-      })),
-      importedBooks: importedBooks.map((b) => ({ title: b.title, createdAt: b.createdAt })),
-      favorites: favorites.map((f) => ({ child: childName.get(f.childId) ?? '', bookId: f.bookId })),
-    },
-    keepsakes: {
-      highlights: highlights.map((h) => ({ child: childName.get(h.childId) ?? '', text: h.text, source: h.source, createdAt: h.createdAt })),
-      bookHighlights: bookHighlights.map((h) => ({ child: childName.get(h.childId) ?? '', bookId: h.bookId, chapterOrder: h.chapterOrder, text: h.text })),
-      words: wordCards.map((w) => ({ child: childName.get(w.childId) ?? '', word: w.word, lang: w.lang, context: w.context })),
-      achievements: achievements.map((a) => ({ child: childName.get(a.childId) ?? '', kind: a.kind, value: a.value, unlockedAt: a.unlockedAt })),
-    },
-  }
+  return exportRecords(db, familyId)
 }
 
-/** 注销家庭（第 9 夜）：物理删除全部数据（外键级联覆盖 9 张家庭域表），不可恢复。
+/** 注销在线家庭数据，保留不可逆的恢复排除标记；媒体及历史备份由独立生命周期处理。
  * confirmCode 必须等于家庭码——注销不可恢复，要求持有凭据本体确认，防误触。
  * onFamilyDeleted（N9-205）：注销后逐出进程内该家庭的缓存/服务实例（含解密 key），由 app 层注入。 */
 export async function deleteFamilyCompletely(
-  db: FamilyDb,
+  db: PrismaClient,
   familyId: string,
   confirmCode: string,
   onFamilyDeleted?: (familyId: string) => void,
@@ -460,7 +371,10 @@ export async function deleteFamilyCompletely(
   if (confirmCode !== family.code) {
     throw new ValidationError('请输入家庭码确认注销')
   }
-  await db.family.delete({ where: { id: familyId } })
+  await db.$transaction(async tx => {
+    await tx.familyDeletion.upsert({ where: { familyHash: createHash('sha256').update(familyId).digest('hex') }, create: { familyHash: createHash('sha256').update(familyId).digest('hex') }, update: {} })
+    await tx.family.delete({ where: { id: familyId } })
+  })
   onFamilyDeleted?.(familyId)
 }
 

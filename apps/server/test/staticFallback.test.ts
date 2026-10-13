@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { createHash } from 'node:crypto'
 import { makeApp, type TestHarness } from './helper'
 
 let h: TestHarness
@@ -10,7 +11,7 @@ let staticDir: string
 beforeAll(async () => {
   staticDir = await mkdtemp(join(tmpdir(), 'taoread-static-'))
   await mkdir(join(staticDir, 'assets'), { recursive: true })
-  await writeFile(join(staticDir, 'index.html'), '<!doctype html><html><body>SPA-SHELL-MARKER</body></html>')
+  await writeFile(join(staticDir, 'index.html'), '<!doctype html><html><body>SPA-SHELL-MARKER<script type="module">window.legacyProbe = true</script><script nomodule data-src="/assets/app-abc123.js">window.legacyEntry = true</script><script src="/assets/app-abc123.js"></script></body></html>')
   await writeFile(join(staticDir, 'assets', 'app-abc123.js'), 'console.log(1)')
   await writeFile(join(staticDir, 'sw.js'), 'self.skipWaiting()')
   await writeFile(join(staticDir, 'offline-reader.js'), 'console.log("offline")')
@@ -18,6 +19,13 @@ beforeAll(async () => {
 })
 
 describe('同源 SPA 托管（部署期资产生存策略）', () => {
+  it('CSP only allows the exact inline bootstrap hash, without unsafe-inline scripts', async () => {
+    const res = await h.app.inject({ method: 'GET', url: '/' })
+    const csp = String(res.headers['content-security-policy-report-only'])
+    expect(csp).toContain(`'sha256-${createHash('sha256').update('window.legacyProbe = true').digest('base64')}'`)
+    expect(csp).toContain(`'sha256-${createHash('sha256').update('window.legacyEntry = true').digest('base64')}'`)
+    expect(csp.split(';').find(d => d.trim().startsWith('script-src'))).not.toContain('unsafe-inline')
+  })
   it('导航路径回退 index.html（deep link 刷新可用）', async () => {
     for (const path of ['/parent', '/child/discover', '/login', '/']) {
       const res = await h.app.inject({ method: 'GET', url: path })

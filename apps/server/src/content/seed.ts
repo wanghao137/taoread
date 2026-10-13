@@ -7,6 +7,7 @@ import type { PrismaClient, Prisma } from '@prisma/client'
 import type { PackBook } from './types'
 import { invalidateBookCatalog } from './service'
 import { createHash } from 'node:crypto'
+import { ValidationError } from '../lib/errors'
 
 /** 统计正文字数（中文按字、英文按词；note/image 图注不计入） */
 export function countWords(book: PackBook): number {
@@ -40,6 +41,11 @@ export async function seedPackTransaction(db: Prisma.TransactionClient, pack: Pa
   const words = countWords(pack)
   const contentVersion = packContentVersion(pack)
   const prior = await db.book.findUnique({ where: { id: pack.id }, select: { contentVersion: true } })
+  if (prior?.contentVersion.startsWith('edit-') && prior.contentVersion !== contentVersion) {
+    const edited = await db.chapter.findMany({ where: { bookId: pack.id }, orderBy: { order: 'asc' }, include: { blocks: { orderBy: { order: 'asc' } } } })
+    const normalize = (chapters: Array<{ title: string; art?: string | null; blocks: Array<{ kind: string; text: string; pinyin?: string | null; translation?: string | null; art?: string | null }> }>) => chapters.map(ch => ({ title: ch.title, art: ch.art ?? null, blocks: ch.blocks.map(b => ({ kind: b.kind, text: b.text, pinyin: b.pinyin ?? null, translation: b.translation ?? null, art: b.art ?? null })) }))
+    if (JSON.stringify(normalize(edited)) !== JSON.stringify(normalize(pack.chapters))) throw new ValidationError('书目存在工作台修订，请先同步修订到内容包；种子同步不能覆盖编辑正文')
+  }
   await db.book.upsert({
     where: { id: pack.id },
     create: {
@@ -56,9 +62,10 @@ export async function seedPackTransaction(db: Prisma.TransactionClient, pack: Pa
       words,
       source: pack.source,
       contentVersion,
+      publicationStatus: process.env.NODE_ENV === 'test' || process.env.TAO_E2E_ISOLATION === '1' ? 'published' : 'draft',
     },
     update: {
-      ...(prior && prior.contentVersion !== contentVersion ? { reviewStatus: 'pending', reviewEvidence: null } : {}),
+      ...(prior && prior.contentVersion !== contentVersion ? { publicationStatus: 'draft', reviewStatus: 'pending', reviewEvidence: null, readingGuidance: null } : {}),
       title: pack.title,
       ...(pack.author ? { author: pack.author } : {}),
       lang: pack.lang,

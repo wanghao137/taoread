@@ -46,12 +46,12 @@ export function PoemRuby({
     )
   }
   return (
-    <div className="mt-1 space-y-2" style={{ color }}>
+    <div className="poem-ruby" style={{ color }}>
       {lines.map((chars, li) => (
         <p
           key={li}
           className="flex flex-wrap items-baseline justify-center gap-x-1 leading-normal"
-          style={{ fontSize: fontSize * 0.62 }}
+          style={{ fontSize, textIndent: 0, marginBottom: '0.65em' }}
         >
           {chars.map((c, ci) =>
             c.py ? (
@@ -59,7 +59,7 @@ export function PoemRuby({
                 {c.ch}
                 <rt
                   className="select-none"
-                  style={{ fontSize: '0.6em', opacity: 0.72, letterSpacing: 0, transform: 'translateY(1px)' }}
+                  style={{ fontSize: Math.max(13, Math.round(fontSize * 0.58)), letterSpacing: 0 }}
                 >
                   {c.py}
                 </rt>

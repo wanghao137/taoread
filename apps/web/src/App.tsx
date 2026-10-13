@@ -7,6 +7,8 @@ import { LoginPage } from './pages/LoginPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { Loading } from './components/ui'
 import { OfflinePage } from './pages/OfflinePage'
+import { TrialPage } from './pages/TrialPage'
+const EditorPage = lazy(() => import('./pages/EditorPage').then(m => ({ default: m.EditorPage })))
 
 /**
  * 路由级代码分割（docs/11 P0-7）：登录页直出，孩子端/家长端/演示页各自懒加载。
@@ -111,6 +113,8 @@ export default function App() {
           {/* 隐私政策（docs/34 P1-3）：公开静态页，孩子端红线内无外链 */}
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/offline" element={<OfflinePage />} />
+          <Route path="/trial" element={<TrialPage />} />
+          <Route path="/editor" element={<EditorPage />} />
           <Route
             /* 尾部 * 必须保留：ChildHome→V8App 用「后代 <Routes>」做子路由（/child/today、
              * /child/book/:id…），父路由不带 * 时任何子路径都匹配失败、被兜底重定向回首页

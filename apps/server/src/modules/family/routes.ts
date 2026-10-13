@@ -68,7 +68,7 @@ const deviceIdSchema = z.string().max(64).optional()
 const familyIdParamSchema = z.object({ familyId: z.string().min(1) })
 
 export interface FamilyRoutesDeps {
-  db: svc.FamilyDb
+  db: PrismaClient
   tokenSecret: Buffer
   masterKey: string
   /** 绑定探活（测试注入假实现；默认真实网关 /_list） */
@@ -198,7 +198,7 @@ export function registerFamilyRoutes(
     assertSameFamily(request, familyId)
     const sessions = await db.deviceSession.findMany({
       where: { familyId },
-      select: { id: true, role: true, deviceId: true, createdAt: true, revokedAt: true },
+      select: { id: true, role: true, deviceId: true, label: true, lastSeenAt: true, createdAt: true, revokedAt: true },
       orderBy: { createdAt: 'desc' },
       take: 50,
     })
@@ -207,6 +207,8 @@ export function registerFamilyRoutes(
         id: session.id,
         role: session.role,
         deviceId: session.deviceId,
+        label: session.label,
+        lastSeenAt: session.lastSeenAt,
         createdAt: session.createdAt,
         revokedAt: session.revokedAt,
         current: request.auth?.sid === session.id,
@@ -215,6 +217,13 @@ export function registerFamilyRoutes(
   })
 
   // ── 家庭信息（任何成员可见；key 只回显掩码）──
+  app.patch<{ Params: { familyId: string; sid: string } }>('/api/family/:familyId/sessions/:sid', { preHandler: requireAuth(tokenSecret, { roles: ['parent'] }) }, async request => {
+    assertSameFamily(request, request.params.familyId)
+    const body = parse(z.object({ label: z.string().trim().min(1).max(40) }), request.body)
+    const updated = await db.deviceSession.updateMany({ where: { id: request.params.sid, familyId: request.params.familyId }, data: { label: body.label } })
+    if (!updated.count) throw new NotFoundError('没有找到这个设备')
+    return { ok: true }
+  })
   app.get('/api/family/:familyId', {
     preHandler: requireAuth(tokenSecret),
   }, async (request) => {

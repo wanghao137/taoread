@@ -12,7 +12,7 @@ import { wipeDb } from '../src/lib/db'
 const probeOk = async () => 'active' as const
 import { generateWeeklyReport, isSundayEveningRun, renderShareCardSvg } from '../src/modules/reports/service'
 import { weekStartFromParts } from '../src/lib/week'
-import { seedAllPacks } from '../src/content/seed'
+import { seedPack } from '../src/content/seed'
 import { ALL_PACKS } from '../src/content/packs'
 
 // 2026-09-07（周一）20:00 本地
@@ -118,15 +118,14 @@ describe('周报域（第 10 夜 M-B 收官）', () => {
 
   it(
     '内容域会话显示真实书名，绝不暴露 cbf: 原始 id（docs/09 C1）',
-    // 本条要 seedAllPacks 全量 52 本书（文件内最重 IO）；
-    // 与并发的媒体重生成抢资源时 20s 默认门偶发超时，放宽到 60s（N12-006 同类）
+    // Only this book participates in the report. Avoid seeding and wiping the whole catalog.
     { timeout: 60_000 },
     async () => {
-      await seedAllPacks(db, ALL_PACKS)
+      const pack = ALL_PACKS[0]!
+      await seedPack(db, pack)
     const f = await createFamilyAsParent(h.app)
     const childId = await createChild(h.app, f.token, f.familyId)
     // 模拟 v2 真实路径：在桃书架读了一本公版书，会话带 cbf: 前缀
-    const pack = ALL_PACKS[0]!
     await db.cosession.create({
       data: {
         familyId: f.familyId,

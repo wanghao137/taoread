@@ -589,6 +589,7 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   return (
     <div>
       <PageHead index="02" title="内容中心" sub="桃书库、微信读书、纸质书、家庭书上传与屏蔽管理，都在这里" />
+      <p className="source-explainer">{source === 'tao' ? '桃书库：可直接读正文、听合成朗读，来源和审校状态按书展示。' : source === 'family' ? '家庭书：家长上传有家庭阅读使用权的文件，只供本家庭阅读。' : source === 'paper' ? '纸质书：记录线下共读，不提供电子正文。' : source === 'weread' ? '微信读书：连接后查看书架与共读记录，正文仍在微信读书中阅读。连接失败不会删除桃书库或家庭书；可在设置里安全重新绑定。' : '屏蔽管理：仅影响本家庭的在线可读书目；已下载的公共书需在本机另行删除。'}</p>
 
       {/* 来源切换 */}
       <div className="tabs" role="tablist" aria-label="内容来源">

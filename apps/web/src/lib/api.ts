@@ -22,11 +22,19 @@ export interface RequestOptions {
   /** 请求超时毫秒数；缺省 30s（SSE 流式接口不走 request()，不受此限） */
   timeoutMs?: number
   keepalive?: boolean
+  signal?: AbortSignal
 }
 
 interface ErrorBody {
   code?: unknown
   message?: unknown
+}
+
+/** Delayed failures from a previous login must not revoke the new session. */
+function expireSession(bearer: string | null | undefined): void {
+  if (!bearer || useSession.getState().token !== bearer) return
+  useSession.getState().signOut()
+  if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) location.assign('/login')
 }
 
 /** 统一请求出口：JSON 往返、错误归一为 ApiError（服务端中文 message 直通 UI）。
@@ -49,9 +57,10 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       headers,
       body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
       ...(options.keepalive ? { keepalive: true } : {}),
-      signal: typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined,
+      signal: options.signal && typeof AbortSignal.any === 'function' ? AbortSignal.any([options.signal, AbortSignal.timeout(timeoutMs)]) : options.signal ?? (typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined),
     })
   } catch (err) {
+    if (options.signal?.aborted) throw new ApiError(0, 'CANCELLED', '上传已暂停，可以重新选择同一文件继续')
     // 超时统一归为 TIMEOUT：Chromium 叫 TimeoutError，部分内核叫 AbortError（我们从不手动 abort，无歧义）
     if (err instanceof DOMException && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
       throw new ApiError(0, 'TIMEOUT', '响应有点慢，再试一次吧')
@@ -72,10 +81,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   if (!response.ok) {
     const body = data as ErrorBody
     if (response.status === 401) {
-      useSession.getState().signOut()
-      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
-        location.assign('/login')
-      }
+      expireSession(bearer)
       throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
     }
     throw new ApiError(
@@ -133,7 +139,7 @@ export interface ShelfDto {
   blockedBookIds?: string[]
 }
 
-export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string; coverUrl?: string | null }
+export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string; coverUrl?: string | null; contentVersion?: number; progress?: ImportedProgressDto | null }
 export interface PhonicsLessonDto {
   id: string
   order: number
@@ -147,8 +153,10 @@ export interface PhonicsLessonDto {
 }
 export interface PhonicsActiveAttemptDto { id: string; lessonId: string; status: string; answered: Array<{ itemId: string; correct: boolean }> }
 export interface PhonicsSummaryDto { status: 'draft'; attempts: Array<{ id: string; lessonId: string; status: string; startedAt: string; answered: number; correct: number }> }
-export interface DeviceSessionDto { id: string; role: 'parent' | 'child'; deviceId: string | null; createdAt: string; revokedAt: string | null; current: boolean }
-export interface ImportedProgressDto { order: number; offset: number; completed: boolean; updatedAt: string }
+export interface DeviceSessionDto { id: string; role: 'parent' | 'child'; deviceId: string | null; createdAt: string; revokedAt: string | null; current: boolean; label?: string | null; lastSeenAt?: string }
+export interface ImportedProgressDto { order: number; offset: number; completed: boolean; updatedAt: string; contentVersion?: number; relocationRequired?: boolean }
+export interface BookmarkDto { id: string; bookId: string; source: 'public' | 'import'; version: string; chapter: number; position: number; anchor: string; deleted: boolean; updatedAt: string }
+export interface ImportPreviewDto { chapterCount: number; chapters: Array<{ title: string; excerpt: string }>; warning: string | null }
 
 export interface DailyPoemDto {
   date: string
@@ -156,6 +164,15 @@ export interface DailyPoemDto {
 }
 
 export const api = {
+  nameDevice: (familyId: string, sid: string, label: string, token: string) => request(`/api/family/${familyId}/sessions/${encodeURIComponent(sid)}`, { method: 'PATCH', token, body: { label } }),
+  recentReading: (childId: string, token: string) => request<{ items: Array<{ source: string; bookId: string | null; title: string; chapter: number | null; updatedAt: string; available: boolean }> }>(`/api/reading/recent?childId=${encodeURIComponent(childId)}`, { token }),
+  readingArchive: (childId: string, token: string, before?: string) => request<{ highlights: Array<{ id: string; text: string; source: string; createdAt: string }>; next: string | null }>(`/api/reading/archive?childId=${encodeURIComponent(childId)}${before ? `&before=${encodeURIComponent(before)}` : ''}`, { token }),
+  readingPlan: (childId: string, token: string) => request<{ plan: { days: string; note: string } | null }>(`/api/reading/plan?childId=${encodeURIComponent(childId)}`, { token }),
+  saveReadingPlan: (childId: string, token: string, days: number[], note: string) => request('/api/reading/plan', { method: 'PUT', token, body: { childId, days, note } }),
+  submitFeedback: (token: string, body: { bookId?: string; version?: string; chapter?: number; position?: number; category: string; message: string }) => request('/api/content/feedback', { method: 'POST', token, body }),
+  feedback: (token: string) => request<{ feedback: Array<{ id: string; message: string; status: string; resolution: string | null }> }>('/api/content/feedback', { token }),
+  bookmarks: (childId: string, bookId: string, token: string) => request<{ bookmarks: BookmarkDto[] }>(`/api/reading/bookmarks?childId=${encodeURIComponent(childId)}&bookId=${encodeURIComponent(bookId)}`, { token }),
+  saveBookmark: (childId: string, bookmark: Omit<BookmarkDto, 'updatedAt'>, baseUpdatedAt: string | null, token: string) => request<{ bookmark: BookmarkDto }>('/api/reading/bookmarks', { method: 'PUT', token, body: { childId, ...bookmark, baseUpdatedAt } }),
   dailyPoem: (childId: string, token: string) => request<DailyPoemDto>(`/api/content/daily-poem?childId=${encodeURIComponent(childId)}`, { token }),
   importedBooks: (token: string, childId?: string) => request<{ books: ImportedBookDto[] }>(`/api/content/imports${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   // 导入是重请求：最大 32MB 文件 base64 后约 45MB，家庭上行（约 95KB/s）全程要数分钟，
@@ -163,12 +180,19 @@ export const api = {
   importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body, timeoutMs: 600_000 }),
   // 分块导入（大文件防断流）：256KB 一块独立请求/独立重试，超时给足 300s（实测慢链路 ~26s/块，抖动裕量 10 倍）
   initChunkedImport: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; totalBytes: number; totalChunks: number; rightsConfirmed: true }) => request<{ sessionId: string; chunkSize: number }>('/api/content/imports/chunks/init', { method: 'POST', token, body, timeoutMs: 300_000 }),
-  uploadImportChunk: (token: string, sessionId: string, index: number, data: string) => request<{ received: number }>(`/api/content/imports/chunks/${sessionId}/${index}`, { method: 'POST', token, body: { data }, timeoutMs: 300_000 }),
+  uploadImportChunk: (token: string, sessionId: string, index: number, data: string, signal?: AbortSignal) => request<{ received: number }>(`/api/content/imports/chunks/${sessionId}/${index}`, { method: 'POST', token, body: { data }, timeoutMs: 300_000, signal }),
+  importChunkStatus: (token: string, sessionId: string) => request<{ received: number[]; meta: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string }; result: { id: string; chapterCount: number; duplicate: boolean } | null }>(`/api/content/imports/chunks/${sessionId}`, { token }),
+  cancelImport: (token: string, sessionId: string) => request(`/api/content/imports/chunks/${sessionId}`, { method: 'DELETE', token }),
+  previewChunks: (token: string, sessionId: string) => request<ImportPreviewDto>(`/api/content/imports/chunks/${sessionId}/preview`, { method: 'POST', token, timeoutMs: 300_000 }),
+  previewImport: (token: string, body: unknown) => request<ImportPreviewDto>('/api/content/imports/preview', { method: 'POST', token, body, timeoutMs: 300_000 }),
   completeChunkedImport: (token: string, sessionId: string) => request<{ id: string; duplicate: boolean; chapterCount: number }>(`/api/content/imports/chunks/${sessionId}/complete`, { method: 'POST', token, body: {}, timeoutMs: 300_000 }),
   importedBook: (token: string, id: string, childId?: string) => request<{ book: ImportedBookDto & { chapters: Array<{ order: number; title: string }> } }>(`/api/content/imports/${encodeURIComponent(id)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   importedChapter: (token: string, id: string, order: number, childId?: string) => request<{ chapter: { order: number; title: string; text: string }; images: Record<string, string>; artUrl: string | null }>(`/api/content/imports/${encodeURIComponent(id)}/chapters/${order}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
   /** 用归档原文按当前管线重建章节与插图（管线升级后旧导入可跟进） */
-  refreshImportedBook: (token: string, id: string) => request<{ chapterCount: number }>(`/api/content/imports/${encodeURIComponent(id)}/refresh`, { method: 'POST', token, body: {} }),
+  previewImportedRefresh: (token: string, id: string) => request<ImportPreviewDto & { preview: true; baseVersion: number; digest: string; previousChapterCount: number; relocationRequired: number }>(`/api/content/imports/${encodeURIComponent(id)}/refresh`, { method: 'POST', token, body: { preview: true }, timeoutMs: 300_000 }),
+  refreshImportedBook: (token: string, id: string, body: { baseVersion: number; digest: string }) => request<{ chapterCount: number; contentVersion: number }>(`/api/content/imports/${encodeURIComponent(id)}/refresh`, { method: 'POST', token, body: { ...body, preview: false }, timeoutMs: 300_000 }),
+  importedRevisions: (token: string, id: string) => request<{ revisions: Array<{ version: number; createdAt: string }> }>(`/api/content/imports/${encodeURIComponent(id)}/revisions`, { token }),
+  restoreImportedRevision: (token: string, id: string, version: number, baseVersion: number) => request<{ chapterCount: number; contentVersion: number }>(`/api/content/imports/${encodeURIComponent(id)}/revisions/${version}/restore`, { method: 'POST', token, body: { baseVersion } }),
   publicDomainBooks: (token: string) => request<{ books: Array<{ id: string; title: string; author: string }> }>('/api/content/imports/public-domain', { token }),
   importPublicDomain: (token: string, id: string, ageStage: '6-8' | '9-12') => request<{ id: string; chapterCount: number; duplicate: boolean }>(`/api/content/imports/public-domain/${encodeURIComponent(id)}`, { method: 'POST', token, body: { ageStage } }),
   importedProgress: (token: string, id: string, childId: string) => request<{ progress: ImportedProgressDto | null }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { token }),
@@ -207,7 +231,7 @@ export const api = {
     request<{ ok: boolean }>(`/api/family/${familyId}/sessions/${encodeURIComponent(sid)}/revoke`, { method: 'POST', token }),
 
   /** 保存家庭导入书进度：baseUpdatedAt=本机所基于的服务器版本，409=已在别处更新 */
-  saveImportedProgressV2: (token: string, id: string, childId: string, body: { order: number; offset: number; completed: boolean; baseUpdatedAt?: string }) =>
+  saveImportedProgressV2: (token: string, id: string, childId: string, body: { order: number; offset: number; completed: boolean; baseUpdatedAt?: string; contentVersion?: number; confirmRelocation?: boolean }) =>
     request<{ progress: ImportedProgressDto }>(`/api/content/imports/${encodeURIComponent(id)}/progress?childId=${encodeURIComponent(childId)}`, { method: 'PUT', token, body }),
 
   familyView: (familyId: string, token: string) =>
@@ -337,10 +361,7 @@ export const api = {
       throw new ApiError(0, 'NETWORK', '分享卡生成失败，请稍后再试')
     })
     if (res.status === 401) {
-      useSession.getState().signOut()
-      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
-        location.assign('/login')
-      }
+      expireSession(token)
       throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
     }
     if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
@@ -431,7 +452,7 @@ export const api = {
   /** 生词本：收录一个词（docs/15 P1-B） */
   addWord: (
     childId: string,
-    body: { word: string; lang: 'zh' | 'en'; bookId?: string; context?: string },
+    body: { word: string; lang: 'zh' | 'en'; bookId?: string; context?: string; chapterOrder?: number; blockOrder?: number },
     token: string,
   ) =>
     request<{ card: WordCardDto }>(
@@ -520,9 +541,9 @@ export const api = {
       token,
     }),
 
-  listBookHighlights: (childId: string, token: string, bookId?: string) =>
-    request<{ total: number; highlights: BookHighlightDto[] }>(
-      `/api/content/highlights?childId=${encodeURIComponent(childId)}${bookId ? `&bookId=${encodeURIComponent(bookId)}` : ''}`,
+  listBookHighlights: (childId: string, token: string, bookId?: string, before?: string) =>
+    request<{ total: number; highlights: BookHighlightDto[]; nextCursor: string | null }>(
+      `/api/content/highlights?childId=${encodeURIComponent(childId)}${bookId ? `&bookId=${encodeURIComponent(bookId)}` : ''}${before ? `&before=${encodeURIComponent(before)}` : ''}`,
       { token },
     ),
 
@@ -536,9 +557,9 @@ export const api = {
   collections: (token: string) =>
     request<{ collections: CollectionDto[] }>('/api/content/collections', { token }),
 
-  collectionBooks: (id: string, childId: string, token: string) =>
+  collectionBooks: (id: string, childId: string, token: string, all = false) =>
     request<{ collection: { id: string; title: string; subtitle: string }; total: number; books: ContentBookDto[] }>(
-      `/api/content/collections/${encodeURIComponent(id)}?childId=${encodeURIComponent(childId)}`,
+       `/api/content/collections/${encodeURIComponent(id)}?childId=${encodeURIComponent(childId)}&all=${all}`,
       { token },
     ),
 
@@ -557,10 +578,7 @@ export const api = {
       throw new ApiError(0, 'NETWORK', '分享卡生成失败，请稍后再试')
     })
     if (res.status === 401) {
-      useSession.getState().signOut()
-      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
-        location.assign('/login')
-      }
+      expireSession(token)
       throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
     }
     if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '分享卡生成失败，请稍后再试')
@@ -608,10 +626,7 @@ export const api = {
       throw new ApiError(0, 'NETWORK', '导出失败，请稍后再试')
     })
     if (res.status === 401) {
-      useSession.getState().signOut()
-      if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) {
-        location.assign('/login')
-      }
+      expireSession(token)
       throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
     }
     if (!res.ok) throw new ApiError(res.status, 'BAD_RESPONSE', '导出失败，请稍后再试')
@@ -775,6 +790,8 @@ async function fetchSseChapter(
 }
 
 export interface ContentBookDto {
+  readingGuidance?: { modes: Array<'together' | 'self' | 'listen'>; topics: string[]; advice: string; reviewer: string; evidence: string; reviewedOn: string; version: string } | null
+  matchedChapters?: Array<{ order: number; title: string }>
   contentVersion?: string
   id: string
   bookId: string
@@ -809,6 +826,9 @@ export interface ContentBookDto {
 
 /** 生词本卡片（docs/15 P1-B） */
 export interface WordCardDto {
+  sourceBookId?: string | null
+  chapterOrder?: number | null
+  blockOrder?: number | null
   id: string
   word: string
   lang: string

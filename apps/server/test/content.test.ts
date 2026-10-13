@@ -1,7 +1,7 @@
 /**
  * 内容域测试：公版书库 CRUD + 全年龄可读 + 进度 + cbf: 前缀归属。
  */
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import {
   makeApp,
   createChild,
@@ -22,10 +22,13 @@ let childId: string
 let otherToken: string
 
 beforeAll(async () => {
-  // docs/24：书库扩到 103 本后 seed 耗时上升，放宽 hook 超时
+  // Exercise every source and age used below without seeding unrelated long books.
   harness = await makeApp()
   const db = harness.db as PrismaClient
-  await seedAllPacks(db, ALL_PACKS)
+  const fixtureIds = new Set(['alice-wonderland', 'peter-rabbit', 'xiyou-journey', 'sanzi-jing', 'tangshi-300', 'poetry-song-spring', 'zh-asb-0111', 'zh-asb-0201'])
+  const fixtures = ALL_PACKS.filter(pack => fixtureIds.has(pack.id))
+  expect(fixtures).toHaveLength(fixtureIds.size)
+  await seedAllPacks(db, fixtures)
 
   // 家庭 A：3-5 岁孩子
   const parent = await createFamilyAsParent(harness.app, 'parent-a')
@@ -37,6 +40,7 @@ beforeAll(async () => {
   const other = await createFamilyAsParent(harness.app, 'parent-b')
   otherToken = other.token
 }, 120_000)
+afterAll(async () => { await harness?.app.close(); await harness?.db.$disconnect() })
 
 describe('内容域 /api/content/books', () => {
   it('列出全部书籍，bookId 带 cbf: 前缀', async () => {
@@ -626,7 +630,7 @@ describe('内容域 家长预览屏蔽书（blocked 状态真实回显）', () =
 })
 
 describe('内容域 seed 幂等性', () => {
-  // 幂等是 per-book 逻辑（seedAllPacks 只是逐包循环）：全量播种一次供台账断言，
+  // 幂等是 per-book 逻辑（seedAllPacks 只是逐包循环）：真实样本供台账断言，
   // 重复导入改用最小真实包复验同一 delete-then-create 路径——
   // 原实现双次全量（222 本×2）单独跑 42s、全量套件资源争用时撞 60s 门限。
   it('重复入库不产生重复章节', async () => {

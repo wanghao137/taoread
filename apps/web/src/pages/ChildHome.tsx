@@ -4,6 +4,7 @@
  * 家庭码登录、多孩选择、服务端共读会话与进度全部保留。
  */
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { api, ApiError, type ChildDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState, TaSheet, TaButton } from '../components/ui'
@@ -11,6 +12,7 @@ import { ChildPicker } from './child/ChildPicker'
 import { V8App } from './child/V8App'
 
 export function ChildHome() {
+  const navigate = useNavigate()
   const token = useSession((s) => s.token)
   const familyId = useSession((s) => s.familyId)
   const setChild = useSession((s) => s.setChild)
@@ -64,6 +66,14 @@ export function ChildHome() {
 
   // 直接返回 loadChildren 的清理函数（此前 void 丢弃了它，卸载后响应仍会写入状态）
   useEffect(() => loadChildren(), [loadChildren])
+  useEffect(() => {
+    if (loading || pickOpen || !childId) return
+    const chosen = sessionStorage.getItem('taoread-trial-choice')
+    if (chosen && /^(poetry-song-spring|sanzi-jing|original-goodnightforest)$/.test(chosen)) {
+      sessionStorage.removeItem('taoread-trial-choice')
+      navigate(`/child/book/${chosen}/chapter/1`, { replace: true })
+    }
+  }, [loading, pickOpen, childId, navigate])
 
   // 已选孩子但名字缺失（刷新后）：从列表回填
   useEffect(() => {

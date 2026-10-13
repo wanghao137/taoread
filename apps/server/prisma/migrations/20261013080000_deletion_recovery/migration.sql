@@ -1,0 +1,4 @@
+CREATE TABLE "FamilyDeletion" (
+    "familyHash" TEXT NOT NULL PRIMARY KEY,
+    "deletedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

@@ -82,6 +82,7 @@ export function createSessionGuard(db: SessionDb, now = Date.now): SessionGuard 
       }
       remember(fid, sid, ok)
       if (!ok) throw new UnauthorizedError('登录已失效，请重新加入家庭')
+      await db.deviceSession.updateMany({ where: { id: sid, lastSeenAt: { lt: new Date(now() - 5 * 60_000) } }, data: { lastSeenAt: new Date(now()) } })
     },
     evictFamily(familyId) {
       const set = familySids.get(familyId)

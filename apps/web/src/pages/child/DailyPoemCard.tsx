@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react'
 import { api, type DailyPoemDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
+import { useNavigate } from 'react-router-dom'
 
 export function DailyPoemCard({ readPoem }: { readPoem: (bookId: string, chapterOrder: number) => void }) {
   const token = useSession(s => s.token)
   const childId = useSession(s => s.childId)
   const [result, setResult] = useState<{ childId: string; data: DailyPoemDto } | null>(null)
+  const [errorChild, setErrorChild] = useState<string | null>(null)
+  const [retry, setRetry] = useState(0)
+  const navigate = useNavigate()
   useEffect(() => {
     let active = true
     let requestId = 0
     let timer: ReturnType<typeof setTimeout>
-    const load = async () => {
+    let retryTimer: ReturnType<typeof setTimeout>
+    setErrorChild(null)
+    const load = async (attempt = 0) => {
       const id = ++requestId
       if (!token || !childId) return
       try {
         const data = await api.dailyPoem(childId, token)
-        if (active && id === requestId) setResult({ childId, data })
-      } catch { if (active && id === requestId) setResult(null) }
+        if (active && id === requestId) { setResult({ childId, data }); setErrorChild(null) }
+      } catch {
+        if (active && id === requestId) {
+          if (attempt === 0) retryTimer = setTimeout(() => { if (active && id === requestId) void load(1) }, 1200)
+          else { setResult(null); setErrorChild(childId) }
+        }
+      }
     }
     const schedule = () => {
       clearTimeout(timer)
@@ -27,9 +38,10 @@ export function DailyPoemCard({ readPoem }: { readPoem: (bookId: string, chapter
     const visible = () => { if (document.visibilityState === 'visible') void load() }
     void load(); schedule()
     document.addEventListener('visibilitychange', visible)
-    return () => { active = false; clearTimeout(timer); document.removeEventListener('visibilitychange', visible) }
-  }, [token, childId])
+    return () => { active = false; clearTimeout(timer); clearTimeout(retryTimer); document.removeEventListener('visibilitychange', visible) }
+  }, [token, childId, retry])
   const poem = result?.childId === childId ? result.data.poem : null
+  if (errorChild && errorChild === childId) return <section className="section"><div className="side-card"><h2>今日小诗</h2><p role="status">暂时没有取到小诗，其他书仍然可以读。</p><div className="setting-row"><button className="sticker-btn" onClick={() => setRetry(n => n + 1)}>再取一次</button><button className="sticker-btn" onClick={() => navigate('/child/discover?collection=bedtime-poems')}>去诗歌书单</button></div></div></section>
   if (!poem) return null
   return <section className="section" aria-labelledby="daily-poem-heading">
     <div className="side-card daily-poem-card">

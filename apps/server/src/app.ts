@@ -20,6 +20,8 @@ import { registerCosessionRoutes } from './modules/cosession/routes'
 import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
 import { registerContentRoutes } from './content/routes'
+import { registerImprovementRoutes } from './content/improvementRoutes'
+import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/csp'
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerTtsRoutes } from './modules/tts/routes'
 import { PublicTtsIndex } from './modules/tts/publicCache'
@@ -74,6 +76,7 @@ export interface BuildAppOptions {
 }
 
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
+  const scriptSources = await inlineScriptSources(options.staticDir)
   const app = Fastify({
     // Media capabilities travel in image/audio URLs; never put raw query strings in request logs.
     logger: options.logger ? { serializers: { req: (req) => ({ method: req.method, path: req.url?.split('?')[0], hostname: req.hostname, remoteAddress: req.ip }) } } : false,
@@ -96,27 +99,25 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     reply.header('X-Content-Type-Options', 'nosniff')
     reply.header('X-Frame-Options', 'SAMEORIGIN')
     reply.header('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()')
-    // R-07：CSP 先走 report-only 观察期（未配置报告端点，违规只在浏览器控制台可见），
-    // 观察无违规后再切强制版。指令依据全仓外联域名盘点：
-    //  - connect-src：同源 API/SSE + 公共媒体外链（media.taostudioai.com，R2 自定义域，
-    //    随 TAO_MEDIA_PUBLIC_BASE 配置）+ 服务端依赖的上游网关（weread 代理、生图/视频
-    //    apihub、TTS stepfun——当前无前端直连，观察期一并放行防误伤）；
-    //  - img-src/media-src：公共封面缩图与 tts-public 音频走 media.taostudioai.com；
-    //  - style-src 'unsafe-inline'：React 内联样式；script 皆为同源产物故 'self'。
+    // Keep enforcement opt-in. Hash the exact built inline legacy bootstraps;
+    // provider requests stay server-side and do not need browser CSP permission.
     reply.header(
-      'Content-Security-Policy-Report-Only',
+      process.env.TAO_CSP_ENFORCE === '1' ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only',
       [
         "default-src 'self'",
-        "connect-src 'self' https://media.taostudioai.com https://i.weread.qq.com https://apihub.agnes-ai.com https://api.stepfun.com",
-        "img-src 'self' data: https://media.taostudioai.com",
-        "media-src 'self' https://media.taostudioai.com",
+        `connect-src 'self' ${mediaCspSources()}`,
+        `img-src 'self' data: blob: ${mediaCspSources()}`,
+        // The audio gesture primer uses a local data URI; offline/recording uses blobs.
+        `media-src 'self' data: blob: ${mediaCspSources()}`,
         "font-src 'self' data:",
         "style-src 'self' 'unsafe-inline'",
-        "script-src 'self'",
+        `script-src 'self' ${scriptSources}`.trim(),
         "object-src 'none'",
         "frame-ancestors 'none'",
         "base-uri 'self'",
         "form-action 'self'",
+        "worker-src 'self' blob:",
+        'report-uri /api/security/csp-report',
       ].join('; '),
     )
   })
@@ -233,6 +234,8 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
+  registerImprovementRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
+  registerCspReports(app)
 
   // 运营摘要（docs/34 P2-10）：只读体检数据，家长角色，孩子端无入口
   registerOpsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })

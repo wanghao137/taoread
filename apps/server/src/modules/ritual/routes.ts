@@ -94,13 +94,15 @@ export function registerRitualRoutes(app: FastifyInstance, deps: RitualRoutesDep
     const limitMin = family?.dailyReadingLimitMin ?? null
     let usedSec = 0
     if (limitMin !== null && limitMin > 0) {
-      const finished = await db.cosession.aggregate({
-        where: { familyId: request.auth.fid, childId, startedAt: { gte: startOfLocalDay() } },
-        _sum: { durationSec: true },
+      const nowMs = nowSec() * 1000
+      const dayStart = startOfLocalDay(new Date(nowMs)).getTime()
+      const finished = await db.cosession.findMany({
+        where: { familyId: request.auth.fid, childId, endedAt: { gte: new Date(dayStart) } },
+        select: { startedAt: true, endedAt: true, durationSec: true },
       })
-      usedSec = finished._sum.durationSec ?? 0
+      usedSec = finished.reduce((total, row) => total + Math.max(0, Math.min(row.durationSec ?? 0, Math.floor((Math.min(nowMs, row.endedAt!.getTime()) - Math.max(dayStart, row.startedAt.getTime())) / 1000))), 0)
       if (active) {
-        usedSec += Math.max(0, nowSec() - Math.floor(active.startedAt.getTime() / 1000))
+        usedSec += Math.max(0, Math.floor((nowMs - Math.max(dayStart, active.startedAt.getTime())) / 1000))
       }
     }
     return {

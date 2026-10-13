@@ -91,6 +91,85 @@ beforeEach(() => {
 })
 
 describe('speakChapter 首段结清（双重朗读回归）', () => {
+  it('旧章节的迟到数据和完成事件不能混入新播放', async () => {
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const first = audioPlayer.speakChapter('old', 1, { title: '旧章', bookTitle: '合成书' })
+    await tick()
+    const second = audioPlayer.speakChapter('new', 2, { title: '新章', bookTitle: '合成书' })
+    await tick()
+    const seg = { index: 0, text: '新数据', audioUrl: 'new.mp3', durationMs: 900, chars: [], cached: true }
+    handlerCapture[0]!.onSegment({ ...seg, audioUrl: 'old.mp3' })
+    handlerCapture[0]!.onDone()
+    expect(audioPlayer.segmentCount).toBe(0)
+    handlerCapture[1]!.onSegment(seg)
+    expect(await second).toBe(true)
+    expect(await first).toBe(false)
+    expect(FakeAudio.instances.at(-1)!.src).toBe('new.mp3')
+  })
+  it('续播跳过此前段落，暂停恢复保留当前段的播放时间', async () => {
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const progress: number[] = []
+    audioPlayer.onProgress(p => progress.push(p.segmentIndex ?? p.index))
+    const promise = audioPlayer.speakChapter('resume', 1, { title: '一章', bookTitle: '合成书' }, { startSegment: 2 })
+    await tick()
+    for (let index = 0; index <= 2; index++) handlerCapture[0]!.onSegment({ index, text: `段${index}`, audioUrl: `seg${index}.mp3`, durationMs: 900, chars: [], cached: true })
+    expect(await promise).toBe(true)
+    expect(audioPlayer.segmentCount).toBe(1)
+    expect(progress).toContain(2)
+    const audio = FakeAudio.instances.at(-1)!
+    audio.currentTime = 0.4
+    audioPlayer.pause()
+    expect(audio.paused).toBe(true)
+    audioPlayer.prime()
+    expect(audio.src).toBe('seg2.mp3')
+    expect(await audioPlayer.resumeQueue()).toBe(true)
+    expect(audio.paused).toBe(false)
+    expect(audio.currentTime).toBe(0.4)
+  })
+  it('静音激活的迟到承诺不会暂停已经开播的真实段', async () => {
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    let finishPrime!: () => void
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(function (this: FakeAudio) {
+      this.paused = false
+      return new Promise<void>(resolve => { finishPrime = resolve })
+    })
+    audioPlayer.prime()
+    const promise = audioPlayer.speakChapter('fast-cache', 1, { title: '缓存章', bookTitle: '合成书' })
+    await tick()
+    handlerCapture[0]!.onSegment({ index: 0, text: '缓存段', audioUrl: 'real.mp3', durationMs: 900, chars: [], cached: true })
+    expect(await promise).toBe(true)
+    finishPrime()
+    await tick()
+    const audio = FakeAudio.instances.at(-1)!
+    expect(audio.src).toBe('real.mp3')
+    expect(audio.paused).toBe(false)
+    play.mockRestore()
+  })
+  it('停止时挂起的play失败不能重新发出错误或暂停新播放', async () => {
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const errors: string[] = []
+    audioPlayer.onError(message => errors.push(message))
+    let rejectPlay!: (error: Error) => void
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(() => new Promise<void>((_, reject) => { rejectPlay = reject }))
+    const old = audioPlayer.speakChapter('old-play', 1, { title: '旧章', bookTitle: '合成书' })
+    await tick()
+    handlerCapture[0]!.onSegment({ index: 0, text: '旧段', audioUrl: 'old.mp3', durationMs: 900, chars: [], cached: true })
+    const next = audioPlayer.speakChapter('new-play', 1, { title: '新章', bookTitle: '合成书' })
+    await tick()
+    rejectPlay(new Error('Interrupted by stop'))
+    await tick()
+    let settled = false
+    void next.then(() => { settled = true })
+    await tick()
+    expect(settled).toBe(false)
+    handlerCapture[1]!.onSegment({ index: 0, text: '新段', audioUrl: 'new.mp3', durationMs: 900, chars: [], cached: true })
+    expect(await next).toBe(true)
+    expect(await old).toBe(false)
+    expect(errors).toEqual([])
+    expect(audioPlayer.isPaused).toBe(false)
+    expect(FakeAudio.instances.at(-1)!.src).toBe('new.mp3')
+    play.mockRestore()
+  })
   it('首段开播即 resolve(true)，不等整章合成完', async () => {
     const { audioPlayer } = await import('../src/lib/audioPlayer')
     const promise = audioPlayer.speakChapter('book-1', 1, { title: '第一章', bookTitle: '测试书' }, { lang: 'zh' })

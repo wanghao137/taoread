@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto'
-import { mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { FastifyInstance } from 'fastify'
 import { Prisma, type PrismaClient } from '@prisma/client'
@@ -9,6 +9,7 @@ import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
 import { extractBook, extractEpubStructured } from './extractBook'
 import { compressImageToWebP } from '../modules/media/compress'
 import { mediaUrl } from '../modules/media/access'
+import { anchorText, relocateAnchor } from './anchors'
 
 const MAX_BYTES = 4 * 1024 * 1024
 const MAX_CHAPTERS = 800
@@ -80,6 +81,8 @@ interface ChunkSession {
   totalChunks: number
   chunks: Map<number, Buffer>
   createdAt: number
+  result?: { id: string; chapterCount: number; duplicate: boolean }
+  completing?: Promise<{ id: string; chapterCount: number; duplicate: boolean }>
 }
 const chunkSessions = new Map<string, ChunkSession>()
 
@@ -182,7 +185,7 @@ function importMediaDirFor(bookId: string): string {
 }
 
   /** 压缩并落盘插图（确定性键 img-NNN.webp），返回 原路径→键 的映射；超预算的图丢弃（标记由 rewrite 清掉）。 */
-  async function storeImportImages(bookId: string, images: Map<string, Buffer>): Promise<Map<string, string>> {
+  async function storeImportImages(bookId: string, images: Map<string, Buffer>, version = 1): Promise<Map<string, string>> {
     const dir = importMediaDirFor(bookId)
     await mkdir(dir, { recursive: true })
     const keyMap = new Map<string, string>()
@@ -193,7 +196,7 @@ function importMediaDirFor(bookId: string): string {
       try {
         const webp = await compressImageToWebP(buffer, 800)
         if (total + webp.length > IMPORT_IMAGE_BUDGET_BYTES) break
-        const key = `img-${String(index).padStart(3, '0')}.webp`
+        const key = `img-v${version}-${String(index).padStart(3, '0')}.webp`
         await writeFile(join(dir, key), webp)
         total += webp.length
         keyMap.set(path, key)
@@ -355,32 +358,81 @@ function importMediaDirFor(bookId: string): string {
 
   app.post<{ Params: { sessionId: string; index: string } }>('/api/content/imports/chunks/:sessionId/:index', { preHandler: parent, bodyLimit: 4 * 1024 * 1024 }, async (request) => {
     if (!request.auth) throw new UnauthorizedError()
+    sweepChunkSessions()
     const session = chunkSessions.get(request.params.sessionId)
     if (!session || session.familyId !== request.auth.fid) throw new AppError('导入会话不存在或已过期，请重新开始上传', 'IMPORT_SESSION_NOT_FOUND', 404)
+    if (session.completing || session.result) throw new AppError('上传已进入保存阶段，不能再修改分块', 'IMPORT_COMPLETING', 409)
     const index = Number(request.params.index)
     if (!Number.isInteger(index) || index < 0 || index >= session.totalChunks) throw new ValidationError('分块序号不正确')
     const parsed = z.object({ data: z.string().min(1) }).safeParse(request.body ?? {})
     if (!parsed.success) throw new ValidationError('分块内容不正确')
     const chunk = Buffer.from(parsed.data.data, 'base64')
-    if (chunk.length === 0 || chunk.length > CHUNK_SIZE || chunk.toString('base64') !== parsed.data.data) throw new ValidationError('分块内容不正确')
+    const expectedBytes = Math.min(CHUNK_SIZE, session.totalBytes - index * CHUNK_SIZE)
+    if (chunk.length !== expectedBytes || chunk.toString('base64') !== parsed.data.data) throw new ValidationError('分块内容或大小不正确')
     session.chunks.set(index, chunk)
     return { received: session.chunks.size }
   })
 
+  app.get<{ Params: { sessionId: string } }>('/api/content/imports/chunks/:sessionId', { preHandler: parent }, async request => {
+    sweepChunkSessions()
+    const session = chunkSessions.get(request.params.sessionId)
+    if (!session || session.familyId !== request.auth!.fid) throw new AppError('上传已过期，请重新开始', 'IMPORT_SESSION_NOT_FOUND', 404)
+    return { received: [...session.chunks.keys()], meta: session.meta, totalBytes: session.totalBytes, expiresAt: new Date(session.createdAt + CHUNK_SESSION_TTL_MS).toISOString(), result: session.result ?? null }
+  })
+  app.delete<{ Params: { sessionId: string } }>('/api/content/imports/chunks/:sessionId', { preHandler: parent }, async request => {
+    const session = chunkSessions.get(request.params.sessionId)
+    if (!session || session.familyId !== request.auth!.fid) throw new AppError('上传已过期', 'IMPORT_SESSION_NOT_FOUND', 404)
+    if (session.completing) throw new AppError('正在保存，请等待结果后删除书目', 'IMPORT_COMPLETING', 409)
+    chunkSessions.delete(request.params.sessionId)
+    return { ok: true }
+  })
+  function sessionBytes(session: ChunkSession): Buffer {
+    if (session.chunks.size !== session.totalChunks) throw new ValidationError('还有分块没有上传')
+    const bytes = Buffer.concat(Array.from({ length: session.totalChunks }, (_, index) => session.chunks.get(index)!))
+    if (bytes.length !== session.totalBytes) throw new ValidationError('文件大小与声明不一致')
+    return bytes
+  }
+  async function preview(meta: ImportMeta, content: Buffer | string) {
+    if (Buffer.isBuffer(content) && (content.length === 0 || content.length > (/\.pdf$/i.test(meta.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES))) throw new ValidationError('文件为空或超过大小限制')
+    if (typeof content === 'string' && Buffer.byteLength(content, 'utf8') > MAX_BYTES) throw new ValidationError('正文超过大小限制')
+    const chapters = Buffer.isBuffer(content) && /\.epub$/i.test(meta.sourceName) ? (await extractEpubStructured(meta.sourceName, content)).chapters : parsePlainTextBook(Buffer.isBuffer(content) ? await extractBook(meta.sourceName, content) : content, MAX_EXTRACTED_BYTES)
+    assertChaptersWithinCaps(chapters)
+    return { chapterCount: chapters.length, chapters: chapters.slice(0, 10).map(x => ({ title: x.title, excerpt: x.text.replace(/\[\[img:[^\]]+\]\]/g, '').slice(0, 300) })), warning: chapters.length === 1 ? '只识别到一章，请确认标题和正文是否正确。' : null }
+  }
+  app.post('/api/content/imports/preview', { preHandler: parent, bodyLimit: MAX_EPUB_B64_CHARS + 1024 * 1024 }, async request => {
+    const b = importSchema.safeParse(request.body)
+    if (!b.success || Boolean(b.data.text) === Boolean(b.data.fileBase64)) throw new ValidationError('文件参数不正确')
+    if (b.data.text && !/\.txt$/i.test(b.data.sourceName)) throw new ValidationError('TXT 文件名不匹配')
+    if (b.data.fileBase64 && (!/\.(?:pdf|epub)$/i.test(b.data.sourceName) || Buffer.from(b.data.fileBase64, 'base64').toString('base64') !== b.data.fileBase64)) throw new ValidationError('文件编码或文件名不正确')
+    return preview(b.data, b.data.text ?? Buffer.from(b.data.fileBase64!, 'base64'))
+  })
+  app.post<{ Params: { sessionId: string } }>('/api/content/imports/chunks/:sessionId/preview', { preHandler: parent }, async request => {
+    sweepChunkSessions()
+    const session = chunkSessions.get(request.params.sessionId)
+    if (!session || session.familyId !== request.auth!.fid) throw new AppError('上传已过期', 'IMPORT_SESSION_NOT_FOUND', 404)
+    return preview(session.meta, sessionBytes(session))
+  })
+
   app.post<{ Params: { sessionId: string } }>('/api/content/imports/chunks/:sessionId/complete', { preHandler: parent, bodyLimit: 4096 }, async (request, reply) => {
     if (!request.auth) throw new UnauthorizedError()
+    sweepChunkSessions()
     const session = chunkSessions.get(request.params.sessionId)
     if (!session || session.familyId !== request.auth.fid) throw new AppError('导入会话不存在或已过期，请重新开始上传', 'IMPORT_SESSION_NOT_FOUND', 404)
+    if (session.result) return session.result
+    if (session.completing) return session.completing
     if (session.chunks.size !== session.totalChunks) throw new ValidationError(`还有 ${session.totalChunks - session.chunks.size} 块没有上传`)
     const binary = Buffer.concat(Array.from({ length: session.totalChunks }, (_, index) => session.chunks.get(index)!))
     if (binary.length !== session.totalBytes) throw new ValidationError('文件大小与声明不一致')
-    const result = await finalizeBinaryImport(session.familyId, session.meta, binary)
-    chunkSessions.delete(request.params.sessionId)
+    session.completing = finalizeBinaryImport(session.familyId, session.meta, binary)
+    let result
+    try { result = await session.completing; session.result = result; session.chunks.clear() }
+    finally { session.completing = undefined }
     return reply.code(result.duplicate ? 200 : 201).send(result)
   })
 
   app.get('/api/content/imports', { preHandler: auth }, async (request) => {
-    await assertSelectedChild(request.auth, (request.query as { childId?: string }).childId)
+    const childId = (request.query as { childId?: string }).childId
+    await assertSelectedChild(request.auth, childId)
     if (!request.auth) throw new UnauthorizedError()
     const books = await db.importedBook.findMany({
       where: { familyId: request.auth.fid },
@@ -388,37 +440,81 @@ function importMediaDirFor(bookId: string): string {
       orderBy: { createdAt: 'desc' },
     })
     const claims = request.auth
-    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, chapterCount: chapters.length, coverUrl: await coverUrlFor(book.id, claims) }))) }
+    const progress = childId ? await db.importedReadingProgress.findMany({ where: { childId, bookId: { in: books.map(x => x.id) } } }) : []
+    const byId = new Map(progress.map(x => [x.bookId, x]))
+    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, progress: byId.get(book.id) ?? null, chapterCount: chapters.length, coverUrl: await coverUrlFor(book.id, claims) }))) }
   })
 
   // 重新解析（P0-5）：用归档的原始 EPUB 以当前管线重建章节与插图。管线升级后旧导入可无损跟进。
   app.post<{ Params: { id: string } }>('/api/content/imports/:id/refresh', { preHandler: parent, bodyLimit: 1024 }, async (request) => {
     if (!request.auth) throw new UnauthorizedError()
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, format: true, sourceName: true } })
+    const options = z.object({ preview: z.boolean().default(true), baseVersion: z.number().int().positive().optional(), digest: z.string().regex(/^[a-f0-9]{64}$/).optional() }).safeParse(request.body ?? {})
+    if (!options.success) throw new ValidationError('重解析参数不正确')
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, include: { chapters: { orderBy: { order: 'asc' } } } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     if (!/^epub$/i.test(book.format)) throw new ValidationError('只有 EPUB 支持重新解析')
     const source = await readFile(join(importMediaDirFor(book.id), 'source.epub')).catch(() => null)
     if (!source) throw new ValidationError('找不到原始文件，请删除后重新导入')
     const structured = await extractEpubStructured(book.sourceName, source)
-    const keyMap = await storeImportImages(book.id, structured.images)
-    // 覆写后不再被引用的旧插图清掉（img-NNN 键确定性强，可直接比对）
-    const keep = new Set(keyMap.values())
-    for (const file of await readdir(importMediaDirFor(book.id)).catch(() => [])) {
-      if (/^img-\d+\.webp$/.test(file) && !keep.has(file)) await rm(join(importMediaDirFor(book.id), file), { force: true }).catch(() => {})
-    }
+    assertChaptersWithinCaps(structured.chapters)
+    const digest = createHash('sha256').update(JSON.stringify(structured.chapters)).digest('hex')
+    const existingProgress = await db.importedReadingProgress.findMany({ where: { bookId: book.id } })
+    if (options.data.preview) return { preview: true, baseVersion: book.contentVersion, digest, previousChapterCount: book.chapters.length, chapterCount: structured.chapters.length, chapters: structured.chapters.slice(0, 10).map(ch => ({ title: ch.title, excerpt: anchorText(ch.text).slice(0, 300) })), relocationRequired: existingProgress.filter(p => { const old = book.chapters.find(ch => ch.order === p.order); return !old || !relocateAnchor(old.text, p.offset, structured.chapters) }).length }
+    if (options.data.baseVersion !== book.contentVersion || options.data.digest !== digest) throw new AppError('预览或版本已变化，请重新预览后再确认', 'IMPORT_VERSION_STALE', 409)
+    const version = book.contentVersion + 1
+    const keyMap = await storeImportImages(book.id, structured.images, version)
     const chapters = structured.chapters.map((chapter) => ({ title: chapter.title, text: rewriteMarkers(chapter.text, keyMap) }))
     assertChaptersWithinCaps(chapters)
-    await db.$transaction([
-      db.importedChapter.deleteMany({ where: { bookId: book.id } }),
-      db.importedChapter.createMany({ data: chapters.map((chapter, index) => ({ bookId: book.id, order: index + 1, title: chapter.title, text: chapter.text })) }),
-    ])
-    return { chapterCount: chapters.length }
+    await db.$transaction(async tx => {
+      const locked = await tx.importedBook.updateMany({ where: { id: book.id, contentVersion: book.contentVersion }, data: { contentVersion: version } })
+      if (!locked.count) throw new AppError('这本书正在其他设备重新解析，请刷新', 'IMPORT_VERSION_STALE', 409)
+      await tx.importedRevision.create({ data: { bookId: book.id, version: book.contentVersion, chapters: JSON.stringify(book.chapters) } })
+      const progress = await tx.importedReadingProgress.findMany({ where: { bookId: book.id } })
+      for (const p of progress) {
+        const old = book.chapters.find(x => x.order === p.order)
+        const mapped = old ? relocateAnchor(old.text, p.offset, chapters) : null
+        await tx.importedReadingProgress.update({ where: { id: p.id }, data: { ...(mapped ?? {}), contentVersion: version, relocationRequired: !mapped, completed: false } })
+      }
+      await tx.importedChapter.deleteMany({ where: { bookId: book.id } })
+      await tx.importedChapter.createMany({ data: chapters.map((chapter, index) => ({ bookId: book.id, order: index + 1, title: chapter.title, text: chapter.text })) })
+    })
+    return { chapterCount: chapters.length, contentVersion: version }
+  })
+
+  app.get<{ Params: { id: string } }>('/api/content/imports/:id/revisions', { preHandler: parent }, async request => {
+    if (!await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth!.fid } })) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+    return { revisions: await db.importedRevision.findMany({ where: { bookId: request.params.id }, select: { version: true, createdAt: true }, orderBy: { version: 'desc' }, take: 20 }) }
+  })
+  app.post<{ Params: { id: string; version: string } }>('/api/content/imports/:id/revisions/:version/restore', { preHandler: parent, bodyLimit: 1024 }, async request => {
+    const input = z.object({ baseVersion: z.number().int().positive() }).safeParse(request.body)
+    const wanted = Number(request.params.version)
+    if (!input.success || !Number.isInteger(wanted) || wanted < 1) throw new ValidationError('恢复版本参数不正确')
+    return db.$transaction(async tx => {
+      const book = await tx.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth!.fid }, include: { chapters: { orderBy: { order: 'asc' } } } })
+      if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
+      if (book.contentVersion !== input.data.baseVersion) throw new AppError('正文版本已变化，请刷新', 'IMPORT_VERSION_STALE', 409)
+      const revision = await tx.importedRevision.findUnique({ where: { bookId_version: { bookId: book.id, version: wanted } } })
+      if (!revision) throw new ValidationError('没有保存这个历史版本')
+      const chapters = z.array(z.object({ title: z.string().max(300), text: z.string().max(MAX_CHAPTER_CHARS) })).min(1).max(MAX_CHAPTERS).parse(JSON.parse(revision.chapters))
+      assertChaptersWithinCaps(chapters)
+      const version = book.contentVersion + 1
+      await tx.importedRevision.create({ data: { bookId: book.id, version: book.contentVersion, chapters: JSON.stringify(book.chapters) } })
+      for (const p of await tx.importedReadingProgress.findMany({ where: { bookId: book.id } })) {
+        const old = book.chapters.find(ch => ch.order === p.order)
+        const mapped = old ? relocateAnchor(old.text, p.offset, chapters) : null
+        await tx.importedReadingProgress.update({ where: { id: p.id }, data: { ...(mapped ?? {}), contentVersion: version, relocationRequired: !mapped, completed: false } })
+      }
+      await tx.importedChapter.deleteMany({ where: { bookId: book.id } })
+      await tx.importedChapter.createMany({ data: chapters.map((ch, i) => ({ bookId: book.id, order: i + 1, ...ch })) })
+      await tx.importedBook.update({ where: { id: book.id }, data: { contentVersion: version } })
+      return { chapterCount: chapters.length, contentVersion: version }
+    })
   })
 
   app.get<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id', { preHandler: auth }, async (request) => {
     await assertSelectedChild(request.auth, request.query.childId)
     if (!request.auth) throw new UnauthorizedError()
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, title: true, author: true, lang: true, ageStage: true, contentVersion: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const claims = request.auth
     return { book: { ...book, coverUrl: await coverUrlFor(book.id, claims) } }
@@ -429,7 +525,7 @@ function importMediaDirFor(bookId: string): string {
     if (!request.auth) throw new UnauthorizedError()
     const order = Number(request.params.order)
     if (!Number.isInteger(order) || order < 1 || order > MAX_CHAPTERS) throw new ValidationError('章节序号不正确')
-    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true } })
+    const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, contentVersion: true } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const chapter = await db.importedChapter.findUnique({ where: { bookId_order: { bookId: book.id, order } }, select: { order: true, title: true, text: true } })
     if (!chapter) throw new AppError('没有找到这一章', 'CHAPTER_NOT_FOUND', 404)
@@ -454,7 +550,7 @@ function importMediaDirFor(bookId: string): string {
     const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const progress = await db.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
-    return { progress: progress ? { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt } : null }
+    return { progress: progress ? { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt, contentVersion: progress.contentVersion, relocationRequired: progress.relocationRequired } : null }
   })
 
   app.put<{ Params: { id: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/progress', { preHandler: auth }, async (request, reply) => {
@@ -470,9 +566,13 @@ function importMediaDirFor(bookId: string): string {
       offset: z.number().int().min(0).max(MAX_CHAPTER_CHARS),
       completed: z.boolean(),
       baseUpdatedAt: z.string().datetime({ offset: true }).optional(),
+      contentVersion: z.number().int().min(1).optional(),
+      confirmRelocation: z.boolean().optional(),
     }).safeParse(request.body)
     if (!parsed.success) throw new ValidationError('阅读位置不正确')
     const { order, offset, completed, baseUpdatedAt } = parsed.data
+    const currentVersion = await db.importedBook.findUniqueOrThrow({ where: { id: book.id }, select: { contentVersion: true } })
+    if (parsed.data.contentVersion && parsed.data.contentVersion !== currentVersion.contentVersion) throw new AppError('正文已更新，请重新加载再保存阅读位置', 'IMPORT_VERSION_STALE', 409)
     const chapter = await db.importedChapter.findUnique({ where: { bookId_order: { bookId: book.id, order } }, select: { text: true } })
     if (!chapter || offset > chapter.text.length) throw new ValidationError('阅读位置不正确')
     // 「读完本章」只在末章成立：非末章的 completed=true 直接拒绝，防止伪造完成
@@ -482,8 +582,11 @@ function importMediaDirFor(bookId: string): string {
     // 对抗审查 P2-5/P2-6：读-判-写在事务内重读当前值，消除并发窗口；
     // 双设备并发首写由唯一键冲突兜底（P2002 → 重读返回既有进度）
     const outcome = await db.$transaction(async (tx) => {
+      const lockedVersion = await tx.importedBook.findUniqueOrThrow({ where: { id: book.id }, select: { contentVersion: true } })
+      if (lockedVersion.contentVersion !== currentVersion.contentVersion) throw new AppError('正文已更新，请重新加载再保存阅读位置', 'IMPORT_VERSION_STALE', 409)
       const current = await tx.importedReadingProgress.findUnique({ where: { childId_bookId: { childId, bookId: book.id } } })
       if (current) {
+        if (current.relocationRequired && (!parsed.data.confirmRelocation || parsed.data.contentVersion !== lockedVersion.contentVersion)) throw new AppError('原位置无法定位，请明确选择新位置后继续', 'IMPORT_RELOCATION_REQUIRED', 409)
         const stale = Boolean(baseUpdatedAt && current.updatedAt.getTime() > new Date(baseUpdatedAt).getTime())
         // 完成态不可回退（与正文域 T04 口径一致）：回看不清完成，静默保持 true
         const nextCompleted = current.completed || completed
@@ -492,11 +595,11 @@ function importMediaDirFor(bookId: string): string {
         if (baseUpdatedAt && stale && regressed && !completed) {
           return { conflict: true as const, progress: current }
         }
-        const progress = await tx.importedReadingProgress.update({ where: { childId_bookId: { childId, bookId: book.id } }, data: { order, offset, completed: nextCompleted } })
+        const progress = await tx.importedReadingProgress.update({ where: { childId_bookId: { childId, bookId: book.id } }, data: { order, offset, completed: nextCompleted, contentVersion: currentVersion.contentVersion, relocationRequired: false } })
         return { conflict: false as const, progress }
       }
       try {
-        return { conflict: false as const, progress: await tx.importedReadingProgress.create({ data: { childId, bookId: book.id, order, offset, completed } }) }
+        return { conflict: false as const, progress: await tx.importedReadingProgress.create({ data: { childId, bookId: book.id, order, offset, completed, contentVersion: currentVersion.contentVersion } }) }
       } catch (err) {
         // 并发首写撞唯一键：返回既有进度（以库内为准）
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
@@ -510,7 +613,7 @@ function importMediaDirFor(bookId: string): string {
       return reply.code(409).send({ code: 'PROGRESS_STALE', message: '阅读进度已在其他设备更新', progress: outcome.progress })
     }
     const progress = outcome.progress
-    return { progress: { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt } }
+    return { progress: { order: progress.order, offset: progress.offset, completed: progress.completed, updatedAt: progress.updatedAt, contentVersion: progress.contentVersion, relocationRequired: progress.relocationRequired } }
   })
 
   app.delete<{ Params: { id: string } }>('/api/content/imports/:id', { preHandler: parent }, async (request, reply) => {

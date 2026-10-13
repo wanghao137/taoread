@@ -45,6 +45,26 @@ model Family {
   sessions     DeviceSession[]
   ttsMedia    TtsMediaOwner[]
   importedBooks ImportedBook[]
+  feedback ContentFeedback[]
+}
+
+/// Recovery exclusion survives cascading deletion; contains only an irreversible family-id digest.
+model FamilyDeletion {
+  familyHash String @id
+  deletedAt DateTime @default(now())
+}
+
+model BookTextRevision {
+  id String @id @default(cuid())
+  bookId String
+  fromVersion String
+  toVersion String
+  beforeText String
+  afterText String
+  reviewer String
+  reason String
+  createdAt DateTime @default(now())
+  @@index([bookId, createdAt])
 }
 
 /// 设备会话（审计 T02/F04）：令牌绑定会话 id，可撤销、随家庭注销级联失效。
@@ -54,6 +74,8 @@ model DeviceSession {
   family    Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
   role      String // 'parent' | 'child'
   deviceId  String?
+  label     String?
+  lastSeenAt DateTime @default(now())
   createdAt DateTime  @default(now())
   revokedAt DateTime?
 
@@ -79,6 +101,8 @@ model ChildProfile {
   phonicsEnrollment PhonicsEnrollment?
   phonicsAttempts PhonicsAttempt[]
   importedReadingProgress ImportedReadingProgress[]
+  bookmarks ReadingBookmark[]
+  readingPlan ReadingPlan?
 
   @@index([familyId])
 }
@@ -227,6 +251,7 @@ model Book {
   publicationStatus String @default("published") // draft | validated | reviewed | published | withdrawn
   reviewStatus String @default("pending") // human review is not inferred from structural checks
   reviewEvidence String?
+  readingGuidance String? // version-bound editorial reading modes, topics and content advice
   contentVersion String @default("legacy")
   createdAt DateTime          @default(now())
   chapters  Chapter[]
@@ -278,6 +303,8 @@ model ImportedBook {
   ageStage    String
   sourceName  String
   format      String    @default("txt")
+  contentVersion Int @default(1)
+  revisions ImportedRevision[]
   progress    ImportedReadingProgress[]
   sha256      String
   createdAt   DateTime  @default(now())
@@ -307,6 +334,8 @@ model ImportedReadingProgress {
   order     Int          @default(1)
   offset    Int          @default(0)
   completed Boolean      @default(false)
+  relocationRequired Boolean @default(false)
+  contentVersion Int @default(1)
   updatedAt DateTime     @updatedAt
 
   @@unique([childId, bookId])
@@ -319,6 +348,72 @@ model PhonicsEnrollment {
   child     ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
   enabled   Boolean      @default(false)
   updatedAt DateTime     @updatedAt
+}
+
+/// Original chapter snapshots permit an operator to recover a failed revision.
+model ImportedRevision {
+  id String @id @default(cuid())
+  bookId String
+  book ImportedBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  version Int
+  chapters String
+  createdAt DateTime @default(now())
+  @@unique([bookId, version])
+}
+
+/// Tombstones avoid resurrecting bookmarks after an offline device reconnects.
+model ReadingBookmark {
+  id String @id
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  bookId String
+  source String
+  version String
+  chapter Int
+  position Int
+  anchor String
+  deleted Boolean @default(false)
+  updatedAt DateTime @updatedAt
+  @@index([childId, bookId])
+}
+
+model ContentFeedback {
+  id String @id @default(cuid())
+  familyId String
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookId String?
+  version String?
+  chapter Int?
+  position Int?
+  category String
+  message String
+  status String @default("open")
+  resolution String?
+  duplicateOf String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([familyId, createdAt])
+}
+
+model BookReviewEvent {
+  id String @id @default(cuid())
+  bookId String
+  version String
+  reviewer String
+  action String
+  evidence String
+  beforeState String
+  afterState String
+  createdAt DateTime @default(now())
+  @@index([bookId, createdAt])
+}
+
+model ReadingPlan {
+  childId String @id
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  days String
+  note String
+  updatedAt DateTime @updatedAt
 }
 
 model PhonicsAttempt {
@@ -479,6 +574,9 @@ model WordCard {
   bookId    String?
   book      Book?        @relation(fields: [bookId], references: [id], onDelete: SetNull)
   context   String? // 出处原句，帮孩子回忆「在哪本书里见过」
+  sourceBookId String?
+  chapterOrder Int?
+  blockOrder Int?
   createdAt DateTime     @default(now())
 
   @@unique([childId, word])

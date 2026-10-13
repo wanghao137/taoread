@@ -47,6 +47,7 @@ export function registerReportsRoutes(app: FastifyInstance, deps: ReportsRoutesD
       request.query ?? {},
     )
     if (request.auth.fid !== familyId) throw new NotFoundError('没有找到这个家庭')
+    if (request.auth.role === 'child' && !childId) throw new ValidationError('请选择小读者档案')
     const weekStart = parseWeekStart(start, new Date())
     const report = await generateWeeklyReport(reportDb, familyId, weekStart, childId)
     if (request.auth.role === 'child') {

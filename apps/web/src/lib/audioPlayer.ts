@@ -35,6 +35,8 @@ export interface VoiceOption {
 export interface AudioProgress {
   /** 当前段在队列中的下标 */
   index: number
+  /** Stable index in the original chapter, including skipped earlier segments. */
+  segmentIndex?: number
   total: number
   /** 当前段文本 */
   text: string
@@ -51,6 +53,7 @@ export interface PlayerOptions {
   lang?: 'zh' | 'en'
   /** 中止整章 SSE 合成（离开阅读器/主动停止时），后台不再白拉流 */
   signal?: AbortSignal
+  startSegment?: number
 }
 
 class ServerAudioPlayer {
@@ -78,6 +81,8 @@ class ServerAudioPlayer {
   private endListeners = new Set<EndListener>()
   private errorListeners = new Set<ErrorListener>()
   private noticeListeners = new Set<ErrorListener>()
+  private stateListeners = new Set<(state: 'playing' | 'paused') => void>()
+  onState(fn: (state: 'playing' | 'paused') => void): () => void { this.stateListeners.add(fn); return () => this.stateListeners.delete(fn) }
 
   /** 探测服务端 TTS 可用性 + 拉取音色列表（页面进入时调一次） */
   async probe(): Promise<boolean> {
@@ -182,10 +187,11 @@ class ServerAudioPlayer {
     meta: { title: string; bookTitle: string },
     options: PlayerOptions = {},
   ): Promise<boolean> {
-    if (this.available === null) await this.probe()
-    if (!this.available) return false
-
     this.stop()
+    const streamSession = this.session
+    if (this.available === null) await this.probe()
+    if (!this.available || streamSession !== this.session || options.signal?.aborted) return false
+
     this.queue = []
     this.currentIndex = 0
     this.playing = true
@@ -209,7 +215,7 @@ class ServerAudioPlayer {
           },
           {
             onSegment: (seg) => {
-              if (this.cancelled) return
+              if (this.cancelled || streamSession !== this.session || seg.index < (options.startSegment ?? 0)) return
               this.queue.push(seg)
               // 第一段到了立刻开播；后续段在 onEnded 里自动衔接
               if (this.queue.length === 1) {
@@ -221,20 +227,22 @@ class ServerAudioPlayer {
                 // 兜底 → 调用方误判失败回退 Web Speech，把整章用机械音再读一遍。
                 void this.playSegment(0)
                   .then((ok) => {
-                    this.settleFirst(ok)
+                    if (streamSession === this.session) this.settleFirst(ok)
                   })
                   .catch(() => {
-                    this.settleFirst(false)
+                    if (streamSession === this.session) this.settleFirst(false)
                   })
               }
               gotSegment = true
             },
             onError: (msg) => {
+              if (streamSession !== this.session) return
               // 单段失败不中断整章：跳过继续。这是段级通知（供应商 451 拦截某段等），
               // 不清 speaking/highlight 状态——UI 继续跟随后续段
               this.emitNotice(msg)
             },
             onDone: () => {
+              if (streamSession !== this.session) return
               // 零段整章（图片章/全段被拦/配额）：不假装在朗读，复位状态后让调用方走 Web Speech 回退
               if (!gotSegment) {
                 this.abandon()
@@ -245,6 +253,7 @@ class ServerAudioPlayer {
           { signal: options.signal },
         )
         .then(() => {
+          if (streamSession !== this.session) return
           // SSE 正常结束：首段已开播则维持 true；零段中止时兜底定音
           if (!gotSegment) {
             this.abandon()
@@ -252,6 +261,7 @@ class ServerAudioPlayer {
           }
         })
         .catch(() => {
+          if (streamSession !== this.session) return
           if (!gotSegment) {
             this.emitError('整章朗读没准备好，可以一段一段听')
             this.abandon()
@@ -281,6 +291,8 @@ class ServerAudioPlayer {
     if (!this.audio) {
       this.audio = new Audio()
       this.audio.preload = 'auto'
+      this.audio.addEventListener('pause', () => { if (!this.cancelled && this.queue.length && this.audio!.paused && !this.audio!.ended) { this.paused = true; this.stopTimelineLoop(); this.stateListeners.forEach(fn => fn('paused')) } })
+      this.audio.addEventListener('playing', () => { if (!this.cancelled && this.queue.length) { this.playing = true; this.paused = false; this.stateListeners.forEach(fn => fn('playing')) } })
       this.audio.addEventListener('ended', () => {
         if (this.cancelled) return
         const next = this.currentIndex + 1
@@ -336,11 +348,15 @@ class ServerAudioPlayer {
   prime(): void {
     try {
       const a = this.ensureAudio()
+      // A paused queue is already activated. Keep its source and position for resumeQueue().
+      if (this.queue.length && a.src && !a.src.startsWith('data:')) return
       if (!a.paused && a.src.startsWith('data:')) return
       a.src = ServerAudioPlayer.SILENT_WAV
       const p = a.play()
       if (p && typeof p.then === 'function') {
         void p.then(() => {
+          // The first real segment can arrive before the silent play promise settles.
+          if (a.src !== ServerAudioPlayer.SILENT_WAV) return
           a.pause()
           a.currentTime = 0
         }).catch(() => undefined)
@@ -353,6 +369,7 @@ class ServerAudioPlayer {
   /** 播放队列第 index 段；返回是否真正开播（供 speakChapter 的首段结清判定） */
   private async playSegment(index: number): Promise<boolean> {
     if (this.cancelled) return false
+    const session = this.session
     const seg = this.queue[index]
     if (!seg) {
       this.finish()
@@ -368,6 +385,7 @@ class ServerAudioPlayer {
     try {
       await this.audio!.play()
     } catch (err) {
+      if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
       // 自动播放策略拦截（iOS 尤其严格：ended 触发的连续 play() 不算用户手势链，
       // 下一段自动开播会被拒——research/iter4-report-audio-player SO 73152620）。
       // 队列保留，标记为「暂停」而非「结束」：用户再点一下播放按钮即可从当前段继续。
@@ -381,6 +399,7 @@ class ServerAudioPlayer {
       }
       return false
     }
+    if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
     this.paused = false
     this.startTimelineLoop(seg)
     return true
@@ -392,12 +411,17 @@ class ServerAudioPlayer {
    */
   async resumeQueue(): Promise<boolean> {
     if (!this.available || this.queue.length === 0) return false
-    if (this.playing) return true
+    if (this.playing && !this.paused) return true
     this.cancelled = false
     this.playing = true
     this.paused = false
-    await this.playSegment(this.currentIndex)
-    return this.playing
+    // Preserve time within a manually paused segment; autoplay-blocked segments use the same source.
+    if (this.audio?.src) {
+      const session = this.session
+      try { await this.audio.play(); if (session !== this.session || this.cancelled) return false; const seg = this.queue[this.currentIndex]; if (seg) this.startTimelineLoop(seg); return true }
+      catch { if (session !== this.session || this.cancelled) return false; this.playing = false; this.paused = true; this.emitError('接着听请再点一下播放按钮'); return false }
+    }
+    return this.playSegment(this.currentIndex)
   }
 
   /** 段还在流式合成时，等 0.8s 再看有没有下一段 */
@@ -459,6 +483,7 @@ class ServerAudioPlayer {
     this.progressListeners.forEach((fn) =>
       fn({
         index: this.currentIndex,
+        segmentIndex: seg?.index ?? this.currentIndex,
         total: this.queue.length,
         text: seg?.text ?? '',
         charIndex,

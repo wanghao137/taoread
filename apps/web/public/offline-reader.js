@@ -17,6 +17,12 @@ function openReader(book, db, onRemoved) {
   let count = 1
   let step = 1
   let drag = null
+  let objectUrls = []
+  let audio = null
+  function clearMedia() {
+    if (audio) { audio.pause(); audio.removeAttribute('src'); audio.load(); audio = null }
+    objectUrls.forEach(url => URL.revokeObjectURL(url)); objectUrls = []
+  }
   const heading = element('header', '')
   const back = element('button', '返回离线书架')
   const title = element('h1', book.title)
@@ -48,8 +54,9 @@ function openReader(book, db, onRemoved) {
   const next = element('button', '下一页')
   controls.append(previous, status, next)
   const source = element('details', '')
+  const audioControls = element('div', '')
   source.append(element('summary', '查看来源与版本'), element('p', `${book.author} · ${book.source} · ${book.contentVersion}`))
-  readerElement.replaceChildren(heading, select, viewport, controls, source)
+  readerElement.replaceChildren(heading, select, audioControls, viewport, controls, source)
   readerElement.className = 'offline-reading'
   // Isolate the reading surface without losing the shelf's normal focus order on exit.
   const siblings = Array.from(readerElement.parentElement.children).filter((node) => node !== readerElement)
@@ -80,9 +87,33 @@ function openReader(book, db, onRemoved) {
     update(false)
   }
   function renderChapter() {
+    clearMedia()
+    audioControls.replaceChildren()
     select.value = String(chapterIndex)
     const chapter = book.chapters[chapterIndex]
-    track.replaceChildren(element('h2', chapter.title), ...chapter.paragraphs.map((text) => element('p', text)))
+    track.replaceChildren(element('h2', chapter.title))
+    function appendImage(blob) {
+      if (!blob) { track.append(element('p', '这幅插画没有保存完整，请联网重新下载。')); return }
+      const url = URL.createObjectURL(blob); objectUrls.push(url)
+      const image = document.createElement('img'); image.src = url; image.alt = '已下载的书籍插画'; image.style.maxWidth = '100%'; image.style.maxHeight = '30dvh'; image.onload = measure; track.append(image)
+    }
+    if (chapter.content) {
+      for (const entry of chapter.content) {
+        if ('text' in entry) track.append(element('p', entry.text))
+        else appendImage(chapter.images?.[entry.image])
+      }
+    } else {
+      chapter.paragraphs.forEach(text => track.append(element('p', text)))
+      for (const blob of chapter.images ?? []) appendImage(blob)
+    }
+    if (chapter.audio?.length) {
+      audio = document.createElement('audio'); audio.controls = true; audio.preload = 'none'; audio.setAttribute('aria-label', '离线朗读')
+      const urls = chapter.audio.map(blob => { const url = URL.createObjectURL(blob); objectUrls.push(url); return url })
+      let segment = 0
+      audio.src = urls[0]
+      audio.onended = () => { if (segment + 1 < urls.length) { audio.src = urls[++segment]; audio.play().catch(() => { status.textContent = '请点播放继续下一段' }) } }
+      audioControls.append(audio, element('p', '已下载完整本章朗读；不需要网络。'))
+    } else audioControls.append(element('p', book.mediaComplete ? '本章朗读未保存完整，请联网重新下载。' : '未下载本章朗读；已保存内容仍可阅读。'))
     measure()
   }
   function turn(direction) {
@@ -119,6 +150,7 @@ function openReader(book, db, onRemoved) {
   }
   document.addEventListener('keydown', onKey)
   closeReader = () => {
+    clearMedia()
     observer.disconnect()
     document.removeEventListener('keydown', onKey)
     document.body.style.overflow = overflow

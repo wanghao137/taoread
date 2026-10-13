@@ -8,6 +8,8 @@ import { uid } from '../../lib/uid'
 import { useSession } from '../../stores/session'
 import { PageHead } from './V8App'
 import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
+import { FeedbackForm } from '../../components/ReadingSupport'
+import { useBookmarks } from '../../hooks/useBookmarks'
 
 const MARKER_RE = /\[\[img:([^\]]+)\]\]/g
 
@@ -117,21 +119,10 @@ export function FamilyLibraryPage() {
   const [retry, setRetry] = useState(0)
   const [progress, setProgress] = useState<Record<string, { order: number; completed: boolean }>>({})
   useEffect(() => {
-    if (!token || !childId || !books.length) return
-    let live = true
-    void Promise.allSettled(books.map(async (book) => [book.id, (await api.importedProgress(token, book.id, childId)).progress] as const)).then((rows) => {
-      if (!live) return
-      const entries = rows.flatMap((row) => row.status === 'fulfilled' && row.value[1] ? [[row.value[0], row.value[1]]] : [])
-      setProgress(Object.fromEntries(entries))
-      if (rows.some((row) => row.status === 'rejected')) setError('部分阅读进度没拿到，可以重新加载；书仍然可以打开。')
-    })
-    return () => { live = false }
-  }, [token, childId, books])
-  useEffect(() => {
     if (!token || !childId) return
     let live = true
     setLoading(true); setError(''); setBooks([]); setProgress({})
-    void api.importedBooks(token, childId).then((result) => { if (live) setBooks(result.books) })
+    void api.importedBooks(token, childId).then((result) => { if (live) { setBooks(result.books); setProgress(Object.fromEntries(result.books.filter(x => x.progress && !x.progress.relocationRequired).map(x => [x.id, x.progress!]))) } })
       .catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '无法加载家庭书架') })
       .finally(() => { if (live) setLoading(false) })
     return () => { live = false }
@@ -163,24 +154,35 @@ interface TtsSegment {
 export function FamilyReaderPage() {
   const token = useSession((state) => state.token)
   const childId = useSession((state) => state.childId)
+  const familyId = useSession(state => state.familyId)
   const { id, order } = useParams()
   const navigate = useNavigate()
-  const [book, setBook] = useState<{ title: string; lang: string; chapters: Array<{ order: number; title: string }> } | null>(null)
+  const [book, setBook] = useState<{ title: string; lang: string; contentVersion?: number; chapters: Array<{ order: number; title: string }> } | null>(null)
   const [chapter, setChapter] = useState<{ order: number; title: string; text: string } | null>(null)
   const [images, setImages] = useState<Record<string, string>>({})
   const [artUrl, setArtUrl] = useState<string | null>(null)
   const [error, setError] = useState('')
-  const [progress, setProgress] = useState<{ order: number; offset: number; completed: boolean; updatedAt: string } | null>(null)
+  const [progress, setProgress] = useState<ImportedProgressDto | null>(null)
   const [progressLoaded, setProgressLoaded] = useState(false)
   const [retry, setRetry] = useState(0)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle')
   const saveQueueRef = useRef<Promise<void>>(Promise.resolve())
+  const relocationChoiceRef = useRef(false)
   const progressVersionRef = useRef<{ key: string; value: ImportedProgressDto | null }>({ key: '', value: null })
   const progressKey = `${token}:${childId}:${id}`
   useLayoutEffect(() => { progressVersionRef.current = { key: progressKey, value: progress } }, [progress, progressKey])
   const [theme, setTheme] = useState<ReadingTheme>(() => readerTheme(defaultReadingTheme()))
   const [font, setFont] = useState(readerFont)
   const [tocOpen, setTocOpen] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false)
+  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => readPreference<string>('taoread-reader-fontfamily', 'serif') === 'sans' ? 'sans' : 'serif')
+  const [lineHeight, setLineHeight] = useState(1.9)
+  const [dimImages, setDimImages] = useState(true)
+  const [voices, setVoices] = useState<Awaited<ReturnType<typeof api.ttsVoices>>['voices']>([])
+  const [voiceId, setVoiceId] = useState('')
+  const [speed, setSpeed] = useState<number | null>(null)
+  useEffect(() => { let live = true; void api.ttsVoices().then(value => { if (live) setVoices(value.voices) }).catch(() => {}); return () => { live = false } }, [token])
+  const bookmarks = useBookmarks({ token, childId, familyId, bookId: id ?? '', source: 'import', version: String(book?.contentVersion ?? 1) })
   const [tts, setTts] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle')
   const [speakingRange, setSpeakingRange] = useState<{ start: number; end: number } | null>(null)
   /** 字级高亮：正在读的块下标 + 块内字符偏移（UTF-16；null = 无字级定位，回退整段铺黄） */
@@ -260,7 +262,7 @@ export function FamilyReaderPage() {
     let live = true
     setProgress(null); setProgressLoaded(false); setSaveState('idle')
     void api.importedProgress(token, id, childId).then(({ progress: value }) => {
-      if (live) { setProgress(value); setProgressLoaded(true) }
+      if (live) { setProgress(value); setProgressLoaded(!value?.relocationRequired) }
     }).catch(() => { if (live) setError('上次的阅读位置没拿到，请重新加载后继续。') })
     return () => { live = false }
   }, [token, childId, id, retry])
@@ -275,11 +277,12 @@ export function FamilyReaderPage() {
     try {
       // B3：携带本机所基于的服务器版本；409=其他设备已写入更新进度，重新拉取并采用服务器版本
       const version = progressVersionRef.current.key === progressKey ? progressVersionRef.current.value : progress
-      const result = await api.saveImportedProgressV2(token, id, childId, { order: Number(order), offset, completed, ...(version ? { baseUpdatedAt: version.updatedAt } : {}) })
+      const result = await api.saveImportedProgressV2(token, id, childId, { order: Number(order), offset, completed, contentVersion: book?.contentVersion, confirmRelocation: relocationChoiceRef.current, ...(version ? { baseUpdatedAt: version.updatedAt } : {}) })
       if (progressVersionRef.current.key === progressKey) progressVersionRef.current.value = result.progress
       if (generation !== saveGeneration.current) return
       setProgress(result.progress)
       setSaveState('saved')
+      relocationChoiceRef.current = false
       setError('')
     } catch (err) {
       if (generation !== saveGeneration.current) return
@@ -321,11 +324,14 @@ export function FamilyReaderPage() {
     if (resumedRef.current === key) return
     // Consume the initial position even at the beginning. Later save responses
     // describe navigation just performed and must never trigger another resume.
-    if (!progress || progress.order !== Number(order) || progress.offset <= 0) {
+    const requestedOffset = new URLSearchParams(window.location.search).get('offset')
+    const explicitOffset = requestedOffset !== null && /^\d+$/.test(requestedOffset)
+    if (!explicitOffset && (!progress || progress.relocationRequired || progress.order !== Number(order) || progress.offset <= 0)) {
       resumedRef.current = key
       return
     }
-    const target = blocks.find((block) => block.kind === 'p' && block.cleanStart + block.cleanLen > progress.offset) ?? blocks[blocks.length - 1]
+    const offset = explicitOffset ? Number(requestedOffset) : progress!.offset
+    const target = blocks.find((block) => block.kind === 'p' && block.cleanStart + block.cleanLen > offset) ?? blocks[blocks.length - 1]
     if (target) {
       const element = blocksRef.current?.querySelector<HTMLElement>(`[data-block="${blocks.indexOf(target)}"]`)
       if (!element) return
@@ -362,7 +368,7 @@ export function FamilyReaderPage() {
     trackRef: blocksRef,
     anchorRef: pagerAnchorRef,
     contentKey: `${id}:${order}:${chapter?.order ?? ''}`,
-    recalcKey: `${id}:${order}:${font}:${theme}:${chapter?.text.length ?? 0}`,
+    recalcKey: `${id}:${order}:${font}:${theme}:${fontFamily}:${lineHeight}:${chapter?.text.length ?? 0}`,
     onPageSettled: () => {
       if (!chapter || !blocksRef.current) return
       const els = Array.from(blocksRef.current.querySelectorAll<HTMLElement>('[data-block][data-clean-start]'))
@@ -492,7 +498,7 @@ export function FamilyReaderPage() {
     setError('')
     applyTtsState('loading')
     if (paragraphCleanStart !== null) jumpRef.current = paragraphCleanStart
-    void api.ttsChapterStream(id, Number(order), { lang: (book?.lang as 'zh' | 'en') ?? 'zh' }, {
+    void api.ttsChapterStream(id, Number(order), { lang: (book?.lang as 'zh' | 'en') ?? 'zh', ...(voiceId ? { voiceId } : {}), ...(speed ? { speed } : {}) }, {
       onSegment: (segment) => {
         if (sseRef.current !== controller || controller.signal.aborted) return
         // 段起点用服务端权威值（服务端跳段时客户端拼不出真值）；缺失时退回 Σ(len+1) 自算
@@ -599,7 +605,7 @@ export function FamilyReaderPage() {
 
   const chapterTotal = book?.chapters.length ?? 0
 
-  return <div className={order ? 'family-reader' : 'family-book-detail'} style={order ? { background: ink.bg, color: ink.fg } : undefined}>
+  return <div className={order ? `family-reader ${theme} ${dimImages ? 'dim-images' : ''}` : 'family-book-detail'} style={order ? { background: ink.bg, color: ink.fg } : undefined}>
     {!order && <PageHead title={book?.title ?? '家庭书'} sub="家里的书，一起读" />}
     <header className="family-reader-heading">
       <button className="sticker-btn min-h-[44px]" onClick={() => navigate('/child/family-books')}>返回家庭书架</button>
@@ -607,10 +613,13 @@ export function FamilyReaderPage() {
       {order && saveState !== 'idle' && <span role="status" className="mono-label">{saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上'}</span>}
     </header>
     {error && <div className="family-reader-error"><p role="alert">{error}</p><button className="sticker-btn min-h-[44px]" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}
+    {toolsOpen && <Dialog label="家庭书阅读工具" onClose={() => setToolsOpen(false)}><div className="panel family-reading-tools"><h3>阅读工具</h3><fieldset className="reading-options"><legend>字体</legend>{(['serif', 'sans'] as const).map(value => <button key={value} className="sticker-btn" aria-pressed={fontFamily === value} onClick={() => { setFontFamily(value); writePreference('taoread-reader-fontfamily', value) }}>{value === 'serif' ? '书本字体' : '清晰字体'}</button>)}</fieldset><fieldset className="reading-options"><legend>行距</legend>{[1.7, 1.9, 2.1].map(value => <button key={value} className="sticker-btn" aria-pressed={lineHeight === value} onClick={() => setLineHeight(value)}>{value}</button>)}</fieldset><fieldset className="reading-options"><legend>声音与图片</legend><label>朗读声音<select value={voiceId} onChange={e => { stopTts(); setVoiceId(e.target.value) }}><option value="">默认声音</option>{voices.filter(v => v.lang === book?.lang).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label><label>朗读速度<select value={speed ?? 0.92} onChange={e => { stopTts(); const value = Number(e.target.value); setSpeed(value === 0.92 ? null : value) }}><option value={0.75}>慢一点</option><option value={0.92}>刚好</option><option value={1.1}>快一点</option></select></label><label><input type="checkbox" checked={dimImages} onChange={e => setDimImages(e.target.checked)} />夜间降低图片亮度</label></fieldset><p role="status">{bookmarks.status}</p>{bookmarks.conflict && <button className="sticker-btn" onClick={() => { if (window.confirm('采用服务器书签会舍弃本机未同步的修改，是否继续？')) void bookmarks.adoptServer() }}>采用服务器书签</button>}<button className="sticker-btn" onClick={() => void bookmarks.sync()}>同步书签</button>{bookmarks.bookmarks.map(b => <div key={b.id}><button className="sentence-choice" key={b.id} disabled={b.version !== String(book?.contentVersion ?? 1)} onClick={() => { setToolsOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${b.chapter}?offset=${b.position}`) }}>{b.version !== String(book?.contentVersion ?? 1) ? '版本更新，等待定位 · ' : ''}第 {b.chapter} 章 · {b.anchor.slice(0, 60)}</button><button className="sticker-btn" onClick={() => bookmarks.remove(b.id)}>移除这条书签</button></div>)}{token && <FeedbackForm token={token} bookId={id} version={String(book?.contentVersion ?? 1)} chapter={Number(order) || undefined} />}</div></Dialog>}
+    {progress?.relocationRequired && <div role="alert" className="panel">正文版本已更新，原位置暂时无法准确定位。请打开目录选择要继续的章节。<button className="sticker-btn" onClick={() => { relocationChoiceRef.current = true; setProgress({ ...progress, relocationRequired: false, offset: 0 }); setProgressLoaded(true); setTocOpen(true) }}>选择新位置</button></div>}
     {!book && !error && <p role="status">家庭书正在赶来…</p>}
     {!order ? <div className="library">
-      {progress && !progress.completed && <button className="sticker-btn primary" onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress.order}`)}>从第 {progress.order} 章续读</button>}
+      {progress && !progress.completed && !progress.relocationRequired && <button className="sticker-btn primary" onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress.order}`)}>从第 {progress.order} 章续读</button>}
       <button className="sticker-btn" onClick={() => setTocOpen(true)}>打开目录</button>
+      <button className="sticker-btn" onClick={() => navigate(`/child/listen/import/${encodeURIComponent(id ?? '')}`)}>连续听读</button>
       {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
         <div style={{ width: 'min(360px, 86vw)', background: ink.bg, color: ink.fg, overflowY: 'auto', padding: 16 }} onClick={(event) => event.stopPropagation()}>
           <b>目录</b>
@@ -649,7 +658,7 @@ export function FamilyReaderPage() {
           className="panel"
           onScroll={pageMode === 'scroll' ? onScroll : undefined}
           style={{
-            background: ink.bg, color: ink.fg, lineHeight: 2, overflowWrap: 'anywhere',
+            background: ink.bg, color: ink.fg, lineHeight, fontFamily: fontFamily === 'sans' ? 'system-ui, sans-serif' : 'Georgia, "Noto Serif SC", serif', overflowWrap: 'anywhere',
             padding: pageMode === 'page' ? '20px 20px 8px' : '20px 24px',
             flex: 1, minHeight: 0,
             overflow: pageMode === 'page' ? 'hidden' : 'auto',
@@ -668,14 +677,26 @@ export function FamilyReaderPage() {
               : <p key={index} data-block={index} data-clean-start={block.cleanStart} data-clean-len={block.cleanLen} onClick={() => jumpToParagraph(block.cleanStart)} style={{ whiteSpace: 'pre-wrap', textIndent: '2em', margin: '0 0 14px', fontSize: font, cursor: tts === 'idle' ? 'default' : 'pointer', background: (playingChar && playingChar.index === index) || (speakingRange && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start) ? ink.highlight : 'transparent', borderRadius: 8, transition: 'background 0.3s' }}>{playingChar && playingChar.index === index ? renderReadingChars(block.text, playingChar.localChar) : block.text}</p>)}
           </div>
           <div className="family-chapter-navigation" style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginTop: 12, flexWrap: 'wrap', flexShrink: 0 }}>
+            <span style={{ display: 'contents', visibility: pageMode === 'page' && pager.page < pager.pageCount - 1 ? 'hidden' : undefined }} aria-hidden={pageMode === 'page' && pager.page < pager.pageCount - 1} {...(pageMode === 'page' && pager.page < pager.pageCount - 1 ? { inert: '' } : {})}>
             <button className="min-h-[44px]" disabled={chapterOrder <= 1} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder - 1}`)}>上一章</button>
             <button className="min-h-[44px]" disabled={!chapter || !progressLoaded || saveState === 'saving'} onClick={() => { const lastText = [...blocks].reverse().find((block) => block.kind === 'p'); void save(lastText ? lastText.cleanStart + lastText.cleanLen : 0, chapterOrder === chapterTotal) }}>读完本章</button>
             <button className="min-h-[44px]" disabled={chapterOrder >= chapterTotal} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder + 1}`)}>下一章</button>
+            </span>
+            <button className="min-h-[44px]" onClick={() => setToolsOpen(true)}>阅读工具</button>
+            <button className="min-h-[44px]" disabled={!chapter} onClick={() => {
+              const viewport = articleRef.current?.getBoundingClientRect()
+              const visible = [...(blocksRef.current?.querySelectorAll<HTMLElement>('[data-block][data-clean-start]') ?? [])].find(node => {
+                const box = node.getBoundingClientRect()
+                return viewport && box.bottom > viewport.top && box.top < viewport.bottom && box.right > viewport.left && box.left < viewport.right
+              })
+              const text = visible ? blocks[Number(visible.dataset.block)] : undefined
+              if (text?.kind === 'p') bookmarks.toggle(chapterOrder, text.cleanStart, text.text)
+            }}>夹当前页书签</button>
           </div>
           {pageMode === 'page' && <nav className="pager-navigation" aria-label="章内翻页" style={{ color: ink.fg }}>
-            <button className="min-h-[44px]" disabled={pager.page === 0} onClick={() => pager.setPage(pager.page - 1)}>上一页</button>
+            <button className="min-h-[44px]" disabled={pager.page === 0} onClick={() => pager.setPage(pager.page - 1)}>这章上一页</button>
             <span className="pager-page" role="status" aria-live="polite">第 {pager.page + 1} / {pager.pageCount} 页</span>
-            <button className="min-h-[44px]" disabled={pager.page === pager.pageCount - 1} onClick={() => pager.setPage(pager.page + 1)}>下一页</button>
+            <button className="min-h-[44px] page-forward" disabled={pager.page === pager.pageCount - 1} onClick={() => pager.setPage(pager.page + 1)}>这章下一页</button>
           </nav>}
         </article>
       </div>}

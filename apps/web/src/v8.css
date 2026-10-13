@@ -297,4 +297,62 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .app .daily-poem-card h2 { margin: 12px 0 4px; font-size: 24px; line-height: 1.4; }
 .app .daily-poem-author { margin: 0 0 12px; font-size: 14px; }
 .app .daily-poem-preview { white-space: pre-line; line-height: 2; font-size: 20px; overflow-wrap: anywhere; }
+
+/* Product assessment 2026-10-13: readable annotation and distinct page controls. */
+.settings button{min-height:44px;min-width:44px}
+.reading-options{border:1px solid var(--ink3);border-radius:12px;margin:12px 0;padding:12px;display:flex;flex-wrap:wrap;gap:10px}
+.reading-options label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:15px}
+.reading-options input{width:20px;height:20px}
+.poem-ruby p{text-indent:0;letter-spacing:0;margin-bottom:.65em;break-inside:avoid}
+.poem-ruby ruby{padding-inline:1px}
+.reader-body .reader-chapter-title{font-size:clamp(20px,3vw,28px);line-height:1.4;margin:8px 0 18px;overflow-wrap:anywhere}
+.reader .reader-art{max-height:clamp(72px,22dvh,210px);margin-bottom:18px}
+.reader.night.dim-images .reader-art{filter:brightness(.72)}
+.reader.night .reader-controls button:not(.main-action){background:#38332b;color:#f6eddc;border-color:#b9ad98}
+.reader.night{--ink:#f6eddc;--ink2:#e0d3bb;--ink3:#b7aa94;--card:#302d26;--paper:#24211d;--accent:#f4b16b}
+.reader.night .reader-tail-nav button:not(.primary){background:#38332b;color:#f6eddc;border-color:#b9ad98}
+.reader.night .reader-tail-nav button.primary,.reader.night .main-action{background:#ffda54;color:#30271f;border-color:#ffda54}
+.reader .compact-art-toggle{display:none}
+@media(max-height:640px){.reader .compact-art-toggle{display:inline-block}.reader:not(.images-expanded) .reader-art,.reader:not(.images-expanded) .reader-illustration{display:none}}
+.reader-text>div>p{text-indent:0}
+.search-error{padding:12px 16px;border:var(--border);border-radius:14px;background:var(--card);margin-block:12px}
+.search-error p{margin:0 0 10px}
+.story-meta small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5}
+@media(max-height:640px){.reader .reader-art{max-height:90px}.reader-body .reader-chapter-title{font-size:20px;margin-bottom:10px}.reader-top{padding-block:4px}.reader-label{font-size:13px;letter-spacing:0}}
 .app .daily-poem-card .sticker-btn { min-height: 64px; margin-top: 8px; }
+.settings-jump{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:2;background:var(--paper);padding:10px;border-radius:12px}
+.settings-jump a{min-height:44px;display:inline-flex;align-items:center;padding:6px 10px;color:var(--ink)}
+.set-grid [id]{scroll-margin-top:90px}
+.set-grid{padding-bottom:100px}
+.settings-danger{border:2px solid var(--hot,#b44438)}
+.sentence-choice{display:block;width:100%;min-height:44px;margin:8px 0;padding:12px;text-align:left;white-space:pre-wrap;line-height:1.7;color:inherit;background:transparent;border:1px solid currentColor;border-radius:12px}
+.feedback-form form{display:flex;flex-direction:column;gap:12px}
+.feedback-form label{display:flex;flex-direction:column;gap:6px}
+.feedback-form select,.feedback-form textarea,.trial-reader input{min-height:44px;font:inherit}
+.feedback-form textarea{min-height:100px}
+.recent-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid var(--ink2)}
+.recommendation-reason{font-size:14px;line-height:1.7;padding:6px 10px;color:var(--ink2)}
+.reader-poem-author{font-size:16px;line-height:1.5;margin:0 0 12px;text-indent:0;text-align:center}
+.family-reading-tools{max-height:80dvh;overflow:auto;max-width:560px;padding:20px}
+.family-reader.night{--ink:#f6eddc;--ink2:#e0d3bb;--ink3:#b7aa94;--card:#302d26;--paper:#24211d}
+.family-reader.night button:not(.primary){background:#38332b;color:#f6eddc;border-color:#b9ad98}
+.family-reader.night button.primary{background:#ffda54;color:#30271f;border-color:#ffda54}
+.family-reader.night.dim-images .family-illustration{filter:brightness(.72)}
+.family-reader-content{max-width:680px}
+.family-reader .family-chapter-art{max-height:20dvh;overflow:hidden}
+.family-reader .family-chapter-art img{max-height:20dvh}
+.family-reader .pager-track>h2{font-size:clamp(20px,3vw,28px)!important;line-height:1.4;margin:0 0 16px}
+.trial-reader{max-width:760px;padding:24px}
+.panel blockquote{margin:16px 0;white-space:pre-wrap;line-height:1.8}
+.panel blockquote small{display:block;font-size:14px}
+.source-explainer{font-size:16px;line-height:1.75;margin-block:12px}
+.chapter-match{max-width:100%;white-space:normal;margin:6px 0}
+@media(max-width:480px){.discover-heading .page-head{margin-bottom:12px}.discover-filters{flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:8px;scrollbar-width:thin}.discover-filters .filter{flex-shrink:0}.family-reader-content{max-width:100%}.settings-jump{position:static}.reader-poem-author{font-size:15px;margin-bottom:8px}}
+.editor-workbench label{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.editor-workbench input,.editor-workbench textarea{min-height:44px;font:inherit;max-width:100%}
+.editor-columns{display:grid;grid-template-columns:minmax(200px,1fr) minmax(0,3fr);gap:24px;margin-top:24px}
+.editor-columns aside{max-height:70dvh;overflow:auto}
+.reading-guidance{padding:12px;border:1px dashed var(--ink3);border-radius:12px;margin:12px 0;font-size:15px;line-height:1.7}
+@media(max-width:760px){.editor-columns{display:block}.editor-columns aside{max-height:35dvh}}
+.compact-art-toggle { min-height: 44px; min-width: 44px; }
+.pager-navigation button.page-forward:not(:disabled){background:var(--yellow,#ffdd57);color:#29231b;border:2px solid #29231b;font-weight:700;box-shadow:0 2px 0 #29231b}

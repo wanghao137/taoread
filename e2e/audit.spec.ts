@@ -301,12 +301,16 @@ test.describe('审计整改回归', () => {
 
     const prev = page.getByRole('button', { name: '← 上一章' })
     const next = page.getByRole('button', { name: '下一章 →' })
-    await expect(prev).toBeDisabled() // 首章：上一章禁用
+    // Chapter jumps become prominent after all pages in the current chapter.
+    const nextPage = page.getByRole('button', { name: '这章下一页', exact: true })
+    for (let i = 0; i < 30 && await nextPage.isEnabled(); i++) await nextPage.click()
+    await expect(prev).toBeDisabled() // 首章末页：上一章禁用
     await expect(next).toBeVisible()
 
     // 下一章 → 第 2 章
     await next.click()
     await expect(page.getByText('第 2 章 / 共 320 章')).toBeVisible()
+    for (let i = 0; i < 30 && await nextPage.isEnabled(); i++) await nextPage.click()
     await expect(prev).toBeEnabled()
 
     // ← 上一章 → 回第 1 章

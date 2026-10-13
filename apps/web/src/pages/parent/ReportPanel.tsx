@@ -220,7 +220,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
                     </span>
                     <div className="speech">
                       <p>「{h.text}」</p>
-                      {h.source && <time style={{ marginTop: 8 }}>{h.source}</time>}
+                      {h.source && <time style={{ marginTop: 8 }}>{({ manual: '手写金句', voice: '口述金句', weread: '微信读书金句', content: '桃书库金句' } as Record<string, string>)[h.source] ?? '阅读金句'}</time>}
                     </div>
                   </div>
                 ))}

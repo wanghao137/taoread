@@ -5,6 +5,7 @@
 import type { PrismaClient, Book, Block } from '@prisma/client'
 import { AppError } from '../lib/errors'
 import { publicMediaUrl } from '../lib/publicMedia'
+import { readGuidance, type ReadingGuidance } from './guidance'
 
 export const CBF_PREFIX = 'cbf:'
 
@@ -52,6 +53,7 @@ export interface BookSummaryDto {
   /** 难度徽章（docs/34 P1-7）：同类书按每章字数的中位数三档；单书视图取不到分布时默认 fit */
   difficulty: 'easy' | 'fit' | 'stretch'
   contentVersion: string
+  readingGuidance?: ReadingGuidance | null
 }
 
 export interface ChapterDto {
@@ -148,7 +150,7 @@ export function chapterScene(bookId: string, order: number, art: string | null |
 }
 
 function summarize(
-  book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words' | 'contentVersion'> & {
+  book: Pick<Book, 'id' | 'title' | 'author' | 'lang' | 'category' | 'ageStage' | 'intro' | 'coverArt' | 'coverFrom' | 'coverTo' | 'words' | 'contentVersion'> & { readingGuidance?: string | null;
     chapterCount: number
   },
   progressPct: number,
@@ -161,6 +163,7 @@ function summarize(
 ): BookSummaryDto {
   return {
     id: book.id,
+    readingGuidance: readGuidance(book.readingGuidance, book.contentVersion),
     bookId: toCbfBookId(book.id),
     title: book.title,
     author: book.author,
@@ -199,6 +202,7 @@ export function chapterLength(book: { words: number; chapterCount: number }): 'e
  */
 export interface CatalogRow {
   contentVersion: string
+  readingGuidance?: string | null
   id: string
   title: string
   author: string | null
@@ -235,7 +239,7 @@ async function getBookCatalog(db: PrismaClient): Promise<Omit<BookCatalog, 'at'>
     where: { publicationStatus: 'published' },
     // 最近加入的书排前；同一时刻加入的书按稳定 ID 排序，内容修订不改变位置。
     orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
-    select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true, contentVersion: true },
+    select: { id: true, title: true, author: true, lang: true, category: true, ageStage: true, intro: true, coverArt: true, coverFrom: true, coverTo: true, words: true, contentVersion: true, readingGuidance: true },
   })
   const chapterRows = await db.chapter.findMany({ select: { bookId: true, title: true }, orderBy: { order: 'asc' } })
   const titlesByBook = new Map<string, string[]>()
@@ -643,6 +647,9 @@ export async function listFavoriteIds(db: PrismaClient, childId: string): Promis
 // ── 生词本（docs/15 P1-B）──
 
 export interface WordCardDto {
+  sourceBookId: string | null
+  chapterOrder: number | null
+  blockOrder: number | null
   id: string
   word: string
   lang: string
@@ -655,7 +662,7 @@ export interface WordCardDto {
 export async function addWord(
   db: PrismaClient,
   childId: string,
-  params: { word: string; lang: string; bookId?: string | null; context?: string | null },
+  params: { word: string; lang: string; bookId?: string | null; context?: string | null; sourceBookId?: string; chapterOrder?: number; blockOrder?: number },
 ): Promise<WordCardDto> {
   const word = params.word.trim()
   if (word.length === 0 || word.length > 64) throw new Error('WORD_INVALID')
@@ -666,6 +673,9 @@ export async function addWord(
       childId,
       word,
       lang,
+      sourceBookId: params.sourceBookId,
+      chapterOrder: params.chapterOrder,
+      blockOrder: params.blockOrder,
       ...(params.bookId ? { bookId: params.bookId } : {}),
       ...(params.context ? { context: params.context.slice(0, 200) } : {}),
     },
@@ -678,6 +688,9 @@ export async function addWord(
     word: row.word,
     lang: row.lang,
     bookId: row.bookId,
+    sourceBookId: row.sourceBookId,
+    chapterOrder: row.chapterOrder,
+    blockOrder: row.blockOrder,
     bookTitle: row.book?.title ?? null,
     context: row.context,
     createdAt: row.createdAt.toISOString(),
@@ -695,6 +708,9 @@ export async function listWords(db: PrismaClient, childId: string): Promise<Word
     word: row.word,
     lang: row.lang,
     bookId: row.bookId,
+    sourceBookId: row.sourceBookId,
+    chapterOrder: row.chapterOrder,
+    blockOrder: row.blockOrder,
     bookTitle: row.book?.title ?? null,
     context: row.context,
     createdAt: row.createdAt.toISOString(),

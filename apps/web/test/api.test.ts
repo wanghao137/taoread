@@ -96,6 +96,18 @@ describe('request / api 客户端', () => {
     expect(useSession.getState().role).toBeNull()
   })
 
+  it('previous session 401 cannot sign out a newly joined family', async () => {
+    const { useSession } = await import('../src/stores/session')
+    useSession.getState().signIn({ token: 'old', familyId: 'old-family', familyCode: 'OLD', role: 'child' })
+    let resolve!: (response: Response) => void
+    mockFetch(() => new Promise<Response>(r => { resolve = r }))
+    const pending = request('/api/shell', { token: 'old' }).catch(error => error)
+    useSession.getState().signIn({ token: 'new', familyId: 'new-family', familyCode: 'NEW', role: 'child' })
+    resolve(jsonResponse(401, { code: 'AUTH' }))
+    expect(await pending).toMatchObject({ status: 401 })
+    expect(useSession.getState().token).toBe('new')
+  })
+
   it('孩子书架视图归一化：服务端 books 字段映射为 childrenView（N6-002）', async () => {
     const { calls } = mockFetch(async () =>
       jsonResponse(200, {

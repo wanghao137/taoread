@@ -76,9 +76,10 @@ describe('P0-10 周报按角色裁剪', () => {
     const h = await makeApp()
     const parent = await createFamilyAsParent(h.app)
     const child = await joinFamily(h.app, parent.familyCode, 'child')
+    const selectedChild = await createChild(h.app, parent.token, parent.familyId)
     const childRes = await h.app.inject({
       method: 'GET',
-      url: `/api/reports/weekly?familyId=${parent.familyId}`,
+      url: `/api/reports/weekly?familyId=${parent.familyId}&childId=${selectedChild}`,
       headers: authHeaders(child.token),
     })
     expect(childRes.statusCode).toBe(200)

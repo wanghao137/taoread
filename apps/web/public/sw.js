@@ -7,14 +7,14 @@
  *   3) activate 清掉旧版本缓存，保持 v1 的「治愈历史预缓存」能力。
  * 私有书单/正文/朗读仍走网络；断网导航转入独立公共文字书架。
  */
-const CACHE = 'taoread-shell-v6'
+const CACHE = 'taoread-shell-v7'
 const SHELL_PREFIXES = ['/assets/', '/fonts/', '/icons/', '/brand/']
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE)
     // Dedicated static reader: never cache the application's index or its hashed dependency graph.
-    await cache.addAll(['/offline.html', '/offline-reader.js?v=20261009.2'])
+    await cache.addAll(['/offline.html', '/offline-reader.js?v=20261013.1'])
     await self.skipWaiting()
   })())
 })

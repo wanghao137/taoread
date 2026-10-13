@@ -31,6 +31,10 @@ export function findCollection(id: string): CollectionDef | undefined {
   return COLLECTIONS.find((c) => c.id === id)
 }
 
+export function matchesCollection(def: CollectionDef, book: { id: string; category: string; ageStage: string }): boolean {
+  return Boolean(def.filter.category?.includes(book.category) || def.filter.ageStage?.includes(book.ageStage) || def.filter.idPrefix?.some(prefix => book.id.startsWith(prefix)))
+}
+
 /** 把筛选条件翻译成 Prisma where（书名稳定排序由调用方追加）；分支间 OR */
 export function collectionWhere(def: CollectionDef): {
   OR?: Array<Record<string, unknown>>

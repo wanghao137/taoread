@@ -18,7 +18,7 @@ export function AiContentAgreement() {
           <li>· 朗读配音（拟人化语音合成，非真人录音）</li>
         </ul>
         <p className="mt-1.5 text-sm text-ink-700">
-          书籍正文为公版书籍原文或桃阅读自著，不由 AI 生成。
+          书库包含公版原文、译文、节选、改写与原创。部分译文由 AI 辅助生成，不能将译文当作原作原文；每本书的作者、译者、来源与审校情况请查看书籍详情。机器检查不等于人工精审。
         </p>
       </section>
 

@@ -97,6 +97,25 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
     return reply.send({ voices, defaultSpeed: DEFAULT_SPEED, available: Boolean(ttsDeps) })
   })
 
+  // Download only existing public narrations; this endpoint never synthesizes or spends quota.
+  app.get<{ Params: { id: string; order: string } }>('/api/tts/offline/:id/:order', { preHandler: auth }, async request => {
+    const order = Number(request.params.order)
+    if (!Number.isInteger(order) || order < 1 || request.params.id.startsWith('imp:')) throw new ValidationError('离线朗读仅支持公共书')
+    await assertContentReadable(db, request.auth!.fid, request.params.id, { role: request.auth!.role })
+    const book = await db.book.findUniqueOrThrow({ where: { id: request.params.id }, select: { lang: true, contentVersion: true } })
+    const chapter = await getChapter(db, request.params.id, order)
+    if (!chapter) throw new AppError('没有找到这一章', 'CHAPTER_NOT_FOUND', 404)
+    const lang = book.lang === 'en' ? 'en' : 'zh'
+    const chunks = chunkText(chapterSpeakText(chapter.blocks))
+    const segments: Array<{ index: number; url: string; durationMs: number }> = []
+    for (const [index, text] of chunks.entries()) {
+      const key = cacheKey(text, speakVoiceId(lang), DEFAULT_SPEED, 'mp3', lang, TTS_PUBLIC_NS, ttsDeps?.model ?? process.env.TTS_MODEL ?? 'stepaudio-3-gen-preview')
+      const hit = await publicTts.get(key)
+      if (hit) segments.push({ index, url: hit.uploaded && publicAudioBase() ? `${publicAudioBase()}/tts-public/${key}.mp3` : `/api/media/tts-public/${key}.mp3`, durationMs: hit.durationMs })
+    }
+    return { segments, complete: segments.length === chunks.length && chunks.length > 0, missing: chunks.length - segments.length, contentVersion: book.contentVersion }
+  })
+
   /** 单段试听：正文不超过 900 字，非流式直回 */
   app.post(
     '/api/tts/preview',

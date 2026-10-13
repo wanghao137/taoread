@@ -19,7 +19,7 @@ import * as svc from './service'
 import { registerImportRoutes } from './importRoutes'
 import { buildWordQuiz } from './quiz'
 import { buildLiteracyTest, literacySuggestion } from './literacy'
-import { COLLECTIONS, findCollection, collectionWhere } from './collections'
+import { COLLECTIONS, findCollection, matchesCollection } from './collections'
 import { weekStartDate } from '../lib/week'
 import { dailyPoem } from './dailyPoem'
 
@@ -91,18 +91,20 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       ...(query.lang ? { lang: query.lang } : {}),
       ...(query.q ? { q: query.q } : {}),
     })
+    const searchMatches = query.q ? await db.chapter.findMany({ where: { bookId: { in: books.map(x => x.id) }, title: { contains: query.q } }, select: { bookId: true, order: true, title: true }, orderBy: { order: 'asc' } }) : []
+    const resultBooks = books.map(book => ({ ...book, matchedChapters: searchMatches.filter(ch => ch.bookId === book.id).slice(0, 5).map(({ order, title }) => ({ order, title })) }))
     // docs/35 B4：ETag + 30s 浏览器缓存——内容指纹（总数+收藏数+最近读时间原文）做真哈希，
     // 变化则 304 失效；切 tab / 短时间重进的重复全量拉取免传输（CF 不缓存带 Authorization
     // 的响应，此头只作用于浏览器）。对抗审查 P0-1：ISO 时间戳定长，早期版本取「指纹字节长度」
     // 恒定不变 → 永久 304 陈旧；必须哈希原文。
-    const etag = `W/"shelf-${createHash('sha256').update(JSON.stringify(books)).digest('hex').slice(0, 24)}"`
+    const etag = `W/"shelf-${createHash('sha256').update(JSON.stringify(resultBooks)).digest('hex').slice(0, 24)}"`
     reply.header('ETag', etag)
     reply.header('Cache-Control', 'private, max-age=30')
     if (request.headers['if-none-match'] === etag) {
       reply.code(304)
       return reply.send()
     }
-    return reply.send({ total: books.length, books })
+    return reply.send({ total: resultBooks.length, books: resultBooks })
   })
 
   app.get<{ Params: { id: string } }>(
@@ -332,6 +334,8 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           lang: z.enum(['zh', 'en']),
           bookId: z.string().trim().min(1).max(64).optional(),
           context: z.string().trim().min(1).max(200).optional(),
+          chapterOrder: z.number().int().min(1).max(10000).optional(),
+          blockOrder: z.number().int().min(0).max(100000).optional(),
         }),
         request.body ?? {},
       )
@@ -363,6 +367,9 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         lang: body.lang,
         bookId: bookRef,
         context,
+        sourceBookId: body.bookId,
+        chapterOrder: body.chapterOrder,
+        blockOrder: body.blockOrder,
       })
       return reply.send({ card })
     },
@@ -572,6 +579,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
           childId: z.string().min(1).max(64),
           // docs/40 F1（对抗审查 P2）：阅读器按书拉取，避免全孩 100 条窗口截断当前书
           bookId: z.string().min(1).max(128).optional(),
+          before: z.string().max(64).optional(),
         }),
         request.query,
       )
@@ -579,12 +587,14 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       const rows = await db.bookHighlight.findMany({
         where: { childId: query.childId, ...(query.bookId ? { bookId: query.bookId } : {}) },
         include: { book: { select: { title: true } } },
-        orderBy: { createdAt: 'desc' },
-        take: 100,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+        ...(query.before ? { cursor: { id: query.before }, skip: 1 } : {}),
+        take: 101,
       })
       return reply.send({
-        total: rows.length,
-        highlights: rows.map((h) => ({
+        total: await db.bookHighlight.count({ where: { childId: query.childId, ...(query.bookId ? { bookId: query.bookId } : {}) } }),
+        nextCursor: rows.length > 100 ? rows[99]!.id : null,
+        highlights: rows.slice(0, 100).map((h) => ({
           id: h.id,
           bookId: h.bookId,
           bookTitle: h.book.title,
@@ -622,13 +632,13 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
   })
   // ── 主题书单（docs/34 P1-12）：策展式合集，孩子端仍走适龄过滤 ──
 
-  app.get('/api/content/collections', { preHandler: auth }, async (_request, reply) => {
-    const defs = await Promise.all(
-      COLLECTIONS.map(async (def) => {
-        const total = await db.book.count({ where: { AND: [collectionWhere(def), { publicationStatus: 'published' }] } })
-        return { id: def.id, title: def.title, subtitle: def.subtitle, total }
-      }),
-    )
+  app.get('/api/content/collections', { preHandler: auth }, async (request, reply) => {
+    if (!request.auth) throw new UnauthorizedError()
+    const books = await svc.listBooks(db, { familyId: request.auth.fid })
+    const defs = COLLECTIONS.map(def => {
+      const total = books.filter(book => matchesCollection(def, book)).length
+      return { id: def.id, title: def.title, subtitle: def.subtitle, total, selectedCount: Math.min(total, def.take) }
+    })
     return reply.send({ collections: defs.filter((c) => c.total > 0) })
   })
 
@@ -639,7 +649,7 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
       const def = findCollection(request.params.id)
       if (!def) throw new AppError('没有找到这份书单', 'COLLECTION_NOT_FOUND', 404)
       const query = parse(
-        z.object({ childId: z.string().min(1).max(64).optional() }),
+        z.object({ childId: z.string().min(1).max(64).optional(), all: z.enum(['true', 'false']).optional() }),
         request.query,
       )
       if (query.childId) await assertOwnChild(request, query.childId)
@@ -648,19 +658,13 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         await assertSelectedChild(request, query.childId)
       }
       // 书单策展条件独立于孩子年龄；已开放书目对所有年龄可见。
-      const matched = await db.book.findMany({
-        where: { AND: [collectionWhere(def), { publicationStatus: 'published' }] },
-        select: { id: true },
-        orderBy: { title: 'asc' },
-        take: def.take,
-      })
-      if (matched.length === 0) return reply.send({ collection: def, total: 0, books: [] })
-      const books = await svc.listBooks(db, {
+      const available = await svc.listBooks(db, {
         familyId: request.auth.fid,
         ...(query.childId ? { childId: query.childId } : {}),
-        ids: matched.map((b) => b.id),
       })
-      return reply.send({ collection: { id: def.id, title: def.title, subtitle: def.subtitle }, total: books.length, books })
+      const matched = available.filter(book => matchesCollection(def, book)).sort((a, b) => Number(b.lang === 'zh') - Number(a.lang === 'zh') || a.words / Math.max(1, a.chapterCount) - b.words / Math.max(1, b.chapterCount) || a.id.localeCompare(b.id))
+      const books = query.all === 'true' ? matched : matched.slice(0, def.take)
+      return reply.send({ collection: { id: def.id, title: def.title, subtitle: def.subtitle }, total: matched.length, selectedCount: Math.min(matched.length, def.take), books })
     },
   )
 }
