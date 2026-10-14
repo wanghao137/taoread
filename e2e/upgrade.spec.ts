@@ -17,6 +17,13 @@ async function detail(page: Page) {
 }
 
 test('升级：移动入口、阅读布局、键盘弹层及本地录音权限降级', async ({ page }) => {
+  // Test denial explicitly: Windows can otherwise leave a real permission prompt pending.
+  await page.addInitScript(() => {
+    if (navigator.mediaDevices) Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
+      configurable: true,
+      value: async () => { throw new DOMException('Permission denied for this regression', 'NotAllowedError') },
+    })
+  })
   await login(page)
   await expect(page.getByRole('button', { name: /换人/ })).toBeVisible()
   await detail(page)
