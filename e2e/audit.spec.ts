@@ -105,7 +105,7 @@ async function openDetail(page: Page, title: string): Promise<void> {
   await page.locator('#shelf-search').fill(title)
   await page.getByRole('button', { name: new RegExp(`打开《${title}》`) }).first().waitFor({ timeout: 10_000 })
   await page.getByRole('button', { name: new RegExp(`打开《${title}》`) }).first().click()
-  await page.getByText('适合一起读').waitFor()
+  await expect(page.locator('.book-detail').getByRole('heading', { name: title, exact: true })).toBeVisible()
 }
 
 /** 从详情进阅读器并等待章节就绪（顶栏章号 + 朗读按钮） */
@@ -286,7 +286,7 @@ test.describe('审计整改回归', () => {
     const title = cardLabel.match(/《(.+)》/)?.[1] ?? ''
 
     await firstCard.click()
-    await page.getByText('适合一起读').waitFor()
+    await expect(page.locator('.book-detail').getByRole('heading', { name: title, exact: true })).toBeVisible()
     await startReading(page, title)
     await page.screenshot({ path: 'test-results/audit/english-reader.png' })
 
@@ -338,7 +338,7 @@ test.describe('审计整改回归', () => {
 
     // 返回书架（详情页），再开书 B（唐诗三百首）
     await page.getByRole('button', { name: '退出阅读' }).click()
-    await page.getByText('适合一起读').waitFor()
+    await expect(page.locator('.book-detail').getByRole('heading', { name: '三字经', exact: true })).toBeVisible()
     await openDetail(page, '唐诗三百首')
     await page.getByRole('button', { name: /开始读|继续读/ }).first().click() // 模态隔离背景
 
@@ -419,7 +419,7 @@ test.describe('审计整改回归', () => {
 
     // 退出回书架 → 再进同一书同一章：阅读器能打开且不崩
     await page.getByRole('button', { name: '退出阅读' }).click()
-    await page.getByText('适合一起读').waitFor()
+    await expect(page.locator('.book-detail').getByRole('heading', { name: '成语故事·动物篇', exact: true })).toBeVisible()
     await goTab(page, '我的')
     await page.getByText('正在读').first().waitFor()
 
@@ -435,7 +435,7 @@ test.describe('审计整改回归', () => {
 
     // 再进同书同章：恢复块位仍在，阅读器不崩
     await shelfCard.click()
-    await page.getByText('适合一起读').waitFor()
+    await expect(page.locator('.book-detail').getByRole('heading', { name: '成语故事·动物篇', exact: true })).toBeVisible()
     await startReading(page, '成语故事·动物篇')
     await expect(page.getByText('第 1 章 / 共 8 章')).toBeVisible()
     await finishAllActiveSessions(request)
