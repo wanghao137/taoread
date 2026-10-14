@@ -270,6 +270,8 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const familyId = useSession((s) => s.familyId)
   const initialBooksRef = useRef(initialBooks)
   const initialBookRef = useRef(initialBook)
+  const pendingBooks = useRef<{ token: string; childId: string; result: Promise<{ books: ContentBookDto[] }> } | null>(null)
+  const pendingBook = useRef(new Map<string, Promise<void>>())
   const booksRequest = useRef(0)
   const navigate = useNavigate()
 
@@ -300,8 +302,13 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
     initialBooksRef.current = null
     setBooksError(null)
     const fetchBooks = () => api.contentBooks(token, { ...(childId ? { childId } : {}) })
-    const result = initial?.token === token && initial.childId === childId
-      ? initial.result.then(res => res ?? fetchBooks()) : fetchBooks()
+    const pending = pendingBooks.current
+    const result = (pending?.token === token && pending.childId === childId
+      ? pending.result
+      : initial?.token === token && initial.childId === childId
+        ? initial.result.then(res => res ?? fetchBooks()) : fetchBooks())
+      .finally(() => { if (pendingBooks.current?.result === result) pendingBooks.current = null })
+    if (childId) pendingBooks.current = { token, childId, result }
     result
       .then((res) => {
         if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
@@ -315,15 +322,21 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
       })
   }, [token, childId])
 
-  const loadBook = useCallback(async (id: string) => {
-    if (!token || !childId) return
+  const loadBook = useCallback((id: string): Promise<void> => {
+    if (!token || !childId) return Promise.resolve()
+    const pending = pendingBook.current.get(id)
+    if (pending) return pending
     const initial = initialBookRef.current
     initialBookRef.current = null
-    const fetchBook = () => api.contentBook(id, token, childId)
-    const row = initial?.token === token && initial.childId === childId && initial.bookId === id
-      ? await initial.result.then(res => res ?? fetchBook()) : await fetchBook()
-    if (useSession.getState().token !== token || useSession.getState().childId !== childId) return
-    setBooks(prev => [...prev.filter(b => b.id !== id), toV8(row)])
+    const request = (async () => {
+      const fetchBook = () => api.contentBook(id, token, childId)
+      const row = initial?.token === token && initial.childId === childId && initial.bookId === id
+        ? await initial.result.then(res => res ?? fetchBook()) : await fetchBook()
+      if (useSession.getState().token !== token || useSession.getState().childId !== childId) return
+      setBooks(prev => [...prev.filter(b => b.id !== id), toV8(row)])
+    })().finally(() => { pendingBook.current.delete(id) })
+    pendingBook.current.set(id, request)
+    return request
   }, [token, childId])
 
   // 审计 A10.5 的初衷保留：读完回列表要看到新进度——但触发点收窄为

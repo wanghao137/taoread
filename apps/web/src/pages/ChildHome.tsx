@@ -30,6 +30,12 @@ export function ChildHome() {
   const [childName, setChildName] = useState('小读者')
   const initialBooks = useRef<InitialBooksRequest | null>(null)
   const initialBook = useRef<InitialBookRequest | null>(null)
+  const pendingBootstrap = useRef<{
+    key: string
+    family: ReturnType<typeof api.familyView>
+    books: InitialBooksRequest | null
+    book: InitialBookRequest | null
+  } | null>(null)
 
   const loadChildren = useCallback(() => {
     if (!token || !familyId) return
@@ -37,22 +43,36 @@ export function ChildHome() {
     setLoading(true)
     setLoadError(undefined)
     const selected = useSession.getState().childId
+    const key = JSON.stringify([token, familyId, selected, window.location.pathname])
     const usesCatalogue = ['/child', '/child/today', '/child/my', '/child/discover'].includes(window.location.pathname)
     // Only read ahead for a selected profile. The API checks family ownership;
     // the result is not displayed until familyView validates that selection.
-    initialBooks.current = selected && usesCatalogue ? {
-      token, childId: selected,
-      result: api.contentBooks(token, { childId: selected }).catch(() => null),
-    } : null
     const routeBook = /^\/child\/book\/([^/]+)(?:\/chapter\/\d+)?\/?$/.exec(window.location.pathname)?.[1]
     let bookId: string | undefined
     try { if (routeBook) bookId = decodeURIComponent(routeBook) } catch { /* Invalid route is handled by the router. */ }
-    initialBook.current = selected && bookId ? {
-      token, childId: selected, bookId,
-      result: api.contentBook(bookId, token, selected).catch(() => null),
-    } : null
-    api
-      .familyView(familyId, token)
+    // StrictMode replays effects while the first request is still in flight.
+    // Share only that pending bootstrap; a later retry must read fresh data.
+    if (pendingBootstrap.current?.key !== key) {
+      const pending = {
+        key,
+        family: api.familyView(familyId, token),
+        books: selected && usesCatalogue ? {
+          token, childId: selected,
+          result: api.contentBooks(token, { childId: selected }).catch(() => null),
+        } : null,
+        book: selected && bookId ? {
+          token, childId: selected, bookId,
+          result: api.contentBook(bookId, token, selected).catch(() => null),
+        } : null,
+      }
+      pendingBootstrap.current = pending
+      const clear = () => { if (pendingBootstrap.current === pending) pendingBootstrap.current = null }
+      void pending.family.then(clear, clear)
+    }
+    const pending = pendingBootstrap.current
+    initialBooks.current = pending.books
+    initialBook.current = pending.book
+    pending.family
       .then((view) => {
         if (!alive) return
         const kids = view.children

@@ -14,7 +14,10 @@ test('孩子端启动：书库与家庭验证并行，验证前不展示档案�
   await selectChild(page)
   let release!: () => void
   const gate = new Promise<void>(resolve => { release = resolve })
-  await page.route(/\/api\/family\/[^/?]+$/, async route => { await gate; await route.continue() })
+  let familyReads = 0
+  let catalogueReads = 0
+  await page.route(/\/api\/family\/[^/?]+$/, async route => { familyReads++; await gate; await route.continue() })
+  await page.route('**/api/content/books?childId=*', route => { catalogueReads++; return route.continue() })
   const catalogue = page.waitForRequest(r => new URL(r.url()).pathname === '/api/content/books')
   try {
     await page.reload({ waitUntil: 'domcontentloaded' })
@@ -22,6 +25,8 @@ test('孩子端启动：书库与家庭验证并行，验证前不展示档案�
     await expect(page.locator('.story-card')).toHaveCount(0)
   } finally { release() }
   await expect(page.locator('.story-card').first()).toBeVisible()
+  expect(familyReads).toBe(1)
+  expect(catalogueReads).toBe(1)
 })
 
 test('找故事：按屏宽渲染首批，展开和搜索仍覆盖完整书库', async ({ page }) => {

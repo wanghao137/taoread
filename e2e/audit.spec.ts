@@ -279,7 +279,9 @@ test.describe('审计整改回归', () => {
 
     // 筛选英文：列表里出现英文书（轻断言不真点播放，避免音频设备依赖）。
     // docs/30：与「想听英文」重复的「英文」chip 已删，筛选走心情贴纸
-    await page.getByRole('button', { name: '想听英文', exact: true }).click()
+    const englishFilter = page.getByRole('button', { name: '想听英文', exact: true })
+    await englishFilter.click()
+    await expect(englishFilter).toHaveAttribute('aria-pressed', 'true')
     const firstCard = page.getByRole('button', { name: /打开《/ }).first()
     await expect(firstCard).toBeVisible()
     const cardLabel = (await firstCard.getAttribute('aria-label')) as string
