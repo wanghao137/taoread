@@ -1,5 +1,5 @@
 /*
- * 桃阅读 SW v6：静态资产缓存与主动公共文字离线试点。
+ * 桃阅读 SW v8：静态资产缓存与主动公共文字离线试点。
  * 历史 v1 是「纯清理型透传 SW」（F39：不支持离线）——本轮保持同一底线：
  *   1) API 请求与页面导航绝不缓存（家庭数据带会话凭据，文档必须拿最新壳）；
  *   2) 只对同源静态资产（/assets/ /fonts/ /icons/ /brand/）做 cache-first，
@@ -7,7 +7,8 @@
  *   3) activate 清掉旧版本缓存，保持 v1 的「治愈历史预缓存」能力。
  * 私有书单/正文/朗读仍走网络；断网导航转入独立公共文字书架。
  */
-const CACHE = 'taoread-shell-v7'
+// The offline HTML is precached: change this version when its shipped UI changes.
+const CACHE = 'taoread-shell-v8'
 const SHELL_PREFIXES = ['/assets/', '/fonts/', '/icons/', '/brand/']
 
 self.addEventListener('install', (event) => {

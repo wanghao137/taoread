@@ -113,6 +113,19 @@ describe('产品改进的数据和权限契约', () => {
     expect((await h.db.book.findUniqueOrThrow({ where: { id: bookId } })).publicationStatus).toBe('published')
     await expect(changeReview(h.db, bookId, { ...input, version: 'old' })).rejects.toThrow('版本已变化')
   })
+  it('审校及修订按 Unicode 汉字计数，接受扩展汉字但拒绝真正的拼音缺失', async () => {
+    const id = 'unicode-review-test'
+    await h.db.book.create({ data: { id, title: '扩展汉字测试', lang: 'zh', category: 'poem', ageStage: '6-8', coverArt: 'forest', source: '合成测试', contentVersion: 'u1', chapters: { create: { order: 1, title: '测试', blocks: { create: { order: 1, kind: 'poem', text: '为𫄨为绤。', pinyin: 'wéi wéi xì' } } } } } })
+    await h.db.rightsLedger.create({ data: { bookId: id, workTitle: '合成测试底本', jurisdiction: 'CN', basis: 'original' } })
+    const input = { version: 'u1', publicationStatus: 'published' as const, reviewer: '合成审校人', evidence: { approved: true, source: '合成测试底本', scope: 'Unicode 计数回归', reviewedOn: '2026-10-13', notes: '非真实审批' } }
+    await expect(changeReview(h.db, id, input)).rejects.toThrow('拼音结构')
+    await h.db.block.updateMany({ where: { chapter: { bookId: id } }, data: { pinyin: 'wéi chī wéi xì' } })
+    expect((await changeReview(h.db, id, input)).book.reviewStatus).toBe('reviewed')
+    await expect(correctBlock(h.db, id, { version: 'u1', reviewer: '合成编辑', reason: '缺音回归', chapter: 1, block: 1, text: '葛为𫄨。', pinyin: 'gě wéi', translation: null })).rejects.toThrow('拼音数量')
+    const corrected = await correctBlock(h.db, id, { version: 'u1', reviewer: '合成编辑', reason: '扩展汉字修订回归', chapter: 1, block: 1, text: '葛为𫄨。', pinyin: 'gě wéi chī', translation: null })
+    expect(corrected.book.reviewStatus).toBe('pending')
+    expect((await changeReview(h.db, id, { ...input, version: corrected.book.contentVersion })).book.reviewStatus).toBe('reviewed')
+  })
   it('孩子不能请求未限定档案的家庭周报', async () => {
     const r = await h.app.inject({ method: 'GET', url: `/api/reports/weekly?familyId=${familyId}`, headers: authHeaders(childToken) })
     expect(r.statusCode).toBe(400)

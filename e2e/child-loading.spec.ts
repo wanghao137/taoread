@@ -27,9 +27,9 @@ test('孩子端启动：书库与家庭验证并行，验证前不展示档案�
 test('找故事：首批按需渲染，展开和搜索仍覆盖完整书库', async ({ page }) => {
   await selectChild(page)
   await page.goto('/child/discover')
-  await expect(page.locator('.story-card')).toHaveCount(24)
+  await expect(page.locator('.story-card')).toHaveCount(12)
   await page.getByRole('button', { name: '再看 24 本', exact: true }).click()
-  await expect(page.locator('.story-card')).toHaveCount(48)
+  await expect(page.locator('.story-card')).toHaveCount(36)
   await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).fill('三字经')
   await expect(page.getByRole('button', { name: '打开《三字经》', exact: true })).toBeVisible()
 })

@@ -171,7 +171,7 @@ export function LoginPage() {
           </div>
           <h1>桃阅读</h1>
           <p className="mono-line" style={{ fontSize: 12 }}>
-            贴纸绘本 · 儿童阅读空间
+            一起读书，慢慢长大
           </p>
         </header>
 

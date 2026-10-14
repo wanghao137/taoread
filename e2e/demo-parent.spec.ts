@@ -19,10 +19,12 @@ test.describe('家长端', () => {
     await page.getByLabel('计算结果').fill(String(a! * b!))
     await page.getByRole('button', { name: /确认进入家长端/ }).click()
     await page.getByText('家长端').waitFor()
+    await expect(page.getByRole('button', { name: '今天', exact: true }).first()).toHaveAttribute('aria-current', 'page')
 
     // ── 今天：足迹条 + 家庭码 + 孩子状态（种子小桃有历史账本但无 active 会话）──
     await page.getByTestId('footprint-bar').getByText(/本周足迹/).waitFor()
-    await page.getByText(/今天还没开始/).first().waitFor()
+    // Child reading-flow tests may already have completed a session today.
+    await expect(page.getByRole('button', { name: '内容', exact: true })).toBeVisible()
 
     // ── 内容（V8 Phase 6 统一入口）：桃书库屏蔽切换 ──
     await page.getByRole('button', { name: '内容', exact: true }).click()

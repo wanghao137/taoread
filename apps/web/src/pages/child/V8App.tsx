@@ -29,6 +29,7 @@ import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
+import { IconSun, IconSearch, IconShelf, IconFamily, IconBookOpen, IconPlay } from '../../components/ui/icons'
 import type { WordCardDto } from '../../lib/api'
 
 const loadReader = () => import('./ReaderPage')
@@ -414,8 +415,9 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
                     ['/child/my', LABELS.navMy],
                   ] as Array<[string, string]>
                 ).map(([to, label]) => (
-                  <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
-                    {label}
+                  <button key={to} className="nav-touch" aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>
+                    {to.endsWith('/today') ? <IconSun /> : to.endsWith('/discover') ? <IconSearch /> : <IconShelf />}
+                    <span>{label}</span>
                   </button>
                 ))}
               </nav>
@@ -454,8 +456,9 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
                 ['/child/my', LABELS.navMy],
               ] as Array<[string, string]>
             ).map(([to, label]) => (
-              <button key={to} className="nav-touch" aria-current={location.pathname === to ? 'page' : undefined} onClick={() => navigate(to)}>
-                {label}
+              <button key={to} className="nav-touch" aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>
+                {to.endsWith('/today') ? <IconSun /> : to.endsWith('/discover') ? <IconSearch /> : <IconShelf />}
+                <span>{label}</span>
               </button>
             ))}
           </nav>
@@ -629,7 +632,7 @@ function TodayPage() {
     const out: V8Book[] = []
     const seenCat = new Set<string>()
     for (const { b } of scored) {
-      if (out.length >= 3) break
+      if (out.length >= 2) break
       if (seenCat.has(b.category) && out.length < 2 && pool.length > 3) continue
       seenCat.add(b.category)
       out.push(b)
@@ -706,31 +709,34 @@ function TodayPage() {
   return (
     <>
       <PageHead title={LABELS.today} sub={`${greetingNow()}，${v.childName}`} />
-      <section className="hero">
+      <section className={`hero today-hero${!v.loaded ? ' is-loading' : ''}`} aria-busy={!v.loaded}>
         <div className="hero-grid">
           <div>
             <span className="mono-label">{continueBook ? '接着上次读' : '今天，从一本书开始'}</span>
             <div className="hero-title">
-              <span className="marker">{continueBook ? continueBook.title : '挑一本书开始'}</span>
+              <span className="marker">{!v.loaded ? '正在打开书架…' : continueBook ? continueBook.title : '挑一本书开始'}</span>
             </div>
-            <p className="hero-copy">{continueBook ? continueBook.desc : '去 找故事 里看看今天有什么。'}</p>
+            <p className="hero-copy">{continueBook ? `从上次的位置继续，读一小段也很好。` : '挑一个喜欢的故事，自己读，或和家人一起读。'}</p>
             <div className="hero-actions">
               <button
                 className="sticker-btn primary"
                 onClick={() => continueBook ? v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined) : navigate('/child/discover')}
                 disabled={!v.loaded}
               >
-                {continueBook ? LABELS.continueRead : '挑一本开始'}
+                <IconBookOpen />{continueBook ? LABELS.continueRead : '挑一本开始'}
               </button>
               {continueBook && <button className="sticker-btn" onClick={() => v.openBook(continueBook.id)}>
                 看看这本书
               </button>}
             </div>
           </div>
-          {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : null}
+          {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : <div className="today-hero-art" aria-hidden="true"><IconBookOpen size={64} /></div>}
         </div>
       </section>
-      <DailyPoemCard readPoem={v.readBook} />
+      <div className="today-shortcuts" aria-label="选书入口">
+        <button className="sticker-btn" onClick={() => navigate('/child/discover')}><IconSearch />找故事<span aria-hidden="true">→</span></button>
+        <button className="sticker-btn" onClick={() => navigate('/child/family-books')}><IconFamily />家庭书架<span aria-hidden="true">→</span></button>
+      </div>
       {token && childId && <RecentReading token={token} childId={childId} />}
       {windowMode === 'daily_limit' && !limitAcked ? (
         <section className="section" role="status">
@@ -745,26 +751,21 @@ function TodayPage() {
           </div>
         </section>
       ) : null}
-      <section className="section">
+      <section className="section today-picks" aria-busy={!v.loaded}>
         <div className="section-head">
-          <span className="section-no">02</span>
-          <h3>
-            给你的推荐 · {picks.length} 本
-          </h3>
-          <p>未读、收藏和读过的类别，帮你发现下一本。</p>
+          <h3>也可以读这两本</h3>
+          <button className="text-action min-h-[44px]" onClick={() => navigate('/child/discover')}>看看更多 →</button>
         </div>
         <div className="story-row">
+          {!v.loaded && [0, 1].map(n => <div className="book-placeholder" key={n} aria-hidden="true"><div /><span /><span /></div>)}
           {picks.map((b) => (
-            <div key={b.id}><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} /><p className="recommendation-reason">{b.ageStage === childStage ? `适合先尝试的 ${b.ageStage} 岁书目` : `跨龄发现 · ${b.ageStage} 岁书目`} · 每章约 {Math.round(b.words / Math.max(1, b.chapterCount))} {b.lang === 'en' ? '词，建议先听或共读' : '字，可一起读'}。依据书目年龄建议与篇幅选择。</p></div>
+            <div key={b.id}><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} /><p className="recommendation-reason">{b.ageStage === childStage ? '同龄书目' : `${b.ageStage} 岁书目`} · 每章约 {Math.round(b.words / Math.max(1, b.chapterCount))} {b.lang === 'en' ? '词' : '字'}</p></div>
           ))}
         </div>
       </section>
-      <section className="section paper-entry">
-        <div className="section-head">
-          <span className="section-no">05</span>
-          <h3>今晚读纸质书？</h3>
-          <p>纸质书也一起记进共读足迹</p>
-        </div>
+      <DailyPoemCard readPoem={v.readBook} />
+      <details className="quiet-disclosure paper-entry" open={paper ? true : undefined}>
+        <summary>{paper ? `纸质共读 · ${paper.title}` : '和家人读纸质书'}</summary>
         {paper ? (
           <div className="side-card">
             <b>正在共读《{paper.title}》</b>
@@ -791,13 +792,9 @@ function TodayPage() {
             </button>
           </div>
         )}
-      </section>
-      <section className="section">
-        <div className="section-head">
-          <span className="section-no">03</span>
-          <h3>{LABELS.mood}</h3>
-          <p>{LABELS.moodSub}</p>
-        </div>
+      </details>
+      <details className="quiet-disclosure">
+        <summary>{LABELS.mood}</summary>
         <div className="mood-row">
           {MOODS.map((m) => (
             <button
@@ -810,13 +807,9 @@ function TodayPage() {
             </button>
           ))}
         </div>
-      </section>
-      <section className="section">
-        <div className="section-head">
-          <span className="section-no">04</span>
-          <h3>最近的家庭阅读记忆</h3>
-          <p>我们一起读过的片段</p>
-        </div>
+      </details>
+      <details className="quiet-disclosure">
+        <summary>最近的家庭阅读记忆</summary>
         <div className="speech-list">
           {firstMemory ? (
             <div className="speech-row">
@@ -834,11 +827,8 @@ function TodayPage() {
             </div>
           )}
         </div>
-      </section>
-      <section className="section"><div className="hero-actions">
-        <button className="sticker-btn" onClick={() => navigate('/child/family-books')}>家庭书架</button>
-        <button className="sticker-btn" onClick={() => navigate('/child/phonics')}>英语练习 · 内测</button>
-      </div></section>
+      </details>
+      <div className="today-secondary"><button className="text-action min-h-[44px]" onClick={() => navigate('/child/phonics')}>英语练习 · 内测 →</button></div>
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
@@ -912,7 +902,7 @@ function DiscoverPage() {
   const [searchStatus, setSearchStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [searchRetry, setSearchRetry] = useState(0)
   // Keep first paint small; search/filter still uses the complete catalogue.
-  const [visible, setVisible] = useState(24)
+  const [visible, setVisible] = useState(12)
   // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
   const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number; selectedCount?: number }>>([])
   const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
@@ -1549,32 +1539,50 @@ function BookDetailPage() {
                 {detailCoverSrc ? <AiBadge /> : null}
               </div>
             </div>
-            <div>
-              <span className="mono-label">适合一起读</span>
-              <div className="detail-title">
-                <span className="marker">{book.title}</span>
-              </div>
+            <div className="detail-heading">
+              <span className="mono-label">{CATEGORY_LABEL[book.category] ?? '一起读'}</span>
+              <h1 className="detail-title">{book.title}</h1>
               <div className="detail-author">
-                {book.author} / {book.meta}
+                <span>{book.author}</span><span>{book.meta}</span>
               </div>
-              {/* docs/39 E6：主行动前置到简介之前，PC/移动首屏即可见（原来是滚动后才到按钮组） */}
-              <div className="hero-actions">
+            </div>
+          </div>
+              <div className="hero-actions detail-actions">
                 <button className="sticker-btn primary" onClick={() => v.readBook(book.id, resumeOrder || undefined)}>
-                  {book.progress > 0 && !book.finished ? LABELS.continueRead : LABELS.start}
+                  <IconBookOpen />{book.progress > 0 && !book.finished ? LABELS.continueRead : LABELS.start}
                 </button>
-                <button className="sticker-btn" onClick={() => navigate(`/child/listen/public/${encodeURIComponent(book.id)}`)}>连续听读</button>
-                <button className="sticker-btn" onClick={() => void speakPreview()}>
+                <button className="sticker-btn" onClick={() => navigate(`/child/listen/public/${encodeURIComponent(book.id)}`)}><IconPlay />连续听读</button>
+              </div>
+              <div className="detail-secondary">
+                <button className="text-action min-h-[44px]" disabled={previewing} onClick={() => void speakPreview()}>
                   {previewing ? '正在合成…' : LABELS.preview}
                 </button>
-                <button className="sticker-btn" onClick={() => v.toggleFav(book.id)}>
+                <button className="text-action min-h-[44px]" aria-pressed={book.fav} onClick={() => v.toggleFav(book.id)}>
                   {book.fav ? LABELS.likedAlready : LABELS.like}
                 </button>
               </div>
               <p className="detail-intro">
                 {book.desc}
               </p>
-              <div className="reading-guidance"><h3>怎么开始读</h3><p>{book.readingGuidance ? book.readingGuidance.modes.map(mode => ({ together: '一起读', self: '自主试读', listen: '先听一听' })[mode]).join(' · ') : book.lang === 'en' || book.category === 'primer' || book.words / Math.max(1, book.chapterCount) > 1000 ? '可以先听或和大人一起读，再选择喜欢的一小段。' : '可以先读一小段，需要时打开朗读或请大人一起读。'}</p>{book.readingGuidance && <><p>{book.readingGuidance.advice}</p><p>主题：{book.readingGuidance.topics.join('、') || '未单列'}</p><small>编辑：{book.readingGuidance.reviewer} · {book.readingGuidance.reviewedOn} · 依据：{book.readingGuidance.evidence}</small></>}<p>章节篇幅和书目年龄建议帮助选择内容，不是孩子能力测评。注音和译文以各章节实际提供内容为准。</p></div>
-              <div className="hero-actions">
+              <dl className="detail-facts">
+                <div><dt>章节</dt><dd>{book.chapterCount} 章</dd></div>
+                <div><dt>每章约</dt><dd>{Math.round(book.words / Math.max(1, book.chapterCount))} {book.lang === 'en' ? '词' : '字'}</dd></div>
+                <div><dt>语言</dt><dd>{book.lang === 'en' ? '英文' : '中文'}</dd></div>
+              </dl>
+              <section className="section detail-chapters">
+                <div className="section-head"><h2>{LABELS.chaptersFrom}</h2><p>{LABELS.chaptersSub}</p></div>
+                <div className="chapter-list">
+                  {chapterListError && <p role="alert">目录没加载成功。<button className="sticker-btn" onClick={() => setChapterRetry((n) => n + 1)}>重试目录</button></p>}
+                  {!chapterListError && !chapters.length && <p role="status">正在打开目录…</p>}
+                  {chapters.map((c, i) => (
+                    <button key={c.order} className="chapter" onClick={() => v.readBook(book.id, c.order)}>
+                      <span className="num">{String(i + 1).padStart(2, '0')}</span><b>{c.title}</b><em>{resumeOrder === c.order ? '上次读到这里' : '打开'}</em>
+                    </button>
+                  ))}
+                </div>
+              </section>
+              <details className="quiet-disclosure reading-guidance"><summary>怎么开始读 · 给共读的大人</summary><p>{book.readingGuidance ? book.readingGuidance.modes.map(mode => ({ together: '一起读', self: '自主试读', listen: '先听一听' })[mode]).join(' · ') : book.lang === 'en' || book.category === 'primer' || book.words / Math.max(1, book.chapterCount) > 1000 ? '可以先听或和大人一起读，再选择喜欢的一小段。' : '可以先读一小段，需要时打开朗读或请大人一起读。'}</p>{book.readingGuidance && <><p>{book.readingGuidance.advice}</p><p>主题：{book.readingGuidance.topics.join('、') || '未单列'}</p><small>编辑：{book.readingGuidance.reviewer} · {book.readingGuidance.reviewedOn} · 依据：{book.readingGuidance.evidence}</small></>}<p>章节篇幅和书目年龄建议帮助选择内容，不是孩子能力测评。注音和译文以各章节实际提供内容为准。</p></details>
+              <details className="quiet-disclosure"><summary>下载与离线阅读</summary><p>主动保存后，本机可离线读 7 天。离线阅读进度暂不同步。</p><div className="hero-actions">
                 <button className="sticker-btn" disabled={offlineBusy} onClick={() => {
                   if (!token || offlineBusy) return
                   setOfflineBusy(true)
@@ -1584,52 +1592,14 @@ function BookDetailPage() {
                 }}>{offlineBusy ? '正在保存…' : '保存文字到本机 · 试点'}</button>
                 <button className="sticker-btn" disabled={offlineBusy} onClick={() => { if (!token || offlineBusy) return; setOfflineBusy(true); offlineAbort.current = new AbortController(); void saveOfflineBook(book, token, true, offlineAbort.current.signal).then(() => v.showToast('图文和已有朗读已下载完整，可离线使用 7 天')).catch((err: Error) => v.showToast(err.message)).finally(() => setOfflineBusy(false)) }}>保存图文与已有朗读到本机</button>{offlineBusy && <button className="sticker-btn" onClick={() => offlineAbort.current?.abort()}>取消下载</button>}
                 <button className="sticker-btn" onClick={() => navigate('/offline')}>离线书架</button>
-              </div>
-              <div className="info-stickers">
-                <div className="info">
-                  <small>每章大约</small>
-                  <b>{Math.round(book.words / Math.max(1, book.chapterCount))} 字 / 词</b>
-                </div>
-                <div className="info">
-                  <small>{'语言'}</small>
-                  <b>{book.lang === 'en' ? '英文' : '中文'}</b>
-                </div>
-                {/* 难度徽章（docs/34 P1-7）：同类书每章字数中位数三档，不是评分 */}
-                <div className="info">
-                  <small>平均章节篇幅</small>
-                  <b>{book.difficulty === 'easy' ? '短篇' : book.difficulty === 'stretch' ? '长篇' : '中篇'}</b>
-                </div>
-                <div className="info">
-                  <small>朗读方式</small>
-                  <b>支持朗读</b>
-                </div>
-              </div>
-            </div>
-          </div>
-          <section className="section">
-            <details><summary style={{ minHeight: 44, cursor: 'pointer' }}>来源、加工说明与版本</summary>
+              </div></details>
+            <details className="quiet-disclosure"><summary>来源、加工说明与版本</summary>
               {provenanceError ? <p role="alert">来源说明未加载。<button onClick={() => setChapterRetry((n) => n + 1)}>重试</button></p> : provenance ? <>
                 <p>{provenance.source}</p><p>{provenance.rights?.workTitle}</p><p>{provenance.rights?.note}</p>
                 <p className="mono-label">版本 {provenance.contentVersion} · {provenance.reviewStatus === 'reviewed' ? '已留存人工审核记录' : '人工精审待完成'} · 插图可能由 AI 生成</p>
                 <p>{provenance.rights?.translator ? `译者：${provenance.rights.translator}` : ''}</p>
               </> : <p role="status">来源说明正在加载…</p>}
             </details>
-            <div className="section-head">
-              <span className="section-no">02</span>
-              <h3>{LABELS.chaptersFrom}</h3>
-              <p>{LABELS.chaptersSub}</p>
-            </div>
-            <div className="chapter-list">
-              {chapterListError && <p role="alert">目录没加载成功。<button className="sticker-btn" onClick={() => setChapterRetry((n) => n + 1)}>重试目录</button></p>}
-              {chapters.map((c, i) => (
-                <button key={c.order} className="chapter" onClick={() => v.readBook(book.id, c.order)}>
-                  <span className="num">{String(i + 1).padStart(2, '0')}</span>
-                  <b>{c.title}</b>
-                  <em>{resumeOrder === c.order ? '上次读到这里' : '打开'}</em>
-                </button>
-              ))}
-            </div>
-          </section>
     </section>
   )
 }

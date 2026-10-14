@@ -190,7 +190,7 @@ export function ParentHome() {
         key={t}
         type="button"
         onClick={() => (t === '足迹' ? openFootprint() : setTab(t))}
-        aria-current={tab === t}
+        aria-current={tab === t ? 'page' : undefined}
         className={tab === t ? 'on' : ''}
       >
         {t}

@@ -38,11 +38,14 @@ async function goMy(page: Page): Promise<void> {
 }
 
 test.describe('v8 贴纸绘本孩子端', () => {
-  test('首页：hero/挑三本/心情/家庭阅读记忆；我的页含阅读节奏日历', async ({ page }) => {
+  test('首页：主阅读入口、两本候选、可展开的心情及家庭记忆；我的页保留日历', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await expect(page.getByText(/给你的推荐/)).toBeVisible()
+    await expect(page.getByRole('heading', { name: '也可以读这两本' })).toBeVisible()
+    await expect(page.locator('.today-picks .story-card')).toHaveCount(2)
     await expect(page.getByText('今天想读哪种感觉？')).toBeVisible()
     await expect(page.getByText('最近的家庭阅读记忆')).toBeVisible()
+    await page.getByText('今天想读哪种感觉？', { exact: true }).click()
+    await expect(page.getByRole('button', { name: '想笑一笑，去书架挑一本' })).toBeVisible()
     // 阅读节奏（近 8 周阅读足迹日历）在「我的 → 阅读记忆」页签（docs/34 P2-7：页签为 tab 语义）
     await goMy(page)
     await page.getByRole('button', { name: '阅读记忆', exact: true }).click()
@@ -74,8 +77,8 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await page.locator('#shelf-search').fill('三字经')
     await page.getByRole('button', { name: /打开《三字经》/ }).first().click()
 
-    // 详情：信息贴纸 + 章节列表
-    await expect(page.getByText('适合一起读')).toBeVisible()
+    // 详情：全宽阅读动作 + 章节列表
+    await expect(page.getByRole('heading', { name: '三字经', exact: true })).toBeVisible()
     await expect(page.getByText('一次只打开一个小故事')).toBeVisible()
     await page.screenshot({ path: 'test-results/v8-detail.png', fullPage: true })
 
@@ -83,6 +86,7 @@ test.describe('v8 贴纸绘本孩子端', () => {
     await page.getByRole('button', { name: /开始读|继续读/ }).first().click()
     // docs/41：防脏会话级联（前序用例未收尾时弹 409 冲突浮层）——结束旧书改读这本
     const conflict = page.getByRole('button', { name: /结束旧书，?改读这本/ })
+    await expect.poll(async () => await conflict.isVisible() || await page.locator('.reader-controls').isVisible()).toBe(true)
     if (await conflict.isVisible().catch(() => false)) await conflict.click()
     await expect(page.getByText(/第 \d+ 章/).first()).toBeVisible()
     await expect(page.getByRole('button', { name: /朗读本章|停止朗读/ })).toBeVisible()

@@ -17,7 +17,7 @@ export async function correctBlock(db: PrismaClient, id: string, input: z.infer<
     const chapter = book.chapters.find(ch => ch.order === b.chapter)
     const block = chapter?.blocks.find(block => block.order === b.block)
     if (!block || block.kind === 'image') throw new ValidationError('只能修订存在的文字块')
-    if (b.pinyin && b.pinyin.split(/\s+/).length !== (b.text.match(/[\u3400-\u9fff]/g)?.length ?? 0)) throw new ValidationError('拼音数量与汉字数量不一致')
+    if (b.pinyin && b.pinyin.split(/\s+/).length !== (b.text.match(/\p{Script=Han}/gu)?.length ?? 0)) throw new ValidationError('拼音数量与汉字数量不一致')
     const before = snapshot(book)
     const after = before.map(row => row.chapter === b.chapter && row.block === b.block ? { ...row, text: b.text, pinyin: b.pinyin || null, translation: b.translation || null } : row)
     if (JSON.stringify(before) === JSON.stringify(after)) throw new ValidationError('没有正文变化，无需生成修订')

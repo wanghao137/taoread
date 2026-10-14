@@ -11,7 +11,7 @@ export async function changeReview(db: PrismaClient, id: string, input: z.infer<
     if (['validated', 'reviewed', 'published'].includes(b.publicationStatus)) {
       const rights = await tx.rightsLedger.findUnique({ where: { bookId: id } })
       if (!rights?.workTitle || !rights.basis || !rights.jurisdiction || !book.source) throw new ValidationError('底本与权利台账不完整')
-      if (!book.chapters.length || book.chapters.some((ch, i) => ch.order !== i + 1 || !ch.blocks.length || ch.blocks.some((block, n) => block.order !== n + 1 || (!block.text.trim() && block.kind !== 'image') || (block.pinyin && block.pinyin.trim().split(/\s+/).length !== (block.text.match(/[\u3400-\u9fff]/g)?.length ?? 0))))) throw new ValidationError('章节、正文或拼音结构检查未通过；机器检查不代替人工审校')
+      if (!book.chapters.length || book.chapters.some((ch, i) => ch.order !== i + 1 || !ch.blocks.length || ch.blocks.some((block, n) => block.order !== n + 1 || (!block.text.trim() && block.kind !== 'image') || (block.pinyin && block.pinyin.trim().split(/\s+/).length !== (block.text.match(/\p{Script=Han}/gu)?.length ?? 0))))) throw new ValidationError('章节、正文或拼音结构检查未通过；机器检查不代替人工审校')
     }
     const approval = ['reviewed', 'published'].includes(b.publicationStatus)
     if (approval && !b.evidence.approved) throw new ValidationError('审校或发布需要明确的人工批准，不接受机器校验代替')

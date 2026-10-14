@@ -612,7 +612,7 @@ export function FamilyReaderPage() {
     <header className="family-reader-heading">
       <button className="sticker-btn min-h-[44px]" onClick={() => navigate('/child/family-books')}>返回家庭书架</button>
       {order && <span className="family-reader-title">{book?.title ?? '家庭书正在赶来…'}</span>}
-      {order && saveState !== 'idle' && <span role="status" className="mono-label">{saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上'}</span>}
+      {order && <span role="status" className="mono-label family-save-status">{saveState === 'idle' ? '' : saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上'}</span>}
     </header>
     {error && <div className="family-reader-error"><p role="alert">{error}</p><button className="sticker-btn min-h-[44px]" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}
     {toolsOpen && <Dialog label="家庭书阅读工具" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setToolsOpen(false)}>

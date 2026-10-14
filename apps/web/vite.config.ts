@@ -11,6 +11,9 @@ export default defineConfig({
     react(),
     legacy({
       targets: ['iOS >= 13', 'Safari >= 13', 'Chrome >= 87', 'Android >= 8'],
+      // Keep the same Safari floor; the default modern target also covers Chrome 64.
+      // Usage-based polyfills should match our supported browsers, not that older floor.
+      modernTargets: ['iOS >= 13', 'Safari >= 13', 'Chrome >= 87', 'Firefox >= 78', 'Edge >= 88'],
       modernPolyfills: true,
     }),
     // PWA 预缓存已移除（2026-09-24 白屏事故根因）：旧壳引用被部署删除的产物 → 白屏。
