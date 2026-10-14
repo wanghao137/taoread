@@ -34,7 +34,7 @@ export function Dialog({ label, onClose, children, dismissable = true, className
     isolateDialogs()
     const items = () => [...panel.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select,textarea,a[href],[tabindex="0"]')]
       .filter((el) => el.getClientRects().length > 0 && !el.closest('[aria-hidden="true"]'))
-    ;(items()[0] ?? panel).focus()
+    ;(items()[0] ?? panel).focus({ preventScroll: true })
     const key = (e: KeyboardEvent) => {
       if (activeDialogs[activeDialogs.length - 1] !== panel) return
       if (e.key === 'Escape' && dismissable) { e.preventDefault(); e.stopPropagation(); close.current(); return }
@@ -51,7 +51,7 @@ export function Dialog({ label, onClose, children, dismissable = true, className
       const index = activeDialogs.indexOf(panel)
       if (index >= 0) activeDialogs.splice(index, 1)
       isolateDialogs()
-      if (previous?.isConnected && !previous.closest('[inert]')) previous.focus()
+      if (previous?.isConnected && !previous.closest('[inert]')) previous.focus({ preventScroll: true })
     }
   }, [dismissable])
   return createPortal(

@@ -5,7 +5,7 @@
  * 进度上报（进入即报 + 滚动 5s 节流 + 按已存 blockOrder 续读定位）、
  * 服务端朗读（回退 Web Speech）与高亮档位、主题/字号/专注模式、生词贴纸、读完结算浮层、
  * 朗读期 Wake Lock 常亮与翻章触觉。就寝/休息时间闸已随 09-25 产品决策整体移除。
- * 样式只用 v8.css 既有类（.reader/.reader-top/.reader-body/.reader-art/.reader-text/.reader-controls/.settings）。
+ * 阅读样式由 reading-ui.css 补充，排版控件与家庭阅读器共用 ReadingAppearance。
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -23,6 +23,7 @@ import { Dialog } from '../../components/ui/Dialog'
 import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
+import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
 import { ContentProgressWriter, type ContentPosition, type ProgressSaveState } from '../../lib/contentProgress'
@@ -30,9 +31,6 @@ import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
 type ReaderTheme = 'paper' | 'sepia' | 'night'
 
-const FONT_MIN = 18
-const FONT_MAX = 30
-const FONT_STEP = 2
 
 /** 语速档位（朗读给跟读用，不给无极滑杆）。「刚好」= 不传 speed → 服务端默认 0.92：
  * 预生成键空间（chapterText.ts 单一事实源）只覆盖默认语速，客户端必须同源——
@@ -51,12 +49,6 @@ const SLEEP_STEPS: Array<{ label: string; value: number | null }> = [
   { label: '45 分钟', value: 45 },
 ]
 
-/** 行距三档（docs/34 P1-10） */
-const LINE_STEPS: Array<{ label: string; value: number }> = [
-  { label: '紧凑', value: 1.7 },
-  { label: '舒适', value: 1.9 },
-  { label: '宽松', value: 2.1 },
-]
 
 const SANS_STACK = "-apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif"
 
@@ -133,13 +125,15 @@ function Overlay({
   children,
   dismissable = true,
   label,
+  theme,
 }: {
   onClose: () => void
   children: ReactNode
   dismissable?: boolean
   label: string
+  theme: ReaderTheme
 }) {
-  return <Dialog label={label} onClose={onClose} dismissable={dismissable} className="settings">{children}</Dialog>
+  return <Dialog label={label} onClose={onClose} dismissable={dismissable} className={`settings reading-dialog reading-theme-${theme}`}>{children}</Dialog>
 }
 
 export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order: number }): JSX.Element {
@@ -242,7 +236,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 浮层开关 ── */
   const [showSettings, setShowSettings] = useState(false)
   const [sentencePicker, setSentencePicker] = useState(false)
-  const [settingsTab, setSettingsTab] = useState<'layout' | 'audio' | 'record'>('layout')
+  const [settingsTab, setSettingsTab] = useState<'layout' | 'audio' | 'more' | 'record'>('layout')
   const [showChapters, setShowChapters] = useState(false)
   const [showFinish, setShowFinish] = useState(false)
   const [mood, setMood] = useState<string | null>(null)
@@ -1675,85 +1669,35 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       </footer>
 
       {/* ── 排版设置浮层 ── */}
-      {sentencePicker && <Overlay label="选择金句" onClose={() => setSentencePicker(false)}><h3>《{book.title}》 · 第 {order} 章</h3><p>选择要收藏的段落，每段最多保留 200 字。</p>{blocks.filter(b => b.kind === 'text' || b.kind === 'poem').map(b => <button className="sentence-choice" key={b.id} aria-pressed={savedBlocks.has(b.order)} onClick={() => void saveHighlight(b.order, b.text)}>{b.text.slice(0, 200)}{savedBlocks.has(b.order) ? ' · 已收藏' : ''}</button>)}</Overlay>}
+      {sentencePicker && <Overlay label="选择金句" theme={theme} onClose={() => setSentencePicker(false)}><h3>《{book.title}》 · 第 {order} 章</h3><p>选择要收藏的段落，每段最多保留 200 字。</p>{blocks.filter(b => b.kind === 'text' || b.kind === 'poem').map(b => <button className="sentence-choice" key={b.id} aria-pressed={savedBlocks.has(b.order)} onClick={() => void saveHighlight(b.order, b.text)}>{b.text.slice(0, 200)}{savedBlocks.has(b.order) ? ' · 已收藏' : ''}</button>)}</Overlay>}
       {showSettings ? (
-        <Overlay onClose={() => setShowSettings(false)} label="阅读设置">
-          <div className="setting-row" role="group" aria-label="设置分类">
+        <Overlay onClose={() => setShowSettings(false)} label="阅读设置" theme={theme}>
+          <div className="reading-tabs" role="group" aria-label="设置分类">
             <button aria-pressed={settingsTab === 'layout'} onClick={() => setSettingsTab('layout')}>排版</button>
             <button aria-pressed={settingsTab === 'audio'} onClick={() => setSettingsTab('audio')}>听读</button>
-            <button aria-pressed={settingsTab === 'record'} onClick={() => { stopSpeaking(); setSettingsTab('record') }}>跟读录音 · 试点</button>
+            <button aria-pressed={settingsTab === 'more' || settingsTab === 'record'} onClick={() => setSettingsTab('more')}>更多</button>
           </div>
-          {settingsTab === 'record' && <LocalRecorder />}
+          {settingsTab === 'record' && <div className="reading-support"><button onClick={() => setSettingsTab('more')}>返回更多工具</button><h3>跟读录音 · 试点</h3><LocalRecorder /></div>}
           {settingsTab === 'layout' && <>
-          <fieldset className="reading-options"><legend>诗歌辅助</legend><label><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /> 显示拼音</label><label><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /> 显示白话解释</label><label><input type="checkbox" checked={dimImages} onChange={e => setDimImages(e.target.checked)} /> 夜间调暗插图</label></fieldset>
-          {token && <FeedbackForm token={token} bookId={book.id} version={book.contentVersion} chapter={order} position={currentBlockRef.current} />}
-          <p>长按正文可以收藏这一段；也可以用下面的按钮选择句子。</p>
-          <button className="sticker-btn" onClick={() => { setShowSettings(false); setSentencePicker(true) }}>选择并收藏句子</button>
-          <div className="setting-row">
-            <button onClick={toggleBookmark}>在当前位置夹书签</button>
-            <button onClick={() => { setShowSettings(false); void loadScaffold() }} disabled={scaffoldLoading}>给爸妈的共读话题</button>
-          </div>
-          <button className="sticker-btn" onClick={() => { const block = blocks[currentBlockRef.current]; if (block) void saveHighlight(block.order, block.text) }}>收藏当前段落为金句</button>
-          <p className="mono-label" style={{ marginBottom: 8 }}>
-            主题
-          </p>
-          <div className="setting-row">
-            {(['paper', 'sepia', 'night'] as const).map((t) => (
-              <button key={t} style={theme === t ? { background: 'var(--sun)' } : undefined} onClick={() => setTheme(t)}>
-                {t === 'paper' ? LABELS.paper : t === 'sepia' ? LABELS.sepia : LABELS.night}
-              </button>
-            ))}
-          </div>
-          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
-            字号
-          </p>
-          <div className="setting-row">
-            <button disabled={font <= FONT_MIN} onClick={() => setFont((s) => Math.max(FONT_MIN, s - FONT_STEP))}>{LABELS.smaller}</button>
-            <button disabled={font >= FONT_MAX} onClick={() => setFont((s) => Math.min(FONT_MAX, s + FONT_STEP))}>{LABELS.bigger}</button>
-            <span className="mono-label" style={{ alignSelf: 'center' }}>
-              {font}
-            </span>
-          </div>
-          {/* 字体/行距（docs/34 P1-10） */}
-          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
-            字体
-          </p>
-          <div className="setting-row">
-            <button aria-pressed={fontFamily === 'serif'} style={fontFamily === 'serif' ? { background: 'var(--sun)' } : undefined} onClick={() => setFontFamily('serif')}>
-              宋体
-            </button>
-            <button aria-pressed={fontFamily === 'sans'} style={fontFamily === 'sans' ? { background: 'var(--sun)' } : undefined} onClick={() => setFontFamily('sans')}>
-              黑体
-            </button>
-          </div>
-          {/* 阅读方式（docs/41 修复 3）：翻页=左右滑动的纸书手感；滚动适合 PC 与长文速读 */}
-          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
-            阅读方式
-          </p>
-          <div className="setting-row">
-            <button aria-pressed={pageMode === 'page'} style={pageMode === 'page' ? { background: 'var(--sun)' } : undefined} onClick={() => setPageMode('page')}>
-              左右翻页
-            </button>
-            <button aria-pressed={pageMode === 'scroll'} style={pageMode === 'scroll' ? { background: 'var(--sun)' } : undefined} onClick={() => setPageMode('scroll')}>
-              上下滚动
-            </button>
-          </div>
-          <p className="mono-label" style={{ margin: '14px 0 8px' }}>
-            行距
-          </p>
-          <div className="setting-row">
-            {LINE_STEPS.map((s) => (
-              <button
-                key={s.value}
-                aria-pressed={lineHeight === s.value}
-                style={lineHeight === s.value ? { background: 'var(--sun)' } : undefined}
-                onClick={() => setLineHeight(s.value)}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
+            <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={setFontFamily} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} />
+            {blocks.some(block => block.kind === 'poem') && <ReadingOption label="诗歌辅助">
+              <label className="reading-toggle"><span>显示拼音</span><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /></label>
+              <label className="reading-toggle"><span>显示白话解释</span><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /></label>
+            </ReadingOption>}
           </>}
+          {settingsTab === 'more' && <div className="reading-support">
+            <h3>留下喜欢的内容</h3>
+            <p className="reading-hint">长按正文可收藏段落，也可以直接选择。</p>
+            <div className="reading-action-list">
+              <button onClick={toggleBookmark}>在当前位置夹书签</button>
+              <button onClick={() => { setShowSettings(false); setShowChapters(true) }}>查看目录与书签</button>
+              <button onClick={() => { setShowSettings(false); setSentencePicker(true) }}>选择并收藏句子</button>
+              <button onClick={() => { const block = blocks[currentBlockRef.current]; if (block) void saveHighlight(block.order, block.text) }}>收藏当前段落为金句</button>
+              <button onClick={() => { setShowSettings(false); void loadScaffold() }} disabled={scaffoldLoading}>给爸妈的共读话题</button>
+              <button onClick={() => { stopSpeaking(); setSettingsTab('record') }}>跟读录音 · 试点</button>
+            </div>
+            {token && <FeedbackForm token={token} bookId={book.id} version={book.contentVersion} chapter={order} position={currentBlockRef.current} />}
+          </div>}
           {settingsTab === 'audio' && <>
           {speaking && <div className="setting-row">
             <button onClick={togglePause}>{paused ? '继续朗读' : '暂停朗读'}</button>
@@ -1850,7 +1794,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 章节目录抽屉 ── */}
       {showChapters ? (
-        <Overlay onClose={() => setShowChapters(false)} label="目录">
+        <Overlay onClose={() => setShowChapters(false)} label="目录" theme={theme}>
           {titlesError ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
               <p className="mono-label">目录暂时没拿到</p>
@@ -1861,10 +1805,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           ) : titles.length === 0 ? (
             <p className="mono-label">目录正在赶来…</p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 'min(52vh, 420px)', overflowY: 'auto' }}>
+            <div className="reading-toc">
               {titles.map((t) => (
                 <button
                   key={t.order}
+                  aria-current={t.order === order ? 'location' : undefined}
                   style={{
                     textAlign: 'left',
                     ...(t.order === order ? { background: 'var(--sun)' } : {}),
@@ -1907,7 +1852,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 共读脚手架（docs/34 P0-3）：给爸妈的悄悄话 ── */}
       {showScaffold && scaffold ? (
-        <Overlay onClose={() => setShowScaffold(false)} label="给爸妈的悄悄话">
+        <Overlay onClose={() => setShowScaffold(false)} label="给爸妈的悄悄话" theme={theme}>
           <h3>给爸妈的悄悄话</h3>
           <p className="mono-label" style={{ textTransform: 'none' }}>
             读完或读中，都可以和孩子聊聊这些——
@@ -1945,7 +1890,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 共读会话冲突三选一（不可点背板关掉，必须选一个） ── */}
       {conflict ? (
-        <Overlay onClose={() => undefined} dismissable={false} label="上一本还没收尾">
+        <Overlay onClose={() => undefined} dismissable={false} label="上一本还没收尾" theme={theme}>
           <p className="mono-label" style={{ textTransform: 'none', marginBottom: 12 }}>
             一次只打开一个小故事。想读这本，先给上一本收个尾。
           </p>
@@ -1970,7 +1915,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 读完啦结算浮层 ── */}
       {showFinish ? (
-        <Overlay onClose={() => setShowFinish(false)} label="读完啦">
+        <Overlay onClose={() => setShowFinish(false)} label="读完啦" theme={theme}>
           <h3>{LABELS.finishTitle}</h3>
           <p className="mono-label" style={{ textTransform: 'none', marginBottom: 12 }}>
             {LABELS.finishCopy}
@@ -2087,7 +2032,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 插图灯箱（docs/34 P1-11）── */}
       {lightbox ? (
-        <Overlay onClose={() => setLightbox(null)} label="放大插图">
+        <Overlay onClose={() => setLightbox(null)} label="放大插图" theme={theme}>
           <img src={lightbox} alt="放大插图" style={{ width: '100%', borderRadius: 10, display: 'block' }} />
           <div className="setting-row" style={{ marginTop: 12 }}>
             <button onClick={() => setLightbox(null)}>收起</button>

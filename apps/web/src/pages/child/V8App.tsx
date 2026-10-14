@@ -1,6 +1,6 @@
 /**
  * 「贴纸绘本 v8」孩子端外壳 + 数据上下文（2026-09-21 审计整改）。
- * 样式 1:1 复刻 taoread-codex-resets-demo-v8（src/v8.css）；路由化（A4 P1）：
+ * 暖纸阅读空间（v8.css 基础 + reading-ui.css 孩子端规范）；路由化（A4 P1）：
  *   /child/today · /child/discover · /child/my · /child/book/:bookId · /child/book/:bookId/chapter/:order
  * 数据接真实 API；V8Book 保留结构化 lang/category/ageStage（A3.5）。
  */
@@ -121,7 +121,7 @@ function toV8(b: ContentBookDto): V8Book {
 }
 
 export const LABELS = {
-  brandSub: '贴纸绘本 · 儿童阅读空间',  memory: '阅读记忆',
+  brandSub: '和故事一起长大',  memory: '阅读记忆',
   discover: '找故事',
   navHome: '今天',
   navMy: '我的',
@@ -384,7 +384,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
 
   return (
     <V8Context.Provider value={ctx}>
-      <div className={`app ${inReader ? 'reading-layout' : ''}`}>
+      <div className={`app child-app ${inReader ? 'reading-layout' : ''}`}>
         <div className="wrap">
           <header className="mast">
             <div className="logo">
@@ -709,7 +709,7 @@ function TodayPage() {
       <section className="hero">
         <div className="hero-grid">
           <div>
-            <span className="mono-label">今天的故事 / 继续昨天的故事</span>
+            <span className="mono-label">{continueBook ? '接着上次读' : '今天，从一本书开始'}</span>
             <div className="hero-title">
               <span className="marker">{continueBook ? continueBook.title : '挑一本书开始'}</span>
             </div>
@@ -1375,7 +1375,7 @@ function MyPage() {
           {arr.map((b) => (
             <StoryCard key={b.id} book={b} onOpen={v.openBook} onFav={v.toggleFav} />
           ))}
-          {v.loaded && arr.length === 0 ? <p className="mono-label">这里还空着，去 找故事 逛逛。</p> : null}
+          {v.loaded && arr.length === 0 ? <div className="child-empty"><h3>{tab === 'liked' ? '把喜欢的故事留在这里' : tab === 'done' ? '读完的故事，会留在这里' : '你的下一段故事，从这里开始'}</h3><p>{tab === 'liked' ? '点书封上的爱心，想读时就能找到。' : tab === 'done' ? '不用着急，按自己的节奏读。' : '挑一本喜欢的书，下次回来就能接着读。'}</p><button className="sticker-btn primary" onClick={() => navigate('/child/discover')}>去找故事</button></div> : null}
         </div>
       )}
       {litOpen && litItems ? (

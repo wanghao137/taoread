@@ -48,7 +48,7 @@ export function DailyPoemCard({ readPoem }: { readPoem: (bookId: string, chapter
       <span className="mono-label">每日一诗 · {result!.data.date}</span>
       <h2 id="daily-poem-heading">{poem.title}</h2>
       <p className="daily-poem-author">{poem.author}</p>
-      <p className="daily-poem-preview">{poem.preview}</p>
+      <p className="daily-poem-preview">{(poem.preview.match(/[^，。！？；\r\n]+[，。！？；]?/gu) ?? [poem.preview]).map((line, index) => <span className="daily-poem-line" key={index}>{line.trim()}</span>)}</p>
       <button className="sticker-btn primary" onClick={() => readPoem(poem.bookId, poem.chapterOrder)} aria-label={`读这首诗：${poem.title}`}>读这首诗</button>
     </div>
   </section>

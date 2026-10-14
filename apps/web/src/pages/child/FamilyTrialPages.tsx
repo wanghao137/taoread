@@ -10,6 +10,7 @@ import { PageHead } from '../../components/PageHead'
 import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
 import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
+import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
 
 const MARKER_RE = /\[\[img:([^\]]+)\]\]/g
 
@@ -175,6 +176,7 @@ export function FamilyReaderPage() {
   const [font, setFont] = useState(readerFont)
   const [tocOpen, setTocOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
+  const [toolsTab, setToolsTab] = useState<'layout' | 'audio' | 'bookmarks'>('layout')
   const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => readPreference<string>('taoread-reader-fontfamily', 'serif') === 'sans' ? 'sans' : 'serif')
   const [lineHeight, setLineHeight] = useState(1.9)
   const [dimImages, setDimImages] = useState(true)
@@ -613,46 +615,64 @@ export function FamilyReaderPage() {
       {order && saveState !== 'idle' && <span role="status" className="mono-label">{saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上'}</span>}
     </header>
     {error && <div className="family-reader-error"><p role="alert">{error}</p><button className="sticker-btn min-h-[44px]" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}
-    {toolsOpen && <Dialog label="家庭书阅读工具" onClose={() => setToolsOpen(false)}><div className="panel family-reading-tools"><h3>阅读工具</h3><fieldset className="reading-options"><legend>字体</legend>{(['serif', 'sans'] as const).map(value => <button key={value} className="sticker-btn" aria-pressed={fontFamily === value} onClick={() => { setFontFamily(value); writePreference('taoread-reader-fontfamily', value) }}>{value === 'serif' ? '书本字体' : '清晰字体'}</button>)}</fieldset><fieldset className="reading-options"><legend>行距</legend>{[1.7, 1.9, 2.1].map(value => <button key={value} className="sticker-btn" aria-pressed={lineHeight === value} onClick={() => setLineHeight(value)}>{value}</button>)}</fieldset><fieldset className="reading-options"><legend>声音与图片</legend><label>朗读声音<select value={voiceId} onChange={e => { stopTts(); setVoiceId(e.target.value) }}><option value="">默认声音</option>{voices.filter(v => v.lang === book?.lang).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label><label>朗读速度<select value={speed ?? 0.92} onChange={e => { stopTts(); const value = Number(e.target.value); setSpeed(value === 0.92 ? null : value) }}><option value={0.75}>慢一点</option><option value={0.92}>刚好</option><option value={1.1}>快一点</option></select></label><label><input type="checkbox" checked={dimImages} onChange={e => setDimImages(e.target.checked)} />夜间降低图片亮度</label></fieldset><p role="status">{bookmarks.status}</p>{bookmarks.conflict && <button className="sticker-btn" onClick={() => { if (window.confirm('采用服务器书签会舍弃本机未同步的修改，是否继续？')) void bookmarks.adoptServer() }}>采用服务器书签</button>}<button className="sticker-btn" onClick={() => void bookmarks.sync()}>同步书签</button>{bookmarks.bookmarks.map(b => <div key={b.id}><button className="sentence-choice" key={b.id} disabled={b.version !== String(book?.contentVersion ?? 1)} onClick={() => { setToolsOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${b.chapter}?offset=${b.position}`) }}>{b.version !== String(book?.contentVersion ?? 1) ? '版本更新，等待定位 · ' : ''}第 {b.chapter} 章 · {b.anchor.slice(0, 60)}</button><button className="sticker-btn" onClick={() => bookmarks.remove(b.id)}>移除这条书签</button></div>)}{token && <FeedbackForm token={token} bookId={id} version={String(book?.contentVersion ?? 1)} chapter={Number(order) || undefined} />}</div></Dialog>}
+    {toolsOpen && <Dialog label="家庭书阅读工具" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setToolsOpen(false)}>
+      <div className="reading-tabs" role="group" aria-label="设置分类">
+        <button aria-pressed={toolsTab === 'layout'} onClick={() => setToolsTab('layout')}>排版</button>
+        <button aria-pressed={toolsTab === 'audio'} onClick={() => setToolsTab('audio')}>听读</button>
+        <button aria-pressed={toolsTab === 'bookmarks'} onClick={() => setToolsTab('bookmarks')}>书签</button>
+      </div>
+      {toolsTab === 'layout' && <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={value => { setFontFamily(value); writePreference('taoread-reader-fontfamily', value) }} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} />}
+      {toolsTab === 'audio' && <div className="reading-audio">
+        <p className="reading-hint">选一个喜欢的声音，慢慢听故事。</p>
+        <label className="reading-select">朗读声音<select aria-label="朗读声音" value={voiceId} onChange={e => { stopTts(); setVoiceId(e.target.value) }}><option value="">默认声音</option>{voices.filter(v => v.lang === book?.lang).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label>
+        <ReadingOption label="朗读速度">{[{ value: null, label: '刚好' }, { value: 0.75, label: '慢一点' }, { value: 1.1, label: '快一点' }].map(item => <button key={String(item.value)} aria-pressed={speed === item.value} onClick={() => { stopTts(); setSpeed(item.value) }}>{item.label}</button>)}</ReadingOption>
+        <p className="reading-hint">调整声音或语速会停止当前朗读，再点「朗读本章」开始。</p>
+      </div>}
+      {toolsTab === 'bookmarks' && <div className="reading-support">
+        <h3>我的书签 <span>{bookmarks.bookmarks.length}</span></h3>
+        <div className="reading-sync"><p role="status">{bookmarks.status}</p><button onClick={() => void bookmarks.sync()}>同步书签</button></div>
+        {bookmarks.conflict && <button onClick={() => { if (window.confirm('采用服务器书签会舍弃本机未同步的修改，是否继续？')) void bookmarks.adoptServer() }}>采用服务器书签</button>}
+        {!bookmarks.bookmarks.length && <p className="reading-empty">还没有书签。在正文下方点「夹当前页书签」，下次就能从这里找到。</p>}
+        {bookmarks.bookmarks.map(b => <div className="reading-bookmark" key={b.id}><button className="sentence-choice" disabled={b.version !== String(book?.contentVersion ?? 1)} onClick={() => { setToolsOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${b.chapter}?offset=${b.position}`) }}>{b.version !== String(book?.contentVersion ?? 1) ? '版本更新，等待定位 · ' : ''}第 {b.chapter} 章 · {b.anchor.slice(0, 60)}</button><button onClick={() => bookmarks.remove(b.id)}>移除这条书签</button></div>)}
+        {token && <FeedbackForm token={token} bookId={id} version={String(book?.contentVersion ?? 1)} chapter={Number(order) || undefined} />}
+      </div>}
+    </Dialog>}
     {progress?.relocationRequired && <div role="alert" className="panel">正文版本已更新，原位置暂时无法准确定位。请打开目录选择要继续的章节。<button className="sticker-btn" onClick={() => { relocationChoiceRef.current = true; setProgress({ ...progress, relocationRequired: false, offset: 0 }); setProgressLoaded(true); setTocOpen(true) }}>选择新位置</button></div>}
     {!book && !error && <p role="status">家庭书正在赶来…</p>}
     {!order ? <div className="library">
       {progress && !progress.completed && !progress.relocationRequired && <button className="sticker-btn primary" onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress.order}`)}>从第 {progress.order} 章续读</button>}
       <button className="sticker-btn" onClick={() => setTocOpen(true)}>打开目录</button>
       <button className="sticker-btn" onClick={() => navigate(`/child/listen/import/${encodeURIComponent(id ?? '')}`)}>连续听读</button>
-      {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
-        <div style={{ width: 'min(360px, 86vw)', background: ink.bg, color: ink.fg, overflowY: 'auto', padding: 16 }} onClick={(event) => event.stopPropagation()}>
-          <b>目录</b>
-          {tocGroups.map((group, groupIndex) => <div key={groupIndex} style={{ marginTop: 12 }}>
-            {group.label && <div style={{ fontSize: 13, color: ink.muted, margin: '8px 0 4px' }}>{group.label}</div>}
-            {group.chapters.map((item) => <button key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', borderRadius: 10, background: item.order === chapterOrder ? ink.highlight : 'transparent', color: ink.fg, border: 'none', cursor: 'pointer' }} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}</button>)}
+{tocOpen && <Dialog label="家庭书目录" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setTocOpen(false)}>
+        <p className="reading-hint">{book?.title} · 共 {chapterTotal} 章</p>
+        <div className="reading-toc" ref={node => node?.querySelector('[aria-current="location"]')?.scrollIntoView({ block: 'center' })}>
+          {tocGroups.map((group, groupIndex) => <div key={groupIndex}>
+            {group.label && <h3>{group.label}</h3>}
+            {group.chapters.map(item => <button key={item.order} aria-current={item.order === chapterOrder ? 'location' : undefined} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}{item.order === chapterOrder ? ' · 正在读' : ''}</button>)}
           </div>)}
         </div>
       </Dialog>}
       {book?.chapters.map((item) => <button className="panel" key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left' }} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`)}>{item.order}. {item.title}</button>)}
     </div>
       : <div className="family-reader-content">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+        <div className="family-reader-toolbar">
           <span style={{ fontSize: 12, color: ink.muted }}>{chapterIndex >= 0 ? `第 ${chapterIndex + 1} / ${chapterTotal} 章` : ''}</span>
           <div style={{ flex: 1, height: 6, borderRadius: 3, background: ink.highlight, opacity: 0.5, minWidth: 80 }}>
             <div style={{ width: `${chapterTotal ? ((chapterIndex + 1) / chapterTotal) * 100 : 0}%`, height: '100%', borderRadius: 3, background: ink.fg }} />
           </div>
           <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setTocOpen(true)}>目录</button>
-          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} aria-label="切换阅读主题" onClick={() => setTheme(theme === 'paper' ? 'sepia' : theme === 'sepia' ? 'night' : 'paper')}>{theme === 'paper' ? '☀' : theme === 'sepia' ? '📜' : '🌙'}</button>
-          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} disabled={font <= 18} aria-label="缩小字号" onClick={() => setFont((value) => Math.max(18, value - 2))}>A-</button>
-          <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} disabled={font >= 30} aria-label="放大字号" onClick={() => setFont((value) => Math.min(30, value + 2))}>A+</button>
-          <button className="sticker-btn" aria-pressed={pageMode === 'page'} style={{ minHeight: 44, fontSize: 14, ...(pageMode === 'page' ? { background: 'var(--sun)' } : {}) }} onClick={() => setPageMode((m) => (m === 'page' ? 'scroll' : 'page'))}>{pageMode === 'page' ? '翻页中' : '滚动中'}</button>
+          <button className="sticker-btn" onClick={() => setToolsOpen(true)}>阅读工具</button>
           <button className="sticker-btn primary" style={{ minHeight: 44, fontSize: 14 }} onClick={togglePlay}>{tts === 'loading' ? '准备中…' : tts === 'playing' ? '⏸ 暂停朗读' : tts === 'paused' ? '▶ 继续朗读' : '▶ 朗读本章'}</button>
         </div>
-        {tocOpen && <Dialog label="家庭书目录" onClose={() => setTocOpen(false)}>
-          <div style={{ width: 'min(360px, 86vw)', background: ink.bg, color: ink.fg, overflowY: 'auto', padding: 16 }} onClick={(event) => event.stopPropagation()}>
-            <b>目录</b>
-            {tocGroups.map((group, groupIndex) => <div key={groupIndex} style={{ marginTop: 12 }}>
-              {group.label && <div style={{ fontSize: 13, color: ink.muted, margin: '8px 0 4px' }}>{group.label}</div>}
-              {group.chapters.map((item) => <button key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 10px', borderRadius: 10, background: item.order === chapterOrder ? ink.highlight : 'transparent', color: ink.fg, border: 'none', cursor: 'pointer' }} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}</button>)}
-            </div>)}
-          </div>
-        </Dialog>}
+{tocOpen && <Dialog label="家庭书目录" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setTocOpen(false)}>
+        <p className="reading-hint">{book?.title} · 共 {chapterTotal} 章</p>
+        <div className="reading-toc" ref={node => node?.querySelector('[aria-current="location"]')?.scrollIntoView({ block: 'center' })}>
+          {tocGroups.map((group, groupIndex) => <div key={groupIndex}>
+            {group.label && <h3>{group.label}</h3>}
+            {group.chapters.map(item => <button key={item.order} aria-current={item.order === chapterOrder ? 'location' : undefined} onClick={() => { setTocOpen(false); navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`) }}>{item.order}. {group.label ? item.title.slice(group.label.length + 3) : item.title}{item.order === chapterOrder ? ' · 正在读' : ''}</button>)}
+          </div>)}
+        </div>
+      </Dialog>}
         <article
           ref={articleRef}
           className="panel"
@@ -682,7 +702,6 @@ export function FamilyReaderPage() {
             <button className="min-h-[44px]" disabled={!chapter || !progressLoaded || saveState === 'saving'} onClick={() => { const lastText = [...blocks].reverse().find((block) => block.kind === 'p'); void save(lastText ? lastText.cleanStart + lastText.cleanLen : 0, chapterOrder === chapterTotal) }}>读完本章</button>
             <button className="min-h-[44px]" disabled={chapterOrder >= chapterTotal} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${chapterOrder + 1}`)}>下一章</button>
             </span>
-            <button className="min-h-[44px]" onClick={() => setToolsOpen(true)}>阅读工具</button>
             <button className="min-h-[44px]" disabled={!chapter} onClick={() => {
               const viewport = articleRef.current?.getBoundingClientRect()
               const visible = [...(blocksRef.current?.querySelectorAll<HTMLElement>('[data-block][data-clean-start]') ?? [])].find(node => {
