@@ -15,6 +15,7 @@ interface StreamHandlers {
     index: number
     text: string
     audioUrl: string
+    fallbackAudioUrl?: string
     durationMs: number
     chars: Array<{ char: string; start: number; end: number }>
     cached: boolean
@@ -91,6 +92,89 @@ beforeEach(() => {
 })
 
 describe('speakChapter 首段结清（双重朗读回归）', () => {
+  it('正常 CDN 开播后清除等待定时器，不会中途切换来源', async () => {
+    vi.useFakeTimers()
+    try {
+      const { audioPlayer } = await import('../src/lib/audioPlayer')
+      const promise = audioPlayer.speakChapter('fast-cdn', 1, { title: '一章', bookTitle: '合成书' })
+      handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/cache.mp3', durationMs: 1000, chars: [], cached: true })
+      expect(await promise).toBe(true)
+      await vi.advanceTimersByTimeAsync(3000)
+      expect(FakeAudio.instances.at(-1)!.src).toBe('https://cdn.example.test/cache.mp3')
+      audioPlayer.stop()
+    } finally { vi.useRealTimers() }
+  })
+
+  it('CDN 网络拒绝时立即切换本地副本', async () => {
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockRejectedValueOnce(new DOMException('network failed', 'NotSupportedError'))
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const promise = audioPlayer.speakChapter('broken-cdn', 1, { title: '一章', bookTitle: '合成书' })
+    handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/cache.mp3', durationMs: 1000, chars: [], cached: true })
+    expect(await promise).toBe(true)
+    expect(FakeAudio.instances.at(-1)!.src).toBe('/cache.mp3')
+    audioPlayer.stop()
+    play.mockRestore()
+  })
+  it('CDN 首播超过 2.5s 改用已验证的本地副本，首段只结清一次', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(() => new Promise<void>(() => undefined))
+    try {
+      const { audioPlayer } = await import('../src/lib/audioPlayer')
+      const promise = audioPlayer.speakChapter('fallback', 1, { title: '一章', bookTitle: '合成书' })
+      handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/api/media/tts-public/cache.mp3', durationMs: 1000, chars: [], cached: true })
+      await vi.advanceTimersByTimeAsync(2499)
+      expect(FakeAudio.instances.at(-1)!.src).toBe('https://cdn.example.test/cache.mp3')
+      await vi.advanceTimersByTimeAsync(1)
+      expect(await promise).toBe(true)
+      expect(FakeAudio.instances.at(-1)!.src).toBe('/api/media/tts-public/cache.mp3')
+      expect(play).toHaveBeenCalledTimes(2)
+      audioPlayer.stop()
+    } finally { play.mockRestore(); vi.useRealTimers() }
+  })
+
+  it('停止旧播放后，兜底定时器不能启动旧音频或打断新音频', async () => {
+    vi.useFakeTimers()
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(() => new Promise<void>(() => undefined))
+    try {
+      const { audioPlayer } = await import('../src/lib/audioPlayer')
+      const old = audioPlayer.speakChapter('old-fallback', 1, { title: '旧章', bookTitle: '合成书' })
+      handlerCapture[0]!.onSegment({ index: 0, text: '旧', audioUrl: 'https://cdn.example.test/old.mp3', fallbackAudioUrl: '/old.mp3', durationMs: 1000, chars: [], cached: true })
+      const next = audioPlayer.speakChapter('new-fallback', 1, { title: '新章', bookTitle: '合成书' })
+      handlerCapture[1]!.onSegment({ index: 0, text: '新', audioUrl: '/new.mp3', durationMs: 1000, chars: [], cached: true })
+      expect(await next).toBe(true)
+      await vi.advanceTimersByTimeAsync(2500)
+      expect(await old).toBe(false)
+      expect(FakeAudio.instances.at(-1)!.src).toBe('/new.mp3')
+      expect(play).toHaveBeenCalledTimes(2)
+      audioPlayer.stop()
+    } finally { play.mockRestore(); vi.useRealTimers() }
+  })
+
+  it('自动播放策略拒绝时保留队列，不能绕开手势改播本地副本', async () => {
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockRejectedValueOnce(new DOMException('gesture required', 'NotAllowedError'))
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const promise = audioPlayer.speakChapter('gesture-fallback', 1, { title: '一章', bookTitle: '合成书' })
+    handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/cache.mp3', durationMs: 1000, chars: [], cached: true })
+    expect(await promise).toBe(false)
+    expect(audioPlayer.isPaused).toBe(true)
+    expect(play).toHaveBeenCalledTimes(1)
+    audioPlayer.stop()
+    play.mockRestore()
+  })
+  it('音色探测失败时仍直接请求章节缓存，首段不等待探测请求', async () => {
+    const { api } = await import('../src/lib/api')
+    const probe = vi.spyOn(api, 'ttsVoices').mockRejectedValueOnce(new Error('temporary network failure'))
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    expect(await audioPlayer.probe()).toBe(false)
+    const promise = audioPlayer.speakChapter('cached', 1, { title: '一章', bookTitle: '合成书' })
+    expect(handlerCapture).toHaveLength(1)
+    handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'cache.mp3', durationMs: 1000, chars: [], cached: true })
+    expect(await promise).toBe(true)
+    expect(probe).toHaveBeenCalledTimes(1)
+    audioPlayer.pause()
+    expect(await audioPlayer.resumeQueue()).toBe(true)
+    probe.mockRestore()
+  })
   it('旧章节的迟到数据和完成事件不能混入新播放', async () => {
     const { audioPlayer } = await import('../src/lib/audioPlayer')
     const first = audioPlayer.speakChapter('old', 1, { title: '旧章', bookTitle: '合成书' })

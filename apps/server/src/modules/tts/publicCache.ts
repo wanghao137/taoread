@@ -10,6 +10,7 @@
  */
 import { readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
+import { publicAudioBase } from '../../lib/publicMedia'
 
 /** 公共缓存命名空间：cacheKey 的 familyId 位。与任何真实家庭 ID 都不会碰撞。 */
 export const TTS_PUBLIC_NS = '__public__'
@@ -65,19 +66,35 @@ export class PublicTtsIndex {
     await this.ensure()
     const info = this.map.get(key)
     if (!info) return null
-    if (info.uploaded) return { durationMs: info.durationMs, uploaded: true }
-    if (this.localOk.has(key)) return { durationMs: info.durationMs, uploaded: false }
-    if (this.localBad.has(key)) return null
+    if (info.uploaded && publicAudioBase()) return { durationMs: info.durationMs, uploaded: true }
+    return await this.hasLocalAudio(key) ? { durationMs: info.durationMs, uploaded: false } : null
+  }
+
+  /** Advertise the origin fallback only after verifying that the file exists. */
+  async hasLocalAudio(key: string): Promise<boolean> {
+    await this.ensure()
+    if (!this.map.has(key)) return false
+    if (this.localOk.has(key)) return true
+    if (this.localBad.has(key)) return false
     try {
       const st = await stat(this.segmentPath(key))
       if (st.isFile() && st.size > 0) {
         this.localOk.add(key)
-        return { durationMs: info.durationMs || 0, uploaded: false }
+        return true
       }
     } catch {
       /* 不在盘 */
     }
     this.localBad.add(key)
-    return null
+    return false
+  }
+
+  /** Cached narration remains playable even when synthesis is disabled. */
+  async hasAudio(): Promise<boolean> {
+    await this.ensure()
+    for (const key of this.map.keys()) {
+      if (await this.get(key)) return true
+    }
+    return false
   }
 }

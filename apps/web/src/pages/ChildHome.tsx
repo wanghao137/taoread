@@ -36,7 +36,7 @@ export function ChildHome() {
     setLoading(true)
     setLoadError(undefined)
     const selected = useSession.getState().childId
-    const usesCatalogue = !/^\/child\/(family-books|family-book|phonics|listen)(\/|$)/.test(window.location.pathname)
+    const usesCatalogue = ['/child', '/child/today', '/child/my', '/child/discover'].includes(window.location.pathname)
     // Only read ahead for a selected profile. The API checks family ownership;
     // the result is not displayed until familyView validates that selection.
     initialBooks.current = selected && usesCatalogue ? {

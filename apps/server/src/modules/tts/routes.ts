@@ -94,7 +94,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       lang: v.lang,
       description: v.description,
     }))
-    return reply.send({ voices, defaultSpeed: DEFAULT_SPEED, available: Boolean(ttsDeps) })
+    return reply.send({ voices, defaultSpeed: DEFAULT_SPEED, available: Boolean(ttsDeps) || await publicTts.hasAudio() })
   })
 
   // Download only existing public narrations; this endpoint never synthesizes or spends quota.
@@ -201,7 +201,6 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
     '/api/tts/chapter/:contentId/:order',
     { preHandler: auth },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const client = requireTts()
       if (!request.auth) throw new UnauthorizedError()
       const params = parse(
         z.object({
@@ -256,6 +255,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       // Locate each segment in the actual source; hard cuts introduce no
       // newline, while omitted layout-only segments still occupy source space.
       const segmentStarts = segmentOffsets(fullText, segments)
+      const model = ttsDeps?.model ?? process.env.TTS_MODEL ?? 'stepaudio-3-gen-preview'
 
       reply.raw.writeHead(200, {
         'Content-Type': 'text/event-stream',
@@ -266,7 +266,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
 
       // 对抗审查 P1-1/P1-2：客户端断开立即停止付费合成；写回压时等 drain 防内存堆积
       let aborted = false
-      request.raw.once('close', () => {
+      reply.raw.once('close', () => {
         aborted = true
       })
 
@@ -309,7 +309,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         if (!seg) continue
         // 公共预生成命中（2026-09-25 性能方案）：秒回、不计配额、不写归属。
         // 已上传 R2 → 外发域名；仅本地 → 源站公共分支兜底。
-        const pubKey = cacheKey(seg, voice.id, speed, 'mp3', lang, TTS_PUBLIC_NS, client.model)
+        const pubKey = cacheKey(seg, voice.id, speed, 'mp3', lang, TTS_PUBLIC_NS, model)
         const pub: PublicSegmentHit | null = await publicTts.get(pubKey)
         if (pub) {
           const base = publicAudioBase()
@@ -322,23 +322,14 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
             start: segmentStarts[i],
             text: seg,
             audioUrl,
+            ...(pub.uploaded && base && await publicTts.hasLocalAudio(pubKey) ? { fallbackAudioUrl: `/api/media/tts-public/${pubKey}.mp3` } : {}),
             durationMs: pub.durationMs,
             chars: buildCharTimeline(seg, pub.durationMs),
             cached: true,
           })
           continue
         }
-        // A3：TTS 每家庭每日新合成段数上限（幂等命中不计数）
-        const dayStart = new Date()
-        dayStart.setHours(0, 0, 0, 0)
-        const usedToday = await db.ttsMediaOwner.count({
-          where: { familyId: request.auth.fid, createdAt: { gte: dayStart } },
-        })
-        if (usedToday >= ttsDailyLimit) {
-          await send('error', { index: i, message: '今天的朗读次数用完了，明天再来吧' })
-          break
-        }
-        const key = cacheKey(seg, voice.id, speed, 'mp3', lang, request.auth.fid, client.model)
+        const key = cacheKey(seg, voice.id, speed, 'mp3', lang, request.auth.fid, model)
         try {
           const hit = await cache.get(key, 'mp3')
           if (hit) {
@@ -354,9 +345,24 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
             })
             continue
           }
+          if (!ttsDeps) {
+            await send('error', { index: i, message: '这一段还没有缓存，先用浏览器语音哦' })
+            break
+          }
+          // Only new synthesis spends quota; both public and family cache hits
+          // remain available after the daily allowance has been exhausted.
+          const dayStart = new Date()
+          dayStart.setHours(0, 0, 0, 0)
+          const usedToday = await db.ttsMediaOwner.count({
+            where: { familyId: request.auth.fid, createdAt: { gte: dayStart } },
+          })
+          if (usedToday >= ttsDailyLimit) {
+            await send('error', { index: i, message: '今天的朗读次数用完了，明天再来吧' })
+            break
+          }
           // 未命中：流式合成，分片边收边推（前端可边下边播）
           const out = await synthesizeStream(
-            client,
+            ttsDeps,
             { text: seg, voice, speed, lang, format: 'mp3' },
             () => {
               /* 分片回调：这里不做前推（保持事件粒度=段），缓冲在合成内完成 */

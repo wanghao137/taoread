@@ -745,15 +745,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     }
     void (async () => {
       // 被自动播放策略拦下时，这是用户手势入口：从队列当前段恢复
-      if (serverReady) {
-        // 冷合成要 10-40s，等首段返回时手势已失效——先在点击手势内解锁音频元素
-        audioPlayer.prime()
-        const resumed = await audioPlayer.resumeQueue()
-        if (resumed) {
-          setSpeaking(true)
-          setPreparing(false)
-          return
-        }
+      // Activate in the gesture even if the background voices probe failed.
+      audioPlayer.prime()
+      const resumed = await audioPlayer.resumeQueue()
+      if (resumed) {
+        setSpeaking(true)
+        setPreparing(false)
+        return
       }
       let started = false
       setPreparing(true)
@@ -763,15 +761,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       const ac = new AbortController()
       speakAbortRef.current = ac
       try {
-        if (serverReady) {
-          // speakChapter 在首段音频开播即返回（不再等整章 SSE 拉完）
-          started = await audioPlayer.speakChapter(
-            book.id,
-            order,
-            { title: ch.title, bookTitle: book.title },
-            { lang: book.lang, ...(voiceId ? { voiceId } : {}), ...(speed !== null ? { speed } : {}), signal: ac.signal },
-          )
-        }
+        // speakChapter 在首段音频开播即返回（不再等整章 SSE 拉完）
+        started = await audioPlayer.speakChapter(
+          book.id,
+          order,
+          { title: ch.title, bookTitle: book.title },
+          { lang: book.lang, ...(voiceId ? { voiceId } : {}), ...(speed !== null ? { speed } : {}), signal: ac.signal },
+        )
       } catch {
         started = false
       }
@@ -797,7 +793,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
         showToast('这台设备暂时不能朗读')
       }
     })()
-  }, [speaking, preparing, serverReady, book.id, book.lang, book.title, order, voiceId, speed, stopSpeaking, showToast])
+  }, [speaking, preparing, book.id, book.lang, book.title, order, voiceId, speed, stopSpeaking, showToast])
 
   /* ── 高亮档位与正在读的块 ── */
   const effectiveHighlight = useMemo<'word' | 'sentence' | 'off'>(() => {

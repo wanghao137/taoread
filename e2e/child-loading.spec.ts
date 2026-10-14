@@ -68,3 +68,42 @@ test('阅读器启动：正文与进度并行，进度就绪前不能写入新�
   await expect(page.locator('.reader-chapter-title')).toBeVisible()
   await expect.poll(() => writes).toBeGreaterThan(0)
 })
+
+test('阅读深链不读取全量书单、周报或成就，返回找故事仍展示完整目录', async ({ page }) => {
+  await selectChild(page)
+  const unwanted: string[] = []
+  page.on('request', request => {
+    const path = new URL(request.url()).pathname
+    if (path === '/api/content/books' || path === '/api/reports/weekly' || path === '/api/achievements') unwanted.push(path)
+  })
+  await page.goto('/child/book/poetry-song-spring/chapter/1')
+  await expect(page.locator('.reader-text')).toBeVisible()
+  await page.getByRole('button', { name: '阅读设置', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: '阅读设置', exact: true })).toBeVisible()
+  expect(unwanted).toEqual([])
+  await page.goto('/child/discover')
+  await expect(page.locator('.story-card')).toHaveCount(12)
+  await expect.poll(() => unwanted.filter(p => p === '/api/content/books').length).toBeGreaterThan(0)
+  await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).fill('三字经')
+  await expect(page.getByRole('button', { name: '打开《三字经》', exact: true })).toBeVisible()
+})
+
+test('单书详情深链在元数据弱网失败后可重试，且收藏状态可正常修改', async ({ page }) => {
+  await selectChild(page)
+  let fail = true
+  let catalogue = 0
+  page.on('request', request => { if (new URL(request.url()).pathname === '/api/content/books') catalogue++ })
+  await page.route('**/api/content/books/poetry-song-spring?childId=*', route => fail
+    ? route.fulfill({ status: 503, json: { code: 'NETWORK', message: '单书测试暂不可用' } })
+    : route.continue())
+  await page.goto('/child/book/poetry-song-spring')
+  await expect(page.getByText('单书测试暂不可用', { exact: true })).toBeVisible()
+  fail = false
+  await page.getByRole('button', { name: '再试一次', exact: true }).click()
+  await expect(page.locator('.book-detail h1')).toBeVisible()
+  expect(catalogue).toBe(0)
+  const favorite = page.getByRole('button', { name: /放进喜欢|已喜欢|取消喜欢|喜欢/ }).first()
+  const before = await favorite.textContent()
+  await favorite.click()
+  await expect(favorite).not.toHaveText(before ?? '')
+})

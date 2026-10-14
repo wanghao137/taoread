@@ -17,6 +17,7 @@ export interface AudioSegment {
   index: number
   text: string
   audioUrl: string
+  fallbackAudioUrl?: string
   durationMs: number
   /** 字级时间轴：每项 {char, startMs, endMs} */
   chars: Array<{ char: string; start: number; end: number }>
@@ -189,8 +190,9 @@ class ServerAudioPlayer {
   ): Promise<boolean> {
     this.stop()
     const streamSession = this.session
-    if (this.available === null) await this.probe()
-    if (!this.available || streamSession !== this.session || options.signal?.aborted) return false
+    // The chapter endpoint resolves cached audio independently of synthesis.
+    // A voices request must not delay playback or a transient probe block it.
+    if (options.signal?.aborted) return false
 
     this.queue = []
     this.currentIndex = 0
@@ -383,7 +385,24 @@ class ServerAudioPlayer {
     this.audio!.src = seg.audioUrl
     this.audio!.playbackRate = 1
     try {
-      await this.audio!.play()
+      const started = this.audio!.play()
+      if (seg.fallbackAudioUrl) {
+        let timer: ReturnType<typeof globalThis.setTimeout> | undefined
+        const outcome = await Promise.race([
+          started.then(() => ({ kind: 'playing' as const }), error => ({ kind: 'error' as const, error: error as unknown })),
+          new Promise<{ kind: 'timeout' }>(resolve => { timer = globalThis.setTimeout(() => resolve({ kind: 'timeout' }), 2500) }),
+        ]).finally(() => { if (timer !== undefined) globalThis.clearTimeout(timer) })
+        if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
+        if (outcome.kind !== 'playing') {
+          // Autoplay restrictions require another gesture, not another source.
+          if (outcome.kind === 'error' && outcome.error instanceof DOMException && outcome.error.name === 'NotAllowedError') throw outcome.error
+          if (this.retryTimer !== null) { window.clearTimeout(this.retryTimer); this.retryTimer = null }
+          seg.audioUrl = seg.fallbackAudioUrl
+          seg.fallbackAudioUrl = undefined
+          this.audio!.src = seg.audioUrl
+          await this.audio!.play()
+        }
+      } else await started
     } catch (err) {
       if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
       // 自动播放策略拦截（iOS 尤其严格：ended 触发的连续 play() 不算用户手势链，
@@ -410,7 +429,7 @@ class ServerAudioPlayer {
    * 必须在点击事件回调里调用，才能进入用户手势链。
    */
   async resumeQueue(): Promise<boolean> {
-    if (!this.available || this.queue.length === 0) return false
+    if (this.queue.length === 0) return false
     if (this.playing && !this.paused) return true
     this.cancelled = false
     this.playing = true

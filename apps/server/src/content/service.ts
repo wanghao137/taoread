@@ -399,7 +399,7 @@ export async function getBook(
   })
   if (!book) return null
   const artMap = await artUrlMap(db, [coverScene(book.id)])
-  const [blocked, favorite] = await Promise.all([
+  const [blocked, favorite, progress] = await Promise.all([
     opts.familyId
       ? db.shelfSnapshot
           .findUnique({
@@ -409,15 +409,24 @@ export async function getBook(
           .then((r) => r?.blocked ?? false)
       : Promise.resolve(false),
     opts.childId ? listFavoriteIds(db, opts.childId).then((ids) => ids.has(contentId)) : Promise.resolve(false),
+    opts.childId ? db.readingProgress.findUnique({
+      where: { childId_bookId: { childId: opts.childId, bookId: contentId } },
+      select: { chapterOrder: true, finished: true, updatedAt: true },
+    }) : Promise.resolve(null),
   ])
   return summarize(
     { ...book, chapterCount: book._count.chapters },
-    0,
-    false,
+    progress?.finished ? 100 : progress && book._count.chapters > 0 ? Math.min(99, Math.round(progress.chapterOrder / book._count.chapters * 100)) : 0,
+    progress?.finished ?? false,
     blocked,
     artUrlFor(artMap, book.id),
     variantUrl(artMap.get(coverScene(book.id)), 'thumb'),
     favorite,
+    {
+      resumeChapter: progress?.finished ? null : progress?.chapterOrder ?? null,
+      lastReadAt: progress?.updatedAt ?? null,
+      difficulty: chapterLength({ ...book, chapterCount: book._count.chapters }),
+    },
   )
 }
 

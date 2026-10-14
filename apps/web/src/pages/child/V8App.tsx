@@ -213,6 +213,7 @@ interface V8ContextValue {
   loaded: boolean
   booksError: string | null
   reloadBooks: () => void
+  loadBook: (id: string) => Promise<void>
   report: { nights: number; highlightsTotal: number; booksCompleted: number; highlights: Array<{ text: string; source: string }> } | null
   nights: string[]
   toggleFav: (id: string) => void
@@ -228,6 +229,25 @@ export function useV8(): V8ContextValue {
   const v = useContext(V8Context)
   if (!v) throw new Error('V8Context missing')
   return v
+}
+
+// A deep link needs one book, not the entire catalogue. Keep the result in the
+// shared shelf so favorites and returning navigation retain the same behavior.
+function useRouteBook(id: string | undefined) {
+  const { books, loadBook } = useV8()
+  const book = books.find(b => b.id === id) ?? null
+  const [error, setError] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  useEffect(() => {
+    if (!id || book) return
+    let alive = true
+    setError(null)
+    void loadBook(id).catch(err => {
+      if (alive) setError(err instanceof Error ? err.message : '这本书暂时打不开')
+    })
+    return () => { alive = false }
+  }, [id, book, loadBook, attempt])
+  return { book, error, retry: () => setAttempt(n => n + 1) }
 }
 
 /** 路由壳 + 数据上下文 */
@@ -287,6 +307,13 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
       })
   }, [token, childId])
 
+  const loadBook = useCallback(async (id: string) => {
+    if (!token || !childId) return
+    const row = await api.contentBook(id, token, childId)
+    if (useSession.getState().token !== token || useSession.getState().childId !== childId) return
+    setBooks(prev => [...prev.filter(b => b.id !== id), toV8(row)])
+  }, [token, childId])
+
   // 审计 A10.5 的初衷保留：读完回列表要看到新进度——但触发点收窄为
   // 「从阅读器/家庭书返回列表页」（docs/35 B2：此前每次切 tab 全量重拉 178KB，
   // 孩子 today→discover→my 逛一圈 = 4 次全量请求；现改为定向刷新 + 60s 节流兜底）
@@ -309,21 +336,22 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
   }, [location.pathname, reloadBooks])
   // 回前台且距上次拉取 >60s 时静默刷新（家长在另一端屏蔽/孩子换设备读完的场景）
   useEffect(() => {
+    const listRoute = ['/child', '/child/today', '/child/my', '/child/discover'].includes(location.pathname)
     const onVisible = () => {
-      if (document.visibilityState === 'visible' && Date.now() - lastFetchRef.current > 60_000) {
+      if (listRoute && document.visibilityState === 'visible' && Date.now() - lastFetchRef.current > 60_000) {
         lastFetchRef.current = Date.now()
         void reloadBooks()
       }
     }
     document.addEventListener('visibilitychange', onVisible)
     return () => document.removeEventListener('visibilitychange', onVisible)
-  }, [reloadBooks])
+  }, [reloadBooks, location.pathname])
 
   useEffect(() => {
     let alive = true
     setReport(null)
     setNights([])
-    if (!token || !familyId || !childId) return
+    if (!token || !familyId || !childId || !['/child', '/child/today', '/child/my'].includes(location.pathname)) return
     api
       .weeklyReport(familyId, token, undefined, childId)
       .then(({ report: r }) =>
@@ -335,7 +363,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
       .then((a) => { if (alive) setNights(a.nightLamps.map((x) => x.unlockedAt)) })
       .catch(() => { if (alive) setNights([]) })
     return () => { alive = false }
-  }, [token, familyId, childId])
+  }, [token, familyId, childId, location.pathname])
 
   const toggleFav = useCallback(
     (id: string) => {
@@ -368,6 +396,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
       loaded,
       booksError,
       reloadBooks,
+      loadBook,
       report,
       nights,
       toggleFav,
@@ -377,7 +406,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
       onSwitchFamily,
       onSwitchChild,
     }),
-    [childName, books, loaded, booksError, reloadBooks, report, nights, toggleFav, openBook, readBook, showToast, onSwitchFamily, onSwitchChild],
+    [childName, books, loaded, booksError, reloadBooks, loadBook, report, nights, toggleFav, openBook, readBook, showToast, onSwitchFamily, onSwitchChild],
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
@@ -1420,7 +1449,7 @@ function BookDetailPage() {
   const navigate = useNavigate()
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
-  const book = v.books.find((b) => b.id === bookId) ?? null
+  const { book, error: bookError, retry: retryBook } = useRouteBook(bookId)
   const [chapters, setChapters] = useState<Array<{ order: number; title: string }>>([])
   const [resumeOrder, setResumeOrder] = useState(0)
   const [previewing, setPreviewing] = useState(false)
@@ -1466,14 +1495,7 @@ function BookDetailPage() {
     }
   }, [])
 
-  // 深链/刷新直达详情时书单可能尚未拉取（书单只在列表页路由触发）——补拉一次（同 ReaderRoute）
-  const needsLoad = !v.loaded
-  useEffect(() => {
-    if (needsLoad) v.reloadBooks()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needsLoad])
-
-  if (!v.loaded) {
+  if (!book && !bookError) {
     return (
       <div className="app">
         <div className="wrap">
@@ -1487,7 +1509,8 @@ function BookDetailPage() {
     return (
       <div className="app">
         <div className="wrap">
-          <PageHead title="这本书不在这棵桃树上" sub="可能还没有对你开放，去 找故事 看看别的。" index="02" />
+          <PageHead title="这本书暂时打不开" sub={bookError ?? '可能还没有对你开放，去找故事看看别的。'} index="02" />
+          <button className="sticker-btn" onClick={retryBook}>再试一次</button>
           <button className="sticker-btn" onClick={() => navigate('/child/discover')}>
             {LABELS.back}
           </button>
@@ -1608,15 +1631,9 @@ function BookDetailPage() {
 function ReaderRoute() {
   const { bookId, order } = useParams()
   const v = useV8()
-  const book = v.books.find((b) => b.id === bookId) ?? null
-  // 深链/刷新直达阅读器时书单可能尚未拉取（书单只在列表页路由触发）——补拉一次
-  const needsLoad = !book && !v.loaded
-  useEffect(() => {
-    if (needsLoad) v.reloadBooks()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needsLoad])
+  const { book, error, retry } = useRouteBook(bookId)
   if (!book) {
-    if (needsLoad) {
+    if (!error) {
       return (
         <div className="app">
           <div className="wrap">
@@ -1628,7 +1645,8 @@ function ReaderRoute() {
     return (
       <div className="app">
         <div className="wrap">
-          <PageHead title="先去挑一本书" sub="这本还不在书架上。" />
+          <PageHead title="这本书暂时打不开" sub={error} />
+          <button className="sticker-btn" onClick={retry}>再试一次</button>
           <button className="sticker-btn" onClick={() => v.openBook(bookId ?? '')}>
             去看这本书
           </button>

@@ -372,9 +372,9 @@ export const api = {
   contentProvenance: (id: string, token: string) => request<{ source: string; contentVersion: string; reviewStatus: string; rights: { workTitle: string; author: string | null; translator: string | null; basis: string; jurisdiction: string; sourceUrl: string | null; note: string | null } | null }>(`/api/content/books/${encodeURIComponent(id)}/provenance`, { token }),
 
   /** 单书概览（cbf: 会话解析书名/封面用；对抗审查修复：不再错走微信书 info 接口） */
-  contentBook: async (contentId: string, token: string) => {
+  contentBook: async (contentId: string, token: string, childId?: string) => {
     const res = await request<{ book: ContentBookDto }>(
-      `/api/content/books/${encodeURIComponent(contentId)}`,
+      `/api/content/books/${encodeURIComponent(contentId)}${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`,
       { token },
     )
     return res.book
@@ -676,6 +676,7 @@ export const api = {
         start: number
         text: string
         audioUrl: string
+        fallbackAudioUrl?: string
         durationMs: number
         chars: Array<{ char: string; start: number; end: number }>
         cached: boolean
@@ -700,6 +701,7 @@ async function fetchSseChapter(
       start: number
       text: string
       audioUrl: string
+      fallbackAudioUrl?: string
       durationMs: number
       chars: Array<{ char: string; start: number; end: number }>
       cached: boolean

@@ -4,6 +4,9 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { createRequire } from 'node:module'
 import { createHash } from 'node:crypto'
+import { cpus } from 'node:os'
+
+const hostCpu = () => cpus().reduce((sum, cpu) => ({ idle: sum.idle + cpu.times.idle, total: sum.total + Object.values(cpu.times).reduce((a, b) => a + b, 0) }), { idle: 0, total: 0 })
 
 const require = createRequire(import.meta.url)
 let origin = process.env.TAO_PERF_ORIGIN || 'http://localhost:16241'
@@ -16,7 +19,7 @@ const profiles = [
   { name: 'cold-slow', cpu: 4, latency: 100, download: 200000, upload: 100000, warm: false },
   { name: 'warm-slow', cpu: 4, latency: 100, download: 200000, upload: 100000, warm: true },
   { name: 'cold-local', cpu: 1, latency: 0, download: -1, upload: -1, warm: false },
-].filter(p => !process.env.TAO_PERF_PROFILE || p.name === process.env.TAO_PERF_PROFILE)
+].filter(p => !process.env.TAO_PERF_PROFILE || process.env.TAO_PERF_PROFILE.split(',').includes(p.name))
 const cases = [
   { name: 'today', route: '/child/today', ready: '.hero-actions .primary:not([disabled])', content: '.story-card' },
   { name: 'discover', route: '/child/discover', ready: '.story-card', content: '.story-card' },
@@ -82,6 +85,7 @@ try {
     page.on('pageerror', e => errors.push(e.message))
     page.on('requestfailed', r => failedRequests.push({ path: new URL(r.url()).pathname, error: r.failure()?.errorText }))
     const cdp = await context.newCDPSession(page)
+    const hostStart = hostCpu()
     let tracing = false
     try {
     await cdp.send('Network.enable')
@@ -162,7 +166,9 @@ try {
       await cdp.send('IO.close', { handle: stream })
       await writeFile(resolve(out, `trace-${server.version}-${c.name}.json`), trace)
     }
-    const sample = { version: server.version, case: c.name, route: c.route, profile: profile.name, iteration, ...initial, ...metrics, errors, failedRequests }
+    const hostEnd = hostCpu()
+    const hostBusyPercent = 100 * (1 - (hostEnd.idle - hostStart.idle) / Math.max(1, hostEnd.total - hostStart.total))
+    const sample = { version: server.version, case: c.name, route: c.route, profile: profile.name, iteration, hostBusyPercent, ...initial, ...metrics, errors, failedRequests }
     result.samples.push(sample)
     console.log(JSON.stringify({ version: server.version, case: c.name, profile: profile.name, iteration, readyMs: Math.round(sample.readyMs), LCP: metrics.vitals.LCP?.value, CLS: metrics.vitals.CLS?.value, INP: metrics.vitals.INP?.value, errors }))
     await writeFile(resolve(out, 'results.json'), JSON.stringify(result, null, 2))
