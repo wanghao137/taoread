@@ -126,14 +126,16 @@ function Overlay({
   dismissable = true,
   label,
   theme,
+  open = true,
 }: {
   onClose: () => void
   children: ReactNode
   dismissable?: boolean
   label: string
   theme: ReaderTheme
+  open?: boolean
 }) {
-  return <Dialog label={label} onClose={onClose} dismissable={dismissable} className={`settings reading-dialog reading-theme-${theme}`}>{children}</Dialog>
+  return <Dialog label={label} onClose={onClose} dismissable={dismissable} open={open} className={`settings reading-dialog reading-theme-${theme}`}>{children}</Dialog>
 }
 
 export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order: number }): JSX.Element {
@@ -235,6 +237,19 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 浮层开关 ── */
   const [showSettings, setShowSettings] = useState(false)
+  const [settingsPrepared, setSettingsPrepared] = useState(false)
+  const hasChapter = chapter !== null
+  useEffect(() => {
+    if (!hasChapter || settingsPrepared) return
+    // Paint the reading content before laying out controls for a future action.
+    let timer: ReturnType<typeof setTimeout> | undefined
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        timer = setTimeout(() => setSettingsPrepared(true), 0)
+      })
+    })
+    return () => { cancelAnimationFrame(frame); clearTimeout(timer) }
+  }, [hasChapter, settingsPrepared])
   const [sentencePicker, setSentencePicker] = useState(false)
   const [settingsTab, setSettingsTab] = useState<'layout' | 'audio' | 'more' | 'record'>('layout')
   const [showChapters, setShowChapters] = useState(false)
@@ -1666,8 +1681,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
       {/* ── 排版设置浮层 ── */}
       {sentencePicker && <Overlay label="选择金句" theme={theme} onClose={() => setSentencePicker(false)}><h3>《{book.title}》 · 第 {order} 章</h3><p>选择要收藏的段落，每段最多保留 200 字。</p>{blocks.filter(b => b.kind === 'text' || b.kind === 'poem').map(b => <button className="sentence-choice" key={b.id} aria-pressed={savedBlocks.has(b.order)} onClick={() => void saveHighlight(b.order, b.text)}>{b.text.slice(0, 200)}{savedBlocks.has(b.order) ? ' · 已收藏' : ''}</button>)}</Overlay>}
-      {showSettings ? (
-        <Overlay onClose={() => setShowSettings(false)} label="阅读设置" theme={theme}>
+      {showSettings || (settingsPrepared && settingsTab === 'layout') ? (
+        <Overlay open={showSettings} onClose={() => setShowSettings(false)} label="阅读设置" theme={theme}>
           <div className="reading-tabs" role="group" aria-label="设置分类">
             <button aria-pressed={settingsTab === 'layout'} onClick={() => setSettingsTab('layout')}>排版</button>
             <button aria-pressed={settingsTab === 'audio'} onClick={() => setSettingsTab('audio')}>听读</button>

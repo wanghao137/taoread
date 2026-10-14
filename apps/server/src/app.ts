@@ -24,6 +24,7 @@ import { registerImprovementRoutes } from './content/improvementRoutes'
 import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/csp'
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerTtsRoutes } from './modules/tts/routes'
+import { routePreloads } from './lib/routePreloads'
 import { PublicTtsIndex } from './modules/tts/publicCache'
 import type { TtsClientDeps } from './modules/tts/client'
 import { registerMediaRoutes } from './modules/media/routes'
@@ -250,6 +251,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     ttsDeps,
     mediaDir,
     publicTts: new PublicTtsIndex(mediaDir),
+    sessionGuard,
     ttsDailyLimit: (options.genDailyLimit ?? 60) * 10,
   })
   const imageDeps: ImageGenDeps | null = options.imageDeps ?? null
@@ -274,6 +276,9 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   // 路由，部署新增的哈希产物全部 404 → 白屏。通配符模式按请求实时解析磁盘（realpath
   // 防穿越依旧生效），网页产物部署即生效、无需重启服务。
   if (options.staticDir) {
+    // This HTML/manifest pair is a build snapshot. Deployment must restart the
+    // service after installing static assets, as it does for CSP bootstrap hashes.
+    const preloadRoute = await routePreloads(options.staticDir)
     await app.register(fastifyStatic, {
       root: options.staticDir,
       index: false,
@@ -303,6 +308,8 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
       if (lastSegment.includes('.')) {
         return reply.code(404).send({ code: 'NOT_FOUND', message: '资源不存在' })
       }
+      const html = preloadRoute(url)
+      if (html) return reply.code(200).type('text/html; charset=utf-8').header('Cache-Control', 'no-cache').send(html)
       return reply.sendFile('index.html')
     })
   }

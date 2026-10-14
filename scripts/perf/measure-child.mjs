@@ -66,7 +66,8 @@ try {
     }
     await context.addInitScript({ content: `${vitals}\n;(${function(config, vitalsApi) {
       window.__lab = { vitals: {}, longTasks: [], readyMs: null }
-      const save = m => { window.__lab.vitals[m.name] = { value: m.value, rating: m.rating, entries: m.entries.map(e => ({ name: e.name, startTime: e.startTime, duration: e.duration, interactionId: e.interactionId, sources: e.sources?.map(s => ({ node: s.node?.tagName, class: s.node?.className, previous: s.previousRect, current: s.currentRect })) })) } }
+      const describe = node => node ? { tag: node.tagName, class: typeof node.className === 'string' ? node.className : '', label: node.getAttribute?.('aria-label') || node.textContent?.trim().slice(0, 80) } : undefined
+      const save = m => { window.__lab.vitals[m.name] = { value: m.value, rating: m.rating, entries: m.entries.map(e => ({ name: e.name, startTime: e.startTime, duration: e.duration, interactionId: e.interactionId, processingStart: e.processingStart, processingEnd: e.processingEnd, target: describe(e.target), element: describe(e.element), url: e.url ? new URL(e.url, window.location.href).pathname : undefined, sources: e.sources?.map(s => ({ node: s.node?.tagName, class: s.node?.className, previous: s.previousRect, current: s.currentRect })) })) } }
       vitalsApi.onLCP(save, { reportAllChanges: true }); vitalsApi.onCLS(save, { reportAllChanges: true }); vitalsApi.onINP(save, { reportAllChanges: true, durationThreshold: 16 })
       new window.PerformanceObserver(list => { window.__lab.longTasks.push(...list.getEntries().map(e => ({ start: e.startTime, duration: e.duration }))) }).observe({ type: 'longtask', buffered: true })
       const observer = new window.MutationObserver(() => {

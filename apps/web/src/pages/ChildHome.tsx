@@ -9,7 +9,7 @@ import { api, ApiError, type ChildDto } from '../lib/api'
 import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState, TaSheet, TaButton } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
-import { V8App, prepareChildRoute, type InitialBooksRequest } from './child/V8App'
+import { V8App, prepareChildRoute, type InitialBookRequest, type InitialBooksRequest } from './child/V8App'
 
 export function ChildHome() {
   const navigate = useNavigate()
@@ -29,6 +29,7 @@ export function ChildHome() {
 
   const [childName, setChildName] = useState('小读者')
   const initialBooks = useRef<InitialBooksRequest | null>(null)
+  const initialBook = useRef<InitialBookRequest | null>(null)
 
   const loadChildren = useCallback(() => {
     if (!token || !familyId) return
@@ -42,6 +43,13 @@ export function ChildHome() {
     initialBooks.current = selected && usesCatalogue ? {
       token, childId: selected,
       result: api.contentBooks(token, { childId: selected }).catch(() => null),
+    } : null
+    const routeBook = /^\/child\/book\/([^/]+)(?:\/chapter\/\d+)?\/?$/.exec(window.location.pathname)?.[1]
+    let bookId: string | undefined
+    try { if (routeBook) bookId = decodeURIComponent(routeBook) } catch { /* Invalid route is handled by the router. */ }
+    initialBook.current = selected && bookId ? {
+      token, childId: selected, bookId,
+      result: api.contentBook(bookId, token, selected).catch(() => null),
     } : null
     api
       .familyView(familyId, token)
@@ -118,7 +126,7 @@ export function ChildHome() {
         />
       )
     }
-    return <V8App key={`${token}:${childId}`} initialBooks={initialBooks.current} childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
+    return <V8App key={`${token}:${childId}`} initialBooks={initialBooks.current} initialBook={initialBook.current} childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
   }
 
   return (

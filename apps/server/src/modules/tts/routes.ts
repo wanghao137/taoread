@@ -11,9 +11,11 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
-import { mediaUrl } from '../media/access'
+import { mediaUrl, verifyMediaTicket } from '../media/access'
+import type { SessionGuard } from '../../lib/sessions'
+import { LiveAudioStore } from './liveAudio'
 import { requireAuth } from '../../modules/family/routes'
-import { AppError, UnauthorizedError, ValidationError } from '../../lib/errors'
+import { AppError, ForbiddenError, UnauthorizedError, ValidationError } from '../../lib/errors'
 import { getChapter, assertContentReadable } from '../../content/service'
 import { VOICE_PRESETS, findVoice, clampSpeed, DEFAULT_SPEED } from './voices'
 import {
@@ -41,6 +43,7 @@ export interface TtsRoutesDeps {
   mediaDir: string
   /** A3：每家庭每日 TTS 段数上限（只计新合成；缺省 = genDailyLimit×10，下限 600） */
   ttsDailyLimit?: number
+  sessionGuard?: SessionGuard
 }
 
 interface VoiceDto {
@@ -72,6 +75,26 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
   const ttsDailyLimit = Math.max(600, deps.ttsDailyLimit ?? 600)
   const auth = requireAuth(tokenSecret)
   const cache = new TtsCache(mediaDir)
+  const liveAudio = new LiveAudioStore()
+  app.addHook('onClose', async () => liveAudio.close())
+
+  app.get<{ Params: { id: string }; Querystring: { ticket?: string } }>('/api/media/tts-live/:id', async (request, reply) => {
+    const ticket = request.query.ticket
+    if (typeof ticket !== 'string' || !deps.sessionGuard) throw new UnauthorizedError()
+    const claims = verifyMediaTicket(ticket, `tts-live/${request.params.id}`, tokenSecret)
+    await deps.sessionGuard.assertActive(claims.fid, claims.sid)
+    const entry = liveAudio.get(request.params.id)
+    if (!entry) return reply.code(404).send({ code: 'NOT_FOUND', message: '朗读已过期，请重新播放' })
+    if (claims.fid !== entry.familyId || claims.sid !== entry.sessionId) throw new ForbiddenError()
+    const stream = entry.open()
+    if (!stream) return reply.code(410).send({ code: 'TTS_EXPIRED', message: '请重新播放' })
+    reply.header('Content-Type', 'audio/mpeg')
+      .header('Cache-Control', 'private, no-store, no-transform')
+      .header('Accept-Ranges', 'none')
+      .header('X-Accel-Buffering', 'no')
+    reply.raw.once('close', () => stream.destroy())
+    return reply.send(stream)
+  })
 
   async function ownAudio(path: string, familyId: string): Promise<void> {
     await db.ttsMediaOwner.upsert({
@@ -213,6 +236,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         z.object({
           voiceId: z.string().max(32).optional(),
           speed: z.number().min(0.5).max(2).optional(),
+          streamAudio: z.boolean().default(false),
         }),
         request.body ?? {},
       )
@@ -264,10 +288,13 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         'X-Accel-Buffering': 'no',
       })
 
-      // 对抗审查 P1-1/P1-2：客户端断开立即停止付费合成；写回压时等 drain 防内存堆积
+      // Cancel the provider HTTP request when SSE disconnects; billing follows provider policy.
+      // Wait for drain when the SSE socket applies backpressure.
       let aborted = false
+      const synthesis = new AbortController()
       reply.raw.once('close', () => {
         aborted = true
+        synthesis.abort()
       })
 
       const send = async (event: string, data: unknown) => {
@@ -360,18 +387,32 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
             await send('error', { index: i, message: '今天的朗读次数用完了，明天再来吧' })
             break
           }
-          // 未命中：流式合成，分片边收边推（前端可边下边播）
+          // Keep canonical segment/cache keys; only new clients opt into progressive media.
+          const live = body.streamAudio && deps.sessionGuard ? liveAudio.create(request.auth.fid, request.auth.sid) : undefined
+          let announced = false
+          try {
           const out = await synthesizeStream(
             ttsDeps,
             { text: seg, voice, speed, lang, format: 'mp3' },
-            () => {
-              /* 分片回调：这里不做前推（保持事件粒度=段），缓冲在合成内完成 */
+            async chunk => {
+              live?.append(chunk)
+              if (live && !announced && chunk.length) {
+                announced = true
+                await send('segment', {
+                  index: i, start: segmentStarts[i], text: seg,
+                  audioUrl: mediaUrl(`/api/media/tts-live/${live.id}`, request.auth!, tokenSecret),
+                  durationMs: 0, chars: [], cached: false,
+                })
+              }
             },
+            synthesis.signal,
           )
+          if (aborted) { live?.dispose(); break }
           const { durationMs, chars } = timelineFromMp3(seg, out.audio)
           const entry = await cache.set(key, 'mp3', out.audio, durationMs)
           await ownAudio(entry.urlPath.slice('/api/media/'.length), request.auth.fid)
-          await send('segment', {
+          live?.complete()
+          await send(announced ? 'segment-update' : 'segment', {
             index: i,
             start: segmentStarts[i],
             text: seg,
@@ -380,7 +421,9 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
             chars,
             cached: false,
           })
+          } catch (error) { live?.dispose(); throw error }
         } catch (err) {
+          if (aborted) break
           if (err instanceof TtsError) {
             await send('error', { index: i, message: '这一段朗读没成功，可以跳过继续' })
             continue

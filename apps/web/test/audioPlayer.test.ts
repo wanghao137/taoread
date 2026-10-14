@@ -20,11 +20,13 @@ interface StreamHandlers {
     chars: Array<{ char: string; start: number; end: number }>
     cached: boolean
   }) => void
+  onSegmentUpdate?: (seg: { index: number; audioUrl: string; durationMs: number; chars: Array<{ char: string; start: number; end: number }> }) => void
   onError: (message: string) => void
   onDone: () => void
 }
 
 const handlerCapture: Array<StreamHandlers> = []
+const streamSignals: Array<AbortSignal | undefined> = []
 const streamControl: { reject: Error | null } = { reject: null }
 vi.mock('../src/lib/api', () => ({
   api: {
@@ -34,8 +36,10 @@ vi.mock('../src/lib/api', () => ({
       _order: number,
       _body: Record<string, unknown>,
       handlers: StreamHandlers,
+      options?: { signal?: AbortSignal },
     ) => {
       handlerCapture.push(handlers)
+      streamSignals.push(options?.signal)
       if (streamControl.reject) return Promise.reject(streamControl.reject)
       // 真 SSE 在整章推送期间保持打开：这里用永不 resolve 的流模拟长连接
       return new Promise<void>(() => undefined)
@@ -61,6 +65,7 @@ class FakeAudio {
     this.listeners.set(type, list)
   }
   removeEventListener(): void {}
+  emit(type: string): void { for (const fn of this.listeners.get(type) ?? []) fn() }
   play(): Promise<void> {
     this.paused = false
     return Promise.resolve()
@@ -79,6 +84,7 @@ const tick = () => new Promise<void>((resolve) => setTimeout(resolve, 0))
 afterEach(() => {
   vi.resetModules()
   handlerCapture.length = 0
+  streamSignals.length = 0
   streamControl.reject = null
   FakeAudio.instances = []
   vi.unstubAllGlobals()
@@ -92,6 +98,62 @@ beforeEach(() => {
 })
 
 describe('speakChapter 首段结清（双重朗读回归）', () => {
+  it('notifies highlights when a character changes without rendering identical frames repeatedly', async () => {
+    let frame: FrameRequestCallback = () => undefined
+    vi.stubGlobal('requestAnimationFrame', (fn: FrameRequestCallback) => { frame = fn; return 1 })
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const listener = vi.fn(), off = audioPlayer.onProgress(listener)
+    const promise = audioPlayer.speakChapter('highlight', 1, { title: '一章', bookTitle: '原创' })
+    handlerCapture[0]!.onSegment({ index: 0, text: '原创', audioUrl: '/audio', durationMs: 2000, chars: [{ char: '原', start: 0, end: 1000 }, { char: '创', start: 1000, end: 2000 }], cached: true })
+    expect(await promise).toBe(true)
+    frame(0)
+    const initial = listener.mock.calls.length
+    for (let i = 0; i < 60; i++) frame(i * 10)
+    expect(listener.mock.calls).toHaveLength(initial)
+    FakeAudio.instances[0]!.currentTime = 1.1
+    frame(1000)
+    expect(listener.mock.calls).toHaveLength(initial + 1)
+    expect(listener.mock.calls.at(-1)![0].charIndex).toBe(1)
+    off(); audioPlayer.stop()
+  })
+
+  it('updates progressive timeline and future source without restarting current audio', async () => {
+    const { audioPlayer } = await import('../src/lib/audioPlayer')
+    const promise = audioPlayer.speakChapter('progressive', 1, { title: '一章', bookTitle: '原创' })
+    handlerCapture[0]!.onSegment({ index: 0, text: '原创', audioUrl: '/live', durationMs: 0, chars: [], cached: false })
+    expect(await promise).toBe(true)
+    const audio = FakeAudio.instances[0]!
+    audio.currentTime = 2
+    handlerCapture[0]!.onSegmentUpdate!({ index: 0, audioUrl: '/complete', durationMs: 5000, chars: [{ char: '原', start: 0, end: 2500 }] })
+    expect(audio.src).toBe('/live')
+    expect(audio.currentTime).toBe(2)
+    expect(audioPlayer.segmentCount).toBe(1)
+    expect(audioPlayer.jumpToSegment(0)).toBe(true)
+    expect(audio.src).toBe('/complete')
+    handlerCapture[0]!.onSegment({ index: 1, text: '后段', audioUrl: '/second', durationMs: 1000, chars: [], cached: true })
+    expect(audioPlayer.segmentCount).toBe(2)
+    audioPlayer.stop()
+    expect(streamSignals[0]?.aborted).toBe(true)
+  })
+
+  it('keeps waiting for a new segment until SSE has finished', async () => {
+    vi.useFakeTimers()
+    try {
+      const { audioPlayer } = await import('../src/lib/audioPlayer')
+      const promise = audioPlayer.speakChapter('slow-next', 1, { title: '一章', bookTitle: '原创' })
+      handlerCapture[0]!.onSegment({ index: 0, text: '首段', audioUrl: '/first', durationMs: 1, chars: [], cached: false })
+      expect(await promise).toBe(true)
+      FakeAudio.instances[0]!.emit('ended')
+      await vi.advanceTimersByTimeAsync(2400)
+      expect(audioPlayer.segmentCount).toBe(1)
+      handlerCapture[0]!.onSegment({ index: 1, text: '次段', audioUrl: '/second', durationMs: 1, chars: [], cached: false })
+      await vi.advanceTimersByTimeAsync(800)
+      expect(FakeAudio.instances[0]!.src).toBe('/second')
+      handlerCapture[0]!.onDone()
+      audioPlayer.stop()
+    } finally { vi.useRealTimers() }
+  })
+
   it('正常 CDN 开播后清除等待定时器，不会中途切换来源', async () => {
     vi.useFakeTimers()
     try {

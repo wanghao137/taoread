@@ -6,6 +6,7 @@ export default defineConfig({
   // iPad 旧版 Safari 白屏整改：显式目标 + legacy 双包（旧浏览器走 SystemJS+polyfill）
   build: {
     target: 'es2018',
+    manifest: true,
   },
   plugins: [
     react(),

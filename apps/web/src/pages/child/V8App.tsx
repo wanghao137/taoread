@@ -257,11 +257,19 @@ export interface InitialBooksRequest {
   result: Promise<{ books: ContentBookDto[] } | null>
 }
 
-export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void; initialBooks?: InitialBooksRequest | null }) {
+export interface InitialBookRequest {
+  token: string
+  childId: string
+  bookId: string
+  result: Promise<ContentBookDto | null>
+}
+
+export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, initialBook }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void; initialBooks?: InitialBooksRequest | null; initialBook?: InitialBookRequest | null }) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   const familyId = useSession((s) => s.familyId)
   const initialBooksRef = useRef(initialBooks)
+  const initialBookRef = useRef(initialBook)
   const booksRequest = useRef(0)
   const navigate = useNavigate()
 
@@ -309,7 +317,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
 
   const loadBook = useCallback(async (id: string) => {
     if (!token || !childId) return
-    const row = await api.contentBook(id, token, childId)
+    const initial = initialBookRef.current
+    initialBookRef.current = null
+    const fetchBook = () => api.contentBook(id, token, childId)
+    const row = initial?.token === token && initial.childId === childId && initial.bookId === id
+      ? await initial.result.then(res => res ?? fetchBook()) : await fetchBook()
     if (useSession.getState().token !== token || useSession.getState().childId !== childId) return
     setBooks(prev => [...prev.filter(b => b.id !== id), toV8(row)])
   }, [token, childId])
@@ -415,10 +427,10 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks }
   return (
     <V8Context.Provider value={ctx}>
       <div className={`app child-app ${inReader ? 'reading-layout' : ''}`}>
-        <div className="wrap">
+        <div className="wrap" key={inReader ? 'reading' : 'browsing'}>
           <header className="mast">
             <div className="logo">
-              <img src="/brand/logo-256.png" alt="桃阅读" />
+              <picture><source srcSet="/brand/logo-256.webp" type="image/webp" /><img src="/brand/logo-256.png" alt="桃阅读" /></picture>
             </div>
             <div className="brand">
               <h1>桃阅读</h1>
@@ -931,7 +943,7 @@ function DiscoverPage() {
   const [searchStatus, setSearchStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [searchRetry, setSearchRetry] = useState(0)
   // Keep first paint small; search/filter still uses the complete catalogue.
-  const [visible, setVisible] = useState(12)
+  const [visible, setVisible] = useState(() => window.matchMedia('(max-width: 760px)').matches ? 4 : 12)
   // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
   const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number; selectedCount?: number }>>([])
   const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
@@ -1009,6 +1021,8 @@ function DiscoverPage() {
     if (langFilter !== 'all') arr = arr.filter((b) => b.lang === langFilter)
     return arr
   }, [v.books, query, moodKey, langFilter, serverHits, collectionKey, collectionBooks])
+  // A narrowed search/collection should retain its existing first result set.
+  const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(12, visible) : visible
 
   return (
     <>
@@ -1136,11 +1150,11 @@ function DiscoverPage() {
             <button className="sticker-btn" onClick={() => { setQuery(''); setServerHits(null); clearAllFilters() }}>看看全部故事</button>
           </div>
         ) : null}
-        {filtered.slice(0, visible).map((b) => (
-          <div key={b.id}><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
+        {filtered.slice(0, visibleLimit).map((b) => (
+          <div key={b.id} className="library-book"><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
         ))}
-        {filtered.length > visible ? (
-          <button className="sticker-btn" style={{ gridColumn: '1 / -1' }} onClick={() => setVisible((n) => n + 24)}>
+        {filtered.length > visibleLimit ? (
+          <button className="sticker-btn" style={{ gridColumn: '1 / -1' }} onClick={() => setVisible((n) => Math.max(visibleLimit, n) + 24)}>
             再看 24 本
           </button>
         ) : null}

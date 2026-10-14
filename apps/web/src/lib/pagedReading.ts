@@ -72,7 +72,8 @@ export function usePagedReading(options: {
     const track = trackRef.current
     if (!viewport || !track) return
     const w = track.getBoundingClientRect().width
-    if (w <= 0 || track.clientHeight <= 0) return
+    const height = track.clientHeight
+    if (w <= 0 || height <= 0) return
     const oldStep = stepRef.current
     const anchor = anchorRef?.current
     const oldStart = anchor && track.contains(anchor) && oldStep > 0 ? Math.floor((rectsInTrack(anchor)[0]?.left ?? 0) / oldStep + 0.01) : pageRef.current
@@ -80,9 +81,9 @@ export function usePagedReading(options: {
     // 列宽=视口宽（columns 分页的关键）：内容溢出成 N 列，每列即一页。
     // 高度由使用方控制（ReaderPage track height:100%；家庭书 track flex:1），
     // 这里不写 height——避免与 flex 布局冲突
-    track.style.columnWidth = `${w}px`
-    track.style.columnGap = `${PAGE_GAP}px`
-    track.style.setProperty('--reading-page-height', `${track.clientHeight}px`)
+    if (track.style.columnWidth !== `${w}px`) track.style.columnWidth = `${w}px`
+    if (track.style.columnGap !== `${PAGE_GAP}px`) track.style.columnGap = `${PAGE_GAP}px`
+    if (track.style.getPropertyValue('--reading-page-height') !== `${height}px`) track.style.setProperty('--reading-page-height', `${height}px`)
     const step = w + PAGE_GAP
     stepRef.current = step
     // Ink, rotated illustrations and rounding can extend a few pixels past the last
@@ -116,17 +117,23 @@ export function usePagedReading(options: {
       return
     }
     measure()
-    const ro = new ResizeObserver(() => measure())
+    let pending: number | null = null
+    const scheduleMeasure = () => {
+      if (pending !== null) return
+      pending = requestAnimationFrame(() => { pending = null; measure() })
+    }
+    const ro = new ResizeObserver(scheduleMeasure)
     if (viewportRef.current) ro.observe(viewportRef.current)
     if (trackRef.current) ro.observe(trackRef.current)
-    t.addEventListener('load', measure, true)
-    document.fonts?.addEventListener('loadingdone', measure)
+    t.addEventListener('load', scheduleMeasure, true)
+    document.fonts?.addEventListener('loadingdone', scheduleMeasure)
     // 对抗审查 P1：禁用（切回滚动模式）时必须复位命令式写入的样式——
     // React 只清自己设的 style 键，transform/columns 残留会让滚动模式正文横向错位
     return () => {
       ro.disconnect()
-      t.removeEventListener('load', measure, true)
-      document.fonts?.removeEventListener('loadingdone', measure)
+      if (pending !== null) cancelAnimationFrame(pending)
+      t.removeEventListener('load', scheduleMeasure, true)
+      document.fonts?.removeEventListener('loadingdone', scheduleMeasure)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, recalcKey, measure])

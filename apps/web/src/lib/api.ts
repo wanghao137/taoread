@@ -668,7 +668,7 @@ export const api = {
   ttsChapterStream: (
     contentId: string,
     chapterOrder: number,
-    body: { voiceId?: string; speed?: number; lang: 'zh' | 'en' },
+    body: { voiceId?: string; speed?: number; lang: 'zh' | 'en'; streamAudio?: boolean },
     handlers: {
       onSegment: (seg: {
         index: number
@@ -681,6 +681,7 @@ export const api = {
         chars: Array<{ char: string; start: number; end: number }>
         cached: boolean
       }) => void
+      onSegmentUpdate?: (seg: TtsSegmentUpdate) => void
       onError: (message: string) => void
       onDone: () => void
     },
@@ -688,12 +689,19 @@ export const api = {
   ) => fetchSseChapter(contentId, chapterOrder, body, handlers, options?.signal),
 }
 
+interface TtsSegmentUpdate {
+  index: number
+  audioUrl: string
+  durationMs: number
+  chars: Array<{ char: string; start: number; end: number }>
+}
+
 /** SSE 解码：读 /api/tts/chapter 的流，按事件名分派（docs/13 P0-C）。
  *  signal 用于离开阅读器/点停止时立刻断流，后台不再整章白拉。 */
 async function fetchSseChapter(
   contentId: string,
   chapterOrder: number,
-  body: { voiceId?: string; speed?: number; lang: 'zh' | 'en' },
+  body: { voiceId?: string; speed?: number; lang: 'zh' | 'en'; streamAudio?: boolean },
   handlers: {
     onSegment: (seg: {
       index: number
@@ -706,6 +714,7 @@ async function fetchSseChapter(
       chars: Array<{ char: string; start: number; end: number }>
       cached: boolean
     }) => void
+    onSegmentUpdate?: (seg: TtsSegmentUpdate) => void
     onError: (message: string) => void
     onDone: () => void
   },
@@ -769,6 +778,8 @@ async function fetchSseChapter(
           } catch {
             /* 单段解析失败跳过，不中断整章 */
           }
+        } else if (eventName === 'segment-update') {
+          try { handlers.onSegmentUpdate?.(JSON.parse(data)) } catch { /* ignore malformed update */ }
         } else if (eventName === 'error') {
           try {
             handlers.onError((JSON.parse(data) as { message?: string }).message ?? '这一段朗读没成功')

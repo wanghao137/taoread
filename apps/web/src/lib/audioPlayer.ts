@@ -77,6 +77,9 @@ class ServerAudioPlayer {
   private rafId: number | null = null
   /** speakChapter 的「首段已播」结清器：stop()/finish() 时兜底 resolve，防调用方悬挂 */
   private firstResolve: ((ok: boolean) => void) | null = null
+  private chapterAbort: AbortController | null = null
+  private streamFinished = true
+  private lastProgress: AudioProgress | null = null
 
   private progressListeners = new Set<ProgressListener>()
   private endListeners = new Set<EndListener>()
@@ -189,10 +192,14 @@ class ServerAudioPlayer {
     options: PlayerOptions = {},
   ): Promise<boolean> {
     this.stop()
-    const streamSession = this.session
+    const stream = new AbortController()
+    this.chapterAbort = stream
     // The chapter endpoint resolves cached audio independently of synthesis.
     // A voices request must not delay playback or a transient probe block it.
     if (options.signal?.aborted) return false
+    const abort = () => stream.abort()
+    options.signal?.addEventListener('abort', abort, { once: true })
+    this.streamFinished = false
 
     this.queue = []
     this.currentIndex = 0
@@ -214,10 +221,11 @@ class ServerAudioPlayer {
             ...(options.voiceId ? { voiceId: options.voiceId } : {}),
             ...(options.speed !== undefined ? { speed: options.speed } : {}),
             lang: options.lang ?? 'zh',
+            streamAudio: true,
           },
           {
             onSegment: (seg) => {
-              if (this.cancelled || streamSession !== this.session || seg.index < (options.startSegment ?? 0)) return
+              if (this.cancelled || this.chapterAbort !== stream || seg.index < (options.startSegment ?? 0)) return
               this.queue.push(seg)
               // 第一段到了立刻开播；后续段在 onEnded 里自动衔接
               if (this.queue.length === 1) {
@@ -229,22 +237,29 @@ class ServerAudioPlayer {
                 // 兜底 → 调用方误判失败回退 Web Speech，把整章用机械音再读一遍。
                 void this.playSegment(0)
                   .then((ok) => {
-                    if (streamSession === this.session) this.settleFirst(ok)
+                    if (this.chapterAbort === stream) this.settleFirst(ok)
                   })
                   .catch(() => {
-                    if (streamSession === this.session) this.settleFirst(false)
+                    if (this.chapterAbort === stream) this.settleFirst(false)
                   })
               }
               gotSegment = true
             },
+            onSegmentUpdate: update => {
+              if (this.chapterAbort !== stream || this.cancelled) return
+              const segment = this.queue.find(seg => seg.index === update.index)
+              // The timeline loop holds this object. Do not replace it or restart current audio.
+              if (segment) Object.assign(segment, { audioUrl: update.audioUrl, durationMs: update.durationMs, chars: update.chars })
+            },
             onError: (msg) => {
-              if (streamSession !== this.session) return
+              if (this.chapterAbort !== stream) return
               // 单段失败不中断整章：跳过继续。这是段级通知（供应商 451 拦截某段等），
               // 不清 speaking/highlight 状态——UI 继续跟随后续段
               this.emitNotice(msg)
             },
             onDone: () => {
-              if (streamSession !== this.session) return
+              if (this.chapterAbort !== stream) return
+              this.streamFinished = true
               // 零段整章（图片章/全段被拦/配额）：不假装在朗读，复位状态后让调用方走 Web Speech 回退
               if (!gotSegment) {
                 this.abandon()
@@ -252,10 +267,11 @@ class ServerAudioPlayer {
               }
             },
           },
-          { signal: options.signal },
+          { signal: stream.signal },
         )
         .then(() => {
-          if (streamSession !== this.session) return
+          if (this.chapterAbort !== stream) return
+          this.streamFinished = true
           // SSE 正常结束：首段已开播则维持 true；零段中止时兜底定音
           if (!gotSegment) {
             this.abandon()
@@ -263,13 +279,15 @@ class ServerAudioPlayer {
           }
         })
         .catch(() => {
-          if (streamSession !== this.session) return
+          if (this.chapterAbort !== stream) return
+          this.streamFinished = true
           if (!gotSegment) {
             this.emitError('整章朗读没准备好，可以一段一段听')
             this.abandon()
             this.settleFirst(false)
           }
         })
+        .finally(() => options.signal?.removeEventListener('abort', abort))
     })
   }
 
@@ -456,7 +474,8 @@ class ServerAudioPlayer {
         this.emitProgress(-1)
         void this.playSegment(fromIndex + 1)
       } else {
-        this.finish()
+        if (this.streamFinished) this.finish()
+        else this.waitForNext(fromIndex)
       }
     }, 800)
   }
@@ -499,15 +518,17 @@ class ServerAudioPlayer {
 
   private emitProgress(charIndex: number): void {
     const seg = this.queue[this.currentIndex]
-    this.progressListeners.forEach((fn) =>
-      fn({
+    const progress: AudioProgress = {
         index: this.currentIndex,
         segmentIndex: seg?.index ?? this.currentIndex,
         total: this.queue.length,
         text: seg?.text ?? '',
         charIndex,
-      }),
-    )
+    }
+    const last = this.lastProgress
+    if (last && last.index === progress.index && last.segmentIndex === progress.segmentIndex && last.total === progress.total && last.text === progress.text && last.charIndex === progress.charIndex) return
+    this.lastProgress = progress
+    this.progressListeners.forEach(fn => fn(progress))
   }
 
   private emitError(message: string): void {
@@ -525,6 +546,10 @@ class ServerAudioPlayer {
 
   /** 停止（不触发 onEnd） */
   stop(): void {
+    this.chapterAbort?.abort()
+    this.chapterAbort = null
+    this.streamFinished = true
+    this.lastProgress = null
     // 对抗审查 P1-3：作废当前会话——未触发的重试定时器全部失效，防旧定时器劫持新队列
     this.session += 1
     this.settleFirst(false)

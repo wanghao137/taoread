@@ -196,7 +196,8 @@ export async function synthesizeSegment(
 export async function synthesizeStream(
   deps: TtsClientDeps,
   input: SynthesizeInput,
-  onChunk: (chunk: Buffer) => void,
+  onChunk: (chunk: Buffer) => unknown,
+  signal?: AbortSignal,
 ): Promise<SynthesizeResult> {
   const fetchFn = deps.fetch ?? fetch
   const format = input.format ?? 'mp3'
@@ -225,7 +226,7 @@ export async function synthesizeStream(
         speed: clampSpeed(input.speed),
         stream_format: 'sse',
       }),
-      signal: AbortSignal.timeout(TTS_FETCH_TIMEOUT_MS),
+      signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(TTS_FETCH_TIMEOUT_MS)]) : AbortSignal.timeout(TTS_FETCH_TIMEOUT_MS),
     })
   } catch (err) {
     throw new TtsError('朗读服务连不上，请稍后再试', err instanceof Error ? err.message.slice(0, 120) : '')
@@ -241,7 +242,9 @@ export async function synthesizeStream(
   const decoder = new TextDecoder()
   let sseBuf = ''
 
+  try {
   for (;;) {
+    signal?.throwIfAborted()
     const { done, value } = await reader.read()
     if (done) break
     sseBuf += decoder.decode(value, { stream: true })
@@ -253,17 +256,20 @@ export async function synthesizeStream(
       if (!trimmed.startsWith('data:')) continue
       const payload = trimmed.slice(5).trim()
       if (payload === '[DONE]') continue
-      try {
-        const evt = JSON.parse(payload)
-        if (evt.type === 'speech.audio.delta' && typeof evt.audio === 'string') {
-          const chunk = Buffer.from(evt.audio, 'base64')
-          chunks.push(chunk)
-          onChunk(chunk)
-        }
-      } catch {
-        /* 心跳/未知事件：跳过 */
+      let evt: { type?: string; audio?: string }
+      try { evt = JSON.parse(payload) } catch { continue }
+      if (evt.type === 'speech.audio.delta' && typeof evt.audio === 'string') {
+        signal?.throwIfAborted()
+        const chunk = Buffer.from(evt.audio, 'base64')
+        chunks.push(chunk)
+        await onChunk(chunk)
       }
     }
+  }
+  signal?.throwIfAborted()
+  } finally {
+    await reader.cancel().catch(() => undefined)
+    reader.releaseLock()
   }
 
   if (chunks.length === 0) throw new TtsError('stepaudio 未返回音频分片', '')

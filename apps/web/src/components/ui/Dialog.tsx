@@ -19,13 +19,14 @@ function isolateDialogs() {
 }
 
 /** One modal contract for reading, family activities and parent confirmation. */
-export function Dialog({ label, onClose, children, dismissable = true, className = 'sheet-card' }: {
-  label: string; onClose: () => void; children: ReactNode; dismissable?: boolean; className?: string
+export function Dialog({ label, onClose, children, dismissable = true, className = 'sheet-card', open = true }: {
+  label: string; onClose: () => void; children: ReactNode; dismissable?: boolean; className?: string; open?: boolean
 }) {
   const ref = useRef<HTMLElement>(null)
   const close = useRef(onClose)
   close.current = onClose
   useEffect(() => {
+    if (!open) return
     const panel = ref.current
     if (!panel) return
     const previous = document.activeElement as HTMLElement | null
@@ -53,9 +54,9 @@ export function Dialog({ label, onClose, children, dismissable = true, className
       isolateDialogs()
       if (previous?.isConnected && !previous.closest('[inert]')) previous.focus({ preventScroll: true })
     }
-  }, [dismissable])
+  }, [dismissable, open])
   return createPortal(
-    <div className="sheet-backdrop" onClick={(e) => { e.stopPropagation(); if (dismissable && e.target === e.currentTarget) onClose() }}>
+    <div className="sheet-backdrop" aria-hidden={open ? undefined : true} style={open ? undefined : { visibility: 'hidden', pointerEvents: 'none' }} onClick={(e) => { e.stopPropagation(); if (open && dismissable && e.target === e.currentTarget) onClose() }}>
       <section ref={ref} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} className={className}>
         <div className="dialog-heading"><h2>{label}</h2>{dismissable && <button type="button" onClick={onClose} aria-label={`关闭${label}`}>关闭</button>}</div>
         {children}

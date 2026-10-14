@@ -10,6 +10,8 @@ export function Loading({ label = '小桃正在准备…' }: { label?: string })
       aria-live="polite"
       className="flex flex-col items-center justify-center gap-6 py-20"
     >
+      <picture className="block leading-none">
+      <source srcSet="/brand/logo-256.webp" type="image/webp" />
       <motion.img
         src="/brand/logo-256.png"
         alt=""
@@ -18,6 +20,7 @@ export function Loading({ label = '小桃正在准备…' }: { label?: string })
         animate={{ scale: [1, 1.06, 1], rotate: [-2, 2, -2] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       />
+      </picture>
       {/* 三颗贴纸圆点：排队跳动（比纯文字 spinner 对不识字孩子更友好） */}
       <div className="flex gap-2" aria-hidden>
         {['bg-sun', 'bg-sky', 'bg-rose'].map((c, i) => (

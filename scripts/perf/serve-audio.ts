@@ -16,6 +16,7 @@ import { cacheKey } from '../../apps/server/src/modules/tts/cache'
 import { DEFAULT_SPEED } from '../../apps/server/src/modules/tts/voices'
 import { TTS_PUBLIC_NS, type PublicSegmentInfo } from '../../apps/server/src/modules/tts/publicCache'
 import { IpRateLimiter } from '../../apps/server/src/lib/ipRateLimit'
+import { setTimeout as delay } from 'node:timers/promises'
 
 const root = resolve(import.meta.dirname, '../..')
 const run = process.env.TAO_PERF_RUN ?? ''
@@ -23,6 +24,13 @@ if (!/^[a-z0-9-]{1,50}$/.test(run)) throw Error('TAO_PERF_RUN_REQUIRED')
 const port = Number(process.env.PORT ?? 16243)
 if (![16243, 16244].includes(port)) throw Error('ISOLATED_AUDIO_PORT_REQUIRED')
 const live = process.env.TAO_PERF_LIVE_TTS === '1'
+const replayPath = process.env.TAO_PERF_REPLAY_AUDIO
+if (live && replayPath) throw Error('REPLAY_MUST_NOT_CALL_LIVE_PROVIDER')
+const replay = replayPath ? {
+  audio: await readFile(resolve(replayPath, 'provider-chunks.mp3')),
+  timing: JSON.parse(await readFile(resolve(replayPath, 'provider-chunks.json'), 'utf8')) as { headersMs: number; chunks: Array<{ ms: number; bytes: number }> },
+} : null
+if (replay && replay.timing.chunks.reduce((n, c) => n + c.bytes, 0) !== replay.audio.length) throw Error('REPLAY_BYTES_MISMATCH')
 // Read only the explicitly selected provider configuration; do not inherit its
 // DB, token secret, family records, or any other runtime settings.
 const provider = process.env.TAO_PERF_PROVIDER_ENV ? parse(await readFile(resolve(process.env.TAO_PERF_PROVIDER_ENV), 'utf8')) : {}
@@ -74,7 +82,34 @@ await seedPack(db, {
 // This dedicated fixture DB has no production review workflow or user records.
 await db.book.updateMany({ data: { publicationStatus: 'published' } })
 const calls: Array<{ status: number; durationMs: number }> = []
-const ttsDeps: TtsClientDeps | null = live ? {
+const ttsDeps: TtsClientDeps | null = replay ? {
+  base: 'https://recorded-provider.invalid', apiKey: 'synthetic-replay', model,
+  fetch: async (_input, init) => {
+    if (calls.length >= 3) throw Error('REPLAY_AUDIO_LAB_LIMIT_REACHED')
+    calls.push({ status: 200, durationMs: replay.timing.headersMs })
+    const start = performance.now()
+    const signal = init?.signal ?? undefined
+    await delay(replay.timing.headersMs, undefined, { signal })
+    let index = 0, offset = 0, cancelled = false
+    const encoder = new TextEncoder()
+    return new Response(new ReadableStream({
+      async pull(controller) {
+        if (cancelled) return
+        const chunk = replay.timing.chunks[index++]
+        if (!chunk) { controller.close(); return }
+        try {
+          const wait = chunk.ms - (performance.now() - start)
+          if (wait > 0) await delay(wait, undefined, { signal })
+          if (cancelled) return
+          const audio = replay.audio.subarray(offset, offset + chunk.bytes).toString('base64')
+          offset += chunk.bytes
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'speech.audio.delta', audio })}\n\n`))
+        } catch (error) { if (!cancelled) controller.error(error) }
+      },
+      cancel() { cancelled = true },
+    }), { headers: { 'Content-Type': 'text/event-stream' } })
+  },
+} : live ? {
   base: provider.TTS_BASE!, apiKey: provider.TTS_API_KEY!, model,
   fetch: async (input, init) => {
     if (calls.length >= 3) throw Error('LIVE_AUDIO_LAB_LIMIT_REACHED')
@@ -89,9 +124,10 @@ const app = await buildApp({ db, tokenSecret: tokenSecretFrom(masterKey), master
   mediaDir: media, staticDir: join(root, 'apps/web/dist'), logger: false, ttsDeps, imageDeps: null, videoDeps: null,
   ipLimiter: new IpRateLimiter({ capacity: 1000, refillPerMinute: 10000 }),
 })
-app.get('/__r24/metrics', async () => ({ mode: live ? 'live-provider' : 'cached-only', useCdn, calls }))
+const mode = live ? 'live-provider' : replay ? 'recorded-provider-replay' : 'cached-only'
+app.get('/__r24/metrics', async () => ({ mode, useCdn, calls, externalProviderCalls: live ? calls.length : 0 }))
 await app.listen({ port, host: '127.0.0.1' })
-console.log(JSON.stringify({ ready: true, port, mode: live ? 'live-provider' : 'cached-only', useCdn, publicSegments: Object.keys(subset).length, productionDatabaseUsed: false }))
+console.log(JSON.stringify({ ready: true, port, mode, useCdn, publicSegments: Object.keys(subset).length, productionDatabaseUsed: false }))
 let closing = false
 const stop = async () => { if (closing) return; closing = true; await app.close(); await db.$disconnect(); process.exit(0) }
 process.on('SIGINT', () => { void stop() })

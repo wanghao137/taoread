@@ -44,7 +44,7 @@ if (!rootEl) throw new Error('missing #root')
 createRoot(rootEl).render(
   <StrictMode>
     <ErrorBoundary>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <App />
       </BrowserRouter>
     </ErrorBoundary>
