@@ -31,6 +31,7 @@ import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
 import { IconSun, IconSearch, IconShelf, IconFamily, IconBookOpen, IconPlay } from '../../components/ui/icons'
 import type { WordCardDto } from '../../lib/api'
+import type { InitialListeningRequest } from './ListeningPage'
 
 const loadReader = () => import('./ReaderPage')
 const loadFamilyPages = () => import('./FamilyTrialPages')
@@ -264,7 +265,7 @@ export interface InitialBookRequest {
   result: Promise<ContentBookDto | null>
 }
 
-export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, initialBook }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void; initialBooks?: InitialBooksRequest | null; initialBook?: InitialBookRequest | null }) {
+export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, initialBook, initialListening }: { childName: string; onSwitchFamily: () => void; onSwitchChild: () => void; initialBooks?: InitialBooksRequest | null; initialBook?: InitialBookRequest | null; initialListening?: InitialListeningRequest | null }) {
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   const familyId = useSession((s) => s.familyId)
@@ -488,7 +489,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
                 <Route path="/discover" element={<DiscoverPage />} />
                 <Route path="/my" element={<MyPage />} />
                 <Route path="/family-books" element={<FamilyLibraryPage />} />
-                <Route path="/listen/:source/:id" element={<ListeningPage />} />
+                <Route path="/listen/:source/:id" element={<ListeningPage initialBook={initialListening} />} />
                 <Route path="/family-book/:id" element={<FamilyReaderPage />} />
                 <Route path="/family-book/:id/chapter/:order" element={<FamilyReaderPage />} />
                 <Route path="/phonics" element={<PhonicsTrialPage />} />

@@ -408,7 +408,8 @@ class ServerAudioPlayer {
         let timer: ReturnType<typeof globalThis.setTimeout> | undefined
         const outcome = await Promise.race([
           started.then(() => ({ kind: 'playing' as const }), error => ({ kind: 'error' as const, error: error as unknown })),
-          new Promise<{ kind: 'timeout' }>(resolve => { timer = globalThis.setTimeout(() => resolve({ kind: 'timeout' }), 2500) }),
+          // Leave room for the verified same-origin copy to start within the first-audio budget.
+          new Promise<{ kind: 'timeout' }>(resolve => { timer = globalThis.setTimeout(() => resolve({ kind: 'timeout' }), 1000) }),
         ]).finally(() => { if (timer !== undefined) globalThis.clearTimeout(timer) })
         if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
         if (outcome.kind !== 'playing') {

@@ -10,6 +10,7 @@ import { useSession } from '../stores/session'
 import { Loading, ErrorState, EmptyState, TaSheet, TaButton } from '../components/ui'
 import { ChildPicker } from './child/ChildPicker'
 import { V8App, prepareChildRoute, type InitialBookRequest, type InitialBooksRequest } from './child/V8App'
+import type { InitialListeningRequest } from './child/ListeningPage'
 
 export function ChildHome() {
   const navigate = useNavigate()
@@ -30,11 +31,13 @@ export function ChildHome() {
   const [childName, setChildName] = useState('小读者')
   const initialBooks = useRef<InitialBooksRequest | null>(null)
   const initialBook = useRef<InitialBookRequest | null>(null)
+  const initialListening = useRef<InitialListeningRequest | null>(null)
   const pendingBootstrap = useRef<{
     key: string
     family: ReturnType<typeof api.familyView>
     books: InitialBooksRequest | null
     book: InitialBookRequest | null
+    listening: InitialListeningRequest | null
   } | null>(null)
 
   const loadChildren = useCallback(() => {
@@ -50,6 +53,9 @@ export function ChildHome() {
     const routeBook = /^\/child\/book\/([^/]+)(?:\/chapter\/\d+)?\/?$/.exec(window.location.pathname)?.[1]
     let bookId: string | undefined
     try { if (routeBook) bookId = decodeURIComponent(routeBook) } catch { /* Invalid route is handled by the router. */ }
+    const routeListening = /^\/child\/listen\/public\/([^/]+)\/?$/.exec(window.location.pathname)?.[1]
+    let listeningId: string | undefined
+    try { if (routeListening) listeningId = decodeURIComponent(routeListening) } catch { /* Invalid route is handled by the router. */ }
     // StrictMode replays effects while the first request is still in flight.
     // Share only that pending bootstrap; a later retry must read fresh data.
     if (pendingBootstrap.current?.key !== key) {
@@ -64,6 +70,10 @@ export function ChildHome() {
           token, childId: selected, bookId,
           result: api.contentBook(bookId, token, selected).catch(() => null),
         } : null,
+        listening: selected && listeningId ? {
+          token, childId: selected, bookId: listeningId,
+          result: Promise.all([api.contentBook(listeningId, token, selected), api.contentChapterList(listeningId, token)]).catch(() => null),
+        } : null,
       }
       pendingBootstrap.current = pending
       const clear = () => { if (pendingBootstrap.current === pending) pendingBootstrap.current = null }
@@ -72,6 +82,7 @@ export function ChildHome() {
     const pending = pendingBootstrap.current
     initialBooks.current = pending.books
     initialBook.current = pending.book
+    initialListening.current = pending.listening
     pending.family
       .then((view) => {
         if (!alive) return
@@ -146,7 +157,7 @@ export function ChildHome() {
         />
       )
     }
-    return <V8App key={`${token}:${childId}`} initialBooks={initialBooks.current} initialBook={initialBook.current} childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
+    return <V8App key={`${token}:${childId}`} initialBooks={initialBooks.current} initialBook={initialBook.current} initialListening={initialListening.current} childName={childName} onSwitchFamily={() => setConfirmSwitch(true)} onSwitchChild={() => setPickOpen(true)} />
   }
 
   return (

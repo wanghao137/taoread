@@ -156,15 +156,18 @@ describe('speakChapter 首段结清（双重朗读回归）', () => {
 
   it('正常 CDN 开播后清除等待定时器，不会中途切换来源', async () => {
     vi.useFakeTimers()
+    const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(() => new Promise<void>(resolve => { setTimeout(resolve, 800) }))
     try {
       const { audioPlayer } = await import('../src/lib/audioPlayer')
       const promise = audioPlayer.speakChapter('fast-cdn', 1, { title: '一章', bookTitle: '合成书' })
       handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/cache.mp3', durationMs: 1000, chars: [], cached: true })
+      await vi.advanceTimersByTimeAsync(800)
       expect(await promise).toBe(true)
       await vi.advanceTimersByTimeAsync(3000)
       expect(FakeAudio.instances.at(-1)!.src).toBe('https://cdn.example.test/cache.mp3')
+      expect(play).toHaveBeenCalledTimes(1)
       audioPlayer.stop()
-    } finally { vi.useRealTimers() }
+    } finally { play.mockRestore(); vi.useRealTimers() }
   })
 
   it('CDN 网络拒绝时立即切换本地副本', async () => {
@@ -177,16 +180,16 @@ describe('speakChapter 首段结清（双重朗读回归）', () => {
     audioPlayer.stop()
     play.mockRestore()
   })
-  it('CDN 首播超过 2.5s 改用已验证的本地副本，首段只结清一次', async () => {
+  it('CDN 一直不响应时在 1.5s 内启动已验证的本地副本，首段只结清一次', async () => {
     vi.useFakeTimers()
     const play = vi.spyOn(FakeAudio.prototype, 'play').mockImplementationOnce(() => new Promise<void>(() => undefined))
     try {
       const { audioPlayer } = await import('../src/lib/audioPlayer')
       const promise = audioPlayer.speakChapter('fallback', 1, { title: '一章', bookTitle: '合成书' })
       handlerCapture[0]!.onSegment({ index: 0, text: '缓存', audioUrl: 'https://cdn.example.test/cache.mp3', fallbackAudioUrl: '/api/media/tts-public/cache.mp3', durationMs: 1000, chars: [], cached: true })
-      await vi.advanceTimersByTimeAsync(2499)
+      await vi.advanceTimersByTimeAsync(900)
       expect(FakeAudio.instances.at(-1)!.src).toBe('https://cdn.example.test/cache.mp3')
-      await vi.advanceTimersByTimeAsync(1)
+      await vi.advanceTimersByTimeAsync(600)
       expect(await promise).toBe(true)
       expect(FakeAudio.instances.at(-1)!.src).toBe('/api/media/tts-public/cache.mp3')
       expect(play).toHaveBeenCalledTimes(2)

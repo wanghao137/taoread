@@ -171,3 +171,77 @@ test('单书详情深链在元数据弱网失败后可重试，且收藏状态�
   await favorite.click()
   await expect(favorite).not.toHaveText(before ?? '')
 })
+
+test('听书深链：书目和目录与家庭验证并行，验证前不展示且只读取一次', async ({ page }) => {
+  await selectChild(page)
+  let release!: () => void
+  const gate = new Promise<void>(resolve => { release = resolve })
+  let books = 0
+  let chapters = 0
+  await page.route(/\/api\/family\/[^/?]+$/, async route => { await gate; await route.continue() })
+  await page.route('**/api/content/books/poetry-song-spring?childId=*', route => { books++; return route.continue() })
+  await page.route('**/api/content/books/poetry-song-spring/chapters', route => { chapters++; return route.continue() })
+  const metadata = page.waitForRequest(r => new URL(r.url()).pathname === '/api/content/books/poetry-song-spring')
+  const directory = page.waitForRequest(r => new URL(r.url()).pathname === '/api/content/books/poetry-song-spring/chapters')
+  try {
+    await page.goto('/child/listen/public/poetry-song-spring', { waitUntil: 'domcontentloaded' })
+    await Promise.all([metadata, directory])
+    await expect(page.locator('.listening-page')).toHaveCount(0)
+  } finally { release() }
+  await expect(page.locator('.listening-page .primary')).toBeEnabled()
+  await expect(page.locator('.listening-page h1')).not.toHaveText('正在准备听读…')
+  expect(books).toBe(1)
+  expect(chapters).toBe(1)
+})
+
+test('听书深链：失效档案不能展示预取，重新选人后可打开', async ({ page }) => {
+  await selectChild(page)
+  await page.evaluate(() => {
+    const session = JSON.parse(localStorage.getItem('taoread-session')!)
+    session.state.childId = 'deleted-or-other-family-child'
+    localStorage.setItem('taoread-session', JSON.stringify(session))
+  })
+  await page.goto('/child/listen/public/poetry-song-spring')
+  await expect(page.getByText('今天是谁的故事时间？')).toBeVisible()
+  await expect(page.locator('.listening-page')).toHaveCount(0)
+  await page.getByRole('button', { name: /小柚/ }).click()
+  await expect(page.locator('.listening-page .primary')).toBeEnabled()
+})
+
+test('听书深链：书目弱网失败可重试，重试发送新请求', async ({ page }) => {
+  await selectChild(page)
+  let fail = true
+  let reads = 0
+  await page.route('**/api/content/books/poetry-song-spring?childId=*', route => {
+    reads++
+    return fail ? route.fulfill({ status: 503, json: { code: 'NETWORK', message: '听读书目测试暂不可用' } }) : route.continue()
+  })
+  await page.goto('/child/listen/public/poetry-song-spring')
+  await expect(page.getByRole('alert')).toHaveText('听读书目测试暂不可用')
+  const beforeRetry = reads
+  fail = false
+  await page.getByRole('button', { name: '重新加载书目', exact: true }).click()
+  await expect(page.locator('.listening-page .primary')).toBeEnabled()
+  expect(reads).toBe(beforeRetry + 1)
+})
+
+test('离开听书后重新进入会读取最新书目，不长期复用启动预取', async ({ page }) => {
+  await selectChild(page)
+  let reads = 0
+  await page.route('**/api/content/books/poetry-song-spring?childId=*', async route => {
+    reads++
+    const response = await route.fetch()
+    const data = await response.json()
+    if (reads > 1) data.book.title = '听读书目新版本'
+    await route.fulfill({ response, json: data })
+  })
+  await page.goto('/child/listen/public/poetry-song-spring')
+  await expect(page.locator('.listening-page .primary')).toBeEnabled()
+  expect(reads).toBe(1)
+  await page.getByRole('button', { name: '返回这本书', exact: true }).click()
+  await expect(page.locator('.book-detail')).toBeVisible()
+  const beforeReentry = reads
+  await page.getByRole('button', { name: '连续听读', exact: true }).click()
+  await expect(page.locator('.listening-page h1')).toHaveText('听读书目新版本')
+  expect(reads).toBe(beforeReentry + 1)
+})

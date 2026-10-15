@@ -1,16 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { api } from '../../lib/api'
+import { api, type ContentBookDto } from '../../lib/api'
 import { audioPlayer } from '../../lib/audioPlayer'
 import { useSession } from '../../stores/session'
-export function ListeningPage() {
+export interface InitialListeningRequest {
+  token: string
+  childId: string
+  bookId: string
+  result: Promise<[ContentBookDto, Awaited<ReturnType<typeof api.contentChapterList>>] | null>
+  consumed?: boolean
+}
+type ListeningBook = { title: string; version: string; lang: 'zh' | 'en'; chapters: Array<{ order: number; title: string }> }
+
+export function ListeningPage({ initialBook }: { initialBook?: InitialListeningRequest | null }) {
   const { id, source } = useParams()
   const token = useSession(s => s.token)
   const childId = useSession(s => s.childId)
   const familyId = useSession(s => s.familyId)
   const resumeKey = `taoread-listening:${familyId}:${childId}:${source}:${id}`
   const navigate = useNavigate()
-  const [book, setBook] = useState<{ title: string; version: string; lang: 'zh' | 'en'; chapters: Array<{ order: number; title: string }> } | null>(null)
+  const [book, setBook] = useState<ListeningBook | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  const initialBookRef = useRef(initialBook)
+  const pendingBook = useRef<{ key: string; result: Promise<ListeningBook> } | null>(null)
   const [order, setOrder] = useState(1)
   const [state, setState] = useState<'idle' | 'preparing' | 'playing' | 'paused'>('idle')
   const [error, setError] = useState('')
@@ -32,7 +44,25 @@ export function ListeningPage() {
   useEffect(() => {
     let live = true; setBook(null); setError(''); setSpoken(''); setOrder(1); current.current = 1; segment.current = 0; lastSavedSegment.current = -1; setResumeNotice('')
     if (!token || !id || !childId) return
-    void (source === 'import' ? api.importedBook(token, id, childId).then(x => ({ title: x.book.title, version: String(x.book.contentVersion ?? 1), lang: x.book.lang, chapters: x.book.chapters })) : Promise.all([api.contentBook(id, token), api.contentChapterList(id, token)]).then(([b, c]) => ({ title: b.title, version: b.contentVersion ?? 'legacy', lang: b.lang, chapters: c.chapters }))).then(b => {
+    const key = JSON.stringify([token, childId, source, id])
+    if (pendingBook.current?.key !== key) {
+      const initial = initialBookRef.current
+      initialBookRef.current = null
+      const useInitial = source === 'public' && initial?.token === token && initial.childId === childId && initial.bookId === id && !initial.consumed
+      if (useInitial) initial.consumed = true
+      const fetchPublic = () => Promise.all([api.contentBook(id, token, childId), api.contentChapterList(id, token)])
+      const publicBook = () => (useInitial
+        ? initial.result.then(row => row ?? fetchPublic()) : fetchPublic())
+        .then(([b, c]) => ({ title: b.title, version: b.contentVersion ?? 'legacy', lang: b.lang, chapters: c.chapters }))
+      const result = (source === 'import'
+        ? api.importedBook(token, id, childId).then(x => ({ title: x.book.title, version: String(x.book.contentVersion ?? 1), lang: x.book.lang, chapters: x.book.chapters }))
+        : publicBook()).then(b => ({ ...b, lang: b.lang === 'en' ? 'en' as const : 'zh' as const }))
+      const pending = { key, result }
+      pendingBook.current = pending
+      const clear = () => { if (pendingBook.current === pending) pendingBook.current = null }
+      void result.then(clear, clear)
+    }
+    void pendingBook.current.result.then(b => {
       if (!live) return
       setBook({ ...b, lang: b.lang === 'en' ? 'en' : 'zh' })
       try { const saved = JSON.parse(localStorage.getItem(resumeKey) ?? 'null') as { version: string; chapter: number; segment: number } | null
@@ -41,7 +71,7 @@ export function ListeningPage() {
       } catch { /* invalid local resume is ignored */ }
     }).catch(err => { if (live) setError(err instanceof Error ? err.message : '书目没有加载成功') })
     return () => { live = false }
-  }, [token, childId, id, source, resumeKey])
+  }, [token, childId, id, source, resumeKey, attempt])
   const stop = useCallback(() => { epoch.current++; controller.current?.abort(); audioPlayer.stop(); setState('idle'); deadline.current = 0 }, [])
   const start = useCallback(async (next: number, fromSegment = 0) => {
     if (!book || !id || next < 1 || next > book.chapters.length) return
@@ -91,5 +121,5 @@ export function ListeningPage() {
     if (ok) setState('playing')
     else void start(order, segment.current)
   }
-  return <section className="panel listening-page"><button className="sticker-btn" onClick={() => navigate(source === 'import' ? `/child/family-book/${encodeURIComponent(id ?? '')}` : `/child/book/${encodeURIComponent(id ?? '')}`)}>返回这本书</button><h1>{book?.title ?? '正在准备听读…'}</h1><h2>第 {order} 章 · {book?.chapters[order - 1]?.title}</h2><p>合成朗读。连续听读默认关闭；锁屏和后台播放由设备浏览器支持情况决定，中断后可点继续。</p><p role="status">{resumeNotice} 听读位置只保留在这台设备，不计作读完或理解能力。</p><div className="hero-actions"><button className="sticker-btn primary" disabled={!book || state === 'preparing'} onClick={() => { if (state === 'playing') { audioPlayer.pause(); setState('paused') } else if (state === 'paused') { void resume() } else { deadline.current = sleep ? Date.now() + sleep * 60000 : 0; void start(order, segment.current) } }}>{state === 'preparing' ? '正在准备…' : state === 'playing' ? '暂停' : state === 'paused' ? '继续' : '开始听读'}</button><button className="sticker-btn" onClick={stop}>停止</button><button className="sticker-btn" disabled={order <= 1} onClick={() => void start(order - 1)}>上一章</button><button className="sticker-btn" disabled={!book || order >= book.chapters.length} onClick={() => void start(order + 1)}>下一章</button></div><fieldset className="reading-options"><legend>听读安排</legend><label><input type="checkbox" checked={continuous} onChange={e => setContinuous(e.target.checked)} />本章结束后继续下一章</label><label>定时停止<select value={sleep} onChange={e => { const minutes = Number(e.target.value); setSleep(minutes); deadline.current = state === 'playing' || state === 'paused' ? (minutes ? Date.now() + minutes * 60000 : 0) : 0 }}><option value={0}>不限时</option><option value={5}>5 分钟</option><option value={15}>15 分钟</option><option value={30}>30 分钟</option></select></label></fieldset>{error && <p role="alert">{error}</p>}<p aria-live="off">{spoken}</p><label>选择开始章节<select value={order} onChange={e => { stop(); setOrder(Number(e.target.value)); current.current = Number(e.target.value); segment.current = 0; setResumeNotice('已选择新章节，将从章首开始听。') }}>{book?.chapters.map(ch => <option key={ch.order} value={ch.order}>{ch.order}. {ch.title}</option>)}</select></label></section>
+  return <section className="panel listening-page"><button className="sticker-btn" onClick={() => navigate(source === 'import' ? `/child/family-book/${encodeURIComponent(id ?? '')}` : `/child/book/${encodeURIComponent(id ?? '')}`)}>返回这本书</button><h1>{book?.title ?? '正在准备听读…'}</h1><h2>第 {order} 章 · {book?.chapters[order - 1]?.title}</h2><p>合成朗读。连续听读默认关闭；锁屏和后台播放由设备浏览器支持情况决定，中断后可点继续。</p><p role="status">{resumeNotice} 听读位置只保留在这台设备，不计作读完或理解能力。</p><div className="hero-actions"><button className="sticker-btn primary" disabled={!book || state === 'preparing'} onClick={() => { if (state === 'playing') { audioPlayer.pause(); setState('paused') } else if (state === 'paused') { void resume() } else { deadline.current = sleep ? Date.now() + sleep * 60000 : 0; void start(order, segment.current) } }}>{state === 'preparing' ? '正在准备…' : state === 'playing' ? '暂停' : state === 'paused' ? '继续' : '开始听读'}</button><button className="sticker-btn" onClick={stop}>停止</button><button className="sticker-btn" disabled={order <= 1} onClick={() => void start(order - 1)}>上一章</button><button className="sticker-btn" disabled={!book || order >= book.chapters.length} onClick={() => void start(order + 1)}>下一章</button></div><fieldset className="reading-options"><legend>听读安排</legend><label><input type="checkbox" checked={continuous} onChange={e => setContinuous(e.target.checked)} />本章结束后继续下一章</label><label>定时停止<select value={sleep} onChange={e => { const minutes = Number(e.target.value); setSleep(minutes); deadline.current = state === 'playing' || state === 'paused' ? (minutes ? Date.now() + minutes * 60000 : 0) : 0 }}><option value={0}>不限时</option><option value={5}>5 分钟</option><option value={15}>15 分钟</option><option value={30}>30 分钟</option></select></label></fieldset>{error && <p role="alert">{error}</p>}{!book && error && <button className="sticker-btn" onClick={() => setAttempt(n => n + 1)}>重新加载书目</button>}<p aria-live="off">{spoken}</p><label>选择开始章节<select value={order} onChange={e => { stop(); setOrder(Number(e.target.value)); current.current = Number(e.target.value); segment.current = 0; setResumeNotice('已选择新章节，将从章首开始听。') }}>{book?.chapters.map(ch => <option key={ch.order} value={ch.order}>{ch.order}. {ch.title}</option>)}</select></label></section>
 }
