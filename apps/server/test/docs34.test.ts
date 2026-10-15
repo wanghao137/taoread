@@ -29,7 +29,7 @@ describe('P1-3 隐私同意留痕', () => {
     const res = await h.app.inject({
       method: 'POST',
       url: '/api/family',
-      payload: { deviceId: 'd1', agreeVersion: '2026-09-28' },
+      payload: { deviceId: 'd1', agreeVersion: '2026-09-28', parentPin: '864209' },
     })
     expect(res.statusCode).toBe(201)
     const { familyId } = res.json() as { familyId: string }

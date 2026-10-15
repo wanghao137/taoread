@@ -1,0 +1,4 @@
+ALTER TABLE "Family" ADD COLUMN "parentPinHash" TEXT;
+ALTER TABLE "Family" ADD COLUMN "parentPinVersion" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "Family" ADD COLUMN "parentPinAttempts" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "Family" ADD COLUMN "parentPinWindowStart" DATETIME;

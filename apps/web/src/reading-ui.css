@@ -80,7 +80,13 @@
 .child-app .section-head h3 { font-size: 23px; line-height: 1.4; }
 .child-app .section-head p { font-size: 13px; line-height: 1.6; }
 .child-app .story-row,.child-app .library { gap: 28px 20px; }
-.child-app .library>.library-book { content-visibility: auto; contain-intrinsic-size: auto 340px; }
+.child-app .library { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.child-app .library>.library-book { min-width: 0; overflow-wrap: anywhere; content-visibility: auto; contain-intrinsic-block-size: auto 340px; }
+.child-app .library .story-card { min-width: 0; }
+.child-app .library-more { padding: 24px 0; text-align: center; color: var(--ink3); font-size: 14px; }
+@media (min-width: 1100px) {
+  .child-app .library { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}
 .child-app .book-cover { transform: none; border-radius: 12px; box-shadow: 0 4px 10px #342d2712; }
 .child-app .book-cover:not(.has-art) { background: #eee4d3; }
 .child-app .book-cover.rose:not(.has-art) { background: #f0dfe2; }
@@ -164,6 +170,7 @@
   .child-app .hero-copy { white-space: normal; overflow: visible; }
   .child-app .hero-grid>.book-cover:not(.has-art) .cover-title { top: 16px; left: 10px; right: 10px; font-size: 14px; }
   .child-app .story-row,.child-app .library { gap: 24px 16px; }
+  .child-app .library { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .child-app .daily-poem-card { padding: 20px; }
   .child-app .section-head p { flex-basis: 100%; }
   .child-app .mobile-nav { left: 14px; right: 14px; }

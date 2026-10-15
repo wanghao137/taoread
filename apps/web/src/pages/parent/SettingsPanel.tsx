@@ -7,6 +7,7 @@ import { BindWizard } from './BindWizard'
 import { PageHead } from '../../components/PageHead'
 import { FeedbackForm, FeedbackHistory, WeeklyPlan } from '../../components/ReadingSupport'
 import { RecordRestore } from '../../components/RecordRestore'
+import { ParentPinSettings } from '../../components/ParentPinSettings'
 
 export interface SettingsPanelProps {
   familyId: string
@@ -105,13 +106,14 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     return (
       <div className="set-grid">
         <nav className="settings-jump" aria-label="设置分类"><a href="#setting-readers">小读者</a><a href="#setting-reading">阅读习惯</a><a href="#setting-data">数据与隐私</a><a href="#setting-danger">注销家庭</a></nav>
+        <ParentPinSettings familyId={familyId} token={token} />
         {sessionsError && <div role="alert" className="panel">设备列表没有加载成功。<button className="sticker-btn" onClick={onChanged}>重新加载</button></div>}
         {/* 已登录设备（A1/F04）：只显示活跃设备（已请出的历史记录不再刷屏）；
             家长可撤销任意设备，撤销后该设备令牌立即失效 */}
         {sessions && sessions.some((s) => !s.revokedAt) ? (
           <div className="panel" data-testid="device-sessions">
             <h3>已登录设备</h3>
-            <p>所有设备都凭家庭码加入。最多保留 20 个活跃设备，继续加入时最早的设备会退出；发现陌生设备可立即请出。</p>
+            <p>孩子设备凭家庭码加入，家长设备还需独立 PIN。最多保留 20 个活跃设备，孩子加入不会挤出家长；发现陌生设备可立即请出。</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
               {sessions.filter((s) => !s.revokedAt).map((session) => (
                 <div key={session.id} className="kid-row">
@@ -144,7 +146,7 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
               ))}
             </div>
             <p className="mono-line" style={{ marginTop: 8, fontSize: 12 }}>
-              被请出的设备会马上退出登录，并从上面的列表收起；再次加入需要家庭码
+              被请出的设备会退出登录；家长再次加入需要家庭码和家长 PIN
             </p>
           </div>
         ) : null}

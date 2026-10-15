@@ -82,7 +82,7 @@ describe('媒体静态服务', () => {
 })
 
 describe('private media capabilities', () => {
-  const session = { fid: 'family-A', role: 'parent' as const, did: 'device-A', sid: 'session-123456789' }
+  const session = { fid: 'family-A', role: 'parent' as const, did: 'device-A', sid: 'session-123456789', pv: 1 }
   const claims = verifyToken(signToken(session, tokenSecret, { nowSec: 1000, ttlSec: 1000 }), tokenSecret, 1001)
   const path = '/api/media/tts/ab/file.mp3'
 
@@ -90,7 +90,7 @@ describe('private media capabilities', () => {
     const url = mediaUrl(path, claims, tokenSecret, 1000)
     expect(url).not.toContain(signToken(session, tokenSecret, { nowSec: 1000 }))
     const ticket = new URL(url, 'https://example.test').searchParams.get('ticket')!
-    expect(verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1001)).toEqual({ fid: session.fid, sid: session.sid })
+    expect(verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 1001)).toEqual({ fid: session.fid, sid: session.sid, role: 'parent', pv: 1 })
     expect(() => verifyMediaTicket(ticket, 'tts/ab/another.mp3', tokenSecret, 1001)).toThrow()
     expect(() => verifyMediaTicket(ticket, path.slice('/api/media/'.length), tokenSecret, 3700)).toThrow()
     expect(() => verifyMediaTicket(ticket.slice(0, -2) + 'xx', path.slice('/api/media/'.length), tokenSecret, 1001)).toThrow()

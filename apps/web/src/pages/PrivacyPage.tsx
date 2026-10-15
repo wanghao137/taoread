@@ -4,7 +4,7 @@
  * 不收集儿童真实身份信息、无第三方广告/SDK、家庭数据自部署自持有。
  */
 
-export const PRIVACY_VERSION = '2026-10-13'
+export const PRIVACY_VERSION = '2026-10-15'
 
 const SECTIONS: Array<{ title: string; lines: string[] }> = [
   {
@@ -12,6 +12,7 @@ const SECTIONS: Array<{ title: string; lines: string[] }> = [
     lines: [
       '孩子档案只有家长填写的展示昵称和年龄段（3-5 / 6-8 / 9-12），不要真实姓名、生日、照片或联系方式。',
       '设备标识是浏览器本地随机生成的一串字符（如 web-x1a2b3），只用于在设置页区分设备，不关联任何身份。',
+      '家长登录使用家庭码和独立 PIN，孩子只使用家庭码。服务端仅保存加盐、带服务端密钥保护的 PIN 哈希及尝试次数，不保存明文 PIN；PIN 不随家庭数据导出。',
       '阅读记录由本服务的部署者保存在服务端数据库，按家庭和孩子区分，用于进度、回看和共读记录；并非每个家庭有一台独立数据库。',
     ],
   },

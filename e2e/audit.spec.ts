@@ -27,11 +27,10 @@ interface FamilySession {
   token: string
 }
 
-/** 家长凭家庭码加入（join 不落设备行，可重复调用拿同权 token） */
+/** 家长使用演示家庭码和独立测试 PIN 加入。 */
 async function joinAsParent(request: APIRequestContext): Promise<FamilySession> {
   const res = await request.post('/api/family/join', {
-    // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除，join 不再接受 parentCode）
-    data: { familyCode: CODE, role: 'parent', deviceId: 'audit-spec-parent' },
+    data: { familyCode: CODE, role: 'parent', parentPin: '864209', deviceId: 'audit-spec-parent' },
   })
   expect(res.status()).toBe(200)
   return (await res.json()) as FamilySession

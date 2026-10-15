@@ -1,5 +1,8 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { ForbiddenError, UnauthorizedError } from '../../lib/errors'
+import type { DeviceRole } from '../../lib/auth'
+
+export interface MediaClaims { fid: string; sid: string; role?: DeviceRole; pv?: number }
 
 /** Public catalog keys are written by offline tooling; family keys stay private. */
 export function familyScene(familyId: string, scene: string): string {
@@ -26,15 +29,15 @@ export function assertSceneReadable(familyId: string, scene: string): void {
  */
 const TICKET_BUCKET_SEC = 1800
 
-export function mediaUrl(path: string, claims: { fid: string; sid: string }, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): string {
+export function mediaUrl(path: string, claims: MediaClaims, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): string {
   if (!path.startsWith('/api/media/')) throw new Error('invalid media path')
   const e = nowSec - (nowSec % TICKET_BUCKET_SEC) + TICKET_BUCKET_SEC * 2
-  const payload = Buffer.from(JSON.stringify({ p: path.slice('/api/media/'.length), f: claims.fid, s: claims.sid, e })).toString('base64url')
+  const payload = Buffer.from(JSON.stringify({ p: path.slice('/api/media/'.length), f: claims.fid, s: claims.sid, e, r: claims.role, v: claims.pv })).toString('base64url')
   const signature = createHmac('sha256', secret).update(`taoread-media-v1:${payload}`).digest('base64url')
   return `${path}?ticket=${payload}.${signature}`
 }
 
-export function verifyMediaTicket(ticket: string, path: string, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): { fid: string; sid: string } {
+export function verifyMediaTicket(ticket: string, path: string, secret: Buffer, nowSec = Math.floor(Date.now() / 1000)): MediaClaims {
   const parts = ticket.split('.')
   if (parts.length !== 2 || !parts[0] || !parts[1] || parts[0].length > 2048) throw new UnauthorizedError()
   const expected = createHmac('sha256', secret).update(`taoread-media-v1:${parts[0]}`).digest()
@@ -44,8 +47,10 @@ export function verifyMediaTicket(ticket: string, path: string, secret: Buffer, 
   let payload: unknown
   try { payload = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8')) } catch { throw new UnauthorizedError() }
   if (!payload || typeof payload !== 'object') throw new UnauthorizedError()
-  const { p, f, s, e } = payload as Record<string, unknown>
+  const { p, f, s, e, r, v } = payload as Record<string, unknown>
   const maxAgeSec = TICKET_BUCKET_SEC * 2
   if (p !== path || typeof f !== 'string' || typeof s !== 'string' || s.length < 8 || typeof e !== 'number' || !Number.isInteger(e) || e <= nowSec || e > nowSec + maxAgeSec) throw new UnauthorizedError()
-  return { fid: f, sid: s }
+  if (r !== undefined && r !== 'parent' && r !== 'child') throw new UnauthorizedError()
+  if (v !== undefined && (typeof v !== 'number' || !Number.isSafeInteger(v) || v < 1)) throw new UnauthorizedError()
+  return { fid: f, sid: s, ...(r === undefined ? {} : { role: r }), ...(v === undefined ? {} : { pv: v as number }) }
 }

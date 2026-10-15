@@ -13,6 +13,7 @@ export const tokenSecret = tokenSecretFrom(TEST_MASTER_KEY)
 export const FAKE_KEY = 'wrk-test-fake-key-0001'
 /** docs/34 P1-3：创建家庭必带隐私同意版本（监护人首次登记） */
 export const TEST_AGREE_VERSION = '2026-09-28-test'
+export const TEST_PARENT_PIN = '864209'
 
 export interface TestHarness {
   app: FastifyInstance
@@ -130,7 +131,7 @@ export async function createFamilyAsParent(
     method: 'POST',
     url: '/api/family',
     // docs/34 P1-3：创建家庭必须携带隐私政策同意版本（监护人首次登记）
-    payload: { deviceId, agreeVersion: TEST_AGREE_VERSION },
+    payload: { deviceId, agreeVersion: TEST_AGREE_VERSION, parentPin: TEST_PARENT_PIN },
   })
   if (res.statusCode !== 201) {
     throw new Error(`createFamilyAsParent 失败：${res.statusCode} ${res.body}`)
@@ -138,13 +139,13 @@ export async function createFamilyAsParent(
   return res.json()
 }
 
-/** 凭家庭码以指定角色加入（2026-09-25 单一凭据：家庭码通吃家长/孩子，parentCode 仅兼容透传） */
+/** 家长额外使用测试专用 PIN；孩子请求不发送 PIN。 */
 export async function joinFamily(
   app: FastifyInstance,
   familyCode: string,
   role: 'parent' | 'child',
   deviceId = `${role}-device`,
-  parentCode?: string,
+  parentPin = TEST_PARENT_PIN,
 ): Promise<{ familyId: string; token: string }> {
   const res = await app.inject({
     method: 'POST',
@@ -153,7 +154,7 @@ export async function joinFamily(
       familyCode,
       role,
       deviceId,
-      ...(parentCode ? { parentCode } : {}),
+      ...(role === 'parent' ? { parentPin } : {}),
     },
   })
   if (res.statusCode !== 200) {

@@ -3,6 +3,7 @@ import type { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 import { callWereadApi } from '../../services/weread/gateway'
 import {
+  AppError,
   ForbiddenError,
   NotFoundError,
   UnauthorizedError,
@@ -10,11 +11,12 @@ import {
   WereadApiError,
   WereadHttpError,
 } from '../../lib/errors'
-import { verifyToken, type DeviceRole, type TokenClaims } from '../../lib/auth'
+import { signToken, verifyToken, type DeviceRole, type TokenClaims } from '../../lib/auth'
 import { type IpRateLimiter, ipRateLimit } from '../../lib/ipRateLimit'
 import type { SessionGuard } from '../../lib/sessions'
 import type { KeyProbe } from './service'
 import * as svc from './service'
+import { hashParentPin, PARENT_PIN_PATTERN, verifyParentPin } from '../../lib/parentPin'
 
 /** 请求上注入的认证信息 */
 declare module 'fastify' {
@@ -121,7 +123,7 @@ export function registerFamilyRoutes(
 ): void {
   const { db, tokenSecret, masterKey } = deps
   const probe = deps.probeKey ?? defaultProbe
-  // 无凭据入口限流（家庭码即完整身份，防爆破/滥用）
+  // 无凭据入口的 IP 限流；家长 PIN 另有持久化家庭限流。
   const ipLimit = deps.ipLimiter ? { preHandler: ipRateLimit(deps.ipLimiter) } : {}
 
   // ── 创建家庭（无需认证：家庭码即身份的起点）──
@@ -134,10 +136,11 @@ export function registerFamilyRoutes(
       z.object({
         deviceId: deviceIdSchema,
         agreeVersion: z.string().min(4).max(32),
+        parentPin: z.string().regex(PARENT_PIN_PATTERN, '家长 PIN 需要 6–12 位数字'),
       }),
       request.body ?? {},
     )
-    const session = await svc.createFamily(db, tokenSecret, body.deviceId)
+    const session = await svc.createFamily(db, tokenSecret, body.deviceId, body.parentPin)
     // 路由层的 db 运行时是完整 PrismaClient；FamilyDb 只是服务函数的最小子集类型
     const full = db as PrismaClient
     await full.eventLog.create({
@@ -152,7 +155,7 @@ export function registerFamilyRoutes(
     return session
   })
 
-  // ── 凭家庭码加入（2026-09-25 简化：家长/孩子共用家庭码，角色由请求 role 决定）──
+  // 家庭码供孩子加入；家长还必须提供独立 PIN。
   app.post('/api/family/join', {
     ...ipLimit,
   }, async (request) => {
@@ -161,12 +164,34 @@ export function registerFamilyRoutes(
         familyCode: z.string().min(1),
         role: z.enum(['parent', 'child']),
         deviceId: deviceIdSchema,
-        // 旧客户端兼容：仍可能传 parentCode，接受但不再校验
-        parentCode: z.string().max(16).optional(),
+        parentPin: z.string().max(12).optional(),
       }),
       request.body ?? {},
     )
     return svc.joinFamily(db, tokenSecret, body)
+  })
+
+  app.put<{ Params: { familyId: string } }>('/api/family/:familyId/parent-pin', {
+    preHandler: requireAuth(tokenSecret, { roles: ['parent'] }),
+  }, async request => {
+    const { familyId } = parse(familyIdParamSchema, request.params)
+    assertSameFamily(request, familyId)
+    const body = parse(z.object({ currentPin: z.string().max(12), newPin: z.string().regex(PARENT_PIN_PATTERN, '家长 PIN 需要 6–12 位数字') }), request.body)
+    const family = await db.family.findUniqueOrThrow({ where: { id: familyId } })
+    await verifyParentPin(db, family, body.currentPin, tokenSecret)
+    if (body.newPin === family.code) throw new ValidationError('家长 PIN 不能与家庭码相同')
+    const hash = await hashParentPin(body.newPin, tokenSecret)
+    const claims = request.auth!
+    await db.$transaction(async tx => {
+      const changed = await tx.family.updateMany({
+        where: { id: familyId, parentPinHash: family.parentPinHash, parentPinVersion: claims.pv },
+        data: { parentPinHash: hash, parentPinVersion: { increment: 1 }, parentPinAttempts: 0, parentPinWindowStart: null },
+      })
+      if (!changed.count) throw new AppError('家长 PIN 已在其他设备更改，请重新登录', 'PARENT_PIN_CHANGED', 409)
+      await tx.deviceSession.updateMany({ where: { familyId, role: 'parent', id: { not: claims.sid }, revokedAt: null }, data: { revokedAt: new Date() } })
+    })
+    deps.sessionGuard.evictFamily(familyId)
+    return { token: signToken({ fid: familyId, role: 'parent', did: claims.did, sid: claims.sid, pv: family.parentPinVersion + 1 }, tokenSecret) }
   })
 
   // ── 单设备撤销（仅家长，T02/F04）：被撤销设备令牌立即失效 ──

@@ -87,7 +87,8 @@ export function ParentHome() {
   const load = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
-    setState({ kind: 'loading' })
+    // 同一家庭刷新凭据或设置时保留已加载面板，让保存结果和焦点继续可见。
+    setState(previous => previous.kind === 'ready' && previous.view.familyId === familyId ? previous : { kind: 'loading' })
     api
       .familyView(familyId, token)
       .then((view) => alive && setState({ kind: 'ready', view }))

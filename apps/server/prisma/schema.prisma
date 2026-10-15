@@ -17,9 +17,13 @@ datasource db {
 model Family {
   id             String   @id @default(cuid())
   code           String   @unique // 家庭码：孩子设备加入家庭的凭据（不能授予家长身份）
-  /// 家长码（审计 T02/F01）：家长身份的第二凭据，与家庭码分开。
-  /// 仅家长会话可见/可轮换；null=旧家庭尚未生成（首次由家长会话懒生成）。
+  /// 历史家长码列，仅为旧数据保留，不参与独立 PIN 认证。
   parentCode     String?  @unique
+  /// 独立家长 PIN：带服务端 pepper 的 scrypt 哈希，绝不返回给客户端。
+  parentPinHash String?
+  parentPinVersion Int @default(0)
+  parentPinAttempts Int @default(0)
+  parentPinWindowStart DateTime?
   createdAt      DateTime @default(now())
   /// 家庭级护眼设置（第 9 夜）：null=回落服务端默认（TAO_BEDTIME / 300s）
   bedtimeMin     Int?

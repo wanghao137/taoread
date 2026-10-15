@@ -83,4 +83,15 @@ describe('private media ownership and revocation', () => {
     expect(revoked.statusCode).toBe(200)
     expect((await h.app.inject({ method: 'GET', url: childTicket })).statusCode).toBe(401)
   })
+
+  it('changing the PIN invalidates old parent media tickets even on the retained current session', async () => {
+    const before = mediaUrl(artPath, verifyToken(a.token, tokenSecret), tokenSecret)
+    expect((await h.app.inject({ method: 'GET', url: before })).statusCode).toBe(200)
+    const changed = await h.app.inject({ method: 'PUT', url: `/api/family/${a.familyId}/parent-pin`, headers: authHeaders(a.token), payload: { currentPin: '864209', newPin: '730862' } })
+    expect(changed.statusCode).toBe(200)
+    expect((await h.app.inject({ method: 'GET', url: before })).statusCode).toBe(401)
+    a.token = changed.json().token
+    const after = mediaUrl(artPath, verifyToken(a.token, tokenSecret), tokenSecret)
+    expect((await h.app.inject({ method: 'GET', url: after })).statusCode).toBe(200)
+  })
 })

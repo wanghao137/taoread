@@ -170,10 +170,12 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   // 旧无 sid 令牌在 verifyToken 层直接拒绝（迁移：凭家庭码/家长码重新加入）。
   const sessionGuard = createSessionGuard(options.db)
   app.addHook('preHandler', async (request) => {
+    // 登录入口不能被客户端附带的旧令牌阻断，凭据在各自路由验证。
+    if (request.method === 'POST' && (request.url === '/api/family' || request.url === '/api/family/join')) return
     const header = request.headers.authorization
     if (!header || !header.startsWith('Bearer ')) return
     const claims = verifyToken(header.slice(7).trim(), options.tokenSecret)
-    await sessionGuard.assertActive(claims.fid, claims.sid)
+    await sessionGuard.assertActive(claims.fid, claims.sid, claims.role, claims.pv)
   })
 
   registerFamilyRoutes(app, {

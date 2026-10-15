@@ -10,14 +10,9 @@ test('注销：重输家庭码确认 → 数据删除 → 旧凭据失效', asyn
   await page.goto('/login')
   await page.getByRole('button', { name: /输入家庭码加入/ }).click()
   await page.locator('#family-code').fill(CODE)
-  // 2026-09-25 起单一家庭码 + 角色自选（家长码已废除）
   await page.getByRole('button', { name: '爸爸妈妈' }).click()
+  await page.getByLabel('家长 PIN', { exact: true }).fill('864209')
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
-  // docs/34 P1-1 家长门：解析乘算题并作答
-  const gateText = await page.locator('[aria-label="家长确认"]').locator('.code-display').innerText()
-  const [a, b] = gateText.split('×').map((part) => Number.parseInt(part.trim(), 10))
-  await page.getByLabel('计算结果').fill(String(a! * b!))
-  await page.getByRole('button', { name: /确认进入家长端/ }).click()
   await page.getByText('家长端').waitFor()
 
   await page.getByRole('button', { name: '设置', exact: true }).click()

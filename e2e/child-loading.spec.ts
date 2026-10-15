@@ -29,7 +29,7 @@ test('孩子端启动：书库与家庭验证并行，验证前不展示档案�
   expect(catalogueReads).toBe(1)
 })
 
-test('找故事：按屏宽渲染首批，展开和搜索仍覆盖完整书库', async ({ page }) => {
+test('找故事：按屏宽渲染首批，下滑自动追加且搜索覆盖完整书库', async ({ page }) => {
   await selectChild(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/child/discover')
@@ -37,11 +37,97 @@ test('找故事：按屏宽渲染首批，展开和搜索仍覆盖完整书库',
   await expect(page.locator('.library-book').first()).toHaveCSS('content-visibility', 'auto')
   await page.setViewportSize({ width: 390, height: 844 })
   await page.reload()
-  await expect(page.locator('.story-card')).toHaveCount(4)
-  await page.getByRole('button', { name: '再看 24 本', exact: true }).click()
-  await expect(page.locator('.story-card')).toHaveCount(28)
+  const cards = page.locator('.story-card')
+  await expect.poll(() => cards.count()).toBeGreaterThanOrEqual(4)
+  const initialCount = await cards.count()
+  // A short viewport can already put the sentinel inside the preload margin.
+  expect(initialCount).toBeLessThanOrEqual(28)
+  await expect(page.getByRole('button', { name: '再看 24 本', exact: true })).toHaveCount(0)
+  await page.locator('.library-more').scrollIntoViewIfNeeded()
+  await expect.poll(() => cards.count()).toBeGreaterThan(initialCount)
   await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).fill('三字经')
   await expect(page.getByRole('button', { name: '打开《三字经》', exact: true })).toBeVisible()
+})
+
+test('找故事：连续下滑到末尾、回滚和改变屏宽均不会撑宽书卡', async ({ page }) => {
+  await selectChild(page)
+  await page.setViewportSize({ width: 1920, height: 910 })
+  await page.goto('/child/discover')
+  const cards = page.locator('.library-book')
+  await expect(cards).toHaveCount(12)
+  const firstWidth = await cards.first().evaluate(el => el.getBoundingClientRect().width)
+  const total = Number((await page.getByText(/^当前找到 \d+ 本。$/).textContent())?.match(/\d+/)?.[0])
+  expect(total).toBeGreaterThan(36)
+  for (let count = 12; count < total;) {
+    await page.locator('.library-more').scrollIntoViewIfNeeded()
+    const next = Math.min(total, count + 24)
+    await expect(cards).toHaveCount(next)
+    expect(await cards.first().evaluate(el => el.getBoundingClientRect().width)).toBeCloseTo(firstWidth, 0)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    count = next
+  }
+  await expect(page.getByRole('status').filter({ hasText: `已经看到全部 ${total} 本故事` })).toBeVisible()
+  await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).scrollIntoViewIfNeeded()
+  for (const width of [320, 390, 768, 1024, 1920]) {
+    await page.setViewportSize({ width, height: 910 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    const overflow = await cards.evaluateAll(els => els.some(el => el.getBoundingClientRect().right > innerWidth))
+    expect(overflow).toBe(false)
+  }
+  await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).fill('根本没有这本书xyz')
+  await expect(page.getByText('没找到，换个词试试。', { exact: true })).toBeVisible()
+  await expect(page.locator('.library-more')).toHaveCount(0)
+  await page.getByRole('button', { name: '看看全部故事', exact: true }).click()
+  await expect(cards).toHaveCount(total)
+})
+
+test('找故事：不支持 IntersectionObserver 时下滑仍能继续加载', async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'IntersectionObserver', { value: undefined, configurable: true }) })
+  await selectChild(page)
+  await page.goto('/child/discover')
+  const cards = page.locator('.library-book')
+  await expect.poll(() => cards.count()).toBeGreaterThanOrEqual(4)
+  const initialCount = await cards.count()
+  expect(initialCount).toBeLessThanOrEqual(28)
+  await page.locator('.library-more').scrollIntoViewIfNeeded()
+  await expect.poll(() => cards.count()).toBeGreaterThan(initialCount)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+test('找故事：返回书库遇到请求失败，重试后仍能自动追加', async ({ page }) => {
+  await selectChild(page)
+  await page.goto('/child/discover')
+  await expect(page.locator('.library-book').first()).toBeVisible()
+  let fail = true
+  await page.route('**/api/content/books?childId=*', route => fail
+    ? route.fulfill({ status: 503, json: { code: 'NETWORK', message: '书库测试暂不可用' } })
+    : route.continue())
+  await page.getByRole('button', { name: /^打开《/ }).first().click()
+  await expect(page.locator('.book-detail')).toBeVisible()
+  await page.locator('.mobile-nav').getByRole('button', { name: '找故事', exact: true }).last().click()
+  await expect(page.getByText('书库测试暂不可用', { exact: true })).toBeVisible()
+  fail = false
+  await page.getByRole('button', { name: '再试一次', exact: true }).click()
+  await expect(page.getByText('书库测试暂不可用', { exact: true })).toHaveCount(0)
+  const cards = page.locator('.library-book')
+  const initialCount = await cards.count()
+  await page.locator('.library-more').scrollIntoViewIfNeeded()
+  await expect.poll(() => cards.count()).toBeGreaterThan(initialCount)
+})
+
+test('孩子端：从列表下方打开详情，书名与开始读回到首屏', async ({ page }) => {
+  await selectChild(page)
+  await page.goto('/child/discover')
+  await expect(page.locator('.library-book').first()).toBeVisible()
+  await page.locator('.library-more').scrollIntoViewIfNeeded()
+  await expect.poll(() => page.locator('.library-book').count()).toBeGreaterThanOrEqual(28)
+  const book = page.locator('.library-book').nth(20).getByRole('button', { name: /^打开《/ })
+  await book.scrollIntoViewIfNeeded()
+  expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0)
+  await book.click()
+  await expect(page.locator('.book-detail h1')).toBeInViewport()
+  await expect(page.getByRole('button', { name: /开始读|继续读/, exact: true })).toBeInViewport()
+  await expect(page.getByRole('button', { name: '← 返回找故事', exact: true })).toBeInViewport()
 })
 
 test('孩子端启动：失效的已选档案不能把预取书库显示给新档案', async ({ page }) => {
@@ -146,7 +232,7 @@ test('阅读深链不读取全量书单、周报或成就，返回找故事仍�
   await expect(page.getByRole('dialog', { name: '阅读设置', exact: true })).toBeVisible()
   expect(unwanted).toEqual([])
   await page.goto('/child/discover')
-  await expect(page.locator('.story-card')).toHaveCount(4)
+  await expect.poll(() => page.locator('.story-card').count()).toBeGreaterThanOrEqual(4)
   await expect.poll(() => unwanted.filter(p => p === '/api/content/books').length).toBeGreaterThan(0)
   await page.getByRole('textbox', { name: '搜索书名或作者', exact: true }).fill('三字经')
   await expect(page.getByRole('button', { name: '打开《三字经》', exact: true })).toBeVisible()

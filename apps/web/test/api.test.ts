@@ -24,6 +24,20 @@ afterEach(() => {
 })
 
 describe('request / api 客户端', () => {
+  it('登录不附带旧会话令牌；仅家长请求携带独立 PIN', async () => {
+    const { useSession } = await import('../src/stores/session')
+    useSession.getState().signIn({ token: 'stale-parent', familyId: 'f', familyCode: 'ABCD2345', role: 'parent' })
+    const { calls } = mockFetch(async () => jsonResponse(200, { token: 'fresh' }))
+    await api.joinFamily('ABCD2345', 'parent', 'd', '864209')
+    expect(calls[0]!.init?.headers).not.toHaveProperty('Authorization')
+    expect(JSON.parse(String(calls[0]!.init?.body)).parentPin).toBe('864209')
+    await api.joinFamily('ABCD2345', 'child', 'd', '864209')
+    expect(JSON.parse(String(calls[1]!.init?.body))).not.toHaveProperty('parentPin')
+    await api.createFamily('d', 'test-version', '864209')
+    expect(calls[2]!.init?.headers).not.toHaveProperty('Authorization')
+    expect(JSON.parse(String(calls[2]!.init?.body)).parentPin).toBe('864209')
+    useSession.getState().signOut()
+  })
   it('阅读进度离开时仍携带认证、版本与完成动作，使用 keepalive', async () => {
     const { calls } = mockFetch(async () => jsonResponse(200, { stale: false, updatedAt: 'v2' }))
     await api.reportContentProgress('story', 'child', { chapterOrder: 8, blockOrder: 4, completed: true, baseUpdatedAt: 'v1' }, 'reader-token')

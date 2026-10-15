@@ -16,6 +16,7 @@ export class ApiError extends Error {
 }
 
 export interface RequestOptions {
+  anonymous?: boolean
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   body?: unknown
   token?: string | null
@@ -31,10 +32,10 @@ interface ErrorBody {
 }
 
 /** Delayed failures from a previous login must not revoke the new session. */
-function expireSession(bearer: string | null | undefined): void {
+function expireSession(bearer: string | null | undefined, parentPinRequired = false): void {
   if (!bearer || useSession.getState().token !== bearer) return
   useSession.getState().signOut()
-  if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) location.assign('/login')
+  if (typeof location !== 'undefined' && !location.pathname.startsWith('/login')) location.assign(parentPinRequired ? '/login?reason=parent-pin' : '/login')
 }
 
 /** 统一请求出口：JSON 往返、错误归一为 ApiError（服务端中文 message 直通 UI）。
@@ -44,7 +45,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   if (options.body !== undefined) headers['Content-Type'] = 'application/json'
   // 显式 token 优先；未传时回退会话令牌——调用方不可能「忘记带 token」
   // （tts/voices 等接口曾漏带，触发 401 → 全局登出把孩子踢回登录页，docs/14）
-  const bearer = options.token ?? useSession.getState().token
+  const bearer = options.anonymous ? null : options.token ?? useSession.getState().token
   if (bearer) headers['Authorization'] = `Bearer ${bearer}`
 
   let response: Response
@@ -81,8 +82,8 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   if (!response.ok) {
     const body = data as ErrorBody
     if (response.status === 401) {
-      expireSession(bearer)
-      throw new ApiError(401, 'UNAUTHORIZED', '登录状态过期啦，请用家庭码重新加入')
+      expireSession(bearer, body.code === 'PARENT_PIN_REQUIRED')
+      throw new ApiError(401, 'UNAUTHORIZED', typeof body.message === 'string' ? body.message : '登录状态过期啦，请重新加入家庭')
     }
     throw new ApiError(
       response.status,
@@ -213,14 +214,18 @@ export const api = {
   resumePhonics: (token: string, attemptId: string) => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/resume`, { method: 'POST', token }),
   finishPhonics: (token: string, attemptId: string, status: 'completed' | 'paused') => request<{ id: string; status: string }>(`/api/phonics/attempts/${encodeURIComponent(attemptId)}/finish`, { method: 'POST', token, body: { status } }),
 
-  createFamily: (deviceId: string, agreeVersion: string) =>
-    request<FamilySessionDto>('/api/family', { method: 'POST', body: { deviceId, agreeVersion } }),
+  createFamily: (deviceId: string, agreeVersion: string, parentPin: string) =>
+    request<FamilySessionDto>('/api/family', { method: 'POST', anonymous: true, body: { deviceId, agreeVersion, parentPin } }),
 
-  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string) =>
+  joinFamily: (familyCode: string, role: DeviceRole, deviceId: string, parentPin?: string) =>
     request<FamilySessionDto>('/api/family/join', {
       method: 'POST',
-      body: { familyCode, role, deviceId },
+      anonymous: true,
+      body: { familyCode, role, deviceId, ...(role === 'parent' ? { parentPin } : {}) },
     }),
+
+  changeParentPin: (familyId: string, token: string, currentPin: string, newPin: string) =>
+    request<{ token: string }>(`/api/family/${familyId}/parent-pin`, { method: 'PUT', token, body: { currentPin, newPin } }),
 
   /** 设备会话列表（仅家长，A1）：含已撤销，current 标记本机 */
   listSessions: (familyId: string, token: string) =>

@@ -4,9 +4,12 @@
  */
 import type { PrismaClient } from '@prisma/client'
 import { encryptSecret } from '../lib/crypto'
+import { hashParentPin } from '../lib/parentPin'
+import { deriveTokenSecret } from '../lib/auth'
 
 export const DEMO_FAMILY_CODE = '123456'
-// 2026-09-25 起单一家庭码 + 角色自选，家长码已废除：种子不再写入 parentCode
+/** 仅本地演示/隔离测试使用的公开假 PIN，生产入口拒绝演示家庭。 */
+export const DEMO_PARENT_PIN = '864209'
 const DEMO_KEY = 'wrk-demo-key-0001'
 
 /** 今天 20:30 起，向前推 n 晚的 startedAt */
@@ -24,7 +27,7 @@ export async function seedDemoFamily(db: PrismaClient, masterKey: string): Promi
     return existing.id
   }
 
-  const family = await db.family.create({ data: { code: DEMO_FAMILY_CODE } })
+  const family = await db.family.create({ data: { code: DEMO_FAMILY_CODE, parentPinHash: await hashParentPin(DEMO_PARENT_PIN, deriveTokenSecret(masterKey)), parentPinVersion: 1 } })
 
   // 绑定（演示 key，探针在 demo 模式恒成功）
   await db.wereadBinding.create({

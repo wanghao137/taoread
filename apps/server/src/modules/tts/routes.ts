@@ -82,7 +82,7 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
     const ticket = request.query.ticket
     if (typeof ticket !== 'string' || !deps.sessionGuard) throw new UnauthorizedError()
     const claims = verifyMediaTicket(ticket, `tts-live/${request.params.id}`, tokenSecret)
-    await deps.sessionGuard.assertActive(claims.fid, claims.sid)
+    await deps.sessionGuard.assertActive(claims.fid, claims.sid, claims.role, claims.pv)
     const entry = liveAudio.get(request.params.id)
     if (!entry) return reply.code(404).send({ code: 'NOT_FOUND', message: '朗读已过期，请重新播放' })
     if (claims.fid !== entry.familyId || claims.sid !== entry.sessionId) throw new ForbiddenError()

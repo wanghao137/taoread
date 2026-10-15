@@ -4,7 +4,7 @@ import { UnauthorizedError } from './errors'
 /**
  * 设备令牌：HMAC-SHA256 签名的紧凑 JWT（header.payload.signature）。
  *
- * 无状态（不落库、无会话表）；签名密钥由 TAO_MASTER_KEY 派生，
+ * 签名密钥由 TAO_MASTER_KEY 派生；令牌绑定可撤销设备会话，家长另有 PIN 版本，
  * 服务重启后已签发令牌仍然有效（相对原计划的「内存态随机密钥」的刻意偏离：
  * 夜间开发频繁重启，随机密钥会导致全部设备反复重新绑定，日志已记录）。
  * 主密钥更换=全员下线，是预期的失效路径。
@@ -20,6 +20,8 @@ export interface TokenClaims {
   did: string
   /** 会话 id（审计 T02/F04）：令牌绑定 DeviceSession 行，可撤销、随家庭注销失效 */
   sid: string
+  /** 独立 PIN 的凭据版本；旧令牌没有此字段，不能继续持有家长权限。 */
+  pv?: number
   iat: number
   exp: number
 }
@@ -85,7 +87,7 @@ export function verifyToken(token: string, secret: Buffer, nowSec?: number): Tok
     typeof claims.fid !== 'string' ||
     (claims.role !== 'parent' && claims.role !== 'child') ||
     typeof claims.did !== 'string' ||
-    // sid 缺失 = 迁移前的旧令牌（无会话可查）：一律拒绝，凭家庭码/家长码重新加入
+    // sid 缺失 = 迁移前的旧令牌（无会话可查）：一律拒绝并要求重新加入。
     typeof claims.sid !== 'string' ||
     claims.sid.length < 8 ||
     typeof claims.exp !== 'number'

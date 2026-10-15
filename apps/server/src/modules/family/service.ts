@@ -14,6 +14,7 @@ import {
   type DeviceRole,
 } from '../../lib/auth'
 import { createDeviceSession } from '../../lib/sessions'
+import { hashParentPin, verifyParentPin } from '../../lib/parentPin'
 import {
   AppError,
   ForbiddenError,
@@ -24,8 +25,7 @@ import {
 /**
  * 家庭域服务：家庭创建/加入、微信读书绑定、孩子档案。
  * 越权防线：所有按 id 操作的方法都先校验归属（familyId / child.familyId）。
- * 身份模型（2026-09-25 简化）：单一家庭码凭据，家长/孩子角色由登录页选择；
- * schema.parentCode 列仅为历史数据保留，不再参与任何鉴权路径。
+ * 家庭码只授予孩子身份；家长必须验证独立 PIN。parentCode 仅保留历史数据。
  */
 
 export interface FamilySession {
@@ -49,13 +49,15 @@ export async function createFamily(
   db: FamilyDb,
   tokenSecret: Buffer,
   deviceId: string | undefined,
+  parentPin: string,
 ): Promise<FamilySession> {
   // 家庭码唯一约束碰撞时重试（32^8 空间，碰撞概率极低；防御性上限 3 次）。
-  // 2026-09-25 产品决策：单一凭据——一个家庭码通吃家长/孩子，不再有第二凭据家长码。
+  const parentPinHash = await hashParentPin(parentPin, tokenSecret)
   for (let attempt = 0; ; attempt++) {
     const code = generateFamilyCode()
+    if (code === parentPin) continue
     try {
-      const family = await db.family.create({ data: { code } })
+      const family = await db.family.create({ data: { code, parentPinHash, parentPinVersion: 1 } })
       const session = await createDeviceSession(db, {
         familyId: family.id,
         role: 'parent',
@@ -65,7 +67,7 @@ export async function createFamily(
         familyId: family.id,
         familyCode: family.code,
         token: signToken(
-          { fid: family.id, role: 'parent', did: deviceId ?? 'unknown-device', sid: session.id },
+          { fid: family.id, role: 'parent', did: deviceId ?? 'unknown-device', sid: session.id, pv: family.parentPinVersion },
           tokenSecret,
         ),
       }
@@ -88,7 +90,7 @@ const MAX_ACTIVE_DEVICE_SESSIONS = (() => {
 export async function joinFamily(
   db: FamilyDb,
   tokenSecret: Buffer,
-  input: { familyCode: string; role: DeviceRole; deviceId?: string; parentCode?: string },
+  input: { familyCode: string; role: DeviceRole; deviceId?: string; parentPin?: string },
 ): Promise<FamilySession> {
   const code = input.familyCode.trim().toUpperCase()
   if (!isValidFamilyCode(code)) {
@@ -98,12 +100,15 @@ export async function joinFamily(
   if (!family) {
     throw new NotFoundError('没有找到这个家庭码，请核对后再试')
   }
+  // 必须先验证 PIN，再处理设备额度；错误凭据不能踢出任何已有设备。
+  if (input.role === 'parent') await verifyParentPin(db, family, input.parentPin, tokenSecret)
   let activeSessions = await db.deviceSession.count({
     where: { familyId: family.id, revokedAt: null },
   })
   if (activeSessions >= MAX_ACTIVE_DEVICE_SESSIONS) {
     // 满员先自动腾位再放行：优先撤销最旧的「孩子」会话（家长设备承担管理入口，
-    // 尽量不动；孩子设备重新输入家庭码即可回来），不足时才轮到家长。固定家庭码
+    // 尽量不动；孩子设备重新输入家庭码即可回来）。仅经过 PIN 验证的家长加入时，
+    // 才允许在没有孩子设备可腾位的情况下替换旧家长会话。固定家庭码
     // 形态下若只 429，「移除设备」的撤销入口在登录后的设备列表里——所有设备都
     // 被挡在登录外时就是死锁（2026-09-27 生产实测锁死）。会话无过期时间，积压必然发生。
     const need = activeSessions - MAX_ACTIVE_DEVICE_SESSIONS + 1
@@ -114,7 +119,7 @@ export async function joinFamily(
       take: need,
       select: { id: true },
     })
-    if (stale.length < need) {
+    if (stale.length < need && input.role === 'parent') {
       const extra = await db.deviceSession.findMany({
         where: { ...alive, id: { notIn: stale.map((s) => s.id) } },
         orderBy: { createdAt: 'asc' },
@@ -136,8 +141,6 @@ export async function joinFamily(
       throw new AppError('这个家庭的设备达到上限了，请家长先移除不用的设备再登录', 'DEVICE_SESSION_LIMIT', 429)
     }
   }
-  // 2026-09-25 产品决策：单一凭据。家长/孩子共用家庭码，身份由登录页角色选择决定；
-  // input.parentCode 仅为旧客户端兼容保留，服务端不再校验。
   const session = await createDeviceSession(db, {
     familyId: family.id,
     role: input.role,
@@ -147,7 +150,7 @@ export async function joinFamily(
     familyId: family.id,
     familyCode: family.code,
     token: signToken(
-      { fid: family.id, role: input.role, did: input.deviceId ?? 'unknown-device', sid: session.id },
+      { fid: family.id, role: input.role, did: input.deviceId ?? 'unknown-device', sid: session.id, ...(input.role === 'parent' ? { pv: family.parentPinVersion } : {}) },
       tokenSecret,
     ),
   }

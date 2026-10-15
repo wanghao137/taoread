@@ -36,26 +36,25 @@ describe('家长身份与会话撤销（T02）', () => {
   const sidOf = (token: string): string =>
     (JSON.parse(Buffer.from(token.split('.')[1]!, 'base64url').toString('utf8')) as { sid: string }).sid
 
-  it('仅凭家庭码即可申请家长身份（2026-09-25 单一凭据简化）', async () => {
+  it('仅凭家庭码不能申请家长身份', async () => {
     const parent = await createFamilyAsParent(h.app)
     const res = await h.app.inject({
       method: 'POST',
       url: '/api/family/join',
       payload: { familyCode: parent.familyCode, role: 'parent', deviceId: 'second-parent' },
     })
-    expect(res.statusCode).toBe(200)
-    expect(res.json().familyId).toBe(parent.familyId)
-    expect(res.json().token).toBeTruthy()
+    expect(res.statusCode).toBe(403)
+    expect(res.json().token).toBeUndefined()
   })
 
-  it('家长码字段已不被校验：错误/正确的 parentCode 都能加入且角色为家长', async () => {
+  it('旧 parentCode 字段不能替代独立 PIN，正确 PIN 可以加入', async () => {
     const parent = await createFamilyAsParent(h.app)
     const wrong = await h.app.inject({
       method: 'POST',
       url: '/api/family/join',
       payload: { familyCode: parent.familyCode, role: 'parent', parentCode: 'WRONG99', deviceId: 'p2' },
     })
-    expect(wrong.statusCode).toBe(200)
+    expect(wrong.statusCode).toBe(403)
 
     const ok = await joinFamily(h.app, parent.familyCode, 'parent', 'parent-2')
     expect(ok.familyId).toBe(parent.familyId)

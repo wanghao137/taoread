@@ -16,7 +16,7 @@ import { realpath, stat } from 'node:fs/promises'
 import { join, normalize, sep } from 'node:path'
 import { verifyToken } from '../../lib/auth'
 import type { SessionGuard } from '../../lib/sessions'
-import { assertSceneReadable, verifyMediaTicket } from './access'
+import { assertSceneReadable, verifyMediaTicket, type MediaClaims } from './access'
 import { ForbiddenError, UnauthorizedError } from '../../lib/errors'
 
 const MIME: Record<string, string> = {
@@ -50,7 +50,7 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
       let rowIsPrivate = false
       async function authorize(familyId: string): Promise<void> {
         const header = request.headers.authorization
-        let claims: { fid: string; sid: string }
+        let claims: MediaClaims
         if (header?.startsWith('Bearer ')) {
           claims = verifyToken(header.slice(7).trim(), deps.tokenSecret!)
         } else {
@@ -59,7 +59,7 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
           claims = verifyMediaTicket(ticket, path, deps.tokenSecret!)
         }
         if (claims.fid !== familyId) throw new ForbiddenError('不能访问其他家庭的素材')
-        await deps.sessionGuard!.assertActive(claims.fid, claims.sid)
+        await deps.sessionGuard!.assertActive(claims.fid, claims.sid, claims.role, claims.pv)
       }
       if (deps.db && /^art\/(?:covers|chapters)\/.+\.(thumb|reader)\.webp$/.test(path)) {
         // 缩图/阅读器档（2026-09-25 性能方案）：随基准素材同权限——公共素材放行；

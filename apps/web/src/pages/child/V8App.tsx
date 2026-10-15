@@ -12,6 +12,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -284,6 +285,10 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const [toastMsg, setToastMsg] = useState('')
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const location = useLocation()
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   const showToast = useCallback((m: string) => {
     setToastMsg(m)
@@ -1037,6 +1042,37 @@ function DiscoverPage() {
   }, [v.books, query, moodKey, langFilter, serverHits, collectionKey, collectionBooks])
   // A narrowed search/collection should retain its existing first result set.
   const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(12, visible) : visible
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+  const hasMore = filtered.length > visibleLimit
+  useEffect(() => {
+    const sentinel = loadMoreRef.current
+    if (!sentinel || !hasMore) return
+    const revealMore = () => setVisible((n) => Math.max(visibleLimit, n) + 24)
+    if (typeof IntersectionObserver === 'undefined') {
+      const onScroll = () => {
+        if (sentinel.getBoundingClientRect().top <= window.innerHeight + 240) {
+          window.removeEventListener('scroll', onScroll)
+          window.removeEventListener('resize', onScroll)
+          revealMore()
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true })
+      window.addEventListener('resize', onScroll)
+      onScroll()
+      return () => {
+        window.removeEventListener('scroll', onScroll)
+        window.removeEventListener('resize', onScroll)
+      }
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        observer.disconnect()
+        revealMore()
+      }
+    }, { rootMargin: '0px 0px 240px 0px' })
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [hasMore, visibleLimit, v.loaded, v.booksError])
 
   return (
     <>
@@ -1167,12 +1203,12 @@ function DiscoverPage() {
         {filtered.slice(0, visibleLimit).map((b) => (
           <div key={b.id} className="library-book"><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
         ))}
-        {filtered.length > visibleLimit ? (
-          <button className="sticker-btn" style={{ gridColumn: '1 / -1' }} onClick={() => setVisible((n) => Math.max(visibleLimit, n) + 24)}>
-            再看 24 本
-          </button>
-        ) : null}
       </div>
+      {v.loaded && !v.booksError && filtered.length > 0 ? (
+        <div ref={loadMoreRef} className="library-more" role="status">
+          {hasMore ? '继续下滑，发现更多故事' : `已经看到全部 ${filtered.length} 本故事`}
+        </div>
+      ) : null}
     </>
   )
 }
