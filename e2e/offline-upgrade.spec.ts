@@ -15,12 +15,12 @@ test('existing offline shell upgrades before the next offline visit', async ({ p
   ])
   const targetCache = worker.match(/const CACHE = '([^']+)'/)?.[1]
   expect(targetCache).toBeTruthy()
-  expect(targetCache).not.toBe('taoread-shell-v7')
+  expect(targetCache).not.toBe('taoread-shell-v9')
   let upgraded = false
   // A previous installed worker and stale precache; all traffic stays on this fixture.
   const previousWorker = `
     self.addEventListener('install', event => event.waitUntil((async () => {
-      const cache = await caches.open('taoread-shell-v7');
+      const cache = await caches.open('taoread-shell-v9');
       await cache.add('/offline.html');
       await self.skipWaiting();
     })()));
@@ -51,7 +51,7 @@ test('existing offline shell upgrades before the next offline visit', async ({ p
       await navigator.serviceWorker.ready
     })
     await page.waitForFunction(() => !!navigator.serviceWorker.controller)
-    expect(await page.evaluate(async () => (await (await caches.open('taoread-shell-v7')).match('/offline.html'))?.text())).toContain('previous offline shell')
+    expect(await page.evaluate(async () => (await (await caches.open('taoread-shell-v9')).match('/offline.html'))?.text())).toContain('previous offline shell')
     await page.evaluate(async () => {
       const unrelated = await caches.open('unrelated-static-cache')
       await unrelated.put('/sentinel', new Response('keep'))
@@ -63,14 +63,14 @@ test('existing offline shell upgrades before the next offline visit', async ({ p
       await changed
     })
     // controllerchange can precede completion of activate's waitUntil work.
-    await expect.poll(() => page.evaluate(() => caches.keys())).not.toContain('taoread-shell-v7')
+    await expect.poll(() => page.evaluate(() => caches.keys())).not.toContain('taoread-shell-v9')
     const evidence = await page.evaluate(async (cacheName) => ({
       caches: await caches.keys(),
       html: await (await (await caches.open(cacheName!)).match('/offline.html'))?.text(),
       unrelated: await (await (await caches.open('unrelated-static-cache')).match('/sentinel'))?.text(),
     }), targetCache)
     expect(evidence.caches).toContain(targetCache)
-    expect(evidence.caches).not.toContain('taoread-shell-v7')
+    expect(evidence.caches).not.toContain('taoread-shell-v9')
     expect(evidence.html).toBe(html)
     expect(evidence.unrelated).toBe('keep')
     await context.setOffline(true)

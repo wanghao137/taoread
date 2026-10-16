@@ -17,9 +17,9 @@ const MARKER_RE = /\[\[img:([^\]]+)\]\]/g
 
 /** 家庭书阅读器主题（与主站 paper/sepia/night 三档一致；配色自包含，不依赖主站块状 DOM） */
 const FAMILY_THEME: Record<ReadingTheme, { bg: string; fg: string; muted: string; highlight: string }> = {
-  paper: { bg: '#FFFDF6', fg: '#3E2F23', muted: '#8A7A6A', highlight: '#FFE082' },
-  sepia: { bg: '#F4E8D0', fg: '#4A3A28', muted: '#8A7355', highlight: '#E8C87F' },
-  night: { bg: '#1C1B18', fg: '#D8D2C4', muted: '#8F897A', highlight: '#5A523A' },
+  paper: { bg: '#FFFDF6', fg: '#3E2F23', muted: '#75695D', highlight: '#FFE082' },
+  sepia: { bg: '#F4E8D0', fg: '#4A3A28', muted: '#746046', highlight: '#E8C87F' },
+  night: { bg: '#1C1B18', fg: '#D8D2C4', muted: '#B7AA94', highlight: '#5A523A' },
 }
 
 type ReaderBlock = { kind: 'p'; text: string; cleanStart: number; cleanLen: number } | { kind: 'img'; key: string }

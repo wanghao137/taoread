@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defaultReadingTheme, isQuietHours } from '../src/lib/readingTheme'
 
 const at = (h: number, m = 0): Date => new Date(2026, 8, 17, h, m)
@@ -28,6 +28,14 @@ describe('isQuietHours（安静时段 20:00~06:00）', () => {
 })
 
 describe('defaultReadingTheme（阅读器默认主题）', () => {
+  afterEach(() => { vi.unstubAllGlobals() })
+  it('白天系统深色时默认夜间，系统亮色仍按时段选择', () => {
+    vi.stubGlobal('window', { matchMedia: () => ({ matches: true }) })
+    expect(defaultReadingTheme(at(10))).toBe('night')
+    vi.stubGlobal('window', { matchMedia: () => ({ matches: false }) })
+    expect(defaultReadingTheme(at(10))).toBe('paper')
+    expect(defaultReadingTheme(at(21))).toBe('night')
+  })
   it('安静时段默认夜空主题', () => {
     expect(defaultReadingTheme(at(21, 30))).toBe('night')
   })

@@ -22,5 +22,7 @@ export function isQuietHours(now: Date = new Date()): boolean {
 
 /** 阅读器默认主题：安静时段给夜间护眼（工具属性），其余时间给纸白主场景 */
 export function defaultReadingTheme(now: Date = new Date()): ReadingTheme {
-  return isQuietHours(now) ? 'night' : 'paper'
+  const systemDark = typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-color-scheme: dark)').matches
+  return systemDark || isQuietHours(now) ? 'night' : 'paper'
 }

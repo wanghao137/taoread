@@ -1278,14 +1278,14 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   /* ── 加载态 / 首次加载失败错误态 ── */
   if (loading && !chapter) {
     return (
-      <div className="reader" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center' }}>
+      <div className={`reader ${theme}`} style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center' }}>
         <p className="mono-label">正在翻开这一章…</p>
       </div>
     )
   }
   if (chapterError && !chapter) {
     return (
-      <div className="reader" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center' }}>
+      <div className={`reader ${theme}`} style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: 24, textAlign: 'center' }}>
           <p className="mono-label">{chapterError}</p>
           <button className="sticker-btn primary" onClick={() => void loadChapter(order)}>
@@ -1347,7 +1347,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
               className="mono-label"
               style={{
                 padding: '3px 8px',
-                color: '#30271f',
+                color: 'var(--ink)',
                 border: '1.5px solid var(--ink)',
                 borderRadius: 999,
                 background: saveState === 'failed' || saveState === 'conflict' ? 'var(--rose, #ffd6cc)' : 'var(--mint, #dcf5e3)',

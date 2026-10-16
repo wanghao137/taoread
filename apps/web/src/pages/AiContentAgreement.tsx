@@ -46,7 +46,7 @@ export function AiContentAgreement() {
         </p>
       </section>
 
-      <p className="text-xs leading-relaxed text-ink-700/70">
+      <p className="text-xs leading-relaxed text-ink-700">
         标识一经添加不会删除或篡改。孩子端不提供内容发布功能，因此不涉及传播场景的主动声明。
       </p>
     </div>

@@ -884,7 +884,7 @@ function TodayPage() {
       <div className="today-secondary"><button className="text-action min-h-[44px]" onClick={() => navigate('/child/phonics')}>英语练习 · 内测 →</button></div>
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
-          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
+          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: 'var(--card)' }}>
             <b>《{paper.title}》读得怎么样？</b>
             <div className="mood-row" role="group" aria-label="今晚的心情">
               {FINISH_MOODS.map(([key, label]) => (
@@ -1456,7 +1456,7 @@ function MyPage() {
       )}
       {litOpen && litItems ? (
         <Dialog label="找相同的字" onClose={() => setLitOpen(false)}>
-          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: '#FFFDF8' }}>
+          <div className="side-card" style={{ maxWidth: 420, width: '100%', background: 'var(--card)' }}>
             {litSuggestion ? (
               <>
                 <b>完成啦！找对了 {litCorrect} / {litItems.length} 次</b>

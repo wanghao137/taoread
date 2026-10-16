@@ -36,10 +36,16 @@ test('升级：移动入口、阅读布局、键盘弹层及本地录音权限�
     await expect(page.getByRole('button', { name: /开始读|继续读/, exact: true })).toBeInViewport()
   }
   await page.setViewportSize({ width: 390, height: 844 })
+  const sessionStarted = page.waitForResponse(response => response.url().endsWith('/api/cosession') && response.request().method() === 'POST')
   await page.getByRole('button', { name: /开始读|继续读/, exact: true }).click()
   const conflict = page.getByRole('button', { name: /结束旧书，?改读这本/ })
-  await expect.poll(async () => await conflict.isVisible() || await page.locator('.reader-controls').isVisible()).toBe(true)
-  if (await conflict.isVisible()) await conflict.click()
+  // The reader renders before the session request settles; a 409 opens the dialog afterward.
+  const sessionResponse = await sessionStarted
+  expect([200, 201, 409]).toContain(sessionResponse.status())
+  if (sessionResponse.status() === 409) {
+    await conflict.click()
+    await expect(page.getByRole('dialog', { name: '上一本还没收尾' })).toBeHidden()
+  }
   await expect(page.locator('.reader-top')).toBeVisible()
   for (const width of [360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 844 })

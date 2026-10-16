@@ -1,0 +1,155 @@
+/* Shared surfaces also reach portals, route loading and the browser's native controls. */
+:root {
+  color-scheme: light;
+  --line: #d8cdb6;
+  --action: #ffd84d;
+  --action-ink: #30271f;
+  --danger: #ad3519;
+}
+html { background: var(--paper); color: var(--ink); }
+select,textarea { color: var(--ink); }
+.child-profile>img:not(.tao-icon) { border-radius: 50%; }
+.app .book-cover { container-type: inline-size; }
+.app .book-cover:not(.has-art) .cover-title { top: auto; bottom: 8px; left: 8px; right: 8px; font-size: 16px; font-size: clamp(12px,13cqw,22px); line-height: 1.4; -webkit-line-clamp: 2; max-height: 44%; }
+.today-book .book-cover .cover-kicker { display: none; }
+::selection { background: var(--sun); color: var(--ink); }
+.reader-label { opacity: 1; color: var(--ink3); }
+
+/* Desktop density is independent of the large illustration reference dimensions. */
+@media (min-width: 961px) {
+  .child-app>.wrap { width: min(1320px,100%); padding: 24px 32px 64px; }
+  .child-app .mast { grid-template-columns: 52px minmax(135px,1fr) 342px minmax(0,1fr); gap: 22px; height: 56px; margin-bottom: 28px; }
+  .child-app .mast .logo { width: 52px; height: 52px; }
+  .child-app .brand h1 { font-size: 36px; letter-spacing: -1px; }
+  .desktop-nav { width: 342px; height: 52px; grid-template-columns: repeat(3,1fr); border-radius: 18px; }
+  .desktop-nav button { font-size: 19px; padding: 8px; }
+  .desktop-nav button[aria-current='page'] { border-radius: 16px; }
+  .child-app .mast-actions { gap: 18px; }
+  .child-profile,.parent-entry { font-size: 15px; gap: 8px; }
+  .child-profile>img:not(.tao-icon) { width: 44px; height: 44px; }
+  .parent-entry { padding-left: 18px; }
+  .today-heading { height: auto; min-height: 76px; padding-top: 0; gap: 16px; margin-bottom: 22px; }
+  .greeting-star { width: 38px; height: 42px; flex-basis: 38px; }
+  .today-heading h2 { font-size: 34px; letter-spacing: -.6px; line-height: 1.4; }
+  .today-heading p { font-size: 17px; line-height: 1.6; }
+  .greeting-accent { width: 28px; height: 45px; top: -3px; }
+  .today-heading time { font-size: 15px; gap: 12px; padding-bottom: 4px; }
+  .today-featured { grid-template-columns: minmax(0,1.7fr) minmax(0,1fr); gap: 18px; }
+  .today-hero { grid-template-columns: 112px minmax(0,1fr); min-height: 250px; padding: 54px 28px 28px; gap: 28px; }
+  .continue-tab { min-height: 38px; padding: 4px 18px; font-size: 18px; }
+  .continue-cover,.continue-cover>.book-cover { width: 112px; }
+  .continue-cover>.book-cover { height: 158px; }
+  .continue-cover>.reading-illustration { width: 112px; height: 158px; }
+  .today-hero-copy h3 { max-width: 100%; font-size: 28px; line-height: 1.45; margin-bottom: 4px; }
+  .continue-position,.continue-caption { font-size: 16px; line-height: 1.7; }
+  .continue-caption { padding-right: 144px; white-space: normal; }
+  .continue-progress { height: 12px; max-width: 280px; margin: 10px 0 20px; }
+  .continue-stars { display: none; }
+  .child-app .continue-action { min-height: 50px; min-width: 154px; font-size: 20px; right: 24px; bottom: 24px; border-radius: 18px; gap: 10px; }
+  .daily-poem-card { min-height: 250px; padding: 18px 24px 76px; }
+  .poem-label { font-size: 19px; margin-bottom: 8px; }
+  .daily-poem-card h3 { font-size: 28px; margin-bottom: 6px; }
+  .daily-poem-card .poem-author { font-size: 18px; }
+  .daily-poem-card.has-long-title h3 { font-size: 24px; }
+  .daily-poem-card.has-long-title .poem-author { font-size: 16px; }
+  .app .daily-poem-preview,.app .daily-poem-card.has-long-title .daily-poem-preview { font-size: 18px; line-height: 1.65; margin-bottom: 0; }
+  .app .daily-poem-card .poem-action { min-height: 46px; left: 24px; bottom: 18px; padding: 8px 18px; font-size: 17px; border-radius: 14px; }
+  .poem-scenery { width: 160px; height: 175px; }
+  .child-app .today-shortcuts { gap: 18px; margin-top: 22px; }
+  .today-shortcut { min-height: 90px; gap: 18px; padding: 14px 22px; }
+  .shortcut-icon { width: 58px; height: 58px; flex-basis: 58px; border-radius: 16px; }
+  .shortcut-icon .tao-icon { width: 38px; height: 38px; }
+  .shortcut-copy b { font-size: 23px; }
+  .shortcut-copy small { font-size: 16px; }
+  .child-app .today-picks { padding-top: 26px; }
+  .child-app .section-head h3 { font-size: 23px; }
+  .today-picks .text-action { font-size: 16px; }
+  .child-app .today-book { grid-template-columns: 76px minmax(0,1fr); gap: 16px; padding: 14px; min-height: 144px; }
+  .child-app .today-book>.book-cover { width: 76px; height: 108px; }
+  .today-book .story-title b { font-size: 18px; }
+  .today-book .recommendation-reason { font-size: 15px; line-height: 1.6; margin-top: 8px; }
+  .book-category { font-size: 13px; padding: 3px 12px; }
+  .book-like { top: 14px; right: 10px; }
+  .child-app .page-head h2,.parent-app .page-head h2 { font-size: 30px; }
+  .parent-app .brand h1 { font-size: 30px; }
+  .parent-app .metric strong { font-size: 30px; }
+}
+@media (min-width: 961px) and (max-width: 1100px) {
+  .child-app .mast { grid-template-columns: 48px minmax(125px,1fr) 300px auto; gap: 16px; }
+  .desktop-nav { width: 300px; }
+  .child-app .brand h1 { font-size: 32px; }
+  .child-app .mast-actions { gap: 10px; }
+  .today-hero { gap: 20px; padding-inline: 22px; }
+  .today-hero-copy h3 { font-size: 24px; }
+}
+
+/* Reader choices own their palette even when the surrounding app is dark. */
+.reading-layout.child-app>.wrap { width: 100%; max-width: none; padding: 0; }
+:is(.reader,.family-reader).paper,:is(.reader,.family-reader).sepia {
+  color-scheme: light;
+  --ink: #342d27; --ink2: #665c51; --ink3: #75695d;
+  --paper: #fffdf6; --card: #fffdf8; --sun: #f5e3c2; --mint: #dcf5e3; --rose: #ffd6cc;
+  --accent: #ac5b19; --border: 1px solid #d4c3a6;
+}
+:is(.reader,.family-reader).sepia { --paper: #f4e8d0; --card: #f4e8d0; --ink3: #6f6252; }
+:is(.reader,.family-reader).night,.reading-dialog.reading-theme-night {
+  color-scheme: dark;
+  --mint: #334b39; --rose: #5b343c; --sun: #554632;
+  --accent: #e6c28b; --border: 1px solid #756b5e;
+}
+:is(.reader,.family-reader).night .pager-navigation button.page-forward:not(:disabled) { background: #554632; color: #f1e8d9; border-color: #92816a; }
+.reader.night .reader-controls,.reader.night .reader-controls button { box-shadow: none; }
+.reader.night .reader-controls button.main-action,.family-reader.night button.primary { background: #554632; color: #f1e8d9; border-color: #92816a; }
+.reader.night .sticker-btn.primary { background: #554632; color: #f1e8d9; border-color: #92816a; }
+.reader.night .reader-tail-nav button.primary { background: #554632; color: #f1e8d9; border-color: #92816a; }
+.reading-dialog { color-scheme: light; --mint: #dcf5e3; --rose: #ffd6cc; }
+.reading-dialog.reading-theme-night { color-scheme: dark; --mint: #334b39; --rose: #5b343c; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #201f23; --card: #2b2a30;
+    --ink: #f3ede3; --ink2: #d0c7ba; --ink3: #b7ad9e;
+    --sun: #64512c; --rose: #553742; --sky: #2e4859; --mint: #354c3b; --empty: #3b383e;
+    --accent: #ffb084; --line: #6d645c; --danger: #ffb5a4;
+    --border: 2px solid #928579;
+    --shadow: 4px 4px 0 #0e0d11; --shadow-sm: 3px 3px 0 #0e0d11; --shadow-hero: 4px 5px 0 #0e0d11;
+  }
+  .app,.child-root { background-image: none; }
+  .app .today-hero { background-image: none; }
+  .parent-app .hero:before { opacity: .06; }
+  .today-heading h2,.today-hero-copy h3,.daily-poem-card h3 { color: var(--ink); }
+  .daily-poem-card { background: var(--sky); }
+  .app .daily-poem-preview,.poem-status,.today-book .recommendation-reason { color: var(--ink2); }
+  .poem-scenery { opacity: .25; }
+  .today-shortcut:nth-child(2) { background: var(--mint); }
+  .book-category.sky,.book-category.mint,.today-book:nth-child(2) .book-category { background: var(--sky); }
+  .book-placeholder { background: var(--card); }
+  .book-like,.child-app .fav { background: #e6d8c2; color: #30271f; }
+  .book-like.on,.child-app .fav.on { background: #ffb9cc; }
+  .app .book-cover.orange:not(.has-art) { background: #5c4031; }
+  .continue-progress { background: var(--empty); }
+  .continue-progress>span { background: var(--action); }
+  .app .sticker-btn.primary { background: var(--action); color: var(--action-ink); }
+  .app .sticker-btn.hot { background: #a43e20; color: #fff5e8; }
+  .app .sticker-btn.primary:hover { background: #ffe477; }
+  .app .sticker-btn.hot:hover { background: #bd4928; }
+  .desktop-nav button:hover { background: var(--sky); }
+  .desktop-nav button[aria-current='page']:hover { background: var(--sun); }
+  .desktop-nav button { border-right-color: var(--line); }
+  .parent-entry,.quiet-disclosure,.child-app details.recent-reading,.trial-reader .reading-options,.trial-reader .panel>details { border-color: var(--line); }
+  .shortcut-icon,.book-like,.child-app .today-book,.app .book-cover,.child-app :is(.filter,.tab,.mood),.child-app .filter-active { box-shadow: 2px 3px 0 #0e0d11; }
+  .greeting-star,.continue-stars { color: var(--action); }
+  :is(.app,.sheet-card) :is(button,a,input,select,textarea,summary):focus-visible { outline-color: #8ecbff; }
+  .text-ink-900 { color: var(--ink); }
+  .text-ink-700,.text-ink-500 { color: var(--ink2); }
+  .bg-paper-100 { background-color: var(--paper); }
+  .bg-paper-200 { background-color: var(--card); }
+  .bg-paper-300 { background-color: var(--empty); }
+  .text-terra-700 { color: #ffbfa0; }
+  .bg-terra-50 { background-color: #55362e; }
+  .border-paper-border { border-color: var(--line); }
+  .sheet-backdrop { background: #08070bbd; }
+  .fam-warn { color: #e3c6ab; }
+  .fam-progress.done { color: #afe0a0; }
+}
