@@ -8,14 +8,14 @@
  * 私有书单/正文/朗读仍走网络；断网导航转入独立公共文字书架。
  */
 // The offline HTML is precached: change this version when its shipped UI changes.
-const CACHE = 'taoread-shell-v8'
-const SHELL_PREFIXES = ['/assets/', '/fonts/', '/icons/', '/brand/']
+const CACHE = 'taoread-shell-v9'
+const SHELL_PREFIXES = ['/assets/', '/fonts/', '/icons/', '/brand/', '/art/']
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE)
     // Dedicated static reader: never cache the application's index or its hashed dependency graph.
-    await cache.addAll(['/offline.html', '/offline-reader.js?v=20261013.1'])
+    await cache.addAll(['/offline.html', '/offline-reader.js?v=20261013.1', '/brand/logo-256.png'])
     await self.skipWaiting()
   })())
 })

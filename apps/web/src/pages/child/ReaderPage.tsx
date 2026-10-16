@@ -24,6 +24,7 @@ import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
 import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
+import { IconBookmark } from '../../components/ui/icons'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
 import { ContentProgressWriter, type ContentPosition, type ProgressSaveState } from '../../lib/contentProgress'
@@ -1404,7 +1405,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             {/* 题图：章节 image 块的 AI 图优先，回退封面；16:9 画框 + AI 角标；点击放大（docs/34 P1-11）。
                 data-no-focus：点图开灯箱不应同时切换专注模式（验收修正，与 figure 块同口径）。
                 fetchpriority=high（docs/35 A5）：题图是阅读器 LCP，优先于懒加载图块 */}
-            {!heroIsFirstBlock && <div className={`reader-art ${showHeroArt ? 'has-art' : ''}`} data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
+            {!heroIsFirstBlock && showHeroArt && <div className="reader-art has-art" data-no-focus style={{ aspectRatio: '16 / 9', height: 'auto' }}>
             {showHeroArt ? (
               <img
                 className="cover-art"
@@ -1444,6 +1445,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   (b.artReaderUrl && !artBroken.has(b.artReaderUrl) ? b.artReaderUrl : null) ??
                   (b.artUrl && !artBroken.has(b.artUrl) ? b.artUrl : null)
                 const showImg = Boolean(url)
+                if (!showImg) return <span key={b.id} aria-hidden="true" ref={(el) => { blockRefs.current.set(b.id, el) }} />
                 return (
                   <figure
                     key={b.id}
@@ -1563,7 +1565,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                       }}
                     >
                       {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : showPinyin && b.pinyin ? <PoemRuby text={b.text} pinyin={b.pinyin} color={ink} fontSize={font} /> : <p>{b.text}</p>}
-                      {savedBlocks.has(b.order) ? ' ✒️' : null}
+                      {savedBlocks.has(b.order) ? <IconBookmark size={16} /> : null}
                     </div>
                     {b.translation && showTranslation ? (
                       <p
@@ -1607,7 +1609,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   }}
                 >
                   {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}
-                  {savedBlocks.has(b.order) ? ' ✒️' : null}
+                  {savedBlocks.has(b.order) ? <IconBookmark size={16} /> : null}
                 </p>
               )
             })}

@@ -30,7 +30,8 @@ import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
-import { IconSun, IconSearch, IconShelf, IconFamily, IconBookOpen, IconPlay } from '../../components/ui/icons'
+import { ReadingIllustration } from '../../components/art/ReadingIllustration'
+import { IconSun, IconStar, IconSearch, IconUser, IconFamily, IconBookOpen, IconType, IconPlay, IconHeart, IconHeartFilled, IconChevronDown, IconArrowRight, IconMoon } from '../../components/ui/icons'
 import type { WordCardDto } from '../../lib/api'
 import type { InitialListeningRequest } from './ListeningPage'
 
@@ -451,41 +452,25 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
             <div className="logo">
               <picture><source srcSet="/brand/logo-256.webp" type="image/webp" /><img src="/brand/logo-256.png" alt="桃阅读" /></picture>
             </div>
-            <div className="brand">
-              <h1>桃阅读</h1>
-              <p>{LABELS.brandSub}</p>
-            </div>
+            <div className="brand"><h1>桃阅读</h1></div>
+            <nav className="desktop-nav" aria-label="孩子端导航">
+              {([
+                ['/child/today', LABELS.navHome],
+                ['/child/discover', LABELS.discover],
+                ['/child/my', LABELS.navMy],
+              ] as Array<[string, string]>).map(([to, label]) => (
+                <button key={to} aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>{label}</button>
+              ))}
+            </nav>
             <div className="mast-actions">
-              <button className="sticker-btn keep" onClick={onSwitchChild}>
-                {childName} · 换人
+              <button className="child-profile min-h-[44px]" aria-label={`${childName}，切换小读者`} onClick={onSwitchChild}>
+                <img src="/art/reading-desk/child-avatar-reference.webp" width="64" height="64" alt="" />
+                <span>{childName}</span><IconChevronDown size={18} />
               </button>
-              <button className="sticker-btn primary" onClick={() => navigate('/child/discover')}>
-                {LABELS.discover}
-              </button>
+              <button className="parent-entry min-h-[44px] min-w-[44px]" aria-label="家长入口" onClick={() => { useSession.getState().signOut(); navigate('/login?role=parent') }}><IconFamily size={36} /><span>家长入口</span><IconArrowRight size={20} /></button>
             </div>
           </header>
           <div className="layout">
-            <aside className="side">
-              <p className="side-label">导航</p>
-              <nav className="nav">
-                {(
-                  [
-                    ['/child/today', LABELS.navHome],
-                    ['/child/discover', LABELS.discover],
-                    ['/child/my', LABELS.navMy],
-                  ] as Array<[string, string]>
-                ).map(([to, label]) => (
-                  <button key={to} className="nav-touch" aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>
-                    {to.endsWith('/today') ? <IconSun /> : to.endsWith('/discover') ? <IconSearch /> : <IconShelf />}
-                    <span>{label}</span>
-                  </button>
-                ))}
-              </nav>
-              <div className="side-card">
-                <b>{LABELS.together}</b>
-                <p>本周共读 {report?.nights ?? 0} 次</p>
-              </div>
-            </aside>
             <main className="main" id="main-content">
               <Suspense fallback={<p className="mono-label" role="status">正在翻开…</p>}>
               <Routes>
@@ -508,7 +493,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
         </div>
         {/* 阅读器为沉浸式全屏（v8 demo）：章节路由下不渲染底部导航，避免盖住阅读器控制条 */}
         {!inReader ? (
-          <nav className="mobile-nav">
+          <nav className="mobile-nav" aria-label="孩子端导航">
             {(
               [
                 ['/child/today', LABELS.navHome],
@@ -517,7 +502,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
               ] as Array<[string, string]>
             ).map(([to, label]) => (
               <button key={to} className="nav-touch" aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>
-                {to.endsWith('/today') ? <IconSun /> : to.endsWith('/discover') ? <IconSearch /> : <IconShelf />}
+                <span className="nav-icon">{to.endsWith('/today') ? <IconSun /> : to.endsWith('/discover') ? <IconSearch /> : <IconUser />}</span>
                 <span>{label}</span>
               </button>
             ))}
@@ -540,18 +525,22 @@ export function V8Cover({
   book,
   onFav,
   onOpen,
+  showFavorite = true,
 }: {
   book: V8Book
   onFav: (id: string) => void
   onOpen?: (id: string) => void
+  showFavorite?: boolean
 }) {
-  const [fallback, setFallback] = useState(false)
-  const src = !fallback && book.coverThumb ? book.coverThumb : book.cover
-  const [artOk, setArtOk] = useState(Boolean(src))
-  const [artLoaded, setArtLoaded] = useState(false)
-  useEffect(() => setArtLoaded(false), [src])
+  const [failedThumb, setFailedThumb] = useState<string | null>(null)
+  const src = book.coverThumb && failedThumb !== book.coverThumb ? book.coverThumb : book.cover
+  const [failedSrc, setFailedSrc] = useState<string | null>(null)
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
+  const artOk = Boolean(src && failedSrc !== src)
+  const artLoaded = Boolean(src && loadedSrc === src)
   return (
     <div className={`book-cover ${book.tone} ${artOk && artLoaded ? 'has-art' : ''}`}>
+      {!artLoaded && <ReadingIllustration className="cover-fallback-art" />}
       {src && artOk ? (
         <img
           className="cover-art"
@@ -559,10 +548,10 @@ export function V8Cover({
           alt=""
           loading="lazy"
           decoding="async"
-          onLoad={() => { setArtOk(true); setArtLoaded(true) }}
+          onLoad={() => setLoadedSrc(src)}
           onError={() => {
-            if (!fallback && book.coverThumb) setFallback(true)
-            else setArtOk(false)
+            if (src === book.coverThumb && book.coverThumb) setFailedThumb(book.coverThumb)
+            else setFailedSrc(src)
           }}
         />
       ) : null}
@@ -578,18 +567,15 @@ export function V8Cover({
           style={{ position: 'absolute', inset: 0, zIndex: 3, border: 0, background: 'transparent', cursor: 'pointer', padding: 0 }}
         />
       ) : null}
-      <button
-        className={`fav ${book.fav ? 'on' : ''}`}
-        aria-label={`${book.fav ? '取消喜欢' : '喜欢'}《${book.title}》`}
-        onClick={(e) => {
-          e.stopPropagation()
-          onFav(book.id)
-        }}
-      >
-        {book.fav ? '♥' : '+'}
-      </button>
+      {showFavorite && <FavoriteButton book={book} onFav={onFav} />}
     </div>
   )
+}
+
+function FavoriteButton({ book, onFav, className = 'fav' }: { book: V8Book; onFav: (id: string) => void; className?: string }) {
+  return <button type="button" className={`${className} min-h-[44px] min-w-[44px]${book.fav ? ' on' : ''}`} aria-pressed={book.fav} aria-label={`${book.fav ? '取消喜欢' : '喜欢'}《${book.title}》`} onClick={e => { e.stopPropagation(); onFav(book.id) }}>
+    {book.fav ? <IconHeartFilled size={19} /> : <IconHeart size={19} />}
+  </button>
 }
 
 export const StoryCard = memo(function StoryCard({
@@ -605,9 +591,9 @@ export const StoryCard = memo(function StoryCard({
     <div className="story-card">
       <V8Cover book={book} onFav={onFav} onOpen={onOpen} />
       <div className="story-meta">
-        <b>{book.title}</b>
+        <button className="story-title min-h-[44px]" onClick={() => onOpen(book.id)}><b>{book.title}</b></button>
         <small>
-          {book.author} / {book.meta}
+          {book.author} · {book.meta}
           {/* 进度贴纸（审计 A10.5）：读到一半显示「读到 N%」，读完显示「读完啦」 */}
           {book.finished ? ' · 读完啦' : book.progress > 0 ? ` · 读到 ${book.progress}%` : ''}
         </small>
@@ -644,13 +630,11 @@ export function Calendar({ nights }: { nights: string[] }) {
 }
 
 /* ── 今天 ── */
-/** 按本地时间问候（此前硬编码「下午好」，凌晨打开也是下午好） */
-function greetingNow(now: Date = new Date()): string {
-  const h = now.getHours()
-  if (h >= 5 && h < 11) return '早上好'
-  if (h >= 11 && h < 13) return '中午好'
-  if (h >= 13 && h < 18) return '下午好'
-  return '晚上好'
+function chapterLabel(order: number): string {
+  const digits = '零一二三四五六七八九'
+  if (order > 0 && order < 10) return digits[order]!
+  if (order >= 10 && order < 100) return `${order < 20 ? '' : digits[Math.floor(order / 10)]}十${order % 10 ? digits[order % 10] : ''}`
+  return String(order)
 }
 
 function TodayPage() {
@@ -692,10 +676,14 @@ function TodayPage() {
     const out: V8Book[] = []
     const seenCat = new Set<string>()
     for (const { b } of scored) {
-      if (out.length >= 2) break
-      if (seenCat.has(b.category) && out.length < 2 && pool.length > 3) continue
+      if (out.length >= 3) break
+      if (seenCat.has(b.category) && pool.length > 3) continue
       seenCat.add(b.category)
       out.push(b)
+    }
+    for (const { b } of scored) {
+      if (out.length >= 3) break
+      if (!out.some(pick => pick.id === b.id)) out.push(b)
     }
     return out
   }, [v.books, continueBook, startedByCat, childStage])
@@ -768,40 +756,36 @@ function TodayPage() {
 
   return (
     <>
-      <PageHead title={LABELS.today} sub={`${greetingNow()}，${v.childName}`} />
-      <section className={`hero today-hero${!v.loaded ? ' is-loading' : ''}`} aria-busy={!v.loaded}>
-        <div className="hero-grid">
-          <div>
-            <span className="mono-label">{continueBook ? '接着上次读' : '今天，从一本书开始'}</span>
-            <div className="hero-title">
-              <span className="marker">{!v.loaded ? '正在打开书架…' : continueBook ? continueBook.title : '挑一本书开始'}</span>
-            </div>
-            <p className="hero-copy">{continueBook ? `从上次的位置继续，读一小段也很好。` : '挑一个喜欢的故事，自己读，或和家人一起读。'}</p>
-            <div className="hero-actions">
-              <button
-                className="sticker-btn primary"
-                onClick={() => continueBook ? v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined) : navigate('/child/discover')}
-                disabled={!v.loaded}
-              >
-                <IconBookOpen />{continueBook ? LABELS.continueRead : '挑一本开始'}
-              </button>
-              {continueBook && <button className="sticker-btn" onClick={() => v.openBook(continueBook.id)}>
-                看看这本书
-              </button>}
-            </div>
+      <header className="today-heading">
+        <IconStar className="greeting-star" size={54} />
+        <div><h2>{v.childName}，今天读点什么？<img className="greeting-accent" src="/art/reading-desk/greeting-accent.webp" width="41" height="65" alt="" aria-hidden="true" /></h2><p>每天一小段，故事慢慢长大。</p></div>
+        <time dateTime={new Date().toLocaleDateString('sv-SE')}>{new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}<span>{new Date().toLocaleDateString('zh-CN', { weekday: 'short' })}</span></time>
+      </header>
+      <div className="today-featured">
+        <section className={`today-hero${!v.loaded ? ' is-loading' : ''}`} aria-busy={!v.loaded} aria-labelledby="continue-title">
+          <span className="continue-tab">{continueBook ? '接着上次读' : '从一本书开始'}</span>
+          <div className="continue-cover">{continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} onOpen={v.openBook} showFavorite={false} /> : <ReadingIllustration />}</div>
+          <div className="today-hero-copy">
+            <h3 id="continue-title">{!v.loaded ? '正在打开书架…' : continueBook ? continueBook.title : '故事等你来翻开'}</h3>
+            <p className="continue-position">{continueBook ? `第${chapterLabel(continueBook.resumeChapter ?? 1)}章 · 上次读到这里` : '选一个喜欢的故事，出发吧'}</p>
+            {continueBook && <div className="continue-progress" role="progressbar" aria-label="这本书的阅读进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.max(0, Math.min(100, continueBook.progress))}><span style={{ width: `${Math.max(0, Math.min(100, continueBook.progress))}%` }} /></div>}
+            <p className="continue-caption">{continueBook ? '从熟悉的地方，接着出发。' : '自己读，或和家人一起读。'}</p>
           </div>
-          {continueBook ? <V8Cover book={continueBook} onFav={v.toggleFav} /> : <div className="today-hero-art" aria-hidden="true"><IconBookOpen size={64} /></div>}
-        </div>
-      </section>
-      <div className="today-shortcuts" aria-label="选书入口">
-        <button className="sticker-btn" onClick={() => navigate('/child/discover')}><IconSearch />找故事<span aria-hidden="true">→</span></button>
-        <button className="sticker-btn" onClick={() => navigate('/child/family-books')}><IconFamily />家庭书架<span aria-hidden="true">→</span></button>
+          <div className="continue-stars" aria-hidden="true"><IconStar size={44} /><IconStar size={38} /></div>
+          <button className="sticker-btn primary continue-action" onClick={() => continueBook ? v.readBook(continueBook.id, continueBook.resumeChapter ?? undefined) : navigate('/child/discover')} disabled={!v.loaded}>
+            {continueBook ? LABELS.continueRead : '挑一本开始'}<IconArrowRight size={30} />
+          </button>
+        </section>
+        <DailyPoemCard readPoem={v.readBook} />
       </div>
-      {token && childId && <RecentReading token={token} childId={childId} />}
+      <div className="today-shortcuts" aria-label="选书入口">
+        <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/discover')}><span className="shortcut-icon"><IconSearch size={48} /></span><span className="shortcut-copy"><b>找故事</b><small>发现下一本喜欢的书</small></span><IconArrowRight size={34} /></button>
+        <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/family-books')}><span className="shortcut-icon"><IconFamily size={48} /></span><span className="shortcut-copy"><b>家庭书架</b><small>家人为你挑好的故事</small></span><IconArrowRight size={34} /></button>
+      </div>
       {windowMode === 'daily_limit' && !limitAcked ? (
         <section className="section" role="status">
           <div className="side-card" style={{ borderColor: '#FFD97A' }}>
-            <b>🌙 今天的阅读时间到啦</b>
+            <b className="icon-label"><IconMoon />今天的阅读时间到啦</b>
             <p>
               已经读了 {usage.usedMin ?? 0} 分钟（家长约定 {usage.limitMin ?? 0} 分钟）。小眼睛该休息了，明天再一起读吧！
             </p>
@@ -813,17 +797,26 @@ function TodayPage() {
       ) : null}
       <section className="section today-picks" aria-busy={!v.loaded}>
         <div className="section-head">
-          <h3>也可以读这两本</h3>
-          <button className="text-action min-h-[44px]" onClick={() => navigate('/child/discover')}>看看更多 →</button>
+          <h3>也许你会喜欢<img className="recommendation-accent" src="/art/reading-desk/recommendation-accent.webp" width="27" height="31" alt="" aria-hidden="true" /></h3>
+          <button className="text-action min-h-[44px]" onClick={() => navigate('/child/discover')}>查看更多<IconArrowRight size={20} /></button>
         </div>
         <div className="story-row">
-          {!v.loaded && [0, 1].map(n => <div className="book-placeholder" key={n} aria-hidden="true"><div /><span /><span /></div>)}
+          {!v.loaded && [0, 1, 2].map(n => <div className="book-placeholder" key={n} aria-hidden="true"><div /><span /><span /></div>)}
           {picks.map((b) => (
-            <div key={b.id}><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} /><p className="recommendation-reason">{b.ageStage === childStage ? '同龄书目' : `${b.ageStage} 岁书目`} · 每章约 {Math.round(b.words / Math.max(1, b.chapterCount))} {b.lang === 'en' ? '词' : '字'}</p></div>
+            <article className="story-card today-book" key={b.id}>
+              <V8Cover book={b} onFav={v.toggleFav} onOpen={v.openBook} showFavorite={false} />
+              <div className="today-book-copy">
+                <button className="story-title min-h-[44px]" onClick={() => v.openBook(b.id)}><b>{b.title}</b></button>
+                <span className={`book-category ${b.tone}`}>{CATEGORY_LABEL[b.category] ?? b.category}</span>
+                <p className="recommendation-reason">{b.desc || `${b.author}的故事，一起翻开看看。`}</p>
+              </div>
+              <FavoriteButton book={b} onFav={v.toggleFav} className="book-like" />
+            </article>
           ))}
         </div>
       </section>
-      <DailyPoemCard readPoem={v.readBook} />
+      {v.loaded && picks.length === 0 && <div className="child-empty"><p>书架正在等新故事，先去家庭书架看看吧。</p><button className="sticker-btn primary" onClick={() => navigate('/child/family-books')}>去家庭书架<IconArrowRight /></button></div>}
+      {token && childId && <RecentReading token={token} childId={childId} />}
       <details className="quiet-disclosure paper-entry" open={paper ? true : undefined}>
         <summary>{paper ? `纸质共读 · ${paper.title}` : '和家人读纸质书'}</summary>
         {paper ? (
@@ -1451,7 +1444,7 @@ function MyPage() {
           {tab === 'reading' ? (
             <div className="hero-actions" style={{ gridColumn: '1 / -1', marginBottom: 8 }}>
               <button className="sticker-btn" onClick={() => void startLiteracy()}>
-                🔤 找相同的字 · 每周一次
+                <IconType />找相同的字 · 每周一次
               </button>
             </div>
           ) : null}
@@ -1622,6 +1615,7 @@ function BookDetailPage() {
                   />
                 ) : null}
                 <span className="cover-kicker">桃阅读 · {CATEGORY_LABEL[book.category] ?? (book.lang === 'en' ? 'Story' : '故事')}</span>
+                {!detailCoverSrc && <ReadingIllustration className="cover-fallback-art" />}
                 <span className="cover-title">{book.title}</span>
                 {detailCoverSrc ? <AiBadge /> : null}
               </div>

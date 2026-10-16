@@ -14,11 +14,11 @@ export interface TaButtonProps extends Omit<HTMLMotionProps<'button'>, 'children
 /**
  * 「贴纸绘本」按钮（docs/26，codex-resets 风 neobrutalism）：
  * 高饱和实底 + 2px 墨线描边 + 实心偏移阴影；按下时位移到底、阴影归零（按压手感）。
- * primary=橘红；ink=墨色实底（强行动）；secondary=奶白描边；ghost=纯文字。
+ * primary=阳光黄；ink=墨色实底；secondary=奶白描边；ghost=纯文字。
  */
 const VARIANT_CLASS: Record<Variant, string> = {
   primary:
-    'bg-terra text-white font-bold border-ink border-2 shadow-sm hover:bg-terra-600 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none',
+    'bg-sun text-ink-900 font-bold border-ink border-2 shadow-sm hover:bg-sun-light active:translate-x-[3px] active:translate-y-[3px] active:shadow-none',
   ink: 'bg-ink-900 text-paper-100 font-bold border-ink border-2 shadow-sm hover:bg-ink-700 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none',
   secondary:
     'bg-paper-200 text-ink-900 border-ink border-2 shadow-xs font-bold hover:bg-sun-light active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
@@ -43,7 +43,7 @@ export const TaButton = forwardRef<HTMLButtonElement, TaButtonProps>(function Ta
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`relative inline-flex select-none items-center justify-center gap-2 transition-all ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
+      className={`relative inline-flex select-none items-center justify-center gap-2 font-display transition-all ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
         disabled || loading ? 'cursor-not-allowed opacity-50 shadow-none' : 'cursor-pointer'
       } ${className}`}
       {...rest}

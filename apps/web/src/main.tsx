@@ -18,7 +18,8 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-5 text-center">
+        <main id="main-content" className="app recovery-page">
+          <section className="panel recovery-card">
           <span aria-hidden className="text-sun">
             <IconSun size={56} />
           </span>
@@ -27,11 +28,12 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
           <button
             type="button"
             onClick={() => location.assign('/')}
-            className="bg-terra min-h-touch cursor-pointer rounded-full px-8 text-lg font-bold text-white"
+            className="sticker-btn primary"
           >
             回到首页
           </button>
-        </div>
+          </section>
+        </main>
       )
     }
     return this.props.children

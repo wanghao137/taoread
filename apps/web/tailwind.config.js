@@ -10,7 +10,7 @@ export default {
          * 全天候阅读：白天是主场景（阳光黄/天空蓝/蜜桃橙），夜间只是可选模式。
          */
         paper: {
-          100: '#FFF4DD', // 应用底：暖纸黄
+          100: '#FEF9EA', // 方案 1 的暖纸底
           200: '#FFFDF7', // 卡片底：奶白
           300: '#FFF0BD', // 内嵌区/高亮纸
           border: '#E8DCC3', // 纸面细线（结构线仍用 ink）
@@ -65,6 +65,7 @@ export default {
       },
       fontFamily: {
         sans: [
+          'GenSen Rounded Text',
           'system-ui',
           '-apple-system',
           'PingFang SC',
@@ -74,6 +75,7 @@ export default {
         ],
         /** 圆胖展示体：标题/大字（玩具感、孩子气） */
         display: [
+          'GenSen Rounded',
           'Baloo 2',
           'Arial Rounded MT Bold',
           'Yuanti SC',

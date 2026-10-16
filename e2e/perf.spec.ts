@@ -23,7 +23,7 @@ test.describe('性能回归门（docs/35）', () => {
     } catch {
       /* 单孩直进 */
     }
-    await page.getByText('今天想读什么？').waitFor()
+    await page.getByRole('heading', { name: /今天读点什么/ }).waitFor()
 
     const session = await page.evaluate(() => {
       const raw = JSON.parse(localStorage.getItem('taoread-session') ?? '{}')

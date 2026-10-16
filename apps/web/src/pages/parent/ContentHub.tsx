@@ -12,7 +12,6 @@ import {
   type ShelfItemDto,
 } from '../../lib/api'
 import { Loading, ErrorState, EmptyState } from '../../components/ui'
-import { SceneArt } from '../../components/art/SceneArt'
 import { AiBadge } from '../../components/art/AiBadge'
 import { PageHead } from '../../components/PageHead'
 import { remainingMinutes, minutesLabel } from '../../lib/readingTime'
@@ -85,12 +84,11 @@ interface HubRow {
   weread?: { bookId: string; kind: 'book' | 'album' }
 }
 
-/** 贴纸封面：真实 AI 插画优先（与孩子端同源），加载失败回退场景图；两者皆无时保持 demo 原生画框占位 */
+/** 贴纸封面：真实 AI 插画优先（与孩子端同源），加载失败时使用统一的书本插画与可读书名 */
 function HubCover({ row }: { row: HubRow }) {
   const [imgOk, setImgOk] = useState(true)
   const showImg = Boolean(row.coverUrl) && imgOk
-  const showScene = !showImg && Boolean(row.scene)
-  const filled = showImg || showScene
+  const filled = showImg
   return (
     <div className={`book-cover sky hub-cover ${filled ? 'has-art' : ''}`}>
       {showImg ? (
@@ -102,11 +100,7 @@ function HubCover({ row }: { row: HubRow }) {
           decoding="async"
           onError={() => setImgOk(false)}
         />
-      ) : showScene && row.scene ? (
-        <span className="cover-art-wrap">
-          <SceneArt scene={row.scene.art} from={row.scene.from} to={row.scene.to} lang={row.scene.lang} />
-        </span>
-      ) : null}
+      ) : <img className="cover-fallback-art" src="/art/reading-desk/reading-books.webp" alt="" />}
       <span className="cover-title">{row.title}</span>
       {showImg ? <AiBadge /> : null}
     </div>

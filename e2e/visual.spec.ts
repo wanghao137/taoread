@@ -27,7 +27,7 @@ test.describe('交付视觉终扫', () => {
     await page.getByRole('button', { name: /小桃/ }).click()
 
     // v8 首页
-    await page.getByText('今天想读什么？').waitFor()
+    await page.getByRole('heading', { name: /今天读点什么/ }).waitFor()
     await page.screenshot({ path: `${OUT}/child-home.png`, fullPage: true })
 
     // 找故事（搜索）
@@ -59,7 +59,7 @@ test.describe('交付视觉终扫', () => {
     if (finishShown) {
       await page.screenshot({ path: `${OUT}/child-finish.png`, fullPage: true })
       await page.getByRole('button', { name: '回到今天' }).click()
-      await expect(page.getByText('今天想读什么？')).toBeVisible()
+      await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
     }
   })
 

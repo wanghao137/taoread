@@ -161,7 +161,7 @@ export function ChildHome() {
   }
 
   return (
-    <main className="min-h-dvh">
+    <div className="child-root">
       {body()}
       <TaSheet open={confirmSwitch} onClose={() => setConfirmSwitch(false)} title="要换一个家庭吗？">
         <p className="text-sm leading-relaxed text-ink-700">
@@ -176,6 +176,6 @@ export function ChildHome() {
           </TaButton>
         </div>
       </TaSheet>
-    </main>
+    </div>
   )
 }

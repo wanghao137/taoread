@@ -23,7 +23,7 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
   } catch {
     /* 单孩直进 */
   }
-  await page.getByText('今天想读什么？').waitFor({ timeout: 15_000 })
+  await page.getByRole('heading', { name: /今天读点什么/ }).waitFor({ timeout: 15_000 })
 }
 
 async function goDiscover(page: Page): Promise<void> {
@@ -38,10 +38,11 @@ async function goMy(page: Page): Promise<void> {
 }
 
 test.describe('v8 贴纸绘本孩子端', () => {
-  test('首页：主阅读入口、两本候选、可展开的心情及家庭记忆；我的页保留日历', async ({ page }) => {
+  test('首页：续读与每日一诗、三本候选、可展开的心情及家庭记忆；我的页保留日历', async ({ page }) => {
     await loginAsChild(page, '小桃')
-    await expect(page.getByRole('heading', { name: '也可以读这两本' })).toBeVisible()
-    await expect(page.locator('.today-picks .story-card')).toHaveCount(2)
+    await expect(page.getByRole('heading', { name: '也许你会喜欢' })).toBeVisible()
+    await expect(page.locator('.today-picks .story-card')).toHaveCount(3)
+    await expect(page.locator('.today-featured .daily-poem-card')).toBeVisible()
     await expect(page.getByText('今天想读哪种感觉？')).toBeVisible()
     await expect(page.getByText('最近的家庭阅读记忆')).toBeVisible()
     await page.getByText('今天想读哪种感觉？', { exact: true }).click()
@@ -109,7 +110,7 @@ test.describe('v8 贴纸绘本孩子端', () => {
 
     // 回到今天
     await page.getByRole('button', { name: '回到今天' }).click()
-    await expect(page.getByText('今天想读什么？')).toBeVisible()
+    await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
   })
 
   test('我的页：喜欢一本书（心形）并出现在「喜欢」页签', async ({ page }) => {
@@ -137,9 +138,9 @@ test.describe('v8 贴纸绘本孩子端', () => {
   test('换人入口打开选人页，重选后仍在孩子端', async ({ page }) => {
     await loginAsChild(page, '小桃')
     // A4（审计）：换人=选小读者（不再弹换家庭确认；换家庭=登录页退出）
-    await page.getByRole('button', { name: /换人/ }).click()
+    await page.getByRole('button', { name: /切换小读者/ }).click()
     await expect(page.getByText('今天是谁的故事时间？')).toBeVisible()
     await page.getByRole('button', { name: /小桃/ }).click()
-    await expect(page.getByText('今天想读什么？')).toBeVisible()
+    await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
   })
 })

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { api, type DailyPoemDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import { useNavigate } from 'react-router-dom'
+import { IconArrowRight } from '../../components/ui/icons'
 
 export function DailyPoemCard({ readPoem }: { readPoem: (bookId: string, chapterOrder: number) => void }) {
   const token = useSession(s => s.token)
@@ -41,15 +42,18 @@ export function DailyPoemCard({ readPoem }: { readPoem: (bookId: string, chapter
     return () => { active = false; clearTimeout(timer); clearTimeout(retryTimer); document.removeEventListener('visibilitychange', visible) }
   }, [token, childId, retry])
   const poem = result?.childId === childId ? result.data.poem : null
-  if (errorChild && errorChild === childId) return <section className="section"><div className="side-card"><h2>今日小诗</h2><p role="status">暂时没有取到小诗，其他书仍然可以读。</p><div className="setting-row"><button className="sticker-btn" onClick={() => setRetry(n => n + 1)}>再取一次</button><button className="sticker-btn" onClick={() => navigate('/child/discover?collection=bedtime-poems')}>去诗歌书单</button></div></div></section>
-  if (!poem) return null
-  return <section className="section" aria-labelledby="daily-poem-heading">
-    <div className="side-card daily-poem-card">
-      <span className="mono-label">每日一诗 · {result!.data.date}</span>
-      <h2 id="daily-poem-heading">{poem.title}</h2>
-      <p className="daily-poem-author">{poem.author}</p>
-      <p className="daily-poem-preview">{(poem.preview.match(/[^，。！？；\r\n]+[，。！？；]?/gu) ?? [poem.preview]).map((line, index) => <span className="daily-poem-line" key={index}>{line.trim()}</span>)}</p>
-      <button className="sticker-btn primary" onClick={() => readPoem(poem.bookId, poem.chapterOrder)} aria-label={`读这首诗：${poem.title}`}>读这首诗</button>
-    </div>
+  const failed = errorChild === childId && Boolean(errorChild)
+  return <section className={`daily-poem-card${poem && poem.title.length > 6 ? ' has-long-title' : ''}`} aria-labelledby="daily-poem-heading" aria-busy={!poem && !failed}>
+    <img className="poem-scenery" src="/art/reading-desk/poem-scenery-reference.webp" width="210" height="227" alt="" aria-hidden="true" />
+    <span className="poem-label">每日一诗</span>
+    {poem ? <>
+      <h3 id="daily-poem-heading"><span className="poem-title-text" title={poem.title}>{poem.title}</span><span className="poem-author"><span className="poem-author-separator" aria-hidden="true"> · </span>{poem.author}</span></h3>
+      <p className="daily-poem-preview">{(poem.preview.match(/[^，。！？；\r\n]+[，。！？；]?/gu) ?? [poem.preview]).slice(0, 2).map((line, index) => <span className="daily-poem-line" key={index}>{line.trim()}</span>)}</p>
+      <button className="sticker-btn poem-action" onClick={() => readPoem(poem.bookId, poem.chapterOrder)} aria-label={`读这首诗：${poem.title}`}>读一首<IconArrowRight size={26} /></button>
+    </> : <>
+      <h3 id="daily-poem-heading">{failed ? '小诗还在路上' : '找一首今日小诗…'}</h3>
+      <p className="poem-status" role="status">{failed ? '再试一次，或去诗歌书单挑一首。' : '一首小诗，装下一个小世界。'}</p>
+      {failed && <div className="poem-retry"><button className="sticker-btn" onClick={() => setRetry(n => n + 1)}>再取一次</button><button className="text-action min-h-[44px]" onClick={() => navigate('/child/discover?collection=bedtime-poems')}>去诗歌书单<IconArrowRight size={18} /></button></div>}
+    </>}
   </section>
 }

@@ -51,8 +51,8 @@ const SECTIONS: Array<{ title: string; lines: string[] }> = [
 
 export function PrivacyPage() {
   return (
-    <div className="app">
-      <div className="wrap login-wrap">
+    <div className="app utility-app privacy-app">
+      <main id="main-content" className="wrap utility-page privacy-page">
         <header className="login-brand">
           <div className="logo big">
             <img src="/brand/logo-256.png" alt="桃阅读" />
@@ -78,7 +78,7 @@ export function PrivacyPage() {
         <button type="button" className="sticker-btn primary block" onClick={() => window.history.back()}>
           返回
         </button>
-      </div>
+      </main>
     </div>
   )
 }

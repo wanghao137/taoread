@@ -1,3 +1,5 @@
+import { IconRefresh } from './icons'
+
 export interface ErrorStateProps {
   /** 服务端返回的中文 message；未传时用通用文案 */
   message?: string
@@ -8,9 +10,7 @@ export interface ErrorStateProps {
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <div role="alert" className="panel" style={{ textAlign: 'center', padding: '30px 20px' }}>
-      <span aria-hidden className="avatar big" style={{ margin: '0 auto 12px', background: 'var(--rose)' }}>
-        ！
-      </span>
+      <IconRefresh size={56} className="state-illustration" />
       <p style={{ fontFamily: 'var(--display)', fontSize: 18, fontWeight: 700, margin: 0 }}>
         {message ?? '小桃走神了一下下'}
       </p>

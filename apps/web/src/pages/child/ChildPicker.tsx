@@ -1,4 +1,5 @@
 import type { ChildDto } from '../../lib/api'
+import { IconLeaf, IconSun, IconMoon, IconStar } from '../../components/ui/icons'
 
 /**
  * 多孩家庭：孩子档案选择（单孩自动绑定，不进此屏）。
@@ -37,7 +38,7 @@ export function ChildPicker({
               onClick={() => onPick({ childId: c.id, stage: c.stage })}
             >
               <span aria-hidden className="avatar big" style={{ background: ['var(--rose)', 'var(--sky)', 'var(--mint)', 'var(--sun)'][index % 4] }}>
-                {['🌸', '🌿', '🌙', '⭐'][index % 4]}
+                {index % 4 === 0 ? <IconLeaf size={28} /> : index % 4 === 1 ? <IconSun size={28} /> : index % 4 === 2 ? <IconMoon size={28} /> : <IconStar size={28} />}
               </span>
               <span className="pick-name">{c.nickname}</span>
             </button>

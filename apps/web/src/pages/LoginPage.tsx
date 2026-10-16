@@ -4,6 +4,7 @@ import { api, ApiError } from '../lib/api'
 import { ROLE_LABEL, type DeviceRole } from '../lib/roles'
 import { useSession } from '../stores/session'
 import { IconFamily, IconPeach } from '../components/ui/icons'
+import { ReadingIllustration } from '../components/art/ReadingIllustration'
 import { AiContentAgreement } from './AiContentAgreement'
 import { PRIVACY_VERSION } from './PrivacyPage'
 
@@ -130,7 +131,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="app">
+    <div className="app login-app">
       <div className="wrap login-wrap" id="main-content">
         {/* 品牌锚点唯一：桃子 logo 贴纸卡 + 字标（与孩子端 v8 壳同一 mast 语言） */}
         <header className="login-brand">
@@ -138,10 +139,13 @@ export function LoginPage() {
             <img src="/brand/logo-256.png" alt="桃阅读" />
           </div>
           <h1>桃阅读</h1>
-          <p className="mono-line" style={{ fontSize: 12 }}>
+          <p className="login-tagline">
             一起读书，慢慢长大
           </p>
+          <ReadingIllustration className="login-illustration" />
+          <p className="login-caption">把一段安静的时光，留给故事。</p>
         </header>
+        <div className="login-flow">
         {searchParams.get('reason') === 'parent-pin' && <p role="status" className="panel">家长登录已更新，请用家庭码和独立家长 PIN 重新登录。旧家庭尚未设置 PIN 时，请联系家庭管理员完成迁移。</p>}
 
         {createdCode ? (
@@ -276,15 +280,19 @@ export function LoginPage() {
           </p>
         )}
 
-        {/* 合规（第八条）：使用前可见的 AI 生成内容标识说明 */}
+        <div className="login-explore">
+          <button type="button" className="sticker-btn" onClick={() => navigate('/trial')}>无需家庭码，先试读一段</button>
+          <button type="button" className="linklike" onClick={() => navigate('/offline')}>打开本机离线书架</button>
+        </div>
+        <footer className="login-legal">
         <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => setAgreementOpen(true)}>
           AI 生成内容标识说明
         </button>
         <button type="button" className="linklike" style={{ alignSelf: 'center' }} onClick={() => navigate('/privacy')}>
           隐私政策
         </button>
-        <button type="button" className="sticker-btn" onClick={() => navigate('/trial')}>无需家庭码，先试读一段</button>
-        <button type="button" className="linklike" onClick={() => navigate('/offline')}>打开本机离线书架</button>
+        </footer>
+        </div>
       </div>
 
       {agreementOpen && (

@@ -9,6 +9,7 @@ import { ParentPhonics } from './parent/FamilyImports'
 import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
+import { IconSun, IconShelf, IconChart, IconGear, IconBookOpen } from '../components/ui/icons'
 
 // V8 Phase 6：一级导航收敛为四项；书架/桃书库合并进「内容」
 const TABS = ['今天', '内容', '足迹', '设置'] as const
@@ -194,6 +195,8 @@ export function ParentHome() {
         aria-current={tab === t ? 'page' : undefined}
         className={tab === t ? 'on' : ''}
       >
+        <span className="nav-icon">{t === '今天' ? <IconSun /> : t === '内容' ? <IconShelf /> : t === '足迹' ? <IconChart /> : <IconGear />}</span>
+        <span>
         {t}
         {t === '足迹' && reportDot ? (
           <span
@@ -201,12 +204,13 @@ export function ParentHome() {
             style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 999, background: '#ff6b4a', marginLeft: 6, verticalAlign: 'middle' }}
           />
         ) : null}
+        </span>
       </button>
     ))
   }
 
   return (
-    <div className="app">
+    <div className="app parent-app">
       <div className="wrap">
         <header className="mast">
           <div className="logo">
@@ -225,11 +229,12 @@ export function ParentHome() {
 
         <div className="layout">
           <aside className="side">
-            <p className="side-label">导航</p>
+            <p className="side-label">家庭阅读空间</p>
             <nav className="nav" aria-label="家长端导航">
               {navButtons()}
             </nav>
             <div className="side-card">
+              <IconBookOpen size={36} />
               <b>一起读</b>
               <p>小读者的设备输入家庭码即可加入</p>
             </div>

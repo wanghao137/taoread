@@ -7,10 +7,11 @@ import type { AddressInfo } from 'node:net'
 test.use({ serviceWorkers: 'allow' })
 
 test('existing offline shell upgrades before the next offline visit', async ({ page, context }, testInfo) => {
-  const [worker, html, reader] = await Promise.all([
+  const [worker, html, reader, logo] = await Promise.all([
     readFile(resolve('apps/web/public/sw.js'), 'utf8'),
     readFile(resolve('apps/web/public/offline.html'), 'utf8'),
     readFile(resolve('apps/web/public/offline-reader.js'), 'utf8'),
+    readFile(resolve('apps/web/public/brand/logo-256.png')),
   ])
   const targetCache = worker.match(/const CACHE = '([^']+)'/)?.[1]
   expect(targetCache).toBeTruthy()
@@ -27,6 +28,11 @@ test('existing offline shell upgrades before the next offline visit', async ({ p
   `
   const server = createServer((request, response) => {
     const path = new URL(request.url || '/', 'http://localhost').pathname
+    if (path === '/brand/logo-256.png') {
+      response.writeHead(200, { 'Content-Type': 'image/png' })
+      response.end(logo)
+      return
+    }
     const body = path === '/sw.js' ? (upgraded ? worker : previousWorker)
       : path === '/offline.html' ? (upgraded ? html : '<!doctype html><h1>previous offline shell</h1>')
         : path === '/offline-reader.js' ? reader : '<!doctype html><title>Offline upgrade fixture</title>'
@@ -69,7 +75,8 @@ test('existing offline shell upgrades before the next offline visit', async ({ p
     expect(evidence.unrelated).toBe('keep')
     await context.setOffline(true)
     await page.goto(`${origin}/offline`, { waitUntil: 'domcontentloaded' })
-    await expect(page.getByRole('heading', { name: '桃阅读 · 公共书离线试点', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: '离线书架', exact: true })).toBeVisible()
+    await expect.poll(() => page.locator('.offline-brand img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
     await expect(page.getByRole('link', { name: '联网返回桃阅读', exact: true })).toBeVisible()
     await page.screenshot({ path: testInfo.outputPath('offline-upgraded.png'), fullPage: true })
     await testInfo.attach('cache-upgrade.json', { body: JSON.stringify({ targetCache, caches: evidence.caches, currentHtmlMatched: evidence.html === html, unrelatedCachePreserved: evidence.unrelated === 'keep', offlineNavigation: 'passed' }, null, 2), contentType: 'application/json' })

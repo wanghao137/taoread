@@ -1,3 +1,5 @@
+import { IconBook } from './icons'
+
 export interface EmptyStateProps {
   /** 旧设计系统入参（emoji/场景插画/吉祥物情绪）：v8 空态不再渲染旧品牌元素，仅保留签名兼容历史调用 */
   emoji?: string
@@ -17,9 +19,7 @@ export function EmptyState({ emoji, art, mood, title, hint, action }: EmptyState
   void mood
   return (
     <div className="panel" role="status" style={{ textAlign: 'center', padding: '30px 20px' }}>
-      <span aria-hidden className="avatar big" style={{ margin: '0 auto 12px' }}>
-        桃
-      </span>
+      <IconBook size={56} className="state-illustration" />
       <p style={{ fontFamily: 'var(--display)', fontSize: 20, fontWeight: 700, margin: 0 }}>{title}</p>
       {hint ? (
         <p style={{ color: 'var(--ink2)', fontSize: 14, marginTop: 6, maxWidth: '46ch', marginLeft: 'auto', marginRight: 'auto' }}>

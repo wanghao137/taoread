@@ -11,6 +11,7 @@ import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
 import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
+import { IconPause, IconPlay } from '../../components/ui/icons'
 
 const MARKER_RE = /\[\[img:([^\]]+)\]\]/g
 
@@ -662,7 +663,7 @@ export function FamilyReaderPage() {
           </div>
           <button className="sticker-btn" style={{ minHeight: 44, fontSize: 14 }} onClick={() => setTocOpen(true)}>目录</button>
           <button className="sticker-btn" onClick={() => setToolsOpen(true)}>阅读工具</button>
-          <button className="sticker-btn primary" style={{ minHeight: 44, fontSize: 14 }} onClick={togglePlay}>{tts === 'loading' ? '准备中…' : tts === 'playing' ? '⏸ 暂停朗读' : tts === 'paused' ? '▶ 继续朗读' : '▶ 朗读本章'}</button>
+          <button className="sticker-btn primary" style={{ minHeight: 44, fontSize: 14 }} onClick={togglePlay}>{tts !== 'loading' && (tts === 'playing' ? <IconPause size={20} /> : <IconPlay size={20} />)}{tts === 'loading' ? '准备中…' : tts === 'playing' ? '暂停朗读' : tts === 'paused' ? '继续朗读' : '朗读本章'}</button>
         </div>
 {tocOpen && <Dialog label="家庭书目录" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setTocOpen(false)}>
         <p className="reading-hint">{book?.title} · 共 {chapterTotal} 章</p>

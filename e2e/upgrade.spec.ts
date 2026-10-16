@@ -7,7 +7,7 @@ async function login(page: Page) {
   await page.getByRole('button', { name: '小朋友', exact: true }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
   await page.getByRole('button', { name: /小桃/ }).click()
-  await expect(page.getByRole('heading', { name: '今天想读什么？' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
 }
 
 async function detail(page: Page) {
@@ -25,7 +25,7 @@ test('升级：移动入口、阅读布局、键盘弹层及本地录音权限�
     })
   })
   await login(page)
-  await expect(page.getByRole('button', { name: /换人/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /切换小读者/ })).toBeVisible()
   await detail(page)
   for (const width of [320, 390, 820, 1440]) {
     await page.setViewportSize({ width, height: 844 })
@@ -81,7 +81,7 @@ test('升级：主动保存公共文字后断网重新导航，静态离线书�
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true)
   await context.setOffline(true)
   await page.goto('/offline')
-  await expect(page.getByRole('heading', { name: /公共书离线试点/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '离线书架', exact: true })).toBeVisible()
   await page.getByRole('button', { name: '阅读', exact: true }).click()
   await expect(page.locator('#reader').getByRole('heading', { name: '小桃子的月亮船', exact: true })).toBeVisible()
   await expect(page.locator('#reader p').last()).not.toBeEmpty()

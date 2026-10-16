@@ -81,7 +81,7 @@ async function loginAsChild(page: Page, name: string): Promise<void> {
   await page.getByRole('button', { name: '小朋友' }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
   const picker = page.getByText('今天是谁的故事时间？')
-  const home = page.getByText('今天想读什么？')
+  const home = page.getByRole('heading', { name: /今天读点什么/ })
   // Cold Vite compilation can delay either valid destination. Do not treat
   // a slow child-picker load as evidence of a single-child family.
   await expect(picker.or(home)).toBeVisible({ timeout: 30_000 })
@@ -110,6 +110,12 @@ async function openDetail(page: Page, title: string): Promise<void> {
 /** 从详情进阅读器并等待章节就绪（顶栏章号 + 朗读按钮） */
 async function startReading(page: Page, title: string, order = 1): Promise<void> {
   await page.getByRole('button', { name: /开始读|继续读/ }).first().click()
+  const conflict = page.getByRole('button', { name: '结束旧书，改读这本', exact: true })
+  await expect.poll(async () => await conflict.isVisible() || await page.locator('.reader-controls').isVisible()).toBe(true)
+  if (await conflict.isVisible()) {
+    await conflict.click()
+    await expect(conflict).toBeHidden()
+  }
   await expect(page.locator('.reader-top')).toContainText(`第 ${order} 章 / ${title}`)
   await expect(page.getByRole('button', { name: /朗读本章|停止朗读/ })).toBeVisible()
 }

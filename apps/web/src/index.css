@@ -33,17 +33,7 @@
   body {
     @apply min-h-dvh bg-paper-100 font-sans;
     /* 纸面用单色底：带 fixed 渐变会在长页面滚动/整页渲染时出现「上下两截」的硬断层 */
-    background-color: #fbf7ec;
-  }
-  /* 纸纹颗粒：极低对比的噪点覆盖层，给「手工纸」质感（纯装饰） */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.03'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-color: #fff4dd;
   }
   #root {
     position: relative;
