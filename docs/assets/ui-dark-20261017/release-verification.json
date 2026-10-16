@@ -1,0 +1,42 @@
+{
+  "commit": "5feb4d4a36fd36f7e528dcff8174cab47802490e",
+  "ci": "https://github.com/wanghao137/taoread/actions/runs/38930306361",
+  "publishedAt": "2026-10-16T16:19:16.9974477Z",
+  "verifiedAt": "2026-10-16T16:30:10.368Z",
+  "publicVerified": true,
+  "indexSha256": "8D8D4C22C17844391DBE6F071FA11D0578245FAC573C0BA17ED95EF94D8037E8",
+  "origins": [
+    {
+      "origin": "http://127.0.0.1:8091",
+      "health": 200,
+      "matchedAssets": 109,
+      "browserPages": 20,
+      "pageErrors": [],
+      "passed": true
+    },
+    {
+      "origin": "https://read.taostudioai.com",
+      "health": 200,
+      "matchedAssets": 109,
+      "browserPages": 20,
+      "pageErrors": [],
+      "passed": true
+    }
+  ],
+  "backup": {
+    "offsiteComplete": true,
+    "mediaFiles": 5295,
+    "failedUploads": 0,
+    "snapshot": {
+      "integrity": "ok",
+      "foreignKeyIssues": 0,
+      "sha256": "0b0fec87c6c3d251f2c707efdf34ae85309740eeec5bc29867157a772877f8b3",
+      "createdAt": "2026-10-16T16:19:13.447Z"
+    }
+  },
+  "limits": [
+    "Initial Node fetch probes had intermittent connection failures and timeouts; remaining hashes verified in a browser with service workers blocked.",
+    "Private authenticated flows were tested in the isolated visual matrix; public smoke checks cover unauthenticated pages.",
+    "No physical iPhone or Android device coverage."
+  ]
+}
