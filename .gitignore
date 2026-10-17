@@ -75,4 +75,6 @@ apps/mobile/android/build/
 apps/mobile/android/local.properties
 apps/mobile/android/key.properties
 apps/mobile/android/app/*.keystore
+# M1-4：keystore 按 brief 放在 apps/mobile/ 根（key.properties 的 storeFile=../../ 相对 app 模块解析到此）
+apps/mobile/*.keystore
 apps/mobile/dist/
