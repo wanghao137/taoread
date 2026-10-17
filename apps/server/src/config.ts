@@ -50,7 +50,7 @@ const schema = z
     TAO_STATIC_DIR: z.string().min(1).optional(),
   })
   .superRefine((cfg, ctx) => {
-    if (cfg.NODE_ENV === 'prod' && cfg.TAO_ALLOWED_ORIGIN === '*') {
+    if (cfg.NODE_ENV === 'prod' && parseAllowedOrigins(cfg.TAO_ALLOWED_ORIGIN) === true) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: '生产环境（NODE_ENV=prod）禁止 CORS 全开，请显式配置 TAO_ALLOWED_ORIGIN',
@@ -73,6 +73,13 @@ export function imageGenAvailable(cfg: AppConfig): boolean {
 /** AI 视频是否可用（缺 base/key 时「让画面动起来」按钮不展示，docs/13 P0-E） */
 export function videoGenAvailable(cfg: AppConfig): boolean {
   return Boolean(cfg.TAO_VIDEO_BASE && cfg.TAO_VIDEO_KEY)
+}
+
+/** CORS origin 解析：'*' → true；逗号分隔白名单（Capacitor Android origin 是 https://localhost，docs/68 M1-2） */
+export function parseAllowedOrigins(raw: string): string[] | true {
+  const parts = raw.split(',').map((s) => s.trim()).filter(Boolean)
+  if (parts.length === 0 || parts.includes('*')) return true
+  return parts
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {

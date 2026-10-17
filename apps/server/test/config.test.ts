@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { loadConfig } from '../src/config'
+import { loadConfig, parseAllowedOrigins } from '../src/config'
 import { ConfigError } from '../src/lib/errors'
 
 const BASE = {
@@ -48,5 +48,18 @@ describe('TAO_BEDTIME 残留配置（阅读时间限制已于 2026-09-25 取消�
   it('配置项已移除，残留环境变量被忽略且不报错', () => {
     const cfg = loadConfig({ ...BASE, TAO_BEDTIME: '1290' })
     expect((cfg as Record<string, unknown>).TAO_BEDTIME).toBeUndefined()
+  })
+})
+
+describe('parseAllowedOrigins', () => {
+  it('* 与空串放行为 true', () => {
+    expect(parseAllowedOrigins('*')).toBe(true)
+    expect(parseAllowedOrigins('')).toBe(true)
+  })
+  it('逗号白名单去空格', () => {
+    expect(parseAllowedOrigins('https://read.taostudioai.com , https://localhost')).toEqual([
+      'https://read.taostudioai.com',
+      'https://localhost',
+    ])
   })
 })

@@ -11,7 +11,7 @@ import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import { closeSync, existsSync, openSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from '../config'
+import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable, parseAllowedOrigins } from '../config'
 import { buildApp } from '../app'
 import { IpRateLimiter } from '../lib/ipRateLimit'
 import { createDb } from '../lib/db'
@@ -72,7 +72,7 @@ async function main(): Promise<void> {
     bedTimeMin: null, // 演示不受就寝窗限制，完整链路可走
     // 演示库单家庭 + mock 网关：join 无爆破面；e2e 全程同 IP 串行登录需宽松桶（生产仍用默认 5/分钟）
     ipLimiter: new IpRateLimiter({ capacity: 1000, refillPerMinute: 10_000 }),
-    allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
+    allowedOrigin: parseAllowedOrigins(config.TAO_ALLOWED_ORIGIN),
     logger: false,
     mediaDir,
     staticDir: E2E_ISOLATION ? process.env.TAO_E2E_STATIC_DIR : undefined,

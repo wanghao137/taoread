@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { join, resolve } from 'node:path'
-import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable } from './config'
+import { loadConfig, ttsAvailable, imageGenAvailable, videoGenAvailable, parseAllowedOrigins } from './config'
 import { buildApp } from './app'
 import { createDb } from './lib/db'
 import { tokenSecretFrom } from './modules/family/service'
@@ -51,7 +51,7 @@ async function main(): Promise<void> {
     trustProxy: config.TAO_TRUST_PROXY,
     genDailyLimit: config.TAO_DAILY_GEN_LIMIT,
     ...(config.TAO_STATIC_DIR ? { staticDir: resolve(config.TAO_STATIC_DIR) } : {}),
-    allowedOrigin: config.TAO_ALLOWED_ORIGIN === '*' ? true : config.TAO_ALLOWED_ORIGIN,
+    allowedOrigin: parseAllowedOrigins(config.TAO_ALLOWED_ORIGIN),
     logger: true,
     mediaDir,
     ttsDeps,

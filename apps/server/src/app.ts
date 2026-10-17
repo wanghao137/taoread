@@ -58,7 +58,8 @@ export interface BuildAppOptions {
   /** 仪式域时钟注入（测试） */
   ritualNowSec?: () => number
   ritualNowMin?: () => number
-  allowedOrigin?: string | boolean
+  /** CORS 白名单：'*' 或空=全开；字符串=单 origin；数组=多 origin 白名单（Capacitor 壳 https://localhost，docs/68 M1-2） */
+  allowedOrigin?: string | string[] | boolean
   logger?: boolean
   /** 媒体目录（AI 插画 + TTS 音频缓存落地，docs/13） */
   mediaDir?: string
