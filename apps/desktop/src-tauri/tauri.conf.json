@@ -12,6 +12,7 @@
         "label": "main",
         "create": false,
         "title": "桃阅读",
+        "url": "https://read.taostudioai.com/",
         "width": 1280,
         "height": 840,
         "minWidth": 720,
