@@ -23,6 +23,7 @@ import { Dialog } from '../../components/ui/Dialog'
 import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import { LocalRecorder } from '../../components/ui/LocalRecorder'
+import { InstallHint } from '../../components/InstallHint'
 import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
 import { IconBookmark } from '../../components/ui/icons'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
@@ -1802,6 +1803,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                   : '朗读时文字不变样'}
           </p>
           </>}
+          {/* M0-1：设置浮层末尾的安装入口（Android 一键装 / iOS 图文步骤，已安装自动隐藏） */}
+          <InstallHint />
         </Overlay>
       ) : null}
 
