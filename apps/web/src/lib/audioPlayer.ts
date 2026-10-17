@@ -656,6 +656,14 @@ class ServerAudioPlayer {
       navigator.mediaSession.setActionHandler('play', () => this.resume())
       navigator.mediaSession.setActionHandler('pause', () => this.pause())
       navigator.mediaSession.setActionHandler('stop', () => this.stop())
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        const previous = this.currentIndex - 1
+        if (previous >= 0) this.jumpToSegment(previous)
+      })
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        const next = this.currentIndex + 1
+        if (next < this.queue.length) this.jumpToSegment(next)
+      })
     } catch {
       /* 部分浏览器 setActionHandler 抛异常，忽略 */
     }
