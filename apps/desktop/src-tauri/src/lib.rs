@@ -2,13 +2,15 @@ use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_opener::OpenerExt;
 use tauri_plugin_updater::UpdaterExt;
 
-/// 站内域前缀：导航放行；其余一律转系统浏览器（docs/67 §3.2-2，Rust 侧拦截防绕过）
-const ALLOWED_PREFIXES: [&str; 4] = [
-    "https://read.taostudioai.com",
-    "https://media.taostudioai.com",
-    "https://audio.taostudioai.com",
-    "http://localhost:5173",
-];
+/// 精确主机匹配（scheme 一并校验）：防止 read.taostudioai.com.evil.com 类前缀绕过
+fn is_allowed_target(target: &tauri::Url) -> bool {
+    let Some(host) = target.host_str() else { return false };
+    match host {
+        "read.taostudioai.com" | "media.taostudioai.com" | "audio.taostudioai.com" => target.scheme() == "https",
+        "localhost" => target.scheme() == "http" && target.port() == Some(5173),
+        _ => false,
+    }
+}
 
 /// 行为垫片：屏蔽刷新/打印/右键（保留 F12、Ctrl+F、缩放），无 IPC 也生效
 const GUARDS_JS: &str = r#"
@@ -61,9 +63,10 @@ fn spawn_update_check(app: tauri::AppHandle) {
         let mut update = update;
         update.timeout = Some(std::time::Duration::from_secs(600));
         if let Err(err) = update.download_and_install(|_chunk, _total| {}, || {}).await {
+            eprintln!("[taoread-desktop] update install failed: {err}");
             let _ = app
                 .dialog()
-                .message(format!("更新失败，请稍后到下载页重试：{err}"))
+                .message("更新没能完成，稍后会再提醒你；也可以到下载页重新安装最新版")
                 .title("桃阅读 · 更新")
                 .blocking_show();
             return;
@@ -94,10 +97,10 @@ pub fn run() {
                 .title("桃阅读")
                 .initialization_script(GUARDS_JS)
                 .on_navigation(move |target| {
-                    let s = target.as_str();
-                    if ALLOWED_PREFIXES.iter().any(|p| s.starts_with(p)) {
+                    if is_allowed_target(target) {
                         return true;
                     }
+                    let s = target.as_str();
                     let _ = for_nav.opener().open_url(s.to_string(), None::<&str>);
                     false
                 })
