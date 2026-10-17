@@ -29,7 +29,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "PLACEHOLDER_REPLACED_IN_TASK_D3",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkzNzI0NDFFRjM5NTg4QjQKUldTMGlKWHpIa1J5a3pRVkN5UjV6eUNNQUtYTllmNmovTXFCVm5QZ1JPSmRoa2sveEZ1ZTl0VGgK",
       "endpoints": [
         "https://dl.taostudioai.com/pc/latest.json",
         "https://github.com/wanghao137/taoread/releases/latest/download/latest.json"
