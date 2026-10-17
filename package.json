@@ -21,7 +21,9 @@
     "smoke:weread": "npm run smoke -w @taoread/server",
     "demo": "node scripts/demo.mjs",
     "e2e": "playwright test -c e2e/playwright.config.ts --grep-invert @visual",
-    "e2e:visual": "playwright test -c e2e/playwright.config.ts --grep @visual"
+    "e2e:visual": "playwright test -c e2e/playwright.config.ts --grep @visual",
+    "mobile:build": "npm run build:web -w @taoread/mobile",
+    "mobile:sync": "npm run build:web -w @taoread/mobile && npm run sync -w @taoread/mobile"
   },
   "engines": {
     "node": ">=20"

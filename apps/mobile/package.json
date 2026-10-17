@@ -1,0 +1,17 @@
+{
+  "name": "@taoread/mobile",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:web": "cd ../web && npx vite build --mode mobile --outDir ../mobile/dist --emptyOutDir",
+    "sync": "npx cap sync android",
+    "open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0"
+  }
+}

@@ -20,6 +20,9 @@ export default tseslint.config(
       // 桌面壳（D1 引入）：cargo 构建产物与 tauri codegen 生成目录，非源码
       'apps/desktop/src-tauri/target/**',
       'apps/desktop/src-tauri/gen/**',
+      // 移动壳（M1-1 引入）：cap add/cap sync 生成的 android 原生工程（含拷入的
+      // 压缩 web 产物 android/app/src/main/assets/public），非源码，全部由 Capacitor 再生成
+      'apps/mobile/android/**',
     ],
   },
   {

@@ -12,6 +12,8 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+# M1-1：移动构建模式声明（非密钥：仅 API 基址 + 原生开关），需入库
+!.env.mobile
 
 # 审查截图走查产物（留在本地，不入库）
 docs/screenshots/
@@ -65,3 +67,12 @@ cf-*.png
 
 # TS 增量构建缓存
 *.tsbuildinfo
+
+# M1-1：Capacitor android 工程的 gradle 产物与签名材料（绝不入库）
+apps/mobile/android/.gradle/
+apps/mobile/android/app/build/
+apps/mobile/android/build/
+apps/mobile/android/local.properties
+apps/mobile/android/key.properties
+apps/mobile/android/app/*.keystore
+apps/mobile/dist/

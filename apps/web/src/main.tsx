@@ -60,7 +60,7 @@ createRoot(rootEl).render(
  * API 与导航绝不缓存（家庭数据带会话凭据）；仅 /assets//fonts//icons//brand/
  * cache-first。v1 时代的「清理历史预缓存」能力保留（activate 清旧版本缓存）。
  */
-if ('serviceWorker' in navigator) {
+if (!import.meta.env.VITE_TAO_NATIVE && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     void navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => undefined)
   })
