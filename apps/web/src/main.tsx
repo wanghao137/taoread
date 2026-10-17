@@ -3,6 +3,7 @@ import { IconSun } from './components/ui/icons'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
+import { AppUpdateBanner } from './components/AppUpdateBanner'
 import './index.css'
 import './v8.css'
 import './reading-ui.css'
@@ -49,7 +50,11 @@ createRoot(rootEl).render(
   <StrictMode>
     <ErrorBoundary>
       <BrowserRouter future={{ v7_startTransition: true }}>
-        <App />
+        <>
+          <App />
+          {/* M1-5：原生壳内升级提示条；web 构建恒为 null，不渲染任何节点 */}
+          <AppUpdateBanner />
+        </>
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>,

@@ -356,3 +356,7 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 @media(max-width:760px){.editor-columns{display:block}.editor-columns aside{max-height:35dvh}}
 .compact-art-toggle { min-height: 44px; min-width: 44px; }
 .pager-navigation button.page-forward:not(:disabled){background:var(--yellow,#ffdd57);color:#29231b;border:2px solid #29231b;font-weight:700;box-shadow:0 2px 0 #29231b}
+
+/* M1-5：原生壳内新版本提示条（悬于底部 tab 栏上方；web 构建不渲染此组件）。 */
+.app-update-banner{position:fixed;left:0;right:0;bottom:calc(64px + max(10px,env(safe-area-inset-bottom)));z-index:45;min-height:48px;border:0;border-radius:16px 16px 0 0;background:#FF8E75;color:#fff;font-family:var(--display);font-weight:700;font-size:15px;line-height:1.6;padding:10px 16px;text-align:center;cursor:pointer}
+.app-update-banner:active{filter:brightness(.94)}
