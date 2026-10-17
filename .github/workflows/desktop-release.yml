@@ -93,4 +93,5 @@ jobs:
           "
           npx wrangler@latest r2 object put "taoread-dist/pc/$(basename "$EXE")" --file "$EXE" --remote
           npx wrangler@latest r2 object put "taoread-dist/pc/latest.json" --file "$LATEST" --remote
-          echo "已上传: $(basename "$EXE") 与 latest.json"
+          npx wrangler@latest r2 object put "taoread-dist/pc/latest.exe" --file "$EXE" --remote
+          echo "已上传: $(basename "$EXE") 与 latest.json 及固定名别名 latest.exe（带扩展名过 worker 白名单）"

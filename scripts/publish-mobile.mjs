@@ -2,7 +2,7 @@
 // 前置：已完成 assembleRelease（apps/mobile/android/app/build/outputs/apk/release/app-release.apk）；
 //       R2 凭据在 apps/server/.env.dist（CF_DIST_ACCOUNT_ID / CF_DIST_API_TOKEN，不入 git）。
 // 职责（appUpdate.ts 头注释的约定）：校验入参版本 = .env.mobile 的 VITE_APP_VERSION =
-//       apps/mobile/package.json 版本，三者一致后上传 APK（含 latest-apk 固定名别名，
+//       apps/mobile/package.json 版本，三者一致后上传 APK（含 latest.apk 固定名别名，
 //       供 download.html 的「下载 APK」按钮使用）与 version.json（含 sha256 与
 //       RELEASE.md 摘要）到 taoread-dist 桶。
 import { createHash } from 'node:crypto'
@@ -31,8 +31,8 @@ const sha256 = createHash('sha256').update(readFileSync(apk)).digest('hex')
 const run = (cmd) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, CLOUDFLARE_API_TOKEN: token, CLOUDFLARE_ACCOUNT_ID: acc } })
 
 run(`npx wrangler@latest r2 object put "taoread-dist/android/TaoRead-${version}-release.apk" --file "${apk}" --remote`)
-// 固定名别名：版本号解耦，下载页固定指向 latest-apk，与版本号上传同源（同一个文件）
-run(`npx wrangler@latest r2 object put "taoread-dist/android/latest-apk" --file "${apk}" --content-type "application/vnd.android.package-archive" --remote`)
+// 固定名别名：版本号解耦，下载页固定指向 latest.apk（带扩展名过 worker 白名单），与版本号上传同源（同一个文件）
+run(`npx wrangler@latest r2 object put "taoread-dist/android/latest.apk" --file "${apk}" --content-type "application/vnd.android.package-archive" --remote`)
 const manifest = {
   version,
   url: `https://dl.taostudioai.com/android/TaoRead-${version}-release.apk`,
