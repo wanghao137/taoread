@@ -1,20 +1,19 @@
 {
   "targetCommit": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
-  "productionCommit": "c34203f4170fa4e2fcc809dc03136e50ca3b1f5e",
-  "staticUnchanged": true,
-  "indexSha256": "8d8d4c22c17844391dbe6f071fa11d0578245fac573c0ba17ed95ef94d8037e8",
+  "productionCommitAtAcceptance": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+  "uiDeployed": true,
+  "publicVerified": true,
+  "complete": true,
+  "stage": "verified",
+  "codePushed": true,
+  "indexSha256": "08119074f80ab4ac1d35aa8a66f67a9f71800eddd174e82d1565cd3ab6474bb6",
   "sourceHealth": 200,
   "publicHealth": 200,
-  "publicIndexUnchanged": true,
-  "uiDeployed": false,
-  "checkedAt": "2026-10-17T11:41:55.805Z",
-  "complete": false,
-  "stage": "offsite-backup",
-  "codePushed": true,
   "ci": {
-    "runId": 39028139715,
     "headSha": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+    "status": "completed",
     "conclusion": "success",
+    "url": "https://github.com/wanghao137/taoread/actions/runs/39028139715",
     "jobs": [
       {
         "name": "typecheck / lint / unit / build",
@@ -24,24 +23,91 @@
         "name": "e2e（自起隔离服务）",
         "conclusion": "success"
       }
-    ],
-    "url": "https://github.com/wanghao137/taoread/actions/runs/39028139715",
-    "evidence": "gh run view returned both jobs completed successfully before deployment"
+    ]
   },
   "backup": {
-    "initialUploadFailures": 13,
-    "initialAttemptStoppedToRestoreService": true,
-    "onlineLowConcurrencyAttempted": true,
-    "existingSystemProxyAttempted": true,
-    "proxyHeadBucketProbePassed": true,
-    "lastError": "ECONNRESET during TLS connection establishment",
-    "lastSdkAttempts": 6,
-    "newCompleteOffsiteRecoveryPoint": false
+    "newCompleteOffsiteRecoveryPoint": true,
+    "key": "recovery/backup-2026-10-17T11-59-05-575Z.db.json",
+    "database": "db/backup-2026-10-17T11-59-05-575Z.db",
+    "sha256": "e143243fe6ed66ecb98cc857749ae39fa0636f7f44848e38cef89c04f7b89505",
+    "bytes": 18927616,
+    "integrity": "ok",
+    "foreignKeyIssues": 0,
+    "mediaReferences": 5903,
+    "consistency": "quiescent",
+    "createdAt": "2026-10-17T11:59:51.216Z",
+    "checkedAt": "2026-10-17T12:00:28.293Z"
+  },
+  "snapshot": {
+    "integrity": "ok",
+    "foreignKeyIssues": 0,
+    "sha256": "e143243fe6ed66ecb98cc857749ae39fa0636f7f44848e38cef89c04f7b89505",
+    "createdAt": "2026-10-17T11:59:54.138Z"
   },
   "candidateFiles": 109,
-  "remaining": [
-    "Complete B2 media archive and coordinated backup",
-    "Publish reviewed frontend build",
-    "Verify new source and public resource hashes and pages"
-  ]
+  "verification": [
+    {
+      "origin": "http://127.0.0.1:8091",
+      "passed": true,
+      "assets": 109,
+      "pages": 20,
+      "errors": []
+    },
+    {
+      "origin": "https://read.taostudioai.com",
+      "passed": true,
+      "assets": 109,
+      "pages": 20,
+      "errors": []
+    }
+  ],
+  "checkedAt": "2026-10-17T12:03:39.540Z",
+  "previousAttempt": {
+    "targetCommit": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+    "productionCommit": "c34203f4170fa4e2fcc809dc03136e50ca3b1f5e",
+    "staticUnchanged": true,
+    "indexSha256": "8d8d4c22c17844391dbe6f071fa11d0578245fac573c0ba17ed95ef94d8037e8",
+    "sourceHealth": 200,
+    "publicHealth": 200,
+    "publicIndexUnchanged": true,
+    "uiDeployed": false,
+    "checkedAt": "2026-10-17T11:41:55.805Z",
+    "complete": false,
+    "stage": "offsite-backup",
+    "codePushed": true,
+    "ci": {
+      "runId": 39028139715,
+      "headSha": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "typecheck / lint / unit / build",
+          "conclusion": "success"
+        },
+        {
+          "name": "e2e（自起隔离服务）",
+          "conclusion": "success"
+        }
+      ],
+      "url": "https://github.com/wanghao137/taoread/actions/runs/39028139715",
+      "evidence": "gh run view returned both jobs completed successfully before deployment"
+    },
+    "backup": {
+      "initialUploadFailures": 13,
+      "initialAttemptStoppedToRestoreService": true,
+      "onlineLowConcurrencyAttempted": true,
+      "existingSystemProxyAttempted": true,
+      "proxyHeadBucketProbePassed": true,
+      "lastError": "ECONNRESET during TLS connection establishment",
+      "lastSdkAttempts": 6,
+      "newCompleteOffsiteRecoveryPoint": false
+    },
+    "candidateFiles": 109,
+    "remaining": [
+      "Complete B2 media archive and coordinated backup",
+      "Publish reviewed frontend build",
+      "Verify new source and public resource hashes and pages"
+    ]
+  },
+  "remaining": []
 }

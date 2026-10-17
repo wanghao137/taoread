@@ -1,0 +1,1781 @@
+{
+  "commit": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+  "publicVerified": true,
+  "origins": [
+    {
+      "origin": "http://127.0.0.1:8091",
+      "assets": [
+        {
+          "path": "art/icons/arrow-left.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": ".vite/manifest.json",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/arrow-right.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/book-open.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/book.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/bookmark.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/check.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-down.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-left.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-right.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/clock.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/close.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/cloud-saved.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/compass.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/download.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/family.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/headphones.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/footprints.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/heart-filled.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/heart.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/lamp.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/leaf.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/list.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/minus.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/moon-star.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/moon.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/palette.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/pause.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/play.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/plus.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/refresh.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/search.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/settings.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/shelf.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/shield.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/sparkle.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/star.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/sun.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/type.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/user.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/volume.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/card-texture.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/child-avatar-reference.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/greeting-accent.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/paper-texture.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/poem-scenery-reference.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/reading-books.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/recommendation-accent.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/EditorPage-C6K_nXpM.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ChildHome-Bs8mCfjb.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/EditorPage-legacy-DqCnu3ox.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ChildHome-legacy-CXc8J69O.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-BHx5nyoo.css",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/FamilyTrialPages-BtOwSnNO.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/FamilyTrialPages-legacy-BcHp4qM0.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-legacy-BGCm1cAY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ListeningPage-SHasVehY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/motionFeatures-DlZiGqjT.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-tuRMyf8n.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ListeningPage-legacy-sHqI3UD4.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/offline-DJWLNaO2.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OfflinePage-DiD9TpCM.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/motionFeatures-legacy-v5GOHPlJ.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/offline-legacy-DnvGFHJ_.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OpsPage-BKq1PLTA.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OpsPage-legacy-iOtqb8Oo.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OfflinePage-legacy-CaLlP1et.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/pagedReading-DFBpz6LH.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PageHead-BsLKMRs2.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PageHead-legacy-B3-4-Bj5.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ParentHome-C8KNxzFR.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/pagedReading-legacy-gjJo7UZ0.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PoemRuby-legacy-BfyFY9tJ.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/polyfills-CHoLn_QT.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PoemRuby-CP3FiDsG.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ParentHome-legacy-CJeXnuIA.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReadingSupport-D0peMXWh.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReaderPage-CKl-4Iph.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReaderPage-legacy-BS_HCwFO.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/polyfills-legacy-Bd72IOd_.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/TrialPage-cDCZGf8d.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/UtilityPage-BLDQRcQY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReadingSupport-legacy-xSpdM-sd.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/TrialPage-legacy-D2bPB6BF.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/apple-180.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/favicon-32.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/UtilityPage-legacy-BeBUMI2R.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/favicon.svg",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/logo-256.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/logo-256.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/baloo2-latin-ext.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/baloo2-latin.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/bedtime-poems.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/GenSenRounded-LICENSE.txt",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/gensen-rounded-heavy.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/gensen-rounded-regular.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/classic-tales.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/first-steps.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/mengxue.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/quick-stories.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/wonder-why.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-192.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-512.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-maskable-512.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "index.html",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "manifest.webmanifest",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "offline-reader.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "offline.html",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "sw.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        }
+      ],
+      "pages": [
+        {
+          "colorScheme": "light",
+          "path": "/login",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/trial",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline.html",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/privacy",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/login",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/trial",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline.html",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/privacy",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/login",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/trial",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline.html",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/privacy",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/login",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/trial",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline.html",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/privacy",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        }
+      ],
+      "errors": [],
+      "retries": [],
+      "passed": true,
+      "health": 200
+    },
+    {
+      "origin": "https://read.taostudioai.com",
+      "assets": [
+        {
+          "path": "art/icons/arrow-right.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/book-open.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/arrow-left.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": ".vite/manifest.json",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/bookmark.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/check.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-down.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/book.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-left.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/close.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/chevron-right.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/clock.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/family.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/cloud-saved.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/download.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/compass.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/heart-filled.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/footprints.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/heart.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/headphones.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/list.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/minus.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/lamp.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/leaf.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/moon.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/pause.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/palette.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/moon-star.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/search.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/play.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/refresh.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/plus.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/settings.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/sparkle.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/shield.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/shelf.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/star.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/sun.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/user.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/type.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/greeting-accent.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/icons/volume.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/card-texture.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/child-avatar-reference.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/paper-texture.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/reading-books.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/recommendation-accent.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "art/reading-desk/poem-scenery-reference.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/EditorPage-legacy-DqCnu3ox.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/EditorPage-C6K_nXpM.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ChildHome-Bs8mCfjb.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ChildHome-legacy-CXc8J69O.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-BHx5nyoo.css",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/FamilyTrialPages-BtOwSnNO.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/FamilyTrialPages-legacy-BcHp4qM0.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-legacy-BGCm1cAY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ListeningPage-legacy-sHqI3UD4.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/index-tuRMyf8n.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ListeningPage-SHasVehY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/motionFeatures-DlZiGqjT.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OfflinePage-DiD9TpCM.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/offline-DJWLNaO2.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/offline-legacy-DnvGFHJ_.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/motionFeatures-legacy-v5GOHPlJ.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OfflinePage-legacy-CaLlP1et.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/pagedReading-DFBpz6LH.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OpsPage-BKq1PLTA.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/OpsPage-legacy-iOtqb8Oo.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PageHead-legacy-B3-4-Bj5.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PageHead-BsLKMRs2.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/pagedReading-legacy-gjJo7UZ0.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ParentHome-C8KNxzFR.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PoemRuby-CP3FiDsG.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/PoemRuby-legacy-BfyFY9tJ.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/polyfills-CHoLn_QT.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ParentHome-legacy-CJeXnuIA.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/polyfills-legacy-Bd72IOd_.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReadingSupport-D0peMXWh.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReaderPage-legacy-BS_HCwFO.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReaderPage-CKl-4Iph.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/TrialPage-legacy-D2bPB6BF.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/TrialPage-cDCZGf8d.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/ReadingSupport-legacy-xSpdM-sd.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/UtilityPage-BLDQRcQY.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/favicon.svg",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/favicon-32.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/apple-180.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "assets/UtilityPage-legacy-BeBUMI2R.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/logo-256.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/baloo2-latin-ext.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/baloo2-latin.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "brand/logo-256.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/gensen-rounded-regular.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/gensen-rounded-heavy.woff2",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "fonts/GenSenRounded-LICENSE.txt",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/bedtime-poems.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/quick-stories.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/first-steps.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/classic-tales.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/mengxue.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/collections/wonder-why.webp",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-512.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-maskable-512.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "icons/icon-192.png",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "index.html",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "manifest.webmanifest",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "offline-reader.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "offline.html",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        },
+        {
+          "path": "sw.js",
+          "status": 200,
+          "matched": true,
+          "attempt": 1
+        }
+      ],
+      "pages": [
+        {
+          "colorScheme": "light",
+          "path": "/login",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/trial",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline.html",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/privacy",
+          "width": 390,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/login",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/trial",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/offline.html",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "light",
+          "path": "/privacy",
+          "width": 1448,
+          "background": "rgb(254, 249, 234)",
+          "dark": false,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/login",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/trial",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline.html",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/privacy",
+          "width": 390,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/login",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/trial",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/offline.html",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        },
+        {
+          "colorScheme": "dark",
+          "path": "/privacy",
+          "width": 1448,
+          "background": "rgb(32, 31, 35)",
+          "dark": true,
+          "overflow": false,
+          "fonts": true,
+          "brokenImages": []
+        }
+      ],
+      "errors": [],
+      "retries": [],
+      "passed": true,
+      "health": 200
+    }
+  ],
+  "deployment": {
+    "finishedAt": "2026-10-17T11:59:57.8751463Z",
+    "complete": true,
+    "pinMigration": false,
+    "health": 200,
+    "commit": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+    "indexSha256": "08119074F80AB4AC1D35AA8A66F67A9F71800EDDD174E82D1565CD3AB6474BB6",
+    "databaseMigration": false,
+    "previousCommit": "c34203f4170fa4e2fcc809dc03136e50ca3b1f5e",
+    "publicVerified": false
+  },
+  "ci": {
+    "headSha": "7e29470872b84f8c8dc9d84a98989f7c7af1f8a1",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/wanghao137/taoread/actions/runs/39028139715",
+    "jobs": [
+      {
+        "name": "typecheck / lint / unit / build",
+        "conclusion": "success"
+      },
+      {
+        "name": "e2e（自起隔离服务）",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "snapshot": {
+    "integrity": "ok",
+    "foreignKeyIssues": 0,
+    "sha256": "e143243fe6ed66ecb98cc857749ae39fa0636f7f44848e38cef89c04f7b89505",
+    "createdAt": "2026-10-17T11:59:54.138Z"
+  },
+  "offsiteRecovery": {
+    "key": "recovery/backup-2026-10-17T11-59-05-575Z.db.json",
+    "database": "db/backup-2026-10-17T11-59-05-575Z.db",
+    "sha256": "e143243fe6ed66ecb98cc857749ae39fa0636f7f44848e38cef89c04f7b89505",
+    "bytes": 18927616,
+    "integrity": "ok",
+    "foreignKeyIssues": 0,
+    "mediaReferences": 5903,
+    "consistency": "quiescent",
+    "createdAt": "2026-10-17T11:59:51.216Z",
+    "checkedAt": "2026-10-17T12:00:28.293Z"
+  }
+}
