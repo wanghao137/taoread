@@ -1,0 +1,96 @@
+name: Build Desktop Client
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version and extract release notes
+        id: meta
+        shell: bash
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(jq -r .version apps/desktop/package.json)
+          if [[ "$TAG" != "v$version" ]]; then
+            echo "::error::tag $TAG 与 apps/desktop/package.json 版本 $version 不一致"; exit 1
+          fi
+          cargo_version=$(grep -m1 '^version' apps/desktop/src-tauri/Cargo.toml | cut -d '"' -f2)
+          if [[ "$cargo_version" != "$version" ]]; then
+            echo "::error::Cargo.toml 版本 $cargo_version 不一致"; exit 1
+          fi
+          awk -v head="## v$version（" 'index($0, head) == 1 { f=1; print; next } f && /^## v/ { exit } f { print }' RELEASE.md > release-notes.md
+          [[ -s release-notes.md ]] || { echo "::error::RELEASE.md 缺 v$version 段落"; exit 1; }
+          { echo 'body<<RELEASE_NOTES_EOF'; cat release-notes.md; echo 'RELEASE_NOTES_EOF'; } >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri -> target
+
+      - run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          projectPath: apps/desktop
+          tagName: ${{ steps.meta.outputs.tag }}
+          releaseName: ${{ steps.meta.outputs.tag }}
+          releaseBody: ${{ steps.meta.outputs.body }}
+          releaseDraft: false
+          prerelease: false
+          includeUpdaterJson: true
+          updaterJsonPreferNsis: true
+          tauriScript: npx tauri
+
+      - name: Sync release notes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: gh release edit "$TAG" --title "$TAG" --notes-file release-notes.md --draft=false --prerelease=false
+
+      # R2 镜像：latest.json 的二进制 URL 从 github.com 改写到 dl.taostudioai.com（国内可达）
+      - name: Mirror to R2
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DIST_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_DIST_ACCOUNT_ID }}
+        run: |
+          set -e
+          LATEST=$(find apps/desktop/src-tauri/target -name latest.json | head -1)
+          EXE=$(find apps/desktop/src-tauri/target -name "*-setup.exe" | head -1)
+          test -n "$LATEST" && test -n "$EXE"
+          node -e "
+            const fs = require('fs');
+            const j = JSON.parse(fs.readFileSync('$LATEST', 'utf8'));
+            for (const pl of Object.values(j.platforms)) {
+              if (pl.url) pl.url = 'https://dl.taostudioai.com/pc/' + pl.url.split('/').pop();
+            }
+            fs.writeFileSync('$LATEST', JSON.stringify(j, null, 2));
+          "
+          npx wrangler@latest r2 object put "taoread-dist/pc/$(basename "$EXE")" --file "$EXE" --remote
+          npx wrangler@latest r2 object put "taoread-dist/pc/latest.json" --file "$LATEST" --remote
+          echo "已上传: $(basename "$EXE") 与 latest.json"
