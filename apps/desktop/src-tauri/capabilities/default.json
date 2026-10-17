@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-window",
+  "description": "远程站点默认零 IPC：本能力不授任何权限，占位以显式表达该决策",
+  "windows": ["main"],
+  "permissions": []
+}
