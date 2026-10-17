@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
+import { DisclosureSummary } from './ui/DisclosureSummary'
+import { IconClock } from './ui/icons'
 
 export function FeedbackForm({ token, bookId, version, chapter, position }: { token: string; bookId?: string; version?: string; chapter?: number; position?: number }) {
   const [message, setMessage] = useState('')
@@ -31,5 +33,5 @@ export function RecentReading({ token, childId }: { token: string; childId: stri
   const [error, setError] = useState(false)
   const [retry, setRetry] = useState(0)
   useEffect(() => { let live = true; setItems([]); setError(false); void api.recentReading(childId, token).then(x => { if (live) setItems(x.items) }).catch(() => { if (live) setError(true) }); return () => { live = false } }, [token, childId, retry])
-  return <details className="panel recent-reading"><summary>最近读过</summary>{error ? <p role="alert">最近阅读未加载。<button className="sticker-btn" onClick={() => setRetry(x => x + 1)}>重试</button></p> : items.length ? items.map(x => <div key={`${x.source}:${x.bookId ?? x.title}`} className="recent-row"><span><b>{x.title}</b> · {x.source === 'public' ? '桃书库' : x.source === 'import' ? '家庭书' : x.source === 'paper' ? '纸书记录' : '微信读书记录'}</span>{x.available && x.bookId ? <button className="sticker-btn" onClick={() => navigate(x.source === 'public' ? `/child/book/${encodeURIComponent(x.bookId!)}/chapter/${x.chapter ?? 1}` : `/child/family-book/${encodeURIComponent(x.bookId!)}/chapter/${x.chapter ?? 1}`)}>继续读</button> : <span>阅读记录保留；{x.source === 'import' ? '请从家庭书目录重新选章' : '请在纸书或微信读书中阅读正文'}</span>}</div>) : <p>开始读一本书，续读入口就会留在这里。</p>}</details>
+  return <details className="quiet-disclosure recent-reading"><DisclosureSummary icon={<IconClock />} title="最近读过" hint="找到上次那一本，接着读下去" />{error ? <p role="alert">最近阅读未加载。<button className="sticker-btn" onClick={() => setRetry(x => x + 1)}>重试</button></p> : items.length ? items.map(x => <div key={`${x.source}:${x.bookId ?? x.title}`} className="recent-row"><span><b>{x.title}</b> · {x.source === 'public' ? '桃书库' : x.source === 'import' ? '家庭书' : x.source === 'paper' ? '纸书记录' : '微信读书记录'}</span>{x.available && x.bookId ? <button className="sticker-btn" onClick={() => navigate(x.source === 'public' ? `/child/book/${encodeURIComponent(x.bookId!)}/chapter/${x.chapter ?? 1}` : `/child/family-book/${encodeURIComponent(x.bookId!)}/chapter/${x.chapter ?? 1}`)}>继续读</button> : <span>阅读记录保留；{x.source === 'import' ? '请从家庭书目录重新选章' : '请在纸书或微信读书中阅读正文'}</span>}</div>) : <p>开始读一本书，续读入口就会留在这里。</p>}</details>
 }

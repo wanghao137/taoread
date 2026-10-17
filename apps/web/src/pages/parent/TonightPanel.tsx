@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ChildDto, type ReadingCardDto } from '../../lib/api'
 import { Loading, ErrorState } from '../../components/ui'
+import { IconRefresh } from '../../components/ui/icons'
 
 export interface TonightPanelProps {
   token: string
@@ -104,10 +105,10 @@ export function TonightPanel({ token, childrenList, refreshKey }: TonightPanelPr
 
   return (
     <section>
-      <div className="section-head">
-        <h3>今天的共读卡</h3>
-        <button type="button" className="sticker-btn sm" style={{ marginLeft: 'auto' }} onClick={reload}>
-          刷新
+      <div className="section-head tonight-heading">
+        <div><h3>今天的共读卡</h3><p>看看小读者今天读到了哪里</p></div>
+        <button type="button" className="sticker-btn sm parent-refresh" onClick={reload}>
+          <IconRefresh size={20} />刷新
         </button>
       </div>
 

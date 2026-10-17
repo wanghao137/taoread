@@ -11,7 +11,7 @@ import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
 import { FeedbackForm } from '../../components/ReadingSupport'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppearance'
-import { IconPause, IconPlay } from '../../components/ui/icons'
+import { IconPause, IconPlay, IconArrowLeft, IconArrowRight, IconBookOpen, IconList, IconVolume, IconFamily, IconChevronRight } from '../../components/ui/icons'
 
 const MARKER_RE = /\[\[img:([^\]]+)\]\]/g
 
@@ -129,20 +129,19 @@ export function FamilyLibraryPage() {
       .finally(() => { if (live) setLoading(false) })
     return () => { live = false }
   }, [token, childId, retry])
-  return <><PageHead title="家庭书架" sub="家长挑选、只供本家庭阅读的书" /><button className="sticker-btn" onClick={() => navigate('/child/today')}>返回今天</button>{loading && <p role="status">家庭书架正在赶来…</p>}{error && <div><p role="alert">{error}</p><button className="sticker-btn" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}<div className="fam-shelf">{books.map((book) => {
+  return <div className="family-library"><div className="family-library-heading"><PageHead title="家庭书架" sub="家人为你挑好的书，慢慢读，一起读" /><button className="text-action min-h-[44px]" onClick={() => navigate('/child/today')}><IconArrowLeft size={20} />返回今天</button></div><div className="family-library-caption"><IconFamily size={22} /><span>只属于我们家的小书架</span>{!loading && !error && <span className="family-book-count">{books.length} 本书</span>}</div>{loading && <p role="status">家庭书架正在赶来…</p>}{error && <div className="family-library-state"><p role="alert">{error}</p><button className="sticker-btn" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}<div className="fam-shelf">{books.map((book) => {
     const p = progress[book.id]
     return <button className="fam-card" key={book.id} onClick={() => navigate(`/child/family-book/${encodeURIComponent(book.id)}`)}>
       <span className="fam-cover">
         {book.coverUrl
           ? <img src={book.coverUrl} alt="" loading="lazy" />
-          : <span className="fam-cover-fallback">{book.title.slice(0, 1)}</span>}
-        {p?.completed && <span className="fam-done">读完啦</span>}
+          : <span className="fam-cover-fallback"><IconBookOpen size={44} /><span>{book.title}</span></span>}
       </span>
-      <b>{book.title}</b>
+      <span className="fam-card-copy"><b>{book.title}</b>
       <small className="mono-line">{book.author ?? '作者未标注'} · {book.chapterCount} 章</small>
-      <small className={`fam-progress ${p?.completed ? 'done' : ''}`}>{p?.completed ? '已读完' : p ? `读至第 ${p.order} 章` : '未开始'}</small>
+      <span className="fam-card-bottom"><small className={`fam-progress ${p?.completed ? 'done' : ''}`}>{p?.completed ? '已读完' : p ? `读至第 ${p.order} 章` : '未开始'}</small><IconArrowRight size={20} /></span></span>
     </button>
-  })}</div>{!loading && books.length === 0 && !error && <p className="mono-label">这里还空着。让爸爸妈妈在家长端上传家里的书，它们就会出现在这里。</p>}</>
+  })}</div>{!loading && books.length === 0 && !error && <div className="family-library-state"><IconBookOpen size={52} /><h3>把家里的好故事放进来</h3><p>让爸爸妈妈在家长端上传家里的书，它们就会出现在这里。</p></div>}</div>
 }
 
 interface TtsSegment {
@@ -159,7 +158,7 @@ export function FamilyReaderPage() {
   const familyId = useSession(state => state.familyId)
   const { id, order } = useParams()
   const navigate = useNavigate()
-  const [book, setBook] = useState<{ title: string; lang: string; contentVersion?: number; chapters: Array<{ order: number; title: string }> } | null>(null)
+  const [book, setBook] = useState<(ImportedBookDto & { chapters: Array<{ order: number; title: string }> }) | null>(null)
   const [chapter, setChapter] = useState<{ order: number; title: string; text: string } | null>(null)
   const [images, setImages] = useState<Record<string, string>>({})
   const [artUrl, setArtUrl] = useState<string | null>(null)
@@ -609,9 +608,8 @@ export function FamilyReaderPage() {
   const chapterTotal = book?.chapters.length ?? 0
 
   return <div className={order ? `family-reader ${theme} ${dimImages ? 'dim-images' : ''}` : 'family-book-detail'} style={order ? { background: ink.bg, color: ink.fg } : undefined}>
-    {!order && <PageHead title={book?.title ?? '家庭书'} sub="家里的书，一起读" />}
-    <header className="family-reader-heading">
-      <button className="sticker-btn min-h-[44px]" onClick={() => navigate('/child/family-books')}>返回家庭书架</button>
+    <header className={order ? 'family-reader-heading' : 'family-detail-back'}>
+      <button className={order ? 'sticker-btn min-h-[44px]' : 'text-action min-h-[44px]'} onClick={() => navigate('/child/family-books')}>{!order && <IconArrowLeft size={20} />}返回家庭书架</button>
       {order && <span className="family-reader-title">{book?.title ?? '家庭书正在赶来…'}</span>}
       {order && <span role="status" className="mono-label family-save-status">{saveState === 'idle' ? '' : saveState === 'saving' ? '保存中…' : saveState === 'saved' ? '已保存' : '没存上'}</span>}
     </header>
@@ -640,10 +638,12 @@ export function FamilyReaderPage() {
     </Dialog>}
     {progress?.relocationRequired && <div role="alert" className="panel">正文版本已更新，原位置暂时无法准确定位。请打开目录选择要继续的章节。<button className="sticker-btn" onClick={() => { relocationChoiceRef.current = true; setProgress({ ...progress, relocationRequired: false, offset: 0 }); setProgressLoaded(true); setTocOpen(true) }}>选择新位置</button></div>}
     {!book && !error && <p role="status">家庭书正在赶来…</p>}
-    {!order ? <div className="library">
-      {progress && !progress.completed && !progress.relocationRequired && <button className="sticker-btn primary" onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress.order}`)}>从第 {progress.order} 章续读</button>}
-      <button className="sticker-btn" onClick={() => setTocOpen(true)}>打开目录</button>
-      <button className="sticker-btn" onClick={() => navigate(`/child/listen/import/${encodeURIComponent(id ?? '')}`)}>连续听读</button>
+    {!order ? <div className="family-detail-body">
+      {book && <section className="family-book-hero">
+        <div className="family-detail-cover">{book.coverUrl ? <img src={book.coverUrl} alt="" /> : <span><IconBookOpen size={56} /><b>{book.title}</b></span>}</div>
+        <div className="family-book-intro"><span className="family-label"><IconFamily size={20} />家里的书，一起读</span><h2>{book.title}</h2><p className="family-author">{book.author ?? '作者未标注'} · {chapterTotal} 章 · {book.lang === 'en' ? '英文' : '中文'}</p><p className="family-reading-note">{progress?.completed ? '这本书已经读完啦，喜欢的故事可以再读一遍。' : progress && !progress.relocationRequired ? `上次读到第 ${progress.order} 章，接着故事往下走吧。` : '挑一个舒服的位置，打开今天的小故事。'}</p><div className="family-detail-actions"><button className="sticker-btn primary" disabled={!progressLoaded || !chapterTotal} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress && !progress.completed && !progress.relocationRequired ? progress.order : book.chapters[0]?.order ?? 1}`)}><IconBookOpen size={22} />{progress && !progress.completed && !progress.relocationRequired ? `从第 ${progress.order} 章续读` : progress?.completed ? '再读一遍' : '开始读'}<IconArrowRight size={20} /></button><button className="sticker-btn" onClick={() => navigate(`/child/listen/import/${encodeURIComponent(id ?? '')}`)}><IconVolume size={22} />连续听读</button></div></div>
+      </section>}
+      <section className="family-chapter-section"><div className="family-chapter-heading"><div><h3><IconList size={24} />从这一章开始</h3><p>一小段一小段，慢慢走进故事里</p></div><button className="text-action min-h-[44px]" disabled={!book} onClick={() => setTocOpen(true)}>打开目录<IconArrowRight size={18} /></button></div>
 {tocOpen && <Dialog label="家庭书目录" className={`sheet-card reading-dialog reading-theme-${theme}`} onClose={() => setTocOpen(false)}>
         <p className="reading-hint">{book?.title} · 共 {chapterTotal} 章</p>
         <div className="reading-toc" ref={node => node?.querySelector('[aria-current="location"]')?.scrollIntoView({ block: 'center' })}>
@@ -653,7 +653,7 @@ export function FamilyReaderPage() {
           </div>)}
         </div>
       </Dialog>}
-      {book?.chapters.map((item) => <button className="panel" key={item.order} style={{ display: 'block', width: '100%', textAlign: 'left' }} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`)}>{item.order}. {item.title}</button>)}
+      <div className="family-chapter-list">{book?.chapters.map((item) => <button className="family-chapter-row min-h-[68px]" key={item.order} aria-label={`第 ${item.order} 章 · ${item.title}`} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${item.order}`)}><span className="family-chapter-number">{String(item.order).padStart(2, '0')}</span><span className="family-chapter-name">{item.title}{progress && !progress.relocationRequired && item.order === progress.order && <small>{progress.completed ? '已读完' : '上次读到这里'}</small>}</span><IconChevronRight size={18} /></button>)}</div></section>
     </div>
       : <div className="family-reader-content">
         <div className="family-reader-toolbar">

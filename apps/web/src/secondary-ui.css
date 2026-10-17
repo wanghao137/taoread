@@ -1,0 +1,139 @@
+/* Secondary surfaces use the same bookish materials, with their own compact layouts. */
+.family-library { max-width: 1200px; margin: 0 auto; }
+.family-library-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.family-library-heading .page-head { margin-block: 18px 20px; }
+.family-library-caption { display: flex; align-items: center; gap: 10px; color: var(--ink2); font-size: 15px; padding: 14px 0; border-top: 1px solid var(--line); }
+.family-book-count { margin-left: auto; font-size: 13px; }
+.family-library .fam-shelf { grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); align-items: stretch; gap: 20px; margin-top: 6px; }
+.family-library .fam-card { min-width: 0; border-radius: 18px; padding: 12px; gap: 12px; box-shadow: var(--shadow-sm); }
+.family-library .fam-cover { width: 100%; height: 208px; aspect-ratio: auto; border-radius: 10px; background: var(--paper); flex-shrink: 0; }
+.family-library .fam-cover img { object-fit: contain; padding: 5px; }
+.family-library .fam-cover-fallback { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; background: var(--sky); font: 800 17px/1.6 var(--display); text-align: center; color: var(--ink); }
+.family-library .fam-cover-fallback>.tao-icon { position: static; inset: auto; width: 44px; height: 44px; padding: 0; }
+.fam-cover-fallback>span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.fam-card-copy { display: flex; flex-direction: column; flex: 1; gap: 8px; width: 100%; min-width: 0; }
+.family-library .fam-card b { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 17px; line-height: 1.5; min-height: 3em; margin: 0; }
+.fam-card-copy>.mono-line { color: var(--ink2); font-size: 12px; line-height: 1.6; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.fam-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 8px; }
+.family-library .fam-progress { color: var(--ink2); background: var(--paper); padding: 4px 9px; border-radius: 8px; font: 500 12px/1.6 var(--body); }
+.family-library .fam-progress.done { background: var(--mint); color: var(--ink); }
+.family-library-state { margin: 24px auto; max-width: 580px; text-align: center; padding: 36px 24px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; }
+.family-library-state h3 { font: 800 23px/1.5 var(--display); margin-block: 16px 10px; }
+.family-library-state p { color: var(--ink2); line-height: 1.8; }
+.child-app .family-book-detail { max-width: 1120px; padding: 0; margin: 0 auto; }
+.family-detail-back { margin: 4px 0 18px; }
+.family-book-hero { display: grid; grid-template-columns: 164px minmax(0,1fr); gap: 30px; align-items: center; padding: 28px; border: var(--border); border-radius: 22px; background: var(--card); box-shadow: var(--shadow-sm); }
+.family-detail-cover { display: grid; place-items: center; min-width: 0; height: 222px; background: var(--sky); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.family-detail-cover>img { width: 100%; height: 100%; max-height: 222px; object-fit: contain; padding: 8px; }
+.family-detail-cover>span { display: grid; justify-items: center; gap: 16px; padding: 18px; text-align: center; }
+.family-detail-cover b { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font: 800 17px/1.5 var(--display); }
+.family-book-intro { min-width: 0; }
+.family-label { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; background: var(--mint); border-radius: 8px; font-size: 13px; }
+.family-book-intro h2 { margin: 12px 0 8px; font: 900 30px/1.5 var(--display); overflow-wrap: anywhere; }
+.family-author { font-size: 14px; line-height: 1.7; color: var(--ink2); margin: 0; }
+.family-reading-note { font-size: 15px; line-height: 1.8; color: var(--ink2); margin: 14px 0 18px; }
+.family-detail-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.family-chapter-section { margin-top: 34px; }
+.family-chapter-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.family-chapter-heading h3 { display: flex; align-items: center; gap: 10px; margin: 0; font: 800 23px/1.5 var(--display); }
+.family-chapter-heading p { font-size: 14px; color: var(--ink2); margin: 6px 0 0; }
+.family-chapter-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--card); }
+.family-chapter-row { display: flex; align-items: center; min-height: 68px; gap: 14px; padding: 14px 18px; text-align: left; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); }
+.family-chapter-row:nth-child(odd) { border-right: 1px solid var(--line); }
+.family-chapter-row:hover { background: var(--paper); }
+.family-chapter-row:active { background: var(--sun); }
+.family-chapter-number { font: 700 14px/1.4 var(--body); color: var(--ink2); background: var(--paper); padding: 8px 6px; border-radius: 8px; flex: 0 0 34px; text-align: center; }
+.family-chapter-name { flex: 1; min-width: 0; font: 600 16px/1.7 var(--body); overflow-wrap: anywhere; }
+.family-chapter-name small { display: block; font-size: 12px; color: var(--ink2); }
+.child-app .today-more { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: 16px; margin-top: 30px; }
+.child-app .quiet-disclosure,.child-app .today-more>.quiet-disclosure { min-width: 0; margin-top: 14px; padding: 0 18px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--ink2); box-shadow: none; }
+.child-app .today-more>details { margin: 0; }
+.child-app .quiet-disclosure:not([open]),.child-app .today-more>.quiet-disclosure:not([open]) { padding-bottom: 0; }
+.child-app details>.disclosure-summary { display: flex; align-items: center; list-style: none; gap: 12px; min-height: 82px; padding-block: 14px; margin: 0; }
+.disclosure-summary::-webkit-details-marker { display: none; }
+.disclosure-summary::marker { content: ''; }
+.disclosure-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: var(--sky); flex: 0 0 42px; }
+.today-more>details:nth-child(2) .disclosure-icon { background: var(--mint); }
+.today-more>details:nth-child(3) .disclosure-icon { background: var(--sun); }
+.today-more>details:nth-child(4) .disclosure-icon { background: var(--rose); }
+.disclosure-copy { flex: 1; min-width: 0; }
+.disclosure-title { display: block; font: 800 17px/1.5 var(--display); color: var(--ink); overflow-wrap: anywhere; }
+.disclosure-hint { display: block; font: 400 13px/1.7 var(--body); color: var(--ink2); margin-top: 3px; }
+.disclosure-chevron { transition: transform .15s; }
+details[open]>.disclosure-summary .disclosure-chevron { transform: rotate(180deg); }
+.quiet-disclosure>.search-wrap { flex-wrap: wrap; }
+.quiet-disclosure .search { min-width: 0; width: 100%; flex: 1 1 180px; }
+.quiet-disclosure .speech-list { padding-top: 8px; }
+.quiet-disclosure .speech { box-shadow: none; border: 1px solid var(--line); }
+.quiet-disclosure .recent-row { border-color: var(--line); font-size: 14px; line-height: 1.8; }
+.child-app .book-detail>.quiet-disclosure:first-of-type { margin-top: 28px; }
+.parent-app .mast { align-items: center; }
+.parent-app .mast-actions { align-items: center; flex: 0 0 auto; }
+.parent-app .parent-signout,.parent-app .parent-refresh { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 12px; box-shadow: none; background: var(--card); font: 600 14px/1.5 var(--body); }
+.parent-app .tonight-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.tonight-heading h3 { font-size: 23px; }
+.parent-app .tonight-heading p { margin: 6px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink2); }
+.parent-refresh { flex: 0 0 auto; }
+.parent-app .metric span { opacity: 1; }
+.parent-app .tonight-grid .speech-row { display: block; }
+.parent-app .tonight-grid .speech-row>.avatar { display: none; }
+.parent-app .tonight-grid .speech { padding: 14px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: none; background: transparent; }
+.parent-app .tonight-grid .speech::before { display: none; }
+.parent-app .tonight-grid .speech ul { padding-left: 20px; margin: 10px 0 0; font-size: 14px; line-height: 1.85; color: var(--ink2); }
+.parent-app .tonight-grid .speech p { font-size: 14px; line-height: 1.85; }
+@media (max-width: 760px) {
+  .family-library-heading { align-items: flex-start; gap: 8px; }
+  .family-library-heading .text-action { font-size: 13px; flex-shrink: 0; margin-top: 18px; }
+  .family-library .fam-shelf { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .family-library .fam-card { padding: 9px; gap: 10px; border-radius: 14px; }
+  .family-library .fam-cover { height: 168px; }
+  .family-library .fam-card b { font-size: 15px; }
+  .family-library-caption { font-size: 13px; }
+  .family-book-hero { grid-template-columns: 96px minmax(0,1fr); align-items: start; padding: 18px; gap: 18px; border-radius: 18px; }
+  .family-detail-cover { height: 140px; }
+  .family-detail-cover>img { max-height: 140px; padding: 4px; }
+  .family-detail-cover>span { padding: 10px; gap: 8px; }
+  .family-detail-cover b { font-size: 13px; }
+  .family-detail-cover .tao-icon { width: 36px; height: 36px; }
+  .family-book-intro { display: contents; }
+  .family-label { font-size: 11px; padding: 4px 6px; }
+  .family-book-intro h2 { grid-column: 2; margin: 0; font-size: 22px; align-self: center; }
+  .family-detail-cover { grid-row: 1 / 4; }
+  .family-author { grid-column: 2; font-size: 12px; }
+  .family-reading-note { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+  .family-detail-actions { grid-column: 1 / -1; gap: 10px; }
+  .family-detail-actions .sticker-btn { flex: 1 1 auto; padding: 10px 12px; font-size: 14px; }
+  .family-chapter-section { margin-top: 28px; }
+  .family-chapter-heading h3 { font-size: 20px; }
+  .family-chapter-heading p { font-size: 12px; }
+  .family-chapter-heading>.text-action { font-size: 13px; flex-shrink: 0; }
+  .family-chapter-list { grid-template-columns: 1fr; }
+  .family-chapter-row:nth-child(odd) { border-right: 0; }
+  .family-chapter-row { padding: 12px 14px; gap: 10px; }
+  .child-app .today-more { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+  .child-app .quiet-disclosure { padding-inline: 14px; }
+  .child-app details>.disclosure-summary { min-height: 78px; gap: 10px; }
+  .disclosure-title { font-size: 16px; }
+  .disclosure-icon { width: 36px; height: 36px; flex-basis: 36px; border-radius: 10px; }
+  .disclosure-hint { font-size: 12px; }
+  .parent-app .brand h1 { font-size: 23px; }
+  .parent-app .metric strong { font-size: 30px; }
+  .parent-app .brand p { font-size: 11px; letter-spacing: 0; }
+  .parent-app .mast { display: grid; grid-template-columns: 44px minmax(0,1fr) auto; gap: 10px; }
+  .parent-app .mast-actions .parent-signout { font-size: 13px; padding: 8px 10px; gap: 5px; }
+  .parent-app .tonight-heading p { font-size: 12px; }
+}
+@media (max-width: 360px) {
+  .family-library-heading { flex-wrap: wrap; gap: 0; }
+  .family-library-heading .text-action { margin-top: -8px; }
+  .family-library .fam-cover { height: 145px; }
+  .family-book-hero { padding: 14px; gap: 12px; grid-template-columns: 82px minmax(0,1fr); }
+  .family-book-intro h2 { font-size: 20px; }
+  .family-detail-cover { height: 124px; }
+  .parent-app .mast { gap: 8px; }
+  .parent-app .brand h1 { font-size: 20px; line-height: 1.4; }
+  .parent-app .metric strong { font-size: 26px; }
+  .parent-app .mast-actions { margin-left: 0; }
+  .parent-app .mast-actions .parent-signout { font-size: 12px; padding: 7px 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .disclosure-chevron { transition: none; } }

@@ -25,13 +25,14 @@ import { tts } from '../../lib/tts'
 import { AiBadge } from '../../components/art/AiBadge'
 import { haptic } from '../../lib/haptics'
 import { Dialog } from '../../components/ui/Dialog'
+import { DisclosureSummary } from '../../components/ui/DisclosureSummary'
 import { saveOfflineBook } from '../../lib/offline'
 import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
 import { ReadingIllustration } from '../../components/art/ReadingIllustration'
-import { IconSun, IconStar, IconSearch, IconUser, IconFamily, IconBookOpen, IconType, IconPlay, IconHeart, IconHeartFilled, IconChevronDown, IconArrowRight, IconMoon } from '../../components/ui/icons'
+import { IconSun, IconStar, IconSearch, IconUser, IconFamily, IconBookOpen, IconType, IconPlay, IconHeart, IconHeartFilled, IconChevronDown, IconArrowRight, IconMoon, IconShelf, IconShield, IconLeaf } from '../../components/ui/icons'
 import type { WordCardDto } from '../../lib/api'
 import type { InitialListeningRequest } from './ListeningPage'
 
@@ -442,7 +443,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
-  const inReader = /^\/child\/book\/[^/]+\/chapter\//.test(location.pathname) || /^\/child\/family-book\//.test(location.pathname)
+  const inReader = /^\/child\/(?:book|family-book)\/[^/]+\/chapter\//.test(location.pathname)
 
   return (
     <V8Context.Provider value={ctx}>
@@ -816,9 +817,10 @@ function TodayPage() {
         </div>
       </section>
       {v.loaded && picks.length === 0 && <div className="child-empty"><p>书架正在等新故事，先去家庭书架看看吧。</p><button className="sticker-btn primary" onClick={() => navigate('/child/family-books')}>去家庭书架<IconArrowRight /></button></div>}
+      <div className="today-more">
       {token && childId && <RecentReading token={token} childId={childId} />}
       <details className="quiet-disclosure paper-entry" open={paper ? true : undefined}>
-        <summary>{paper ? `纸质共读 · ${paper.title}` : '和家人读纸质书'}</summary>
+        <DisclosureSummary icon={<IconBookOpen />} title={paper ? `纸质共读 · ${paper.title}` : '和家人读纸质书'} hint="捧起家里的书，也能留下共读记忆" />
         {paper ? (
           <div className="side-card">
             <b>正在共读《{paper.title}》</b>
@@ -847,7 +849,7 @@ function TodayPage() {
         )}
       </details>
       <details className="quiet-disclosure">
-        <summary>{LABELS.mood}</summary>
+        <DisclosureSummary icon={<IconSun />} title={LABELS.mood} hint="按今天的心情，找一个喜欢的故事" />
         <div className="mood-row">
           {MOODS.map((m) => (
             <button
@@ -862,7 +864,7 @@ function TodayPage() {
         </div>
       </details>
       <details className="quiet-disclosure">
-        <summary>最近的家庭阅读记忆</summary>
+        <DisclosureSummary icon={<IconFamily />} title="最近的家庭阅读记忆" hint="把一起读过的温柔时刻收好" />
         <div className="speech-list">
           {firstMemory ? (
             <div className="speech-row">
@@ -881,6 +883,7 @@ function TodayPage() {
           )}
         </div>
       </details>
+      </div>
       <div className="today-secondary"><button className="text-action min-h-[44px]" onClick={() => navigate('/child/phonics')}>英语练习 · 内测 →</button></div>
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
@@ -1662,8 +1665,8 @@ function BookDetailPage() {
                   ))}
                 </div>
               </section>
-              <details className="quiet-disclosure reading-guidance"><summary>怎么开始读 · 给共读的大人</summary><p>{book.readingGuidance ? book.readingGuidance.modes.map(mode => ({ together: '一起读', self: '自主试读', listen: '先听一听' })[mode]).join(' · ') : book.lang === 'en' || book.category === 'primer' || book.words / Math.max(1, book.chapterCount) > 1000 ? '可以先听或和大人一起读，再选择喜欢的一小段。' : '可以先读一小段，需要时打开朗读或请大人一起读。'}</p>{book.readingGuidance && <><p>{book.readingGuidance.advice}</p><p>主题：{book.readingGuidance.topics.join('、') || '未单列'}</p><small>编辑：{book.readingGuidance.reviewer} · {book.readingGuidance.reviewedOn} · 依据：{book.readingGuidance.evidence}</small></>}<p>章节篇幅和书目年龄建议帮助选择内容，不是孩子能力测评。注音和译文以各章节实际提供内容为准。</p></details>
-              <details className="quiet-disclosure"><summary>下载与离线阅读</summary><p>主动保存后，本机可离线读 7 天。离线阅读进度暂不同步。</p><div className="hero-actions">
+              <details className="quiet-disclosure reading-guidance"><DisclosureSummary icon={<IconLeaf />} title="怎么开始读 · 给共读的大人" hint="读、听，或一起读，找到舒服的方式" /><p>{book.readingGuidance ? book.readingGuidance.modes.map(mode => ({ together: '一起读', self: '自主试读', listen: '先听一听' })[mode]).join(' · ') : book.lang === 'en' || book.category === 'primer' || book.words / Math.max(1, book.chapterCount) > 1000 ? '可以先听或和大人一起读，再选择喜欢的一小段。' : '可以先读一小段，需要时打开朗读或请大人一起读。'}</p>{book.readingGuidance && <><p>{book.readingGuidance.advice}</p><p>主题：{book.readingGuidance.topics.join('、') || '未单列'}</p><small>编辑：{book.readingGuidance.reviewer} · {book.readingGuidance.reviewedOn} · 依据：{book.readingGuidance.evidence}</small></>}<p>章节篇幅和书目年龄建议帮助选择内容，不是孩子能力测评。注音和译文以各章节实际提供内容为准。</p></details>
+              <details className="quiet-disclosure"><DisclosureSummary icon={<IconShelf />} title="下载与离线阅读" hint="把喜欢的故事带在身边" /><p>主动保存后，本机可离线读 7 天。离线阅读进度暂不同步。</p><div className="hero-actions">
                 <button className="sticker-btn" disabled={offlineBusy} onClick={() => {
                   if (!token || offlineBusy) return
                   setOfflineBusy(true)
@@ -1674,7 +1677,7 @@ function BookDetailPage() {
                 <button className="sticker-btn" disabled={offlineBusy} onClick={() => { if (!token || offlineBusy) return; setOfflineBusy(true); offlineAbort.current = new AbortController(); void saveOfflineBook(book, token, true, offlineAbort.current.signal).then(() => v.showToast('图文和已有朗读已下载完整，可离线使用 7 天')).catch((err: Error) => v.showToast(err.message)).finally(() => setOfflineBusy(false)) }}>保存图文与已有朗读到本机</button>{offlineBusy && <button className="sticker-btn" onClick={() => offlineAbort.current?.abort()}>取消下载</button>}
                 <button className="sticker-btn" onClick={() => navigate('/offline')}>离线书架</button>
               </div></details>
-            <details className="quiet-disclosure"><summary>来源、加工说明与版本</summary>
+            <details className="quiet-disclosure"><DisclosureSummary icon={<IconShield />} title="来源、加工说明与版本" hint="了解这本书的出处与审校情况" />
               {provenanceError ? <p role="alert">来源说明未加载。<button onClick={() => setChapterRetry((n) => n + 1)}>重试</button></p> : provenance ? <>
                 <p>{provenance.source}</p><p>{provenance.rights?.workTitle}</p><p>{provenance.rights?.note}</p>
                 <p className="mono-label">版本 {provenance.contentVersion} · {provenance.reviewStatus === 'reviewed' ? '已留存人工审核记录' : '人工精审待完成'} · 插图可能由 AI 生成</p>

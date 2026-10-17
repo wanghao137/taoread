@@ -9,7 +9,7 @@ import { ParentPhonics } from './parent/FamilyImports'
 import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
-import { IconSun, IconShelf, IconChart, IconGear, IconBookOpen } from '../components/ui/icons'
+import { IconSun, IconShelf, IconChart, IconGear, IconBookOpen, IconArrowLeft } from '../components/ui/icons'
 
 // V8 Phase 6：一级导航收敛为四项；书架/桃书库合并进「内容」
 const TABS = ['今天', '内容', '足迹', '设置'] as const
@@ -221,8 +221,8 @@ export function ParentHome() {
             <p>每天半小时 · 一起把故事讲完</p>
           </div>
           <div className="mast-actions">
-            <button type="button" className="sticker-btn keep" onClick={signOut}>
-              退出
+            <button type="button" className="sticker-btn keep parent-signout" onClick={signOut}>
+              <IconArrowLeft size={20} />退出
             </button>
           </div>
         </header>
