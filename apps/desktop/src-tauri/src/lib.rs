@@ -46,8 +46,11 @@ fn spawn_update_check(app: tauri::AppHandle) {
     tauri::async_runtime::spawn(async move {
         // 避开启动期的网络竞争；失败静默（下一次启动再试）
         tokio::time::sleep(std::time::Duration::from_secs(10)).await;
-        let Ok(updater) = app.updater() else { return };
-        let Ok(Some(update)) = updater.check().await else { return };
+        // 检查必须带超时：否则首个端点（dl 镜像）网络异常挂起时永远不会回落 GitHub 端点
+        let builder = app
+            .updater_builder()
+            .timeout(std::time::Duration::from_secs(15));
+        let Ok(Some(update)) = builder.check().await else { return };
         use tauri_plugin_dialog::{DialogExt, MessageDialogButtons, MessageDialogKind};
         let confirmed = app
             .dialog()
