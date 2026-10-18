@@ -1,6 +1,6 @@
 [package]
 name = "taoread-desktop"
-version = "0.1.0"
+version = "0.1.1"
 description = "桃阅读桌面客户端"
 edition = "2021"
 
