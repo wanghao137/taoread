@@ -87,6 +87,8 @@ pub fn run() {
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
+        // UpdaterExt::updater() 依赖插件管理的状态；漏注册会在启动 10s 后的更新检查线程 panic
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             let handle = app.handle().clone();
             let config = main_window_config(&handle);
