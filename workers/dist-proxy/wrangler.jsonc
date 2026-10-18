@@ -1,0 +1,8 @@
+{
+  "name": "taoread-dist-proxy",
+  "account_id": "c9bfec733c53297d509a3f1ddc740e7e",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [{ "pattern": "dl.taostudioai.com", "custom_domain": true }]
+}

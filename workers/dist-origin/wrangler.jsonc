@@ -1,0 +1,9 @@
+{
+  // 部署走 REST API（scripts/ 部署脚本或 CI），wrangler 在本机网络下 fetch 不稳；
+  // 本文件保留为人类可读的配置事实：wrangler deploy 亦可用。
+  "name": "taoread-dist-origin",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "r2_buckets": [{ "binding": "DIST", "bucket_name": "taoread-dist" }]
+}
