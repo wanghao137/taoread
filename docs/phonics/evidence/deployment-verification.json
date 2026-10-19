@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-19T11:59:30.568Z",
+  "applicationCommit": "114ae8a7bb4ccf39c2f81411d5b6bb7972580d77",
+  "buildCommit": "eef2145ea3796054e56b14bc2553cd19171f6d3f",
+  "engineeringDeploymentComplete": true,
+  "productComplete": false,
+  "formalCoursePublished": false,
+  "rollout": "off",
+  "releaseReady": false,
+  "contentHash": "a523ef0f3dcdb9b1290aa175109e4a9cb5e9b7d5f5c2b2bebd044f1fd3ac8696",
+  "verifiedCandidateMediaReferences": 117,
+  "courseReleaseBlockers": 321,
+  "ci": {
+    "url": "https://github.com/wanghao137/taoread/actions/runs/39246990493",
+    "conclusion": "success",
+    "serverUnitTests": 551,
+    "webUnitTests": 138,
+    "ordinaryE2E": 45,
+    "isolatedPhonicsE2E": 4,
+    "typecheck": true,
+    "fullLint": true,
+    "productionBuild": true
+  },
+  "backup": {
+    "downloadedDatabaseHashVerified": true,
+    "integrity": "ok",
+    "foreignKeyIssues": 0,
+    "currentQuiescentDatabaseMatchesOffsite": true,
+    "currentOriginalMediaVerified": 5903,
+    "restoredMigrationRehearsal": true,
+    "existingTableRowCountsPreserved": true,
+    "productionPrismaGenerate": true,
+    "incrementalMigrationsApplied": 2
+  },
+  "publicVerification": {
+    "sourceStaticFiles": 117,
+    "publicStaticFiles": 117,
+    "browserLoginAndAnonymousProtectionCases": 8,
+    "viewports": [
+      320,
+      390,
+      768,
+      1280
+    ],
+    "failedInitialRequests": 5,
+    "targetedRetriesPassed": 5,
+    "networkPath": "Existing Windows system loopback proxy; direct public connection timed out",
+    "authenticatedPublicClassroomVerified": false
+  },
+  "browserCandidateDecoding": {
+    "count": 117,
+    "passed": 117,
+    "humanSpeechReview": false
+  },
+  "outstanding": [
+    "Qualified phoneme, segment, blending and word recordings with per-file listening and rights review",
+    "Teaching signoff on the exact course hash",
+    "Actual iOS and Android browser/WebView validation",
+    "Actual family pilot observations"
+  ]
+}
