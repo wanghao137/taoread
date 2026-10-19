@@ -48,6 +48,8 @@ export type ShelfKind = (typeof SHELF_KINDS)[number]
 export const CHILD_STAGES = ['3-5', '6-8', '9-12'] as const
 export type ChildStage = (typeof CHILD_STAGES)[number]
 
+export * from './phonics'
+
 /** 成就类型：全部为纪念式，无任何兑换 */
 export const ACHIEVEMENT_KINDS = ['night_lamp', 'streak_best', 'book_done'] as const
 export type AchievementKind = (typeof ACHIEVEMENT_KINDS)[number]

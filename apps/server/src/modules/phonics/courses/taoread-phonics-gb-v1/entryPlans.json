@@ -1,0 +1,11 @@
+[
+  {
+    "id": "entry-sounds",
+    "taskIds": [
+      "entry-tap",
+      "entry-sit",
+      "entry-tap-word",
+      "entry-oral-blend"
+    ]
+  }
+]

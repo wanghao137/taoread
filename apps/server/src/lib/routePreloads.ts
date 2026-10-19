@@ -16,7 +16,9 @@ export async function routePreloads(staticDir: string): Promise<(pathname: strin
     return pathname => {
       const entries = (pathname.startsWith('/child/') || pathname === '/child') && childEntry ? [childEntry] : []
       if (/^\/child\/book\/[^/]+\/chapter\//.test(pathname)) entries.push('src/pages/child/ReaderPage.tsx')
-      else if (/^\/child\/(family-books|family-book|phonics)(\/|$)/.test(pathname)) entries.push('src/pages/child/FamilyTrialPages.tsx')
+      else if (pathname === '/child/phonics/draft') entries.push('src/pages/child/FamilyTrialPages.tsx')
+      else if (/^\/child\/phonics(\/|$)/.test(pathname)) entries.push('src/pages/child/phonics/PhonicsPage.tsx')
+      else if (/^\/child\/(family-books|family-book)(\/|$)/.test(pathname)) entries.push('src/pages/child/FamilyTrialPages.tsx')
       else if (pathname.startsWith('/child/listen/')) entries.push('src/pages/child/ListeningPage.tsx')
       if (!entries.length) return undefined
       const seen = new Set<string>(), files = new Set<string>()

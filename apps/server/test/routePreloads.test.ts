@@ -15,6 +15,8 @@ describe('route chunk preloads', () => {
       '_ChildHome-legacy-old.js': { file: 'assets/ChildHome-legacy-old.js', name: 'ChildHome' },
       'src/pages/child/ReaderPage.tsx': { file: 'assets/ReaderPage-current.js', imports: ['shared'] },
       'src/pages/child/ListeningPage.tsx': { file: 'assets/ListeningPage-current.js' },
+      'src/pages/child/phonics/PhonicsPage.tsx': { file: 'assets/PhonicsPage-current.js' },
+      'src/pages/child/FamilyTrialPages.tsx': { file: 'assets/FamilyTrialPages-current.js' },
       'src/pages/ParentHome.tsx': { file: 'assets/ParentHome-current.js' },
       shared: { file: 'assets/shared-current.js', imports: ['shared'] },
     }))
@@ -31,6 +33,9 @@ describe('route chunk preloads', () => {
     expect(html).toContain('<script>existing CSP hash</script>')
     expect(render('/child/today')).not.toContain('ReaderPage')
     expect(render('/child/listen/public/book')).toContain('ListeningPage')
+    expect(render('/child/phonics')).toContain('PhonicsPage')
+    expect(render('/child/phonics')).not.toContain('FamilyTrialPages')
+    expect(render('/child/phonics/draft')).toContain('FamilyTrialPages')
     expect(render('/login')).toBeUndefined()
     expect(render('/parent')).toBeUndefined()
   })

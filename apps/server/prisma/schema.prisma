@@ -351,6 +351,11 @@ model PhonicsEnrollment {
   childId   String       @unique
   child     ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
   enabled   Boolean      @default(false)
+  v2Enabled Boolean      @default(false)
+  courseVersionId String?
+  entryMode String @default("lesson")
+  entryLessonKey String?
+  revision Int @default(0)
   updatedAt DateTime     @updatedAt
 }
 
@@ -430,9 +435,57 @@ model PhonicsAttempt {
   startedAt       DateTime     @default(now())
   finishedAt      DateTime?
   responses       PhonicsResponse[]
+  protocolVersion Int @default(1)
+  courseVersionId String?
+  lessonKey String?
+  lessonHash String?
+  planKind String?
+  planJson String?
+  planHash String?
+  startRequestHash String?
+  stateJson String?
+  currentStepKey String?
+  revision Int @default(0)
+  activeKey String? @unique
+  closeReason String?
+  learningEvents PhonicsLearningEvent[]
 
   @@unique([childId, clientAttemptId])
   @@index([childId, startedAt])
+  @@index([childId, protocolVersion, status, startedAt])
+}
+
+model PhonicsCourseRelease {
+  versionId String @id
+  courseId String
+  accent String
+  contentHash String
+  status String @default("draft")
+  publishedAt DateTime?
+  withdrawnAt DateTime?
+  defaultForCourse String? @unique
+  @@index([courseId, status])
+}
+
+model PhonicsLearningEvent {
+  id String @id @default(cuid())
+  attemptId String
+  attempt PhonicsAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  clientEventId String
+  requestHash String
+  serverSequence Int
+  stepKey String?
+  taskInstanceId String?
+  kind String
+  payloadJson String
+  resultJson String
+  actorRole String
+  receivedAt DateTime @default(now())
+  // Application-validated reference, deliberately no self-FK blocking family deletion.
+  supersedesEventId String?
+  @@unique([attemptId, clientEventId])
+  @@unique([attemptId, serverSequence])
+  @@index([attemptId, receivedAt])
 }
 
 model PhonicsResponse {

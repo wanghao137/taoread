@@ -29,6 +29,7 @@ import { DisclosureSummary } from '../../components/ui/DisclosureSummary'
 import { saveOfflineBook } from '../../lib/offline'
 import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
+import { PhonicsToday } from './phonics/PhonicsToday'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
 import { ReadingIllustration } from '../../components/art/ReadingIllustration'
@@ -38,17 +39,21 @@ import type { InitialListeningRequest } from './ListeningPage'
 
 const loadReader = () => import('./ReaderPage')
 const loadFamilyPages = () => import('./FamilyTrialPages')
+const loadPhonics = () => import('./phonics/PhonicsPage')
 const loadListening = () => import('./ListeningPage')
 const ReaderPage = lazy(() => loadReader().then(m => ({ default: m.ReaderPage })))
 const FamilyLibraryPage = lazy(() => loadFamilyPages().then(m => ({ default: m.FamilyLibraryPage })))
 const FamilyReaderPage = lazy(() => loadFamilyPages().then(m => ({ default: m.FamilyReaderPage })))
 const PhonicsTrialPage = lazy(() => loadFamilyPages().then(m => ({ default: m.PhonicsTrialPage })))
+const PhonicsPage = lazy(() => loadPhonics().then(m => ({ default: m.PhonicsPage })))
 const ListeningPage = lazy(() => loadListening().then(m => ({ default: m.ListeningPage })))
 
 /** Load only the requested route, alongside family validation/catalogue reads. */
 export function prepareChildRoute(path: string): void {
   const pending = /^\/child\/book\/[^/]+\/chapter\//.test(path) ? loadReader()
-    : /^\/child\/(family-books|family-book|phonics)(\/|$)/.test(path) ? loadFamilyPages()
+    : path === '/child/phonics/draft' ? loadFamilyPages()
+    : /^\/child\/phonics(\/|$)/.test(path) ? loadPhonics()
+    : /^\/child\/(family-books|family-book)(\/|$)/.test(path) ? loadFamilyPages()
     : path.startsWith('/child/listen/') ? loadListening() : null
   void pending?.catch(() => undefined)
 }
@@ -483,7 +488,8 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
                 <Route path="/listen/:source/:id" element={<ListeningPage initialBook={initialListening} />} />
                 <Route path="/family-book/:id" element={<FamilyReaderPage />} />
                 <Route path="/family-book/:id/chapter/:order" element={<FamilyReaderPage />} />
-                <Route path="/phonics" element={<PhonicsTrialPage />} />
+                <Route path="/phonics" element={<PhonicsPage />} />
+                <Route path="/phonics/draft" element={<PhonicsTrialPage />} />
                 <Route path="/book/:bookId" element={<BookDetailPage />} />
                 <Route path="/book/:bookId/chapter/:order" element={<ReaderRoute />} />
                 <Route path="*" element={<Navigate to="/child/today" replace />} />
@@ -884,7 +890,7 @@ function TodayPage() {
         </div>
       </details>
       </div>
-      <div className="today-secondary"><button className="text-action min-h-[44px]" onClick={() => navigate('/child/phonics')}>英语练习 · 内测 →</button></div>
+      <PhonicsToday />
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: 'var(--card)' }}>

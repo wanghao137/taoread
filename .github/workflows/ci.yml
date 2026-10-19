@@ -55,6 +55,10 @@ jobs:
       # e2e 配置自带隔离：唯一临时库 + 供应商 env 剥离 + 自检端口占用
       - name: E2E（不含 @visual）
         run: npm run e2e
+      - name: 自然拼读生产构建与隔离课堂 E2E
+        run: |
+          npm run build -w @taoread/web
+          node node_modules/@playwright/test/cli.js test -c e2e/phonics.config.ts
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

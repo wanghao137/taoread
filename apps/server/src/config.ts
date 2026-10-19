@@ -12,6 +12,8 @@ const schema = z
     TAO_MASTER_KEY: z.string().min(16, 'TAO_MASTER_KEY 至少 16 个字符'),
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
     TAO_DATABASE_URL: z.string().min(1, 'TAO_DATABASE_URL 不能为空'),
+    TAO_PHONICS_ROLLOUT: z.enum(['off', 'pilot', 'all']).default('off'),
+    TAO_PHONICS_PILOT_FAMILIES: z.string().default('').transform(s => s.split(',').map(x => x.trim()).filter(Boolean)).refine(ids => ids.every(id => /^[a-zA-Z0-9_-]{1,96}$/.test(id)), 'Invalid phonics pilot family ID'),
     // 阅读时间限制已于 2026-09-25 取消：TAO_BEDTIME 配置项随之移除（环境变量残留不再校验，
     // 忽略即可）。/api/ritual/window 端点保留、恒返回 open。
     WEREAD_API_KEY: z.string().optional(),

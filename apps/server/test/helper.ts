@@ -21,6 +21,7 @@ export interface TestHarness {
 }
 
 export interface MakeAppOpts {
+  phonicsV2?: import('../src/modules/phonics/v2/runtime').PhonicsV2Options
   ipLimiter?: IpRateLimiter
   /** mock 网关工厂（业务出网注入） */
   wereadCall?: (apiKey: string) => WereadCall
@@ -57,6 +58,7 @@ export async function makeApp(probe?: KeyProbe, opts: MakeAppOpts = {}): Promise
     db,
     tokenSecret,
     masterKey: TEST_MASTER_KEY,
+    phonicsV2: opts.phonicsV2,
     ...(opts.mediaDir ? { mediaDir: opts.mediaDir } : {}),
     probeKey: probe,
     // 默认宽松限流：既有家庭域测试会连续创建大量家庭；限流专项测试自行注入小实例

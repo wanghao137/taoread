@@ -1,0 +1,631 @@
+[
+  {
+    "id": "w-at",
+    "text": "at",
+    "meaningZh": "在某个位置",
+    "meaningIntroducedAt": "L02",
+    "decodingIntroducedAt": "L02",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-at-segment",
+      "blend": "w-at-blend",
+      "word": "w-at-word"
+    }
+  },
+  {
+    "id": "w-sat",
+    "text": "sat",
+    "meaningZh": "坐下了",
+    "meaningIntroducedAt": "L02",
+    "decodingIntroducedAt": "L02",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sat-segment",
+      "blend": "w-sat-blend",
+      "word": "w-sat-word"
+    }
+  },
+  {
+    "id": "w-pat",
+    "text": "pat",
+    "meaningZh": "轻轻拍",
+    "meaningIntroducedAt": "L03",
+    "decodingIntroducedAt": "L03",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-p"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-pat-segment",
+      "blend": "w-pat-blend",
+      "word": "w-pat-word"
+    }
+  },
+  {
+    "id": "w-tap",
+    "text": "tap",
+    "meaningZh": "轻敲",
+    "meaningIntroducedAt": "L03",
+    "decodingIntroducedAt": "L03",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-t"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-tap-segment",
+      "blend": "w-tap-blend",
+      "word": "w-tap-word"
+    }
+  },
+  {
+    "id": "w-it",
+    "text": "it",
+    "meaningZh": "它",
+    "meaningIntroducedAt": "L05",
+    "decodingIntroducedAt": "L05",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-it-segment",
+      "blend": "w-it-blend",
+      "word": "w-it-word"
+    }
+  },
+  {
+    "id": "w-sit",
+    "text": "sit",
+    "meaningZh": "坐下",
+    "meaningIntroducedAt": "L05",
+    "decodingIntroducedAt": "L05",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sit-segment",
+      "blend": "w-sit-blend",
+      "word": "w-sit-word"
+    }
+  },
+  {
+    "id": "w-sip",
+    "text": "sip",
+    "meaningZh": "小口喝",
+    "meaningIntroducedAt": "L05",
+    "decodingIntroducedAt": "L05",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sip-segment",
+      "blend": "w-sip-blend",
+      "word": "w-sip-word"
+    }
+  },
+  {
+    "id": "w-in",
+    "text": "in",
+    "meaningZh": "在里面",
+    "meaningIntroducedAt": "L06",
+    "decodingIntroducedAt": "L06",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-in-segment",
+      "blend": "w-in-blend",
+      "word": "w-in-word"
+    }
+  },
+  {
+    "id": "w-pin",
+    "text": "pin",
+    "meaningZh": "扣好的别针",
+    "meaningIntroducedAt": "L06",
+    "decodingIntroducedAt": "L06",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-p"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-pin-segment",
+      "blend": "w-pin-blend",
+      "word": "w-pin-word"
+    }
+  },
+  {
+    "id": "w-nap",
+    "text": "nap",
+    "meaningZh": "小睡",
+    "meaningIntroducedAt": "L06",
+    "decodingIntroducedAt": "L06",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-n"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-nap-segment",
+      "blend": "w-nap-blend",
+      "word": "w-nap-word"
+    }
+  },
+  {
+    "id": "w-pan",
+    "text": "pan",
+    "meaningZh": "平底锅",
+    "meaningIntroducedAt": "L06",
+    "decodingIntroducedAt": "L06",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-p"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-pan-segment",
+      "blend": "w-pan-blend",
+      "word": "w-pan-word"
+    }
+  },
+  {
+    "id": "w-mat",
+    "text": "mat",
+    "meaningZh": "垫子",
+    "meaningIntroducedAt": "L07",
+    "decodingIntroducedAt": "L07",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-m"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-mat-segment",
+      "blend": "w-mat-blend",
+      "word": "w-mat-word"
+    }
+  },
+  {
+    "id": "w-map",
+    "text": "map",
+    "meaningZh": "地图",
+    "meaningIntroducedAt": "L07",
+    "decodingIntroducedAt": "L07",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-m"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-map-segment",
+      "blend": "w-map-blend",
+      "word": "w-map-word"
+    }
+  },
+  {
+    "id": "w-man",
+    "text": "man",
+    "meaningZh": "成年男子",
+    "meaningIntroducedAt": "L07",
+    "decodingIntroducedAt": "L07",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-m"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-man-segment",
+      "blend": "w-man-blend",
+      "word": "w-man-word"
+    }
+  },
+  {
+    "id": "w-sam",
+    "text": "Sam",
+    "meaningZh": "故事人物萨姆",
+    "meaningIntroducedAt": "L07",
+    "decodingIntroducedAt": "L07",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-m"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sam-segment",
+      "blend": "w-sam-blend",
+      "word": "w-sam-word"
+    }
+  },
+  {
+    "id": "w-tip",
+    "text": "tip",
+    "meaningZh": "物体的尖端",
+    "meaningIntroducedAt": "L05",
+    "decodingIntroducedAt": "L08",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-t"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-tip-segment",
+      "blend": "w-tip-blend",
+      "word": "w-tip-word"
+    }
+  }
+]

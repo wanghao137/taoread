@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-19T09:11:17.081Z",
+  "productComplete": false,
+  "releaseReady": false,
+  "courseHash": "a523ef0f3dcdb9b1290aa175109e4a9cb5e9b7d5f5c2b2bebd044f1fd3ac8696",
+  "serverTypecheck": true,
+  "webModernAndLegacyBuild": true,
+  "sourceLint": true,
+  "lintExcludedGeneratedWorkerDirectories": [
+    "workers/dist-origin/**",
+    "workers/dist-proxy/**"
+  ],
+  "serverInitial": {
+    "total": 76,
+    "passed": 75,
+    "failed": 1,
+    "failure": "WAV fixture retained candidate MP3 extension; fixed explicitly in test"
+  },
+  "serverContentRerun": {
+    "total": 24,
+    "passed": 24,
+    "failed": 0
+  },
+  "browser": {
+    "passed": 4,
+    "failed": 0
+  },
+  "touchAudit": {
+    "files": 52,
+    "violations": 0
+  },
+  "media": {
+    "references": 117,
+    "fileHashesAndSignaturesVerified": 117,
+    "audioDecoded": 85,
+    "audioReviewFlags": 55
+  },
+  "realDevices": false,
+  "teachingSpeechSignoff": false,
+  "familyPilot": false
+}

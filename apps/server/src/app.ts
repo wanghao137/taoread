@@ -23,6 +23,9 @@ import { registerContentRoutes } from './content/routes'
 import { registerImprovementRoutes } from './content/improvementRoutes'
 import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/csp'
 import { registerPhonicsRoutes } from './modules/phonics/routes'
+import { registerPhonicsV2Routes } from './modules/phonics/v2/routes'
+import { PhonicsRuntime, type PhonicsV2Options } from './modules/phonics/v2/runtime'
+import { candidateDirectory, loadCourse } from './modules/phonics/v2/courseRegistry'
 import { registerTtsRoutes } from './modules/tts/routes'
 import { routePreloads } from './lib/routePreloads'
 import { PublicTtsIndex } from './modules/tts/publicCache'
@@ -38,6 +41,7 @@ import { WereadServiceRegistry } from './services/weread/registry'
 import { registerOpsRoutes } from './modules/ops/routes'
 
 export interface BuildAppOptions {
+  phonicsV2?: PhonicsV2Options
   db: PrismaClient
   tokenSecret: Buffer
   masterKey: string
@@ -238,6 +242,9 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   })
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
+  const phonicsRuntime = new PhonicsRuntime(options.db, options.phonicsV2 ?? {}, mediaDir)
+  await phonicsRuntime.install(options.phonicsV2?.courses ?? (options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off' ? [await loadCourse(candidateDirectory)] : []))
+  registerPhonicsV2Routes(app, { db: options.db, tokenSecret: options.tokenSecret, runtime: phonicsRuntime })
   registerImprovementRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
   registerCspReports(app)
 
@@ -246,7 +253,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
 
   // 第四轮（docs/13）：媒体静态服务 + 服务端 TTS
-  registerMediaRoutes(app, { mediaDir, db: options.db, tokenSecret: options.tokenSecret, sessionGuard })
+  registerMediaRoutes(app, { mediaDir, db: options.db, tokenSecret: options.tokenSecret, sessionGuard, phonicsAccess: (familyId, resourcePath) => phonicsRuntime.authorizeMedia(familyId, resourcePath) })
   const ttsDeps: TtsClientDeps | null = options.ttsDeps ?? null
   registerTtsRoutes(app, {
     db: options.db,

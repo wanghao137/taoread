@@ -12,7 +12,8 @@
 import type { FastifyInstance } from 'fastify'
 import type { PrismaClient } from '@prisma/client'
 import { createReadStream } from 'node:fs'
-import { realpath, stat } from 'node:fs/promises'
+import { realpath, stat, readFile } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
 import { join, normalize, sep } from 'node:path'
 import { verifyToken } from '../../lib/auth'
 import type { SessionGuard } from '../../lib/sessions'
@@ -34,6 +35,7 @@ export interface MediaRoutesDeps {
   db?: PrismaClient
   tokenSecret?: Buffer
   sessionGuard?: SessionGuard
+  phonicsAccess?: (familyId: string, resourcePath: string) => Promise<void>
 }
 
 export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps): void {
@@ -48,7 +50,8 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
         return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
       }
       let rowIsPrivate = false
-      async function authorize(familyId: string): Promise<void> {
+      async function authenticate(): Promise<MediaClaims> {
+        if (!deps.tokenSecret || !deps.sessionGuard) throw new UnauthorizedError()
         const header = request.headers.authorization
         let claims: MediaClaims
         if (header?.startsWith('Bearer ')) {
@@ -58,10 +61,20 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
           if (typeof ticket !== 'string') throw new UnauthorizedError()
           claims = verifyMediaTicket(ticket, path, deps.tokenSecret!)
         }
-        if (claims.fid !== familyId) throw new ForbiddenError('不能访问其他家庭的素材')
         await deps.sessionGuard!.assertActive(claims.fid, claims.sid, claims.role, claims.pv)
+        return claims
       }
-      if (deps.db && /^art\/(?:covers|chapters)\/.+\.(thumb|reader)\.webp$/.test(path)) {
+      async function authorize(familyId: string): Promise<void> {
+        const claims = await authenticate()
+        if (claims.fid !== familyId) throw new ForbiddenError('不能访问其他家庭的素材')
+      }
+      if (path.startsWith('phonics/')) {
+        rowIsPrivate = true
+        reply.header('Cache-Control', 'private, no-store')
+        if (!deps.db || !deps.phonicsAccess) throw new ForbiddenError('不能访问此文件')
+        const claims = await authenticate()
+        await deps.phonicsAccess(claims.fid, path)
+      } else if (deps.db && /^art\/(?:covers|chapters)\/.+\.(thumb|reader)\.webp$/.test(path)) {
         // 缩图/阅读器档（2026-09-25 性能方案）：随基准素材同权限——公共素材放行；
         // 家庭私有场景（fam:）的变体走同一家庭鉴权（家庭书 AI 插画，2026-09-30）
         const base = path.replace(/\.(thumb|reader)\.webp$/, '.webp')
@@ -123,6 +136,10 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
       }
       const st = await stat(real).catch(() => null)
       if (!st || !st.isFile()) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
+      if (path.startsWith('phonics/')) {
+        const expectedHash = path.split('/')[2]?.split('.')[0]
+        if (createHash('sha256').update(await readFile(real)).digest('hex') !== expectedHash) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体校验失败' })
+      }
       const ext = real.slice(real.lastIndexOf('.')).toLowerCase()
       const mime = MIME[ext]
       // 扩展名白名单：不在表内的类型一律 404，不给任意文件当下载源

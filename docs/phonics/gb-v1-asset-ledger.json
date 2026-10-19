@@ -1,0 +1,4694 @@
+{
+  "schemaVersion": 1,
+  "versionId": "taoread-phonics-gb-v1",
+  "contentHash": "a523ef0f3dcdb9b1290aa175109e4a9cb5e9b7d5f5c2b2bebd044f1fd3ac8696",
+  "status": "production_brief_not_signoff",
+  "approvedProductDirection": "User approved the proposed product scope and GB direction on 2026-10-19. This is not speech, teaching or rights signoff.",
+  "assets": [
+    {
+      "id": "sound-s",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "8f762ad37b1dc44b6316afcfe3479474cf6c522e9eab341a1d51969a394e8094",
+      "extension": "mp3",
+      "durationMs": 731,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L01-model-s",
+          "use": "stimulus",
+          "brief": "s"
+        },
+        {
+          "source": "L01-hear-s",
+          "use": "stimulus",
+          "brief": "g-s"
+        },
+        {
+          "source": "L02-hear-s-review",
+          "use": "stimulus",
+          "brief": "g-s"
+        },
+        {
+          "source": "L04-hear-s-review",
+          "use": "stimulus",
+          "brief": "g-s"
+        },
+        {
+          "source": "g-s",
+          "use": "phoneme",
+          "brief": "s: /s/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-a",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "459262826ba22dbbd56a81d1e3263af50d8912374e6331193f5a12ce778b3fbc",
+      "extension": "mp3",
+      "durationMs": 340,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L01-model-a",
+          "use": "stimulus",
+          "brief": "a"
+        },
+        {
+          "source": "L01-hear-a",
+          "use": "stimulus",
+          "brief": "g-a"
+        },
+        {
+          "source": "L05-hear-a-review",
+          "use": "stimulus",
+          "brief": "g-a"
+        },
+        {
+          "source": "L08-hear-a-review",
+          "use": "stimulus",
+          "brief": "g-a"
+        },
+        {
+          "source": "g-a",
+          "use": "phoneme",
+          "brief": "a: /æ/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-t",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "964021ee08d10149adddb6f5d2af0c7ef7c17549689a7d41a7d26b5ad74217bc",
+      "extension": "mp3",
+      "durationMs": 1384,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-model-t",
+          "use": "stimulus",
+          "brief": "t"
+        },
+        {
+          "source": "L02-hear-t",
+          "use": "stimulus",
+          "brief": "g-t"
+        },
+        {
+          "source": "L03-hear-t-review",
+          "use": "stimulus",
+          "brief": "g-t"
+        },
+        {
+          "source": "g-t",
+          "use": "phoneme",
+          "brief": "t: /t/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-p",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "8e10a06421a94962843e554025e3bad98053a441f24fae70c26cb221a3f6a92b",
+      "extension": "mp3",
+      "durationMs": 3318,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "rejected",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-model-p",
+          "use": "stimulus",
+          "brief": "p"
+        },
+        {
+          "source": "L03-hear-p",
+          "use": "stimulus",
+          "brief": "g-p"
+        },
+        {
+          "source": "L04-hear-p-review",
+          "use": "stimulus",
+          "brief": "g-p"
+        },
+        {
+          "source": "L07-hear-p-review",
+          "use": "stimulus",
+          "brief": "g-p"
+        },
+        {
+          "source": "g-p",
+          "use": "phoneme",
+          "brief": "p: /p/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "rejected_candidate",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-i",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "8fd10eb21bebca2277bace3829a7c5b03c64c649af6f7da766abd13ac8edab5f",
+      "extension": "mp3",
+      "durationMs": 549,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-model-i",
+          "use": "stimulus",
+          "brief": "i"
+        },
+        {
+          "source": "L05-hear-i",
+          "use": "stimulus",
+          "brief": "g-i"
+        },
+        {
+          "source": "L06-hear-i-review",
+          "use": "stimulus",
+          "brief": "g-i"
+        },
+        {
+          "source": "g-i",
+          "use": "phoneme",
+          "brief": "i: /ɪ/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-n",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "10c4b2232b007c18148a14008ce25c51375861d5ec82bdb1916e50c49e16078d",
+      "extension": "mp3",
+      "durationMs": 6191,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "rejected",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-model-n",
+          "use": "stimulus",
+          "brief": "n"
+        },
+        {
+          "source": "L06-hear-n",
+          "use": "stimulus",
+          "brief": "g-n"
+        },
+        {
+          "source": "L07-hear-n-review",
+          "use": "stimulus",
+          "brief": "g-n"
+        },
+        {
+          "source": "g-n",
+          "use": "phoneme",
+          "brief": "n: /n/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "rejected_candidate",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "sound-m",
+      "purpose": "phoneme",
+      "accent": "GB",
+      "sha256": "56831a3f239ea8a62c259791ba895c39904b195822f28f5b1487953f28a53234",
+      "extension": "mp3",
+      "durationMs": 3709,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "rejected",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-model-m",
+          "use": "stimulus",
+          "brief": "m"
+        },
+        {
+          "source": "L07-hear-m",
+          "use": "stimulus",
+          "brief": "g-m"
+        },
+        {
+          "source": "L08-hear-m-review",
+          "use": "stimulus",
+          "brief": "g-m"
+        },
+        {
+          "source": "g-m",
+          "use": "phoneme",
+          "brief": "m: /m/, GB. Pure sound; no letter name or added schwa. Speech reviewer must listen."
+        }
+      ],
+      "productionState": "rejected_candidate",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-at-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "d644103f3912beb9778cc79f6cbcdcea0051ac424bedd26caf91b57ba6a22959",
+      "extension": "mp3",
+      "durationMs": 2011,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-at",
+          "use": "segment",
+          "brief": "at (在某个位置); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-at-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "f681288c755f7af984c191bcfba0e45d2a4b910641303741be8e883c06621b33",
+      "extension": "mp3",
+      "durationMs": 914,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-blend-at",
+          "use": "stimulus",
+          "brief": "at"
+        },
+        {
+          "source": "w-at",
+          "use": "blend",
+          "brief": "at (在某个位置); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-at-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "a11bc370f51f806be5cd410dea3d81d72fa8159cda80eb69d649eff0a78122ec",
+      "extension": "mp3",
+      "durationMs": 496,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-at",
+          "use": "stimulus",
+          "brief": "w-at"
+        },
+        {
+          "source": "L02-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-at",
+          "use": "word",
+          "brief": "at (在某个位置); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l02:page1",
+          "use": "passage",
+          "brief": "at"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sat-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "d5ac5b561e67b7c27225be9284fc5095b124ea700a0e56e337d3bba70aaeea76",
+      "extension": "mp3",
+      "durationMs": 3030,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-build-sat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-sat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sat",
+          "use": "segment",
+          "brief": "sat (坐下了); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sat-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "8850cc443d33f0dff54f3592528d3f3fca87726fcd07baaf025f74bb6abb9125",
+      "extension": "mp3",
+      "durationMs": 836,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-blend-sat",
+          "use": "stimulus",
+          "brief": "sat"
+        },
+        {
+          "source": "L02-build-sat",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-sat",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sat",
+          "use": "blend",
+          "brief": "sat (坐下了); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sat-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "01048fad711e9a164f1a84c52250807733cfe87f565cc7bd0f9142bbbe9535e9",
+      "extension": "mp3",
+      "durationMs": 601,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-sat",
+          "use": "stimulus",
+          "brief": "w-sat"
+        },
+        {
+          "source": "L02-build-sat",
+          "use": "stimulus",
+          "brief": "w-sat"
+        },
+        {
+          "source": "L02-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-sat",
+          "use": "stimulus",
+          "brief": "w-sat"
+        },
+        {
+          "source": "L04-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sat",
+          "use": "word",
+          "brief": "sat (坐下了); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l02:page2",
+          "use": "passage",
+          "brief": "sat"
+        },
+        {
+          "source": "r-l04:page1",
+          "use": "passage",
+          "brief": "sat"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pat-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "6057bbd7002b6a18bb3dc60f94ecf64615e7b610b75d98c82c101f9e60278a91",
+      "extension": "mp3",
+      "durationMs": 5616,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-build-pat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-pat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pat",
+          "use": "segment",
+          "brief": "pat (轻轻拍); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pat-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "a555d5e0bfa6c654b93449985e599a25951da85c9f4f0ccdb40849cf82aad70d",
+      "extension": "mp3",
+      "durationMs": 758,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-build-pat",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-pat",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pat",
+          "use": "blend",
+          "brief": "pat (轻轻拍); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pat-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "c5983ebe58b6a870b446aae877f4c4d99ecea0c3e11d5cd04649d1f1a8d41e7e",
+      "extension": "mp3",
+      "durationMs": 549,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-pat",
+          "use": "stimulus",
+          "brief": "w-pat"
+        },
+        {
+          "source": "L03-build-pat",
+          "use": "stimulus",
+          "brief": "w-pat"
+        },
+        {
+          "source": "L03-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-build-pat",
+          "use": "stimulus",
+          "brief": "w-pat"
+        },
+        {
+          "source": "L04-read",
+          "use": "help_3",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pat",
+          "use": "word",
+          "brief": "pat (轻轻拍); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l03:page2",
+          "use": "passage",
+          "brief": "pat"
+        },
+        {
+          "source": "r-l04:page3",
+          "use": "passage",
+          "brief": "pat"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tap-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "2567da7fe6577663b8098b27ad181c4b3938aaf834496763d7fd2b5df698ecf2",
+      "extension": "mp3",
+      "durationMs": 5616,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-build-tap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-tap",
+          "use": "segment",
+          "brief": "tap (轻敲); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tap-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "13302a049fdf5af0da7c04d2823b6df49757b007814977592edf94a313af0012",
+      "extension": "mp3",
+      "durationMs": 679,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-blend-tap",
+          "use": "stimulus",
+          "brief": "tap"
+        },
+        {
+          "source": "L03-build-tap",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-tap",
+          "use": "blend",
+          "brief": "tap (轻敲); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tap-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "7913ef1befc376af131ad57e620480dbc2b62e80beaf1aa95a181e3d5e1a0441",
+      "extension": "mp3",
+      "durationMs": 418,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-tap",
+          "use": "stimulus",
+          "brief": "w-tap"
+        },
+        {
+          "source": "L03-build-tap",
+          "use": "stimulus",
+          "brief": "w-tap"
+        },
+        {
+          "source": "L03-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-tap-word",
+          "use": "stimulus",
+          "brief": "w-tap"
+        },
+        {
+          "source": "w-tap",
+          "use": "word",
+          "brief": "tap (轻敲); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l03:page1",
+          "use": "passage",
+          "brief": "tap"
+        },
+        {
+          "source": "r-l04:page2",
+          "use": "passage",
+          "brief": "tap"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-it-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "7e3884719eaf1c631abfbbea632f99f48bbff1608d4a36c1854444659d0fffa8",
+      "extension": "mp3",
+      "durationMs": 2220,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-it",
+          "use": "segment",
+          "brief": "it (它); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-it-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "304a421b1f384a69a362b3fcec1ef83cdcc542311c5eaae23e7c3ca6822c5094",
+      "extension": "mp3",
+      "durationMs": 601,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-it",
+          "use": "blend",
+          "brief": "it (它); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-it-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "5440d1fd60858c78c00b9cced5a36f8d3781e4e6b867120a56bf88a4a5b177bd",
+      "extension": "mp3",
+      "durationMs": 444,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-it",
+          "use": "stimulus",
+          "brief": "w-it"
+        },
+        {
+          "source": "L05-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-it",
+          "use": "word",
+          "brief": "it (它); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l05:page1",
+          "use": "passage",
+          "brief": "it"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sit-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "6c993d9621ffcc9884f1c249d88d5a8ded659ff0c072c0f2cb5c5673083d0a2d",
+      "extension": "mp3",
+      "durationMs": 3239,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-build-sit",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sit",
+          "use": "segment",
+          "brief": "sit (坐下); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sit-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "d0ff6ca76b1639531ad6c04d963d923148fda203da1cf5bce3a47c61a7411d51",
+      "extension": "mp3",
+      "durationMs": 784,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-blend-sit",
+          "use": "stimulus",
+          "brief": "sit"
+        },
+        {
+          "source": "L05-build-sit",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-oral-blend",
+          "use": "stimulus",
+          "brief": "w-sit"
+        },
+        {
+          "source": "w-sit",
+          "use": "blend",
+          "brief": "sit (坐下); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sit-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "369dc3bc2fea8587ca2ee3ad636cf62f649e91fe134a630619fc4c3075b01853",
+      "extension": "mp3",
+      "durationMs": 496,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sit",
+          "use": "stimulus",
+          "brief": "w-sit"
+        },
+        {
+          "source": "L05-build-sit",
+          "use": "stimulus",
+          "brief": "w-sit"
+        },
+        {
+          "source": "L05-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-sit",
+          "use": "stimulus",
+          "brief": "w-sit"
+        },
+        {
+          "source": "w-sit",
+          "use": "word",
+          "brief": "sit (坐下); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l05:page2",
+          "use": "passage",
+          "brief": "sit"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sip-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "702311dd594bbc70df0f0614da91458fce81852d5c42eeb268b64f4be258a686",
+      "extension": "mp3",
+      "durationMs": 5172,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-build-sip",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sip",
+          "use": "segment",
+          "brief": "sip (小口喝); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sip-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "1435dbd9c3505bf7d22017c02872c56c6c1627178d6a518be7b0ff825d838cbe",
+      "extension": "mp3",
+      "durationMs": 627,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-build-sip",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sip",
+          "use": "blend",
+          "brief": "sip (小口喝); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sip-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "17d6c5212b057f9d15890176500d23bd766a1e1019311e224ae5cd39c3660665",
+      "extension": "mp3",
+      "durationMs": 444,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sip",
+          "use": "stimulus",
+          "brief": "w-sip"
+        },
+        {
+          "source": "L05-build-sip",
+          "use": "stimulus",
+          "brief": "w-sip"
+        },
+        {
+          "source": "L05-read",
+          "use": "help_3",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-sip",
+          "use": "word",
+          "brief": "sip (小口喝); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l05:page3",
+          "use": "passage",
+          "brief": "sip"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-in-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "a6dd7bf42a14c3e5f4d6c94aab837ccd23eec8e92c22518c00c0d651b2048c2a",
+      "extension": "mp3",
+      "durationMs": 7053,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-in",
+          "use": "segment",
+          "brief": "in (在里面); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-in-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "28efcd70e98351388bb61087a48e0f50de42ae1793cca45a3e7ffdc8feeb9eac",
+      "extension": "mp3",
+      "durationMs": 758,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-in",
+          "use": "blend",
+          "brief": "in (在里面); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-in-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "c62ab08cbc1fe3874ddd493ee8de7a68c5563043b1d90b5880ebd199e6ea04a1",
+      "extension": "mp3",
+      "durationMs": 496,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-in",
+          "use": "stimulus",
+          "brief": "w-in"
+        },
+        {
+          "source": "L06-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-in",
+          "use": "word",
+          "brief": "in (在里面); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l06:page1",
+          "use": "passage",
+          "brief": "in"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pin-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "020dda6647ecf52a6bafda78ee4216f762e1a1fa82813bea5c28775cc71479fa",
+      "extension": "mp3",
+      "durationMs": 10658,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-build-pin",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pin",
+          "use": "segment",
+          "brief": "pin (扣好的别针); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pin-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "4d170936b8de36acef8bb7ac21bcda212626fb2050e789c1b3490773495dcb98",
+      "extension": "mp3",
+      "durationMs": 705,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-blend-pin",
+          "use": "stimulus",
+          "brief": "pin"
+        },
+        {
+          "source": "L06-build-pin",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pin",
+          "use": "blend",
+          "brief": "pin (扣好的别针); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pin-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "896f96062c6925f00070f3e083d6ef6e9e008cc44c00856b97db39b175e77a91",
+      "extension": "mp3",
+      "durationMs": 496,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pin",
+          "use": "stimulus",
+          "brief": "w-pin"
+        },
+        {
+          "source": "L06-build-pin",
+          "use": "stimulus",
+          "brief": "w-pin"
+        },
+        {
+          "source": "L06-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pin",
+          "use": "word",
+          "brief": "pin (扣好的别针); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l06:page2",
+          "use": "passage",
+          "brief": "pin"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-nap-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "99dbbaa81a38cb35807938d7c45e22da1b369bfe8289cce6714e92ec6a545566",
+      "extension": "mp3",
+      "durationMs": 10449,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-build-nap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-nap",
+          "use": "segment",
+          "brief": "nap (小睡); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-nap-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "708b453100c5af017a03a74d1e2516c86373efb4841f7792afc6c8a839d929ef",
+      "extension": "mp3",
+      "durationMs": 549,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-build-nap",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-nap",
+          "use": "blend",
+          "brief": "nap (小睡); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-nap-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "80e3f7e78d49ead48436bfc8ac64fcdec4f8d083bce9239ea10093f343c84176",
+      "extension": "mp3",
+      "durationMs": 313,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-nap",
+          "use": "stimulus",
+          "brief": "w-nap"
+        },
+        {
+          "source": "L06-read",
+          "use": "help_3",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-build-nap",
+          "use": "stimulus",
+          "brief": "w-nap"
+        },
+        {
+          "source": "w-nap",
+          "use": "word",
+          "brief": "nap (小睡); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l06:page3",
+          "use": "passage",
+          "brief": "nap"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pan-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "3c4bf221b3b2f626abb56c434ea6b93c3f0dfc628c958b2f7f6efcd18be4f64f",
+      "extension": "mp3",
+      "durationMs": 10449,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-build-pan",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-build-pan",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pan",
+          "use": "segment",
+          "brief": "pan (平底锅); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pan-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "23c1f92678bdd099ef7b2d3acfff0340e2c6426316f64289eaa338ccffce633b",
+      "extension": "mp3",
+      "durationMs": 627,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-build-pan",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-build-pan",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-pan",
+          "use": "blend",
+          "brief": "pan (平底锅); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-pan-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "c0dc83261f8242d70b443a6d988e97c3576dbba9f347a43f45a740c63eb17447",
+      "extension": "mp3",
+      "durationMs": 470,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pan",
+          "use": "stimulus",
+          "brief": "w-pan"
+        },
+        {
+          "source": "L06-build-pan",
+          "use": "stimulus",
+          "brief": "w-pan"
+        },
+        {
+          "source": "L06-read",
+          "use": "help_4",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-build-pan",
+          "use": "stimulus",
+          "brief": "w-pan"
+        },
+        {
+          "source": "w-pan",
+          "use": "word",
+          "brief": "pan (平底锅); natural GB word, unhurried"
+        },
+        {
+          "source": "r-l06:page4",
+          "use": "passage",
+          "brief": "pan"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-mat-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "c2deaa2f1fa9314b6d56803e905b4e3a163210c062b25fc216cc452f026e8254",
+      "extension": "mp3",
+      "durationMs": 6008,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-oral-mat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-mat",
+          "use": "segment",
+          "brief": "mat (垫子); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-mat-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "ae969f76cd970b2096d58b2a268a8b7bb0332b09b697e5d1846fd9dcf90778a3",
+      "extension": "mp3",
+      "durationMs": 705,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-oral-mat",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-mat",
+          "use": "blend",
+          "brief": "mat (垫子); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-mat-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "f3a78c4854aa10a245ce22204a11283e401314f45e637e5eae7927e89b86b28c",
+      "extension": "mp3",
+      "durationMs": 549,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-mat",
+          "use": "stimulus",
+          "brief": "w-mat"
+        },
+        {
+          "source": "L07-oral-mat",
+          "use": "help_3",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-mat",
+          "use": "word",
+          "brief": "mat (垫子); natural GB word, unhurried"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-map-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "7c0efdec865179beda42c8f640271d26b537cce9345e497c5f7dd72e101d5927",
+      "extension": "mp3",
+      "durationMs": 7941,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-build-map",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-map",
+          "use": "segment",
+          "brief": "map (地图); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-map-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "5353d82283f70df3b13b497f03b24c4ee68be7f6bee7de1dbac3fdcfbb332f70",
+      "extension": "mp3",
+      "durationMs": 601,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-blend-map",
+          "use": "stimulus",
+          "brief": "map"
+        },
+        {
+          "source": "L07-build-map",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-map",
+          "use": "blend",
+          "brief": "map (地图); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-map-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "0cc89c417937808d807d5e994ca0c073dca883324e6070fbfb5b822972ad9ae7",
+      "extension": "mp3",
+      "durationMs": 575,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-map",
+          "use": "stimulus",
+          "brief": "w-map"
+        },
+        {
+          "source": "L07-build-map",
+          "use": "stimulus",
+          "brief": "w-map"
+        },
+        {
+          "source": "w-map",
+          "use": "word",
+          "brief": "map (地图); natural GB word, unhurried"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-man-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "f66fdf0c33b5253814ee129f84afc3e9b3354498ac3e9ea8070f5a0a1518f289",
+      "extension": "mp3",
+      "durationMs": 10841,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-man",
+          "use": "segment",
+          "brief": "man (成年男子); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-man-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "87b74c570eefc1439e0d4c3a162e51a948e10e98a491ec19dbb548a2847f1e9a",
+      "extension": "mp3",
+      "durationMs": 784,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-man",
+          "use": "blend",
+          "brief": "man (成年男子); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-man-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "ad39985b01d7c8ee758b0ac0a480ef108777d3056fe0bd9c44fb7c286a220ad4",
+      "extension": "mp3",
+      "durationMs": 522,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-man",
+          "use": "stimulus",
+          "brief": "w-man"
+        },
+        {
+          "source": "w-man",
+          "use": "word",
+          "brief": "man (成年男子); natural GB word, unhurried"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sam-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "3f198c80d98be39cbff28e6138ef363dbce51ee4518b1a61b7693e9c892fdfd5",
+      "extension": "mp3",
+      "durationMs": 5381,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-sam",
+          "use": "segment",
+          "brief": "Sam (故事人物萨姆); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sam-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "e83e852ab531f6801c2ecb4028fbc75868cfd3d712ac95ee854b6ef60b96dce7",
+      "extension": "mp3",
+      "durationMs": 758,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "w-sam",
+          "use": "blend",
+          "brief": "Sam (故事人物萨姆); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-sam-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "ab4de7cf1df49971406a79a28d2df7864ee132256dfe98215b6902b7f755ba04",
+      "extension": "mp3",
+      "durationMs": 549,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-capital-S",
+          "use": "stimulus",
+          "brief": "Sam"
+        },
+        {
+          "source": "w-sam",
+          "use": "word",
+          "brief": "Sam (故事人物萨姆); natural GB word, unhurried"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tip-segment",
+      "purpose": "segment",
+      "accent": "GB",
+      "sha256": "cfaa628cff325389423c88cac432be9487c7b7a77ffcd99de591963a9319945f",
+      "extension": "mp3",
+      "durationMs": 5825,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-oral-tip",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-tip",
+          "use": "segment",
+          "brief": "tip (物体的尖端); separate phonemes in order; do not read letter names"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tip-blend",
+      "purpose": "blend",
+      "accent": "GB",
+      "sha256": "26504c2cf0538a539efcb03fba19ed1a1cc2001126fcd0c4f94b1bb7efa7db02",
+      "extension": "mp3",
+      "durationMs": 418,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-oral-tip",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-tip",
+          "use": "blend",
+          "brief": "tip (物体的尖端); continuous blending into the natural word; separate reviewed recording, not mechanical slowdown"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-tip-word",
+      "purpose": "word",
+      "accent": "GB",
+      "sha256": "e3753128ae6ad88f186cfe49e71bf00ad944945aa0d5cf8123f14504eab1e8c4",
+      "extension": "mp3",
+      "durationMs": 496,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-tip",
+          "use": "stimulus",
+          "brief": "w-tip"
+        },
+        {
+          "source": "L08-oral-tip",
+          "use": "help_3",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "w-tip",
+          "use": "word",
+          "brief": "tip (物体的尖端); natural GB word, unhurried"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L01-model-s-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "400d495914bf2bc40052244662b5274c71c436a5cfc871aeb4f7ff42541619b5",
+      "extension": "mp3",
+      "durationMs": 7824,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L01-model-s",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L01-model-a",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L02-model-t",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L03-model-p",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L05-model-i",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L06-model-n",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        },
+        {
+          "source": "L07-model-m",
+          "use": "instruction_zh",
+          "brief": "看这个字母，听它在单词里的声音。你也可以跟着试一试。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L01-hear-s-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "8b9d0f32012a45d589a2de806062250f6a018644f738602d04553c5e96ee3362",
+      "extension": "mp3",
+      "durationMs": 5976,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L01-hear-s",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L01-hear-a",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L02-hear-s-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L02-hear-t",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L03-hear-t-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L03-hear-p",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L04-hear-s-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L04-hear-p-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L05-hear-a-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L05-hear-i",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L06-hear-i-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L06-hear-n",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L07-hear-n-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L07-hear-p-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L07-hear-m",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L08-hear-m-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        },
+        {
+          "source": "L08-hear-a-review",
+          "use": "instruction_zh",
+          "brief": "听声音，点一个字母。需要时可以再听一遍。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L02-meaning-at-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "21b0f7c24f28647a441e8c7fda1a630aa044fe07c0a4bf8f03959b66c2d902e9",
+      "extension": "mp3",
+      "durationMs": 6624,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-at",
+          "use": "instruction_zh",
+          "brief": "图里的小朋友在长椅那里。这个词表示在一个地方，听听看。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L02-meaning-sat-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "a533ad94476222f8abb6b6ef01c6ea796e653761fc671b5906c1ffd7fa1c3d06",
+      "extension": "mp3",
+      "durationMs": 7248,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-sat",
+          "use": "instruction_zh",
+          "brief": "小朋友已经坐下了。听听这个词，再一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L02-blend-at-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "aab3cabcf86fdd772fcd4dd2cf3d368a11f92c988e5b595c30d64156f06990e1",
+      "extension": "mp3",
+      "durationMs": 5568,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-blend-at",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        },
+        {
+          "source": "L02-blend-sat",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        },
+        {
+          "source": "L03-blend-tap",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        },
+        {
+          "source": "L05-blend-sit",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        },
+        {
+          "source": "L06-blend-pin",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        },
+        {
+          "source": "L07-blend-map",
+          "use": "instruction_zh",
+          "brief": "听这些声音怎样连起来，再一起读。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L02-build-sat-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "5f1c58a1ed569d5f93ecc56d4a2cfe4855176c589d6df3f03c199b991a999264",
+      "extension": "mp3",
+      "durationMs": 6456,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-build-sat",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L03-build-tap",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L03-build-pat",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L04-build-pat",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L04-build-sat",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L05-build-sit",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L05-build-sip",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L06-build-pin",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L06-build-pan",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L07-build-map",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L08-build-nap",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        },
+        {
+          "source": "L08-build-pan",
+          "use": "instruction_zh",
+          "brief": "先听完整的词，再点字母，按声音的顺序摆好。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l02-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "42465a055e2264c89b28fc82b96e8d5d5c8eb7d8808a4f48e595a6376dce609c",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l02:page1",
+          "use": "reader_image",
+          "brief": "at; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l02-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l02:page2",
+          "use": "reader_image",
+          "brief": "sat; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "L02-read-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "5a1e3c4ba1653e527e59f5b914901b2e09eebb663d5d67017af040c50065988c",
+      "extension": "mp3",
+      "durationMs": 6216,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L03-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L04-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L05-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L06-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L07-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        },
+        {
+          "source": "L08-read",
+          "use": "instruction_zh",
+          "brief": "看看这一页，试着读一读。需要时一起读。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L03-meaning-tap-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "f58e27a29e6faffa89900b3b6467cea918057e23ffcc2412648ae3c746d85cf8",
+      "extension": "mp3",
+      "durationMs": 8376,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-tap",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：轻敲。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L03-meaning-pat-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "c81d12ff2fa49a3c02858ddc1b3b90b0a867733d4e1c00a524b0ecd03d472919",
+      "extension": "mp3",
+      "durationMs": 7728,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-pat",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：轻轻拍。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l03-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "ddec498129ba03b65bf31d0850600d76a91b59e354269240b970327ec3fc3a63",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l03:page1",
+          "use": "reader_image",
+          "brief": "tap; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l03-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "00448303ed7b0f2fdc94380c4845ff9cc62d255ece511ee1005d5a55c79f0438",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l03:page2",
+          "use": "reader_image",
+          "brief": "pat; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l04-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l04:page1",
+          "use": "reader_image",
+          "brief": "sat; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l04-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "ddec498129ba03b65bf31d0850600d76a91b59e354269240b970327ec3fc3a63",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l04:page2",
+          "use": "reader_image",
+          "brief": "tap; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l04-image-3",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "00448303ed7b0f2fdc94380c4845ff9cc62d255ece511ee1005d5a55c79f0438",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l04:page3",
+          "use": "reader_image",
+          "brief": "pat; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "L05-meaning-it-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "3e11221263430b0bc19922bf6d2636a4c119c9c120ae2666b55217fd5891792f",
+      "extension": "mp3",
+      "durationMs": 6864,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-it",
+          "use": "instruction_zh",
+          "brief": "看看这个小球。说它的时候，可以用这个词，听听看。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L05-meaning-sit-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "92dccf75c2c3a8b154ab78fd609fca4507508d1ab404c1ced68dcfc8fe941b7f",
+      "extension": "mp3",
+      "durationMs": 7416,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sit",
+          "use": "instruction_zh",
+          "brief": "这个词表示坐下。听完后，你可以和家长一起做一做。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L05-meaning-sip-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "1d9afd1b0d0cb8a393edca6990d4968550dbca466bc26a8b804de59bec96cad4",
+      "extension": "mp3",
+      "durationMs": 6384,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sip",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：小口喝。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L05-meaning-tip-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "d036a115e5109e1d2d718a843f68abea0cce647c1b97f8208630f9a3b77e31d3",
+      "extension": "mp3",
+      "durationMs": 7248,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-tip",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：物体的尖端。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l05-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "82c1a44c1d9d30a20b039b98381edbac5f64fa738a79b73f53f7d1aef90a4296",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l05:page1",
+          "use": "reader_image",
+          "brief": "it; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l05-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l05:page2",
+          "use": "reader_image",
+          "brief": "sit; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l05-image-3",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "5c30b4b41f4fc5d641d074bad94f490463b56d4774b95a0b50087e59a96027b7",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l05:page3",
+          "use": "reader_image",
+          "brief": "sip; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "L06-meaning-in-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "52f58d8312324277b966ce33cea1050f2e4b27dac8e24afa6c2ef16e99278bda",
+      "extension": "mp3",
+      "durationMs": 7896,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-in",
+          "use": "instruction_zh",
+          "brief": "小球在篮子里面。先听听这个词，再一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L06-meaning-pin-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "37bf2c0da77ad7ed5ac21b4b968e60a6bfd5934325f8b7ce4d8bd52403560e81",
+      "extension": "mp3",
+      "durationMs": 7728,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pin",
+          "use": "instruction_zh",
+          "brief": "这是一枚扣好的别针。我们只看看图片，再听听这个词。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L06-meaning-nap-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "487067b81389a851ee48ef256436329e8a3c64191f8fb51df0d16f7ec3b0838a",
+      "extension": "mp3",
+      "durationMs": 10776,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-nap",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：小睡。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L06-meaning-pan-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "bc45bcee4cc88e7dab0a52537027b07b5c6f2434c6d860f2a04b1247e64efa33",
+      "extension": "mp3",
+      "durationMs": 7344,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pan",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：平底锅。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l06-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "f843edad46ed29a333da0867bc36dc733a9a0e681d7c107beeb426464a274294",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l06:page1",
+          "use": "reader_image",
+          "brief": "in; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l06-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "ceed5f44bd49d043b8a46bf220dd116a5091ee4abfa52a27ce9a122199ea3c71",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l06:page2",
+          "use": "reader_image",
+          "brief": "pin; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l06-image-3",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "412f49f9e9512f796b0c76d1496b40da860417b922f35cc6fef854d471950ac6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l06:page3",
+          "use": "reader_image",
+          "brief": "nap; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l06-image-4",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "c91e7e27b94ed6e968f891ffef12c2fac048e9215f0f2861a6d87c7d1f6529a8",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l06:page4",
+          "use": "reader_image",
+          "brief": "pan; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "L07-meaning-map-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "212302ac3f3809a40519c86fc68fdadf41f2cade12172803183c3ae1e69722da",
+      "extension": "mp3",
+      "durationMs": 7656,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-map",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：地图。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L07-meaning-mat-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "cb5eeecc98ee5f08731c39ac215b86bf4cef9bfc61b521a820b2d0275339244b",
+      "extension": "mp3",
+      "durationMs": 7248,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-mat",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：垫子。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L07-meaning-man-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "8e783838c509ac9941342470fb39e4e6345c966de08b2ba49cd76b187bb46d4c",
+      "extension": "mp3",
+      "durationMs": 6528,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-man",
+          "use": "instruction_zh",
+          "brief": "先听这个词的意思：成年男子。看看情境，一起说一说。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L07-oral-mat-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "645086a66adc33baabd52ca52834b61f1048168d3bdb799fdd2b830a6133feac",
+      "extension": "mp3",
+      "durationMs": 5904,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-oral-mat",
+          "use": "instruction_zh",
+          "brief": "试着自己读。读不出来也没关系，可以点“一起读”。"
+        },
+        {
+          "source": "L08-oral-tip",
+          "use": "instruction_zh",
+          "brief": "试着自己读。读不出来也没关系，可以点“一起读”。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "L07-capital-S-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "4b03a48a90cc4330964e4db36cb34a02fb07dfe5af986a9d5b0ef2e9b9cb2d9e",
+      "extension": "mp3",
+      "durationMs": 8448,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-capital-S",
+          "use": "instruction_zh",
+          "brief": "Sam 是人物的名字。开头的大写 S 和小写 s 在这里表示同一个声音。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l07-page-1",
+      "purpose": "passage",
+      "accent": "GB",
+      "sha256": "f099ad916d85bdbc0eb9261bf5f496d51f222144f8d602c3a90ecde1440c7f66",
+      "extension": "mp3",
+      "durationMs": 784,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "r-l07:page1",
+          "use": "passage",
+          "brief": "Sam sat."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l07-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l07:page1",
+          "use": "reader_image",
+          "brief": "Sam sat.; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l08-page-1",
+      "purpose": "passage",
+      "accent": "GB",
+      "sha256": "527beced5d3ac6dceac223cc1d2035f210fe126aa7e89803de6c42c6d6c7677d",
+      "extension": "mp3",
+      "durationMs": 862,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-read",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "r-l08:page1",
+          "use": "passage",
+          "brief": "Sam sat."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l08-image-1",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "0bf510061f8a81a93563a23676d7fc0000b07bd7618785fcd1a710781bbfff7c",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l08:page1",
+          "use": "reader_image",
+          "brief": "Sam sat.; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "r-l08-page-2",
+      "purpose": "passage",
+      "accent": "GB",
+      "sha256": "ac125863c9f38785aff73ce676a82d7a47d9c8e45e8c89806ec6b7abd33a8690",
+      "extension": "mp3",
+      "durationMs": 967,
+      "speakerId": "cori-gb-single-speaker",
+      "revision": 1,
+      "sourceLicense": "Piper cori model card reports a public-domain LibriVox dataset; listening and rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L08-read",
+          "use": "help_2",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "r-l08:page2",
+          "use": "passage",
+          "brief": "Sam sat in it."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "r-l08-image-2",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "0bf510061f8a81a93563a23676d7fc0000b07bd7618785fcd1a710781bbfff7c",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "r-l08:page2",
+          "use": "reader_image",
+          "brief": "Sam sat in it.; clear scene, no baked-in words, keep character/action consistent."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "entry-tap-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "37c90d603da3543a8d0f4c075d66f78a99a2b92b2c41cdc76d701b5ff3cebd69",
+      "extension": "mp3",
+      "durationMs": 6048,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "entry-tap",
+          "use": "instruction_zh",
+          "brief": "点一下喇叭听声音。想再听一次，可以再点一下。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "entry-sit-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "f6cb31e153dc1904d53a190c404bee24e4673a094d0cd42d99e62966de0d803e",
+      "extension": "mp3",
+      "durationMs": 7968,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "entry-sit",
+          "use": "instruction_zh",
+          "brief": "先听一个词，再和家长一起做坐下的动作。现在不用看字母。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "entry-tap-word-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "fe3a1b0ec8316a74c845ed835913ab3744a604104d32ba564784647b9df94d34",
+      "extension": "mp3",
+      "durationMs": 6216,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "entry-tap-word",
+          "use": "instruction_zh",
+          "brief": "听 tap，轻轻敲一下。现在不用认字。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "entry-oral-blend-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "a4671efe91e63c12b80e3d63f85fbd1740106a9bcf8e9b97c8af6bd93190124b",
+      "extension": "mp3",
+      "durationMs": 7008,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "entry-oral-blend",
+          "use": "instruction_zh",
+          "brief": "听声音怎样合在一起。你也可以一起说，暂时不用自己读。"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    },
+    {
+      "id": "w-at-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "42465a055e2264c89b28fc82b96e8d5d5c8eb7d8808a4f48e595a6376dce609c",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-at",
+          "use": "meaning_image",
+          "brief": "在某个位置"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-sat-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L02-meaning-sat",
+          "use": "meaning_image",
+          "brief": "坐下了"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-tap-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "ddec498129ba03b65bf31d0850600d76a91b59e354269240b970327ec3fc3a63",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-tap",
+          "use": "meaning_image",
+          "brief": "轻敲"
+        },
+        {
+          "source": "entry-tap-word",
+          "use": "meaning_image",
+          "brief": "轻敲"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-pat-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "00448303ed7b0f2fdc94380c4845ff9cc62d255ece511ee1005d5a55c79f0438",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L03-meaning-pat",
+          "use": "meaning_image",
+          "brief": "轻轻拍"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-it-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "82c1a44c1d9d30a20b039b98381edbac5f64fa738a79b73f53f7d1aef90a4296",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-it",
+          "use": "meaning_image",
+          "brief": "它"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-sit-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "1ee116a798fe9f202dde1d76351f3d8c3a619602db8af987a5b6a304206be9d6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sit",
+          "use": "meaning_image",
+          "brief": "坐下"
+        },
+        {
+          "source": "entry-sit",
+          "use": "meaning_image",
+          "brief": "坐下"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-sip-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "5c30b4b41f4fc5d641d074bad94f490463b56d4774b95a0b50087e59a96027b7",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-sip",
+          "use": "meaning_image",
+          "brief": "小口喝"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-tip-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "02e12bba3dda9d1a22d7b1e93fe2125c99b4cd885684b240d2959eb0b66c7b57",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L05-meaning-tip",
+          "use": "meaning_image",
+          "brief": "物体的尖端"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-in-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "f843edad46ed29a333da0867bc36dc733a9a0e681d7c107beeb426464a274294",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-in",
+          "use": "meaning_image",
+          "brief": "在里面"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-pin-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "ceed5f44bd49d043b8a46bf220dd116a5091ee4abfa52a27ce9a122199ea3c71",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pin",
+          "use": "meaning_image",
+          "brief": "扣好的别针"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-nap-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "412f49f9e9512f796b0c76d1496b40da860417b922f35cc6fef854d471950ac6",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-nap",
+          "use": "meaning_image",
+          "brief": "小睡"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-pan-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "c91e7e27b94ed6e968f891ffef12c2fac048e9215f0f2861a6d87c7d1f6529a8",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L06-meaning-pan",
+          "use": "meaning_image",
+          "brief": "平底锅"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-map-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "8642f5f72c2e82dd93a4af6ef77ba170b652d6ee0e314c06e2c5be6ccda249bb",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-map",
+          "use": "meaning_image",
+          "brief": "地图"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-mat-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "c0a7212be96e0b01cc4e4b87654ac9ea373a1da0f068607426043a3612527d1f",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-mat",
+          "use": "meaning_image",
+          "brief": "垫子"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "w-man-meaning-image",
+      "purpose": "image",
+      "accent": "GB",
+      "sha256": "72599bd7c46ad4a59c233aeff21939a58f993461ee0ed472e7a3d34f52f927cd",
+      "extension": "webp",
+      "durationMs": null,
+      "speakerId": null,
+      "revision": 1,
+      "sourceLicense": "Original TaoRead vector artwork; no third-party source artwork or fonts",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L07-meaning-man",
+          "use": "meaning_image",
+          "brief": "成年男子"
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "meaning and action unambiguous",
+        "age appropriate",
+        "rights/source documented",
+        "no generated English typography",
+        "no answer leak before independent attempt"
+      ]
+    },
+    {
+      "id": "shared-help-zh",
+      "purpose": "instruction_zh",
+      "accent": "zh",
+      "sha256": "8fdacf1d8640e35c1d0368f035218f2f9109962eb288a9d4131bb6b569275a2d",
+      "extension": "mp3",
+      "durationMs": 4848,
+      "speakerId": "phonics-zh-candidate-v1",
+      "revision": 1,
+      "sourceLicense": "Existing configured TaoRead TTS provider; rights review pending",
+      "reviewStatus": "pending",
+      "fixture": false,
+      "references": [
+        {
+          "source": "L01-model-s",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L01-hear-s",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L01-model-a",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L01-hear-a",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-hear-s-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-meaning-at",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-meaning-sat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-model-t",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-hear-t",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-blend-at",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L02-blend-sat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-hear-t-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-meaning-tap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-meaning-pat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-model-p",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-hear-p",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L03-blend-tap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-hear-s-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L04-hear-p-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-hear-a-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-meaning-it",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-meaning-sit",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-meaning-sip",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-meaning-tip",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-model-i",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-hear-i",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L05-blend-sit",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-hear-i-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-meaning-in",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-meaning-pin",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-meaning-nap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-meaning-pan",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-model-n",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-hear-n",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L06-blend-pin",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-hear-n-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-hear-p-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-meaning-map",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-meaning-mat",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-meaning-man",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-model-m",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-hear-m",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-blend-map",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L07-capital-S",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-hear-m-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "L08-hear-a-review",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-tap",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-sit",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-tap-word",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        },
+        {
+          "source": "entry-oral-blend",
+          "use": "help_1",
+          "brief": "Record separately; assistance remains recorded even when the child retries."
+        }
+      ],
+      "productionState": "produced_pending_review",
+      "reviewer": null,
+      "reviewedAt": null,
+      "acceptance": [
+        "correct purpose and GB/zh accent",
+        "no truncation clipping or intrusive noise",
+        "phoneme has no added vowel",
+        "natural blending/word prosody",
+        "duration and timeline checked by listening",
+        "speaker and rights recorded"
+      ]
+    }
+  ]
+}

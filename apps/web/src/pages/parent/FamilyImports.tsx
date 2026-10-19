@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, ApiError, type ImportedBookDto, type PhonicsSummaryDto, type ImportPreviewDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import type { ChildDto } from '../../lib/api'
+import { ParentPhonicsV2 } from './ParentPhonicsV2'
 
 const MAX_EPUB_SIZE = 32 * 1024 * 1024
 const MAX_OTHER_SIZE = 4 * 1024 * 1024
@@ -241,6 +242,10 @@ export function FamilyImports({ token }: { token: string }) {
 }
 
 export function ParentPhonics({ token, children }: { token: string; children: ChildDto[] }) {
+  return <><ParentPhonicsV2 token={token} children={children} /><details className="panel" style={{ marginTop: 16 }}><summary>旧版内测草稿设置</summary><LegacyParentPhonics token={token} children={children} /></details></>
+}
+
+function LegacyParentPhonics({ token, children }: { token: string; children: ChildDto[] }) {
   const [enabled, setEnabled] = useState<Record<string, boolean>>({})
   const [summaries, setSummaries] = useState<Record<string, PhonicsSummaryDto>>({})
   const [message, setMessage] = useState('')

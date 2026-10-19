@@ -1,0 +1,199 @@
+[
+  {
+    "id": "r-l02",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L02",
+    "pages": [
+      {
+        "text": "at",
+        "wordIds": [
+          "w-at"
+        ],
+        "audioAssetId": "w-at-word",
+        "imageAssetId": "r-l02-image-1"
+      },
+      {
+        "text": "sat",
+        "wordIds": [
+          "w-sat"
+        ],
+        "audioAssetId": "w-sat-word",
+        "imageAssetId": "r-l02-image-2"
+      }
+    ]
+  },
+  {
+    "id": "r-l03",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L03",
+    "pages": [
+      {
+        "text": "tap",
+        "wordIds": [
+          "w-tap"
+        ],
+        "audioAssetId": "w-tap-word",
+        "imageAssetId": "r-l03-image-1"
+      },
+      {
+        "text": "pat",
+        "wordIds": [
+          "w-pat"
+        ],
+        "audioAssetId": "w-pat-word",
+        "imageAssetId": "r-l03-image-2"
+      }
+    ]
+  },
+  {
+    "id": "r-l04",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L04",
+    "pages": [
+      {
+        "text": "sat",
+        "wordIds": [
+          "w-sat"
+        ],
+        "audioAssetId": "w-sat-word",
+        "imageAssetId": "r-l04-image-1"
+      },
+      {
+        "text": "tap",
+        "wordIds": [
+          "w-tap"
+        ],
+        "audioAssetId": "w-tap-word",
+        "imageAssetId": "r-l04-image-2"
+      },
+      {
+        "text": "pat",
+        "wordIds": [
+          "w-pat"
+        ],
+        "audioAssetId": "w-pat-word",
+        "imageAssetId": "r-l04-image-3"
+      }
+    ]
+  },
+  {
+    "id": "r-l05",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L05",
+    "pages": [
+      {
+        "text": "it",
+        "wordIds": [
+          "w-it"
+        ],
+        "audioAssetId": "w-it-word",
+        "imageAssetId": "r-l05-image-1"
+      },
+      {
+        "text": "sit",
+        "wordIds": [
+          "w-sit"
+        ],
+        "audioAssetId": "w-sit-word",
+        "imageAssetId": "r-l05-image-2"
+      },
+      {
+        "text": "sip",
+        "wordIds": [
+          "w-sip"
+        ],
+        "audioAssetId": "w-sip-word",
+        "imageAssetId": "r-l05-image-3"
+      }
+    ]
+  },
+  {
+    "id": "r-l06",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L06",
+    "pages": [
+      {
+        "text": "in",
+        "wordIds": [
+          "w-in"
+        ],
+        "audioAssetId": "w-in-word",
+        "imageAssetId": "r-l06-image-1"
+      },
+      {
+        "text": "pin",
+        "wordIds": [
+          "w-pin"
+        ],
+        "audioAssetId": "w-pin-word",
+        "imageAssetId": "r-l06-image-2"
+      },
+      {
+        "text": "nap",
+        "wordIds": [
+          "w-nap"
+        ],
+        "audioAssetId": "w-nap-word",
+        "imageAssetId": "r-l06-image-3"
+      },
+      {
+        "text": "pan",
+        "wordIds": [
+          "w-pan"
+        ],
+        "audioAssetId": "w-pan-word",
+        "imageAssetId": "r-l06-image-4"
+      }
+    ]
+  },
+  {
+    "id": "r-l07",
+    "kind": "caption",
+    "titleZh": "萨姆的小片段",
+    "introducedAt": "L07",
+    "pages": [
+      {
+        "text": "Sam sat.",
+        "wordIds": [
+          "w-sam",
+          "w-sat"
+        ],
+        "audioAssetId": "r-l07-page-1",
+        "imageAssetId": "r-l07-image-1"
+      }
+    ]
+  },
+  {
+    "id": "r-l08",
+    "kind": "caption",
+    "titleZh": "萨姆的小片段",
+    "introducedAt": "L08",
+    "pages": [
+      {
+        "text": "Sam sat.",
+        "wordIds": [
+          "w-sam",
+          "w-sat"
+        ],
+        "audioAssetId": "r-l08-page-1",
+        "imageAssetId": "r-l08-image-1"
+      },
+      {
+        "text": "Sam sat in it.",
+        "wordIds": [
+          "w-sam",
+          "w-sat",
+          "w-in",
+          "w-it"
+        ],
+        "audioAssetId": "r-l08-page-2",
+        "imageAssetId": "r-l08-image-2"
+      }
+    ]
+  }
+]
