@@ -51,7 +51,8 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['workers/public-audio/src/**/*.mjs'],
+    // Cloudflare Workers use the platform's Web APIs in both JS and MJS sources.
+    files: ['workers/public-audio/src/**/*.mjs', 'workers/dist-origin/src/**/*.js', 'workers/dist-proxy/src/**/*.js'],
     languageOptions: { globals: {
       caches: 'readonly', fetch: 'readonly', URL: 'readonly', Request: 'readonly', Response: 'readonly', Headers: 'readonly',
       TextEncoder: 'readonly', crypto: 'readonly', TransformStream: 'readonly',
