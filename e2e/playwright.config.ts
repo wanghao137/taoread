@@ -36,6 +36,9 @@ export const E2E_DB_FILE = `file:./e2e-run-${process.pid}-${Date.now()}.db`
 export default defineConfig({
   testDir: here,
   testMatch: '**/*.spec.ts',
+  // These tests require their own reviewed synthetic course and isolated media server.
+  // CI runs them separately with phonics.config.ts after a production web build.
+  testIgnore: '**/phonics-v2.spec.ts',
   timeout: 180_000,
   expect: { timeout: 15_000 },
   fullyParallel: false,
