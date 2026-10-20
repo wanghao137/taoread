@@ -70,15 +70,29 @@ console.log(`📖 ${book.title}（${book.id}，家庭 ${familyId}）——场景
 for (const s of scenes) {
   const existing = await p.artAsset.findUnique({ where: { scene: s.scene }, select: { id: true } })
   if (existing && !regenerate) { skip += 1; continue }
+  // 网关/网络抖动容错：每场景最多 3 次（5s/15s 退避）
+  let art = null
+  let lastErr = null
+  for (let attempt = 1; attempt <= 3 && !art; attempt++) {
+    if (attempt > 1) await new Promise((r) => setTimeout(r, attempt === 2 ? 5000 : 15000))
+    try {
+      art = await gen.generate({ kind: s.kind, scene: s.scene, description: s.description, label: s.label, lang: s.lang })
+    } catch (err) {
+      lastErr = err
+    }
+  }
+  if (!art) {
+    fail += 1
+    console.log(`  ✗  ${s.scene}（${lastErr ? String(lastErr.message ?? lastErr).slice(0, 80) : '生成失败'}）`)
+    continue
+  }
   try {
-    const art = await gen.generate({ kind: s.kind, scene: s.scene, description: s.description, label: s.label, lang: s.lang })
-    if (!art) { fail += 1; console.log(`  ✗  ${s.scene}（生成失败）`); continue }
     await p.artAsset.upsert({ where: { scene: s.scene }, create: { scene: s.scene, kind: s.kind, urlPath: art.urlPath, width: art.width, height: art.height, bytes: art.bytes, prompt: art.prompt, model: art.model }, update: {} })
     ok += 1
     if (ok % 10 === 0) console.log(`  进度：成功 ${ok} / 失败 ${fail}（${Math.round((Date.now() - t0) / 60000)} 分钟）`)
   } catch (err) {
     fail += 1
-    console.log(`  ✗  ${s.scene}（${String(err.message ?? err).slice(0, 80)}）`)
+    console.log(`  ✗  ${s.scene}（入库 ${String(err.message ?? err).slice(0, 80)}）`)
   }
 }
 console.log(`完成：成功 ${ok}，跳过 ${skip}，失败 ${fail}，耗时 ${Math.round((Date.now() - t0) / 60000)} 分钟`)
