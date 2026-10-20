@@ -132,6 +132,17 @@ describe('结构化 EPUB 提取', () => {
     expect(result.chapters[1]!.text).toContain('雪孩子')
   })
 
+  it('章长超限自动分册：每册留出改写余量后仍不超 100k', async () => {
+    // 段落带序号避免高压缩比触发 zip 炸弹守卫（真实长文重复率远低于 100:1）
+    const para = (i: number) => `第${i}段，小老虎问妈妈，山那边是什么呀，妈妈说山那边还是山，可是小老虎不信，它决定亲自去看看再回来。`
+    const huge = Array.from({ length: 3000 }, (_, i) => `<p>${para(i)}</p>`).join('')
+    const epub = buildEpub({ withNcx: true, chapters: [{ title: '很长很长的一篇', href: 'c1.xhtml', html: huge }] })
+    const result = await extractEpubStructured('book.epub', epub)
+    expect(result.chapters.length).toBeGreaterThan(1)
+    for (const chapter of result.chapters) expect(chapter.text.length).toBeLessThanOrEqual(100_000)
+    expect(result.chapters[0]!.title).toContain('很长很长的一篇')
+  })
+
   it('守卫保留：伪造文件、超限、炸弹', async () => {
     await expect(extractBook('a.pdf', Buffer.from('not pdf'))).rejects.toThrow()
     const fake = Buffer.concat([Buffer.from('PK\x03\x04'), Buffer.alloc(MAX_EPUB_BYTES - 3, 0x41)])

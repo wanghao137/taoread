@@ -336,18 +336,19 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
         continue
       }
       if (!entry) {
-        if (last) mergeIntoLast()
-        else pushChapter('第 1 节', text)
-        continue
+        if (last) { mergeIntoLast(); continue }
       }
-      const title = entry.section ? `${entry.section} · ${entry.title}` : entry.title
-      // 章长超限：按段落边界自动分册，不硬拒；只有一册时不加序号
+      const title = entry ? (entry.section ? `${entry.section} · ${entry.title}` : entry.title) : '第 1 节'
+      // 章长超限：按段落边界自动分册，不硬拒；只有一册时不加序号。
+      // 分册目标留 10% 余量：路由/脚本入库前会把 [[img:短src]] 改写成 img-v1-NNN.webp（标记变长），
+      // 顶格切满会二次断言「章节过长」——没头脑和不高兴实测踩坑
+      const SPLIT_TARGET = MAX_STRUCTURED_CHAPTER_CHARS - MAX_STRUCTURED_CHAPTER_CHARS / 10
       if (text.length > MAX_STRUCTURED_CHAPTER_CHARS) {
         const paragraphs = text.split('\n\n')
         const groups: string[][] = [[]]
         let filled = 0
         for (const paragraph of paragraphs) {
-          if (filled > 0 && filled + paragraph.length + 2 > MAX_STRUCTURED_CHAPTER_CHARS) {
+          if (filled > 0 && filled + paragraph.length + 2 > SPLIT_TARGET) {
             groups.push([])
             filled = 0
           }
