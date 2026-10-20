@@ -15,7 +15,8 @@ const MAX_BYTES = 4 * 1024 * 1024
 const MAX_CHAPTERS = 800
 const MAX_CHAPTER_CHARS = 100_000
 const MAX_PDF_BYTES = 4 * 1024 * 1024
-const MAX_EPUB_BYTES = 32 * 1024 * 1024
+// 与 extractBook 的 MAX_EPUB_BYTES 保持一致（家庭扫描版绘本 EPUB 可达 179MB+）
+const MAX_EPUB_BYTES = 256 * 1024 * 1024
 const MAX_EPUB_B64_CHARS = Math.ceil(MAX_EPUB_BYTES / 3) * 4
 // EPUB 解出的纯文本上限（图片不占体积、文本比原文件小，8 MB 足够容纳 32 MB 图文混排书）
 const MAX_EXTRACTED_BYTES = 8 * 1024 * 1024
@@ -71,7 +72,7 @@ const importSchema = z.object({
 // TTL 2 小时（慢链路整本要 30 分钟上下，30min 会话会被中途清掉）。
 export const IMPORT_CHUNK_SIZE = 256 * 1024
 const CHUNK_SIZE = IMPORT_CHUNK_SIZE
-const MAX_CHUNKS = 160
+const MAX_CHUNKS = 1000
 const CHUNK_SESSION_TTL_MS = 2 * 60 * 60 * 1000
 interface ImportMeta { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string }
 interface ChunkSession {
@@ -104,8 +105,9 @@ function deriveBookId(familyId: string, sha256: string): string {
 // ── 导入书私有媒体（插图/封面/原文）：磁盘 fam-import/<bookId>/ 下，
 // 经 /api/media/* 票据访问；R2 同步已排除 fam- 前缀，不会出网。
 const IMPORT_MEDIA_DIR = 'fam-import'
-const IMPORT_IMAGE_BUDGET_BYTES = 24 * 1024 * 1024
-const IMPORT_MAX_IMAGES = 300
+// 存储预算按 800w webp 计：扫描版绘本 400+ 页 × 50-90KB ≈ 20-36MB，再留图库类大书余量
+const IMPORT_IMAGE_BUDGET_BYTES = 128 * 1024 * 1024
+const IMPORT_MAX_IMAGES = 1000
 
 function assertChaptersWithinCaps(chapters: Array<{ title: string; text: string }>): void {
   if (chapters.length > MAX_CHAPTERS) throw new ValidationError(`章节超过 ${MAX_CHAPTERS} 章`)
@@ -318,7 +320,7 @@ function importMediaDirFor(bookId: string): string {
     if (Boolean(input.text) === Boolean(input.fileBase64)) throw new ValidationError('仅允许一种文件内容')
     if (input.text && !/\.txt$/i.test(input.sourceName)) throw new ValidationError('TXT 文件名不匹配')
     if (input.fileBase64 && !/\.(?:pdf|epub)$/i.test(input.sourceName)) throw new ValidationError('电子书文件名不匹配')
-    if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES) / 3) * 4) throw new ValidationError(input.sourceName.toLowerCase().endsWith('.pdf') ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
+    if (input.fileBase64 && input.fileBase64.length > Math.ceil((/\.pdf$/i.test(input.sourceName) ? MAX_PDF_BYTES : MAX_EPUB_BYTES) / 3) * 4) throw new ValidationError(input.sourceName.toLowerCase().endsWith('.pdf') ? 'PDF 超过 4 MB' : `EPUB 超过 ${Math.round(MAX_EPUB_BYTES / (1024 * 1024))} MB`)
     const binary = input.fileBase64 ? Buffer.from(input.fileBase64, 'base64') : null
     if (binary && binary.toString('base64') !== input.fileBase64) throw new ValidationError('文件编码错误')
     const result = binary
@@ -335,7 +337,7 @@ function importMediaDirFor(bookId: string): string {
     if (!parsed.success) throw new ValidationError('请填写书名、年龄段并确认家庭阅读使用权')
     const meta = parsed.data
     const isPdf = /\.pdf$/i.test(meta.sourceName)
-    if (meta.totalBytes > (isPdf ? MAX_PDF_BYTES : MAX_EPUB_BYTES)) throw new ValidationError(isPdf ? 'PDF 超过 4 MB' : 'EPUB 超过 32 MB')
+    if (meta.totalBytes > (isPdf ? MAX_PDF_BYTES : MAX_EPUB_BYTES)) throw new ValidationError(isPdf ? 'PDF 超过 4 MB' : `EPUB 超过 ${Math.round(MAX_EPUB_BYTES / (1024 * 1024))} MB`)
     if (meta.totalChunks !== Math.ceil(meta.totalBytes / CHUNK_SIZE)) throw new ValidationError('分块参数不正确')
     // 每家庭最多 2 个进行中会话，超出腾最旧
     const mine: Array<{ id: string; createdAt: number }> = []

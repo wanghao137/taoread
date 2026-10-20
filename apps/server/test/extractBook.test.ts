@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { randomBytes } from 'node:crypto'
 import AdmZip from 'adm-zip'
-import { extractBook, extractEpubStructured } from '../src/content/extractBook'
+import { extractBook, extractEpubStructured, MAX_EPUB_BYTES } from '../src/content/extractBook'
 
 // 近空页剔除阈值 50 字：夹具正文必须明显长于它
 const LONG_TEXT = '这只小猫在花园里追蝴蝶，追了一整个下午，最后累得在向日葵底下睡着了，梦里全是花的香味。它醒来又去追蜻蜓，一直追到月亮出来才回家。'
@@ -11,6 +11,8 @@ interface EpubOptions {
   images?: Record<string, Buffer>
   coverId?: string
   withNcx?: boolean
+  /** 书商输出 <spine toc = "ncx">（等号带空格）的回归开关（猜猜我有多爱你/二十四节气实测） */
+  spacedSpineToc?: boolean
 }
 
 function buildEpub(options: EpubOptions): Buffer {
@@ -21,7 +23,7 @@ function buildEpub(options: EpubOptions): Buffer {
   for (const [path, buffer] of Object.entries(options.images ?? {})) zip.addFile(`OEBPS/${path}`, buffer)
   const chapterItems = (options.chapters ?? []).map((chapter, index) => `<item id="ch${index}" href="${chapter.href}" media-type="application/xhtml+xml"/>`).join('')
   const spine = (options.chapters ?? []).map((_, index) => `<itemref idref="ch${index}"/>`).join('')
-  zip.addFile('OEBPS/content.opf', Buffer.from(`<package><meta name="cover" content="${options.coverId ?? ''}"/><manifest>${chapterItems}${imageItems}${options.withNcx ? '<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>' : ''}</manifest><spine${options.withNcx ? ' toc="ncx"' : ''}>${spine}</spine></package>`))
+  zip.addFile('OEBPS/content.opf', Buffer.from(`<package><meta name="cover" content="${options.coverId ?? ''}"/><manifest>${chapterItems}${imageItems}${options.withNcx ? '<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>' : ''}</manifest><spine${options.withNcx ? (options.spacedSpineToc ? ' toc = "ncx"' : ' toc="ncx"') : ''}>${spine}</spine></package>`))
   for (const [, chapter] of (options.chapters ?? []).entries()) {
     zip.addFile(`OEBPS/${chapter.href}`, Buffer.from(`<html><head><title>t</title></head><body>${chapter.html}</body></html>`))
   }
@@ -33,6 +35,21 @@ function buildEpub(options: EpubOptions): Buffer {
 }
 
 describe('结构化 EPUB 提取', () => {
+  it('spine toc 属性等号带空格时 NCX 目录仍然生效', async () => {
+    const epub = buildEpub({
+      withNcx: true,
+      spacedSpineToc: true,
+      chapters: [
+        { title: '春天的节气', href: 'c1.xhtml', html: `<p>${LONG_TEXT}</p>` },
+        { title: '秋天的节气', href: 'c2.xhtml', html: `<p>${LONG_TEXT}再补一句。</p>` },
+      ],
+    })
+    const result = await extractEpubStructured('book.epub', epub)
+    expect(result.chapters).toHaveLength(2)
+    expect(result.chapters[0]!.title).toBe('春天的节气')
+    expect(result.chapters[1]!.title).toBe('秋天的节气')
+  })
+
   it('目录章题 + 两级结构 + 分段 + 插图标记', async () => {
     const image = randomBytes(64 * 1024)
     const epub = buildEpub({
@@ -117,8 +134,8 @@ describe('结构化 EPUB 提取', () => {
 
   it('守卫保留：伪造文件、超限、炸弹', async () => {
     await expect(extractBook('a.pdf', Buffer.from('not pdf'))).rejects.toThrow()
-    const fake = Buffer.concat([Buffer.from('PK\x03\x04'), randomBytes(33 * 1024 * 1024)])
-    await expect(extractEpubStructured('a.epub', fake)).rejects.toThrow('32 MB')
+    const fake = Buffer.concat([Buffer.from('PK\x03\x04'), Buffer.alloc(MAX_EPUB_BYTES - 3, 0x41)])
+    await expect(extractEpubStructured('a.epub', fake)).rejects.toThrow('256 MB')
     // 压缩比炸弹：64KB 以上条目压缩比超 100 倍拒绝
     const zip = new AdmZip()
     zip.addFile('mimetype', Buffer.from('application/epub+zip'))

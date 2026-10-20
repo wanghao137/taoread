@@ -3,7 +3,9 @@ import AdmZip from 'adm-zip'
 import { ValidationError } from '../lib/errors'
 const require = createRequire(import.meta.url)
 const pdfParse = require('pdf-parse/lib/pdf-parse.js') as (input: Buffer, options?: object) => Promise<{ text: string; numpages: number }>
-const MAX_EPUB_BYTES = 32 * 1024 * 1024
+// 256MB：家庭扫描版绘本 EPUB 实测可达 179MB（24 张整页扫描图共 172MB）；
+// 解压侧守卫（条目数/压缩比/文本解码/图片聚合预算）仍然生效，入口放宽不放大炸弹伤害
+export const MAX_EPUB_BYTES = 256 * 1024 * 1024
 const MAX_TEXT_ENTRY = 16 * 1024 * 1024
 const MAX_TEXT_TOTAL = 32 * 1024 * 1024
 const MAX_PAGES = 100
@@ -15,7 +17,7 @@ const MAX_PDF_INPUT = 4 * 1024 * 1024
 // 章长超限不再硬拒（对读者来说一刀切报错不如自动分册），按段落边界切成（一）（二）。
 export const MAX_STRUCTURED_CHAPTERS = 800
 export const MAX_STRUCTURED_CHAPTER_CHARS = 100_000
-export const MAX_STRUCTURED_IMAGES = 300
+export const MAX_STRUCTURED_IMAGES = 1000
 const MIN_CHAPTER_CHARS = 50
 
 /** 实体解码：命名（常用集合）+ 十进制/十六进制数字。逐字面替换，不引入 DOM。 */
@@ -135,7 +137,7 @@ function decodeUriSafe(raw: string): string {
 
 /** 封面可能来自未被正文引用的图片：单独读取，带大小守卫。 */
 function readCoverEntry(entry: { header: { size: number }; getData: () => Buffer } | undefined): Buffer | null {
-  if (!entry || entry.header.size > 12 * 1024 * 1024) return null
+  if (!entry || entry.header.size > 32 * 1024 * 1024) return null
   try { return entry.getData() } catch { return null }
 }
 
@@ -154,13 +156,13 @@ function joinPath(baseDir: string, relative: string): string {
 export async function extractEpubStructured(fileName: string, data: Buffer): Promise<StructuredEpub> {
   if (data.length === 0) throw new ValidationError('电子书为空')
   if (!/\.epub$/i.test(fileName) || data.subarray(0, 2).toString() !== 'PK') throw new ValidationError('请选择有效 EPUB')
-  if (data.length > MAX_EPUB_BYTES) throw new ValidationError('EPUB 超过 32 MB')
+  if (data.length > MAX_EPUB_BYTES) throw new ValidationError(`EPUB 超过 ${Math.round(MAX_EPUB_BYTES / (1024 * 1024))} MB`)
   try {
     const zip = new AdmZip(data)
     const entries = zip.getEntries()
     // 入口数与压缩比守卫（只读 header，不解压）：拦条目泛滥与 zip 炸弹。
     // 大图片条目合法且从不解码，不计入文本上限；文本上限在真正解码处按需把守。
-    if (entries.length > 500 || entries.some((entry) => entry.header.size > 64 * 1024 && entry.header.size / Math.max(1, entry.header.compressedSize) > MAX_RATIO)) throw new ValidationError('EPUB 解压内容过大')
+    if (entries.length > 2000 || entries.some((entry) => entry.header.size > 64 * 1024 && entry.header.size / Math.max(1, entry.header.compressedSize) > MAX_RATIO)) throw new ValidationError('EPUB 解压内容过大')
     const byName = new Map(entries.map((entry) => [entry.entryName, entry] as const))
     let decodedTotal = 0
     const readText = (name: string): string => {
@@ -207,7 +209,7 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
 
     // 封面：OPF meta cover → id 带 cover 的图片项 → 兜底 null
     let coverPath: string | null = null
-    const coverMetaId = opf.match(/<meta\b[^>]*name=["']cover["'][^>]*content=["']([^"']+)["']/i)?.[1] ?? opf.match(/<meta\b[^>]*content=["']([^"']+)["'][^>]*name=["']cover["']/i)?.[1]
+    const coverMetaId = opf.match(/<meta\b[^>]*name\s*=\s*["']cover["'][^>]*content\s*=\s*["']([^"']+)["']/i)?.[1] ?? opf.match(/<meta\b[^>]*content\s*=\s*["']([^"']+)["'][^>]*name\s*=\s*["']cover["']/i)?.[1]
     if (coverMetaId && manifest.get(coverMetaId)?.href) coverPath = resolveManifest(manifest.get(coverMetaId)!.href)
     if (!coverPath) {
       for (const [, item] of manifest) {
@@ -218,7 +220,8 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
     // 目录：NCX 优先（层级规范），EPUB3 nav 兜底
     const tocItem = [...manifest.values()].find((item) => item.properties.split(/\s+/).includes('nav') && item.href)
     let toc: TocEntry[] = []
-    const ncxId = opf.match(/<spine\b[^>]*toc=["']([^"']+)["']/i)?.[1]
+    // toc 属性两侧空格兼容：部分书商输出 <spine toc = "ncx">（猜猜我有多爱你/二十四节气实测）
+    const ncxId = opf.match(/<spine\b[^>]*toc\s*=\s*["']([^"']+)["']/i)?.[1]
     const ncxItem = ncxId ? manifest.get(ncxId) : undefined
     if (ncxItem?.href) toc = parseNcxToc(readText(resolveManifest(ncxItem.href)))
     if (toc.length === 0 && tocItem?.href) toc = parseNavToc(readText(resolveManifest(tocItem.href)))
@@ -364,14 +367,15 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
     if (chapters.length > MAX_STRUCTURED_CHAPTERS) throw new ValidationError(`章节超过 ${MAX_STRUCTURED_CHAPTERS} 章`)
 
     // 未被引用的图片不参与存储（省空间）；标记指向被剔除图片的清空。
-    // 聚合预算：对抗输入可把 32MB 包塞满 12MB×300 的高压缩比条目，解码聚合必须自封顶
+    // 聚合预算：对抗输入可把包塞满 32MB×800 的高压缩比条目，解码聚合必须自封顶
+    // （192MB 覆盖扫描版绘本：403 页整页扫描 ≈ 172MB 是合法上限样本）
     const images = new Map<string, Buffer>()
     let imageBytes = 0
     for (const path of referenced) {
       if (images.size >= MAX_STRUCTURED_IMAGES) break
       const entry = byName.get(path)
-      if (!entry || entry.header.size > 12 * 1024 * 1024) continue
-      if (imageBytes + entry.header.size > 64 * 1024 * 1024) break
+      if (!entry || entry.header.size > 32 * 1024 * 1024) continue
+      if (imageBytes + entry.header.size > 192 * 1024 * 1024) break
       try {
         const buffer = entry.getData()
         imageBytes += buffer.length
