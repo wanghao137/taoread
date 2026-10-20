@@ -3,7 +3,7 @@ import path from 'node:path'
 import { parseArgs } from 'node:util'
 import { z } from 'zod'
 import { createDb } from '../src/lib/db'
-import { candidateDirectory, courseHash, loadCourse, validateCourse } from '../src/modules/phonics/v2/courseRegistry'
+import { candidateDirectory, courseHash, loadCourse, selfUseReady, validateCourse } from '../src/modules/phonics/v2/courseRegistry'
 import { validateReleaseAcceptance } from '../src/modules/phonics/v2/releasePolicy'
 
 const { values, positionals } = parseArgs({ allowPositionals: true, options: {
@@ -11,7 +11,7 @@ const { values, positionals } = parseArgs({ allowPositionals: true, options: {
   'media-root': { type: 'string' }, 'expect-hash': { type: 'string' }, acceptance: { type: 'string' },
 } })
 const action = positionals[0] ?? 'inspect'
-if (!['inspect', 'publish-pilot', 'publish', 'withdraw', 'set-default'].includes(action) || values.version !== 'taoread-phonics-gb-v1') throw new Error('Unsupported action or uninstalled version')
+if (!['inspect', 'open-self-use', 'publish-pilot', 'publish', 'withdraw', 'set-default'].includes(action) || values.version !== 'taoread-phonics-gb-v1') throw new Error('Unsupported action or uninstalled version')
 // An explicit path prevents this tool silently selecting a production .env database.
 const database = values.database
 if (database && !database.startsWith('file:')) throw new Error('An explicit SQLite file URL is required')
@@ -27,8 +27,11 @@ try {
   } else {
     const expectedHash = action === 'withdraw' ? release?.contentHash : contentHash
     if (!db || !expectedHash || values['expect-hash'] !== expectedHash) throw new Error('Mutations require --database and a matching --expect-hash')
-    if (action !== 'withdraw' && !report.releaseReady) throw new Error('Content release validation has blockers; no release state changed')
-    if (action === 'publish' || action === 'publish-pilot') {
+    if (action === 'open-self-use' ? !selfUseReady(report) : action !== 'withdraw' && !report.releaseReady) throw new Error('Content validation has blockers; no release state changed')
+    if (action === 'open-self-use') {
+      if (release && (release.contentHash !== contentHash || !['self_use', 'withdrawn'].includes(release.status))) throw new Error('Cannot replace another release with self-use')
+      await db.phonicsCourseRelease.upsert({ where: { versionId: values.version }, create: { versionId: values.version!, courseId: course.manifest.courseId, accent: course.manifest.accent, contentHash, status: 'self_use' }, update: { status: 'self_use', publishedAt: null, withdrawnAt: null, defaultForCourse: null } })
+    } else if (action === 'publish' || action === 'publish-pilot') {
       if (!values.acceptance) throw new Error('Publication requires a hash-bound acceptance receipt')
       const stage = action === 'publish-pilot' ? 'pilot' : 'published'
       await validateReleaseAcceptance(values.acceptance, values.version!, contentHash, stage)

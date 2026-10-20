@@ -61,6 +61,7 @@ beforeAll(async () => {
 })
 beforeEach(async () => {
   rolloutOptions.rollout = 'all'; rolloutOptions.pilotFamilyIds = []
+  rolloutOptions.selfUseFamilyId = ''; rolloutOptions.selfUseHash = ''
   await h.db.phonicsAttempt.deleteMany({ where: { childId } })
   await h.db.phonicsEnrollment.deleteMany({ where: { childId } })
   await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'published' } })
@@ -75,6 +76,24 @@ afterAll(async () => {
 })
 
 describe('phonics v2 persistence and authorization', () => {
+  it('isolates self-use catalog, enrollment, learning and signed media and revokes immediately', async () => {
+    const row = await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'self_use' } })
+    rolloutOptions.rollout = 'off'
+    rolloutOptions.selfUseFamilyId = parent.familyId; rolloutOptions.selfUseHash = row.contentHash
+    expect((await call('GET', `${base}/catalog`, parent.token)).json().versions[0].selfUse).toBe(true)
+    expect((await call('GET', `${base}/catalog`, other.token)).json().versions).toHaveLength(0)
+    expect((await call('GET', `${base}/lessons/${versionId}/L07`, other.token)).statusCode).toBe(409)
+    await enroll()
+    const { attempt } = await start()
+    const media = attempt.assets[0]!.url!
+    expect((await call('GET', media, childToken)).statusCode).toBe(200)
+    // A signed URL from the owner cannot authorize another household's bearer token.
+    expect((await call('GET', media.split('?')[0]!, other.token)).statusCode).toBe(409)
+    const advanced = await send(attempt, 'step_ack')
+    rolloutOptions.selfUseFamilyId = ''
+    expect((await call('GET', media, childToken)).statusCode).toBe(409)
+    expect((await call('POST', `${base}/attempts/${attempt.id}/events`, childToken, { clientEventId: randomUUID(), expectedRevision: advanced.attempt.revision, taskInstanceId: advanced.attempt.state.taskInstanceId, kind: 'step_advanced', payload: {} })).statusCode).toBe(409)
+  })
   it('supports pilot enrollment, learning and media only for the selected families', async () => {
     await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'pilot' } })
     rolloutOptions.rollout = 'pilot'; rolloutOptions.pilotFamilyIds = [parent.familyId]

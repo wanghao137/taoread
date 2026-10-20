@@ -243,7 +243,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
   const phonicsRuntime = new PhonicsRuntime(options.db, options.phonicsV2 ?? {}, mediaDir)
-  await phonicsRuntime.install(options.phonicsV2?.courses ?? (options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off' ? [await loadCourse(candidateDirectory)] : []))
+  await phonicsRuntime.install(options.phonicsV2?.courses ?? ((options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off') || (options.phonicsV2?.selfUseFamilyId && options.phonicsV2.selfUseHash) ? [await loadCourse(candidateDirectory)] : []))
   registerPhonicsV2Routes(app, { db: options.db, tokenSecret: options.tokenSecret, runtime: phonicsRuntime })
   registerImprovementRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
   registerCspReports(app)

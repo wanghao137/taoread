@@ -13,6 +13,8 @@ const schema = z
     TAO_ALLOWED_ORIGIN: z.string().default('*'),
     TAO_DATABASE_URL: z.string().min(1, 'TAO_DATABASE_URL 不能为空'),
     TAO_PHONICS_ROLLOUT: z.enum(['off', 'pilot', 'all']).default('off'),
+    TAO_PHONICS_SELF_USE_FAMILY: z.string().regex(/^([a-zA-Z0-9_-]{1,96})?$/).default(''),
+    TAO_PHONICS_SELF_USE_HASH: z.string().regex(/^([a-f0-9]{64})?$/).default(''),
     TAO_PHONICS_PILOT_FAMILIES: z.string().default('').transform(s => s.split(',').map(x => x.trim()).filter(Boolean)).refine(ids => ids.every(id => /^[a-zA-Z0-9_-]{1,96}$/.test(id)), 'Invalid phonics pilot family ID'),
     // 阅读时间限制已于 2026-09-25 取消：TAO_BEDTIME 配置项随之移除（环境变量残留不再校验，
     // 忽略即可）。/api/ritual/window 端点保留、恒返回 open。
@@ -52,6 +54,9 @@ const schema = z
     TAO_STATIC_DIR: z.string().min(1).optional(),
   })
   .superRefine((cfg, ctx) => {
+    if (Boolean(cfg.TAO_PHONICS_SELF_USE_FAMILY) !== Boolean(cfg.TAO_PHONICS_SELF_USE_HASH)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Private phonics requires both household and content hash' })
+    }
     if (cfg.NODE_ENV === 'prod' && parseAllowedOrigins(cfg.TAO_ALLOWED_ORIGIN) === true) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

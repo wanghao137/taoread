@@ -25,6 +25,7 @@ export function registerPhonicsV2Routes(app: FastifyInstance, deps: { db: Prisma
     const versions = []
     for (const course of runtime.courses.values()) if (await runtime.available(claims(request).fid, course.manifest.versionId)) versions.push({
       courseId: course.manifest.courseId, versionId: course.manifest.versionId, accent: course.manifest.accent,
+      selfUse: runtime.selfUse(claims(request).fid, course.manifest.contentHash ?? ''),
       lessons: course.lessons.map(l => ({ id: l.id, order: l.order, titleZh: l.titleZh, newMappingIds: l.newMappingIds })),
     })
     return { versions }

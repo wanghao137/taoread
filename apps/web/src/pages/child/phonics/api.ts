@@ -4,7 +4,7 @@ import { request } from '../../../lib/api'
 const root = '/api/phonics/v2'
 const childPath = (id: string) => `${root}/children/${encodeURIComponent(id)}`
 const attemptPath = (id: string) => `${root}/attempts/${encodeURIComponent(id)}`
-export interface PhonicsCatalog { versions: Array<{ versionId: string; accent: string; lessons: Array<{ id: string; order: number; titleZh: string }> }> }
+export interface PhonicsCatalog { versions: Array<{ versionId: string; accent: string; selfUse?: boolean; lessons: Array<{ id: string; order: number; titleZh: string }> }> }
 export interface PhonicsSummary {
   totalAttempts: number; completedAttempts: number; pausedAttempts: number; cancelledAttempts: number; v1Starts: number
   completedLessonKeys: Array<{ versionId: string; lessonKey: string }>

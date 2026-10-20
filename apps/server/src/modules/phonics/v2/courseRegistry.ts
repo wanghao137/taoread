@@ -56,6 +56,13 @@ export interface ContentValidation {
   issues: ContentIssue[]
 }
 
+/** Private inspection permits outstanding human reviews, never invalid or missing content. */
+export function selfUseReady(report: ContentValidation): boolean {
+  const pendingReviews = new Set(['NOT_REVIEWED', 'TEACHING_REVIEW', 'ASSET_PENDING', 'RIGHTS_REVIEW', 'SPEECH_REVIEW'])
+  return report.complete && report.counts.assets > 0 && report.counts.verifiedAssets === report.counts.assets
+    && report.issues.every(issue => pendingReviews.has(issue.code))
+}
+
 export async function validateCourse(input: unknown, options: { mode: 'development' | 'release'; mediaRoot?: string }): Promise<ContentValidation> {
   const report: ContentValidation = {
     complete: true, ok: false, releaseReady: false, mode: options.mode, versionId: null, contentHash: null,

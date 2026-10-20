@@ -8,6 +8,13 @@ const BASE = {
 }
 
 describe('loadConfig', () => {
+  it('requires a valid household and exact content hash together for private phonics', () => {
+    expect(loadConfig(BASE).TAO_PHONICS_SELF_USE_FAMILY).toBe('')
+    expect(() => loadConfig({ ...BASE, TAO_PHONICS_SELF_USE_FAMILY: 'owner' })).toThrow(ConfigError)
+    expect(() => loadConfig({ ...BASE, TAO_PHONICS_SELF_USE_HASH: 'a'.repeat(64) })).toThrow(ConfigError)
+    expect(() => loadConfig({ ...BASE, TAO_PHONICS_SELF_USE_FAMILY: 'owner,other', TAO_PHONICS_SELF_USE_HASH: 'a'.repeat(64) })).toThrow(ConfigError)
+    expect(loadConfig({ ...BASE, TAO_PHONICS_SELF_USE_FAMILY: 'owner', TAO_PHONICS_SELF_USE_HASH: 'a'.repeat(64) }).TAO_PHONICS_ROLLOUT).toBe('off')
+  })
   it('默认值正确（PORT 8787 / dev / CORS *）', () => {
     const cfg = loadConfig({ ...BASE })
     expect(cfg.PORT).toBe(8787)

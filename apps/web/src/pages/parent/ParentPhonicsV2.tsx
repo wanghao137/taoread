@@ -17,6 +17,7 @@ export function ParentPhonicsV2({ token, children }: { token: string; children: 
     <p>适合 5–7 岁、英语启蒙不多的孩子。采用英式发音，每次约 5–8 分钟，随时可以暂停。建议家长短时陪伴，不需要教音标。</p>
     <p>点选和拼摆可以核对字母顺序；“我试过了”只是孩子自述。口头读出的情况由实际观察到的家长补记，不提供自动发音评分或掌握率。</p>
     {error && <p role="alert">{error}</p>}
+    {catalog?.versions.some(v => v.selfUse) && <p role="status">已为本家庭开启 8 课个人体验。教学和发音审校尚未完成，部分单音需要修正；请由家长陪同查看，暂不作为孩子独立模仿发音的示范。</p>}
     {catalog && !catalog.versions.length && <p role="status">正式课程正在完成发音与教学审校。审定后，这里会出现可开启的课程。</p>}
     {catalog && children.map(child => <ChildPhonics key={`${token}:${child.id}`} token={token} child={child} catalog={catalog} />)}
   </section>

@@ -47,7 +47,7 @@ async function main(): Promise<void> {
     db,
     tokenSecret: tokenSecretFrom(config.TAO_MASTER_KEY),
     masterKey: config.TAO_MASTER_KEY,
-    phonicsV2: { rollout: config.TAO_PHONICS_ROLLOUT, pilotFamilyIds: config.TAO_PHONICS_PILOT_FAMILIES },
+    phonicsV2: { rollout: config.TAO_PHONICS_ROLLOUT, pilotFamilyIds: config.TAO_PHONICS_PILOT_FAMILIES, selfUseFamilyId: config.TAO_PHONICS_SELF_USE_FAMILY, selfUseHash: config.TAO_PHONICS_SELF_USE_HASH },
     // 审计 T03/F06：docs/06 部署文档承诺的 TAO_TRUST_PROXY 落实到 Fastify
     trustProxy: config.TAO_TRUST_PROXY,
     genDailyLimit: config.TAO_DAILY_GEN_LIMIT,
