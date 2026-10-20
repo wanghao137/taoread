@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "28df336710758b613d385869a3487a0298b5309b",
+  "versionId": "taoread-phonics-gb-v1",
+  "contentHash": "a523ef0f3dcdb9b1290aa175109e4a9cb5e9b7d5f5c2b2bebd044f1fd3ac8696",
+  "engineeringDeployed": true,
+  "courseOpened": false,
+  "releaseReady": false,
+  "rollout": "off",
+  "ci": {
+    "url": "https://github.com/wanghao137/taoread/actions/runs/39358213049",
+    "conclusion": "success",
+    "serverTestsPassed": 561,
+    "webTestsPassed": 138,
+    "standardE2ePassed": 45,
+    "phonicsE2ePassed": 4
+  },
+  "local": {
+    "serverTypecheckPassed": true,
+    "targetedLintPassed": true,
+    "routesRetestPassed": 15,
+    "finalFocusedExecutedPassed": 13,
+    "finalFocusedSkipped": 14,
+    "initialFailure": "One existing reader-page test timed out under local load; the whole route group subsequently passed."
+  },
+  "contentValidation": {
+    "verifiedAssets": 117,
+    "blockerCounts": {
+      "NOT_REVIEWED": 1,
+      "TEACHING_REVIEW": 1,
+      "ASSET_PENDING": 117,
+      "RIGHTS_REVIEW": 117,
+      "SPEECH_REVIEW": 85
+    }
+  },
+  "production": {
+    "service": "Running",
+    "health": 200,
+    "schemaChanged": false,
+    "frontendChanged": false,
+    "courseReleaseRows": 0,
+    "v2EnrollmentsEnabled": 0,
+    "v2Attempts": 0,
+    "offsiteUploadRetryFailed": true,
+    "reusedExactRecovery": true,
+    "recoveryCreatedAt": "2026-10-19T19:31:16.82Z",
+    "recoveryDatabaseSha256": "aea18d946186f2e46a30e21ff0ece8d87c8b9cde8781b34540a8d79e6d40cf0d",
+    "currentOriginalMediaVerified": 5903,
+    "deployedAt": "2026-10-20T02:37:53.6250974Z"
+  },
+  "publicChecks": {
+    "sourceAndPublicPassed": 8,
+    "indexHashMatched": true,
+    "anonymousCatalogAndMediaStatus": 401,
+    "mediaNoStore": true,
+    "network": "Public requests used the existing loopback system proxy. Direct network quality is unverified."
+  },
+  "acceptanceStillMissing": [
+    "Replacement and listening review of GB phonemes, segmentation, blending and words; finalized audio timeline",
+    "Teaching and asset rights signoff for the exact content and asset hashes",
+    "Actual supported mobile-device classroom verification",
+    "Actual family pilot observations and revisions"
+  ],
+  "notAnAcceptanceReceipt": true
+}
