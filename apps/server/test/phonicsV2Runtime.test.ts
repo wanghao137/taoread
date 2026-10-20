@@ -29,6 +29,20 @@ describe('phonics release and rollout gates', () => {
     expect(runtime.ready.size).toBe(0)
     expect(await runtime.available('family-a', candidate.manifest.versionId)).toBe(false)
   })
+  it('keeps a pilot release restricted even if rollout is accidentally changed to all', async () => {
+    const db = database({ status: 'pilot', contentHash: course.manifest.contentHash })
+    const options = { rollout: 'pilot' as 'off' | 'pilot' | 'all', pilotFamilyIds: ['family-a'] }
+    const runtime = new PhonicsRuntime(db, options, root)
+    await runtime.install([course])
+    expect(await runtime.available('family-a', course.manifest.versionId)).toBe(true)
+    expect(await runtime.available('family-b', course.manifest.versionId)).toBe(false)
+    options.rollout = 'all'
+    expect(await runtime.available('family-a', course.manifest.versionId)).toBe(false)
+    expect(await runtime.available('family-b', course.manifest.versionId)).toBe(false)
+    options.rollout = 'pilot'
+    expect(await runtime.available('family-a', course.manifest.versionId, database({ status: 'withdrawn', contentHash: course.manifest.contentHash }))).toBe(false)
+    expect(await runtime.available('family-a', course.manifest.versionId, database({ status: 'pilot', contentHash: 'b'.repeat(64) }))).toBe(false)
+  })
   it('requires a matching published hash on every access, including transactional calls', async () => {
     const runtime = new PhonicsRuntime(database({ status: 'published', contentHash: course.manifest.contentHash }), { rollout: 'all' }, root)
     await runtime.install([course])

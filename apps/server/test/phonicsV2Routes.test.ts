@@ -6,9 +6,11 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import type { PhonicsAttemptDto, PhonicsEventRequest } from '@taoread/shared'
 import { authHeaders, createChild, createFamilyAsParent, joinFamily, makeApp, type TestHarness } from './helper'
 import { phonicsFixture } from './phonicsV2Fixture'
+import type { PhonicsV2Options } from '../src/modules/phonics/v2/runtime'
 
 let h: TestHarness, root: string, versionId: string, childId: string, childToken: string
 let parent: Awaited<ReturnType<typeof createFamilyAsParent>>, other: typeof parent
+let rolloutOptions: PhonicsV2Options
 type Receipt = { attempt: PhonicsAttemptDto; result: Record<string, unknown>; eventId: string; repeated: boolean }
 const base = '/api/phonics/v2'
 const call = (method: 'GET' | 'POST' | 'PUT', url: string, token: string, payload?: unknown) => h.app.inject({ method, url, headers: authHeaders(token), ...(payload ? { payload } : {}) })
@@ -49,7 +51,8 @@ async function finishAll(initial: PhonicsAttemptDto, oralReport: 'tried' | 'need
 beforeAll(async () => {
   root = await mkdtemp(path.join(tmpdir(), 'tao-phonics-routes-'))
   const course = await phonicsFixture(root); versionId = course.manifest.versionId
-  h = await makeApp(undefined, { mediaDir: root, phonicsV2: { rollout: 'all', courses: [course] } })
+  rolloutOptions = { rollout: 'all', courses: [course] }
+  h = await makeApp(undefined, { mediaDir: root, phonicsV2: rolloutOptions })
   parent = await createFamilyAsParent(h.app, 'phonics-v2-parent')
   other = await createFamilyAsParent(h.app, 'phonics-v2-other')
   childId = await createChild(h.app, parent.token, parent.familyId, '拼读测试', '6-8')
@@ -57,6 +60,7 @@ beforeAll(async () => {
   await h.db.phonicsCourseRelease.create({ data: { versionId, courseId: course.manifest.courseId, accent: 'GB', status: 'published', contentHash: course.manifest.contentHash! } })
 })
 beforeEach(async () => {
+  rolloutOptions.rollout = 'all'; rolloutOptions.pilotFamilyIds = []
   await h.db.phonicsAttempt.deleteMany({ where: { childId } })
   await h.db.phonicsEnrollment.deleteMany({ where: { childId } })
   await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'published' } })
@@ -71,6 +75,22 @@ afterAll(async () => {
 })
 
 describe('phonics v2 persistence and authorization', () => {
+  it('supports pilot enrollment, learning and media only for the selected families', async () => {
+    await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'pilot' } })
+    rolloutOptions.rollout = 'pilot'; rolloutOptions.pilotFamilyIds = [parent.familyId]
+    expect((await call('GET', `${base}/catalog`, other.token)).json().versions).toHaveLength(0)
+    await enroll()
+    const { attempt } = await start()
+    const media = attempt.assets[0]!
+    expect(media.url).toBeTruthy()
+    expect((await call('GET', media.url!, childToken)).statusCode).toBe(200)
+    const advanced = await send(attempt, 'step_ack')
+    expect(advanced.attempt.revision).toBe(1)
+    rolloutOptions.rollout = 'all'
+    expect((await call('GET', `${base}/catalog`, parent.token)).json().versions).toHaveLength(0)
+    expect((await call('GET', media.url!, childToken)).statusCode).toBe(409)
+    expect((await call('POST', `${base}/attempts/${attempt.id}/events`, childToken, { clientEventId: randomUUID(), expectedRevision: 1, taskInstanceId: advanced.attempt.state.taskInstanceId, kind: 'step_advanced', payload: {} })).statusCode).toBe(409)
+  })
   it('isolates legacy draft toggles from explicit formal enrollment', async () => {
     const legacy = `/api/children/${childId}/phonics/enrollment`
     expect((await call('PUT', legacy, parent.token, { enabled: true })).statusCode).toBe(200)

@@ -1,17 +1,17 @@
 /** Explicit operational tool. Never called from app startup; no automatic publication. */
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { parseArgs } from 'node:util'
 import { z } from 'zod'
 import { createDb } from '../src/lib/db'
 import { candidateDirectory, courseHash, loadCourse, validateCourse } from '../src/modules/phonics/v2/courseRegistry'
+import { validateReleaseAcceptance } from '../src/modules/phonics/v2/releasePolicy'
 
 const { values, positionals } = parseArgs({ allowPositionals: true, options: {
   version: { type: 'string', default: 'taoread-phonics-gb-v1' }, database: { type: 'string' },
   'media-root': { type: 'string' }, 'expect-hash': { type: 'string' }, acceptance: { type: 'string' },
 } })
 const action = positionals[0] ?? 'inspect'
-if (!['inspect', 'publish', 'withdraw', 'set-default'].includes(action) || values.version !== 'taoread-phonics-gb-v1') throw new Error('Unsupported action or uninstalled version')
+if (!['inspect', 'publish-pilot', 'publish', 'withdraw', 'set-default'].includes(action) || values.version !== 'taoread-phonics-gb-v1') throw new Error('Unsupported action or uninstalled version')
 // An explicit path prevents this tool silently selecting a production .env database.
 const database = values.database
 if (database && !database.startsWith('file:')) throw new Error('An explicit SQLite file URL is required')
@@ -28,15 +28,13 @@ try {
     const expectedHash = action === 'withdraw' ? release?.contentHash : contentHash
     if (!db || !expectedHash || values['expect-hash'] !== expectedHash) throw new Error('Mutations require --database and a matching --expect-hash')
     if (action !== 'withdraw' && !report.releaseReady) throw new Error('Content release validation has blockers; no release state changed')
-    if (action === 'publish') {
+    if (action === 'publish' || action === 'publish-pilot') {
       if (!values.acceptance) throw new Error('Publication requires a hash-bound acceptance receipt')
-      const gate = z.object({ complete: z.literal(true), versionId: z.literal(values.version!), contentHash: z.literal(contentHash),
-        technical: z.string().min(1), realDevices: z.string().min(1), teachingAndSpeech: z.string().min(1), familyPilot: z.string().min(1), backupRestore: z.string().min(1), approvedBy: z.string().min(1), approvedAt: z.number().int().positive(),
-      }).strict().parse(JSON.parse(await readFile(path.resolve(values.acceptance), 'utf8')))
-      // Receipt references are evidence files, not unchecked labels or remote URLs.
-      for (const name of ['technical', 'realDevices', 'teachingAndSpeech', 'familyPilot', 'backupRestore'] as const) await readFile(path.resolve(path.dirname(values.acceptance), gate[name]))
+      const stage = action === 'publish-pilot' ? 'pilot' : 'published'
+      await validateReleaseAcceptance(values.acceptance, values.version!, contentHash, stage)
       if (release && release.contentHash !== contentHash) throw new Error('Version IDs are immutable; create a new version for changed content')
-      await db.phonicsCourseRelease.upsert({ where: { versionId: values.version }, create: { versionId: values.version!, courseId: course.manifest.courseId, accent: course.manifest.accent, contentHash, status: 'published', publishedAt: new Date() }, update: { status: 'published', publishedAt: new Date(), withdrawnAt: null } })
+      if (stage === 'pilot' && release?.status === 'published') throw new Error('Withdraw a published version before returning it to pilot')
+      await db.phonicsCourseRelease.upsert({ where: { versionId: values.version }, create: { versionId: values.version!, courseId: course.manifest.courseId, accent: course.manifest.accent, contentHash, status: stage, publishedAt: new Date() }, update: { status: stage, publishedAt: new Date(), withdrawnAt: null, ...(stage === 'pilot' ? { defaultForCourse: null } : {}) } })
     } else if (action === 'withdraw') {
       if (!release) throw new Error('No installed database release exists')
       await db.phonicsCourseRelease.update({ where: { versionId: values.version }, data: { status: 'withdrawn', withdrawnAt: new Date(), defaultForCourse: null } })

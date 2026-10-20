@@ -174,7 +174,7 @@ export class PhonicsService {
       const enrollment = await tx.phonicsEnrollment.findUnique({ where: { childId } })
       if (!enrollment?.v2Enabled || enrollment.revision !== enrollmentRevision || enrollment.courseVersionId !== input.versionId) throw conflict()
       const release = await tx.phonicsCourseRelease.findUnique({ where: { versionId: input.versionId } })
-      if (release?.status !== 'published' || release.contentHash !== plan.courseHash) throw new AppError('课程已变化', 'COURSE_UNAVAILABLE', 409)
+      if (!this.runtime.releaseAllowed(claims.fid, release, plan.courseHash)) throw new AppError('课程已变化', 'COURSE_UNAVAILABLE', 409)
       return tx.phonicsAttempt.create({ data: { childId, clientAttemptId: input.clientAttemptId, protocolVersion: 2, lessonId: `v2:${input.planKind}:${input.resourceKey ?? 'review'}`, courseVersionId: input.versionId, lessonKey: input.planKind === 'lesson' ? input.resourceKey : null, lessonHash: input.planKind === 'lesson' ? digest(course.lessons.find(l => l.id === input.resourceKey)) : null, planKind: input.planKind, planJson: JSON.stringify(plan), planHash: digest(plan), startRequestHash: requestHash, stateJson: JSON.stringify(initialState(plan)), currentStepKey: plan.stepTaskIds[0], activeKey: `v2:${childId}` } })
     })
   }
@@ -240,7 +240,7 @@ export class PhonicsService {
       } else {
         await this.enabled(claims, attempt.childId, attempt.courseVersionId!, tx)
         const release = await tx.phonicsCourseRelease.findUnique({ where: { versionId: attempt.courseVersionId! } })
-        if (release?.status !== 'published' || release.contentHash !== plan.courseHash) throw new AppError('课程暂不可用', 'COURSE_UNAVAILABLE', 409)
+        if (!this.runtime.releaseAllowed(claims.fid, release, plan.courseHash)) throw new AppError('课程暂不可用', 'COURSE_UNAVAILABLE', 409)
         if (kind === 'attempt_resumed') {
           if (!['started', 'paused'].includes(status)) throw new AppError('这段练习已结束', 'ATTEMPT_CLOSED', 409)
           status = 'started'; result = { status }

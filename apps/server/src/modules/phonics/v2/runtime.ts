@@ -2,6 +2,7 @@ import type { PrismaClient } from '@prisma/client'
 import type { PhonicsCourse } from './contracts'
 import { AppError } from '../../../lib/errors'
 import { courseHash, validateCourse } from './courseRegistry'
+import { releaseAccessible } from './releasePolicy'
 
 export interface PhonicsV2Options {
   rollout?: 'off' | 'pilot' | 'all'
@@ -29,11 +30,15 @@ export class PhonicsRuntime {
     return this.options.rollout === 'all' || (this.options.rollout === 'pilot' && (this.options.pilotFamilyIds ?? []).includes(familyId))
   }
 
+  releaseAllowed(familyId: string, release: { status: string; contentHash: string } | null, contentHash: string): boolean {
+    return releaseAccessible(release, contentHash, this.options.rollout, (this.options.pilotFamilyIds ?? []).includes(familyId))
+  }
+
   async available(familyId: string, versionId: string, db: Pick<PrismaClient, 'phonicsCourseRelease'> = this.db): Promise<boolean> {
     if (!this.inRollout(familyId) || !this.ready.has(versionId)) return false
     const course = this.courses.get(versionId)!
     const release = await db.phonicsCourseRelease.findUnique({ where: { versionId } })
-    return release?.status === 'published' && release.contentHash === courseHash(course)
+    return this.releaseAllowed(familyId, release, courseHash(course))
   }
 
   async requireCourse(familyId: string, versionId: string, db: Pick<PrismaClient, 'phonicsCourseRelease'> = this.db): Promise<PhonicsCourse> {
