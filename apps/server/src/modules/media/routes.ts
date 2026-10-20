@@ -145,9 +145,12 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
       // 扩展名白名单：不在表内的类型一律 404，不给任意文件当下载源
       if (!mime) return reply.code(404).send({ code: 'NOT_FOUND', message: '媒体不存在' })
       reply.header('Content-Type', mime)
-      // 公共素材可长期缓存；家庭素材与 TTS 明确禁止缓存。
+      // 公共素材可长期缓存；家庭插图/封面按票据桶周期缓存（票据 30 分钟分桶、URL 稳定，
+      // 缓存键含票据→换票自然失效；家庭上行是瓶颈，no-store 会让每次进书架全量重拉）；
+      // TTS 音频与 phonics 保持禁缓存
       reply.header('Referrer-Policy', 'no-referrer')
-      reply.header('Cache-Control', deps.db && rowIsPrivate ? 'private, no-store' : 'public, max-age=31536000, immutable')
+      const noStore = path.startsWith('tts/') || path.startsWith('phonics/')
+      reply.header('Cache-Control', deps.db && rowIsPrivate ? (noStore ? 'private, no-store' : 'private, max-age=1800') : 'public, max-age=31536000, immutable')
       reply.header('Accept-Ranges', 'bytes')
 
       // Range（审计 F08）：音频/视频拖动进度条需要 206 分段

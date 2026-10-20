@@ -7,6 +7,7 @@
  * 服务按「基准 ArtAsset 行存在且非家庭私有」放行（见 media/routes.ts）。
  * 生成失败不阻断主图——前端对变体 404 有回退原图逻辑。
  */
+import { rename } from 'node:fs/promises'
 import sharp from 'sharp'
 
 export const ART_VARIANTS = [
@@ -20,14 +21,20 @@ export function artVariantPath(urlPath: string, suffix: ArtVariantSuffix): strin
   return urlPath.replace(/\.webp$/, `.${suffix}.webp`)
 }
 
-/** 为一张已落盘的 webp 生成全部变体；输入须是绝对路径 */
+/** 为一张已落盘的 webp 生成全部变体；输入须是绝对路径。
+ *  非 .webp 基底直接跳过（ImageGenerator 压缩失败回退 png 时，按文件名替换会原地覆盖原图——对抗审查 P2-1）。
+ *  写入走临时文件 + rename 原子落盘：半档/坏档不会因「存在即跳过」被永久固化（对抗审查 P2-2）。 */
 export async function writeArtVariants(absWebp: string): Promise<void> {
+  if (!absWebp.endsWith('.webp')) return
   await Promise.all(
-    ART_VARIANTS.map(({ suffix, width }) =>
-      sharp(absWebp)
+    ART_VARIANTS.map(async ({ suffix, width }) => {
+      const target = absWebp.replace(/\.webp$/, `.${suffix}.webp`)
+      const tmp = `${target}.tmp-${process.pid}`
+      await sharp(absWebp)
         .resize({ width, withoutEnlargement: true })
         .webp({ quality: 80 })
-        .toFile(absWebp.replace(/\.webp$/, `.${suffix}.webp`)),
-    ),
+        .toFile(tmp)
+      await rename(tmp, target)
+    }),
   )
 }

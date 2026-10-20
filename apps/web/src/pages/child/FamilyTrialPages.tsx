@@ -111,6 +111,16 @@ function renderReadingChars(text: string, localChar: number): ReactNode {
   })
 }
 
+/** 封面缩图档 404 时换用服务端预签票的原图地址（票据绑定精确路径，前端不能自行改路径——会 401），只回退一次防循环 */
+function coverFallback(fallbackUrl: string | null | undefined) {
+  return (event: React.SyntheticEvent<HTMLImageElement>): void => {
+    const el = event.currentTarget
+    if (!fallbackUrl || el.dataset.fallback === '1') return
+    el.dataset.fallback = '1'
+    el.src = fallbackUrl
+  }
+}
+
 export function FamilyLibraryPage() {
   const token = useSession((state) => state.token)
   const childId = useSession((state) => state.childId)
@@ -134,7 +144,7 @@ export function FamilyLibraryPage() {
     return <button className="fam-card" key={book.id} onClick={() => navigate(`/child/family-book/${encodeURIComponent(book.id)}`)}>
       <span className="fam-cover">
         {book.coverUrl
-          ? <img src={book.coverUrl} alt="" loading="lazy" />
+          ? <img src={book.coverUrl} alt="" loading="lazy" onError={coverFallback(book.coverFallbackUrl)} />
           : <span className="fam-cover-fallback"><IconBookOpen size={44} /><span>{book.title}</span></span>}
       </span>
       <span className="fam-card-copy"><b>{book.title}</b>
@@ -640,7 +650,7 @@ export function FamilyReaderPage() {
     {!book && !error && <p role="status">家庭书正在赶来…</p>}
     {!order ? <div className="family-detail-body">
       {book && <section className="family-book-hero">
-        <div className="family-detail-cover">{book.coverUrl ? <img src={book.coverUrl} alt="" /> : <span><IconBookOpen size={56} /><b>{book.title}</b></span>}</div>
+        <div className="family-detail-cover">{book.coverUrl ? <img src={book.coverUrl} alt="" onError={coverFallback(book.coverFallbackUrl)} /> : <span><IconBookOpen size={56} /><b>{book.title}</b></span>}</div>
         <div className="family-book-intro"><span className="family-label"><IconFamily size={20} />家里的书，一起读</span><h2>{book.title}</h2><p className="family-author">{book.author ?? '作者未标注'} · {chapterTotal} 章 · {book.lang === 'en' ? '英文' : '中文'}</p><p className="family-reading-note">{progress?.completed ? '这本书已经读完啦，喜欢的故事可以再读一遍。' : progress && !progress.relocationRequired ? `上次读到第 ${progress.order} 章，接着故事往下走吧。` : '挑一个舒服的位置，打开今天的小故事。'}</p><div className="family-detail-actions"><button className="sticker-btn primary" disabled={!progressLoaded || !chapterTotal} onClick={() => navigate(`/child/family-book/${encodeURIComponent(id ?? '')}/chapter/${progress && !progress.completed && !progress.relocationRequired ? progress.order : book.chapters[0]?.order ?? 1}`)}><IconBookOpen size={22} />{progress && !progress.completed && !progress.relocationRequired ? `从第 ${progress.order} 章续读` : progress?.completed ? '再读一遍' : '开始读'}<IconArrowRight size={20} /></button><button className="sticker-btn" onClick={() => navigate(`/child/listen/import/${encodeURIComponent(id ?? '')}`)}><IconVolume size={22} />连续听读</button></div></div>
       </section>}
       <section className="family-chapter-section"><div className="family-chapter-heading"><div><h3><IconList size={24} />从这一章开始</h3><p>一小段一小段，慢慢走进故事里</p></div><button className="text-action min-h-[44px]" disabled={!book} onClick={() => setTocOpen(true)}>打开目录<IconArrowRight size={18} /></button></div>

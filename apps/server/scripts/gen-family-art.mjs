@@ -14,10 +14,12 @@
  *     scripts/gen-family-art.mjs --book=imp:<hex> [--covers-only] [--regenerate]
  */
 import { PrismaClient } from '@prisma/client'
+import { join } from 'node:path'
 import { loadConfig, imageGenAvailable } from '../src/config.ts'
 import { ImageGenerator } from '../src/modules/media/imagegen.ts'
 import { compressPngToWebP } from '../src/modules/media/compress.ts'
 import { labelWebpImage } from '../src/modules/media/label.ts'
+import { writeArtVariants } from '../src/modules/media/variants.ts'
 
 const arg = (name) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=').slice(1).join('=')
 const bookId = arg('book')
@@ -88,6 +90,8 @@ for (const s of scenes) {
   }
   try {
     await p.artAsset.upsert({ where: { scene: s.scene }, create: { scene: s.scene, kind: s.kind, urlPath: art.urlPath, width: art.width, height: art.height, bytes: art.bytes, prompt: art.prompt, model: art.model }, update: {} })
+    // 性能方案同款：主图落地即产 thumb/reader 档（书架 320w/阅读器 800w）；失败不阻断主图
+    try { await writeArtVariants(join(config.TAO_MEDIA_DIR, art.urlPath.slice('/api/media/'.length))) } catch { /* 变体缺失由服务端回退原图兜底 */ }
     ok += 1
     if (ok % 10 === 0) console.log(`  进度：成功 ${ok} / 失败 ${fail}（${Math.round((Date.now() - t0) / 60000)} 分钟）`)
   } catch (err) {

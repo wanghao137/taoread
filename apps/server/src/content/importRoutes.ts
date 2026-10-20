@@ -9,6 +9,7 @@ import { AppError, UnauthorizedError, ValidationError } from '../lib/errors'
 import { extractBook, extractEpubStructured } from './extractBook'
 import { compressImageToWebP } from '../modules/media/compress'
 import { mediaUrl } from '../modules/media/access'
+import { artVariantPath } from '../modules/media/variants'
 import { anchorText, relocateAnchor } from './anchors'
 
 const MAX_BYTES = 4 * 1024 * 1024
@@ -208,25 +209,41 @@ function importMediaDirFor(bookId: string): string {
     return keyMap
   }
 
-  /** 封面与原文归档：封面压缩 480w；原文保留支撑「重新解析」（管线升级后可无损重建章节数据）。 */
+  /** 封面与原文归档：封面压 480w + 320w 书架 thumb；原文保留支撑「重新解析」（管线升级后可无损重建章节数据）。 */
   async function archiveImportBook(bookId: string, cover: Buffer | null, source: Buffer, sourceName: string): Promise<void> {
     const dir = importMediaDirFor(bookId)
     await mkdir(dir, { recursive: true })
     if (cover) {
       try { await writeFile(join(dir, 'cover.webp'), await compressImageToWebP(cover, 480)) } catch { /* 封面失败不阻断 */ }
+      try { await writeFile(join(dir, 'cover.thumb.webp'), await compressImageToWebP(cover, 320)) } catch { /* thumb 失败回退 480w */ }
     }
     const ext = sourceName.split('.').at(-1)?.toLowerCase() ?? 'epub'
     try { await writeFile(join(dir, `source.${ext}`), source) } catch { /* 归档失败不阻断入库 */ }
   }
 
-  async function coverUrlFor(bookId: string, claims: { fid: string; sid: string }): Promise<string | null> {
-    // 优先家庭 AI 封面（fam: 场景），回退原书提取封面
+  /** 书架/详情封面：优先 320w thumb 变体。返回双票（fallbackUrl=原图独立签票）——
+   *  媒体票据绑定精确路径，前端不能自行改路径换原图（会 401，对抗审查 P1-1），
+   *  故 thumb 与原图各自签票下发，前端变体 404 时换用 fallbackUrl。 */
+  async function coverUrlFor(bookId: string, claims: { fid: string; sid: string }): Promise<{ coverUrl: string; coverFallbackUrl: string | null } | null> {
     const hex = bookId.startsWith('imp:') ? bookId.slice(4) : bookId
     const artRow = await db.artAsset.findUnique({ where: { scene: `fam:${claims.fid}:imp:${hex}:cover` }, select: { urlPath: true } })
-    if (artRow) return mediaUrl(artRow.urlPath, claims, tokenSecret)
+    if (artRow) {
+      // 书架卡片只要 320w：家庭上行是全站瓶颈，2K 原图 300-400KB/张会让移动端集体超时裂图
+      const thumbUrl = artVariantPath(artRow.urlPath, 'thumb')
+      try {
+        await stat(join(mediaDir, thumbUrl.slice('/api/media/'.length)))
+        return { coverUrl: mediaUrl(thumbUrl, claims, tokenSecret), coverFallbackUrl: mediaUrl(artRow.urlPath, claims, tokenSecret) }
+      } catch { /* 变体缺失只发原图 */ }
+      return { coverUrl: mediaUrl(artRow.urlPath, claims, tokenSecret), coverFallbackUrl: null }
+    }
     try {
+      const thumbRel = `/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.thumb.webp`
+      try {
+        await stat(join(importMediaDirFor(bookId), 'cover.thumb.webp'))
+        return { coverUrl: mediaUrl(thumbRel, claims, tokenSecret), coverFallbackUrl: mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.webp`, claims, tokenSecret) }
+      } catch { /* 无 thumb 用 480w 原档 */ }
       await stat(join(importMediaDirFor(bookId), 'cover.webp'))
-      return mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.webp`, claims, tokenSecret)
+      return { coverUrl: mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(bookId)}/cover.webp`, claims, tokenSecret), coverFallbackUrl: null }
     } catch {
       return null
     }
@@ -444,7 +461,7 @@ function importMediaDirFor(bookId: string): string {
     const claims = request.auth
     const progress = childId ? await db.importedReadingProgress.findMany({ where: { childId, bookId: { in: books.map(x => x.id) } } }) : []
     const byId = new Map(progress.map(x => [x.bookId, x]))
-    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, progress: byId.get(book.id) ?? null, chapterCount: chapters.length, coverUrl: await coverUrlFor(book.id, claims) }))) }
+    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, progress: byId.get(book.id) ?? null, chapterCount: chapters.length, ...(await coverUrlFor(book.id, claims)) }))) }
   })
 
   // 重新解析（P0-5）：用归档的原始 EPUB 以当前管线重建章节与插图。管线升级后旧导入可无损跟进。
@@ -519,7 +536,7 @@ function importMediaDirFor(bookId: string): string {
     const book = await db.importedBook.findFirst({ where: { id: request.params.id, familyId: request.auth.fid }, select: { id: true, title: true, author: true, lang: true, ageStage: true, contentVersion: true, format: true, createdAt: true, chapters: { select: { order: true, title: true }, orderBy: { order: 'asc' } } } })
     if (!book) throw new AppError('没有找到这本家庭书', 'BOOK_NOT_FOUND', 404)
     const claims = request.auth
-    return { book: { ...book, coverUrl: await coverUrlFor(book.id, claims) } }
+    return { book: { ...book, ...(await coverUrlFor(book.id, claims)) } }
   })
 
   app.get<{ Params: { id: string; order: string }; Querystring: { childId?: string } }>('/api/content/imports/:id/chapters/:order', { preHandler: auth }, async (request) => {
@@ -537,10 +554,20 @@ function importMediaDirFor(bookId: string): string {
       const key = match[1]!
       if (!images[key]) images[key] = mediaUrl(`/api/media/${IMPORT_MEDIA_DIR}/${importDiskName(book.id)}/${key}`, request.auth, tokenSecret)
     }
-    // 家庭 AI 插画题图（fam: 场景，2026-09-30 生图机制）：有则随章节下发
+    // 家庭 AI 插画题图（fam: 场景，2026-09-30 生图机制）：有则随章节下发。
+    // 阅读器题图下发 800w reader 档（2K 原图 300-400KB 挤家庭上行太慢），缺失回退原图
     const artScene = `fam:${request.auth.fid}:imp:${importDiskName(book.id)}:ch:${order}`
     const artRow = await db.artAsset.findUnique({ where: { scene: artScene }, select: { urlPath: true } })
-    const artUrl = artRow ? mediaUrl(artRow.urlPath, request.auth, tokenSecret) : null
+    let artUrl: string | null = null
+    if (artRow) {
+      const readerUrl = artVariantPath(artRow.urlPath, 'reader')
+      try {
+        await stat(join(mediaDir, readerUrl.slice('/api/media/'.length)))
+        artUrl = mediaUrl(readerUrl, request.auth, tokenSecret)
+      } catch {
+        artUrl = mediaUrl(artRow.urlPath, request.auth, tokenSecret)
+      }
+    }
     return { chapter, images, artUrl }
   })
 

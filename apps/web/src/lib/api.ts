@@ -140,7 +140,7 @@ export interface ShelfDto {
   blockedBookIds?: string[]
 }
 
-export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string; coverUrl?: string | null; contentVersion?: number; progress?: ImportedProgressDto | null }
+export interface ImportedBookDto { id: string; title: string; author: string | null; lang: 'zh' | 'en'; ageStage: string; chapterCount: number; createdAt: string; format?: string; coverUrl?: string | null; coverFallbackUrl?: string | null; contentVersion?: number; progress?: ImportedProgressDto | null }
 export interface PhonicsLessonDto {
   id: string
   order: number
