@@ -246,9 +246,43 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       for (const marker of text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
       chapters.push({ title, text })
     }
+    // 章长超限按段落边界分册（目录章/锚点故事段共用）；只有一册时不加序号。
+    // 分册目标留 10% 余量：入库前 [[img:短src]] 改写成 img-v1-NNN.webp 会让标记变长，
+    // 顶格切满会在入库二次断言处被拒（没头脑和不高兴实测踩坑）
+    const SPLIT_TARGET = MAX_STRUCTURED_CHAPTER_CHARS - MAX_STRUCTURED_CHAPTER_CHARS / 10
+    const splitMarks = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+    const pushChapterSplit = (title: string, text: string): void => {
+      if (text.length <= MAX_STRUCTURED_CHAPTER_CHARS) { pushChapter(title, text); return }
+      // 段落边界分册；巨段（如逐字注音的连续行）按行切，行仍超限按字符硬切
+      const units: string[] = []
+      for (const para of text.split('\n\n')) {
+        if (!para) continue
+        if (para.length <= SPLIT_TARGET) { units.push(para); continue }
+        for (const line of para.split('\n')) {
+          if (!line) continue
+          if (line.length <= SPLIT_TARGET) { units.push(line); continue }
+          for (let i = 0; i < line.length; i += SPLIT_TARGET) units.push(line.slice(i, i + SPLIT_TARGET))
+        }
+      }
+      const groups: string[][] = [[]]
+      let filled = 0
+      for (const unit of units) {
+        if (filled > 0 && filled + unit.length + 2 > SPLIT_TARGET) {
+          groups.push([])
+          filled = 0
+        }
+        groups[groups.length - 1]!.push(unit)
+        filled += unit.length + 2
+      }
+      groups.forEach((group, index) => {
+        const suffix = groups.length > 1 ? `（${splitMarks[index] ?? index + 1}）` : ''
+        pushChapter(`${title}${suffix}`, group.join('\n\n'))
+      })
+    }
     // calibre 等工具会产出不在 spine 里的孤儿页（其插图因此丢失）：按文件名顺序穿插进遍历序列。
     // 跳过目录文档；孤儿页复用下方同一套近空页规则，孤儿页上的新图一律保留——零遗漏。
     const navPath = tocItem?.href ? resolveManifest(tocItem.href) : null
+    const unnamedSeq = { n: 0 }
     const spinePaths = new Set<string>()
     for (const ref of spineRefs) {
       const item = manifest.get(ref)
@@ -280,11 +314,15 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       const last = chapters[chapters.length - 1]
       const textLength = text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
       const hasImages = /\[\[img:[^\]]+\]\]/.test(text)
-      // 合并进上一章：必须同样登记图片引用（referenced 漏记会让 cleanDropped 把标记洗掉）
-      const mergeIntoLast = (): void => {
-        if (!last) return
+      // 合并进上一章：必须同样登记图片引用（referenced 漏记会让 cleanDropped 把标记洗掉）。
+      // 并入有长度上限：无目录的正文文件会一路并进最后一章（没头脑和不高兴的拼音版 237k 实测），
+      // 放不下时独立成章
+      const mergeIntoLast = (): boolean => {
+        if (!last) return false
+        if (last.text.length + text.length + 2 > MAX_STRUCTURED_CHAPTER_CHARS) return false
         last.text = `${last.text}\n\n${text}`.trim()
         for (const marker of text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
+        return true
       }
 
       // 片段锚点切章：一个文件装多个故事、目录逐故事定位（如 365 夜故事，770 条目录/30 个文件）
@@ -313,15 +351,17 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
           const anchorEntry = seg.id ? byFragment.get(seg.id) : undefined
           const segHasImages = /\[\[img:[^\]]+\]\]/.test(seg.text)
           const segTextLen = seg.text.replace(/\[\[img:[^\]]+\]\]/g, '').trim().length
-          const segTitle = anchorEntry ? (anchorEntry.section ? `${anchorEntry.section} · ${anchorEntry.title}` : anchorEntry.title) : '第 1 节'
-          // 近空故事段并入上一章（保内容不丢；无上一章则独立成章）
+          const segTitle = anchorEntry ? (anchorEntry.section ? `${anchorEntry.section} · ${anchorEntry.title}` : anchorEntry.title) : `第 ${unnamedSeq.n += 1} 节`
+          // 近空故事段并入上一章（保内容不丢；放不下/无上一章则独立成章）
           if (segTextLen < MIN_CHAPTER_CHARS && !segHasImages && chapters.length > 0) {
             const previous = chapters[chapters.length - 1]!
-            previous.text = `${previous.text}\n\n${seg.text}`.trim()
-            for (const marker of seg.text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
-            continue
+            if (previous.text.length + seg.text.length + 2 <= MAX_STRUCTURED_CHAPTER_CHARS) {
+              previous.text = `${previous.text}\n\n${seg.text}`.trim()
+              for (const marker of seg.text.matchAll(/\[\[img:([^\]]+)\]\]/g)) referenced.add(marker[1]!)
+              continue
+            }
           }
-          pushChapter(segTitle, seg.text)
+          pushChapterSplit(segTitle, seg.text)
         }
         continue
       }
@@ -331,38 +371,13 @@ export async function extractEpubStructured(fileName: string, data: Buffer): Pro
       if (textLength < MIN_CHAPTER_CHARS) {
         if (!hasImages) continue
         if (entry) { pushChapter(entry.section ? `${entry.section} · ${entry.title}` : entry.title, text); continue }
-        if (last) { mergeIntoLast(); continue }
+        if (last && mergeIntoLast()) continue
         pushChapter('封面', text)
         continue
       }
-      if (!entry) {
-        if (last) { mergeIntoLast(); continue }
-      }
-      const title = entry ? (entry.section ? `${entry.section} · ${entry.title}` : entry.title) : '第 1 节'
-      // 章长超限：按段落边界自动分册，不硬拒；只有一册时不加序号。
-      // 分册目标留 10% 余量：路由/脚本入库前会把 [[img:短src]] 改写成 img-v1-NNN.webp（标记变长），
-      // 顶格切满会二次断言「章节过长」——没头脑和不高兴实测踩坑
-      const SPLIT_TARGET = MAX_STRUCTURED_CHAPTER_CHARS - MAX_STRUCTURED_CHAPTER_CHARS / 10
-      if (text.length > MAX_STRUCTURED_CHAPTER_CHARS) {
-        const paragraphs = text.split('\n\n')
-        const groups: string[][] = [[]]
-        let filled = 0
-        for (const paragraph of paragraphs) {
-          if (filled > 0 && filled + paragraph.length + 2 > SPLIT_TARGET) {
-            groups.push([])
-            filled = 0
-          }
-          groups[groups.length - 1]!.push(paragraph)
-          filled += paragraph.length + 2
-        }
-        const marks = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
-        groups.forEach((group, index) => {
-          const suffix = groups.length > 1 ? `（${marks[index] ?? index + 1}）` : ''
-          pushChapter(`${title}${suffix}`, group.join('\n\n'))
-        })
-      } else {
-        pushChapter(title, text)
-      }
+      if (!entry && last && mergeIntoLast()) continue
+      const title = entry ? (entry.section ? `${entry.section} · ${entry.title}` : entry.title) : `第 ${unnamedSeq.n += 1} 节`
+      pushChapterSplit(title, text)
     }
     if (chapters.length === 0) throw new ValidationError('EPUB 没有可提取文字')
     if (chapters.length > MAX_STRUCTURED_CHAPTERS) throw new ValidationError(`章节超过 ${MAX_STRUCTURED_CHAPTERS} 章`)
