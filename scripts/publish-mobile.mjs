@@ -41,7 +41,7 @@ const manifest = {
 }
 writeFileSync('apps/mobile/.version.json.tmp', JSON.stringify(manifest))
 try {
-  run(`npx wrangler@latest r2 object put "taoread-dist/app/version.json" --file "apps/mobile/.version.json.tmp" --remote`)
+  run(`npx wrangler@latest r2 object put "taoread-dist/app/version.json" --file "apps/mobile/.version.json.tmp" --content-type "application/json; charset=utf-8" --remote`)
 } finally {
   rmSync('apps/mobile/.version.json.tmp', { force: true })
 }
