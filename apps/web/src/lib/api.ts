@@ -91,7 +91,30 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       typeof body.message === 'string' ? body.message : '请求没有成功，请稍后再试',
     )
   }
-  return data as T
+  return absolutizeMedia(data) as T
+}
+
+/** 服务端媒体命名空间：这些路径只存在于 API 服务器上。浏览器/PWA 同源直出（API_BASE 为空原样返回）；
+ *  APK 壳（origin=https://localhost）下相对路径会打到壳自身的本地服务器（没有 /api 路由）——
+ *  这是 APK 内所有媒体裂图/无声的根因，响应与 SSE 出口统一补基址。 */
+export function mediaSrc(url: string | null | undefined): string {
+  if (!url || !API_BASE || !(url.startsWith('/api/media/') || url.startsWith('/api/tts/'))) return url ?? ''
+  return `${API_BASE}${url}`
+}
+
+/** 递归改写响应 JSON 里的服务端媒体 URL（字符串前缀 /api/media/ 与 /api/tts/），其余字段原样 */
+function absolutizeMedia<T>(value: T): T {
+  if (!API_BASE) return value
+  if (typeof value === 'string') {
+    return (value.startsWith('/api/media/') || value.startsWith('/api/tts/') ? `${API_BASE}${value}` : value) as T
+  }
+  if (Array.isArray(value)) return value.map((item) => absolutizeMedia(item)) as T
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [key, item] of Object.entries(value as Record<string, unknown>)) out[key] = absolutizeMedia(item)
+    return out as T
+  }
+  return value
 }
 
 // ── 领域接口（与后端回包对齐；仅声明 UI 消费的字段）──
@@ -779,12 +802,13 @@ async function fetchSseChapter(
         if (!data) continue
         if (eventName === 'segment') {
           try {
-            handlers.onSegment(JSON.parse(data))
+            const seg = absolutizeMedia(JSON.parse(data)) as { audioUrl: string; fallbackAudioUrl?: string }
+            handlers.onSegment(seg)
           } catch {
             /* 单段解析失败跳过，不中断整章 */
           }
         } else if (eventName === 'segment-update') {
-          try { handlers.onSegmentUpdate?.(JSON.parse(data)) } catch { /* ignore malformed update */ }
+          try { handlers.onSegmentUpdate?.(absolutizeMedia(JSON.parse(data))) } catch { /* ignore malformed update */ }
         } else if (eventName === 'error') {
           try {
             handlers.onError((JSON.parse(data) as { message?: string }).message ?? '这一段朗读没成功')

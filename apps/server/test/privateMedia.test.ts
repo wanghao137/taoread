@@ -67,7 +67,7 @@ describe('private media ownership and revocation', () => {
     expect(audioCross.statusCode).toBe(403)
     const valid = await h.app.inject({ method: 'GET', url: ticket })
     expect(valid.statusCode, valid.body).toBe(200)
-    expect(valid.headers['cache-control']).toBe('private, no-store')
+    expect(valid.headers['cache-control']).toBe('private, max-age=14400')
     const publicArt = await h.app.inject({ method: 'GET', url: publicPath })
     expect(publicArt.statusCode).toBe(200)
     expect(publicArt.headers['cache-control']).toContain('public')
