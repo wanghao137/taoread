@@ -802,8 +802,7 @@ async function fetchSseChapter(
         if (!data) continue
         if (eventName === 'segment') {
           try {
-            const seg = absolutizeMedia(JSON.parse(data)) as { audioUrl: string; fallbackAudioUrl?: string }
-            handlers.onSegment(seg)
+            handlers.onSegment(absolutizeMedia(JSON.parse(data)))
           } catch {
             /* 单段解析失败跳过，不中断整章 */
           }
