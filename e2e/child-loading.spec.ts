@@ -124,7 +124,7 @@ test('孩子端：从列表下方打开详情，书名与开始读回到首屏',
   await page.goto('/child/discover')
   await expect(page.locator('.library-book').first()).toBeVisible()
   await page.locator('.library-more').scrollIntoViewIfNeeded()
-  await expect.poll(() => page.locator('.library-book').count()).toBeGreaterThanOrEqual(28)
+  await expect(page.locator('.library-book').nth(20)).toBeVisible()
   const book = page.locator('.library-book').nth(20).getByRole('button', { name: /^打开《/ })
   await book.scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0)

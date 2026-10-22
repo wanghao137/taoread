@@ -1034,7 +1034,7 @@ function DiscoverPage() {
     v.discoverReturn.current = { search: searchParams.toString(), query, lang: langFilter, count: Math.min(visible, filtered.length), scroll: window.scrollY }
     v.openBook(id)
   }
-  const visibleLimit = visible
+  const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(12, visible) : visible
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const hasMore = filtered.length > visibleLimit || Boolean(page.cursor)
   useEffect(() => {
