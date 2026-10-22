@@ -36,7 +36,7 @@ test('找故事：分页读取首批，下滑自动追加且搜索覆盖完整�
   await selectChild(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/child/discover')
-  await expect(page.locator('.story-card')).toHaveCount(24)
+  await expect(page.locator('.story-card')).toHaveCount(12)
   await expect(page.locator('.library-book').first()).toHaveCSS('content-visibility', 'auto')
   await page.setViewportSize({ width: 390, height: 844 })
   await page.reload()
@@ -44,7 +44,7 @@ test('找故事：分页读取首批，下滑自动追加且搜索覆盖完整�
   await expect.poll(() => cards.count()).toBeGreaterThanOrEqual(4)
   const initialCount = await cards.count()
   // A short viewport can already put the sentinel inside the preload margin.
-  expect(initialCount).toBeLessThanOrEqual(48)
+  expect(initialCount).toBeLessThanOrEqual(28)
   await expect(page.getByRole('button', { name: '再看 24 本', exact: true })).toHaveCount(0)
   await page.locator('.library-more').scrollIntoViewIfNeeded()
   await expect.poll(() => cards.count()).toBeGreaterThan(initialCount)
@@ -57,14 +57,15 @@ test('找故事：连续下滑到末尾、回滚和改变屏宽均不会撑宽�
   await page.setViewportSize({ width: 1920, height: 910 })
   await page.goto('/child/discover')
   const cards = page.locator('.library-book')
-  await expect(cards).toHaveCount(24)
+  await expect(cards).toHaveCount(12)
   const firstWidth = await cards.first().evaluate(el => el.getBoundingClientRect().width)
   const total = Number((await page.getByText(/^当前找到 \d+ 本。$/).textContent())?.match(/\d+/)?.[0])
   expect(total).toBeGreaterThan(36)
-  for (let count = 24; count < total;) {
+  for (let count = 12; count < total;) {
     await page.locator('.library-more').scrollIntoViewIfNeeded()
-    const next = Math.min(total, count + 24)
-    await expect(cards).toHaveCount(next)
+    await expect.poll(() => cards.count()).toBeGreaterThan(count)
+    const next = await cards.count()
+    expect(next).toBeLessThanOrEqual(total)
     expect(await cards.first().evaluate(el => el.getBoundingClientRect().width)).toBeCloseTo(firstWidth, 0)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     count = next
@@ -81,7 +82,7 @@ test('找故事：连续下滑到末尾、回滚和改变屏宽均不会撑宽�
   await expect(page.getByText('没找到，换个词试试。', { exact: true })).toBeVisible()
   await expect(page.locator('.library-more')).toHaveCount(0)
   await page.getByRole('button', { name: '看看全部故事', exact: true }).click()
-  await expect(cards).toHaveCount(24)
+  await expect(cards).toHaveCount(12)
 })
 
 test('找故事：不支持 IntersectionObserver 时下滑仍能继续加载', async ({ page }) => {
@@ -91,7 +92,7 @@ test('找故事：不支持 IntersectionObserver 时下滑仍能继续加载', a
   const cards = page.locator('.library-book')
   await expect.poll(() => cards.count()).toBeGreaterThanOrEqual(4)
   const initialCount = await cards.count()
-  expect(initialCount).toBeLessThanOrEqual(48)
+  expect(initialCount).toBeLessThanOrEqual(28)
   await page.locator('.library-more').scrollIntoViewIfNeeded()
   await expect.poll(() => cards.count()).toBeGreaterThan(initialCount)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
