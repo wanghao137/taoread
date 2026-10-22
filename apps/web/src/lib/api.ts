@@ -49,24 +49,30 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   if (bearer) headers['Authorization'] = `Bearer ${bearer}`
 
   let response: Response
+  const controller = new AbortController()
+  const cancel = () => controller.abort()
+  const timer = setTimeout(cancel, options.timeoutMs ?? 30_000)
+  options.signal?.addEventListener('abort', cancel, { once: true })
+  if (options.signal?.aborted) cancel()
   try {
-    // 默认 30s 超时：弱网/服务挂起时请求不再无限悬挂（TTS 整章 SSE 是独立通道，不受此限）。
-    // AbortSignal.timeout 需较新内核，老浏览器特性检测后静默退回无超时（与 legacy 目标一致）
-    const timeoutMs = options.timeoutMs ?? 30_000
+    // Compose cancellation and timeout without newer AbortSignal APIs on Android WebViews.
     response = await fetch(`${API_BASE}${path}`, {
       method: options.method ?? 'GET',
       headers,
       body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
       ...(options.keepalive ? { keepalive: true } : {}),
-      signal: options.signal && typeof AbortSignal.any === 'function' ? AbortSignal.any([options.signal, AbortSignal.timeout(timeoutMs)]) : options.signal ?? (typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal ? AbortSignal.timeout(timeoutMs) : undefined),
+      signal: controller.signal,
     })
   } catch (err) {
     if (options.signal?.aborted) throw new ApiError(0, 'CANCELLED', '上传已暂停，可以重新选择同一文件继续')
-    // 超时统一归为 TIMEOUT：Chromium 叫 TimeoutError，部分内核叫 AbortError（我们从不手动 abort，无歧义）
+    // Caller cancellation is handled above; remaining aborts are the timeout.
     if (err instanceof DOMException && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
       throw new ApiError(0, 'TIMEOUT', '响应有点慢，再试一次吧')
     }
     throw new ApiError(0, 'NETWORK', '网络好像睡着了，请检查连接后再试')
+  } finally {
+    clearTimeout(timer)
+    options.signal?.removeEventListener('abort', cancel)
   }
 
   if (response.status === 204) return undefined as T
@@ -130,6 +136,13 @@ export interface ChildDto {
   nickname: string
   stage: string
   avatar: string | null
+}
+
+export interface ChildHomeDto {
+  books: ContentBookDto[]
+  continueId: string | null
+  pickIds: string[]
+  phonicsEnabled: boolean
 }
 
 export interface FamilyViewDto {
@@ -198,7 +211,12 @@ export const api = {
   bookmarks: (childId: string, bookId: string, token: string) => request<{ bookmarks: BookmarkDto[] }>(`/api/reading/bookmarks?childId=${encodeURIComponent(childId)}&bookId=${encodeURIComponent(bookId)}`, { token }),
   saveBookmark: (childId: string, bookmark: Omit<BookmarkDto, 'updatedAt'>, baseUpdatedAt: string | null, token: string) => request<{ bookmark: BookmarkDto }>('/api/reading/bookmarks', { method: 'PUT', token, body: { childId, ...bookmark, baseUpdatedAt } }),
   dailyPoem: (childId: string, token: string) => request<DailyPoemDto>(`/api/content/daily-poem?childId=${encodeURIComponent(childId)}`, { token }),
-  importedBooks: (token: string, childId?: string) => request<{ books: ImportedBookDto[] }>(`/api/content/imports${childId ? `?childId=${encodeURIComponent(childId)}` : ''}`, { token }),
+  importedBooks: (token: string, childId?: string, page?: { limit: number; cursor?: string }, signal?: AbortSignal) => {
+    const qs = new URLSearchParams()
+    if (childId) qs.set('childId', childId)
+    if (page) { qs.set('limit', String(page.limit)); if (page.cursor) qs.set('cursor', page.cursor) }
+    return request<{ books: ImportedBookDto[]; total?: number; nextCursor?: string | null }>('/api/content/imports?' + qs, { token, signal })
+  },
   // 导入是重请求：最大 32MB 文件 base64 后约 45MB，家庭上行（约 95KB/s）全程要数分钟，
   // 绝不能落默认 30s 超时——浏览器中途放弃，服务端还在收 body，白烧流量还报「再试一次」
   importTextBook: (token: string, body: { title: string; author?: string; lang: 'zh' | 'en'; ageStage: '3-5' | '6-8' | '9-12'; sourceName: string; text?: string; fileBase64?: string; rightsConfirmed: true }) => request<{ id: string; duplicate: boolean; chapterCount: number }>('/api/content/imports', { method: 'POST', token, body, timeoutMs: 600_000 }),
@@ -410,19 +428,28 @@ export const api = {
 
   contentBooks: async (
     token: string,
-    params: { stage?: string; childId?: string; lang?: string; q?: string } = {},
+    params: { stage?: string; childId?: string; lang?: string; q?: string; limit?: number; cursor?: string; mood?: string; collection?: string; all?: boolean; random?: boolean } = {},
+    signal?: AbortSignal,
   ) => {
     const qs = new URLSearchParams()
     if (params.stage) qs.set('stage', params.stage)
     if (params.childId) qs.set('childId', params.childId)
     if (params.lang) qs.set('lang', params.lang)
     if (params.q && params.q.trim()) qs.set('q', params.q.trim())
+    if (params.limit) qs.set('limit', String(params.limit))
+    if (params.cursor) qs.set('cursor', params.cursor)
+    if (params.mood) qs.set('mood', params.mood)
+    if (params.collection) qs.set('collection', params.collection)
+    if (params.all !== undefined) qs.set('all', String(params.all))
+    if (params.random) qs.set('random', 'true')
     const q = qs.toString()
-    return request<{ total: number; books: ContentBookDto[] }>(
+    return request<{ total: number; books: ContentBookDto[]; nextCursor?: string | null }>(
       `/api/content/books${q ? `?${q}` : ''}`,
-      { token },
+      { token, signal },
     )
   },
+
+  childHome: (childId: string, token: string) => request<ChildHomeDto>(`/api/content/home?childId=${encodeURIComponent(childId)}`, { token }),
 
   contentChapter: (contentId: string, order: number, token: string) =>
     request<{ chapter: ContentChapterDto }>(

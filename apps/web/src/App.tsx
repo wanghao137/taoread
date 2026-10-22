@@ -15,9 +15,12 @@ const loadMotionFeatures = () => import('./lib/motionFeatures').then(m => m.defa
  * 路由级代码分割（docs/11 P0-7）：登录页直出，孩子端/家长端/演示页各自懒加载。
  * 仅在进入对应角色或页面时加载，避免预取另一端占用孩子端弱网带宽。
  */
-const ChildHome = lazy(() =>
-  import('./pages/ChildHome').then((m) => ({ default: m.ChildHome })),
-)
+const loadChildHome = () => import('./pages/ChildHome').then((m) => ({ default: m.ChildHome }))
+const ChildHome = lazy(loadChildHome)
+// A persisted role only predicts the chunk; every API still validates the session.
+if (window.location.pathname === '/' && useSession.getState().token && useSession.getState().role === 'child') {
+  void loadChildHome().catch(() => undefined)
+}
 const ParentHome = lazy(() =>
   import('./pages/ParentHome').then((m) => ({ default: m.ParentHome })),
 )

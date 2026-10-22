@@ -12,6 +12,7 @@
  */
 import { api } from './api'
 import { sanitizeForSpeech } from './tts'
+import { recordLocalDuration } from './readyTiming'
 
 export interface AudioSegment {
   index: number
@@ -77,6 +78,7 @@ class ServerAudioPlayer {
   private rafId: number | null = null
   /** speakChapter 的「首段已播」结清器：stop()/finish() 时兜底 resolve，防调用方悬挂 */
   private firstResolve: ((ok: boolean) => void) | null = null
+  private requestedAt: number | null = null
   private chapterAbort: AbortController | null = null
   private streamFinished = true
   private lastProgress: AudioProgress | null = null
@@ -144,10 +146,12 @@ class ServerAudioPlayer {
    * 返回是否由服务端引擎接管；false 表示调用方应回退 Web Speech。
    */
   async speak(text: string, options: PlayerOptions = {}): Promise<boolean> {
+    const requestedAt = performance.now()
     if (this.available === null) await this.probe()
     if (!this.available) return false
 
     this.stop()
+    this.requestedAt = requestedAt
     const clean = sanitizeForSpeech(text).trim()
     if (clean.length === 0) return false
 
@@ -192,6 +196,7 @@ class ServerAudioPlayer {
     options: PlayerOptions = {},
   ): Promise<boolean> {
     this.stop()
+    this.requestedAt = performance.now()
     const stream = new AbortController()
     this.chapterAbort = stream
     // The chapter endpoint resolves cached audio independently of synthesis.
@@ -440,6 +445,10 @@ class ServerAudioPlayer {
     if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
     this.paused = false
     this.startTimelineLoop(seg)
+    if (this.requestedAt !== null) {
+      recordLocalDuration('audio-playing', this.requestedAt)
+      this.requestedAt = null
+    }
     return true
   }
 

@@ -1,6 +1,5 @@
+@import './ui-fonts.css';
 /* Selected option 1: rounded type, crisp outlines and compact book covers. */
-@font-face { font-family: 'GenSen Rounded'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('/fonts/gensen-rounded-heavy.woff2?v=20261016') format('woff2'); }
-@font-face { font-family: 'GenSen Rounded Text'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('/fonts/gensen-rounded-regular.woff2?v=20261016') format('woff2'); }
 .tao-icon { display: inline-block; vertical-align: middle; object-fit: contain; flex-shrink: 0; user-select: none; pointer-events: none; }
 .app { background-image: url('/art/reading-desk/paper-texture.webp'); }
 .app .logo { transform: none; border: 0; box-shadow: none; background: transparent; }

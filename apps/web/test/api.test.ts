@@ -21,9 +21,34 @@ function jsonResponse(status: number, body: unknown): Response {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  vi.useRealTimers()
 })
 
 describe('request / api 客户端', () => {
+  it('paginated requests retain timeouts without AbortSignal.any or timeout', async () => {
+    vi.useFakeTimers()
+    vi.stubGlobal('AbortSignal', {})
+    mockFetch(async (_url, init) => new Promise((_resolve, reject) => {
+      init!.signal!.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })
+    }))
+    const pending = request('/api/content/books', { signal: new AbortController().signal, timeoutMs: 100 }).catch(error => error)
+    await vi.advanceTimersByTimeAsync(100)
+    expect(await pending).toMatchObject({ code: 'TIMEOUT' })
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it('caller cancellation is distinct from timeout and releases its timer', async () => {
+    vi.useFakeTimers()
+    const caller = new AbortController()
+    mockFetch(async (_url, init) => new Promise((_resolve, reject) => {
+      init!.signal!.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })
+    }))
+    const pending = request('/api/content/books', { signal: caller.signal }).catch(error => error)
+    caller.abort()
+    expect(await pending).toMatchObject({ code: 'CANCELLED' })
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
   it('登录不附带旧会话令牌；仅家长请求携带独立 PIN', async () => {
     const { useSession } = await import('../src/stores/session')
     useSession.getState().signIn({ token: 'stale-parent', familyId: 'f', familyCode: 'ABCD2345', role: 'parent' })

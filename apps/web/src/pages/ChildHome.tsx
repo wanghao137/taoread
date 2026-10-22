@@ -47,7 +47,8 @@ export function ChildHome() {
     setLoadError(undefined)
     const selected = useSession.getState().childId
     const key = JSON.stringify([token, familyId, selected, window.location.pathname])
-    const usesCatalogue = ['/child', '/child/today', '/child/my', '/child/discover'].includes(window.location.pathname)
+    const home = ['/', '/child', '/child/today'].includes(window.location.pathname)
+    const usesCatalogue = home || window.location.pathname === '/child/my'
     // Only read ahead for a selected profile. The API checks family ownership;
     // the result is not displayed until familyView validates that selection.
     const routeBook = /^\/child\/book\/([^/]+)(?:\/chapter\/\d+)?\/?$/.exec(window.location.pathname)?.[1]
@@ -64,7 +65,8 @@ export function ChildHome() {
         family: api.familyView(familyId, token),
         books: selected && usesCatalogue ? {
           token, childId: selected,
-          result: api.contentBooks(token, { childId: selected }).catch(() => null),
+          home,
+          result: (home ? api.childHome(selected, token) : api.contentBooks(token, { childId: selected })).catch(() => null),
         } : null,
         book: selected && bookId ? {
           token, childId: selected, bookId,

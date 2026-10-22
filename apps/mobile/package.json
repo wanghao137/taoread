@@ -1,7 +1,7 @@
 {
   "name": "@taoread/mobile",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "scripts": {
     "build:web": "cd ../web && npx vite build --mode mobile --outDir ../mobile/dist --emptyOutDir",
     "sync": "npx cap sync android",
