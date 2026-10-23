@@ -23,7 +23,7 @@ import { loadConfig } from '../src/config.ts'
 import { chunkText, synthesizeSegment, TtsError } from '../src/modules/tts/client.ts'
 import { cacheKey } from '../src/modules/tts/cache.ts'
 import { DEFAULT_VOICE_ID, findVoice, DEFAULT_SPEED } from '../src/modules/tts/voices.ts'
-import { TTS_PUBLIC_NS } from '../src/modules/tts/publicCache.ts'
+import { TTS_PUBLIC_NS, publicSegmentAudioKey } from '../src/modules/tts/publicCache.ts'
 import { parseMp3 } from '../src/modules/tts/mp3duration.ts'
 import { chapterSpeakText, speakVoiceId } from '../src/modules/tts/chapterText.ts'
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio } from './lib/public-audio-store.mjs'
@@ -106,9 +106,14 @@ async function ensureSegment(key, text, lang) {
     if (!info || info.uploaded || !s3) return 'skip'
     try {
       const { readFile: rf } = await import('node:fs/promises')
-      await uploadAudio(key, await rf(join(outDir, `${key}.mp3`)))
+      const audioKey = publicSegmentAudioKey(key, info)
+      await uploadAudio(audioKey, await rf(join(outDir, `${audioKey}.mp3`)))
       info.uploaded = true
       info.store = store.target
+      if (manifest[audioKey]) {
+        manifest[audioKey].uploaded = true
+        manifest[audioKey].store = store.target
+      }
       manifestDirty = true
       return 'ok'
     } catch (err) {

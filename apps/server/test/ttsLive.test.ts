@@ -177,4 +177,24 @@ describe('progressive chapter HTTP authorization and cancellation', () => {
     expect(response.body).not.toContain('segment-update')
     expect(response.body).not.toContain('tts-live')
   })
+
+  it('preserves CORS and security headers for APK-origin cold and cached chapter streams', async () => {
+    autoComplete = true
+    const url = await chapter()
+    const headers = { authorization: `Bearer ${family.token}`, origin: 'https://localhost' }
+    const preflight = await h.app.inject({ method: 'OPTIONS', url, headers: {
+      origin: headers.origin, 'access-control-request-method': 'POST',
+      'access-control-request-headers': 'authorization,content-type',
+    } })
+    expect(preflight.statusCode).toBe(204)
+    expect(preflight.headers['access-control-allow-origin']).toBe(headers.origin)
+    for (const cached of [false, true]) {
+      const response = await h.app.inject({ method: 'POST', url, headers, payload: { streamAudio: true } })
+      expect(response.headers['access-control-allow-origin']).toBe(headers.origin)
+      expect(response.headers['x-content-type-options']).toBe('nosniff')
+      expect(response.headers['vary']).toContain('Origin')
+      expect(response.body).toContain(`"cached":${cached}`)
+      expect(response.body).toContain('event: done')
+    }
+  })
 })

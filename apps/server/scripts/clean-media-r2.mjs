@@ -112,7 +112,7 @@ if (ttsDead) {
   const { cacheKey } = await import('../src/modules/tts/cache.ts')
   const { chunkText } = await import('../src/modules/tts/client.ts')
   const { DEFAULT_SPEED } = await import('../src/modules/tts/voices.ts')
-  const { TTS_PUBLIC_NS } = await import('../src/modules/tts/publicCache.ts')
+  const { TTS_PUBLIC_NS, publicSegmentAudioKey } = await import('../src/modules/tts/publicCache.ts')
   const { chapterSpeakText, speakVoiceId } = await import('../src/modules/tts/chapterText.ts')
   const { loadConfig } = await import('../src/config.ts')
   const model = loadConfig().TTS_MODEL || 'stepaudio-3-gen-preview'
@@ -137,6 +137,10 @@ if (ttsDead) {
   }
   await prisma.$disconnect()
   if (expectedTtsKeys.size < 1000) throw new Error(`期望键集仅 ${expectedTtsKeys.size}（<1000），疑似连错库，中止`)
+  const narrationManifest = JSON.parse(readFileSync(join(mediaDir, '.tts-public-state.json'), 'utf8'))
+  for (const key of [...expectedTtsKeys]) {
+    expectedTtsKeys.add(publicSegmentAudioKey(key, narrationManifest[key]))
+  }
   let deadCount = 0
   for (const rel of [...desired]) {
     if (!rel.startsWith('tts-public/') || !rel.endsWith('.mp3')) continue

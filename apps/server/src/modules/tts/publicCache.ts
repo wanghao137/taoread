@@ -16,6 +16,9 @@ import { publicAudioBase } from '../../lib/publicMedia'
 export const TTS_PUBLIC_NS = '__public__'
 
 export interface PublicSegmentInfo {
+  /** An explicitly reviewed replacement keeps its actual provider's immutable key. */
+  audioKey?: string
+  model?: string
   durationMs: number
   bytes: number
   /** R2 外发是否已就绪（未上传时源站文件可直接服务） */
@@ -23,9 +26,16 @@ export interface PublicSegmentInfo {
 }
 
 export interface PublicSegmentHit {
+  audioKey?: string
   durationMs: number
   /** true=R2 外发可用；false=源站本地文件可服务 */
   uploaded: boolean
+}
+
+export function publicSegmentAudioKey(key: string, info?: PublicSegmentInfo): string {
+  if (info?.audioKey === undefined) return key
+  if (!/^[a-f0-9]{64}$/.test(info.audioKey) || !info.model) throw Error('Invalid public narration replacement')
+  return info.audioKey
 }
 
 export class PublicTtsIndex {
@@ -43,7 +53,7 @@ export class PublicTtsIndex {
   }
 
   segmentPath(key: string): string {
-    return join(this.mediaDir, 'tts-public', `${key}.mp3`)
+    return join(this.mediaDir, 'tts-public', `${publicSegmentAudioKey(key, this.map.get(key))}.mp3`)
   }
 
   private async ensure(): Promise<void> {
@@ -53,6 +63,8 @@ export class PublicTtsIndex {
       this.mtimeMs = st.mtimeMs
       const raw = JSON.parse(await readFile(this.manifestPath(), 'utf8')) as Record<string, PublicSegmentInfo>
       this.map = new Map(Object.entries(raw))
+      this.localOk.clear()
+      this.localBad.clear()
       this.loaded = true
     } catch {
       // 无清单 = 尚无预生成内容
@@ -66,8 +78,9 @@ export class PublicTtsIndex {
     await this.ensure()
     const info = this.map.get(key)
     if (!info) return null
-    if (info.uploaded && publicAudioBase()) return { durationMs: info.durationMs, uploaded: true }
-    return await this.hasLocalAudio(key) ? { durationMs: info.durationMs, uploaded: false } : null
+    const keyInfo = info.audioKey ? { audioKey: publicSegmentAudioKey(key, info) } : {}
+    if (info.uploaded && publicAudioBase()) return { durationMs: info.durationMs, uploaded: true, ...keyInfo }
+    return await this.hasLocalAudio(key) ? { durationMs: info.durationMs, uploaded: false, ...keyInfo } : null
   }
 
   /** Advertise the origin fallback only after verifying that the file exists. */

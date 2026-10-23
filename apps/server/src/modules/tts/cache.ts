@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto'
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { poetryPronunciation } from './poetryPronunciation'
+import { surnameInstruction, surnameSpeech } from './surnamePronunciation'
 
 export interface CacheEntry {
   /** 缓存文件相对路径（相对 mediaDir） */
@@ -30,9 +31,11 @@ export function cacheKey(
   familyId = '',
   model = '',
 ): string {
-  const spoken = lang === 'zh' ? poetryPronunciation(text) : text
+  const spoken = lang === 'zh' ? surnameSpeech(poetryPronunciation(text)) : text
+  const surname = lang === 'zh' ? surnameInstruction(text) : ''
   // A corrected narration gets a fresh immutable URL. All other legacy keys stay stable.
-  const revision = spoken === text ? '' : `\u0000poetry-pronunciation-v1\u0000${spoken}`
+  const revision = (spoken === text ? '' : `\u0000poetry-pronunciation-v1\u0000${spoken}`)
+    + (surname ? `\u0000surname-pronunciation-v1\u0000${surname}` : '')
   return createHash('sha256')
     .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}\u0000${lang}\u0000${familyId}\u0000${model}${revision}`)
     .digest('hex')

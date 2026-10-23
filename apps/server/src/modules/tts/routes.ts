@@ -134,7 +134,10 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
     for (const [index, text] of chunks.entries()) {
       const key = cacheKey(text, speakVoiceId(lang), DEFAULT_SPEED, 'mp3', lang, TTS_PUBLIC_NS, ttsDeps?.model ?? process.env.TTS_MODEL ?? 'stepaudio-3-gen-preview')
       const hit = await publicTts.get(key)
-      if (hit) segments.push({ index, url: hit.uploaded && publicAudioBase() ? `${publicAudioBase()}/tts-public/${key}.mp3` : `/api/media/tts-public/${key}.mp3`, durationMs: hit.durationMs })
+      if (hit) {
+        const audioKey = hit.audioKey ?? key
+        segments.push({ index, url: hit.uploaded && publicAudioBase() ? `${publicAudioBase()}/tts-public/${audioKey}.mp3` : `/api/media/tts-public/${audioKey}.mp3`, durationMs: hit.durationMs })
+      }
     }
     return { segments, complete: segments.length === chunks.length && chunks.length > 0, missing: chunks.length - segments.length, contentVersion: book.contentVersion }
   })
@@ -281,6 +284,10 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
       const segmentStarts = segmentOffsets(fullText, segments)
       const model = ttsDeps?.model ?? process.env.TTS_MODEL ?? 'stepaudio-3-gen-preview'
 
+      // Raw SSE bypasses Fastify's send pipeline, including APK CORS headers.
+      for (const [name, value] of Object.entries(reply.getHeaders())) {
+        if (value !== undefined) reply.raw.setHeader(name, value)
+      }
       reply.raw.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache, no-transform',
@@ -339,17 +346,18 @@ export function registerTtsRoutes(app: FastifyInstance, deps: TtsRoutesDeps): vo
         const pubKey = cacheKey(seg, voice.id, speed, 'mp3', lang, TTS_PUBLIC_NS, model)
         const pub: PublicSegmentHit | null = await publicTts.get(pubKey)
         if (pub) {
+          const audioKey = pub.audioKey ?? pubKey
           const base = publicAudioBase()
           const audioUrl =
             pub.uploaded && base
-              ? `${base}/tts-public/${pubKey}.mp3`
-              : `/api/media/tts-public/${pubKey}.mp3`
+              ? `${base}/tts-public/${audioKey}.mp3`
+              : `/api/media/tts-public/${audioKey}.mp3`
           await send('segment', {
             index: i,
             start: segmentStarts[i],
             text: seg,
             audioUrl,
-            ...(pub.uploaded && base && await publicTts.hasLocalAudio(pubKey) ? { fallbackAudioUrl: `/api/media/tts-public/${pubKey}.mp3` } : {}),
+            ...(pub.uploaded && base && await publicTts.hasLocalAudio(pubKey) ? { fallbackAudioUrl: `/api/media/tts-public/${audioKey}.mp3` } : {}),
             durationMs: pub.durationMs,
             chars: buildCharTimeline(seg, pub.durationMs),
             cached: true,

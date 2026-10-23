@@ -71,7 +71,7 @@ describe('阅读深链与缓存首音频', () => {
   it('家庭缓存已命中时不受新合成配额影响，也不依赖合成配置', async () => {
     const key = cacheKey('下一章。', speakVoiceId('zh'), DEFAULT_SPEED, 'mp3', 'zh', parent.familyId, model)
     await new TtsCache(media).set(key, 'mp3', Buffer.from('test-private-audio'), 1000)
-    await h.db.ttsMediaOwner.createMany({ data: Array.from({ length: 600 }, (_, i) => ({ path: `tts/r24-${i}.mp3`, familyId: parent.familyId })) })
+    await h.db.ttsMediaOwner.createMany({ data: Array.from({ length: 600 }, (_, i) => ({ path: `tts/r24-${parent.familyId}-${i}.mp3`, familyId: parent.familyId })) })
     const result = await chapter(childToken, 2)
     expect(result.body).toContain('event: segment')
     expect(result.body).toContain('"cached":true')
@@ -103,5 +103,23 @@ describe('阅读深链与缓存首音频', () => {
       if (oldBase === undefined) delete process.env.TAO_TTS_PUBLIC_BASE
       else process.env.TAO_TTS_PUBLIC_BASE = oldBase
     }
+  })
+
+  it('补充提供商音频在章节、离线下载和实际媒体请求中使用同一文件', async () => {
+    await h.app.inject({ method: 'PUT', url: `/api/content/books/${pack.id}/blocked`, headers: authHeaders(parent.token), payload: { blocked: false } })
+    const key = cacheKey(text, speakVoiceId('zh'), DEFAULT_SPEED, 'mp3', 'zh', TTS_PUBLIC_NS, model)
+    const actual = 'b'.repeat(64)
+    await writeFile(join(media, 'tts-public', `${actual}.mp3`), 'replacement-audio')
+    await writeFile(join(media, '.tts-public-state.json'), JSON.stringify({
+      [key]: { bytes: 17, durationMs: 2200, uploaded: false, audioKey: actual, model: 'mimo-v2.5-tts' },
+    }))
+    const result = await chapter(parent.token)
+    expect(result.body).toContain(`"audioUrl":"/api/media/tts-public/${actual}.mp3"`)
+    expect(result.body).not.toContain(`${key}.mp3`)
+    const offline = await h.app.inject({ method: 'GET', url: `/api/tts/offline/${pack.id}/1`, headers: authHeaders(parent.token) })
+    expect(offline.json()).toMatchObject({ complete: true, missing: 0, segments: [{ index: 0, url: `/api/media/tts-public/${actual}.mp3`, durationMs: 2200 }] })
+    const audio = await h.app.inject({ method: 'GET', url: offline.json().segments[0].url })
+    expect(audio.statusCode).toBe(200)
+    expect(audio.body).toBe('replacement-audio')
   })
 })
