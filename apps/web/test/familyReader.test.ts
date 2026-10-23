@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { codePointToUtf16Offset, locateChar, parseBlocks, segmentStarts } from '../src/pages/child/FamilyTrialPages'
+import { locateChar, parseBlocks, segmentStarts } from '../src/pages/child/FamilyTrialPages'
+import { codePointToUtf16Offset } from '../src/lib/readingPosition'
 
 /** 服务端朗读合成全文的坐标空间：去标记 → 行 trim → 丢空行 → '\n' 连接（与 chunkText 输入一致） */
 function serverFullText(text: string): string {

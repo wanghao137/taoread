@@ -28,6 +28,7 @@ import { ReadingAppearance, ReadingOption } from '../../components/ReadingAppear
 import { IconBookmark } from '../../components/ui/icons'
 import { readPreference as loadPref, writePreference as savePref, readerTheme, readerFont } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
+import { codePointToUtf16Offset } from '../../lib/readingPosition'
 import { ContentProgressWriter, type ContentPosition, type ProgressSaveState } from '../../lib/contentProgress'
 import { useV8, LABELS, announceUnlocked, type V8Book } from './V8App'
 
@@ -83,6 +84,7 @@ const THEME_INK: Record<ReaderTheme, string> = {
 const CBF_PREFIX = 'cbf:'
 
 interface SpeakHighlight {
+  start?: number
   index: number
   total: number
   text: string
@@ -545,7 +547,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
 
   /* ── 朗读引擎事件订阅：两条路径共用 highlight 状态，UI 无感差异 ── */
   useEffect(() => {
-    const offAp = audioPlayer.onProgress((p) => setHighlight({ index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
+    const offAp = audioPlayer.onProgress((p) => setHighlight({ start: p.start, index: p.index, total: p.total, text: p.text, charIndex: p.charIndex }))
     const offAe = audioPlayer.onEnd(() => {
       setSpeaking(false)
       setPaused(false)
@@ -854,6 +856,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const segAlignRef = useRef<{ text: string; start: number }>({ text: '', start: 0 })
   const segStart = useMemo(() => {
     if (!chapterAlign || !highlight?.text) return -1
+    if (highlight.start !== undefined && chapterAlign.text.slice(highlight.start, highlight.start + highlight.text.length) === highlight.text) return highlight.start
     const probe = highlight.text.slice(0, 60)
     if (!probe) return -1
     const from = Math.max(0, segAlignRef.current.start - 40)
@@ -864,7 +867,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     return at
   }, [chapterAlign, highlight])
 
-  const globalChar = segStart >= 0 && highlight ? segStart + (highlight.charIndex >= 0 ? highlight.charIndex : 0) : -1
+  const segmentChar = highlight ? codePointToUtf16Offset(highlight.text, Math.max(0, highlight.charIndex)) : -1
+  const globalChar = segStart >= 0 && highlight ? segStart + segmentChar : -1
 
   /** 回退映射：段文本里定位块（全局对齐失败的兜底） */
   const fallbackRanges = useMemo(() => {
@@ -891,21 +895,23 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       }
       return last
     }
-    if (!fallbackRanges || (highlight?.charIndex ?? -1) < 0) return null
+    if (!fallbackRanges || segmentChar < 0) return null
     let last: (typeof fallbackRanges)[number] | null = null
     for (const r of fallbackRanges) {
-      if (highlight!.charIndex >= r.start && highlight!.charIndex < r.end) return r
-      if (highlight!.charIndex >= r.end) last = r
+      if (segmentChar >= r.start && segmentChar < r.end) return r
+      if (segmentChar >= r.end) last = r
     }
     return last
-  }, [chapterAlign, globalChar, fallbackRanges, highlight])
+  }, [chapterAlign, globalChar, fallbackRanges, segmentChar])
 
   const speakingBlockId = useMemo(() => {
-    if (!highlight || !chapter || effectiveHighlight === 'off') return null
+    if (!highlight || !chapter) return null
     if (activeRange) return activeRange.id
     const hit = chapter.blocks.find((b) => b.text.includes(highlight.text.slice(0, 12)))
     return hit?.id ?? null
-  }, [highlight, chapter, effectiveHighlight, activeRange])
+  }, [highlight, chapter, activeRange])
+
+  const speakingOffset = activeRange ? Math.max(0, (segStart >= 0 ? globalChar : segmentChar) - activeRange.start) : 0
 
   // 朗读的块滚动进视野（只在块切换时滚，不逐字打断；翻页模式由 pager 跳页）
   useEffect(() => {
@@ -927,14 +933,15 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
     // 回退：段内映射（全局对齐失败时）
     if (localChar < 0 && blockId && fallbackRanges) {
       const r = fallbackRanges.find((x) => x.id === blockId)
-      if (r && hl.charIndex >= r.start && hl.charIndex < r.end) localChar = hl.charIndex - r.start
+      if (r && segmentChar >= r.start && segmentChar < r.end) localChar = segmentChar - r.start
     }
     if (localChar < 0) return text
     const chars = Array.from(text)
+    const current = Array.from(text.slice(0, localChar)).length
     // 英文：锁定到当前词整体（字符等分时间轴天然有偏移，逐字符高亮必然对不上）
     if (book.lang === 'en') {
-      let ws = localChar
-      let we = localChar
+      let ws = current
+      let we = current
       while (ws > 0 && /[A-Za-z']/.test(chars[ws - 1] ?? '')) ws -= 1
       while (we < chars.length - 1 && /[A-Za-z']/.test(chars[we + 1] ?? '')) we += 1
       if (!/[A-Za-z']/.test(chars[ws] ?? '')) return text
@@ -954,8 +961,8 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
       <span
         key={i}
         style={{
-          fontWeight: i === localChar ? 800 : undefined,
-          opacity: i < localChar ? 0.72 : 1,
+          fontWeight: i === current ? 800 : undefined,
+          opacity: i < current ? 0.72 : 1,
         }}
       >
         {ch}
@@ -1019,9 +1026,11 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   // 朗读高亮块自动翻页（滚动模式走 scrollIntoView，翻页模式跳所在页）
   useEffect(() => {
     if (pageMode !== 'page' || !speakingBlockId) return
-    pager.goToElement(blockRefs.current.get(speakingBlockId) ?? null)
+    const block = chapter?.blocks.find(b => b.id === speakingBlockId)
+    const leadingSpace = block ? block.text.length - block.text.trimStart().length : 0
+    pager.goToElement(blockRefs.current.get(speakingBlockId) ?? null, speakingOffset + leadingSpace)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speakingBlockId, pageMode, order])
+  }, [speakingBlockId, speakingOffset, pageMode, order, font, showPinyin])
 
   // 新章渲染：翻页模式清锚（定位由上方「按已存 blockOrder 定位」effect 统一消费；
   // 此前这里有第二套 restoredBlockRef 消费，但注册顺序在后面读到的恒为 0=死代码）
@@ -1439,7 +1448,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
             }}
           >
             {blocks.map((b) => {
-              const isSpeakingBlock = speakingBlockId === b.id
+              const isSpeakingBlock = speakingBlockId === b.id && effectiveHighlight !== 'off'
               if (b.kind === 'image') {
                 // docs/35 A1：优先 reader 档（800w/R2，冷穿透不再走家庭上行），失败回退原档
                 const url =
@@ -1565,7 +1574,9 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
                         if (speaking) jumpToBlock(b.id)
                       }}
                     >
-                      {isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : showPinyin && b.pinyin ? <PoemRuby text={b.text} pinyin={b.pinyin} color={ink} fontSize={font} /> : <p>{b.text}</p>}
+                      {showPinyin && b.pinyin
+                        ? <PoemRuby text={b.text} pinyin={b.pinyin} color={ink} fontSize={font} activeOffset={isSpeakingBlock && effectiveHighlight === 'word' ? speakingOffset : -1} />
+                        : <p data-reading-text>{isSpeakingBlock ? renderSpeakingChars(b.text, b.id) : b.text}</p>}
                       {savedBlocks.has(b.order) ? <IconBookmark size={16} /> : null}
                     </div>
                     {b.translation && showTranslation ? (

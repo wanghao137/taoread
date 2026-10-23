@@ -7,6 +7,7 @@
  * recalcKey 触发重算，并按锚点块保持位置。
  */
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { readingRange } from './readingPosition'
 
 export const PAGE_GAP = 48
 /** 翻页判定：拖动超过该距离才算翻页（px） */
@@ -19,7 +20,7 @@ export interface PagedReadingHandle {
   pageCount: number
   setPage: (p: number) => void
   /** 滚动到某个块元素所在页（朗读跳块/续读定位用） */
-  goToElement: (el: HTMLElement | null) => void
+  goToElement: (el: HTMLElement | null, textOffset?: number) => void
   /** 当前页第一个块的序号（进度上报用；外部传块元素列表） */
   firstVisibleIndex: (els: Array<HTMLElement | null>) => number
 }
@@ -253,9 +254,12 @@ export function usePagedReading(options: {
     }
   }, [enabled, recalcKey, setPage, applyTransform, viewportRef])
 
-  const goToElement = useCallback((el: HTMLElement | null) => {
+  const goToElement = useCallback((el: HTMLElement | null, textOffset?: number) => {
     if (!el || !trackRef.current?.contains(el) || stepRef.current <= 0) return
-    const target = Math.max(0, Math.min(countRef.current - 1, Math.floor((rectsInTrack(el)[0]?.left ?? 0) / stepRef.current + 0.01)))
+    const range = textOffset === undefined ? null : readingRange(el, textOffset)
+    const rect = range?.getClientRects()[0]
+    const left = rect ? rect.left - trackRef.current.getBoundingClientRect().left : rectsInTrack(el)[0]?.left ?? 0
+    const target = Math.max(0, Math.min(countRef.current - 1, Math.floor(left / stepRef.current + 0.01)))
     if (target !== pageRef.current) setPage(target)
   }, [trackRef, rectsInTrack, setPage])
 

@@ -1,5 +1,6 @@
 import { readerTheme, readerFont, writePreference, readPreference } from '../../lib/storage'
 import { usePagedReading } from '../../lib/pagedReading'
+import { codePointToUtf16Offset } from '../../lib/readingPosition'
 import { Dialog } from '../../components/ui/Dialog'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -81,18 +82,6 @@ export function locateChar(blocks: ReaderBlock[], globalChar: number): { index: 
     }
   }
   return null
-}
-
-/** 字级时间轴按码点计（服务端 [...text] 切分），块坐标按 UTF-16 计：下标换算 */
-export function codePointToUtf16Offset(text: string, cpIndex: number): number {
-  let utf16 = 0
-  let i = 0
-  for (const ch of text) {
-    if (i >= cpIndex) break
-    utf16 += ch.length
-    i += 1
-  }
-  return utf16
 }
 
 /** 正读块逐字渲染：当前字加粗、已读字略淡（与主阅读器同一视觉语言；按 UTF-16 偏移切分，增补平面字安全） */
@@ -590,14 +579,15 @@ export function FamilyReaderPage() {
     else if (speakingRange) {
       targetIndex = renderBlocksRef.current.findIndex((block) => block.kind === 'p' && block.cleanStart < speakingRange.end && block.cleanStart + block.cleanLen > speakingRange.start)
     }
-    if (targetIndex < 0 || targetIndex === scrolledBlockRef.current) return
+    if (targetIndex < 0) return
     const element = container.querySelector<HTMLElement>(`[data-block="${targetIndex}"]`)
     if (!element) return
-    scrolledBlockRef.current = targetIndex
     if (pageMode === 'page') {
-      pager.goToElement(element)
+      pager.goToElement(element, playingChar?.localChar ?? 0)
       return
     }
+    if (targetIndex === scrolledBlockRef.current) return
+    scrolledBlockRef.current = targetIndex
     const rect = element.getBoundingClientRect()
     if (rect.top < 0 || rect.bottom > window.innerHeight) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
     // eslint-disable-next-line react-hooks/exhaustive-deps

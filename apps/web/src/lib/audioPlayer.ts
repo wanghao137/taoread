@@ -34,6 +34,8 @@ export interface VoiceOption {
 }
 
 export interface AudioProgress {
+  /** Authoritative UTF-16 source offset; avoids ambiguity in repeated refrains. */
+  start?: number
   /** 当前段在队列中的下标 */
   index: number
   /** Stable index in the original chapter, including skipped earlier segments. */
@@ -522,6 +524,7 @@ class ServerAudioPlayer {
     const progress: AudioProgress = {
         index: this.currentIndex,
         segmentIndex: seg?.index ?? this.currentIndex,
+        start: seg?.start,
         total: this.queue.length,
         text: seg?.text ?? '',
         charIndex,
