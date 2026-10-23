@@ -121,7 +121,7 @@ export const ccAsbKekesSwing: PackBook = {
       },
       {
         kind: 'text',
-        text: "\"Next time I will be with you on your swing, Keke,\" said Ma Mpho. \"We can go to the moon together!\" ##"
+        text: "\"Next time I will be with you on your swing, Keke,\" said Ma Mpho. \"We can go to the moon together!\""
       },
       {
         kind: 'image',

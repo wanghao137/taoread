@@ -179,7 +179,7 @@ export const ccAsbLetterToMum: PackBook = {
       },
       {
         kind: 'text',
-        text: "I folded my letter so I could give it to my father to bring it to mum. When I woke up the following morning, the letter was gone. ##"
+        text: "I folded my letter so I could give it to my father to bring it to mum. When I woke up the following morning, the letter was gone."
       },
       {
         kind: 'image',

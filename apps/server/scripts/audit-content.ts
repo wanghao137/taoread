@@ -15,6 +15,7 @@ for (const book of ALL_PACKS) {
     if (!chapter.title || !chapter.blocks.length) issues.push({ book: book.id, chapter: ci + 1, severity: 'error', code: 'empty-chapter' })
     chapter.blocks.forEach((block, bi) => {
       const location = { book: book.id, chapter: ci + 1, block: bi + 1 }
+      if ((block.kind === 'text' || block.kind === 'poem') && /(?:^|\s)#{2,6}(?=\s|$)/.test(block.text)) issues.push({ ...location, severity: 'error', code: 'unparsed-markdown-page' })
       if (!block.text.trim() && block.kind !== 'image') issues.push({ ...location, severity: 'error', code: 'empty-text' })
       if (block.pinyin) {
         const letters = [...block.text].filter((c) => /\p{Script=Han}/u.test(c)).length

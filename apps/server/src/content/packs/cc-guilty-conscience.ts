@@ -142,7 +142,7 @@ export const ccAsbGuiltyConscience: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "Together they pulled the frightened girl out of the river. Since that day, the old woman's grandchildren have always told the truth. ##"
+        text: "Together they pulled the frightened girl out of the river. Since that day, the old woman's grandchildren have always told the truth."
       },
       {
         kind: 'image',

@@ -121,7 +121,7 @@ export const ccAsbTheCleverLittleBird: PackBook = {
       },
       {
         kind: 'text',
-        text: "Owl was very ashamed that he had let the little bird escape. Now he only hunts at night. In the day, he sleeps, away from the sight of the other birds. ##"
+        text: "Owl was very ashamed that he had let the little bird escape. Now he only hunts at night. In the day, he sleeps, away from the sight of the other birds."
       },
       {
         kind: 'image',

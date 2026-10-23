@@ -171,7 +171,7 @@ export const ccAsbAhFootball: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "We quickly went to feed the ducks. Later on, we cleaned ourselves. ##"
+        text: "We quickly went to feed the ducks. Later on, we cleaned ourselves."
       },
       {
         kind: 'image',

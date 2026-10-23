@@ -171,7 +171,7 @@ export const ccAsbHowAntSavedDove: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "## \"I cannot leave until I say thank you to the dove. I will wait until he comes back to drink.\""
+        text: "\"I cannot leave until I say thank you to the dove. I will wait until he comes back to drink.\""
       },
       {
         kind: 'text',
@@ -200,7 +200,7 @@ export const ccAsbHowAntSavedDove: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "## \"I cannot let the boys kill White Dove. But I am so tiny, what can I do?\""
+        text: "\"I cannot let the boys kill White Dove. But I am so tiny, what can I do?\""
       },
       {
         kind: 'text',
@@ -208,7 +208,7 @@ export const ccAsbHowAntSavedDove: PackBook = {
       },
       {
         kind: 'text',
-        text: "## Little Ant had an idea."
+        text: "Little Ant had an idea."
       },
       {
         kind: 'image',
@@ -258,7 +258,7 @@ export const ccAsbHowAntSavedDove: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "That was how Little Ant thanked White Dove for saving him. ##"
+        text: "That was how Little Ant thanked White Dove for saving him."
       },
       {
         kind: 'image',

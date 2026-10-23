@@ -113,7 +113,7 @@ export const ccAsbThingsIKnow: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "I am in class two and I know many things. I want to know many more. What I do not know, I ask my parents or my teacher. ##"
+        text: "I am in class two and I know many things. I want to know many more. What I do not know, I ask my parents or my teacher."
       },
       {
         kind: 'image',

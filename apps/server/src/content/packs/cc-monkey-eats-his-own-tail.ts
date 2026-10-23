@@ -142,7 +142,7 @@ export const ccAsbMonkeyEatsHisOwnTail: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The rabbit told him that he had eaten his own tail and then ran away. And from then on they became enemies! ##"
+        text: "The rabbit told him that he had eaten his own tail and then ran away. And from then on they became enemies!"
       },
       {
         kind: 'image',

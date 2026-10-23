@@ -121,7 +121,7 @@ export const ccAsbMonkeyAndTheHuntersWife: PackBook = {
       },
       {
         kind: 'text',
-        text: "The hunter's wife put the baby monkey down. Mother Monkey held her baby to her chest. She disappeared up the tree. She never lost another baby! ##"
+        text: "The hunter's wife put the baby monkey down. Mother Monkey held her baby to her chest. She disappeared up the tree. She never lost another baby!"
       },
       {
         kind: 'image',

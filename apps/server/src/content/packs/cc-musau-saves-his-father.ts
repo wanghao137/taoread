@@ -142,7 +142,7 @@ export const ccAsbMusauSavesHisFather: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "After that, Syonzola never went out again to drink. Instead, he spent his days telling interesting stories to the school children. ##"
+        text: "After that, Syonzola never went out again to drink. Instead, he spent his days telling interesting stories to the school children."
       },
       {
         kind: 'image',

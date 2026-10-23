@@ -121,7 +121,7 @@ export const ccAsbSleepyMrSloth: PackBook = {
       },
       {
         kind: 'text',
-        text: "The bird and the snake, the giraffe and each bee were happy to have Mr. Sloth in their tree. ##"
+        text: "The bird and the snake, the giraffe and each bee were happy to have Mr. Sloth in their tree."
       },
       {
         kind: 'image',

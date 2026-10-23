@@ -142,7 +142,7 @@ export const ccAsbChildAsAPeacemaker: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "_Note: In the language Ng'aturkana, 'erotot' is the word used to to describe a man who goes ahead to survey an area before before an attack takes place. It is similar to the English word 'scout'._ ##"
+        text: "Note: In the language Ng'aturkana, 'erotot' is the word used to to describe a man who goes ahead to survey an area before before an attack takes place. It is similar to the English word 'scout'."
       },
       {
         kind: 'image',

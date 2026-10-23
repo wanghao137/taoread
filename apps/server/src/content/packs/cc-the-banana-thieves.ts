@@ -142,7 +142,7 @@ export const ccAsbTheBananaThieves: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The boys were given a punishment. Each got some ten strokes and repented not to steal anything again. ##"
+        text: "The boys were given a punishment. Each got some ten strokes and repented not to steal anything again."
       },
       {
         kind: 'image',

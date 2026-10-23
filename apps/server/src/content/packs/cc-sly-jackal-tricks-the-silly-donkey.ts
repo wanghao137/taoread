@@ -88,7 +88,7 @@ export const ccAsbSlyJackalTricksTheSillyDonkey: PackBook = {
       },
       {
         kind: 'text',
-        text: "Donkey jumped into the well. The water was so cool. He was free from the heat. Before he knew it, the sly jackal had jumped on his back and out of the well. Sly jackal laughed and ran away. Donkey was trapped in the well. He started screaming and shouting: \"Help! Anyone help!\" ##"
+        text: "Donkey jumped into the well. The water was so cool. He was free from the heat. Before he knew it, the sly jackal had jumped on his back and out of the well. Sly jackal laughed and ran away. Donkey was trapped in the well. He started screaming and shouting: \"Help! Anyone help!\""
       },
       {
         kind: 'image',

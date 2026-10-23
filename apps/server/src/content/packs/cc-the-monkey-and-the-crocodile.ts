@@ -113,7 +113,7 @@ export const ccAsbTheMonkeyAndTheCrocodile: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The monkey laughed and said, \"What a fool you were to believe me!\" and disappeared behind the branches of the tree. The crocodile never did catch that clever monkey! ##"
+        text: "The monkey laughed and said, \"What a fool you were to believe me!\" and disappeared behind the branches of the tree. The crocodile never did catch that clever monkey!"
       },
       {
         kind: 'image',

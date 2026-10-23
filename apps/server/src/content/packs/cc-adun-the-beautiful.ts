@@ -142,7 +142,7 @@ export const ccAsbAdunTheBeautiful: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "Tortoise ate, ate and ate. And Adun ran away. ##"
+        text: "Tortoise ate, ate and ate. And Adun ran away."
       },
       {
         kind: 'image',

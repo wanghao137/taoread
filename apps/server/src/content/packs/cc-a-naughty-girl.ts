@@ -113,7 +113,7 @@ export const ccAsbANaughtyGirl: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The people of the village found emily still in the pond, she was very scared. And from that day she learned to listen and to respect her mother. ##"
+        text: "The people of the village found emily still in the pond, she was very scared. And from that day she learned to listen and to respect her mother."
       },
       {
         kind: 'image',

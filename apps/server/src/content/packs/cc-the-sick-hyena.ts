@@ -113,7 +113,7 @@ export const ccAsbTheSickHyena: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "And the rabbit ran far away from that place! ##"
+        text: "And the rabbit ran far away from that place!"
       },
       {
         kind: 'image',

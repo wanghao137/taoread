@@ -121,7 +121,7 @@ export const ccAsbMyFirstPairOfShoes: PackBook = {
       },
       {
         kind: 'text',
-        text: "I was wearing my new shoes in bed! ##"
+        text: "I was wearing my new shoes in bed!"
       },
       {
         kind: 'image',

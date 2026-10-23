@@ -121,7 +121,7 @@ export const ccAsbTheRat: PackBook = {
       },
       {
         kind: 'text',
-        text: "Your worst home is better than your neighbour's best home. ##"
+        text: "Your worst home is better than your neighbour's best home."
       },
       {
         kind: 'image',

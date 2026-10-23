@@ -121,7 +121,7 @@ export const ccAsbOneHotSaturdayAfternoon: PackBook = {
       },
       {
         kind: 'text',
-        text: "But did Mme believe us? Soon our bottoms were very warm. And it wasn't from the sun. ##"
+        text: "But did Mme believe us? Soon our bottoms were very warm. And it wasn't from the sun."
       },
       {
         kind: 'image',

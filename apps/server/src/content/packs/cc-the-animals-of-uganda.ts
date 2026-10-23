@@ -92,7 +92,7 @@ export const ccAsbTheAnimalsOfUganda: PackBook = {
       },
       {
         kind: 'text',
-        text: "What are these two animal friends? Where do they live? Which one would you eat? ##"
+        text: "What are these two animal friends? Where do they live? Which one would you eat?"
       },
       {
         kind: 'image',

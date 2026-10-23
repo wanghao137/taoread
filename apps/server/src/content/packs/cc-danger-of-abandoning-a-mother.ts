@@ -142,7 +142,7 @@ export const ccAsbDangerOfAbandoningAMother: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The first wife, Akai, went back with the ram to live with the old woman. ##"
+        text: "The first wife, Akai, went back with the ram to live with the old woman."
       },
       {
         kind: 'image',

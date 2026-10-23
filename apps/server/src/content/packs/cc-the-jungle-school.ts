@@ -113,7 +113,7 @@ export const ccAsbTheJungleSchool: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "The teacher turned to write on the black board. \"Jump,\" said Zhoola. \"Fly! said Tota. Thump, thump, thump ran Mota. \"Run, run run fast,\" screamed Dheema. \"Bhagoooo,\" they all shouted together. When the teacher turned... There was no one in the class. ##"
+        text: "The teacher turned to write on the black board. \"Jump,\" said Zhoola. \"Fly! said Tota. Thump, thump, thump ran Mota. \"Run, run run fast,\" screamed Dheema. \"Bhagoooo,\" they all shouted together. When the teacher turned... There was no one in the class."
       },
       {
         kind: 'image',

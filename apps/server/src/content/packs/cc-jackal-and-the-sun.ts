@@ -92,7 +92,7 @@ export const ccAsbJackalAndTheSun: PackBook = {
       },
       {
         kind: 'text',
-        text: "The new fur was a different colour to the fur on the rest of his body. The different colours always reminded Jackal not to be so foolish again. ##"
+        text: "The new fur was a different colour to the fur on the rest of his body. The different colours always reminded Jackal not to be so foolish again."
       },
       {
         kind: 'image',

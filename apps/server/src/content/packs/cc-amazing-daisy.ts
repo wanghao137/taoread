@@ -204,7 +204,7 @@ export const ccAsbAmazingDaisy: PackBook = {
       },
       {
         kind: 'text',
-        text: "They said, \"Oh Daisy, you're amazing!\" ##"
+        text: "They said, \"Oh Daisy, you're amazing!\""
       },
       {
         kind: 'image',

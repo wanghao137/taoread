@@ -171,7 +171,7 @@ export const ccAsbBigBlueBus: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "Ebei did not care about the colour of the bus. He did not care about the size of the bus. He was happy because this bus was going to town. ##"
+        text: "Ebei did not care about the colour of the bus. He did not care about the size of the bus. He was happy because this bus was going to town."
       },
       {
         kind: 'image',

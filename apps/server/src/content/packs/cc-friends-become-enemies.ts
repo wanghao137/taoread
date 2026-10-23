@@ -113,7 +113,7 @@ export const ccAsbFriendsBecomeEnemies: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "From that time, Hyena went his way and Hare went the other way. That marked the end of their friendship. ##"
+        text: "From that time, Hyena went his way and Hare went the other way. That marked the end of their friendship."
       },
       {
         kind: 'image',

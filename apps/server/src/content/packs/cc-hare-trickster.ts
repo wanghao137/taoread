@@ -171,7 +171,7 @@ export const ccAsbHareTrickster: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "Hare went to Buffalo and praised her, saying that she was stronger. ##"
+        text: "Hare went to Buffalo and praised her, saying that she was stronger."
       },
       {
         kind: 'image',

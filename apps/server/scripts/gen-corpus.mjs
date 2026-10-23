@@ -554,18 +554,6 @@ function buildQianziwen() {
   const chapters = groups.map((g, i) => primerChapter(i + 1, `第${cn(i + 1)}课 · ${firstPhrase(g[0])}`, g))
   return buildPrimer('primer-qianziwen.ts', 'qianZiWen', { title: '千字文', intro: '一千个不重复的字，写成二百五十句四字韵语，从天地玄黄讲到治家治国。', author: '周兴嗣（南朝梁）' }, { workTitle: '千字文', author: '周兴嗣', authorDeathYear: 521, note: '通行本全篇；注音与白话译文为平台自撰。' }, chapters)
 }
-function buildBaijiaxing() {
-  const raw = JSON.parse(readFileSync(resolve(CORPUS, '蒙学_baijiaxing.json'), 'utf8'))
-  const lines = raw.paragraphs.map(sim)
-  const groups = chunk(lines, 8)
-  const chapters = groups.map((g, i) =>
-    primerChapter(i + 1, `第${cn(i + 1)}课 · ${firstPhrase(g[0])}`, g, {
-      note: '这一句都是姓氏：' + g.map((l) => l.split(/[，。]/)[0]).join('、') + '……你的姓在第几课？',
-      translation: g.map((l) => `这一句都是姓氏：${l.replace(/[，。]/g, '、').replace(/、$/, '')}。`).join('\n'),
-    }),
-  )
-  return buildPrimer('primer-baijiaxing.ts', 'baiJiaXing', { title: '百家姓', intro: '赵钱孙李、周吴郑王——全本《百家姓》，看看你的姓排第几？', author: '佚名（北宋）' }, { workTitle: '百家姓', author: '佚名（北宋）', authorDeathYear: -1, note: '北宋蒙学课本，作者佚名；注音与白话译文为平台自撰。' }, chapters)
-}
 function buildShenglv(file, varName, volumeTitle, intro, volume) {
   const raw = JSON.parse(readFileSync(resolve(CORPUS, '蒙学_shenglvqimeng.json'), 'utf8'))
   const vol = raw.content.find((v) => sim(v.title) === volume)
@@ -688,7 +676,7 @@ run('元曲选', buildYuanqu)
 run('三字经', buildSanzi)
 run('弟子规', buildDizigui)
 run('千字文', buildQianziwen)
-run('百家姓', buildBaijiaxing)
+console.log('百家姓：保留校订版内容包，不用通用注音覆盖（docs/75）')
 run('声律启蒙·上卷', () => buildShenglv('primer-shenglv.ts', 'shenglvDong', '声律启蒙·上卷', '云对雨，雪对风，晚照对晴空。上卷十五个韵部，读着读着就会对对子了。', '上卷'))
 run('声律启蒙·下卷', () => buildShenglv('primer-shenglv2.ts', 'shenglvJiang', '声律启蒙·下卷', '十五个新韵部，从「来对往」到「规对矩」，继续对对子。', '下卷'))
 run('朱子家训', buildZhuzi)

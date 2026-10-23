@@ -17,7 +17,7 @@ if (!SRC) { console.error('usage: node scripts/gen-cc-packs.mjs <asp-en-dir> [ou
 /* ── 解析 md ── */
 function parseStory(md, file) {
   const meta = {}
-  const lines = md.split('\n')
+  const lines = md.replace(/\r\n/g, '\n').split('\n')
   const metaIdx = lines.findIndex((l) => l.includes('License:'))
   if (metaIdx === -1) return null
   for (let i = metaIdx; i < lines.length; i++) {
@@ -30,7 +30,7 @@ function parseStory(md, file) {
   if (!title) return null
 
   const body = lines.slice(1, metaIdx).join('\n')
-  const pages = body.split(/\n##\s*\n/).map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean)
+  const pages = body.split(/^##[ \t]*$/m).map((p) => p.replace(/\s+/g, ' ').trim().replace(/^_(.*)_$/, '$1')).filter(Boolean)
   if (pages.length < 6) return null // 太薄的认知卡不成书
   const words = pages.join(' ').split(/\s+/).length
   if (words < 120 || words > 500) return null

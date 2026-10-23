@@ -117,7 +117,7 @@ export const ccAsbKhayangaAndHerGourd: PackBook = {
       },
       {
         kind: 'text',
-        text: "With the special Gourd, Khayanga knew that her parents were watching over her. Nothing bad could happen to her. ##"
+        text: "With the special Gourd, Khayanga knew that her parents were watching over her. Nothing bad could happen to her."
       },
       {
         kind: 'image',

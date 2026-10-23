@@ -88,7 +88,7 @@ export const ccAsbTheCleverJackalAndTheFoolishCrow: PackBook = {
       },
       {
         kind: 'text',
-        text: "As Crow started singing the cheese fell to the ground, right in front of Jackal. Crow stopped and looked down. Jackal grabbed the piece of cheese and ate it. He ran into the bush and crow was left angry and hungry. ##"
+        text: "As Crow started singing the cheese fell to the ground, right in front of Jackal. Crow stopped and looked down. Jackal grabbed the piece of cheese and ate it. He ran into the bush and crow was left angry and hungry."
       },
       {
         kind: 'image',

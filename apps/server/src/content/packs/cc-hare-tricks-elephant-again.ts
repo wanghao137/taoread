@@ -146,7 +146,7 @@ export const ccAsbHareTricksElephantAgain: PackBook = {
       },
       {
         kind: 'text',
-        text: "Hare and Elephant are no longer friends. ##"
+        text: "Hare and Elephant are no longer friends."
       },
       {
         kind: 'image',

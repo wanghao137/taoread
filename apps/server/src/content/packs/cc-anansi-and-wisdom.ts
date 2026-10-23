@@ -63,7 +63,7 @@ export const ccAsbAnansiAndWisdom: PackBook = {
       },
       {
         kind: 'text',
-        text: "It smashed into pieces on the ground. The wisdom was free for everyone to share. And that is how people learned to farm, to weave cloth, to make iron tools, and all the other things that people know how to do. ##"
+        text: "It smashed into pieces on the ground. The wisdom was free for everyone to share. And that is how people learned to farm, to weave cloth, to make iron tools, and all the other things that people know how to do."
       },
       {
         kind: 'image',

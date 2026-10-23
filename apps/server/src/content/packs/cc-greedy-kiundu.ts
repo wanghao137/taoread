@@ -121,7 +121,7 @@ export const ccAsbGreedyKiundu: PackBook = {
       },
       {
         kind: 'text',
-        text: "Slowly, he walked home sad and hungry. ##"
+        text: "Slowly, he walked home sad and hungry."
       },
       {
         kind: 'image',

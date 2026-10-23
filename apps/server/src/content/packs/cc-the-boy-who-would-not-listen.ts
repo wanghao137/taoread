@@ -63,7 +63,7 @@ export const ccAsbTheBoyWhoWouldNotListen: PackBook = {
       },
       {
         kind: 'text',
-        text: "'Why do they make fun of me. Why. I feel so embarrassed. I wish i had never accepted to eat that apple the talking lion gave me\" ##"
+        text: "'Why do they make fun of me. Why. I feel so embarrassed. I wish i had never accepted to eat that apple the talking lion gave me\""
       },
       {
         kind: 'image',

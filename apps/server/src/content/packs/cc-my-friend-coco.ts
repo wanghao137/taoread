@@ -117,7 +117,7 @@ export const ccAsbMyFriendCoco: PackBook = {
       },
       {
         kind: 'text',
-        text: "I was so happy that I did not know who to hug first, Coco or my uncle. I knew Coco would go back to his old self now that his brother was back. We would go running in the fields again! ##"
+        text: "I was so happy that I did not know who to hug first, Coco or my uncle. I knew Coco would go back to his old self now that his brother was back. We would go running in the fields again!"
       },
       {
         kind: 'image',

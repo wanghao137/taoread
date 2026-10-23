@@ -113,7 +113,7 @@ export const ccAsbFirstManAndFirstWoman: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "\"Come,\" said First Man. \"I will,\" said First Woman. And they walked out together into their new world. ##"
+        text: "\"Come,\" said First Man. \"I will,\" said First Woman. And they walked out together into their new world."
       },
       {
         kind: 'image',

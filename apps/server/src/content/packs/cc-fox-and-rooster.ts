@@ -121,7 +121,7 @@ export const ccAsbFoxAndRooster: PackBook = {
       },
       {
         kind: 'text',
-        text: "Fox was angry. He went back to the other animals. He told them the truth about the comb on Rooster's head. From that day, no one was afraid of Rooster. And foxes eat roosters and their families. ##"
+        text: "Fox was angry. He went back to the other animals. He told them the truth about the comb on Rooster's head. From that day, no one was afraid of Rooster. And foxes eat roosters and their families."
       },
       {
         kind: 'image',

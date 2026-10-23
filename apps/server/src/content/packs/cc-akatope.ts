@@ -146,7 +146,7 @@ export const ccAsbAkatope: PackBook = {
       },
       {
         kind: 'text',
-        text: "Akatope's elderly mother sold everything she owned. She used the money to treat Akatope. Akatope grew up to be the most beautiful girl in the village. ##"
+        text: "Akatope's elderly mother sold everything she owned. She used the money to treat Akatope. Akatope grew up to be the most beautiful girl in the village."
       },
       {
         kind: 'image',

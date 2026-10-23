@@ -121,7 +121,7 @@ export const ccAsbGreedyMairu: PackBook = {
       },
       {
         kind: 'text',
-        text: "gently ,he walked back home cursing never to serve two masters at ago. ##"
+        text: "gently ,he walked back home cursing never to serve two masters at ago."
       },
       {
         kind: 'image',

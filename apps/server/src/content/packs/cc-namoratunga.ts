@@ -121,7 +121,7 @@ export const ccAsbNamoratunga: PackBook = {
       },
       {
         kind: 'text',
-        text: "Since then, those stones remained there. At night they can be heard singing and dancing edonga. That is how we have the site of Namoratunga. ##"
+        text: "Since then, those stones remained there. At night they can be heard singing and dancing edonga. That is how we have the site of Namoratunga."
       },
       {
         kind: 'image',

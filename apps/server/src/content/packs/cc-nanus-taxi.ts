@@ -171,7 +171,7 @@ export const ccAsbNanusTaxi: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "Goodbye!!! ##"
+        text: "Goodbye!!!"
       },
       {
         kind: 'image',

@@ -113,7 +113,7 @@ export const ccAsbTheBleedingApple: PackBook = {
     blocks: [
       {
         kind: 'text',
-        text: "\"It's not the apple that is bleeding, you little, lazy, naughty boy. It's your filthy, yellow rotting teeth!\" she shouted. \"You do not brush your teeth as told!\" she said with a cross face. All that Kala felt as he escaped through the door, was his behind getting warm from his Mom's dish cloth! ##"
+        text: "\"It's not the apple that is bleeding, you little, lazy, naughty boy. It's your filthy, yellow rotting teeth!\" she shouted. \"You do not brush your teeth as told!\" she said with a cross face. All that Kala felt as he escaped through the door, was his behind getting warm from his Mom's dish cloth!"
       },
       {
         kind: 'image',

@@ -121,7 +121,7 @@ export const ccAsbChickenAndMillipede: PackBook = {
       },
       {
         kind: 'text',
-        text: "From that time, chickens and millipedes were enemies. ##"
+        text: "From that time, chickens and millipedes were enemies."
       },
       {
         kind: 'image',
