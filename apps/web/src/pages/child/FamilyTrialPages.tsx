@@ -653,7 +653,7 @@ export function FamilyReaderPage() {
         <button aria-pressed={toolsTab === 'audio'} onClick={() => setToolsTab('audio')}>听读</button>
         <button aria-pressed={toolsTab === 'bookmarks'} onClick={() => setToolsTab('bookmarks')}>书签</button>
       </div>
-      {toolsTab === 'layout' && <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={value => { setFontFamily(value); writePreference('taoread-reader-fontfamily', value) }} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} />}
+      {toolsTab === 'layout' && <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={value => { setFontFamily(value); writePreference('taoread-reader-fontfamily', value) }} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} onModeApplied={() => setToolsOpen(false)} />}
       {toolsTab === 'audio' && <div className="reading-audio">
         <p className="reading-hint">选一个喜欢的声音，慢慢听故事。</p>
         <label className="reading-select">朗读声音<select aria-label="朗读声音" value={voiceId} onChange={e => { stopTts(); setVoiceId(e.target.value) }}><option value="">默认声音</option>{voices.filter(v => v.lang === book?.lang).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label>

@@ -6,14 +6,22 @@ export function ReadingOption({ label, children }: { label: string; children: Re
   return <fieldset className="reading-option"><legend>{label}</legend><div className="reading-choices">{children}</div></fieldset>
 }
 
-export function ReadingAppearance({ theme, setTheme, font, setFont, fontFamily, setFontFamily, lineHeight, setLineHeight, pageMode, setPageMode, dimImages, setDimImages }: {
+export function ReadingAppearance({ theme, setTheme, font, setFont, fontFamily, setFontFamily, lineHeight, setLineHeight, pageMode, setPageMode, dimImages, setDimImages, onModeApplied }: {
   theme: ReadingTheme; setTheme: (value: ReadingTheme) => void
   font: number; setFont: (value: number) => void
   fontFamily: 'serif' | 'sans'; setFontFamily: (value: 'serif' | 'sans') => void
   lineHeight: number; setLineHeight: (value: number) => void
   pageMode: 'page' | 'scroll'; setPageMode: (value: 'page' | 'scroll') => void
   dimImages: boolean; setDimImages: (value: boolean) => void
+  /** 用户点「左右翻页」时回调：宿主应关闭设置弹层——面板不关会挡住翻页钮（docs/79 实测） */
+  onModeApplied?: () => void
 }) {
+  // docs/79：只有切到「左右翻页」才收起面板——翻页模式的翻页钮会被本面板遮挡；
+  // 「上下滚动」不挡任何控件，保持面板开着供连续微调（upgrade.spec 依赖此契约）。
+  const chooseMode = (value: 'page' | 'scroll') => {
+    setPageMode(value)
+    if (value === 'page') onModeApplied?.()
+  }
   return <div className="reading-appearance">
     <p className="reading-hint">按你喜欢的方式读，调整后立即生效。</p>
     <ReadingOption label="主题">
@@ -31,8 +39,8 @@ export function ReadingAppearance({ theme, setTheme, font, setFont, fontFamily, 
       {[1.7, 1.9, 2.1].map((value, index) => <button key={value} aria-pressed={lineHeight === value} onClick={() => setLineHeight(value)}>{['紧凑', '舒适', '宽松'][index]}</button>)}
     </ReadingOption>
     <ReadingOption label="阅读方式">
-      <button aria-pressed={pageMode === 'page'} onClick={() => setPageMode('page')}>左右翻页</button>
-      <button aria-pressed={pageMode === 'scroll'} onClick={() => setPageMode('scroll')}>上下滚动</button>
+      <button aria-pressed={pageMode === 'page'} onClick={() => chooseMode('page')}>左右翻页</button>
+      <button aria-pressed={pageMode === 'scroll'} onClick={() => chooseMode('scroll')}>上下滚动</button>
     </ReadingOption>
     <label className="reading-toggle"><span>夜间调暗插图<small>只在夜间主题下生效</small></span><input type="checkbox" checked={dimImages} onChange={e => setDimImages(e.target.checked)} /></label>
   </div>

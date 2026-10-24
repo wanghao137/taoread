@@ -1706,7 +1706,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           </div>
           {settingsTab === 'record' && <div className="reading-support"><button onClick={() => setSettingsTab('more')}>返回更多工具</button><h3>跟读录音 · 试点</h3><LocalRecorder /></div>}
           {settingsTab === 'layout' && <>
-            <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={setFontFamily} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} />
+            <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={setFontFamily} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} onModeApplied={() => setShowSettings(false)} />
             {blocks.some(block => block.kind === 'poem') && <ReadingOption label="诗歌辅助">
               <label className="reading-toggle"><span>显示拼音</span><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /></label>
               <label className="reading-toggle"><span>显示白话解释</span><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /></label>
