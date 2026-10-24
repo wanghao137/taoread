@@ -7,7 +7,7 @@ import { tokenSecretFrom, type KeyProbe } from '../src/modules/family/service'
 import type { WereadCall } from '../src/services/weread/endpoints'
 
 export const TEST_MASTER_KEY = 'test-master-key-0123456789abcdef'
-export const TEST_DB_URL = 'file:./test.db'
+export const TEST_DB_URL = process.env.TAO_TEST_DB_URL ?? 'file:./test.db'
 export const tokenSecret = tokenSecretFrom(TEST_MASTER_KEY)
 /** 测试专用假 key：真实 key 只允许存在于 .env（gitignored），绝不写入任何源码 */
 export const FAKE_KEY = 'wrk-test-fake-key-0001'

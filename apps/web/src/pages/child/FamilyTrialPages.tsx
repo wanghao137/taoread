@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError, type ImportedBookDto, type ImportedProgressDto, type PhonicsLessonDto } from '../../lib/api'
 import { uid } from '../../lib/uid'
 import { useSession } from '../../stores/session'
+import { useReadyTiming } from '../../lib/readyTiming'
 import { PageHead } from '../../components/PageHead'
 import { defaultReadingTheme, type ReadingTheme } from '../../lib/readingTheme'
 import { FeedbackForm } from '../../components/ReadingSupport'
@@ -119,16 +120,47 @@ export function FamilyLibraryPage() {
   const [loading, setLoading] = useState(true)
   const [retry, setRetry] = useState(0)
   const [progress, setProgress] = useState<Record<string, { order: number; completed: boolean }>>({})
+  const [total, setTotal] = useState(0)
+  const [cursor, setCursor] = useState<string | null>(null)
+  const pending = useRef<AbortController | null>(null)
+  const sentinel = useRef<HTMLDivElement>(null)
+  const load = useCallback(async (after?: string) => {
+    if (!token || !childId || pending.current) return
+    const controller = new AbortController()
+    pending.current = controller
+    setLoading(true); setError('')
+    try {
+      const result = await api.importedBooks(token, childId, { limit: 24, cursor: after }, controller.signal)
+      if (controller.signal.aborted || useSession.getState().token !== token || useSession.getState().childId !== childId) return
+      setBooks(old => [...new Map([...(after ? old : []), ...result.books].map(b => [b.id, b])).values()])
+      setTotal(result.total ?? result.books.length)
+      setCursor(result.nextCursor ?? null)
+      setProgress(old => ({ ...(after ? old : {}), ...Object.fromEntries(result.books.filter(x => x.progress && !x.progress.relocationRequired).map(x => [x.id, x.progress!])) }))
+    } catch (err) {
+      if (!controller.signal.aborted) setError(err instanceof Error ? err.message : '无法加载家庭书架')
+    } finally {
+      if (pending.current === controller) { pending.current = null; setLoading(false) }
+    }
+  }, [token, childId])
   useEffect(() => {
-    if (!token || !childId) return
-    let live = true
-    setLoading(true); setError(''); setBooks([]); setProgress({})
-    void api.importedBooks(token, childId).then((result) => { if (live) { setBooks(result.books); setProgress(Object.fromEntries(result.books.filter(x => x.progress && !x.progress.relocationRequired).map(x => [x.id, x.progress!]))) } })
-      .catch((err: unknown) => { if (live) setError(err instanceof Error ? err.message : '无法加载家庭书架') })
-      .finally(() => { if (live) setLoading(false) })
-    return () => { live = false }
-  }, [token, childId, retry])
-  return <div className="family-library"><div className="family-library-heading"><PageHead title="家庭书架" sub="家人为你挑好的书，慢慢读，一起读" /><button className="text-action min-h-[44px]" onClick={() => navigate('/child/today')}><IconArrowLeft size={20} />返回今天</button></div><div className="family-library-caption"><IconFamily size={22} /><span>只属于我们家的小书架</span>{!loading && !error && <span className="family-book-count">{books.length} 本书</span>}</div>{loading && <p role="status">家庭书架正在赶来…</p>}{error && <div className="family-library-state"><p role="alert">{error}</p><button className="sticker-btn" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}<div className="fam-shelf">{books.map((book) => {
+    setBooks([]); setProgress({}); setCursor(null); setTotal(0)
+    void load()
+    return () => { pending.current?.abort(); pending.current = null }
+  }, [load, retry])
+  useEffect(() => {
+    const el = sentinel.current
+    if (!el || !cursor || loading || error) return
+    const more = () => { void load(cursor) }
+    if (typeof IntersectionObserver === 'undefined') {
+      const scroll = () => { if (el.getBoundingClientRect().top <= innerHeight + 240) more() }
+      window.addEventListener('scroll', scroll, { passive: true }); scroll()
+      return () => window.removeEventListener('scroll', scroll)
+    }
+    const observer = new IntersectionObserver(entries => { if (entries.some(e => e.isIntersecting)) { observer.disconnect(); more() } }, { rootMargin: '240px' })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [cursor, loading, error, load])
+  return <div className="family-library"><div className="family-library-heading"><PageHead title="家庭书架" sub="家人为你挑好的书，慢慢读，一起读" /><button className="text-action min-h-[44px]" onClick={() => navigate('/child/today')}><IconArrowLeft size={20} />返回今天</button></div><div className="family-library-caption"><IconFamily size={22} /><span>只属于我们家的小书架</span>{!loading && !error && <span className="family-book-count">{total} 本书</span>}</div>{loading && <p role="status">家庭书架正在赶来…</p>}{error && <div className="family-library-state"><p role="alert">{error}</p><button className="sticker-btn" onClick={() => setRetry((n) => n + 1)}>重新加载</button></div>}<div className="fam-shelf">{books.map((book) => {
     const p = progress[book.id]
     return <button className="fam-card" key={book.id} onClick={() => navigate(`/child/family-book/${encodeURIComponent(book.id)}`)}>
       <span className="fam-cover">
@@ -140,7 +172,7 @@ export function FamilyLibraryPage() {
       <small className="mono-line">{book.author ?? '作者未标注'} · {book.chapterCount} 章</small>
       <span className="fam-card-bottom"><small className={`fam-progress ${p?.completed ? 'done' : ''}`}>{p?.completed ? '已读完' : p ? `读至第 ${p.order} 章` : '未开始'}</small><IconArrowRight size={20} /></span></span>
     </button>
-  })}</div>{!loading && books.length === 0 && !error && <div className="family-library-state"><IconBookOpen size={52} /><h3>把家里的好故事放进来</h3><p>让爸爸妈妈在家长端上传家里的书，它们就会出现在这里。</p></div>}</div>
+  })}</div>{cursor && <div ref={sentinel} role="status" aria-label="继续下滑加载家庭书架" style={{ minHeight: 44 }} />}{!loading && books.length === 0 && !error && <div className="family-library-state"><IconBookOpen size={52} /><h3>把家里的好故事放进来</h3><p>让爸爸妈妈在家长端上传家里的书，它们就会出现在这里。</p></div>}</div>
 }
 
 interface TtsSegment {
@@ -164,6 +196,7 @@ export function FamilyReaderPage() {
   const [error, setError] = useState('')
   const [progress, setProgress] = useState<ImportedProgressDto | null>(null)
   const [progressLoaded, setProgressLoaded] = useState(false)
+  useReadyTiming(Boolean(chapter) && progressLoaded, 'family-reader')
   const [retry, setRetry] = useState(0)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle')
   const saveQueueRef = useRef<Promise<void>>(Promise.resolve())

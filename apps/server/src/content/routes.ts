@@ -20,6 +20,7 @@ import { registerImportRoutes } from './importRoutes'
 import { buildWordQuiz } from './quiz'
 import { buildLiteracyTest, literacySuggestion } from './literacy'
 import { COLLECTIONS, findCollection, matchesCollection } from './collections'
+import { timed } from '../lib/requestTiming'
 import { weekStartDate } from '../lib/week'
 import { dailyPoem } from './dailyPoem'
 
@@ -77,6 +78,12 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
         stage: z.enum(['3-5', '6-8', '9-12']).optional(),
         childId: z.string().min(1).max(64).optional(),
         q: z.string().trim().min(1).max(64).optional(),
+        limit: z.coerce.number().int().min(1).max(48).optional(),
+        cursor: z.string().min(1).max(128).optional(),
+        mood: z.enum(['funny', 'adventure', 'calm', 'curious', 'english']).optional(),
+        collection: z.string().min(1).max(64).optional(),
+        all: z.enum(['true', 'false']).optional(),
+        random: z.literal('true').optional(),
       }),
       request.query,
     )
@@ -85,26 +92,44 @@ export function registerContentRoutes(app: FastifyInstance, deps: ContentRoutesD
     if (request.auth.role === 'child') {
       await assertSelectedChild(request, query.childId)
     }
-    const books = await svc.listBooks(db, {
-      familyId: request.auth.fid,
+    const familyId = request.auth.fid
+    if (query.random && (query.cursor || query.limit !== 1)) throw new ValidationError('随机选择每次只返回一本书')
+    if (query.cursor && !query.limit) throw new ValidationError('分页需要指定每页数量')
+    const shelf = await timed(request, 'shelf', () => svc.listShelf(db, {
+      familyId,
       ...(query.childId ? { childId: query.childId } : {}),
       ...(query.lang ? { lang: query.lang } : {}),
       ...(query.q ? { q: query.q } : {}),
-    })
+      limit: query.limit, cursor: query.cursor, mood: query.mood, collection: query.collection, all: query.all === 'true', random: query.random === 'true',
+    }))
+    const books = shelf.books
     const searchMatches = query.q ? await db.chapter.findMany({ where: { bookId: { in: books.map(x => x.id) }, title: { contains: query.q } }, select: { bookId: true, order: true, title: true }, orderBy: { order: 'asc' } }) : []
     const resultBooks = books.map(book => ({ ...book, matchedChapters: searchMatches.filter(ch => ch.bookId === book.id).slice(0, 5).map(({ order, title }) => ({ order, title })) }))
     // docs/35 B4：ETag + 30s 浏览器缓存——内容指纹（总数+收藏数+最近读时间原文）做真哈希，
     // 变化则 304 失效；切 tab / 短时间重进的重复全量拉取免传输（CF 不缓存带 Authorization
     // 的响应，此头只作用于浏览器）。对抗审查 P0-1：ISO 时间戳定长，早期版本取「指纹字节长度」
     // 恒定不变 → 永久 304 陈旧；必须哈希原文。
-    const etag = `W/"shelf-${createHash('sha256').update(JSON.stringify(resultBooks)).digest('hex').slice(0, 24)}"`
+    const body = { total: shelf.total, books: resultBooks, ...(query.limit ? { nextCursor: shelf.nextCursor } : {}) }
+    const etag = `W/"shelf-${createHash('sha256').update(JSON.stringify(body)).digest('hex').slice(0, 24)}"`
     reply.header('ETag', etag)
-    reply.header('Cache-Control', 'private, max-age=30')
+    reply.header('Cache-Control', query.limit ? 'private, no-store' : 'private, max-age=30')
     if (request.headers['if-none-match'] === etag) {
       reply.code(304)
       return reply.send()
     }
-    return reply.send({ total: resultBooks.length, books: resultBooks })
+    return reply.send(body)
+  })
+
+  app.get('/api/content/home', { preHandler: auth }, async (request, reply) => {
+    const { childId } = parse(z.object({ childId: z.string().min(1).max(64) }), request.query)
+    const child = await db.childProfile.findFirst({ where: { id: childId, familyId: request.auth!.fid }, select: { stage: true } })
+    if (!child) throw new AppError('小读者档案不存在', 'CHILD_NOT_FOUND', 404)
+    const [home, enrollment] = await Promise.all([
+      timed(request, 'shelf', () => svc.listShelf(db, { childId, familyId: request.auth!.fid, homeStage: child.stage })),
+      db.phonicsEnrollment.findUnique({ where: { childId }, select: { v2Enabled: true } }),
+    ])
+    reply.header('Cache-Control', 'private, no-store')
+    return { books: home.books, continueId: home.continueId ?? null, pickIds: home.pickIds ?? [], phonicsEnabled: enrollment?.v2Enabled === true }
   })
 
   app.get<{ Params: { id: string } }>(

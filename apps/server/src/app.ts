@@ -28,6 +28,7 @@ import { PhonicsRuntime, type PhonicsV2Options } from './modules/phonics/v2/runt
 import { candidateDirectory, loadCourse } from './modules/phonics/v2/courseRegistry'
 import { registerTtsRoutes } from './modules/tts/routes'
 import { routePreloads } from './lib/routePreloads'
+import { timed, serverTiming } from './lib/requestTiming'
 import { PublicTtsIndex } from './modules/tts/publicCache'
 import type { TtsClientDeps } from './modules/tts/client'
 import { registerMediaRoutes } from './modules/media/routes'
@@ -84,8 +85,9 @@ export interface BuildAppOptions {
 export async function buildApp(options: BuildAppOptions): Promise<FastifyInstance> {
   const scriptSources = await inlineScriptSources(options.staticDir)
   const app = Fastify({
+    requestIdHeader: false,
     // Media capabilities travel in image/audio URLs; never put raw query strings in request logs.
-    logger: options.logger ? { serializers: { req: (req) => ({ method: req.method, path: req.url?.split('?')[0], hostname: req.hostname, remoteAddress: req.ip }) } } : false,
+    logger: options.logger ? { serializers: { req: (req) => ({ method: req.method, path: req.url?.startsWith('/api/') ? 'api' : 'page' }) } } : false,
     // 放宽路径参数长度上限到 256（zod 校验限 bookId≤128；默认 100 会让超长参数在路由层 404 而非 400）
     maxParamLength: 256,
     // 审计 T03/F06：显式信任代理配置——默认 false 时伪造 X-Forwarded-For 不影响
@@ -130,6 +132,8 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
   await app.register(cors, {
     origin: options.allowedOrigin ?? true,
+    maxAge: 600,
+    exposedHeaders: ['Server-Timing', 'X-Request-Id'],
   })
 
   // docs/35 B1：gzip 压缩——书架接口 178KB JSON 压后 ~30KB，家庭上行是全站瓶颈。
@@ -139,15 +143,32 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     encodings: ['gzip', 'deflate'],
   })
 
-  // docs/35 D1：慢端点观测——>500ms 的 API 记一行结构化日志，积累 p95 证据
+  let apiRequests = 0
+  app.addHook('onSend', async (request, reply, payload) => {
+    if (request.url.startsWith('/api/')) {
+      reply.header('X-Request-Id', request.id)
+      reply.header('Server-Timing', serverTiming(request, reply.elapsedTime))
+    }
+    return payload
+  })
+
+  // Slow/error requests are complete; ordinary requests are systematic 1-in-20 samples.
   app.addHook('onResponse', async (request, reply) => {
     const elapsed = typeof reply.elapsedTime === 'number' ? reply.elapsedTime : 0
-    if (elapsed > 500 && request.url?.startsWith('/api/')) {
+    if (!request.url.startsWith('/api/')) return
+    const ordinal = ++apiRequests
+    const full = elapsed > 500 || reply.statusCode >= 400
+    if (full || ordinal % 20 === 0) {
       console.log(
         JSON.stringify({
-          slow: true,
+          time: new Date().toISOString(),
+          build: process.env.TAO_BUILD_REVISION ?? 'unknown',
+          requestId: request.id,
+          ordinal,
+          sampleRate: full ? 1 : 0.05,
+          slow: elapsed > 500,
           method: request.method,
-          path: request.url.split('?')[0],
+          path: request.routeOptions.url ?? 'unmatched',
           ms: Math.round(elapsed),
           status: reply.statusCode,
         }),
@@ -180,7 +201,7 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     const header = request.headers.authorization
     if (!header || !header.startsWith('Bearer ')) return
     const claims = verifyToken(header.slice(7).trim(), options.tokenSecret)
-    await sessionGuard.assertActive(claims.fid, claims.sid, claims.role, claims.pv)
+    await timed(request, 'identity', () => sessionGuard.assertActive(claims.fid, claims.sid, claims.role, claims.pv))
   })
 
   registerFamilyRoutes(app, {

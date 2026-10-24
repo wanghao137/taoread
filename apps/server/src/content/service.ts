@@ -3,6 +3,8 @@
  * 内容域 bookId 在共读会话中以 cbf: 前缀引用（weread/routes 与 cosession 已对齐）。
  */
 import type { PrismaClient, Book, Block } from '@prisma/client'
+import { homeSelection } from './homeSelection'
+import { findCollection, matchesCollection } from './collections'
 import { AppError } from '../lib/errors'
 import { publicMediaUrl } from '../lib/publicMedia'
 import { readGuidance, type ReadingGuidance } from './guidance'
@@ -299,7 +301,7 @@ export async function assertContentReadable(
   throw new AppError('这本书已经被家长收起来啦', 'BOOK_BLOCKED', 403)
 }
 
-export async function listBooks(
+export async function listShelf(
   db: PrismaClient,
   options: {
     childId?: string
@@ -313,8 +315,15 @@ export async function listBooks(
     q?: string | null
     /** 限定书集合（docs/34 P1-12 主题书单）：先按策展条件选 id，再走统一 DTO 组装 */
     ids?: string[]
+    random?: boolean
+    homeStage?: string
+    limit?: number
+    cursor?: string
+    mood?: string
+    collection?: string
+    all?: boolean
   } = {},
-): Promise<BookSummaryDto[]> {
+) {
   const catalog = await getBookCatalog(db)
   const needle = matchKey(options.q)
   // docs/35 B3：书目过滤全部基于进程内目录缓存（含章节标题索引），零全表查询
@@ -336,43 +345,43 @@ export async function listBooks(
   // 进度批量查询（无 childId 时一律 0）；docs/34 P0-4：带章序与最近读时间，
   // 今天页的「继续读」要跳到最近读的那本书的那一章
   const progressMap: Map<string, { pct: number; finished: boolean; chapterOrder: number | null; updatedAt: Date | null }> = new Map()
-  if (options.childId) {
-    const progRows = await db.readingProgress.findMany({
+  const [progRows, blockedRows, favIds] = await Promise.all([
+    options.childId ? db.readingProgress.findMany({
       where: { childId: options.childId },
       select: { bookId: true, chapterOrder: true, finished: true, updatedAt: true },
-    })
+    }) : Promise.resolve([]),
+    db.shelfSnapshot.findMany({
+      where: { familyId: options.familyId, kind: 'cbf', blocked: true },
+      select: { bookId: true },
+    }),
+    options.childId ? listFavoriteIds(db, options.childId) : Promise.resolve(new Set<string>()),
+  ])
+  const byId = new Map(rows.map(b => [b.id, b]))
     for (const row of progRows) {
-      const book = rows.find((b) => b.id === row.bookId)
+      const book = byId.get(row.bookId)
       if (!book) continue
       const total = book.chapterCount
       const pct = total > 0 ? Math.min(99, Math.round((row.chapterOrder / total) * 100)) : 0
       progressMap.set(row.bookId, { pct: row.finished ? 100 : pct, finished: row.finished, chapterOrder: row.chapterOrder, updatedAt: row.updatedAt })
     }
-  }
 
   // 家长屏蔽（docs/09 C9）：屏蔽行存 ShelfSnapshot(kind='cbf')，孩子端书架不展示
-  const blockedRows = await db.shelfSnapshot.findMany({
-    where: { familyId: options.familyId, kind: 'cbf', blocked: true },
-    select: { bookId: true },
-  })
   const blockedIds = new Set(blockedRows.map((r) => r.bookId))
   const visible = filtered.filter((b) => !blockedIds.has(b.id))
 
-  const artMap = await artUrlMap(db, visible.map((b) => coverScene(b.id)))
-  const favIds = options.childId ? await listFavoriteIds(db, options.childId) : new Set<string>()
 
   // 难度徽章（docs/34 P1-7）：同类书内部按「每章字数」的中位数三档——
   // 纯语料统计、零人工标注；孩子视角是「刚好/进阶/挑战」，不是评分
 
-  return visible.map((b) => {
+  let selected = visible.map((b) => {
     const p = progressMap.get(b.id) ?? { pct: 0, finished: false, chapterOrder: null, updatedAt: null }
     return summarize(
       b,
       p.pct,
       p.finished,
       false,
-      artUrlFor(artMap, b.id),
-      variantUrl(artMap.get(coverScene(b.id)), 'thumb'),
+      null,
+      null,
       favIds.has(b.id),
       {
         resumeChapter: p.finished ? null : p.chapterOrder,
@@ -381,6 +390,39 @@ export async function listBooks(
       },
     )
   })
+  if (options.mood) selected = selected.filter(b => {
+    if (options.mood === 'funny') return b.category === 'story'
+    if (options.mood === 'adventure') return b.category === 'tale'
+    if (options.mood === 'calm') return b.category === 'poetry'
+    if (options.mood === 'curious') return b.category === 'primer' || b.category === 'science'
+    return b.lang === 'en'
+  })
+  if (options.collection) {
+    const def = findCollection(options.collection)
+    if (!def) throw new AppError('没有找到这份书单', 'COLLECTION_NOT_FOUND', 404)
+    selected = selected.filter(b => matchesCollection(def, b)).sort((a, b) => Number(b.lang === 'zh') - Number(a.lang === 'zh') || a.words / Math.max(1, a.chapterCount) - b.words / Math.max(1, b.chapterCount) || a.id.localeCompare(b.id))
+    if (!options.all) selected = selected.slice(0, def.take)
+  }
+  const home = options.homeStage ? homeSelection(selected, options.homeStage) : null
+  if (home) selected = home.books
+  const total = selected.length
+  if (options.random && selected.length) selected = [selected[Math.floor(Math.random() * selected.length)]!]
+  if (options.cursor) {
+    const index = selected.findIndex(b => b.id === options.cursor)
+    if (index < 0) throw new AppError('书架已更新，请重新加载', 'SHELF_CHANGED', 409)
+    selected = selected.slice(index + 1)
+  }
+  const hasMore = options.limit !== undefined && selected.length > options.limit
+  if (options.limit !== undefined) selected = selected.slice(0, options.limit)
+  // Resolve images only for books actually returned, not every book in the catalogue.
+  const artMap = await artUrlMap(db, selected.map(b => coverScene(b.id)))
+  const books = selected.map(b => ({ ...b, coverArtUrl: artUrlFor(artMap, b.id), coverThumbUrl: variantUrl(artMap.get(coverScene(b.id)), 'thumb') }))
+  return { books, total, nextCursor: hasMore ? books.at(-1)!.id : null, ...(home ? { continueId: home.continueId, pickIds: home.pickIds } : {}) }
+}
+
+/** Keep the unpaginated contract for installed older clients and internal callers. */
+export async function listBooks(db: PrismaClient, options: NonNullable<Parameters<typeof listShelf>[1]> = {}): Promise<BookSummaryDto[]> {
+  return (await listShelf(db, options)).books
 }
 
 /**

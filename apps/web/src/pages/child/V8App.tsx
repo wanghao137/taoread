@@ -1,3 +1,4 @@
+import { useReadyTiming } from '../../lib/readyTiming'
 /**
  * 「贴纸绘本 v8」孩子端外壳 + 数据上下文（2026-09-21 审计整改）。
  * 暖纸阅读空间（v8.css 基础 + reading-ui.css 孩子端规范）；路由化（A4 P1）：
@@ -18,7 +19,7 @@ import {
   useState,
 } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { api, type ContentBookDto } from '../../lib/api'
+import { api, type ContentBookDto, type ChildHomeDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
 import { audioPlayer } from '../../lib/audioPlayer'
 import { tts } from '../../lib/tts'
@@ -221,6 +222,10 @@ interface V8ContextValue {
   books: V8Book[]
   loaded: boolean
   booksError: string | null
+  discoverReturn: { current: { search: string; query: string; lang: 'all' | 'zh' | 'en'; count: number; scroll: number } | null }
+  home: ChildHomeDto | null
+  rememberBooks: (books: ContentBookDto[]) => void
+  loadReport: () => void
   reloadBooks: () => void
   loadBook: (id: string) => Promise<void>
   report: { nights: number; highlightsTotal: number; booksCompleted: number; highlights: Array<{ text: string; source: string }> } | null
@@ -263,7 +268,8 @@ function useRouteBook(id: string | undefined) {
 export interface InitialBooksRequest {
   token: string
   childId: string
-  result: Promise<{ books: ContentBookDto[] } | null>
+  home?: boolean
+  result: Promise<({ books: ContentBookDto[] } & Partial<ChildHomeDto>) | null>
 }
 
 export interface InitialBookRequest {
@@ -279,7 +285,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const familyId = useSession((s) => s.familyId)
   const initialBooksRef = useRef(initialBooks)
   const initialBookRef = useRef(initialBook)
-  const pendingBooks = useRef<{ token: string; childId: string; result: Promise<{ books: ContentBookDto[] }> } | null>(null)
+  const pendingBooks = useRef<{ token: string; childId: string; home: boolean; result: Promise<{ books: ContentBookDto[] } & Partial<ChildHomeDto>> } | null>(null)
   const pendingBook = useRef(new Map<string, Promise<void>>())
   const booksRequest = useRef(0)
   const navigate = useNavigate()
@@ -287,11 +293,26 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const [books, setBooks] = useState<V8Book[]>([])
   const [loaded, setLoaded] = useState(false)
   const [booksError, setBooksError] = useState<string | null>(null)
+  const [home, setHome] = useState<ChildHomeDto | null>(null)
+  const [reportRequested, setReportRequested] = useState(0)
+  const reportAt = useRef(0)
+  const booksScope = useRef('')
+  const discoverReturn = useRef<V8ContextValue['discoverReturn']['current']>(null)
+  const rememberBooks = useCallback((rows: ContentBookDto[]) => {
+    setBooks(prev => { const incoming = new Set(rows.map(b => b.id)); return [...prev.filter(b => !incoming.has(b.id)), ...rows.map(toV8)] })
+  }, [])
+  const loadReport = useCallback(() => setReportRequested(n => n + 1), [])
   const [report, setReport] = useState<V8ContextValue['report']>(null)
   const [nights, setNights] = useState<string[]>([])
   const [toastMsg, setToastMsg] = useState('')
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const location = useLocation()
+
+  useEffect(() => {
+    const previous = history.scrollRestoration
+    history.scrollRestoration = 'manual'
+    return () => { history.scrollRestoration = previous }
+  }, [])
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0)
@@ -311,21 +332,26 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const reloadBooks = useCallback(() => {
     if (!token) return
     const sequence = ++booksRequest.current
+    const forHome = ['/', '/child', '/child/today'].includes(window.location.pathname)
+    const scope = forHome ? 'home' : 'shelf'
+    if (booksScope.current !== scope) setLoaded(false)
+    booksScope.current = scope
     const initial = initialBooksRef.current
     initialBooksRef.current = null
     setBooksError(null)
-    const fetchBooks = () => api.contentBooks(token, { ...(childId ? { childId } : {}) })
+    const fetchBooks = async (): Promise<{ books: ContentBookDto[] } & Partial<ChildHomeDto>> => forHome && childId ? api.childHome(childId, token) : api.contentBooks(token, { ...(childId ? { childId } : {}) })
     const pending = pendingBooks.current
-    const result = (pending?.token === token && pending.childId === childId
+    const result = (pending?.token === token && pending.childId === childId && pending.home === forHome
       ? pending.result
-      : initial?.token === token && initial.childId === childId
+      : initial?.token === token && initial.childId === childId && Boolean(initial.home) === forHome
         ? initial.result.then(res => res ?? fetchBooks()) : fetchBooks())
       .finally(() => { if (pendingBooks.current?.result === result) pendingBooks.current = null })
-    if (childId) pendingBooks.current = { token, childId, result }
+    if (childId) pendingBooks.current = { token, childId, home: forHome, result }
     result
       .then((res) => {
         if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
         setBooks(res.books.map(toV8))
+        if (forHome && 'continueId' in res) setHome(res as ChildHomeDto)
         setLoaded(true)
       })
       .catch((err: unknown) => {
@@ -358,7 +384,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   const lastFetchRef = useRef(0)
   const prevPathRef = useRef('')
   useEffect(() => {
-    const listRoutes = ['/child', '/child/today', '/child/my', '/child/discover']
+    const listRoutes = ['/child', '/child/today', '/child/my']
     if (!listRoutes.includes(location.pathname)) {
       prevPathRef.current = location.pathname
       return
@@ -366,15 +392,17 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
     // 对抗审查 P2-4：来源判定泛化——「从任何非列表路由回到列表」都定向刷新
     // （覆盖阅读器→详情页→返回 的最常见浏览路径；chapter 路由本身也属非列表）
     const cameFromElsewhere = prevPathRef.current !== '' && !listRoutes.includes(prevPathRef.current)
+    if (cameFromElsewhere) reportAt.current = 0
     prevPathRef.current = location.pathname
-    if (cameFromElsewhere || Date.now() - lastFetchRef.current > 60_000) {
+    const scope = location.pathname === '/child/my' ? 'shelf' : 'home'
+    if (booksScope.current !== scope || cameFromElsewhere || Date.now() - lastFetchRef.current > 60_000) {
       lastFetchRef.current = Date.now()
       void reloadBooks()
     }
   }, [location.pathname, reloadBooks])
   // 回前台且距上次拉取 >60s 时静默刷新（家长在另一端屏蔽/孩子换设备读完的场景）
   useEffect(() => {
-    const listRoute = ['/child', '/child/today', '/child/my', '/child/discover'].includes(location.pathname)
+    const listRoute = ['/child', '/child/today', '/child/my'].includes(location.pathname)
     const onVisible = () => {
       if (listRoute && document.visibilityState === 'visible' && Date.now() - lastFetchRef.current > 60_000) {
         lastFetchRef.current = Date.now()
@@ -387,21 +415,23 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
 
   useEffect(() => {
     let alive = true
-    setReport(null)
-    setNights([])
-    if (!token || !familyId || !childId || !['/child', '/child/today', '/child/my'].includes(location.pathname)) return
+    if (!token || !familyId || !childId || (location.pathname !== '/child/my' && !reportRequested) || Date.now() - reportAt.current < 60_000) return
     api
       .weeklyReport(familyId, token, undefined, childId)
       .then(({ report: r }) =>
-        { if (alive) setReport({ nights: r.nights, highlightsTotal: r.highlightsTotal, booksCompleted: r.booksCompleted, highlights: r.highlights }) },
+        { if (alive) { reportAt.current = Date.now(); setReport({ nights: r.nights, highlightsTotal: r.highlightsTotal, booksCompleted: r.booksCompleted, highlights: r.highlights }) } },
       )
       .catch(() => { if (alive) setReport(null) })
-    api
-      .achievements(childId, token)
-      .then((a) => { if (alive) setNights(a.nightLamps.map((x) => x.unlockedAt)) })
-      .catch(() => { if (alive) setNights([]) })
+
     return () => { alive = false }
-  }, [token, familyId, childId, location.pathname])
+  }, [token, familyId, childId, location.pathname, reportRequested])
+
+  useEffect(() => {
+    if (!token || !childId || location.pathname !== '/child/my') return
+    let alive = true
+    void api.achievements(childId, token).then(a => { if (alive) setNights(a.nightLamps.map(x => x.unlockedAt)) }).catch(() => { if (alive) setNights([]) })
+    return () => { alive = false }
+  }, [token, childId, location.pathname])
 
   const toggleFav = useCallback(
     (id: string) => {
@@ -433,6 +463,10 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
       books,
       loaded,
       booksError,
+      discoverReturn,
+      home,
+      rememberBooks,
+      loadReport,
       reloadBooks,
       loadBook,
       report,
@@ -444,7 +478,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
       onSwitchFamily,
       onSwitchChild,
     }),
-    [childName, books, loaded, booksError, reloadBooks, loadBook, report, nights, toggleFav, openBook, readBook, showToast, onSwitchFamily, onSwitchChild],
+    [childName, books, loaded, booksError, home, rememberBooks, loadReport, reloadBooks, loadBook, report, nights, toggleFav, openBook, readBook, showToast, onSwitchFamily, onSwitchChild],
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
@@ -646,54 +680,13 @@ function chapterLabel(order: number): string {
 
 function TodayPage() {
   const v = useV8()
+  useReadyTiming(v.loaded && !v.booksError, 'home')
   const navigate = useNavigate()
   const token = useSession((s) => s.token)
   const childId = useSession((s) => s.childId)
   // docs/34 P0-4：「继续读」= 最近读的那本（按进度上报时间），而不是书架序里第一本在读
-  const childStage = useSession(s => s.childStage)
-  const inProgress = v.books.filter((b) => b.progress > 0 && !b.finished)
-  const continueBook =
-    inProgress.slice().sort((a, b) => (b.lastReadAt ?? '').localeCompare(a.lastReadAt ?? ''))[0] ?? null
-  // 规则推荐（A7 P1 / docs/34 P1-9）：未读优先 → 收藏优先 → 中文书优先 → 读过的降权；
-  // 新增孩子维度：难度「刚好」加分 + 读过同类书的画像偏好加分（纯本地统计，零成本）
-  const startedByCat = useMemo(() => {
-    const map = new Map<string, number>()
-    for (const b of v.books) {
-      if (b.progress > 0) map.set(b.category, (map.get(b.category) ?? 0) + 1)
-    }
-    return map
-  }, [v.books])
-  const picks = useMemo(() => {
-    const pool = v.books.filter((b) => b.id !== continueBook?.id)
-    const scored = pool
-      .map((b) => ({
-        b,
-        score:
-          (b.progress === 0 ? 2 : 0) +
-          (b.fav ? 1 : 0) +
-          (b.lang === 'zh' ? 0.5 : 0) +
-          (b.finished ? -2 : 0) +
-          (b.difficulty === 'fit' ? 0.5 : 0) +
-          (b.ageStage === childStage ? 2 : 0) +
-          (b.readingGuidance?.modes.includes(childStage === '3-5' ? 'together' : 'self') ? 0.5 : 0) +
-          (childStage === '3-5' && b.difficulty === 'easy' ? 1 : 0) +
-          ((startedByCat.get(b.category) ?? 0) > 0 ? 0.5 : 0),
-      }))
-      .sort((x, y) => y.score - x.score)
-    const out: V8Book[] = []
-    const seenCat = new Set<string>()
-    for (const { b } of scored) {
-      if (out.length >= 3) break
-      if (seenCat.has(b.category) && pool.length > 3) continue
-      seenCat.add(b.category)
-      out.push(b)
-    }
-    for (const { b } of scored) {
-      if (out.length >= 3) break
-      if (!out.some(pick => pick.id === b.id)) out.push(b)
-    }
-    return out
-  }, [v.books, continueBook, startedByCat, childStage])
+  const continueBook = v.books.find(b => b.id === v.home?.continueId) ?? null
+  const picks = (v.home?.pickIds ?? []).flatMap(id => { const b = v.books.find(b => b.id === id); return b ? [b] : [] })
   const firstMemory = v.report?.highlights?.[0] ?? null
 
   // ── 纸质书共读（docs/34 P0-1）：今晚读纸书的孩子端入口 ──
@@ -725,8 +718,10 @@ function TodayPage() {
   }, [token, childId])
 
   useEffect(() => {
-    loadPaperAndWindow()
-  }, [loadPaperAndWindow])
+    if (!v.loaded) return
+    const timer = setTimeout(loadPaperAndWindow, 300)
+    return () => clearTimeout(timer)
+  }, [loadPaperAndWindow, v.loaded])
 
   const startPaper = async () => {
     const title = paperTitle.trim()
@@ -768,6 +763,7 @@ function TodayPage() {
         <div><h2>{v.childName}，今天读点什么？<img className="greeting-accent" src="/art/reading-desk/greeting-accent.webp" width="41" height="65" alt="" aria-hidden="true" /></h2><p>每天一小段，故事慢慢长大。</p></div>
         <time dateTime={new Date().toLocaleDateString('sv-SE')}>{new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}<span>{new Date().toLocaleDateString('zh-CN', { weekday: 'short' })}</span></time>
       </header>
+      {v.booksError && <div role="alert"><p>{v.booksError}</p><button className="sticker-btn" onClick={v.reloadBooks}>重新加载书架</button></div>}
       <div className="today-featured">
         <section className={`today-hero${!v.loaded ? ' is-loading' : ''}`} aria-busy={!v.loaded} aria-labelledby="continue-title">
           <span className="continue-tab">{continueBook ? '接着上次读' : '从一本书开始'}</span>
@@ -869,7 +865,7 @@ function TodayPage() {
           ))}
         </div>
       </details>
-      <details className="quiet-disclosure">
+      <details className="quiet-disclosure" onToggle={event => { if (event.currentTarget.open) v.loadReport() }}>
         <DisclosureSummary icon={<IconFamily />} title="最近的家庭阅读记忆" hint="把一起读过的温柔时刻收好" />
         <div className="speech-list">
           {firstMemory ? (
@@ -890,7 +886,7 @@ function TodayPage() {
         </div>
       </details>
       </div>
-      <PhonicsToday />
+      <PhonicsToday enabled={v.home?.phonicsEnabled === true} />
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: 'var(--card)' }}>
@@ -958,140 +954,120 @@ function DiscoverPage() {
     if (patch.lang !== undefined) setLangFilter(patch.lang)
     setSearchParams(next, { replace: true })
   }
-  const [query, setQuery] = useState('')
-  const [langFilter, setLangFilter] = useState<'all' | 'zh' | 'en'>('all')
-  const [serverHits, setServerHits] = useState<V8Book[] | null>(null)
-  const [searchStatus, setSearchStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
-  const [searchRetry, setSearchRetry] = useState(0)
-  // Keep first paint small; search/filter still uses the complete catalogue.
+  const saved = useRef(v.discoverReturn.current?.search === searchParams.toString() ? v.discoverReturn.current : null)
+  const restoring = useRef(saved.current)
+  const scroll = useRef(saved.current?.scroll ?? 0)
+  const [query, setQuery] = useState(saved.current?.query ?? '')
+  const [randomBusy, setRandomBusy] = useState(false)
+  const [langFilter, setLangFilter] = useState<'all' | 'zh' | 'en'>(saved.current?.lang ?? 'all')
   const [visible, setVisible] = useState(() => window.matchMedia('(max-width: 760px)').matches ? 4 : 12)
-  // docs/34 P1-12：主题书单（URL 单一事实源，与 mood 同模式）
   const [collections, setCollections] = useState<Array<{ id: string; title: string; subtitle: string; total: number; selectedCount?: number }>>([])
-  const [collectionBooks, setCollectionBooks] = useState<V8Book[] | null>(null)
-  const [collectionError, setCollectionError] = useState(false)
-  const [collectionRetry, setCollectionRetry] = useState(0)
   const collectionKey = searchParams.get('collection')
   const collectionAll = searchParams.get('all') === 'true'
-  useEffect(() => {
-    if (!token) return
-    api
-      .collections(token)
-      .then((r) => setCollections(r.collections))
-      .catch(() => undefined)
-  }, [token])
-  useEffect(() => {
-    let alive = true
-    if (!collectionKey || !token || !childId) {
-      setCollectionBooks(null)
-      return
+  const [page, setPage] = useState<{ key: string; books: V8Book[]; total: number; cursor: string | null }>({ key: '', books: [], total: 0, cursor: null })
+  const [loading, setLoading] = useState(true)
+  const [pageError, setPageError] = useState<string | null>(null)
+  const pending = useRef<AbortController | null>(null)
+  const key = JSON.stringify([token, childId, query.trim(), moodKey, langFilter, collectionKey, collectionAll])
+  const scope = useRef(key)
+  scope.current = key
+  const { rememberBooks } = v
+  const fetchPage = useCallback(async (cursor?: string) => {
+    if (!token || !childId || pending.current) return
+    const controller = new AbortController()
+    pending.current = controller
+    setLoading(true); setPageError(null)
+    try {
+      const result = await api.contentBooks(token, { childId, limit: 24, cursor, q: query.trim() || undefined,
+        mood: MOODS.some(m => m.key === moodKey) ? moodKey! : undefined,
+        lang: langFilter === 'all' ? undefined : langFilter, collection: collectionKey ?? undefined, all: collectionAll }, controller.signal)
+      if (scope.current !== key || controller.signal.aborted) return
+      rememberBooks(result.books)
+      setPage(old => {
+        const merged = cursor && old.key === key ? [...old.books, ...result.books.map(toV8)] : result.books.map(toV8)
+        return { key, books: [...new Map(merged.map(b => [b.id, b])).values()], total: result.total, cursor: result.nextCursor ?? null }
+      })
+    } catch (error) {
+      if (scope.current === key && !controller.signal.aborted) setPageError(error instanceof Error ? error.message : '书架暂时打不开')
+    } finally {
+      if (pending.current === controller) { pending.current = null; setLoading(false) }
     }
-    setCollectionBooks(null)
-    setCollectionError(false)
-    api
-      .collectionBooks(collectionKey, childId, token, collectionAll)
-      .then((r) => { if (alive) setCollectionBooks(r.books.map(toV8)) })
-      .catch(() => { if (alive) setCollectionError(true) })
-    return () => { alive = false }
-  }, [collectionKey, collectionAll, token, childId, collectionRetry])
-  // docs/41 修复 1b：筛选激活时的醒目结果条（放 collectionKey 声明后防 TDZ）
-  const activeFilter = useMemo(() => {
-    const mood = MOODS.find((m) => m.key === moodKey)
-    if (mood) return { label: mood.label }
-    const coll = collections.find((c) => c.id === collectionKey)
-    if (coll) return { label: `书单 · ${coll.title}` }
-    return null
-  }, [moodKey, collections, collectionKey])
-  const clearAllFilters = () => {
-    applyFilters({ mood: null, collection: null, lang: 'all' })
+  }, [token, childId, query, moodKey, langFilter, collectionKey, collectionAll, key, rememberBooks])
+  useEffect(() => {
+    pending.current?.abort(); pending.current = null
+    setPage({ key, books: [], total: 0, cursor: null }); setLoading(true); setPageError(null)
+    setVisible(restoring.current?.count ?? (window.matchMedia('(max-width: 760px)').matches ? 4 : 12))
+    const timer = setTimeout(() => { void fetchPage() }, query.trim() ? 300 : 0)
+    return () => { clearTimeout(timer); pending.current?.abort(); pending.current = null }
+  }, [fetchPage, key, query])
+  useEffect(() => {
+    if (!token || (!collectionsOpen && !collectionKey)) return
+    let live = true
+    void api.collections(token).then(r => { if (live) setCollections(r.collections) }).catch(() => undefined)
+    return () => { live = false }
+  }, [token, collectionsOpen, collectionKey])
+  const activeFilter = MOODS.find(m => m.key === moodKey) ?? (collectionKey ? { label: '书单 · ' + (collections.find(c => c.id === collectionKey)?.title ?? '已选书单') } : null)
+  const clearAllFilters = () => applyFilters({ mood: null, collection: null, lang: 'all' })
+  const latest = new Map(v.books.map(b => [b.id, b]))
+  const filtered = page.key === key ? page.books.map(b => ({ ...b, fav: latest.get(b.id)?.fav ?? b.fav })) : []
+  const loaded = page.key === key && (filtered.length > 0 || !loading)
+  const total = page.key === key ? page.total : 0
+  const searchStatus = loading && query.trim() ? 'loading' : pageError ? 'error' : 'ready'
+  const reloadPage = () => { setPage({ key, books: [], total: 0, cursor: null }); void fetchPage() }
+  useEffect(() => {
+    const target = restoring.current
+    if (!target || page.key !== key || loading || pageError) return
+    if (page.books.length < target.count && page.cursor) { void fetchPage(page.cursor); return }
+    const frame = requestAnimationFrame(() => { window.scrollTo(0, target.scroll); restoring.current = null })
+    return () => cancelAnimationFrame(frame)
+  }, [page, key, loading, pageError, fetchPage])
+  useEffect(() => {
+    const save = () => {
+      if (restoring.current || window.location.pathname !== '/child/discover') return
+      scroll.current = window.scrollY
+      v.discoverReturn.current = { search: searchParams.toString(), query, lang: langFilter, count: Math.min(visible, filtered.length), scroll: scroll.current }
+    }
+    window.addEventListener('scroll', save, { passive: true })
+    return () => window.removeEventListener('scroll', save)
+  }, [v.discoverReturn, searchParams, query, langFilter, visible, filtered.length])
+  const openBook = (id: string) => {
+    v.discoverReturn.current = { search: searchParams.toString(), query, lang: langFilter, count: Math.min(visible, filtered.length), scroll: window.scrollY }
+    v.openBook(id)
   }
-  // Phase 5：≥2 字走服务端搜索（含章节标题命中，审计 A4「后端章节搜索被 V8 丢失」）
-  const searchSeq = useRef(0)
-  useEffect(() => {
-    const seq = ++searchSeq.current
-    setServerHits(null)
-    const q = query.trim()
-    if (q.length < 2 || !token) {
-      setSearchStatus('idle')
-      setServerHits(null)
-      return
-    }
-    setSearchStatus('loading')
-    const t = setTimeout(() => {
-      api
-        .contentBooks(token, { ...(childId ? { childId } : {}), q })
-        .then((res) => {
-          // 慢响应防护：只认最后一次搜索的结果，防旧词覆盖新词
-          if (seq === searchSeq.current) { setServerHits(res.books.map(toV8)); setSearchStatus('ready') }
-        })
-        .catch(() => {
-          if (seq === searchSeq.current) { setServerHits(null); setSearchStatus('error') }
-        })
-    }, 300)
-    return () => { clearTimeout(t); searchSeq.current = seq + 1 }
-  }, [query, token, childId, searchRetry])
-  const filtered = useMemo(() => {
-    // 书单模式：只看专题内书目，年龄建议不影响可见性
-    const q = query.trim().toLowerCase()
-    let arr = collectionKey ? collectionBooks ?? [] : serverHits ?? v.books
-    if (collectionKey && serverHits) {
-      const ids = new Set(serverHits.map((b) => b.id))
-      arr = arr.filter((b) => ids.has(b.id))
-    } else if (q && !serverHits) arr = arr.filter((b) => `${b.title} ${b.author}`.toLowerCase().includes(q))
-    const mood = MOODS.find((m) => m.key === moodKey)
-    if (mood) arr = arr.filter(mood.match)
-    if (langFilter !== 'all') arr = arr.filter((b) => b.lang === langFilter)
-    return arr
-  }, [v.books, query, moodKey, langFilter, serverHits, collectionKey, collectionBooks])
-  // A narrowed search/collection should retain its existing first result set.
   const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(12, visible) : visible
   const loadMoreRef = useRef<HTMLDivElement>(null)
-  const hasMore = filtered.length > visibleLimit
+  const hasMore = filtered.length > visibleLimit || Boolean(page.cursor)
   useEffect(() => {
     const sentinel = loadMoreRef.current
-    if (!sentinel || !hasMore) return
-    const revealMore = () => setVisible((n) => Math.max(visibleLimit, n) + 24)
-    if (typeof IntersectionObserver === 'undefined') {
-      const onScroll = () => {
-        if (sentinel.getBoundingClientRect().top <= window.innerHeight + 240) {
-          window.removeEventListener('scroll', onScroll)
-          window.removeEventListener('resize', onScroll)
-          revealMore()
-        }
-      }
-      window.addEventListener('scroll', onScroll, { passive: true })
-      window.addEventListener('resize', onScroll)
-      onScroll()
-      return () => {
-        window.removeEventListener('scroll', onScroll)
-        window.removeEventListener('resize', onScroll)
-      }
+    if (!sentinel || !hasMore || loading || pageError) return
+    const revealMore = () => {
+      setVisible(n => n + 24)
+      if (filtered.length <= visibleLimit && page.cursor) void fetchPage(page.cursor)
     }
-    const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        observer.disconnect()
-        revealMore()
-      }
+    if (typeof IntersectionObserver === 'undefined') {
+      const onScroll = () => { if (sentinel.getBoundingClientRect().top <= window.innerHeight + 240) revealMore() }
+      window.addEventListener('scroll', onScroll, { passive: true }); onScroll()
+      return () => window.removeEventListener('scroll', onScroll)
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { observer.disconnect(); revealMore() }
     }, { rootMargin: '0px 0px 240px 0px' })
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [hasMore, visibleLimit, v.loaded, v.booksError])
+  }, [hasMore, visibleLimit, loading, pageError, filtered.length, page.cursor, fetchPage])
 
   return (
     <>
       <div className="discover-heading"><PageHead title={LABELS.discover} sub={LABELS.discoverSub} index="02" /></div>
-      {collectionKey && !collectionBooks && <p role={collectionError ? 'alert' : 'status'}>
-        {collectionError ? '书单未加载成功。' : '书单正在加载…'}
-        {collectionError && <button className="sticker-btn" onClick={() => setCollectionRetry((n) => n + 1)}>重试书单</button>}
-      </p>}
       {collectionKey && <button className="sticker-btn" aria-pressed={collectionAll} onClick={() => { const next = new URLSearchParams(searchParams); if (collectionAll) next.delete('all'); else next.set('all', 'true'); setSearchParams(next) }}>{collectionAll ? '回到精选书目' : '查看这份书单的全部书'}</button>}
-      <p role="status" className="mono-label">{searchStatus === 'loading' ? '正在找书和章节…' : searchStatus === 'error' ? '章节搜索暂时不可用，下面仅匹配书名与作者。' : `当前找到 ${filtered.length} 本。`}</p>
-      {searchStatus === 'error' && <div role="alert" className="search-error"><p>搜索没有完成，可以再试一次。</p><button className="sticker-btn" onClick={() => setSearchRetry(n => n + 1)}>重试搜索</button></div>}
+      <p role="status" className="mono-label">{searchStatus === 'loading' ? '正在找书和章节…' : searchStatus === 'error' ? '搜索未完成，请重试。' : `当前找到 ${total} 本。`}</p>
+      {searchStatus === 'error' && <div role="alert" className="search-error"><p>搜索没有完成，可以再试一次。</p><button className="sticker-btn" onClick={() => reloadPage()}>重试搜索</button></div>}
       {/* docs/41 修复 1b：筛选激活时的醒目结果条（含本数与一键清除）——
           此前唯一的反馈是一行 mono 小字，筛选结果前几屏视觉几乎不变，用户感知为「不生效」 */}
       {activeFilter ? (
         <div className="filter-active" role="status">
           <b>已选：{activeFilter.label}</b>
-          <span>{filtered.length} 本</span>
+          <span>{total} 本</span>
           <button className="sticker-btn sm" onClick={clearAllFilters}>✕ 换换</button>
         </div>
       ) : null}
@@ -1106,10 +1082,11 @@ function DiscoverPage() {
         />
         <button
           className="sticker-btn hot"
-          disabled={filtered.length === 0}
+          disabled={!total || randomBusy}
           onClick={() => {
-            const pick = filtered[Math.floor(Math.random() * Math.max(1, filtered.length))]
-            if (pick) v.openBook(pick.id)
+            if (!token || !childId || randomBusy) return
+            setRandomBusy(true)
+            void api.contentBooks(token, { childId, limit: 1, random: true, q: query.trim() || undefined, mood: MOODS.some(m => m.key === moodKey) ? moodKey! : undefined, lang: langFilter === 'all' ? undefined : langFilter, collection: collectionKey ?? undefined, all: collectionAll }).then(result => { if (scope.current !== key) return; const pick = result.books[0]; if (pick) { rememberBooks(result.books); v.openBook(pick.id) } }).catch(() => { if (scope.current === key) v.showToast('没有选好，再试一次') }).finally(() => setRandomBusy(false))
           }}
         >
           {LABELS.random}
@@ -1178,37 +1155,35 @@ function DiscoverPage() {
         </Dialog>
       ) : null}
       <div className="library">
-        {!v.loaded ? (
+        {!loaded ? (
           <div>
             <p className="mono-label">书架赶来中…</p>
-            <button className="sticker-btn" style={{ marginTop: 8 }} onClick={v.reloadBooks}>
+            <button className="sticker-btn" style={{ marginTop: 8 }} onClick={reloadPage}>
               刷新书架
             </button>
           </div>
         ) : null}
-        {v.booksError ? (
+        {pageError ? (
           <div>
-            <p className="mono-label">{v.booksError}</p>
-            <button className="sticker-btn" onClick={v.reloadBooks}>
+            <p className="mono-label">{pageError}</p>
+            <button className="sticker-btn" onClick={reloadPage}>
               再试一次
             </button>
           </div>
         ) : null}
-        {/* docs/41 修复 1a：书单加载中（collectionBooks 未到）不算「没找到」——此前 1-3s
-            加载窗口先闪「没找到，换个词试试」，慢网用户以为书单坏了 */}
-        {v.loaded && !v.booksError && filtered.length === 0 && searchStatus !== 'loading' && searchStatus !== 'error' && !(collectionKey && !collectionBooks && !collectionError) ? (
+        {loaded && !pageError && filtered.length === 0 && searchStatus !== 'loading' && searchStatus !== 'error' ? (
           <div>
             <p className="mono-label">{collectionKey ? '这份书单暂时没有匹配的故事。' : '没找到，换个词试试。'}</p>
-            <button className="sticker-btn" onClick={() => { setQuery(''); setServerHits(null); clearAllFilters() }}>看看全部故事</button>
+            <button className="sticker-btn" onClick={() => { setQuery(''); clearAllFilters() }}>看看全部故事</button>
           </div>
         ) : null}
         {filtered.slice(0, visibleLimit).map((b) => (
-          <div key={b.id} className="library-book"><StoryCard book={b} onOpen={v.openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
+          <div key={b.id} className="library-book"><StoryCard book={b} onOpen={openBook} onFav={v.toggleFav} />{b.matchedChapters?.map(ch => <button key={ch.order} className="sticker-btn chapter-match" onClick={() => v.readBook(b.id, ch.order)}>命中章节：{ch.title} · 直接读</button>)}</div>
         ))}
       </div>
-      {v.loaded && !v.booksError && filtered.length > 0 ? (
+      {loaded && !pageError && filtered.length > 0 ? (
         <div ref={loadMoreRef} className="library-more" role="status">
-          {hasMore ? '继续下滑，发现更多故事' : `已经看到全部 ${filtered.length} 本故事`}
+          {hasMore ? '继续下滑，发现更多故事' : `已经看到全部 ${total} 本故事`}
         </div>
       ) : null}
     </>

@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { api, ApiError, type ContentChapterDto, type WordQuizDto } from '../../lib/api'
 import { tts } from '../../lib/tts'
 import { audioPlayer, type VoiceOption } from '../../lib/audioPlayer'
+import { useReadyTiming } from '../../lib/readyTiming'
 import { useSession } from '../../stores/session'
 import { extractNoteWord } from '../../lib/preview'
 import { acquireWakeLock, releaseWakeLock } from '../../lib/wakeLock'
@@ -156,6 +157,7 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
   const [chapter, setChapter] = useState<ContentChapterDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [chapterError, setChapterError] = useState<string | null>(null)
+  useReadyTiming(Boolean(chapter) && !loading && !chapterError, 'reader')
   const [titles, setTitles] = useState<ChapterTitleItem[]>([])
   const [titlesError, setTitlesError] = useState(false)
 

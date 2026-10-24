@@ -10,26 +10,29 @@ async function selectChild(page: Page) {
   await expect(page.locator('.story-card').first()).toBeVisible()
 }
 
-test('孩子端启动：书库与家庭验证并行，验证前不展示档案数据', async ({ page }) => {
+test('孩子端启动：轻量首页与家庭验证并行，验证前不展示档案数据', async ({ page }) => {
   await selectChild(page)
   let release!: () => void
   const gate = new Promise<void>(resolve => { release = resolve })
   let familyReads = 0
+  let homeReads = 0
   let catalogueReads = 0
   await page.route(/\/api\/family\/[^/?]+$/, async route => { familyReads++; await gate; await route.continue() })
   await page.route('**/api/content/books?childId=*', route => { catalogueReads++; return route.continue() })
-  const catalogue = page.waitForRequest(r => new URL(r.url()).pathname === '/api/content/books')
+  await page.route('**/api/content/home?childId=*', route => { homeReads++; return route.continue() })
+  const home = page.waitForRequest(r => new URL(r.url()).pathname === '/api/content/home')
   try {
     await page.reload({ waitUntil: 'domcontentloaded' })
-    await catalogue
+    await home
     await expect(page.locator('.story-card')).toHaveCount(0)
   } finally { release() }
   await expect(page.locator('.story-card').first()).toBeVisible()
   expect(familyReads).toBe(1)
-  expect(catalogueReads).toBe(1)
+  expect(homeReads).toBe(1)
+  expect(catalogueReads).toBe(0)
 })
 
-test('找故事：按屏宽渲染首批，下滑自动追加且搜索覆盖完整书库', async ({ page }) => {
+test('找故事：分页读取首批，下滑自动追加且搜索覆盖完整书库', async ({ page }) => {
   await selectChild(page)
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/child/discover')
@@ -60,8 +63,9 @@ test('找故事：连续下滑到末尾、回滚和改变屏宽均不会撑宽�
   expect(total).toBeGreaterThan(36)
   for (let count = 12; count < total;) {
     await page.locator('.library-more').scrollIntoViewIfNeeded()
-    const next = Math.min(total, count + 24)
-    await expect(cards).toHaveCount(next)
+    await expect.poll(() => cards.count()).toBeGreaterThan(count)
+    const next = await cards.count()
+    expect(next).toBeLessThanOrEqual(total)
     expect(await cards.first().evaluate(el => el.getBoundingClientRect().width)).toBeCloseTo(firstWidth, 0)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     count = next
@@ -78,7 +82,7 @@ test('找故事：连续下滑到末尾、回滚和改变屏宽均不会撑宽�
   await expect(page.getByText('没找到，换个词试试。', { exact: true })).toBeVisible()
   await expect(page.locator('.library-more')).toHaveCount(0)
   await page.getByRole('button', { name: '看看全部故事', exact: true }).click()
-  await expect(cards).toHaveCount(total)
+  await expect(cards).toHaveCount(12)
 })
 
 test('找故事：不支持 IntersectionObserver 时下滑仍能继续加载', async ({ page }) => {
@@ -120,7 +124,7 @@ test('孩子端：从列表下方打开详情，书名与开始读回到首屏',
   await page.goto('/child/discover')
   await expect(page.locator('.library-book').first()).toBeVisible()
   await page.locator('.library-more').scrollIntoViewIfNeeded()
-  await expect.poll(() => page.locator('.library-book').count()).toBeGreaterThanOrEqual(28)
+  await expect(page.locator('.library-book').nth(20)).toBeVisible()
   const book = page.locator('.library-book').nth(20).getByRole('button', { name: /^打开《/ })
   await book.scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => scrollY)).toBeGreaterThan(0)

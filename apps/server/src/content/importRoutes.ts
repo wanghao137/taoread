@@ -449,19 +449,29 @@ function importMediaDirFor(bookId: string): string {
     return reply.code(result.duplicate ? 200 : 201).send(result)
   })
 
-  app.get('/api/content/imports', { preHandler: auth }, async (request) => {
-    const childId = (request.query as { childId?: string }).childId
+  app.get('/api/content/imports', { preHandler: auth }, async (request, reply) => {
+    const parsed = z.object({ childId: z.string().min(1).max(64).optional(), limit: z.coerce.number().int().min(1).max(48).optional(), cursor: z.string().min(1).max(128).optional() }).safeParse(request.query)
+    if (!parsed.success) throw new ValidationError('书架分页参数不正确')
+    const { childId, limit, cursor } = parsed.data
     await assertSelectedChild(request.auth, childId)
     if (!request.auth) throw new UnauthorizedError()
+    reply.header('Cache-Control', 'private, no-store')
+    if (cursor && !limit) throw new ValidationError('分页需要指定每页数量')
+    const familyId = request.auth.fid
+    const anchor = cursor ? await db.importedBook.findFirst({ where: { id: cursor, familyId }, select: { id: true, createdAt: true } }) : null
+    if (cursor && !anchor) throw new AppError('书架已更新，请重新加载', 'SHELF_CHANGED', 409)
     const books = await db.importedBook.findMany({
-      where: { familyId: request.auth.fid },
-      select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, chapters: { select: { id: true } } },
-      orderBy: { createdAt: 'desc' },
+      where: { familyId, ...(anchor ? { OR: [{ createdAt: { lt: anchor.createdAt } }, { createdAt: anchor.createdAt, id: { gt: anchor.id } }] } : {}) },
+      select: { id: true, title: true, author: true, lang: true, ageStage: true, format: true, createdAt: true, _count: { select: { chapters: true } } },
+      orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
+      ...(limit ? { take: limit + 1 } : {}),
     })
+    const hasMore = limit !== undefined && books.length > limit
+    const selected = limit ? books.slice(0, limit) : books
     const claims = request.auth
-    const progress = childId ? await db.importedReadingProgress.findMany({ where: { childId, bookId: { in: books.map(x => x.id) } } }) : []
+    const progress = childId ? await db.importedReadingProgress.findMany({ where: { childId, bookId: { in: selected.map(x => x.id) } } }) : []
     const byId = new Map(progress.map(x => [x.bookId, x]))
-    return { books: await Promise.all(books.map(async ({ chapters, ...book }) => ({ ...book, progress: byId.get(book.id) ?? null, chapterCount: chapters.length, ...(await coverUrlFor(book.id, claims)) }))) }
+    return { ...(limit ? { total: await db.importedBook.count({ where: { familyId } }), nextCursor: hasMore ? selected.at(-1)!.id : null } : {}), books: await Promise.all(selected.map(async ({ _count, ...book }) => ({ ...book, progress: byId.get(book.id) ?? null, chapterCount: _count.chapters, ...(await coverUrlFor(book.id, claims)) }))) }
   })
 
   // 重新解析（P0-5）：用归档的原始 EPUB 以当前管线重建章节与插图。管线升级后旧导入可无损跟进。

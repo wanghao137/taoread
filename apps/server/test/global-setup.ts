@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process'
 export default function globalSetup(): void {
   execSync('npx --no-install prisma migrate deploy', {
     cwd: process.cwd(),
-    env: { ...process.env, TAO_DATABASE_URL: 'file:./test.db' },
+    env: { ...process.env, TAO_DATABASE_URL: process.env.TAO_TEST_DB_URL ?? 'file:./test.db' },
     stdio: 'pipe',
   })
 }
