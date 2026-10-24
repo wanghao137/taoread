@@ -43,7 +43,7 @@ export const TaButton = forwardRef<HTMLButtonElement, TaButtonProps>(function Ta
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`relative inline-flex select-none items-center justify-center gap-2 font-display transition-all ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
+      className={`ta-btn relative inline-flex select-none items-center justify-center gap-2 font-display transition-all ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
         disabled || loading ? 'cursor-not-allowed opacity-50 shadow-none' : 'cursor-pointer'
       } ${className}`}
       {...rest}

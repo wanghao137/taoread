@@ -9,6 +9,7 @@ import './v8.css'
 import './reading-ui.css'
 import './theme.css'
 import './secondary-ui.css'
+import './upgrade.css'
 
 /** 全局错误边界：任何未捕获渲染异常都不该让孩子看到白屏 */
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {

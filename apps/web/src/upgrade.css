@@ -1,0 +1,235 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   UI 升级层（docs/77 · 参照 codex-resets.com 执行细节）
+   ─────────────────────────────────────────────────────────────────────
+   桃阅读 v8 与 codex-resets.com 同属「暖纸 neobrutalism」设计语言家族；
+   本层不改设计语言，只把参考站更成熟的执行细节补齐：
+   1. 语义色令牌（on 系前景色与 hover 深化色配对，替代硬编码色值）
+   2. 悬浮拾升体系（hover 抬起-1px+阴影加深，active 按压到底；hover:hover 守卫防触屏粘滞）
+   3. 弹簧入场（pop-in / rise-in + 逐项 stagger；calmMode 与 prefers-reduced-motion 均豁免）
+   4. 数字 pop、toast 滑入、dialog 升起、logo 摆动等微交互
+   5. 标题 balance、焦点环统一
+   关键实现约束：
+   - 入场动画只用独立 scale/translate 属性 + opacity，绝不动 transform——
+     metric/finish-card/pick-card/sheet-card 的装饰旋转全部保留；
+     不支持独立属性的旧浏览器（iOS<14.5）自动降级为纯淡入，零破坏。
+   - 兼容性红线（iOS 13/Safari 13 目标）：不用 oklch / @starting-style / :has() / color-mix。
+   - calmMode（html[data-calm]）与 prefers-reduced-motion 由 v8.css 的 * 兜底规则统一禁用。
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. 令牌扩展 ─────────────────────────────────────────────────────── */
+:root {
+  /* 语义前景色：每个高饱和底色配一个保证对比的前景（参照 --on-* 体系） */
+  --on-accent: #fffdf7;
+  --on-sun: #30271f;
+  --on-rose: #26201a;
+  --on-sky: #26201a;
+  --on-mint: #26201a;
+  /* 悬浮深化色：hover 不是一律变天蓝，而是各自色相加深一档 */
+  --accent-hover: #ee4518;
+  --sun-hover: #ffe070;
+  --rose-hover: #ffa8c1;
+  --sky-hover: #8fd0ff;
+  --mint-hover: #a9db95;
+  /* 缓动令牌：spring 用于弹跳，ease-out-soft 用于升起 */
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-out-soft: cubic-bezier(.22, 1, .36, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --on-accent: #fff5e8;
+    --on-sun: #30271f;
+    --accent-hover: #bd4928;
+    --sun-hover: #ffe477;
+    --rose-hover: #6b4552;
+    --sky-hover: #3d6076;
+    --mint-hover: #456548;
+  }
+}
+
+/* ── 2. 焦点环统一 ───────────────────────────────────────────────────── */
+/* v8.css 深处残留一处蓝色焦点环（#2366ac），全站统一为赤陶橙 */
+:focus-visible { outline: 3px solid var(--accent, #ff5c2b); outline-offset: 3px; }
+
+/* ── 3. 悬浮拾升体系（hover:hover 守卫，触屏不粘滞）─────────────────── */
+/* 模式：hover = 抬起 1px + 阴影加深（拿起）；active = 落底（v8 已有） */
+@media (hover: hover) {
+  .sticker-btn:not(:disabled):not(.ta-btn):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+    background: var(--sky-hover);
+  }
+  .sticker-btn.primary:not(:disabled):hover { background: var(--sun-hover); }
+  .sticker-btn.hot:not(:disabled):hover { background: var(--accent-hover); }
+  .sticker-btn.sm:not(:disabled):hover { box-shadow: 3px 3px 0 var(--ink); }
+
+  .filter:not(:disabled):hover,
+  .tab:not(:disabled):hover,
+  .mood:not(:disabled):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .filter.on:hover, .tab.on:hover, .mood.on:hover { background: var(--sun-hover); }
+
+  .chapter:not(:disabled):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow);
+    background: var(--sky-hover);
+  }
+  .collect-option:hover, .fam-card:hover, .hub-card:hover, .kid-row:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .role-pick:not(.on):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .pick-card:hover {
+    transform: translateY(-3px) rotate(0);
+    box-shadow: var(--shadow);
+  }
+  .metric:hover {
+    transform: rotate(0) translateY(-3px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .story-card:hover .book-cover,
+  .lib-card:hover .book-cover {
+    transform: translateY(-4px) rotate(0);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .book-like:hover, .fav:hover { transform: scale(1.12) rotate(6deg); }
+  .reader-controls button:not(:disabled):hover,
+  .settings button:not(:disabled):hover,
+  .reader-tail-nav button:not(:disabled):hover,
+  .family-chapter-navigation button:not(:disabled):hover,
+  .pager-navigation button:not(:disabled):hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .reader-controls button.main-action:not(:disabled):hover { background: var(--sun-hover, #ffda54); }
+  .desktop-nav button:hover { transform: translateY(-1px); }
+  .linklike:hover { color: var(--accent-hover, #b83a17); }
+  /* 品牌贴纸：hover 弹性摆正（参照 masthead-avatar rotate(-4deg)→rotate(4deg)）*/
+  .mast .logo, .login-brand .logo { transition: transform .2s var(--spring); }
+  .mast:hover .logo { transform: rotate(2deg) scale(1.05); }
+  .login-brand .logo:hover { transform: rotate(2deg) scale(1.06); }
+}
+
+/* 进度条：宽度变化走软出缓动（继续阅读进度等）*/
+.continue-progress > span,
+.prog > i { transition: width .45s var(--ease-out-soft); }
+
+/* ── 4. 弹簧入场动画（独立 scale/translate 属性，不碰装饰 transform）── */
+@keyframes tao-pop-in {
+  0% { opacity: 0; scale: .86; }
+  100% { opacity: 1; scale: 1; }
+}
+@keyframes tao-rise-in {
+  0% { opacity: 0; translate: 0 12px; }
+  100% { opacity: 1; translate: 0 0; }
+}
+@keyframes tao-toast-in {
+  0% { opacity: 0; transform: translate(-50%, -12px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.hero, .today-hero { animation: tao-rise-in .42s var(--ease-out-soft) both; }
+.daily-poem-card { animation: tao-rise-in .42s var(--ease-out-soft) .06s both; }
+.today-shortcuts { animation: tao-rise-in .42s var(--ease-out-soft) .12s both; }
+.today-picks { animation: tao-rise-in .42s var(--ease-out-soft) .16s both; }
+
+/* 指标贴纸卡逐张弹入（保留各自 rotate 装饰）*/
+.metric { animation: tao-pop-in .5s var(--spring) both; }
+.metric:nth-child(2) { animation-delay: .05s; }
+.metric:nth-child(3) { animation-delay: .1s; }
+.metric:nth-child(4) { animation-delay: .15s; }
+.metric strong, .finish-stats b, .code-display { animation: tao-pop-in .5s var(--spring) both; }
+.finish-card { animation: tao-pop-in .5s var(--spring) both; }
+
+.today-shortcut, .today-book { animation: tao-rise-in .4s var(--ease-out-soft) both; }
+.today-shortcut:nth-child(2) { animation-delay: .05s; }
+.today-shortcut:nth-child(3) { animation-delay: .1s; }
+.today-book:nth-child(2) { animation-delay: .05s; }
+.today-book:nth-child(3) { animation-delay: .1s; }
+.today-book:nth-child(n+4) { animation: none; }
+
+/* 书格/书架：前 6 项逐项升起，之后不再排队（长列表不逐个等）*/
+.story-card, .lib-card, .fam-card { animation: tao-rise-in .4s var(--ease-out-soft) both; }
+.story-card:nth-child(2), .lib-card:nth-child(2), .fam-card:nth-child(2) { animation-delay: .05s; }
+.story-card:nth-child(3), .lib-card:nth-child(3), .fam-card:nth-child(3) { animation-delay: .1s; }
+.story-card:nth-child(4), .lib-card:nth-child(4), .fam-card:nth-child(4) { animation-delay: .15s; }
+.story-card:nth-child(5), .lib-card:nth-child(5), .fam-card:nth-child(5) { animation-delay: .2s; }
+.story-card:nth-child(6), .lib-card:nth-child(6), .fam-card:nth-child(6) { animation-delay: .25s; }
+.story-card:nth-child(n+7), .lib-card:nth-child(n+7), .fam-card:nth-child(n+7) { animation: none; }
+
+/* 章节目录：前 4 项升起 */
+.chapter { animation: tao-rise-in .38s var(--ease-out-soft) both; }
+.chapter:nth-child(2) { animation-delay: .04s; }
+.chapter:nth-child(3) { animation-delay: .08s; }
+.chapter:nth-child(4) { animation-delay: .12s; }
+.chapter:nth-child(n+5) { animation: none; }
+
+/* 登录/选人：面板升起 + logo 弹入 + 选人卡弹入 */
+.login-flow .panel { animation: tao-rise-in .45s var(--ease-out-soft) both; }
+.login-brand .logo { animation: tao-pop-in .5s var(--spring) both; }
+.pick-card { animation: tao-pop-in .5s var(--spring) both; }
+.pick-card:nth-child(2) { animation-delay: .06s; }
+.pick-card:nth-child(3) { animation-delay: .12s; }
+.pick-card:nth-child(n+4) { animation: none; }
+
+/* 家长端 hub 卡与时间线气泡 */
+.hub-card { animation: tao-rise-in .4s var(--ease-out-soft) both; }
+.hub-card:nth-child(2) { animation-delay: .05s; }
+.hub-card:nth-child(3) { animation-delay: .1s; }
+.hub-card:nth-child(n+4) { animation: none; }
+.speech { animation: tao-rise-in .4s var(--ease-out-soft) both; }
+.speech-row:nth-child(2) .speech { animation-delay: .05s; }
+.speech-row:nth-child(n+4) .speech { animation: none; }
+
+/* toast 滑入（基线 transform 含 translateX(-50%)，帧内保持）*/
+.toast { animation: tao-toast-in .18s var(--ease-out-soft) both; }
+
+/* ── 5. 弹层升起过渡（dialog/sheet/settings）────────────────────────── */
+@keyframes tao-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tao-sheet-in {
+  from { opacity: 0; translate: 0 14px; scale: .97; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+.sheet-backdrop { animation: tao-backdrop-in .16s ease-out both; }
+.sheet-backdrop > .sheet-card,
+.sheet-backdrop > .settings { animation: tao-sheet-in .2s var(--ease-out-soft) both; }
+
+/* ── 6. 标题排印与数字 ───────────────────────────────────────────────── */
+/* 标题换行均衡；统计数字等宽（老浏览器自动忽略）*/
+.today-heading h2, .today-hero-copy h3, .page-head h2, .hero-title,
+.detail-title, .daily-poem-card h3, .reader-body h2, .reader-chapter-title,
+.panel h2, .sheet-card h2 { text-wrap: balance; }
+.metric strong, .finish-stats b, .code-display, .continue-position { font-variant-numeric: tabular-nums; }
+
+/* ── 7. 阅读器细节 ───────────────────────────────────────────────────── */
+/* 章节标题：阳光黄「荧光笔」底衬（纯背景零布局位移，滚动/翻页/家庭阅读器统一；夜间自动换暗金）*/
+.reader-body h2, .reader-chapter-title, .family-reader .pager-track > h2 {
+  background-image: linear-gradient(transparent 68%, rgba(255, 216, 77, .5) 68%);
+  background-repeat: no-repeat;
+}
+.reader.night .reader-body h2,
+.reader.night .reader-chapter-title,
+.family-reader.night .pager-track > h2 {
+  background-image: linear-gradient(transparent 68%, rgba(85, 70, 50, .85) 68%);
+}
+
+/* ── 8. 组件钩子（TaButton/TaSticker 由 TSX 挂 ta-btn/ta-sticker 类）── */
+/* 老安卓/iOS 的 300ms 点按高亮闪灰块，贴纸按钮尤其明显（参照 touch-action:manipulation）*/
+button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.ta-btn { transition: transform .12s var(--spring), box-shadow .12s var(--spring), background-color .15s ease-out; }
+@media (hover: hover) {
+  .ta-btn:not(:disabled):hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #26201A; }
+  .ta-btn:not(:disabled):active { transform: translate(3px, 3px); box-shadow: 0 0 0 #26201A; }
+}
+/* 心情贴纸：选中弹跳 + 交替微旋转（独立 rotate 属性，旧浏览器忽略）*/
+.ta-sticker { transition: transform .16s var(--spring), background-color .15s, border-color .15s, box-shadow .12s; }
+.ta-sticker:nth-child(2n) { rotate: .6deg; }
+.ta-sticker:nth-child(3n) { rotate: -.5deg; }
+.ta-sticker[aria-pressed="true"] { box-shadow: 2px 2px 0 #26201A; }
+@media (hover: hover) {
+  .ta-sticker[aria-pressed="true"]:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #26201A; }
+}

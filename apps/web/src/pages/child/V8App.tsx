@@ -458,7 +458,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
             <div className="logo">
               <picture><source srcSet="/brand/logo-256.webp" type="image/webp" /><img src="/brand/logo-256.png" alt="桃阅读" /></picture>
             </div>
-            <div className="brand"><h1>桃阅读</h1></div>
+            <div className="brand"><h1>桃阅读</h1><p>一起读书 · 慢慢长大</p></div>
             <nav className="desktop-nav" aria-label="孩子端导航">
               {([
                 ['/child/today', LABELS.navHome],
