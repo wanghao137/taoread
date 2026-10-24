@@ -121,7 +121,23 @@ select,textarea { color: var(--ink); }
   .today-heading h2,.today-hero-copy h3,.daily-poem-card h3 { color: var(--ink); }
   .daily-poem-card { background: var(--sky); }
   .app .daily-poem-preview,.poem-status,.today-book .recommendation-reason { color: var(--ink2); }
-  .poem-scenery { opacity: .25; }
+  /* docs/82 反馈修复：日间白天素材（太阳/白云/亮草）半透明压暗后是边界生硬的鬼影。
+     夜间换用 AI 生成的专用夜景插画（poem-scenery-night.webp，水彩夜空月牙山丘）。 */
+  .poem-scenery { display: none; }
+  .daily-poem-card { position: relative; overflow: hidden; background: linear-gradient(160deg, #23364a 0%, #2e4859 55%, #24405a 100%); }
+  .daily-poem-card:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 150px;
+    height: 162px;
+    pointer-events: none;
+    background: url('/art/reading-desk/poem-scenery-night.webp') right bottom / cover no-repeat;
+    opacity: .9;
+    -webkit-mask-image: linear-gradient(135deg, transparent 0%, #000 38%);
+    mask-image: linear-gradient(135deg, transparent 0%, #000 38%);
+  }
   .today-shortcut:nth-child(2) { background: var(--mint); }
   .book-category.sky,.book-category.mint,.today-book:nth-child(2) .book-category { background: var(--sky); }
   .book-placeholder { background: var(--card); }

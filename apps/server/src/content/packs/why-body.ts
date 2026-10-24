@@ -1,25 +1,26 @@
 import type { PackBook } from '../types'
 
 /**
- * 《孩子的为什么 · 身体和睡觉》——平台原创科普问答（primer）第三册（docs/82）。
+ * 《孩子的为什么 · 人体》——平台原创科普问答（primer）第三册（docs/82）。
+ * 分册法对齐《十万个为什么》：每册一个学科域（人体/地球/宇宙……），册名即学科。
  * 与 why-everyday / why-nature 同体例：问答全部平台自撰，不使用任何现有丛书文本。
  * 面向 6-8 岁，回答要短、准、有画面感；每章末 note 给一个「原来如此」小提示。
  */
 export const whyBody: PackBook = {
   id: 'why-body',
-  title: '孩子的为什么 · 身体和睡觉',
+  title: '孩子的为什么 · 人体',
   author: '桃阅读',
   lang: 'zh',
   category: 'primer',
   ageStage: '6-8',
-  intro: '为什么困了会打哈欠？跑步后为什么喘气？指甲为什么一直长？这本小书回答关于自己身体的十个好奇。',
+  intro: '人为什么要睡觉？眼睛怎么看见东西？肚子为什么会叫？这本小书带你把自己的身体从头到脚问个明白。',
   coverArt: 'why-body',
   coverArtPrompt: '一个孩子躺在小床上打一个大大的哈欠，窗外月亮和星星陪伴，床头放着一只小闹钟',
   coverFrom: '#5C6BC0',
   coverTo: '#C5CAE9',
   source: '桃阅读平台原创科普问答',
   rights: {
-    workTitle: '孩子的为什么 · 身体和睡觉',
+    workTitle: '孩子的为什么 · 人体',
     author: '桃阅读',
     jurisdiction: 'CN',
     basis: 'original',

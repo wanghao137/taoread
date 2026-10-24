@@ -1,24 +1,25 @@
 import type { PackBook } from '../types'
 
 /**
- * 《孩子的为什么 · 天气和四季》——平台原创科普问答（primer）第四册（docs/82）。
+ * 《孩子的为什么 · 地球和天气》——平台原创科普问答（primer）第四册（docs/82）。
+ * 分册法对齐《十万个为什么》：天气、四季、霜露雾虹都是地球科学的一部分。
  * 与 why-everyday / why-nature / why-body 同体例：问答全部平台自撰。
  */
 export const whyWeather: PackBook = {
   id: 'why-weather',
-  title: '孩子的为什么 · 天气和四季',
+  title: '孩子的为什么 · 地球和天气',
   author: '桃阅读',
   lang: 'zh',
   category: 'primer',
   ageStage: '6-8',
-  intro: '天上为什么会下雨？雪为什么是白的？树叶秋天为什么变黄？这本小书回答天空和四季的十个好奇。',
+  intro: '天上为什么会下雨？风从哪里来？为什么一年有四季？这本小书带你把脚下和头顶的地球问个明白。',
   coverArt: 'why-weather',
   coverArtPrompt: '一个孩子仰头望着天空中四格风景：太阳、乌云下雨、雪花、飘落的黄叶，手里举着小风筝',
   coverFrom: '#42A5F5',
   coverTo: '#FFE082',
   source: '桃阅读平台原创科普问答',
   rights: {
-    workTitle: '孩子的为什么 · 天气和四季',
+    workTitle: '孩子的为什么 · 地球和天气',
     author: '桃阅读',
     jurisdiction: 'CN',
     basis: 'original',
