@@ -1,5 +1,6 @@
 /** TaoRead's generated picture-book icon family. Keep the original peach brand asset. */
 import type { ImgHTMLAttributes } from 'react'
+import { BrandLogo } from './BrandLogo'
 
 type IconProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'width' | 'height'> & { size?: number }
 
@@ -48,5 +49,5 @@ export const IconChart = icon('footprints')
 export const IconRefresh = icon('refresh')
 
 export function IconPeach({ size = 22, className }: IconProps) {
-  return <img src="/brand/logo-256.png" width={size} height={size} className={className} alt="" aria-hidden="true" />
+  return <BrandLogo size={size} className={className} alt="" aria-hidden="true" />
 }

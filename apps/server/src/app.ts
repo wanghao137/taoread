@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 import compress from '@fastify/compress'
 import fastifyStatic from '@fastify/static'
 import { join } from 'node:path'
+import zlib from 'node:zlib'
 import type { PrismaClient } from '@prisma/client'
 import {
   AppError,
@@ -136,11 +137,15 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
     exposedHeaders: ['Server-Timing', 'X-Request-Id'],
   })
 
-  // docs/35 B1：gzip 压缩——书架接口 178KB JSON 压后 ~30KB，家庭上行是全站瓶颈。
+  // docs/35 B1 + docs/78：压缩——书架接口 178KB JSON 压后 ~30KB，家庭上行是全站瓶颈。
+  // brotli q5 实测（docs/78）：CSS 比 gzip 再小 30%、JS 小 5%，CPU ~14ms/MB 级可按需压；
+  // q11 比比 gzip 小 14% 但单次 680ms，家用 CPU 按需压缩不可接受。
+  // 此前 encodings 只有 gzip/deflate：只声明 br 的客户端会拿到未压缩裸文件。
   // SSE（TTS 整章）走 reply.raw 直写，天然绕过本插件的 onSend 管道，不受影响。
   await app.register(compress, {
     threshold: 1024,
-    encodings: ['gzip', 'deflate'],
+    encodings: ['br', 'gzip', 'deflate'],
+    brotliOptions: { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } },
   })
 
   let apiRequests = 0

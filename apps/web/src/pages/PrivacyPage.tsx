@@ -4,6 +4,8 @@
  * 不收集儿童真实身份信息、无第三方广告/SDK、家庭数据自部署自持有。
  */
 
+import { BrandLogo } from '../components/ui'
+
 export const PRIVACY_VERSION = '2026-10-15'
 
 const SECTIONS: Array<{ title: string; lines: string[] }> = [
@@ -55,7 +57,7 @@ export function PrivacyPage() {
       <main id="main-content" className="wrap utility-page privacy-page">
         <header className="login-brand">
           <div className="logo big">
-            <img src="/brand/logo-256.png" alt="桃阅读" />
+            <BrandLogo alt="桃阅读" />
           </div>
           <h1>隐私政策</h1>
           <p className="mono-line" style={{ fontSize: 12 }}>

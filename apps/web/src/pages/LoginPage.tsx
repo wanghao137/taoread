@@ -7,6 +7,7 @@ import { IconFamily, IconPeach } from '../components/ui/icons'
 import { ReadingIllustration } from '../components/art/ReadingIllustration'
 import { AiContentAgreement } from './AiContentAgreement'
 import { PRIVACY_VERSION } from './PrivacyPage'
+import { BrandLogo } from '../components/ui'
 
 function deviceId(): string {
   // 设备标识仅用于展示与统计（后端 did 字段），本地生成不入库身份；隐私模式下静默降级
@@ -136,7 +137,7 @@ export function LoginPage() {
         {/* 品牌锚点唯一：桃子 logo 贴纸卡 + 字标（与孩子端 v8 壳同一 mast 语言） */}
         <header className="login-brand">
           <div className="logo big">
-            <img src="/brand/logo-256.png" alt="桃阅读" />
+            <BrandLogo alt="桃阅读" />
           </div>
           <h1>桃阅读</h1>
           <p className="login-tagline">

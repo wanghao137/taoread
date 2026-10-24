@@ -10,6 +10,7 @@ import { SettingsPanel } from './parent/SettingsPanel'
 import { ReportPanel } from './parent/ReportPanel'
 import { FootprintBar } from './parent/FootprintBar'
 import { IconSun, IconShelf, IconChart, IconGear, IconBookOpen, IconArrowLeft } from '../components/ui/icons'
+import { BrandLogo } from '../components/ui'
 
 // V8 Phase 6：一级导航收敛为四项；书架/桃书库合并进「内容」
 const TABS = ['今天', '内容', '足迹', '设置'] as const
@@ -214,7 +215,7 @@ export function ParentHome() {
       <div className="wrap">
         <header className="mast">
           <div className="logo">
-            <img src="/brand/logo-256.png" alt="桃阅读" />
+            <BrandLogo alt="桃阅读" />
           </div>
           <div className="brand">
             <h1>桃阅读 · 家长端</h1>
