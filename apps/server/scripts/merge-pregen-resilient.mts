@@ -8,6 +8,7 @@ import 'dotenv/config'
 import { readFile, writeFile, rename } from 'node:fs/promises'
 import { join } from 'node:path'
 import { loadConfig } from '../src/config'
+// @ts-expect-error 无类型 .mjs
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio, listAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -31,7 +32,7 @@ for (let attempt = 0; attempt < 5; attempt++) {
     await listAudio(s3, store.bucket) // 连通性探针
     break
   } catch (err) {
-    console.log(`[${new Date().toISOString()}] 网关连通失败（第 ${attempt + 1} 次）: ${String(err?.cause?.message ?? err?.message ?? err).slice(0, 80)}`)
+    console.log(`[${new Date().toISOString()}] 网关连通失败（第 ${attempt + 1} 次）: ${String((err as Error & { cause?: { message?: string } })?.cause?.message ?? (err as Error)?.message ?? err).slice(0, 80)}`)
     if (attempt === 4) throw err
     await new Promise(r => setTimeout(r, 15_000 * (attempt + 1)))
   }
@@ -65,8 +66,8 @@ for (let round = 1; round <= maxRounds; round++) {
         await putAudio(s3!, store, path, buf)
         ok = true
       } catch (err) {
-        const msg = String(err?.cause?.message ?? err?.message ?? err).slice(0, 70)
-        if (String(err?.message ?? '').includes('already has different bytes')) { log(`✗ ${key.slice(0, 8)} 冲突: ${msg}`); break }
+        const msg = String((err as Error & { cause?: { message?: string } })?.cause?.message ?? (err as Error)?.message ?? err).slice(0, 70)
+        if (String((err as Error)?.message ?? '').includes('already has different bytes')) { log(`✗ ${key.slice(0, 8)} 冲突: ${msg}`); break }
         log(`  重试 ${attempt + 1}/3 ${key.slice(0, 8)}: ${msg}`)
         await new Promise(r => setTimeout(r, 8_000 * (attempt + 1)))
       }

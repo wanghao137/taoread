@@ -10,6 +10,7 @@ import { join } from 'node:path'
 import { createHash } from 'node:crypto'
 import dotenv from 'dotenv'
 import { loadConfig } from '../src/config'
+// @ts-expect-error 无类型 .mjs
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio, listAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -29,7 +30,7 @@ const store = audioSettings(process.env)
 const s3 = audioClient(store)
 
 // 已在 R2 的键集合（gateway list）
-const existing = new Set((await listAudio(s3, store.bucket)).map(o => o.key.replace(/^tts-public\//, '').replace(/\.mp3$/, '')))
+const existing = new Set((await listAudio(s3, store.bucket)).map((o: { key: string }) => o.key.replace(/^tts-public\//, '').replace(/\.mp3$/, '')))
 
 let merged = 0, skippedAlready = 0, failed = 0
 const updates: Array<[string, typeof devManifest[string]]> = []
@@ -47,7 +48,7 @@ for (const [key, info] of Object.entries(devManifest)) {
     console.log(`✓ ${key.slice(0, 8)} ${(buf.length / 1024).toFixed(0)}KB`)
   } catch (err) {
     failed++
-    console.log(`✗ ${key.slice(0, 8)}: ${String(err?.message ?? err).slice(0, 60)}`)
+    console.log(`✗ ${key.slice(0, 8)}: ${String((err as Error)?.message ?? err).slice(0, 60)}`)
   }
 }
 

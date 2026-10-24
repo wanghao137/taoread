@@ -86,7 +86,10 @@ import { honestyIdioms } from './idiom-honesty'
 import { youxueQionglin } from './primer-youxue'
 import { zhuziJiaxun } from './primer-zhuzi'
 import { shenglvJiang } from './primer-shenglv2'
+import { songSeasonsPacks } from './poetry-song-seasons'
 import { liwengYun } from './primer-liweng'
+import { whyBody } from './why-body'
+import { whyWeather } from './why-weather'
 import { idiomStories } from './idiom-stories'
 import { shanhaiJing } from './myth-shanhaijing'
 import { huaMulan } from './folktale-mulan'
@@ -304,6 +307,9 @@ export const ALL_PACKS: PackBook[] = [
   shenglvJiang,
   liwengYun,
   idiomStories,
+  whyBody,
+  whyWeather,
+  ...songSeasonsPacks,
   // 诗词（10）
   tangShi,
   libai,
