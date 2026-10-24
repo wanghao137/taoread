@@ -86,6 +86,8 @@ import { honestyIdioms } from './idiom-honesty'
 import { youxueQionglin } from './primer-youxue'
 import { zhuziJiaxun } from './primer-zhuzi'
 import { shenglvJiang } from './primer-shenglv2'
+import { liwengYun } from './primer-liweng'
+import { idiomStories } from './idiom-stories'
 import { shanhaiJing } from './myth-shanhaijing'
 import { huaMulan } from './folktale-mulan'
 import { tianLuoGirl } from './folktale-snailgirl'
@@ -300,6 +302,8 @@ export const ALL_PACKS: PackBook[] = [
   youxueQionglin,
   zhuziJiaxun,
   shenglvJiang,
+  liwengYun,
+  idiomStories,
   // 诗词（10）
   tangShi,
   libai,

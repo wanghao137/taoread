@@ -8,6 +8,7 @@ import { readFile, writeFile, rename } from 'node:fs/promises'
 import { join } from 'node:path'
 import dotenv from 'dotenv'
 import { loadConfig } from '../src/config'
+// @ts-expect-error 无类型 .mjs（与 pregen-tts.mjs 同源）
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -21,7 +22,8 @@ const store = audioSettings(process.env)
 const s3 = audioClient(store)
 const rounds = Number(process.argv[2] ?? 6)
 
-let manifest: Record<string, { durationMs: number; uploaded: boolean; audioKey?: string; model?: string; store?: string }> =
+type SegInfo = { durationMs: number; bytes: number; uploaded: boolean; audioKey?: string; model?: string; store?: string }
+let manifest: Record<string, SegInfo> =
   JSON.parse(await readFile(manifestPath, 'utf8'))
 
 const pending = Object.entries(manifest).filter(([, v]) => !v.uploaded)
@@ -30,12 +32,20 @@ let uploaded = 0
 for (let round = 1; round <= rounds && uploaded < pending.length; round++) {
   const batch = pending.filter(([, v]) => !v.uploaded)
   console.log(`第 ${round} 轮：${batch.length} 段`)
-  const results = await Promise.allSettled(batch.map(async ([key, info]) => {
-    const audioKey = publicSegmentAudioKey(key, info)
-    const buf = await readFile(join(outDir, `${audioKey}.mp3`))
-    await putAudio(s3, store, `tts-public/${audioKey}.mp3`, buf)
-    return key
-  }))
+  // docs/80 教训：并发上传会在容量守卫的账号锁上互相超时（每笔上传持锁可数分钟）——串行
+  const results = [] as Array<PromiseSettledResult<string>>
+  for (const [key, info] of batch) {
+    results.push(await new Promise<PromiseSettledResult<string>>(async (resolve) => {
+      try {
+        const audioKey = publicSegmentAudioKey(key, info)
+        const buf = await readFile(join(outDir, `${audioKey}.mp3`))
+        await putAudio(s3, store, `tts-public/${audioKey}.mp3`, buf)
+        resolve({ status: 'fulfilled', value: key })
+      } catch (err) {
+        resolve({ status: 'rejected', reason: err })
+      }
+    }))
+  }
   for (let i = 0; i < results.length; i++) {
     const r = results[i]!
     if (r.status === 'fulfilled') {
