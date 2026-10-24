@@ -8,7 +8,7 @@
  * 私有书单/正文/朗读仍走网络；断网导航转入独立公共文字书架。
  */
 // The offline HTML is precached: change this version when its shipped UI changes.
-const CACHE = 'taoread-shell-v10'
+const CACHE = 'taoread-shell-v11'
 const SHELL_PREFIXES = ['/assets/', '/fonts/', '/icons/', '/brand/', '/art/']
 
 self.addEventListener('install', (event) => {

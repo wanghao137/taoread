@@ -91,6 +91,7 @@ import { liwengYun } from './primer-liweng'
 import { whyBody } from './why-body'
 import { whyWeather } from './why-weather'
 import { whySpace } from './why-space'
+import { arabianNights } from './arabian-nights'
 import { idiomStories } from './idiom-stories'
 import { shanhaiJing } from './myth-shanhaijing'
 import { huaMulan } from './folktale-mulan'
@@ -311,6 +312,7 @@ export const ALL_PACKS: PackBook[] = [
   whyBody,
   whyWeather,
   whySpace,
+  arabianNights,
   ...songSeasonsPacks,
   // 诗词（10）
   tangShi,
