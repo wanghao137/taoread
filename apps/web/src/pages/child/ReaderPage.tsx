@@ -1707,10 +1707,13 @@ export function ReaderPage({ book, order: initialOrder }: { book: V8Book; order:
           {settingsTab === 'record' && <div className="reading-support"><button onClick={() => setSettingsTab('more')}>返回更多工具</button><h3>跟读录音 · 试点</h3><LocalRecorder /></div>}
           {settingsTab === 'layout' && <>
             <ReadingAppearance theme={theme} setTheme={setTheme} font={font} setFont={setFont} fontFamily={fontFamily} setFontFamily={setFontFamily} lineHeight={lineHeight} setLineHeight={setLineHeight} pageMode={pageMode} setPageMode={setPageMode} dimImages={dimImages} setDimImages={setDimImages} onModeApplied={() => setShowSettings(false)} />
-            {blocks.some(block => block.kind === 'poem') && <ReadingOption label="诗歌辅助">
-              <label className="reading-toggle"><span>显示拼音</span><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /></label>
-              <label className="reading-toggle"><span>显示白话解释</span><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /></label>
-            </ReadingOption>}
+            {blocks.some(block => block.kind === 'poem') && <fieldset className="reading-option"><legend>诗歌辅助</legend>
+              {/* docs/82：不能用 ReadingOption——其 grid 等宽列会把 space-between 的 toggle 拉断（勾选框与标签分离），纯竖排 */}
+              <div style={{ display: 'grid', gap: 4 }}>
+                <label className="reading-toggle"><span>显示拼音</span><input type="checkbox" checked={showPinyin} onChange={e => setShowPinyin(e.target.checked)} /></label>
+                <label className="reading-toggle"><span>显示白话解释</span><input type="checkbox" checked={showTranslation} onChange={e => setShowTranslation(e.target.checked)} /></label>
+              </div>
+            </fieldset>}
           </>}
           {settingsTab === 'more' && <div className="reading-support">
             <h3>留下喜欢的内容</h3>

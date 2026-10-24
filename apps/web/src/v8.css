@@ -307,6 +307,10 @@ html[data-calm='1'] .hero,html[data-calm='1'] .metric,html[data-calm='1'] .book-
 .poem-ruby ruby{padding-inline:1px}
 .reader-body .reader-chapter-title{font-size:clamp(20px,3vw,28px);line-height:1.4;margin:8px 0 18px;overflow-wrap:anywhere}
 .reader .reader-art{max-height:clamp(72px,22dvh,210px);margin-bottom:18px}
+/* docs/82：夜间朗读高亮——日间的柔和黄衬底（#ffd84d66）在暗底上变成刺眼荧光块；
+   夜间改用暗金衬底+同色光晕，保持「正在读哪里」的指示且不刺眼 */
+.reader.night .reader-text .speaking{background:#55432ab8;box-shadow:0 0 0 4px #55432ab8}
+.family-reader.night .reader-text .speaking,.family-reader.night .speaking{background:#55432ab8;box-shadow:0 0 0 4px #55432ab8}
 .reader.night.dim-images .reader-art{filter:brightness(.72)}
 .reader.night .reader-controls button:not(.main-action){background:#38332b;color:#f6eddc;border-color:#b9ad98}
 .reader.night{--ink:#f6eddc;--ink2:#e0d3bb;--ink3:#b7aa94;--card:#302d26;--paper:#24211d;--accent:#f4b16b}

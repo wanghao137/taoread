@@ -125,11 +125,28 @@ select,textarea { color: var(--ink); }
   .today-shortcut:nth-child(2) { background: var(--mint); }
   .book-category.sky,.book-category.mint,.today-book:nth-child(2) .book-category { background: var(--sky); }
   .book-placeholder { background: var(--card); }
-  .book-like,.child-app .fav { background: #e6d8c2; color: #30271f; }
-  .book-like.on,.child-app .fav.on { background: #ffb9cc; }
+  /* docs/82：无插画占位封面在暗色下的可读性——底色变深后，墨色书名/眉标成暗上暗。
+     提亮底色一档并强制浅色文字（cover-title 继承墨色，必须显式反转）。 */
+  .app .book-cover:not(.has-art) { color: #f3ede3; }
+  .app .book-cover:not(.has-art) { background: #3d3a42; }
+  .app .book-cover.rose:not(.has-art) { background: #553742; }
+  .app .book-cover.sun:not(.has-art) { background: #55432a; }
+  .app .book-cover.mint:not(.has-art) { background: #354c3b; }
+  .app .book-cover.sky:not(.has-art) { background: #2e4859; }
   .app .book-cover.orange:not(.has-art) { background: #5c4031; }
+  .app .book-cover:not(.has-art):before { background: #2b2a30; }
+  /* 分类 chip：日间实底色板在暗下全部变深，文字（墨色）失去对比——统一提底提字 */
+  .book-category,.today-book:nth-child(1) .book-category,.today-book:nth-child(3) .book-category { background: #3d3a42 !important; color: #f3ede3 !important; border: 1.5px solid #928579; }
+  .today-book:nth-child(2) .book-category { background: #2e4859 !important; }
+  /* 收藏心形：米白实底在暗页面上是突兀亮块，改暗底描边（选中态保留玫瑰色） */
+  .book-like,.child-app .fav { background: #3d3a42; color: #f3ede3; border: 1.5px solid #928579; }
+  .book-like.on,.child-app .fav.on { background: #553742; color: #ffb9cc; }
   .continue-progress { background: var(--empty); }
   .continue-progress>span { background: var(--action); }
+  /* docs/82：进度条底与填充在暗下同为暗色系，对比不足——底再暗一档 */
+  .continue-progress { background: #17161a; border-color: #928579; }
+  /* 登录页角色选中卡：暗色 --sun（#64512c）底太闷，选中语义不清——提亮一档 */
+  .role-pick.on { background: #8a6d33; }
   .app .sticker-btn.primary { background: var(--action); color: var(--action-ink); }
   .app .sticker-btn.hot { background: #a43e20; color: #fff5e8; }
   .app .sticker-btn.primary:hover { background: #ffe477; }
