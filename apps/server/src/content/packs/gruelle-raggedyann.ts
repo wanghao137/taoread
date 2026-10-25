@@ -1,170 +1,351 @@
+/**
+ * Raggedy Ann Stories — complete 9-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * Raggedy Ann Stories — Johnny Gruelle (1880–1938), first published 1918.
- * Retold for young children in four chapters: the doll with the candy heart,
- * a lost puppy, a kite ride, and a goodnight party in the nursery.
- * Source: Raggedy Ann Stories (Johnny Gruelle, 1918), public domain.
- */
 export const raggedyAnn: PackBook = {
-  id: 'gruelle-raggedyann',
-  title: 'Raggedy Ann Stories',
-  author: 'Johnny Gruelle',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '3-5',
-  intro:
-    'Raggedy Ann is a soft rag doll with a red-yarn smile and a candy heart sewn inside. In the nursery she watches over the other toys, shares her kindness on every adventure, and comes home to a goodnight party.',
-  coverArt: 'raggedy-doll',
-  coverArtPrompt:
-    'A cheerful rag doll with floppy red-yarn hair, a triangle nose and a red-yarn smile, sitting on a white nursery windowsill, one striped arm waving hello. Around her, soft cotton stuffing peeks from a patched dress. A sunny room with teddy bears and wooden blocks below, sheer curtains stirring. Warm pastel palette, gentle morning light, storybook watercolor style.',
-  coverFrom: '#E57373',
-  coverTo: '#FFF9C4',
-  source: 'Raggedy Ann Stories (Johnny Gruelle, 1918), public domain',
-  chapters: [
+  "id": "gruelle-raggedyann",
+  "title": "Raggedy Ann Stories",
+  "author": "Johnny Gruelle",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "3-5",
+  "intro": "Raggedy Ann is a soft rag doll with a red-yarn smile and a candy heart sewn inside. In the nursery she watches over the other toys, shares her kindness on every adventure, and comes home to a goodnight party.",
+  "coverArt": "raggedy-doll",
+  "coverArtPrompt": "A cheerful rag doll with floppy red-yarn hair, a triangle nose and a red-yarn smile, sitting on a white nursery windowsill, one striped arm waving hello. Around her, soft cotton stuffing peeks from a patched dress. A sunny room with teddy bears and wooden blocks below, sheer curtains stirring. Warm pastel palette, gentle morning light, storybook watercolor style.",
+  "coverFrom": "#E57373",
+  "coverTo": "#FFF9C4",
+  "source": "Raggedy Ann Stories (Johnny Gruelle, 1918), public domain",
+  "chapters": [
     {
-      title: 'Chapter 1 · The Doll with the Candy Heart',
-      art: 'raggedy-nursery',
-      artPrompt:
-        'A cozy nursery at bedtime: a rag doll with red-yarn hair and a red-yarn smile sits propped against a plump pillow on a little bed, surrounded by a teddy bear, a tin soldier and a stocking-capped monkey. A candy heart with tiny letters glows faintly through a patch on her chest. Warm lamplight, soft shadows, picture-book style.',
-      blocks: [
+      "title": "Chapter 1 · The Doll with the Candy Heart",
+      "art": "raggedy-nursery",
+      "artPrompt": "A cozy nursery at bedtime: a rag doll with red-yarn hair and a red-yarn smile sits propped against a plump pillow on a little bed, surrounded by a teddy bear, a tin soldier and a stocking-capped monkey. A candy heart with tiny letters glows faintly through a patch on her chest. Warm lamplight, soft shadows, picture-book style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Once there was a rag doll named Raggedy Ann. Her hair was made of red yarn. Her face had a little triangle nose and a big smile.',
+          "kind": "text",
+          "text": "Once there was a rag doll named Raggedy Ann. Her hair was made of red yarn. Her face had a little triangle nose and a big smile."
         },
         {
-          kind: 'text',
-          text: 'Inside her body was a candy heart. On it were written three little words: I love you.',
+          "kind": "text",
+          "text": "Inside her body was a candy heart. On it were written three little words: I love you."
         },
         {
-          kind: 'image',
-          art: 'raggedy-nursery',
-          text: 'Raggedy Ann rests on the pillow, with her friends all around.',
+          "kind": "image",
+          "art": "raggedy-nursery",
+          "text": "Raggedy Ann rests on the pillow, with her friends all around."
         },
         {
-          kind: 'text',
-          text: 'Every night, when the house was quiet, the toys came out to play. And every night, Raggedy Ann smiled her big red smile.',
+          "kind": "text",
+          "text": "Every night, when the house was quiet, the toys came out to play. And every night, Raggedy Ann smiled her big red smile."
         },
         {
-          kind: 'note',
-          text: 'New word: rag doll — a soft doll sewn from cloth, not made of hard plastic.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: rag doll — a soft doll sewn from cloth, not made of hard plastic.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Because her heart was full of love, all the other toys loved her too. That is how a rag doll became the queen of the nursery.',
-        },
-      ],
+          "kind": "text",
+          "text": "Because her heart was full of love, all the other toys loved her too. That is how a rag doll became the queen of the nursery."
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · The Lost Puppy',
-      art: 'raggedy-puppy',
-      artPrompt:
-        'A small spotted puppy curls up under a rosebush in a garden, looking up hopefully. A rag doll with red-yarn hair leans out of an open window, reaching down a fold of her dress as a blanket. Fallen petals on the path, a watering can nearby. Soft afternoon light, warm and kind, children’s book illustration.',
-      blocks: [
+      "title": "Chapter 2 · The Lost Puppy",
+      "art": "raggedy-puppy",
+      "artPrompt": "A small spotted puppy curls up under a rosebush in a garden, looking up hopefully. A rag doll with red-yarn hair leans out of an open window, reaching down a fold of her dress as a blanket. Fallen petals on the path, a watering can nearby. Soft afternoon light, warm and kind, children’s book illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One day a little puppy ran into the garden. He had lost his way home. "Yip, yip!" he cried, and his tail drooped.',
+          "kind": "text",
+          "text": "One day a little puppy ran into the garden. He had lost his way home. \"Yip, yip!\" he cried, and his tail drooped."
         },
         {
-          kind: 'text',
-          text: 'Raggedy Ann was sitting on the windowsill. She heard the little puppy and knew he needed help.',
+          "kind": "text",
+          "text": "Raggedy Ann was sitting on the windowsill. She heard the little puppy and knew he needed help."
         },
         {
-          kind: 'image',
-          art: 'raggedy-puppy',
-          text: 'Raggedy Ann makes the puppy a cozy bed from a fold of her dress.',
+          "kind": "image",
+          "art": "raggedy-puppy",
+          "text": "Raggedy Ann makes the puppy a cozy bed from a fold of her dress."
         },
         {
-          kind: 'text',
-          text: '"Do not cry, little one," she said. "When the little girl comes home, she will find you. She finds everything with her kind eyes."',
+          "kind": "text",
+          "text": "\"Do not cry, little one,\" she said. \"When the little girl comes home, she will find you. She finds everything with her kind eyes.\""
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what kind thing could you do for a lost puppy?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: what kind thing could you do for a lost puppy?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'And sure enough, soon the little girl found the puppy, and carried him home to a bowl of warm milk. The puppy licked Raggedy Ann’s nose to say thank you.',
-        },
-      ],
+          "kind": "text",
+          "text": "And sure enough, soon the little girl found the puppy, and carried him home to a bowl of warm milk. The puppy licked Raggedy Ann’s nose to say thank you."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · The Kite Ride',
-      art: 'raggedy-kite',
-      artPrompt:
-        'A red kite with a long tail flies high in a blue sky over a green meadow, and a tiny rag doll with red-yarn hair clings happily to its string, her yarn hair streaming in the wind like a flag. Below, two children look up and wave. Fluffy clouds, bright spring sunshine, playful storybook style.',
-      blocks: [
+      "title": "Chapter 3 · The Kite Ride",
+      "art": "raggedy-kite",
+      "artPrompt": "A red kite with a long tail flies high in a blue sky over a green meadow, and a tiny rag doll with red-yarn hair clings happily to its string, her yarn hair streaming in the wind like a flag. Below, two children look up and wave. Fluffy clouds, bright spring sunshine, playful storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One windy day the children flew a kite. Up went the kite, up, up, higher than the trees.',
+          "kind": "text",
+          "text": "One windy day the children flew a kite. Up went the kite, up, up, higher than the trees."
         },
         {
-          kind: 'text',
-          text: 'Whoo! A big gust of wind picked up Raggedy Ann. She held tight to the kite string and rode into the sky.',
+          "kind": "text",
+          "text": "Whoo! A big gust of wind picked up Raggedy Ann. She held tight to the kite string and rode into the sky."
         },
         {
-          kind: 'text',
-          text: 'It was not scary at all. She looked down and saw the whole world like a quilt: the green fields, the little houses, the winding stream.',
+          "kind": "text",
+          "text": "It was not scary at all. She looked down and saw the whole world like a quilt: the green fields, the little houses, the winding stream."
         },
         {
-          kind: 'image',
-          art: 'raggedy-kite',
-          text: 'Raggedy Ann rides the kite string, high above the meadow.',
+          "kind": "image",
+          "art": "raggedy-kite",
+          "text": "Raggedy Ann rides the kite string, high above the meadow."
         },
         {
-          kind: 'note',
-          text: 'New word: gust — a quick, strong push of wind.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: gust — a quick, strong push of wind.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Then the wind grew tired, and let the kite down softly, just like a leaf. The children caught Raggedy Ann, and hugged her, and the toys at home heard all about the sky.',
-        },
-      ],
+          "kind": "text",
+          "text": "Then the wind grew tired, and let the kite down softly, just like a leaf. The children caught Raggedy Ann, and hugged her, and the toys at home heard all about the sky."
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · The Goodnight Party',
-      art: 'raggedy-party',
-      artPrompt:
-        'Toys dancing in a moonlit nursery: a rag doll with red-yarn hair leads a waltz with a teddy bear while a tin soldier marches and a stocking-capped monkey claps. A round rug, a toy chest, and a window full of stars. Creamy moonlight through the curtains, cozy and gentle, soft pastel picture-book style.',
-      blocks: [
+      "title": "Chapter 4 · Washing Day",
+      "art": "ra-washing",
+      "artPrompt": "A sunny backyard on washing day: a rag doll with red-yarn hair hangs laughing from a clothesline by one hand, with a teddy bear and a stocking-capped monkey hanging beside her, a washtub of white suds below and a smiling little girl pinning up small socks. Bright blue sky and sparkling morning light, playful storybook illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Every night after bedtime, the toys had a party. Raggedy Ann waltzed with the teddy bear. The tin soldier marched. The monkey clapped time.',
+          "kind": "text",
+          "text": "One bright morning Marcella clapped her hands. “Washing day!” she cried. “Every doll in the tub!” The toys looked at one another. Soap meant stinging eyes. But it also meant swinging on the line."
         },
         {
-          kind: 'text',
-          text: 'One night the monkey said, "Ann, you always make everyone happy. How do you do it?"',
+          "kind": "text",
+          "text": "Into the washtub they went, one by one, splashing into the soft white suds. Marcella scrubbed Raggedy Ann’s yarn hair very gently, and rinsed it, and squeezed it dry. Then she washed each toy until they all squeaked clean. The bubbles climbed up and up, and popped on their noses, and made them all giggle."
         },
         {
-          kind: 'text',
-          text: 'Raggedy Ann smiled her big red smile. "It is my candy heart," she said. "It is full of love, and love never runs out."',
+          "kind": "text",
+          "text": "Out in the garden the clothesline waited. Marcella pinned each toy up by one hand, and the breeze came to play. Swish, swing, swish! Raggedy Ann laughed her raggedy laugh and swung the highest of all."
         },
         {
-          kind: 'image',
-          art: 'raggedy-party',
-          text: 'The goodnight party: everyone dances before the moon goes down.',
+          "kind": "image",
+          "art": "ra-washing",
+          "text": "Swish, swing — the toys dry on the line in the morning breeze."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what little kindness could fill your heart tonight?',
-          art: 'lamp-hint',
+          "kind": "text",
+          "text": "“We are flying swings!” cried the teddy bear. The whole line of toys swung together, back and forth, their faces turned up to the warm sun. A sparrow came to look at Raggedy Ann’s wet red hair. He decided it was a strange new sort of nest, and flew away to tell the other sparrows. The sparrow, you will be glad to know, came back the next day, and this time he only said hello."
         },
         {
-          kind: 'text',
-          text: 'Then they all heard footsteps. Quick as anything, each toy hopped back to its place. The door opened, and the little girl blew them a kiss. Goodnight, Raggedy Ann. Goodnight, toys.',
+          "kind": "note",
+          "text": "New word: rinse — to wash off the soap with clean water.",
+          "art": "lamp-hint"
         },
-      ],
+        {
+          "kind": "text",
+          "text": "By afternoon every toy was dry and fluffy and smelled of sunshine and clover. Marcella carried them into the nursery one by one. She set Raggedy Ann by the window, where the last of the light could keep her smile warm. “Washing day is the best day,” said the teddy bear, yawning. “For now we are clean,” said Raggedy Ann, “and clean dolls have the sweetest dreams.” And soon the whole nursery was asleep in the sun."
+        }
+      ]
     },
+    {
+      "title": "Chapter 5 · Lost at the Picnic",
+      "art": "ra-picnic",
+      "artPrompt": "Twilight in a meadow after a family picnic: a small rag doll with red-yarn hair lies in the deep grass under a wooden bench, looking up at the first stars, with a folded checkered blanket and a forgotten basket above her and a lantern glowing far across the lawn. Soft blue dusk with warm lantern gold, gentle hopeful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One summer day the family went on a picnic. Raggedy Ann rode in the basket, between the sandwiches and the lemonade. It was a bumpy, jolly ride, and she peeked out at the fields all the way."
+        },
+        {
+          "kind": "text",
+          "text": "At the meadow Marcella set her doll on the grass while they played games. There were races, and rings, and a kite, and lemonade with two straws. Raggedy Ann sat propped against the bench, watching the sky and holding somebody’s spare mitten, just to be busy."
+        },
+        {
+          "kind": "text",
+          "text": "But when the sun went down, the family packed up in a hurry. The basket went in. The blanket went in. And nobody picked up the doll in the deep grass by the bench."
+        },
+        {
+          "kind": "image",
+          "art": "ra-picnic",
+          "text": "All alone in the deep grass, Raggedy Ann watches the first stars."
+        },
+        {
+          "kind": "text",
+          "text": "The meadow grew quiet. A cricket began to sing beside her, a small dry song about the stars. Raggedy Ann was not afraid. Inside her rag body her candy heart felt warm, and warm hearts are very good company in the dark. A warm heart, thought Raggedy Ann, is the very best lantern there is."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: how would you feel, lost in the dark grass? What would help you feel brave?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All night she listened to the cricket and watched the stars. They walked slowly across the sky, in and out of the little clouds. “Marcella will come back,” she said to herself. “She always finds what she loves.” And in the morning, sure enough, Marcella came running through the dew, calling and calling. She found her doll and hugged her tight. “I will never, never leave you again,” she promised. And the toys at home heard the whole story that night, and cheered. And from that day on, when the family packed for a picnic, one toy was always counted twice."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Strange Dolls",
+      "art": "ra-strangedolls",
+      "artPrompt": "A nursery tea party in afternoon light: two elegant porcelain dolls in lace dresses sit stiffly on little chairs while a rag doll with red-yarn hair pours pretend tea, and a teddy bear and a stocking-capped monkey look on; lace curtains glow with sun. Warm pastel light, sweet contrast of stiff and soft, storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One day two new dolls came to stay. They were store dolls, with porcelain faces and lace dresses and curled wigs. They sat very straight on the little chairs, and they did not smile. Marcella loved them already, and carried them everywhere."
+        },
+        {
+          "kind": "text",
+          "text": "“What funny cloth people live here,” whispered one store doll to the other. “Such faded dresses. Such crooked smiles.” But they said it politely, the way unkind things are sometimes said politely. Raggedy Ann heard, and smiled her big red smile all the same."
+        },
+        {
+          "kind": "text",
+          "text": "That night, when the house was quiet, the toys came out to play. They waltzed, and tumbled, and played circus, and laughed till the moon peeked in. The two store dolls sat stiffly on the shelf and did not join in. They did not know how."
+        },
+        {
+          "kind": "image",
+          "art": "ra-strangedolls",
+          "text": "The toys play circus in the moonlight, and Ann invites the new dolls."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the store dolls did not know how to play. Could someone show them kindly?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Come down and play,” said Raggedy Ann, holding up her hands. “We will be careful with your lace.” So the store dolls came down, slowly, one step at a time. The teddy bear showed them a waltz with tiny steps, and the monkey swung round them like a circus star."
+        },
+        {
+          "kind": "text",
+          "text": "And do you know, the store dolls began to smile. Their smiles were stiff at first, like new shoes, but they grew softer with every waltz. “Your dress is faded,” said one store doll, “but your heart is the finest thing in this nursery.” “It is only a candy heart,” said Raggedy Ann, “and it is full of love. Love is the finest thing there is.” And the moon smiled on the whole dancing nursery, where no doll was strange anymore."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Little Kittens",
+      "art": "ra-kittens",
+      "artPrompt": "A rainy evening porch: a rag doll with red-yarn hair sits wrapped round with a quilt corner, two small grey kittens tucked into the fold of her dress, while a teddy bear holds an old umbrella over them and rain streams off the porch roof into the dark garden. Soft grey-blue rain light with one warm lamp glow through the window, cozy tender storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One evening a storm came up, and the rain went swish, swish, swish on the nursery roof. Out in the dark garden, under the porch steps, two small grey kittens were crying in the cold. They were wet to their whisker-tips."
+        },
+        {
+          "kind": "text",
+          "text": "Raggedy Ann heard them through the window crack. “Toys,” she said, “kittens are very small, and storms are very big. We must help.” And the toys made a plan at once, because kind hearts plan quickly."
+        },
+        {
+          "kind": "text",
+          "text": "The teddy bear pushed the window wide. The monkey found the old umbrella. And Raggedy Ann leaned out into the rain and called, “Here, little ones! Here, in the warm!” The rain came down harder, as if the sky were in a hurry too."
+        },
+        {
+          "kind": "image",
+          "art": "ra-kittens",
+          "text": "Ann gathers the wet kittens into the fold of her dress."
+        },
+        {
+          "kind": "text",
+          "text": "The kittens crept in, wet as little sponges, mewing tiny storms of their own. Raggedy Ann tucked them into the fold of her dress. The teddy bear held the umbrella high until they were all safe inside. Then they dried the kittens, one paw at a time, with the very softest corner of the quilt."
+        },
+        {
+          "kind": "note",
+          "text": "New word: mew — the small crying sound a kitten makes.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All night the kittens slept in a heap on the quilt, purring like tiny engines. In the morning Marcella found them and clapped her hands with joy. “Kittens! Real live kittens!” Two kittens, fresh from the storm, in a nursery where every toy was already family. Their mother cat came to the porch door, and the whole family stayed. And Raggedy Ann was given the best seat of all on rainy evenings. Two warm kittens slept on her lap. And the storm stayed outside, where storms belong. And the kittens grew up thinking that all dolls purr."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Garden Party",
+      "art": "ra-garden",
+      "artPrompt": "A summer garden tea party on a checked blanket under an apple tree: a rag doll with red-yarn hair pours acorn-cap tea for a teddy bear, a monkey doll and a tin soldier, while a line of ants marches politely along the blanket edge and apple petals drift down. Dappled golden afternoon light through green leaves, cheerful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One perfect afternoon the toys held a party in the garden, under the old apple tree. There was acorn-cap tea, and clover-blossom cake, and the very best checked blanket laid out on the soft grass."
+        },
+        {
+          "kind": "text",
+          "text": "Raggedy Ann poured the tea, which was really fresh air with a little sunshine in it. Everybody said it was delicious. The tin soldier stood guard by the cake. The monkey balanced a petal on his nose. It was a very grand party indeed. The apple tree rustled its leaves, which was the tree’s way of clapping."
+        },
+        {
+          "kind": "text",
+          "text": "Then along the edge of the blanket marched a long line of ants, one by one, straight toward the crumbs. “Shoo them away,” said the tin soldier. But Raggedy Ann said, “Guests are guests. Set another table.”"
+        },
+        {
+          "kind": "image",
+          "art": "ra-garden",
+          "text": "Ann sets a tiny leaf table so the ants may feast too."
+        },
+        {
+          "kind": "text",
+          "text": "So the monkey fetched a big green leaf. On it they laid a crumb feast, right at the blanket’s edge. The ants found it at once, and their whole line turned, politely, to the little leaf table. And everybody’s party went on. Nobody was shooed, and everybody was fed."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the ants wanted the crumbs. What are three kind ways to share a picnic?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "By sunset the ants had carried away every crumb, from the big blanket and the little leaf too. And they had done it without being asked twice. The blanket was spotless, as if the party had swept up after itself. “You see,” said Raggedy Ann, folding the blanket, “kindness always finds its way back. It may walk on six legs, but it always finds its way back.” And the toys carried the teapot home across the grass, singing their thank-you song to the apple tree. And the apple tree, you may be sure, rustled one last goodnight."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Santa’s Visit",
+      "art": "ra-santa",
+      "artPrompt": "A nursery on Christmas Eve, deep in the night: Santa Claus in red kneels by the fireplace filling a stocking, while a rag doll with red-yarn hair offers him a cookie from the toy chest and other toys peek out wide-eyed; stockings hang on the mantel and snow falls past the window. Warm fire glow against deep blue night, magical cozy storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On Christmas Eve the toys did not sleep at all. They sat in a row on the toy chest and watched the window. The snow came down like feathers, and the moon was bright as a coin. Raggedy Ann’s candy heart beat a little faster than usual, because it was her favorite night of all."
+        },
+        {
+          "kind": "text",
+          "text": "They heard the clock strike twelve. Then, softly, softly, came footsteps on the roof and a jingle of bells. A warmth filled the room, as if a big kind fire had just walked in. The stocking on the mantel hung empty and patient, waiting for morning."
+        },
+        {
+          "kind": "text",
+          "text": "Down the chimney came Santa Claus, red and round and jolly, with a sack as big as the moon. “Ho, ho, ho!” he said. “And how are all the toys this merry Christmas?”"
+        },
+        {
+          "kind": "image",
+          "art": "ra-santa",
+          "text": "Raggedy Ann offers Santa a cookie, and Santa laughs ho, ho, ho."
+        },
+        {
+          "kind": "text",
+          "text": "All the toys cheered — quietly, for children must sleep. And Raggedy Ann came forward with a cookie she had saved from the party. She held it up in both striped arms. “This is for you,” she said, “for bringing joy to our little girl.”"
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: what would you say thank you for, on Christmas Eve?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Santa took the cookie and laughed until his belly shook. “Ho, ho, ho! A kind heart in a rag dress! This is why I come down chimneys, year after year — for hearts just like yours.” He filled the stockings and set one grand new gift by the bed. Then he gave Raggedy Ann a pat on her yarn head. And up the chimney he went. And the nursery glowed, and the candy hearts beat warm, and the merry Christmas morning was only a sleep away. And if you listen on Christmas Eve, you may still hear him laugh, far, far away."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'Raggedy Ann Stories',
-    author: 'Johnny Gruelle',
-    authorDeathYear: 1938,
-    jurisdiction: 'US',
-    basis: 'pd-us',
-    note: 'Retold for young readers; plot follows the public-domain original. Published 1918; US public domain (pre-1929) and PD in the EU (Gruelle d. 1938, 70y pma expired 2009).',
-  },
+  "rights": {
+    "workTitle": "Raggedy Ann Stories",
+    "author": "Johnny Gruelle",
+    "authorDeathYear": 1938,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "Retold for young readers; plot follows the public-domain original. Published 1918; US public domain (pre-1929) and PD in the EU (Gruelle d. 1938, 70y pma expired 2009)."
+  }
 }

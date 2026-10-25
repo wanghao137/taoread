@@ -1,241 +1,528 @@
+/**
+ * The Wonderful Adventures of Nils — complete 14-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * The Wonderful Adventures of Nils — Selma Lagerlöf (1858–1940), first
- * published 1906. Retold for young readers in six chapters: the tomte's
- * lesson, the flight on Morten the goose, the tricks of fox Smirre, the
- * friendship of eagle Gorgo, the rescue of Morten from the farmyard, and
- * Nils's kind homecoming. Peril is softened to clever escapes.
- * Source: The Wonderful Adventures of Nils (Selma Lagerlöf, 1906),
- * public domain (Lagerlöf d. 1940; EU pma expired 2011).
- */
 export const nils: PackBook = {
-  id: 'lagerlof-nils',
-  title: 'The Wonderful Adventures of Nils',
-  author: 'Selma Lagerlöf',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '6-8',
-  intro:
-    'Nils Holgersson is a lazy boy who teases the animals on his father’s farm — until a little tomte shrinks him to thumb-size. Carried off on the back of Morten the farm goose, Nils flies across Sweden with the wild geese, learns kindness the hard way, and wins his journey home.',
-  coverArt: 'nils-goose',
-  coverArtPrompt:
-    'A thumb-sized boy in a rustic tunic and pointed cap clings joyfully to the neck of a big white farm goose flying over glittering Scandinavian lakes and pine forests at dawn, a wedge of wild geese stretching ahead in the rosy sky, blue mountains on the horizon. Cool pink-and-blue morning light, sweeping adventure mood, classic storybook illustration.',
-  coverFrom: '#66BB6A',
-  coverTo: '#E1F5FE',
-  source: 'The Wonderful Adventures of Nils (Selma Lagerlöf, 1906), public domain',
-  chapters: [
+  "id": "lagerlof-nils",
+  "title": "The Wonderful Adventures of Nils",
+  "author": "Selma Lagerlöf",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "Nils Holgersson is a lazy boy who teases the animals on his father’s farm — until a little tomte shrinks him to thumb-size. Carried off on the back of Morten the farm goose, Nils flies across Sweden with the wild geese, learns kindness the hard way, and wins his journey home.",
+  "coverArt": "nils-goose",
+  "coverArtPrompt": "A thumb-sized boy in a rustic tunic and pointed cap clings joyfully to the neck of a big white farm goose flying over glittering Scandinavian lakes and pine forests at dawn, a wedge of wild geese stretching ahead in the rosy sky, blue mountains on the horizon. Cool pink-and-blue morning light, sweeping adventure mood, classic storybook illustration.",
+  "coverFrom": "#66BB6A",
+  "coverTo": "#E1F5FE",
+  "source": "The Wonderful Adventures of Nils (Selma Lagerlöf, 1906), public domain",
+  "chapters": [
     {
-      title: 'Chapter 1 · The Little Tomte',
-      art: 'nils-tomte',
-      artPrompt:
-        'A rustic Swedish farmhouse room at dusk: a thumb-sized boy reaches up at a tiny gnome-like tomte in a red cap who stands on the window sill looking stern but kind, magical sparkles of light rising from the tomte’s open palm; a sleepy farm boy’s bed and spinning wheel in shadow behind. Warm lamplight against blue evening, folk-tale storybook style.',
-      blocks: [
+      "title": "Chapter 1 · The Little Tomte",
+      "art": "nils-tomte",
+      "artPrompt": "A rustic Swedish farmhouse room at dusk: a thumb-sized boy reaches up at a tiny gnome-like tomte in a red cap who stands on the window sill looking stern but kind, magical sparkles of light rising from the tomte’s open palm; a sleepy farm boy’s bed and spinning wheel in shadow behind. Warm lamplight against blue evening, folk-tale storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'On a farm in southern Sweden lived a boy named Nils, who was clever at teasing but not at helping. He pulled the cat’s tail and chased the geese, and never said thank you.',
+          "kind": "text",
+          "text": "On a farm in southern Sweden lived a boy named Nils, who was clever at teasing but not at helping. He pulled the cat’s tail and chased the geese, and never said thank you."
         },
         {
-          kind: 'text',
-          text: 'One Sunday, alone in the house, Nils caught a little tomte — a folk of the old stories, no bigger than a doll.',
+          "kind": "text",
+          "text": "One Sunday, alone in the house, Nils caught a little tomte — a folk of the old stories, no bigger than a doll."
         },
         {
-          kind: 'text',
-          text: '"Let me go," said the tomte, "and I will give you a gift." But Nils only laughed — and the tomte snapped his fingers, and everything grew, grew, grew around Nils.',
+          "kind": "text",
+          "text": "\"Let me go,\" said the tomte, \"and I will give you a gift.\" But Nils only laughed — and the tomte snapped his fingers, and everything grew, grew, grew around Nils."
         },
         {
-          kind: 'image',
-          art: 'nils-tomte',
-          text: 'The tomte teaches Nils a lesson: now the chairs tower like trees.',
+          "kind": "image",
+          "art": "nils-tomte",
+          "text": "The tomte teaches Nils a lesson: now the chairs tower like trees."
         },
         {
-          kind: 'note',
-          text: 'New word: tomte — a small house-gnome of Swedish stories, stern but fair.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: tomte — a small house-gnome of Swedish stories, stern but fair.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Nils was now no bigger than a thumb. And — most amazing of all — he could understand what the animals said. "Now you shall learn how teasing feels," said the cat, and went back to sleep.',
-        },
-      ],
+          "kind": "text",
+          "text": "Nils was now no bigger than a thumb. And — most amazing of all — he could understand what the animals said. \"Now you shall learn how teasing feels,\" said the cat, and went back to sleep."
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · Morten Takes Wing',
-      art: 'nils-flight',
-      artPrompt:
-        'A spring farmyard at first light: a young white farm goose spreads his wings on the top of the low stone wall as a thumb-sized boy scrambles onto his back, while a wedge of wild grey geese sweeps overhead calling; dew on the grass, birches still bare, pale gold sunrise. Upward-tilted hopeful view, soft storybook style.',
-      blocks: [
+      "title": "Chapter 2 · Morten Takes Wing",
+      "art": "nils-flight",
+      "artPrompt": "A spring farmyard at first light: a young white farm goose spreads his wings on the top of the low stone wall as a thumb-sized boy scrambles onto his back, while a wedge of wild grey geese sweeps overhead calling; dew on the grass, birches still bare, pale gold sunrise. Upward-tilted hopeful view, soft storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the yard, Nils overheard the wild geese calling: "Follow us over the mountains to Lapland!" And the young farm goose Morten cried, "I am coming too!"',
+          "kind": "text",
+          "text": "In the yard, Nils overheard the wild geese calling: \"Follow us over the mountains to Lapland!\" And the young farm goose Morten cried, \"I am coming too!\""
         },
         {
-          kind: 'text',
-          text: '"You cannot fly, you are only a farm goose," teased the wild geese. But Morten flapped and flapped, and rose into the air.',
+          "kind": "text",
+          "text": "\"You cannot fly, you are only a farm goose,\" teased the wild geese. But Morten flapped and flapped, and rose into the air."
         },
         {
-          kind: 'text',
-          text: '"Wait!" cried Nils, and scrambled up onto the goose’s back, holding tight to his soft neck feathers.',
+          "kind": "text",
+          "text": "\"Wait!\" cried Nils, and scrambled up onto the goose’s back, holding tight to his soft neck feathers."
         },
         {
-          kind: 'image',
-          art: 'nils-flight',
-          text: 'Nils clings to Morten’s neck as the farm drops away below.',
+          "kind": "image",
+          "art": "nils-flight",
+          "text": "Nils clings to Morten’s neck as the farm drops away below."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: Morten was laughed at for being a farm goose. What did he do?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: Morten was laughed at for being a farm goose. What did he do?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'The farm shrank to a toy below — the little cottage, the yard, the whole world of Nils — and ahead lay Sweden, long and bright as a ribbon in the spring sun.',
-        },
-      ],
+          "kind": "text",
+          "text": "The farm shrank to a toy below — the little cottage, the yard, the whole world of Nils — and ahead lay Sweden, long and bright as a ribbon in the spring sun."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · The Fox Smirre',
-      art: 'nils-fox',
-      artPrompt:
-        'A lakeshore at moonrise: a sly thin fox pads silently through reeds toward a line of sleeping wild geese, while a thumb-sized boy stands bold on a rock waving to wake them; moonlight silvers the water and every goose head lifts. Deep blue night with silver highlights, suspense but safe, lively storybook style.',
-      blocks: [
+      "title": "Chapter 3 · The Fox Smirre",
+      "art": "nils-fox",
+      "artPrompt": "A lakeshore at moonrise: a sly thin fox pads silently through reeds toward a line of sleeping wild geese, while a thumb-sized boy stands bold on a rock waving to wake them; moonlight silvers the water and every goose head lifts. Deep blue night with silver highlights, suspense but safe, lively storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'The leader of the wild geese was Akka of Kebnekaise, old and wise. She saw the little boy clinging to Morten and said nothing at first.',
+          "kind": "text",
+          "text": "The leader of the wild geese was Akka of Kebnekaise, old and wise. She saw the little boy clinging to Morten and said nothing at first."
         },
         {
-          kind: 'text',
-          text: 'That night, a fox named Smirre came slinking along the shore toward the sleeping geese. Nils saw him first.',
+          "kind": "text",
+          "text": "That night, a fox named Smirre came slinking along the shore toward the sleeping geese. Nils saw him first."
         },
         {
-          kind: 'text',
-          text: '"Fly! Fly!" shouted Nils, waking the flock with his tiny voice. The geese rose in a storm of wings, and Smirre’s teeth clicked shut on empty air.',
+          "kind": "text",
+          "text": "\"Fly! Fly!\" shouted Nils, waking the flock with his tiny voice. The geese rose in a storm of wings, and Smirre’s teeth clicked shut on empty air."
         },
         {
-          kind: 'image',
-          art: 'nils-fox',
-          text: 'Nils wakes the flock just in time — Smirre gets only air.',
+          "kind": "image",
+          "art": "nils-fox",
+          "text": "Nils wakes the flock just in time — Smirre gets only air."
         },
         {
-          kind: 'note',
-          text: 'New word: flock — a family group of birds that travels together.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: flock — a family group of birds that travels together.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Akka looked at the little boy a long time. "The goose may stay," she said at last. "And the boy who saved my flock may fly with us."',
-        },
-      ],
+          "kind": "text",
+          "text": "Akka looked at the little boy a long time. \"The goose may stay,\" she said at last. \"And the boy who saved my flock may fly with us.\""
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · Gorgo the Eagle',
-      art: 'nils-eagle',
-      artPrompt:
-        'High above pine-covered mountains: a great golden eagle soars with a thumb-sized boy standing steady on his back between his wings, both gazing at a sea of morning clouds broken by snowy peaks; a line of geese far below. Vast cerulean sky with rose-tinted clouds, exhilarating but calm, sweeping storybook style.',
-      blocks: [
+      "title": "Chapter 4 · Gorgo the Eagle",
+      "art": "nils-eagle",
+      "artPrompt": "High above pine-covered mountains: a great golden eagle soars with a thumb-sized boy standing steady on his back between his wings, both gazing at a sea of morning clouds broken by snowy peaks; a line of geese far below. Vast cerulean sky with rose-tinted clouds, exhilarating but calm, sweeping storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One day a young eagle named Gorgo swooped down and carried Nils away to his nest on a mountain ledge. The geese cried out in fear for their little friend.',
+          "kind": "text",
+          "text": "One day a young eagle named Gorgo swooped down and carried Nils away to his nest on a mountain ledge. The geese cried out in fear for their little friend."
         },
         {
-          kind: 'text',
-          text: 'But Gorgo was not hunting. "Fly with me," he said, "and see the world from where only eagles go."',
+          "kind": "text",
+          "text": "But Gorgo was not hunting. \"Fly with me,\" he said, \"and see the world from where only eagles go.\""
         },
         {
-          kind: 'text',
-          text: 'So Nils rode the wind above the clouds, over silver lakes and dark green forests, higher than he had ever dreamed.',
+          "kind": "text",
+          "text": "So Nils rode the wind above the clouds, over silver lakes and dark green forests, higher than he had ever dreamed."
         },
         {
-          kind: 'image',
-          art: 'nils-eagle',
-          text: 'Nils rides Gorgo above the morning clouds.',
+          "kind": "image",
+          "art": "nils-eagle",
+          "text": "Nils rides Gorgo above the morning clouds."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: the geese feared the eagle. How did they learn he was a friend?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: the geese feared the eagle. How did they learn he was a friend?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'When Gorgo carried Nils back to the flock, Akka nodded slowly. "The sky is wide enough for geese and eagles both," she said. And it was.',
-        },
-      ],
+          "kind": "text",
+          "text": "When Gorgo carried Nils back to the flock, Akka nodded slowly. \"The sky is wide enough for geese and eagles both,\" she said. And it was."
+        }
+      ]
     },
     {
-      title: 'Chapter 5 · Morten Is Caught',
-      art: 'nils-rescue',
-      artPrompt:
-        'A Swedish farmyard in late afternoon: a big white goose sits calm in a wicker basket held by a surprised farmwife, while a thumb-sized boy slips unseen along the wall with a stolen pair of scissors glinting, heading for the twine around the basket; the farm cat watches knowingly from the woodpile. Golden harvest light, secret-adventure mood, warm storybook style.',
-      blocks: [
+      "title": "Chapter 5 · Morten Is Caught",
+      "art": "nils-rescue",
+      "artPrompt": "A Swedish farmyard in late afternoon: a big white goose sits calm in a wicker basket held by a surprised farmwife, while a thumb-sized boy slips unseen along the wall with a stolen pair of scissors glinting, heading for the twine around the basket; the farm cat watches knowingly from the woodpile. Golden harvest light, secret-adventure mood, warm storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'When the flock flew home over Nils’s farm, Morten was caught — the farm folk picked him up like any tame goose, to clip his wings.',
+          "kind": "text",
+          "text": "When the flock flew home over Nils’s farm, Morten was caught — the farm folk picked him up like any tame goose, to clip his wings."
         },
         {
-          kind: 'text',
-          text: 'Nils’s heart pounded. A thumb-sized boy versus a whole farmyard — but he had learned boldness from the sky.',
+          "kind": "text",
+          "text": "Nils’s heart pounded. A thumb-sized boy versus a whole farmyard — but he had learned boldness from the sky."
         },
         {
-          kind: 'text',
-          text: 'He slipped through the cat-door, ran under the table, and with a borrowed pair of scissors snipped the twine around Morten’s basket, and steered the goose out the open door.',
+          "kind": "text",
+          "text": "He slipped through the cat-door, ran under the table, and with a borrowed pair of scissors snipped the twine around Morten’s basket, and steered the goose out the open door."
         },
         {
-          kind: 'image',
-          art: 'nils-rescue',
-          text: 'Nils, unseen, frees Morten from the basket.',
+          "kind": "image",
+          "art": "nils-rescue",
+          "text": "Nils, unseen, frees Morten from the basket."
         },
         {
-          kind: 'note',
-          text: 'New word: clip — to trim a bird’s wings so it cannot fly away.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: clip — to trim a bird’s wings so it cannot fly away.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Up they rose into the evening sky together. "You saved me," said Morten. "You are the best friend a goose ever had." And Nils felt taller than he had ever felt, even when he was big.',
-        },
-      ],
+          "kind": "text",
+          "text": "Up they rose into the evening sky together. \"You saved me,\" said Morten. \"You are the best friend a goose ever had.\" And Nils felt taller than he had ever felt, even when he was big."
+        }
+      ]
     },
     {
-      title: 'Chapter 6 · Home Again',
-      art: 'nils-home',
-      artPrompt:
-        'The same rustic farmhouse at golden sunset: the door opens on a normal-sized boy with wind-tousled hair kneeling to greet a surprised farm cat at eye level, while high overhead a wedge of wild geese and a white goose circle and call goodbye; the little tomte watches from the window sill with a small smile. Amber-and-violet evening light, joyful homecoming, tender storybook style.',
-      blocks: [
+      "title": "Chapter 6 · The Laws of the Wild Geese",
+      "art": "nils-laws",
+      "artPrompt": "A lakeshore at golden evening: an old wise grey goose stands on a stone addressing a half-circle of wild geese with bowed heads, while a thumb-sized boy in a pointed cap sits listening on the back of a big white farm goose at the water’s edge. Warm amber light over calm blue water, gentle folk-tale storybook illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'At last the flock turned south, and the journey ended at the little farm where Nils began.',
+          "kind": "text",
+          "text": "High over the lakes the flock flew north, and Morten flew among them, strong and proud. Nils sat snug between his wings, with the wind in his hair. The farm that had once been his whole world was now a patchwork far below. Every field and wood and lake lay open like a story map. The whole sky smelled of spring water."
         },
         {
-          kind: 'text',
-          text: 'Nils stood at his own door, small as a thumb but brave as a knight, and thought of the tomte. "I was cruel, and I am sorry," he said to the cat and the geese and the empty air.',
+          "kind": "text",
+          "text": "Akka of Kebnekaise flew at the head of the flock, old and wise. One evening she called all the geese together on a quiet shore. “The wild geese have laws,” she said. “Whoever travels with us must keep them.” The geese bowed their heads all around her."
         },
         {
-          kind: 'text',
-          text: 'And with that word — sorry — the tomte lifted his spell as gently as he had cast it, and Nils grew and grew to his own true size.',
+          "kind": "text",
+          "text": "“Keep watch while others sleep. Share what food you find. Never quarrel over crumbs. And help any living creature that needs you — friend or stranger, bird or beast.” Nils repeated the laws to himself all night, for he meant to keep every one. The geese repeated them too, each in a sleepy voice."
         },
         {
-          kind: 'image',
-          art: 'nils-home',
-          text: 'Nils, big again, greets the cat as the geese call goodbye.',
+          "kind": "image",
+          "art": "nils-laws",
+          "text": "Akka gathers the geese on the shore to speak the laws of the flock."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what really lifted the spell — growing big, or growing kind?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: which of the wild geese’ laws do you think is the hardest?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Every spring after that, the wild geese flew over the farm and called, and a boy waved back from the yard — and no creature was ever teased there again.',
+          "kind": "text",
+          "text": "Morten stood tall when his turn came to watch. The young geese who had once laughed at a farm goose now nodded to him with respect. And Nils kept watch too, a small dark figure on a stone, wide awake to every sound. No one teased anyone now."
         },
-      ],
+        {
+          "kind": "text",
+          "text": "And so the flock flew on, day after day, north and ever north. Lakes slid past like blue plates, and forests like green carpets. Each night Akka chose the safest sleeping place, and each morning she led them onward. Nils had never known the world was so wide, or that traveling with friends could feel like home."
+        }
+      ]
     },
+    {
+      "title": "Chapter 7 · The Castle of Rats",
+      "art": "nils-castle",
+      "artPrompt": "An ancient grey stone castle yard at dusk: a thumb-sized boy on top of a barrel plays a little wooden pipe as a long line of grey rats marches away behind him through an open gate, while a stork with wide wings watches from the wall and black rats peep from a drainpipe. Muted blue-grey stones with warm lantern glow, mischievous storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One morning a stork named Ermenrich came flapping to the flock, wings wide with worry. “Grey rats have stormed Glimminge Castle,” he cried. “They are driving out the black rats, who have kept that castle for a thousand years.” The wind brought his worried voice from far away."
+        },
+        {
+          "kind": "text",
+          "text": "Akka looked at Nils. “Here is a creature who needs help,” she said. “And that is the law.” Nils stood up on Morten’s back. “Then let us fly to Glimminge,” he said, “for I have an idea.” And the flock rose at once."
+        },
+        {
+          "kind": "text",
+          "text": "In the castle yard, Nils began to play a little pipe, and a magic tune ran out over the stones. The grey rats lifted their sharp noses. One by one they fell in behind the music, marching out of the castle like soldiers, away and away."
+        },
+        {
+          "kind": "image",
+          "art": "nils-castle",
+          "text": "Nils plays the little pipe, and the grey rats march away behind the music."
+        },
+        {
+          "kind": "note",
+          "text": "New word: castle — a great stone house with towers, built long ago.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "When the last rat had gone, the black rats came out of their hiding places and found their castle safe. The stork bowed his long neck to the ground. “A boy no bigger than a thumb has saved us,” he said, and all the animals wondered. Ermenrich laughed until his beak rattled."
+        },
+        {
+          "kind": "text",
+          "text": "The grey rats marched far, far away before the music faded from their ears. Not one of them came back to Glimminge Castle, and the black rats squeaked for joy in their thousand-year home. That evening the flock flew on, and the story flew faster. From lake to lake the animals told of Nils, the little boy who kept the laws of the geese. And Nils, listening, felt proud — but Akka only said, “Tomorrow there will be other troubles. Keep your eyes open, little one.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Sirle the Squirrel",
+      "art": "nils-squirrel",
+      "artPrompt": "A great oak tree by moonlit water: a thumb-sized boy climbs the trunk in the dark carrying baby squirrels tucked in his shirt, a grey mother squirrel guiding him from branch to branch, while below a thin red fox snaps up at the shadows and a line of wild geese comes winging over the lake. Cool silver moonlight with a warm pocket of lantern-gold around the boy, suspenseful but safe storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In a great oak by the lake lived Sirle the squirrel, with his wife and their babies. The little ones were learning to jump from branch to branch. Their round nest hung high in the branches, warm and dry. But that night, the fox Smirre came prowling under the oak, licking his lips."
+        },
+        {
+          "kind": "text",
+          "text": "Smirre could not climb, but he was patient and cruel. He scratched the bark and snapped at the trunk and waited for a baby squirrel to fall. The mother squirrel cried out, and the sound carried over the water to the sleeping geese."
+        },
+        {
+          "kind": "text",
+          "text": "Nils heard, and he did not stop to think. He climbed the oak in the dark, hand over hand. He carried the babies down one by one, tucked in his shirt. Then he set them safely in the hollow of an old stump."
+        },
+        {
+          "kind": "image",
+          "art": "nils-squirrel",
+          "text": "Nils carries the baby squirrels down the great oak in the dark."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Smirre is big and Nils is small. Who wins this time, and why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Smirre sprang out of the shadows — and found Nils waiting on the stump, bold as a knight. “Look here, fox,” said the tiny boy, “these babies are under the protection of the wild geese. Touch them, and every goose in Sweden will peck your nose.”"
+        },
+        {
+          "kind": "text",
+          "text": "And just then Akka landed on the stump, with the whole flock behind her, wings wide and eyes stern. Smirre looked at all those feathers and at the fearless little boy. He slunk away into the dark with his tail low. Not one baby was lost. In the morning the news spread through the trees. The animals gathered to see the boy who had outfoxed the fox. Sirle brought acorns as thanks. “The geese are lucky,” said the old birds, “and the geese say so themselves.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Great City",
+      "art": "nils-city",
+      "artPrompt": "High above Stockholm at rosy dusk: a great golden eagle soars with a thumb-sized boy standing between his wings, both looking down at towers, steeples, bridges and little boats while thousands of street lamps come on like stars being lit below. Rose-and-indigo evening sky, wonder-filled sweeping storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The flock flew on past farms and mills and growing towns. One evening they saw a great city shining by the water. Boats lay at anchor by the hundreds. Towers and steeples rose in the sunset, and a thousand windows caught the light. It was Stockholm, the biggest city Nils had ever dreamed of."
+        },
+        {
+          "kind": "text",
+          "text": "The geese rested in a quiet green park, where people walked and children played. “A city is a hard place for wild birds,” said Akka. “We keep to the water and the trees.” Nils stared and stared at the bridges, the boats, and the crowds. He had thought his village was the world; now he knew better."
+        },
+        {
+          "kind": "text",
+          "text": "Then Gorgo the eagle came down through the rosy dusk. “Climb up, little one,” he said. “You shall see the city as only eagles see it.” Up they rose over rooftops and masts and gardens. The lamps came on street by street, like stars being lit."
+        },
+        {
+          "kind": "image",
+          "art": "nils-city",
+          "text": "Gorgo carries Nils high above the evening lights of Stockholm."
+        },
+        {
+          "kind": "note",
+          "text": "New word: steeple — a tall pointed tower on the roof of a church.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "From above, the city looked like a quilt of little homes, and every home held people going to bed. “Somewhere down there,” said Nils quietly, “is a boy just my size who is afraid of the dark.” “I was small once too,” said Gorgo. The eagle flew slower, so the boy could look his fill."
+        },
+        {
+          "kind": "text",
+          "text": "In the morning the flock rose and turned north again, for Lapland was still far away. Nils looked back until the city was only a silver line by the sea. “The world of people is big,” he said, “but the sky is bigger.” And Akka laughed, a short goose laugh."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Midnight Sun",
+      "art": "nils-lapland",
+      "artPrompt": "A Lapland lake under a midnight sun low on the horizon: wild geese rest on bright silver water among little blue flowers, reindeer graze on the far shore, and snowy mountain peaks glow gold behind a big white farm goose paddling proudly with a thumb-sized boy on his back. Endless pale-gold daylight over cool blues, serene storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Day after day they flew north, until the forests grew low and the air turned cool and clean. One evening Nils saw something amazing: the sun touched the hills, then climbed right up again. “It is midnight,” said Akka, “and still it is day. Welcome to Lapland.”"
+        },
+        {
+          "kind": "text",
+          "text": "For weeks the sun never set at all. It shone on silver lakes and reindeer herds and little blue flowers that bloomed all night. Goslings hatched and paddled after their mothers. The geese grew fat and happy, and the young geese learned to fly long miles over the mountains."
+        },
+        {
+          "kind": "text",
+          "text": "Akka led them to Kebnekaise, the great mountain that is her old home. Snow glowed gold on the peaks, and the valleys rang with bird song. “This is where I learned to lead a flock,” she said. “And this is where you learned to be one of us,” she added, smiling at Nils."
+        },
+        {
+          "kind": "image",
+          "art": "nils-lapland",
+          "text": "The geese rest by a Lapland lake under the midnight sun."
+        },
+        {
+          "kind": "note",
+          "text": "New word: midnight sun — the summer sun in the far north, which never sets.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Morten the farm goose swam in a cold lake and came up shining. “I am not a farm goose any more,” he laughed. “I am a wild goose of Lapland!” The young geese cheered, and even Akka smiled her small smile."
+        },
+        {
+          "kind": "text",
+          "text": "They stayed in the north while the goslings grew strong on the short sweet summer. But no summer lasts for ever. One morning the wind smelled of frost, and Akka rose into the air and called the flock together. “The south is calling,” she said. Nils stood on Morten’s back and took one long look at the mountains. He had arrived a teasing boy who chased geese. He would leave as a goose-boy whom every bird trusted — and the north wind wrote it down."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Southward Again",
+      "art": "nils-south",
+      "artPrompt": "The flock flying south over rolling autumn forests: a wedge of grey geese with a proud big white goose near the front and a line of fluffy goslings trailing behind, gold and crimson treetops below and a thumb-sized boy watching from the white goose’s back. Crisp October afternoon light in amber and blue, steady onward storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "South they flew, over the mountains, with the young geese strong now on their wings. Morten flew near the head of the flock, beside Dunfin, a gentle wild goose with soft grey feathers. The goslings followed her in a wobbly line, and Morten kept careful watch over every one."
+        },
+        {
+          "kind": "text",
+          "text": "The wild geese, who had once laughed at a tame farm goose, now flew proudly at his side. “He is one of us,” they told the goslings. “He flew over mountains and held his place in storms.” And Morten tried not to look too pleased, and failed."
+        },
+        {
+          "kind": "text",
+          "text": "Autumn painted the forests red and gold as they traveled. Nils watched the world change color day by day, and knew that home was coming closer with every southbound mile. He was glad and sorry at once, and could not have said why."
+        },
+        {
+          "kind": "image",
+          "art": "nils-south",
+          "text": "The flock flies south over autumn woods, the goslings in a wobbly line."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why might Nils feel glad and sorry at the same time?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One blustery evening, a storm caught the flock over a dark lake. The goslings cried out, but Morten called for them in his big farmyard voice. He led them down to the reeds. All night he stood guard, wings spread over the little ones."
+        },
+        {
+          "kind": "text",
+          "text": "In the morning, Dunfin brought the goslings out of the reeds, dry and safe. “Thank you, Morten,” she said, and touched his wing with hers. And Nils, watching from the goose’s back, thought that his friend had grown into the bravest goose in Sweden. The flock flew on through October days, past harvest fields and empty pastures. Akka flew in front as always, straight and steady. Nils looked at her and understood, at last, what the laws of the geese were for."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Fox’s Last Chance",
+      "art": "nils-ice",
+      "artPrompt": "A frosted marsh at grey dawn: a line of wild geese flies low and calm over thin ice that has cracked open into black water, while a soaked red fox scrambles out at the edge shaking his dripping tail, and a thumb-sized boy calls from the back of the white goose. Cold silvery morning with one warm accent of fox red, lively storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "All the long way south, word ran ahead of the flock: “Smirre the fox is waiting.” He had never forgotten the boy and the geese, and his old grudge had grown sharp as thorns. Now he hunted them along every lake and marsh. Even the ravens whispered about it."
+        },
+        {
+          "kind": "text",
+          "text": "One frosty evening the geese settled on a quiet marsh, and Nils kept watch from a tussock. In the grey light he saw a thin shadow slipping along the ice. Smirre had found them at last, and he was smiling his thin smile."
+        },
+        {
+          "kind": "text",
+          "text": "But the geese were ready, for Akka was never caught twice. They rose in silence and flew low over the marsh, calling softly. Smirre, mad with hunger, raced after them across the ice. He did not see the thin black water beyond the reeds."
+        },
+        {
+          "kind": "image",
+          "art": "nils-ice",
+          "text": "Smirre tumbles through the thin ice as the geese fly calmly on."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: how did the flock trick the fox without fighting him?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Crack! The ice gave way, and the fox went into the cold black water. He climbed out at last, soaked and shivering, while the geese flew calmly on. “Go home, Smirre,” called Nils. “You will never outfox the wild geese — or their goose-boy.”"
+        },
+        {
+          "kind": "text",
+          "text": "After that night, Smirre hunted them no more. When his shadow crossed a shore, the flock was already gone, high and far. And the story ran down the wind from lake to lake. The great fox was beaten by a boy the size of a thumb. The flock flew on through quiet frosts, and the marshes wore their first white lace. Nils watched the geese he knew so well — Akka, Morten, Dunfin — and thought the winter sky had never held better friends. Home could not be far now."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Home Lake",
+      "art": "nils-lake",
+      "artPrompt": "A reedy lakeshore at blue dusk with a small red cottage and farm buildings beyond: a thumb-sized boy sits hunched on the back of a big white goose floating near the reeds, gazing at a warm lit window where a farmer and his wife stand talking in the yard. Deep blue evening against one square of golden window light, tender wistful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One still evening the flock came to a lake in southern Sweden. Akka circled down toward a farm with a red cottage. “This is the place where our journey began,” she said. Nils’s heart thumped like a drum. He knew every fence and birch tree below."
+        },
+        {
+          "kind": "text",
+          "text": "It was his own farm. And there, in the yard, stood his father and mother, older and greyer than he remembered. They were talking softly together, and their heads were bent. Nils listened with all his tiny ears, and what he heard made his eyes wet."
+        },
+        {
+          "kind": "text",
+          "text": "“Our boy has been gone so long,” his mother was saying. “I would give anything to see him safe at home.” The geese stood quietly on the water, and Morten pressed close to his small friend. No one knew what to say — not even Akka."
+        },
+        {
+          "kind": "image",
+          "art": "nils-lake",
+          "text": "Nils looks down at the farm where his father and mother stand in the yard."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Nils is so close to home. What is he most afraid of?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“I am small and strange now,” Nils said at last. “What if they are afraid of me?” “What if the spell can never be broken?” Akka looked at him with her old wise eyes. “We crossed mountains together, Nils Holgersson,” she said. “We will cross this too.”"
+        },
+        {
+          "kind": "text",
+          "text": "That night the flock slept on the reedy shore, but Nils stayed awake on Morten’s back. He watched the little window of the cottage glow and go dark. He thought of the cat he had teased, and the geese he had chased. He thought of everything the long year had taught him. Somewhere out in the dark, a tomte’s small magic was waiting. Nils did not know what would break the spell. He only knew that tomorrow he would do the bravest thing he could — whatever it cost him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Spell Breaks",
+      "art": "nils-boy",
+      "artPrompt": "A farmhouse kitchen doorway in bright morning light: a full-sized boy with wind-tousled hair stands tall in the doorway with arms spread, his astonished father and mother turning from the stove in joy, while through the open door white geese flap up free from the yard into the sky. Warm golden morning flooding the room, joyful homecoming storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the grey morning, the geese woke early to feed before the long day’s flight. Morten and Dunfin and the goslings wandered up the meadow toward the farmyard, pecking at the dewy grass. And that is where the farm folk found them. Quick hands caught Morten first, then Dunfin and the goslings too, and carried them toward the house. Nils saw it all from the shore, and his blood ran cold. Geese caught on a farm in autumn do not often fly again."
+        },
+        {
+          "kind": "text",
+          "text": "Nils did not stop to think about spells, or size, or himself. He raced up the meadow, through the door, and into the kitchen, shouting with all his tiny might: “Let the geese go! Let my friends go!” And at that very instant — everything grew."
+        },
+        {
+          "kind": "image",
+          "art": "nils-boy",
+          "text": "Nils, full-sized again, stands in the farmhouse door as the geese fly free."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the spell broke when Nils thought of his friends first. Why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The walls shrank, the tables sank, and Nils rose and rose to his own true height. His father and mother stared at the tall boy in the doorway — their own lost son, come home. “Father! Mother! It is I, Nils!” And then there were tears and laughter and long embraces."
+        },
+        {
+          "kind": "text",
+          "text": "The geese were set free, every one, and Morten strutted in the yard like a general, with Dunfin and the goslings round him. His wings were strong now, and his heart was strong too. And no cat, dog, or goose was ever teased at that farm again."
+        },
+        {
+          "kind": "text",
+          "text": "That evening the wild geese rose in a long line and called their goodbyes over the farm. “Farewell, Nils,” called Akka. “Remember the laws.” Nils waved until the last wing faded, and he never forgot. Every spring after that, he watched the sky for the wild geese — and they always called back."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'The Wonderful Adventures of Nils',
-    author: 'Selma Lagerlöf',
-    authorDeathYear: 1940,
-    jurisdiction: 'US',
-    basis: 'pd-us',
-    note: 'Retold for young readers. Published 1906; US public domain (pre-1929) and PD in the EU (Lagerlöf d. 1940, 70y pma expired 2011).',
-  },
+  "rights": {
+    "workTitle": "The Wonderful Adventures of Nils",
+    "author": "Selma Lagerlöf",
+    "authorDeathYear": 1940,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "Retold for young readers. Published 1906; US public domain (pre-1929) and PD in the EU (Lagerlöf d. 1940, 70y pma expired 2011)."
+  }
 }

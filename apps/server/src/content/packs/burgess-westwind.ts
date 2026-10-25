@@ -1,241 +1,453 @@
+/**
+ * Old Mother West Wind — complete 12-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * Old Mother West Wind — Thornton W. Burgess (1874–1965), first published 1910.
- * Retold for young readers in six chapters: Mother West Wind brings her Merry
- * Little Breezes down to the Green Meadows, where they watch over Mrs. Redwing's
- * speckled egg, help Johnny Chuck look for the best thing in the world, cheer
- * Jimmy Skunk about his stripes, busy themselves on a summer day, and blow
- * everyone goodnight.
- * Source: Old Mother West Wind (Thornton W. Burgess, 1910), public domain
- * in the US (published pre-1929).
- */
 export const motherWestWind: PackBook = {
-  id: 'burgess-westwind',
-  title: 'Old Mother West Wind',
-  author: 'Thornton W. Burgess',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '6-8',
-  intro:
-    'Old Mother West Wind comes down from the Purple Hills every morning with her Merry Little Breezes tumbling behind her. Together they wake the Green Meadows, help the animals of the Smiling Pool and the Old Orchard, and share the gentlest secret of all: kindness blows farther than anyone thinks.',
-  coverArt: 'westwind-valley',
-  coverArtPrompt:
-    'A smiling motherly figure in a soft grey shawl stands on a green hilltop at dawn, her shawl and long skirts streaming like a breeze, scattering a dozen small giggling wind-children with leaf-and-petal clothes into a valley of meadows, a sparkling pond and an old apple orchard. Swallows wheeling overhead, mist lifting, peach-and-mint morning light, classic storybook illustration.',
-  coverFrom: '#81D4FA',
-  coverTo: '#FFFDE7',
-  source: 'Old Mother West Wind (Thornton W. Burgess, 1910), public domain',
-  chapters: [
+  "id": "burgess-westwind",
+  "title": "Old Mother West Wind",
+  "author": "Thornton W. Burgess",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "Old Mother West Wind comes down from the Purple Hills every morning with her Merry Little Breezes tumbling behind her. Together they wake the Green Meadows, help the animals of the Smiling Pool and the Old Orchard, and share the gentlest secret of all: kindness blows farther than anyone thinks.",
+  "coverArt": "westwind-valley",
+  "coverArtPrompt": "A smiling motherly figure in a soft grey shawl stands on a green hilltop at dawn, her shawl and long skirts streaming like a breeze, scattering a dozen small giggling wind-children with leaf-and-petal clothes into a valley of meadows, a sparkling pond and an old apple orchard. Swallows wheeling overhead, mist lifting, peach-and-mint morning light, classic storybook illustration.",
+  "coverFrom": "#81D4FA",
+  "coverTo": "#FFFDE7",
+  "source": "Old Mother West Wind (Thornton W. Burgess, 1910), public domain",
+  "chapters": [
     {
-      title: 'Chapter 1 · Mother West Wind Comes Down',
-      art: 'westwind-down',
-      artPrompt:
-        'Early morning on the Green Meadows: a gentle motherly figure in a billowing grey shawl walks down a dewy hillside while a swirl of tiny laughing wind-children tumbles ahead of her, bending the grass in ripples and chasing a dandelion’s seeds. A rabbit and a groundhog peek from their burrows. Soft silver-gold dawn light, dreamy storybook style.',
-      blocks: [
+      "title": "Chapter 1 · Mother West Wind Comes Down",
+      "art": "westwind-down",
+      "artPrompt": "Early morning on the Green Meadows: a gentle motherly figure in a billowing grey shawl walks down a dewy hillside while a swirl of tiny laughing wind-children tumbles ahead of her, bending the grass in ripples and chasing a dandelion’s seeds. A rabbit and a groundhog peek from their burrows. Soft silver-gold dawn light, dreamy storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Every morning, Old Mother West Wind came down from the Purple Hills. Behind her tumbled her children, the Merry Little Breezes.',
+          "kind": "text",
+          "text": "Every morning, Old Mother West Wind came down from the Purple Hills. Behind her tumbled her children, the Merry Little Breezes."
         },
         {
-          kind: 'text',
-          text: 'The Breezes rolled over the grass like happy puppies. They woke the flowers and tickled Grandfather Frog until he chuckled on his big stone in the Smiling Pool.',
+          "kind": "text",
+          "text": "The Breezes rolled over the grass like happy puppies. They woke the flowers and tickled Grandfather Frog until he chuckled on his big stone in the Smiling Pool."
         },
         {
-          kind: 'image',
-          art: 'westwind-down',
-          text: 'The Merry Little Breezes tumble down the hill to wake the meadow.',
+          "kind": "image",
+          "art": "westwind-down",
+          "text": "The Merry Little Breezes tumble down the hill to wake the meadow."
         },
         {
-          kind: 'text',
-          text: '"Good morning, Peter Rabbit! Good morning, Johnny Chuck!" they called. And everyone in the Green Meadows felt a little merrier.',
+          "kind": "text",
+          "text": "\"Good morning, Peter Rabbit! Good morning, Johnny Chuck!\" they called. And everyone in the Green Meadows felt a little merrier."
         },
         {
-          kind: 'note',
-          text: 'New word: breeze — a gentle little wind that makes the grass wave.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: breeze — a gentle little wind that makes the grass wave.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'For Old Mother West Wind had a rule for her children: be kind to every living thing, and every living thing will be kind to you.',
-        },
-      ],
+          "kind": "text",
+          "text": "For Old Mother West Wind had a rule for her children: be kind to every living thing, and every living thing will be kind to you."
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · Mrs. Redwing’s Speckled Egg',
-      art: 'westwind-redwing',
-      artPrompt:
-        'A bulrush tree by the Smiling Pool holding a woven nest with one pale speckled egg inside; a black bird with red shoulder patches perches protectively, while three tiny wind-children peek up from reeds below, hushing one another. Dragonflies over still water, luminous green-gold afternoon light, tender picture-book style.',
-      blocks: [
+      "title": "Chapter 2 · Mrs. Redwing’s Speckled Egg",
+      "art": "westwind-redwing",
+      "artPrompt": "A bulrush tree by the Smiling Pool holding a woven nest with one pale speckled egg inside; a black bird with red shoulder patches perches protectively, while three tiny wind-children peek up from reeds below, hushing one another. Dragonflies over still water, luminous green-gold afternoon light, tender picture-book style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the Old Orchard, Mrs. Redwing the blackbird had built her nest in a bulrush tree. And in that nest lay one speckled egg.',
+          "kind": "text",
+          "text": "In the Old Orchard, Mrs. Redwing the blackbird had built her nest in a bulrush tree. And in that nest lay one speckled egg."
         },
         {
-          kind: 'text',
-          text: 'The Merry Little Breezes were so proud. "We must rock the nest gently," they whispered, "and never, never roughly."',
+          "kind": "text",
+          "text": "The Merry Little Breezes were so proud. \"We must rock the nest gently,\" they whispered, \"and never, never roughly.\""
         },
         {
-          kind: 'text',
-          text: 'So they rocked the nest, softly, softly, like a cradle on the sea. Mrs. Redwing sang her glad song, and the egg grew warmer and warmer.',
+          "kind": "text",
+          "text": "So they rocked the nest, softly, softly, like a cradle on the sea. Mrs. Redwing sang her glad song, and the egg grew warmer and warmer."
         },
         {
-          kind: 'image',
-          art: 'westwind-redwing',
-          text: 'The Breezes rock the nest while Mrs. Redwing sings.',
+          "kind": "image",
+          "art": "westwind-redwing",
+          "text": "The Breezes rock the nest while Mrs. Redwing sings."
         },
         {
-          kind: 'note',
-          text: 'New word: speckled — covered with tiny dots, like a wren’s egg.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: speckled — covered with tiny dots, like a wren’s egg.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'One bright morning, out of the egg came a hungry baby bird with a mouth open wide as a door. And the Breezes giggled, for they had rocked a song into the world.',
-        },
-      ],
+          "kind": "text",
+          "text": "One bright morning, out of the egg came a hungry baby bird with a mouth open wide as a door. And the Breezes giggled, for they had rocked a song into the world."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · The Best Thing in the World',
-      art: 'westwind-johnny',
-      artPrompt:
-        'A round brown groundhog stands on a sunny bank looking puzzled and hopeful while three tiny wind-children point toward a sunlit clover field; a cottontail rabbit hops alongside, and bees drift between wildflowers. Rolling green hills and a sparkling pool behind. Warm honeyed summer light, cheerful storybook style.',
-      blocks: [
+      "title": "Chapter 3 · The Best Thing in the World",
+      "art": "westwind-johnny",
+      "artPrompt": "A round brown groundhog stands on a sunny bank looking puzzled and hopeful while three tiny wind-children point toward a sunlit clover field; a cottontail rabbit hops alongside, and bees drift between wildflowers. Rolling green hills and a sparkling pool behind. Warm honeyed summer light, cheerful storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One day Johnny Chuck the groundhog heard a strange thing. "What is the best thing in the world?" the Breezes asked.',
+          "kind": "text",
+          "text": "One day Johnny Chuck the groundhog heard a strange thing. \"What is the best thing in the world?\" the Breezes asked."
         },
         {
-          kind: 'text',
-          text: 'Johnny scratched his head. "I shall go and find out!" he said, and off he trundled across the Green Meadows.',
+          "kind": "text",
+          "text": "Johnny scratched his head. \"I shall go and find out!\" he said, and off he trundled across the Green Meadows."
         },
         {
-          kind: 'text',
-          text: 'He asked Peter Rabbit, who was busy eating clover. Peter said, "Sweet clover!" But Johnny was not sure.',
+          "kind": "text",
+          "text": "He asked Peter Rabbit, who was busy eating clover. Peter said, \"Sweet clover!\" But Johnny was not sure."
         },
         {
-          kind: 'text',
-          text: 'He asked Grandfather Frog on his big stone. "A fat green fly," boomed Grandfather Frog. But Johnny was still not sure.',
+          "kind": "text",
+          "text": "He asked Grandfather Frog on his big stone. \"A fat green fly,\" boomed Grandfather Frog. But Johnny was still not sure."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what would you say is the best thing in the world?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: what would you say is the best thing in the world?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Then Johnny Chuck came home tired, and there at his own front door sat his mother, with supper ready and a smile. And Johnny Chuck knew. The best thing in the world is being loved, right where you belong.',
-        },
-      ],
+          "kind": "text",
+          "text": "Then Johnny Chuck came home tired, and there at his own front door sat his mother, with supper ready and a smile. And Johnny Chuck knew. The best thing in the world is being loved, right where you belong."
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · Why Jimmy Skunk Wears Stripes',
-      art: 'westwind-jimmy',
-      artPrompt:
-        'A dignified striped skunk stands proudly on a mossy log in dappled forest light, holding his black-and-white tail like a banner, while two tiny wind-children circle him admiringly and a puzzled young rabbit watches from the ferns. Fallen acorns and toadstools around. Soft green-gold afternoon light, gentle humorous storybook style.',
-      blocks: [
+      "title": "Chapter 4 · Why Jimmy Skunk Wears Stripes",
+      "art": "westwind-jimmy",
+      "artPrompt": "A dignified striped skunk stands proudly on a mossy log in dappled forest light, holding his black-and-white tail like a banner, while two tiny wind-children circle him admiringly and a puzzled young rabbit watches from the ferns. Fallen acorns and toadstools around. Soft green-gold afternoon light, gentle humorous storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Jimmy Skunk walked slowly through the wood, and he was feeling very grand. For Jimmy wore the finest coat in the Green Forest: black, with a white stripe down his back.',
+          "kind": "text",
+          "text": "Jimmy Skunk walked slowly through the wood, and he was feeling very grand. For Jimmy wore the finest coat in the Green Forest: black, with a white stripe down his back."
         },
         {
-          kind: 'text',
-          text: '"Why do you wear stripes?" asked Peter Rabbit one day. "So that everyone will see me coming," said Jimmy, "and be polite."',
+          "kind": "text",
+          "text": "\"Why do you wear stripes?\" asked Peter Rabbit one day. \"So that everyone will see me coming,\" said Jimmy, \"and be polite.\""
         },
         {
-          kind: 'text',
-          text: 'The Merry Little Breezes laughed kindly. "Jimmy’s stripes are like a little flag," they told Peter. "The flag says: be gentle with your neighbours, and your neighbours will be gentle with you."',
+          "kind": "text",
+          "text": "The Merry Little Breezes laughed kindly. \"Jimmy’s stripes are like a little flag,\" they told Peter. \"The flag says: be gentle with your neighbours, and your neighbours will be gentle with you.\""
         },
         {
-          kind: 'image',
-          art: 'westwind-jimmy',
-          text: 'Jimmy Skunk wears his striped coat like a little flag.',
+          "kind": "image",
+          "art": "westwind-jimmy",
+          "text": "Jimmy Skunk wears his striped coat like a little flag."
         },
         {
-          kind: 'note',
-          text: 'New word: dignified — calm and grand, the way Jimmy walks.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: dignified — calm and grand, the way Jimmy walks.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Peter thought about that for a long time. Then he hopped off to say something polite to Jimmy Skunk — and Jimmy, who is never in a hurry, smiled all the way home.',
-        },
-      ],
+          "kind": "text",
+          "text": "Peter thought about that for a long time. Then he hopped off to say something polite to Jimmy Skunk — and Jimmy, who is never in a hurry, smiled all the way home."
+        }
+      ]
     },
     {
-      title: 'Chapter 5 · A Busy Day for the Breezes',
-      art: 'westwind-breezes',
-      artPrompt:
-        'A summer meadow busy with invisible helpers: ripples crossing a pond where a frog chuckles on a lily pad, dandelion seeds dancing in spirals, a kite of woven grass riding the wind over hay fields, laundry fluttering on a farmhouse line, and tiny wind-children as swirls of leaves and petals linking it all together. Bright breezy blue-and-gold daylight, joyful storybook style.',
-      blocks: [
+      "title": "Chapter 5 · A Busy Day for the Breezes",
+      "art": "westwind-breezes",
+      "artPrompt": "A summer meadow busy with invisible helpers: ripples crossing a pond where a frog chuckles on a lily pad, dandelion seeds dancing in spirals, a kite of woven grass riding the wind over hay fields, laundry fluttering on a farmhouse line, and tiny wind-children as swirls of leaves and petals linking it all together. Bright breezy blue-and-gold daylight, joyful storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One summer day the Merry Little Breezes were the busiest people in the Green Meadows.',
+          "kind": "text",
+          "text": "One summer day the Merry Little Breezes were the busiest people in the Green Meadows."
         },
         {
-          kind: 'text',
-          text: 'First they dried the rain off Peter Rabbit’s back. Then they carried a dandelion’s seeds to a new corner of the meadow, so there would be more gold next year.',
+          "kind": "text",
+          "text": "First they dried the rain off Peter Rabbit’s back. Then they carried a dandelion’s seeds to a new corner of the meadow, so there would be more gold next year."
         },
         {
-          kind: 'text',
-          text: 'They cooled Grandfather Frog on his big stone. They pushed Mrs. Redwing along her way, and they brought the smell of the clover fields right up to Farmer Brown’s door.',
+          "kind": "text",
+          "text": "They cooled Grandfather Frog on his big stone. They pushed Mrs. Redwing along her way, and they brought the smell of the clover fields right up to Farmer Brown’s door."
         },
         {
-          kind: 'image',
-          art: 'westwind-breezes',
-          text: 'The Breezes help every friend in the meadow, all in one day.',
+          "kind": "image",
+          "art": "westwind-breezes",
+          "text": "The Breezes help every friend in the meadow, all in one day."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what little help could you give, quietly, like a breeze?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: what little help could you give, quietly, like a breeze?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'By evening they were sleepy. "We did not make a sound all day," they said. But everyone in the meadow knew they had been there.',
-        },
-      ],
+          "kind": "text",
+          "text": "By evening they were sleepy. \"We did not make a sound all day,\" they said. But everyone in the meadow knew they had been there."
+        }
+      ]
     },
     {
-      title: 'Chapter 6 · Goodnight from the Green Meadows',
-      art: 'westwind-goodnight',
-      artPrompt:
-        'Twilight over a peaceful valley: the motherly figure in the grey shawl gathers her sleepy little wind-children into her shawl like a basket, while meadow lights dim — a rabbit settled by its burrow, a blackbird tucking her head under her wing, frogs going quiet by the still pool. First stars over the Purple Hills, deep blue with rose-gold sky glow, lullaby-soft storybook style.',
-      blocks: [
+      "title": "Chapter 6 · Why Grandfather Frog Has No Tail",
+      "art": "mw-frog-tail",
+      "artPrompt": "Grandfather Frog in his green-and-gold coat sits on his big smooth stone in the middle of the Smiling Pool telling a story, three tiny wind-children perched on a lily pad and a bulrush to listen, dragonflies hovering over still water. Soft green-gold afternoon light, patient gentle storybook illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'When the sun went down, Old Mother West Wind called her children home.',
+          "kind": "text",
+          "text": "One warm noon the Merry Little Breezes found Grandfather Frog on his big smooth stone. He sat very still in the middle of the Smiling Pool. “Grandfather,” they asked politely, “why is it that you have no tail? The minnows have tails. The tadpoles have tails. Even the little polliwogs have wiggly ones.”"
         },
         {
-          kind: 'text',
-          text: '"Time for sleep, my dears," she said. So the Merry Little Breezes blew one last gentle puff across the meadows.',
+          "kind": "text",
+          "text": "Grandfather Frog chuckled deep in his throat. “I will tell you a secret,” he said. “Long, long ago, my great-great-grandfather wore the handsomest tail in all the Green Meadows. It was long and grand and glossy, and he was as proud of it as a peacock of his fan. His tail was the talk of every pond from the Laughing Brook to the Old Pasture.”"
         },
         {
-          kind: 'text',
-          text: 'The puff tucked the flowers in. It rocked the nest in the bulrush tree. It curled around Johnny Chuck’s doorway like a blanket of air.',
+          "kind": "text",
+          "text": "“He sat on his big stone all day long, just to watch his tail shine,” said Grandfather Frog. “He turned this way and that, admiring every inch of it.” “He was so busy admiring his own beauty that he forgot to watch the alders, where danger likes to hide. The dragonflies darted. The minnows twinkled. But my great-great-grandfather saw none of them at all.”"
         },
         {
-          kind: 'image',
-          art: 'westwind-goodnight',
-          text: 'Mother West Wind gathers her sleepy Breezes into her shawl.',
+          "kind": "image",
+          "art": "mw-frog-tail",
+          "text": "Grandfather Frog tells the Breezes the secret of the missing tail."
         },
         {
-          kind: 'note',
-          text: 'New word: twilight — the soft, dim time just after the sun goes down.',
-          art: 'lamp-hint',
+          "kind": "text",
+          "text": "“One evening a hungry mink came creeping out of the alders. Quick as lightning he caught that beautiful tail in his teeth. My great-great-grandfather pulled, and pulled, and pulled, until at last he was free. But his fine tail stayed behind, and no frog ever got it back.”"
         },
         {
-          kind: 'text',
-          text: 'Then up the Purple Hills she climbed, with all her children tucked in her shawl. And the Green Meadows slept, safe and quiet, until morning came again.',
+          "kind": "note",
+          "text": "New word: admire — to look at something and think how fine it is.",
+          "art": "lamp-hint"
         },
-      ],
+        {
+          "kind": "text",
+          "text": "“And that,” boomed Grandfather Frog, “is why frogs have no tails today. We watch the alders. We watch the water. We do not waste our time admiring ourselves.” The Breezes blew softly around his stone and promised to keep watch for him. And Grandfather Frog smiled, for a friend’s promise is warmer than any tail. And to this day, when the Breezes pass the Smiling Pool, they keep one eye on the alders for him."
+        }
+      ]
     },
+    {
+      "title": "Chapter 7 · How Reddy Fox Was Surprised",
+      "art": "mw-reddy-pool",
+      "artPrompt": "A surprised young red fox splashes into the shallow edge of a smiling pond, ears back and eyes wide, while a plump muskrat laughs from the door of his mud house and a chuckling old frog tips off his big stone; three tiny wind-children whirl leaves above the cattails. Sparkling water drops, bright summer light, funny storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright morning Reddy Fox trotted across the Green Meadows, nose in the air, tail curled very grandly. The Merry Little Breezes came dancing around him, tossing dry leaves up like confetti. They ruffled the fur of his ears. “Catch me if you can!” they sang, and off they swirled over the clover."
+        },
+        {
+          "kind": "text",
+          "text": "Reddy crouched low in the grass. “A fox who can catch a rabbit can surely catch a little breeze,” he said. He sprang! But the Breezes slipped through his paws like water, and all he caught was a mouthful of grass. He sprang again, and again, and caught nothing at all."
+        },
+        {
+          "kind": "text",
+          "text": "Then he began to run in circles, chasing swirls of dust that were not there. The whole green meadow seemed to spin around him, like a leaf in a whirlpool. His head went round and round, and at last his feet went right out from under him."
+        },
+        {
+          "kind": "image",
+          "art": "mw-reddy-pool",
+          "text": "Reddy tumbles into the Smiling Pool, and the pool laughs kindly."
+        },
+        {
+          "kind": "text",
+          "text": "Splash! Reddy Fox landed in the very edge of the Smiling Pool, tail over ears. Jerry Muskrat popped up at his front door and laughed until he had to hold his sides. Grandfather Frog chuckled so hard that he rolled clean off his big smooth stone."
+        },
+        {
+          "kind": "note",
+          "text": "New word: whirlpool — water that spins round and round, like a top.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Reddy crawled out wet and muddy and more surprised than he had ever been in his life. The Merry Little Breezes blew gently over him until his coat stood up dry and fluffy again. “Some things cannot be caught,” they said kindly. “But a friend can always be dried.” Reddy trotted home slowly, thinking hard. He had chased the wind all morning and caught nothing but a bath. From that day on, when the Breezes came dancing, Reddy Fox sat down politely and watched. And he found that watching was almost as much fun."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Little Joe Otter’s Slippery Slide",
+      "art": "mw-otter-slide",
+      "artPrompt": "A sleek playful otter slides down a smooth muddy bank into a smiling pool with a happy splash, while a round muskrat claps his little paws at the top waiting his turn, and tiny wind-children puff ripples across the water. Cattails and a big willow tree, bright cheerful morning light, joyful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Down by the Smiling Pool, where the bank ran smooth and muddy, Little Joe Otter had built a famous slide. It was the finest slide in all the Green Meadows. He climbed to the top, flopped down on his tummy, and whoosh — splash! — down he went, straight into the water. Then he climbed up and did it all over again, because one slide is never enough for an otter."
+        },
+        {
+          "kind": "text",
+          "text": "“Whee!” cried Little Joe, shaking the drops from his whiskers. “No one in the Green Meadows can slide like Little Joe Otter!” All morning long he slid and slid, and every splash was louder than the last. And every whoosh was prouder. But he never once looked around to see who was near."
+        },
+        {
+          "kind": "text",
+          "text": "Jerry Muskrat sat at the door of his house, watching. He loved the look of that shiny, slippery slide. But Little Joe was having such a grand time all by himself. Jerry felt too shy to ask for a single turn."
+        },
+        {
+          "kind": "image",
+          "art": "mw-otter-slide",
+          "text": "Little Joe shares his slide, and the Smiling Pool rings with laughter."
+        },
+        {
+          "kind": "text",
+          "text": "The Merry Little Breezes saw it all, the way Breezes see everything. They puffed across the pool and whispered into Jerry’s ear. “A slide is twice as slippery,” they said, “when a friend is waiting at the top. Go on, Jerry. Ask.”"
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: what should Jerry say to Little Joe? And what should Little Joe say back?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So Jerry paddled over and asked, very politely, if he might try. And Little Joe Otter, proud but not unkind, stood aside at once. He made a grand sweep of his tail. “After you, Jerry!” he cried. “The mud is beautifully slippery today.” All afternoon they took turns, splash after splash, racing each other to the willow tree and back. And Little Joe found that the game was twice as fine as before. For now somebody was laughing with him, instead of only watching from far away."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Jerry Muskrat’s Rush House",
+      "art": "mw-jerry-house",
+      "artPrompt": "An autumn pond scene: a busy muskrat stacks rushes and mud into a snug dome-shaped house at the water’s edge, while tiny wind-children deliver loose rushes like little helpers and wild geese fly south far above. Golden reeds bending in the breeze, amber and russet autumn light, industrious cozy storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Autumn came to the Green Meadows, and the wind began to smell of frost. Jerry Muskrat knew exactly what that meant. Winter was on its way, and a muskrat without a good house is a muskrat with a very cold nose. So Jerry began to build."
+        },
+        {
+          "kind": "text",
+          "text": "He dived for mud and he cut long rushes with his sharp little teeth. He piled and patted, patted and piled, until a snug round house rose out of the water. Its doorway lay safely underneath, by his favorite fishing pool."
+        },
+        {
+          "kind": "text",
+          "text": "“It looks rather small,” said Grandfather Frog from his big stone. Jerry only smiled. “A house grows,” he said, “one rush at a time.” And back he dived for more mud, splash after splash, all the golden afternoon."
+        },
+        {
+          "kind": "image",
+          "art": "mw-jerry-house",
+          "text": "Jerry builds his round house, one rush at a time."
+        },
+        {
+          "kind": "note",
+          "text": "New word: snug — cozy and warm and just the right size.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Merry Little Breezes helped in their own quiet way. They tumbled loose rushes down to the water’s edge and swept fallen leaves away from his building spot. Not one of them said hurry, and not one of them said stop. Then one night the frost came indeed. The meadow grass turned silver and crackled underfoot, and the wind howled across the bare fields. But inside his round house, Jerry Muskrat was warm as toast, with a pantry full of sweet roots. And his doorway lay under the water, where no frost could ever reach."
+        },
+        {
+          "kind": "text",
+          "text": "Jimmy Skunk came strolling to the doorstep, and Jerry shared his supper. “You were right, Jerry,” said Jimmy. “Little bits of work, done every single day, built all this.” Jerry smiled and pushed the dish a little closer, and the two friends watched the first snow through the doorway."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Sammy Jay and the Speckled Egg",
+      "art": "mw-sammy-egg",
+      "artPrompt": "A sly blue-crested jay with a greedy eye lands on a branch of a bulrush tree where a woven nest holds one pale speckled egg, while a brave blackbird mother spreads her wings like a small thundercloud to guard it and tiny wind-children whirl a wall of leaves between them. Bright tense morning light, safe but exciting storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the Old Orchard, Mrs. Redwing sat proudly in her bulrush nest. Under her warm wings lay a brand-new speckled egg, whiter than cloud and dotted all over with fine brown freckles. Mrs. Redwing thought it was the finest egg in the world."
+        },
+        {
+          "kind": "text",
+          "text": "But somebody else had heard about that egg. Sammy Jay, with his blue coat and his sharp spying eyes, had been listening in the tall trees. “A speckled egg would make a very fine breakfast,” he thought. And he began to sneak toward the Old Orchard, quiet as a shadow. But careful as he was, he could not hide from the Merry Little Breezes."
+        },
+        {
+          "kind": "text",
+          "text": "Now Sammy Jay could hide from almost everybody. But nobody hides from the Breezes. They heard his greedy thoughts and raced ahead, swift as anything, and reached the Old Orchard first."
+        },
+        {
+          "kind": "image",
+          "art": "mw-sammy-egg",
+          "text": "Mrs. Redwing guards her nest, with a whirl of leaves to block the thief."
+        },
+        {
+          "kind": "text",
+          "text": "The Breezes rocked the nest, softly, softly — the warning rock that every bird in the meadow understands. Mrs. Redwing understood at once. She fluffed herself up twice as big and spread her wings like a small black thundercloud. Then she waited, right on the edge of the nest. When Sammy Jay landed on the branch, she scolded him loudly and fiercely. His blue crest stood straight up in fright. “Caw!” he cried, and tumbled backward off the tree. Every time he tried to sneak back, a Breeze puffed his tail and rattled the leaves."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: how did the Breezes warn Mrs. Redwing without saying a single word?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So Sammy Jay flew away to the deep woods, hungry and ashamed. All day the Breezes sang a little warning song around the bulrush tree. And all day Mrs. Redwing sang her thanks. And the speckled egg grew warm and safe, the way loved things do."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Striped Chipmunk’s Forgotten Acorns",
+      "art": "mw-chipmunk-acorns",
+      "artPrompt": "A striped chipmunk with empty cheeks stands amazed in a spring meadow corner where a row of tiny oak seedlings sprouts from the fallen leaves, tiny wind-children dancing around the green shoots, his burrow roots and the green forest behind. Fresh dewy spring morning light, wonder-filled storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "All autumn, Striped Chipmunk was the busiest little person in the Green Forest. Up the oak tree he ran, and down again, with his cheeks stuffed so full that his eyes squinted. There were acorns to store, and not a minute to lose."
+        },
+        {
+          "kind": "text",
+          "text": "He dug little pantries under the tree roots and filled them one acorn at a time. “No time to play,” he told the Merry Little Breezes when they asked him. “Winter is coming, and winter does not wait for chipmunks.”"
+        },
+        {
+          "kind": "text",
+          "text": "He hid acorns here, and acorns there, and acorns under the big flat stone by the ferns. He worked so hard and so fast that he hid far more acorns than any chipmunk could ever remember. Some were tucked by the door. Some were tucked deep under the moss."
+        },
+        {
+          "kind": "image",
+          "art": "mw-chipmunk-acorns",
+          "text": "Striped Chipmunk hides acorns faster than he can count them."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pantry — the place where food is kept, for people and for chipmunks.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Winter came, and the snow fell, and Striped Chipmunk slept warm in his burrow, nibbling from his full pantries. Once or twice he woke and thought of the acorns he had hidden away out by the meadow corner. “Never mind,” he yawned, curling tighter. “They are lost now. And he dreamed that night of springtime, when the world turns green.”"
+        },
+        {
+          "kind": "text",
+          "text": "But the Breezes did not forget. All winter they kept those lost acorns snug under the leaves. And when the spring rains came, the Breezes whispered down into the dark: “Wake up, little acorns. Wake up.” And up came the little oak trees, a whole row of them, bright green in the meadow corner. Striped Chipmunk stood there blinking in the sun, his whiskers trembling. “Why,” he said, “I planted a forest by forgetting!” And the Breezes laughed and danced all around him, because it was true."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Goodnight, Green Meadows",
+      "art": "mw-goodnight-hills",
+      "artPrompt": "Twilight over the whole Green Meadows valley: a motherly figure in a soft grey shawl gathers a dozen sleepy little wind-children into her shawl, while below her friends settle for the night — a groundhog at his burrow door, a striped skunk on his log, a rabbit in the clover and a dark quiet orchard tree. First stars over the Purple Hills, deep blue with rose-gold light, tender closing storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The sun went down behind the Purple Hills, and long blue shadows lay across the Green Meadows. Old Mother West Wind stood on the hilltop and called, very softly: “Time for bed, my dears. Time for bed.” A hermit thrush sang once, far away, and the whole valley hushed to listen."
+        },
+        {
+          "kind": "text",
+          "text": "But first, every Merry Little Breeze had one last errand. One flew to Johnny Chuck’s doorway and tucked a blanket of warm air around his sleeping shoulders. One flew to Jimmy Skunk’s log and smoothed his stripy coat goodnight. He did it very gently, so as not to wake him."
+        },
+        {
+          "kind": "text",
+          "text": "One drifted down to Jerry Muskrat’s round house and listened at the wall. A muskrat inside snored like a tiny thunderstorm. One swept low through the clover and lay down beside Peter Rabbit, quiet as a quilt. And Peter smiled in his sleep."
+        },
+        {
+          "kind": "image",
+          "art": "mw-goodnight-hills",
+          "text": "Each Breeze carries one last goodnight to a friend in the meadow."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: who would you blow a goodnight to tonight, like a little Breeze?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One Breeze rocked the bulrush nest, where the speckled egg had long since become a whole nest of chicks. They slept with their heads tucked under their wings. And one Breeze patted the big stone in the Smiling Pool, where Grandfather Frog dreamed of fat green flies. Then all the Breezes ran up the hill and climbed into their mother’s shawl, sleepy as lambs. “We were kind today,” they murmured. “Yes,” said Old Mother West Wind. “And tomorrow, my dears, we will be kind again.”"
+        },
+        {
+          "kind": "text",
+          "text": "She gathered them all up and climbed into the purple dark. Below, the Green Meadows lay quiet and safe, every front door shut, every nest tucked in, every log warm. The stars came out to keep watch, and the whole valley whispered back: goodnight, goodnight, goodnight. Sleep well, Peter. Sleep well, Johnny. Sleep well, all the Green Meadows."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'Old Mother West Wind',
-    author: 'Thornton W. Burgess',
-    authorDeathYear: 1965,
-    jurisdiction: 'US',
-    basis: 'pd-us',
-    note: 'Retold for young readers; scenes follow the public-domain original stories. Published 1910; US public domain (pre-1929 publication). Burgess died in 1965, so EU protection has not expired — distribution outside the US should rely on the platform’s adapted-retelling basis.',
-  },
+  "rights": {
+    "workTitle": "Old Mother West Wind",
+    "author": "Thornton W. Burgess",
+    "authorDeathYear": 1965,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "Retold for young readers; scenes follow the public-domain original stories. Published 1910; US public domain (pre-1929 publication). Burgess died in 1965, so EU protection has not expired — distribution outside the US should rely on the platform’s adapted-retelling basis."
+  }
 }

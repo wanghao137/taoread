@@ -1,178 +1,438 @@
+/**
+ * The Patchwork Girl of Oz — complete 12-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * The Patchwork Girl of Oz — L. Frank Baum (1856–1919), first published 1913.
- * Retold in five chapters in simple English for readers aged 6-8: a clumsy
- * spell turns two people to marble, and small Ojo must gather four curious
- * ingredients to cure them — helped by a patchwork girl and a glass cat.
- * Source: public domain text (published 1913, US pre-1929; Baum d. 1919).
- */
 export const ozPatchwork: PackBook = {
-  id: 'oz-patchwork',
-  title: 'The Patchwork Girl of Oz',
-  author: 'L. Frank Baum',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '6-8',
-  intro: 'A spilled bottle turns Uncle Nunkie to marble, and only four strange ingredients can cure him. So Ojo sets out with a giggling patchwork girl and a see-through glass cat — and finds that being called Unlucky does not have to last.',
-  coverArt: 'patchwork-girl',
-  coverArtPrompt: 'a lively girl made of colourful patchwork cloth with a mismatched button eye and wild yarn hair, caught mid-dance on a forest path, one arm flung up, patches of red yellow purple and green cloth catching the light, a small boy and a glass cat watching with delight, dappled woodland sunbeams, exuberant storybook illustration',
-  coverFrom: '#C2185B',
-  coverTo: '#FFCCBC',
-  source: 'The Patchwork Girl of Oz (L. Frank Baum, 1913), public domain (Baum d. 1919)',
-  chapters: [
+  "id": "oz-patchwork",
+  "title": "The Patchwork Girl of Oz",
+  "author": "L. Frank Baum",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "A spilled bottle turns Uncle Nunkie to marble, and only four strange ingredients can cure him. So Ojo sets out with a giggling patchwork girl and a see-through glass cat — and finds that being called Unlucky does not have to last.",
+  "coverArt": "patchwork-girl",
+  "coverArtPrompt": "a lively girl made of colourful patchwork cloth with a mismatched button eye and wild yarn hair, caught mid-dance on a forest path, one arm flung up, patches of red yellow purple and green cloth catching the light, a small boy and a glass cat watching with delight, dappled woodland sunbeams, exuberant storybook illustration",
+  "coverFrom": "#C2185B",
+  "coverTo": "#FFCCBC",
+  "source": "The Patchwork Girl of Oz (L. Frank Baum, 1913), public domain (Baum d. 1919)",
+  "chapters": [
     {
-      title: 'Chapter 1 · The Crooked Magician',
-      art: 'patchwork-studio',
-      artPrompt: 'a cluttered stone magician\'s workshop with shelves of bottles, a crooked little magician stirring a copper kettle, a lifeless patchwork girl leaning against the wall waiting for magic, a small boy and an old man watching from the doorway, sparks and green vapour over the kettle, moody lamplight with one bright window, magical storybook illustration',
-      blocks: [
+      "title": "Chapter 1 · The Crooked Magician",
+      "art": "patchwork-studio",
+      "artPrompt": "a cluttered stone magician's workshop with shelves of bottles, a crooked little magician stirring a copper kettle, a lifeless patchwork girl leaning against the wall waiting for magic, a small boy and an old man watching from the doorway, sparks and green vapour over the kettle, moody lamplight with one bright window, magical storybook illustration",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Ojo the Poor lived with Uncle Nunkie in a small house in the woods. They had little, but they had each other. One day they visited Dr. Pipt, the Crooked Magician, who makes magic very, very slowly.',
+          "kind": "text",
+          "text": "Ojo the Poor lived with Uncle Nunkie in a small house in the woods. They had little, but they had each other. One day they visited Dr. Pipt, the Crooked Magician, who makes magic very, very slowly."
         },
         {
-          kind: 'text',
-          text: 'On his shelf stood two bottles: the Powder of Life, which wakes things up, and the Liquid of Petrifaction, which turns things to stone.',
+          "kind": "text",
+          "text": "On his shelf stood two bottles: the Powder of Life, which wakes things up, and the Liquid of Petrifaction, which turns things to stone."
         },
         {
-          kind: 'image',
-          art: 'patchwork-studio',
-          text: 'A slip of the elbow — and the bottle falls.',
+          "kind": "image",
+          "art": "patchwork-studio",
+          "text": "A slip of the elbow — and the bottle falls."
         },
         {
-          kind: 'text',
-          text: 'Just as the Powder of Life was finished, Ojo stumbled. The bottle of Liquid of Petrifaction tipped, splashed — and Uncle Nunkie turned to grey marble where he stood.',
+          "kind": "text",
+          "text": "Just as the Powder of Life was finished, Ojo stumbled. The bottle of Liquid of Petrifaction tipped, splashed — and Uncle Nunkie turned to grey marble where he stood."
         },
         {
-          kind: 'note',
-          text: 'Talk about it: Ojo did not mean it. Accidents happen to everyone. What helps most after an accident — shouting, or a plan?',
-          art: 'lamp-hint',
-        },
-      ],
+          "kind": "note",
+          "text": "Talk about it: Ojo did not mean it. Accidents happen to everyone. What helps most after an accident — shouting, or a plan?",
+          "art": "lamp-hint"
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · Scraps and Bungle',
-      art: 'patchwork-scraps',
-      artPrompt: 'a patchwork girl in many-coloured cloth leaping joyfully off a workbench, yarn hair flying, a transparent glass cat with a visible pink heart and rolling eyes beside her, the magician\'s wife frozen as a marble statue in the background, papers scattering, bright morning light through the workshop window, lively storybook illustration',
-      blocks: [
+      "title": "Chapter 2 · Scraps and Bungle",
+      "art": "patchwork-scraps",
+      "artPrompt": "a patchwork girl in many-coloured cloth leaping joyfully off a workbench, yarn hair flying, a transparent glass cat with a visible pink heart and rolling eyes beside her, the magician's wife frozen as a marble statue in the background, papers scattering, bright morning light through the workshop window, lively storybook illustration",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'There was just enough Powder of Life for one more thing. The magician\'s wife meant it for her new patchwork servant — but when the powder touched her, the Patchwork Girl sat up and began to dance.',
+          "kind": "text",
+          "text": "There was just enough Powder of Life for one more thing. The magician's wife meant it for her new patchwork servant — but when the powder touched her, the Patchwork Girl sat up and began to dance."
         },
         {
-          kind: 'image',
-          art: 'patchwork-scraps',
-          text: 'Scraps wakes up ready to dance.',
+          "kind": "image",
+          "art": "patchwork-scraps",
+          "text": "Scraps wakes up ready to dance."
         },
         {
-          kind: 'text',
-          text: '"Call me Scraps," she cried. "My brain is full of pins and needles, and I feel wonderful!" With her came Bungle the Glass Cat, who is see-through, with pink brains you can watch working.',
+          "kind": "text",
+          "text": "\"Call me Scraps,\" she cried. \"My brain is full of pins and needles, and I feel wonderful!\" With her came Bungle the Glass Cat, who is see-through, with pink brains you can watch working."
         },
         {
-          kind: 'note',
-          text: 'New word: patchwork — cloth made of many small pieces sewn together. Every piece is different, and that is what makes it beautiful.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: patchwork — cloth made of many small pieces sewn together. Every piece is different, and that is what makes it beautiful.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'The magician wrote the cure on a paper: a six-leaved clover, three hairs from a Woozy\'s tail, water from a dark well, and the left wing of a yellow butterfly. Ojo folded the paper, said goodbye to the marble statue, and set off with Scraps and Bungle.',
-        },
-      ],
+          "kind": "text",
+          "text": "The magician wrote the cure on a paper: a six-leaved clover, three hairs from a Woozy's tail, water from a dark well, and the left wing of a yellow butterfly. Ojo folded the paper, said goodbye to the marble statue, and set off with Scraps and Bungle."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · The Woozy and the Dark Well',
-      art: 'patchwork-woozy',
-      artPrompt: 'a cube-shaped blue-green beast with kind square eyes standing calmly in a forest clearing, a patchwork girl carefully trying to pluck three hairs from its square tail while a glass cat watches from a stump, a small boy holding the cure list, mossy trees and honeybees, gentle green forest light, friendly storybook illustration',
-      blocks: [
+      "title": "Chapter 3 · The Woozy and the Dark Well",
+      "art": "patchwork-woozy",
+      "artPrompt": "a cube-shaped blue-green beast with kind square eyes standing calmly in a forest clearing, a patchwork girl carefully trying to pluck three hairs from its square tail while a glass cat watches from a stump, a small boy holding the cure list, mossy trees and honeybees, gentle green forest light, friendly storybook illustration",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In a deep forest they met the Woozy, a square blue-green beast who guards honeybees and speaks very politely. "Three hairs from my tail?" he said. "You may try." They pulled, and pulled — but not one hair came loose.',
+          "kind": "text",
+          "text": "In a deep forest they met the Woozy, a square blue-green beast who guards honeybees and speaks very politely. \"Three hairs from my tail?\" he said. \"You may try.\" They pulled, and pulled — but not one hair came loose."
         },
         {
-          kind: 'image',
-          art: 'patchwork-woozy',
-          text: 'The Woozy agrees to come along.',
+          "kind": "image",
+          "art": "patchwork-woozy",
+          "text": "The Woozy agrees to come along."
         },
         {
-          kind: 'text',
-          text: '"Then I had better come with you," said the Woozy, and he did. Next they found the dark well, deep inside a mountain. Scraps was lowered down on a rope, and brought up a flask of water so dark it looked like night.',
+          "kind": "text",
+          "text": "\"Then I had better come with you,\" said the Woozy, and he did. Next they found the dark well, deep inside a mountain. Scraps was lowered down on a rope, and brought up a flask of water so dark it looked like night."
         },
         {
-          kind: 'note',
-          text: 'Two things found, two to go. Count them together on your fingers: clover, hairs, water, wing.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Two things found, two to go. Count them together on your fingers: clover, hairs, water, wing.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Ojo ticked two things off his list. "Halfway," he said, and his heart felt lighter than it had since the accident. Even Bungle the Glass Cat was pleased, and Bungle was rarely pleased about anything.',
-        },
-      ],
+          "kind": "text",
+          "text": "Ojo ticked two things off his list. \"Halfway,\" he said, and his heart felt lighter than it had since the accident. Even Bungle the Glass Cat was pleased, and Bungle was rarely pleased about anything."
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · The Yellow Butterfly',
-      art: 'patchwork-butterfly',
-      artPrompt: 'a single golden butterfly resting on a thistle above a meadow path, a small boy reaching out one careful hand and stopping, a shining tin man stepping between him and the butterfly with one raised finger, a patchwork girl and a glass cat behind, warm late-afternoon meadow light with the butterfly glowing like a small sun, tender storybook illustration',
-      blocks: [
+      "title": "Chapter 4 · The Yellow Butterfly",
+      "art": "patchwork-butterfly",
+      "artPrompt": "a single golden butterfly resting on a thistle above a meadow path, a small boy reaching out one careful hand and stopping, a shining tin man stepping between him and the butterfly with one raised finger, a patchwork girl and a glass cat behind, warm late-afternoon meadow light with the butterfly glowing like a small sun, tender storybook illustration",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the Winkie Country they found the last yellow butterflies, glowing like little golden lamps. Ojo crept close, hand out — and stopped. "Please," said a voice like a bell. It was the Tin Woodman, who protects every butterfly in Oz.',
+          "kind": "text",
+          "text": "In the Winkie Country they found the last yellow butterflies, glowing like little golden lamps. Ojo crept close, hand out — and stopped. \"Please,\" said a voice like a bell. It was the Tin Woodman, who protects every butterfly in Oz."
         },
         {
-          kind: 'image',
-          art: 'patchwork-butterfly',
-          text: 'Ojo\'s hand stops just short of the golden wing.',
+          "kind": "image",
+          "art": "patchwork-butterfly",
+          "text": "Ojo's hand stops just short of the golden wing."
         },
         {
-          kind: 'text',
-          text: '"The wing of a butterfly cannot be taken," said the Tin Woodman gently. "Not even for a cure." Ojo\'s eyes stung. He had come so far, and now the list was broken.',
+          "kind": "text",
+          "text": "\"The wing of a butterfly cannot be taken,\" said the Tin Woodman gently. \"Not even for a cure.\" Ojo's eyes stung. He had come so far, and now the list was broken."
         },
         {
-          kind: 'note',
-          text: 'Talk about it: Ojo could not take the wing, even for his uncle. Some rules protect small living things. Which small things would you protect?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Talk about it: Ojo could not take the wing, even for his uncle. Some rules protect small living things. Which small things would you protect?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: '"Come with me to the Emerald City," said the Tin Woodman. "The Ruler of Oz will know what to do." So Ojo walked on, holding his folded paper, and hoping very hard.',
-        },
-      ],
+          "kind": "text",
+          "text": "\"Come with me to the Emerald City,\" said the Tin Woodman. \"The Ruler of Oz will know what to do.\" So Ojo walked on, holding his folded paper, and hoping very hard."
+        }
+      ]
     },
     {
-      title: 'Chapter 5 · Ojo the Lucky',
-      art: 'patchwork-ozma',
-      artPrompt: 'a warm emerald throne room where a fairy princess in green smiles kindly at a small boy holding his folded cure list, the marble uncle and the magician\'s wife standing freshly alive beside their own pedestals, a patchwork girl mid-cartwheel, a glass cat and a square blue beast watching, joyful golden light, heartwarming storybook illustration',
-      blocks: [
+      "title": "Chapter 5 · The Foolish Owl and the Wise Donkey",
+      "art": "pw-owl",
+      "artPrompt": "a fat owl and a grey donkey arguing on the branch of a big forest tree, a small boy with a folded paper and a patchwork girl looking up from the path below, a shining tin man and a glass cat beside them, green Munchkin hills beyond, warm dappled forest light, funny storybook illustration",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the Emerald City, Ozma had watched the whole journey in her Magic Picture. "You are not in trouble," she told Ojo. "You are early. I have already arranged the rest."',
+          "kind": "text",
+          "text": "The road to the Emerald City wound through the green Munchkin hills, up and down and up again. The Tin Woodman marched ahead, pointing the way with his tin finger. Bungle the Glass Cat picked her dainty steps along the stones, minding her lovely tail. The Woozy plodded behind, big and blue and patient. He did not care where they were going, as long as they went together. In a big tree by the path sat a fat owl and a grey donkey. They were arguing at the top of their voices."
         },
         {
-          kind: 'image',
-          art: 'patchwork-ozma',
-          text: 'Two marble statues wake up in the throne room.',
+          "kind": "text",
+          "text": "“Everyone knows that I am wise,” said the Donkey. “Everyone knows that I am wise,” said the Owl. They said it at the very same moment. Scraps laughed so hard that she fell over into a bush. The Woozy blinked his square eyes and asked, politely, if laughing was a kind of honey."
         },
         {
-          kind: 'text',
-          text: 'Dr. Pipt was brought before Ozma, and his powders were taken away, for magic needs a permit in Oz. Then Ozma sprinkled the last of the Powder of Life — and Uncle Nunkie stepped off his pedestal, alive and blinking.',
+          "kind": "image",
+          "art": "pw-owl",
+          "text": "The Wise Donkey and the Foolish Owl argue in a tree."
         },
         {
-          kind: 'note',
-          text: 'New word: permit — official permission to do something special. Even magicians in Oz must follow the rules.',
-          art: 'lamp-hint',
+          "kind": "text",
+          "text": "“Please,” said Ojo, looking up, “which is the way to the Emerald City?” The Owl puffed its feathers and hooted: “Follow your nose, for your nose always knows!” Everyone waited politely, but the Owl only nodded. It looked very pleased with itself. It was not helpful."
         },
         {
-          kind: 'text',
-          text: '"No one is Unlucky here," said Ozma, and Ojo was Ojo the Lucky from that day on. Scraps stayed in the Emerald City, dancing whenever she liked. And nobody ever told her she was made of scraps — only that she was made of joy.',
+          "kind": "text",
+          "text": "“What my friend means,” sighed the Donkey, “is that you go straight on over the hills.” The travelers thanked him and walked on. “Goodbye, Wise Donkey!” called Scraps. “Goodbye, Foolish Owl!” The Owl hooted, “Wise?” and the Donkey groaned, and the hills swallowed the sound."
         },
-      ],
+        {
+          "kind": "note",
+          "text": "Talk about it: the owl sounded very sure, but said nothing helpful. Being loud is not the same as being wise. How can you tell the difference?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "That evening they camped under the open sky. Ojo held his folded paper close. Two things on the list were done. The butterfly wing had been refused, kindly but firmly. He was learning that long journeys are made of small days, one after another, like beads on a string."
+        }
+      ]
     },
+    {
+      "title": "Chapter 6 · The Hoppers and the Horners",
+      "art": "pw-hoppers",
+      "artPrompt": "one-legged Hoppers leaping in a ring around laughing travelers in a green valley, a patchwork girl hopping higher than everyone with her yarn hair flying, a round-topped mountain with a dark tunnel mouth behind, a small boy and a square blue beast and a glass cat watching, bright playful daylight, lively storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Over the hills lay a valley of people who had one strong leg each. They hopped everywhere they wished to go. These were the Hoppers. When strangers appeared, a hundred Hoppers came bouncing out of their houses. They made a ring around the travelers, hopping and staring. It was the strangest welcome Ojo had ever seen, and he bowed to the whole bouncing ring."
+        },
+        {
+          "kind": "text",
+          "text": "“Who are you?” cried the tallest Hopper. “Friends!” said Scraps. To show it, she hopped higher than every Hopper there, with her yarn hair flying. The Hoppers had never seen anyone hop just for fun. Soon the whole valley was bouncing and laughing, and the ring turned into a dance. The tallest Hopper hopped a little lower after that. It is humbling, being out-jumped by a girl made of rags."
+        },
+        {
+          "kind": "image",
+          "art": "pw-hoppers",
+          "text": "Scraps hops higher than the one-legged Hoppers."
+        },
+        {
+          "kind": "text",
+          "text": "The Woozy tried hopping too, but a square beast bounces badly. He sat down with a thud that shook the valley. Being square is splendid, but not for hopping. The Hoppers cheered anyway, for they liked anyone who tried."
+        },
+        {
+          "kind": "text",
+          "text": "“We wish to cross your valley,” said the Tin Woodman politely, “and the mountain beyond.” The Hoppers grew serious. “Through the tunnel, then,” said the tallest. “It runs under the mountain to the land of the Horners, who are nothing but heads. Do not stop to chat with echoes.”"
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the Hoppers have one leg, and the Horners are all head. Which would you rather be for one whole day, and why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They walked into the tunnel hand in hand. It was dark and cool, and water dripped somewhere far away, like slow clock ticks. Bungle’s pink brains glowed like a little lantern. Scraps sang echoing songs, and at last they came out into the sunshine on the far side of the mountain. On the far side, the Horners were waiting, all head and no legs. Scraps said they looked like a family of very wise eggs."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Trick River",
+      "art": "pw-trick-river",
+      "artPrompt": "a broad green river bending like a ribbon while a small wooden boat slides along its curve carrying a small boy, a patchwork girl, a square blue beast and a glass cat, willow trees on both banks, sparkling afternoon light, playful storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Beyond the mountain the travelers came to a broad green river, with an old boat tied at the bank. This was the Trick River, which changes its course whenever it pleases. Nobody can stop it, and nobody has ever tried twice. There was no bridge anywhere, so they climbed in: Ojo, Scraps, the Woozy, and Bungle. The Woozy looked at the water with great suspicion, for square beasts are not fond of swimming."
+        },
+        {
+          "kind": "text",
+          "text": "Halfway across, the whole river swung sideways with a whoop. The boat spun like a leaf. Scraps waved her arms with joy, of course, because Scraps thinks everything is fun. The Woozy held on tight with all four square feet, and shut his square eyes very tight too. Bungle yowled that a glass cat should never, ever travel by water. Scraps, of course, enjoyed every single second of it."
+        },
+        {
+          "kind": "image",
+          "art": "pw-trick-river",
+          "text": "The Trick River swings sideways, boat and all."
+        },
+        {
+          "kind": "text",
+          "text": "“Boats are ticklish,” announced Scraps from the bow, and that, she said, was a proven fact. Then the river, tired of its own trick, swung back again. It set them gently on the far bank, right where they wanted to be. “You play tricks exactly like me,” Scraps told the river, and blew it a kiss. The river gurgled, which everyone chose to take as a compliment."
+        },
+        {
+          "kind": "note",
+          "text": "New word: course — the path a river chooses to run. The Trick River changes its path whenever it likes, just because it can.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They dried in the afternoon sun and walked on through wide green fields. Ojo counted the list in his head: clover still to find, hairs done, water done, wing refused. “We are bringing the cure almost all the way,” he said. Far ahead, at the end of the plain, something green began to glitter, like a city built of spring leaves. They walked faster. “Nearly there,” said the Tin Woodman softly."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Big Lavender Bear",
+      "art": "pw-bear-king",
+      "artPrompt": "a big gentle lavender bear wearing a small crown on a golden throne in a forest clearing, rows of tiny toy bears standing guard, a small pink teddy bear on the king’s knee, a small boy asking a question while a patchwork girl and a glass cat listen, soft green evening light through the trees, magical storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In a quiet forest they found a clearing, and in the clearing a golden throne. On it sat a big lavender bear with a kind face and a small crown. Around the throne stood tiny bear soldiers, no bigger than kittens, very fierce and very neat. Nobody laughed, because the King was watching. But Scraps’s buttons shook with laughing anyway. Scraps had to hold her own buttons very still. Even then, two of them giggled."
+        },
+        {
+          "kind": "text",
+          "text": "“Good day,” said the Bear King. “This is my Pink Teddy Bear. The Pink Bear knows everything in the world that can be known. You may ask him one question each, but only one, for questions are precious.” The tiny bears saluted, which looked very grand indeed."
+        },
+        {
+          "kind": "image",
+          "art": "pw-bear-king",
+          "text": "The Pink Teddy Bear knows everything that can be known."
+        },
+        {
+          "kind": "text",
+          "text": "Ojo thought hard. “Is my uncle still waiting for me?” he asked. The Pink Bear blinked its pink eyes. “Yes,” it said. “He is waiting, and he is hoping.” Ojo put those words away carefully, like something warm in his pocket, and they kept him company for days."
+        },
+        {
+          "kind": "text",
+          "text": "Then Scraps asked, “What am I made of?” The Pink Bear looked at her for a long moment. “The best pieces,” he said, and every tiny bear soldier nodded. Scraps stayed quiet for a whole minute, which for Scraps was a very long time indeed. She walked away tall after that. It is nice to know you are made of the best pieces."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: if a kind bear could answer one question, what would you ask? Take turns being the Pink Bear.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Bear King pointed out the road through his forest. His tiny soldiers walked in step beside the travelers, all the way to the edge of the trees. It was very grand for a small boy and his friends. And the road bent onward, toward the Emerald City."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Six-Leaved Clover",
+      "art": "pw-clover",
+      "artPrompt": "a patch of green clover beside a golden road with emerald towers rising behind white walls, a small boy kneeling and holding up one six-leaved clover in both hands, a patchwork girl and a glass cat bending close to look, warm morning light over the shining green city, tender storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At last the road turned, and there stood the Emerald City, its towers shining green as spring leaves. Just outside the walls, the path ran past a field of clover. And there, in the middle of the patch, Ojo spied one stem with not four leaves, nor five, but six. Bungle had never seen so much green in one place. She said the city would suit her nicely."
+        },
+        {
+          "kind": "text",
+          "text": "His paper said the cure needed a six-leaved clover. Nobody had told him that picking it was against the law in Oz. Ojo came from far away in the woods, where nobody tells you such things. He thought of Uncle Nunkie standing grey and still. He knelt down and picked it with both hands, and his heart was full."
+        },
+        {
+          "kind": "image",
+          "art": "pw-clover",
+          "text": "One small clover, picked with love."
+        },
+        {
+          "kind": "text",
+          "text": "At the great gate, the Guardian of the Gate welcomed them kindly. He asked where they had come from, and why. He asked what the patchwork girl was made of, and got a very long answer. Ojo told everything else, because he had promised himself to tell the truth. When he held up the little clover, the Guardian’s face grew long."
+        },
+        {
+          "kind": "text",
+          "text": "“You picked a six-leaved clover?” said the Guardian. “Then I am sorry, but I must arrest you. The law is the law, even in Oz.” Ojo stood very straight. “All right,” he said. “But please hurry. My uncle is waiting.”"
+        },
+        {
+          "kind": "note",
+          "text": "Talk about it: Ojo broke a rule he did not know about. What should happen next — and who should decide?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So the smallest prisoner in Oz walked through the emerald streets, holding his little clover tight. Scraps declared she was under arrest too, just for company, and giggled all the way to the palace. Bungle said she had never been so interested in anything, which, for Bungle, was a great compliment. Ojo did not mind one bit. Every step took him nearer to the person he was trying to save."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Ojo Under Arrest",
+      "art": "pw-arrest",
+      "artPrompt": "a grand emerald throne room where a kind fairy princess in green leans down to hear a small boy holding a folded paper, the guardian of the gate and guards standing aside, a patchwork girl mid-skip and a glass cat and a tin man nearby, tall green marble pillars and soft morning light, gentle storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The Guardian led Ojo through emerald streets to the palace. Scraps skipped the whole way, telling the guards funny stories, which slowed the arrest down nicely. In the throne room sat Princess Ozma, the Ruler of Oz. Her eyes were kind, and her crown was small and bright. The guards asked about the journey. The Woozy recited the whole thing in his neat, square way."
+        },
+        {
+          "kind": "text",
+          "text": "The Guardian told everything. Ojo held out his folded paper. “I picked the clover for my uncle,” he said. “I did not know the law. I am sorry, and I would do it again, because he is waiting, and because he is my uncle.”"
+        },
+        {
+          "kind": "image",
+          "art": "pw-arrest",
+          "text": "Ozma listens to the smallest prisoner in Oz."
+        },
+        {
+          "kind": "text",
+          "text": "Ozma was quiet for a moment. “I have watched your whole journey in my Magic Picture,” she said. “I saw you pull the Woozy’s tail politely. I saw you refuse to take the wing, when your heart wanted it so much. You are not a bad boy, Ojo. You are a loving one, and in Oz that matters most.”"
+        },
+        {
+          "kind": "text",
+          "text": "“You are forgiven,” said Ozma, and the whole throne room breathed out at once. Then she grew serious. “But the cure is still missing its last piece — a wing no one may take. Leave that to me, for I have an idea of my own. And send for Dr. Pipt. Bring the marble statues to the city.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: forgive — to let go of someone’s wrong and begin again fresh. Ozma is very good at it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Messengers ran at once, and a wagon was made ready for the road to Munchkin Country. Ojo touched the clover in his pocket. “Soon, Uncle,” he whispered. “Only hold on a little longer.” Scraps kept watch beside him all evening, humming a song with no words. Tomorrow, the list would be finished at last. Ojo fell asleep counting ingredients instead of sheep."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Wizard and the Magician",
+      "art": "pw-wizard",
+      "artPrompt": "an emerald street where a farm wagon carries two grey marble statues standing upright like sleeping guests, a crooked little magician walking beside it with his hat in his hands, a little old wizard with twinkling eyes greeting them at the palace steps, crowds watching, warm afternoon light, hopeful storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The wagon came from Munchkin Country with two marble statues standing upright on it. They looked like guests who had fallen asleep standing up, too polite to fall over. Dr. Pipt the Crooked Magician walked beside it with his hat in his hands. Crowds came out to see the strangest cargo in Oz, and mothers held up their children to look. Bungle walked beside the wagon the whole way in, admiring her reflection in the marble."
+        },
+        {
+          "kind": "text",
+          "text": "The Wizard of Oz came out to meet them. He was a little old man, with twinkling eyes and a bag of magic tools. He read the magician’s crooked handwriting slowly, twice, to be sure. “Clover, three Woozy hairs, water from the dark well,” he said, ticking each one off. “The wing we do not have.”"
+        },
+        {
+          "kind": "image",
+          "art": "pw-wizard",
+          "text": "The Wizard reads the magician’s crooked list."
+        },
+        {
+          "kind": "text",
+          "text": "Ojo stood on tiptoe to look at his uncle’s stone face. It looked calm, like a man dozing in the sun, waiting to be woken properly. “Hold on, Uncle,” Ojo whispered. “We brought almost everything, and tomorrow we will bring the rest.” The stone face did not answer, of course. But it looked like a man who trusts his boy."
+        },
+        {
+          "kind": "text",
+          "text": "“Magic in Oz needs a permit,” said Ozma gently, “and you never asked for one.” Dr. Pipt hung his head. His powders and bottles were carried away to be safely kept, every one. He did not argue, because there was nothing left to argue with."
+        },
+        {
+          "kind": "note",
+          "text": "New word: permit — official permission to do something special. Even magicians in Oz must follow the rules.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Tomorrow morning,” said the Wizard, “we hold the Great Ceremony. Bring the statues, the clover, the hairs, and the water of the dark well.” Ojo hardly slept that night. Scraps did cartwheels in the corridor until a guard asked her, very politely, to cartwheel more quietly, which she did. Down the hall, the Woozy hummed his square little hum. Everyone was too excited to sleep, and too sleepy to be excited."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Ojo the Lucky",
+      "art": "pw-ceremony",
+      "artPrompt": "a bright emerald throne room where a little old wizard stirs a crystal bowl while a fairy princess touches it with her wand and a spark like a tiny golden wing rises, two marble statues on pedestals beginning to blink awake, a small boy with clasped hands and a patchwork girl mid-cheer, morning light streaming through high windows, joyful storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Morning came, and the throne room filled. There was Ozma on her throne, and the Wizard with his crystal bowl. The two marble statues stood on their pedestals, grey and patient in the strong morning light. The Woozy stood very still, so as not to miss a single drop. Even Bungle sat quietly, with her pink brains whirring very softly. Dr. Pipt stood at the door with his hat still in his hands. He was not allowed to help, and he did not ask twice."
+        },
+        {
+          "kind": "text",
+          "text": "The Wizard dropped in the six-leaved clover, the three Woozy hairs, and the dark well water, and stirred. Then he stopped. “The wing is missing,” he said. Ozma rose from her throne. “A fairy’s magic can fill what is missing,” she said, and touched the bowl with her wand."
+        },
+        {
+          "kind": "text",
+          "text": "A spark like a tiny golden wing danced over the bowl once, twice, and faded. The Wizard lifted the bowl and sprinkled the liquid over the two statues. He said the magic words slowly and clearly, so that nothing could go wrong."
+        },
+        {
+          "kind": "image",
+          "art": "pw-ceremony",
+          "text": "Two statues blink awake in the morning light."
+        },
+        {
+          "kind": "text",
+          "text": "There was a blink, and a step, and a breath. Uncle Nunkie looked down at Ojo and said, “You have been gone long enough.” For him, that was a speech. Beside him, Margolotte laughed and stretched and asked what there was for breakfast. Then everybody talked at once, which is the sound of joy."
+        },
+        {
+          "kind": "note",
+          "text": "Talk about it: three ingredients came from the journey, and the last was given by a fairy. What do you think filled the bowl? Something no bottle can hold.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“No one in Oz is Unlucky,” said Ozma, and from that day he was Ojo the Lucky. Dr. Pipt went home with his wife, to a quieter kind of life. Uncle Nunkie and Ojo stayed in the Emerald City. And Scraps danced in the streets every single day, made of patches, pins, needles — and joy. Bungle stayed too, and everyone agreed she was the most beautiful cat in Oz. That pleased her for almost a whole day."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'The Patchwork Girl of Oz',
-    author: 'L. Frank Baum',
-    authorDeathYear: 1919,
-    jurisdiction: 'US',
-    basis: 'pd-us',
-    note: 'Published 1913; US public domain (pre-1929). Retold for children aged 6-8; plot follows the public-domain original.',
-  },
+  "rights": {
+    "workTitle": "The Patchwork Girl of Oz",
+    "author": "L. Frank Baum",
+    "authorDeathYear": 1919,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "Published 1913; US public domain (pre-1929). Retold for children aged 6-8; plot follows the public-domain original."
+  }
 }

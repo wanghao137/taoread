@@ -1,241 +1,491 @@
+/**
+ * The Adventures of Peter Cottontail — complete 13-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * The Adventures of Peter Cottontail — Thornton W. Burgess (1874–1965),
- * first published 1914. Retold for young readers in six chapters: Peter wants
- * a new name, tries winter napping, learns a hunger lesson in the snow,
- * outsmarts a shadow in the brambles, visits the Old Orchard, and finds that
- * his own name suits him best.
- * Source: The Adventures of Peter Cottontail (Thornton W. Burgess, 1914),
- * public domain in the US (published pre-1929).
- */
 export const peterCottontail: PackBook = {
-  id: 'burgess-cottontail',
-  title: 'The Adventures of Peter Cottontail',
-  author: 'Thornton W. Burgess',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '6-8',
-  intro:
-    'Peter Rabbit of the Green Meadows decides that "Peter Cottontail" sounds grander, and off he goes looking for adventures. He tries napping all winter like a woodchuck, learns what hunger means in the snow, and discovers that the best name — and the best home — is the one he already has.',
-  coverArt: 'cottontail-meadow',
-  coverArtPrompt:
-    'A bright-eyed cottontail rabbit sits up tall in a flowery Green Meadow, one long ear cocked, white tail flag like a small puff of cloud. Wild daisies and clover surround him, an old apple tree and a stone wall in the distance, blue hills beyond. Golden late-afternoon light, gentle warm palette, classic children’s nature-book illustration.',
-  coverFrom: '#A5D6A7',
-  coverTo: '#F1F8E9',
-  source: 'The Adventures of Peter Cottontail (Thornton W. Burgess, 1914), public domain',
-  chapters: [
+  "id": "burgess-cottontail",
+  "title": "The Adventures of Peter Cottontail",
+  "author": "Thornton W. Burgess",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "Peter Rabbit of the Green Meadows decides that \"Peter Cottontail\" sounds grander, and off he goes looking for adventures. He tries napping all winter like a woodchuck, learns what hunger means in the snow, and discovers that the best name — and the best home — is the one he already has.",
+  "coverArt": "cottontail-meadow",
+  "coverArtPrompt": "A bright-eyed cottontail rabbit sits up tall in a flowery Green Meadow, one long ear cocked, white tail flag like a small puff of cloud. Wild daisies and clover surround him, an old apple tree and a stone wall in the distance, blue hills beyond. Golden late-afternoon light, gentle warm palette, classic children’s nature-book illustration.",
+  "coverFrom": "#A5D6A7",
+  "coverTo": "#F1F8E9",
+  "source": "The Adventures of Peter Cottontail (Thornton W. Burgess, 1914), public domain",
+  "chapters": [
     {
-      title: 'Chapter 1 · Peter Wants a New Name',
-      art: 'cottontail-name',
-      artPrompt:
-        'A cottontail rabbit stands proudly on a mossy stone in a sunlit meadow, chin up, introducing himself to a plump striped skunk and a chuckled old possum hanging by his tail from a low branch. Wildflowers nod around them. Cheerful mid-morning light, storybook style with soft greens and yellows.',
-      blocks: [
+      "title": "Chapter 1 · Peter Wants a New Name",
+      "art": "cottontail-name",
+      "artPrompt": "A cottontail rabbit stands proudly on a mossy stone in a sunlit meadow, chin up, introducing himself to a plump striped skunk and a chuckled old possum hanging by his tail from a low branch. Wildflowers nod around them. Cheerful mid-morning light, storybook style with soft greens and yellows.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the Green Meadows lived Peter Rabbit, with long ears and a little white tail like a puff of cotton.',
+          "kind": "text",
+          "text": "In the Green Meadows lived Peter Rabbit, with long ears and a little white tail like a puff of cotton."
         },
         {
-          kind: 'text',
-          text: 'One morning Peter had an idea. "Peter Rabbit is a plain name," he said. "A fine rabbit like me should be called Peter Cottontail!"',
+          "kind": "text",
+          "text": "One morning Peter had an idea. \"Peter Rabbit is a plain name,\" he said. \"A fine rabbit like me should be called Peter Cottontail!\""
         },
         {
-          kind: 'image',
-          art: 'cottontail-name',
-          text: 'Peter announces his new name to Jimmy Skunk and Unc’ Billy Possum.',
+          "kind": "image",
+          "art": "cottontail-name",
+          "text": "Peter announces his new name to Jimmy Skunk and Unc’ Billy Possum."
         },
         {
-          kind: 'text',
-          text: 'Jimmy Skunk smiled his slow smile. "A name does not change the rabbit under it," he said. But Peter was too proud to listen, and he hopped away, calling himself Cottontail at the top of his voice.',
+          "kind": "text",
+          "text": "Jimmy Skunk smiled his slow smile. \"A name does not change the rabbit under it,\" he said. But Peter was too proud to listen, and he hopped away, calling himself Cottontail at the top of his voice."
         },
         {
-          kind: 'note',
-          text: 'New word: meadow — an open field full of grass and wildflowers.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: meadow — an open field full of grass and wildflowers.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'And that is how the adventures of Peter Cottontail began.',
-        },
-      ],
+          "kind": "text",
+          "text": "And that is how the adventures of Peter Cottontail began."
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · Sleeping All Winter',
-      art: 'cottontail-burrow',
-      artPrompt:
-        'The inside of a cozy underground burrow in autumn: a plump woodchuck curls up asleep in dry leaves while a curious cottontail rabbit peeks in at the entrance, frost glinting on the grass outside. Roots hang overhead like wooden rafters. Amber lantern-warm light inside against cool blue twilight, snug picture-book illustration.',
-      blocks: [
+      "title": "Chapter 2 · Sleeping All Winter",
+      "art": "cottontail-burrow",
+      "artPrompt": "The inside of a cozy underground burrow in autumn: a plump woodchuck curls up asleep in dry leaves while a curious cottontail rabbit peeks in at the entrance, frost glinting on the grass outside. Roots hang overhead like wooden rafters. Amber lantern-warm light inside against cool blue twilight, snug picture-book illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Peter went to see his friend Johnny Chuck the woodchuck. Johnny was curling up in his underground bedroom, all ready to sleep all winter long.',
+          "kind": "text",
+          "text": "Peter went to see his friend Johnny Chuck the woodchuck. Johnny was curling up in his underground bedroom, all ready to sleep all winter long."
         },
         {
-          kind: 'text',
-          text: '"How lucky you are!" said Peter. "No cold, no snow, no worries. I shall sleep all winter too!"',
+          "kind": "text",
+          "text": "\"How lucky you are!\" said Peter. \"No cold, no snow, no worries. I shall sleep all winter too!\""
         },
         {
-          kind: 'text',
-          text: 'Johnny Chuck yawned. "Woodchucks are made for sleeping, Peter. Rabbits are made for snowshoes and sunny winter days. But try it if you like."',
+          "kind": "text",
+          "text": "Johnny Chuck yawned. \"Woodchucks are made for sleeping, Peter. Rabbits are made for snowshoes and sunny winter days. But try it if you like.\""
         },
         {
-          kind: 'image',
-          art: 'cottontail-burrow',
-          text: 'Johnny Chuck curls up to sleep; Peter tries to do the same.',
+          "kind": "image",
+          "art": "cottontail-burrow",
+          "text": "Johnny Chuck curls up to sleep; Peter tries to do the same."
         },
         {
-          kind: 'note',
-          text: 'New word: hibernate — to sleep through the winter, the way woodchucks do.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: hibernate — to sleep through the winter, the way woodchucks do.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'So Peter curled up in his burrow, shut his eyes, and waited for sleep. But Peter’s eyes would not stay shut, and his stomach rumbled like faraway thunder.',
-        },
-      ],
+          "kind": "text",
+          "text": "So Peter curled up in his burrow, shut his eyes, and waited for sleep. But Peter’s eyes would not stay shut, and his stomach rumbled like faraway thunder."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · A Lesson in the Snow',
-      art: 'cottontail-snow',
-      artPrompt:
-        'A snowy Green Meadow under a pale winter sun: a thin, hungry-looking cottontail rabbit hops along a runway between snowdrifts toward a distant farmyard where cabbage leaves peek from a snow-covered garden. Tracks stitch the snow behind him. Long blue shadows, crisp cold palette warmed by soft pink light, gentle storybook style.',
-      blocks: [
+      "title": "Chapter 3 · A Lesson in the Snow",
+      "art": "cottontail-snow",
+      "artPrompt": "A snowy Green Meadow under a pale winter sun: a thin, hungry-looking cottontail rabbit hops along a runway between snowdrifts toward a distant farmyard where cabbage leaves peek from a snow-covered garden. Tracks stitch the snow behind him. Long blue shadows, crisp cold palette warmed by soft pink light, gentle storybook style.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Winter came, and Peter had slept instead of eating. Now he was thin and hungry, and the snow lay deep over the meadow grass.',
+          "kind": "text",
+          "text": "Winter came, and Peter had slept instead of eating. Now he was thin and hungry, and the snow lay deep over the meadow grass."
         },
         {
-          kind: 'text',
-          text: 'Peter hopped out into the cold. Everywhere was white and quiet. His tummy rumbled again, louder this time.',
+          "kind": "text",
+          "text": "Peter hopped out into the cold. Everywhere was white and quiet. His tummy rumbled again, louder this time."
         },
         {
-          kind: 'text',
-          text: 'Then he remembered Farmer Brown’s garden at the edge of the fields. Under the snow lay the leaves of last autumn’s cabbage.',
+          "kind": "text",
+          "text": "Then he remembered Farmer Brown’s garden at the edge of the fields. Under the snow lay the leaves of last autumn’s cabbage."
         },
         {
-          kind: 'image',
-          art: 'cottontail-snow',
-          text: 'Hungry Peter follows his memory through the snow to the farm garden.',
+          "kind": "image",
+          "art": "cottontail-snow",
+          "text": "Hungry Peter follows his memory through the snow to the farm garden."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: why did Peter get hungry? What should he have done in autumn?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: why did Peter get hungry? What should he have done in autumn?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'He dug and nibbled and nibbled and dug, until his tummy was round and warm again. "Next winter," thought Peter, "I will fill my stomach with sweet bark and buds, and let the woodchucks do the sleeping."',
-        },
-      ],
+          "kind": "text",
+          "text": "He dug and nibbled and nibbled and dug, until his tummy was round and warm again. \"Next winter,\" thought Peter, \"I will fill my stomach with sweet bark and buds, and let the woodchucks do the sleeping.\""
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · The Shadow in the Brambles',
-      art: 'cottontail-brambles',
-      artPrompt:
-        'A dense blackberry thicket in soft morning light: a quick cottontail rabbit slips through a hidden tunnel under the brambles, while a slim dark shape slips past harmlessly above the canes, missing him entirely. Dew beading on blackberries, shafts of low golden sun through the branches, exciting but safe storybook mood.',
-      blocks: [
+      "title": "Chapter 4 · The Shadow in the Brambles",
+      "art": "cottontail-brambles",
+      "artPrompt": "A dense blackberry thicket in soft morning light: a quick cottontail rabbit slips through a hidden tunnel under the brambles, while a slim dark shape slips past harmlessly above the canes, missing him entirely. Dew beading on blackberries, shafts of low golden sun through the branches, exciting but safe storybook mood.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One morning Peter saw a slim shadow slide along the ground near the bramble patch. Shadow the Weasel was out hunting, and he was looking for a rabbit dinner.',
+          "kind": "text",
+          "text": "One morning Peter saw a slim shadow slide along the ground near the bramble patch. Shadow the Weasel was out hunting, and he was looking for a rabbit dinner."
         },
         {
-          kind: 'text',
-          text: 'Peter did not squeal and he did not dash about. He remembered what his mother taught him.',
+          "kind": "text",
+          "text": "Peter did not squeal and he did not dash about. He remembered what his mother taught him."
         },
         {
-          kind: 'text',
-          text: 'He froze perfectly still, grey against grey. Then, quick as a wink, he slipped backward into his bramble tunnel, where the thorns were too tight for a weasel to follow.',
+          "kind": "text",
+          "text": "He froze perfectly still, grey against grey. Then, quick as a wink, he slipped backward into his bramble tunnel, where the thorns were too tight for a weasel to follow."
         },
         {
-          kind: 'image',
-          art: 'cottontail-brambles',
-          text: 'Peter slips down his secret tunnel while the shadow slides past.',
+          "kind": "image",
+          "art": "cottontail-brambles",
+          "text": "Peter slips down his secret tunnel while the shadow slides past."
         },
         {
-          kind: 'note',
-          text: 'New word: brambles — prickly bushes full of blackberries.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: brambles — prickly bushes full of blackberries.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'The shadow slid away down the Lone Little Path. Peter nibbled a blackberry and smiled. A still body and a quick mind are a rabbit’s best friends.',
-        },
-      ],
+          "kind": "text",
+          "text": "The shadow slid away down the Lone Little Path. Peter nibbled a blackberry and smiled. A still body and a quick mind are a rabbit’s best friends."
+        }
+      ]
     },
     {
-      title: 'Chapter 5 · Friends in the Old Orchard',
-      art: 'cottontail-orchard',
-      artPrompt:
-        'A blossoming old apple orchard full of birdsong: a cottontail rabbit sits in the grass chatting with a bright cheerful robin on a low bough, a round laughing owl dozing in a hollow, and a jolly old possum grinning from a fork of the tree. Pink-white petals drifting in the breeze, warm spring sunshine, cozy storybook scene.',
-      blocks: [
+      "title": "Chapter 5 · Friends in the Old Orchard",
+      "art": "cottontail-orchard",
+      "artPrompt": "A blossoming old apple orchard full of birdsong: a cottontail rabbit sits in the grass chatting with a bright cheerful robin on a low bough, a round laughing owl dozing in a hollow, and a jolly old possum grinning from a fork of the tree. Pink-white petals drifting in the breeze, warm spring sunshine, cozy storybook scene.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Spring came to the Green Meadows, and Peter visited the Old Orchard, where all the little people of the trees were busy.',
+          "kind": "text",
+          "text": "Spring came to the Green Meadows, and Peter visited the Old Orchard, where all the little people of the trees were busy."
         },
         {
-          kind: 'text',
-          text: 'Peter told them about his new name. "Cottontail," he said proudly, "Peter Cottontail."',
+          "kind": "text",
+          "text": "Peter told them about his new name. \"Cottontail,\" he said proudly, \"Peter Cottontail.\""
         },
         {
-          kind: 'text',
-          text: 'The robin laughed a merry song, and old Johnny Chuck, awake and round again, said, "Cottontail suits you, Peter. But Rabbit suits you just as well."',
+          "kind": "text",
+          "text": "The robin laughed a merry song, and old Johnny Chuck, awake and round again, said, \"Cottontail suits you, Peter. But Rabbit suits you just as well.\""
         },
         {
-          kind: 'image',
-          art: 'cottontail-orchard',
-          text: 'Peter and his orchard friends trade stories under the apple blossoms.',
+          "kind": "image",
+          "art": "cottontail-orchard",
+          "text": "Peter and his orchard friends trade stories under the apple blossoms."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: what do you think is the best thing about Peter’s name?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "Ask your child: what do you think is the best thing about Peter’s name?",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Peter thought about it all afternoon, nibbling clover in the warm sun. A name, he decided, is a fine thing to share with friends — and he had plenty to share it with.',
-        },
-      ],
+          "kind": "text",
+          "text": "Peter thought about it all afternoon, nibbling clover in the warm sun. A name, he decided, is a fine thing to share with friends — and he had plenty to share it with."
+        }
+      ]
     },
     {
-      title: 'Chapter 6 · The Name He Loves',
-      art: 'cottontail-home',
-      artPrompt:
-        'Sunset over the Green Meadows: a contented cottontail rabbit sits at the mouth of his burrow on a little knoll, silhouetted against an amber sky, wild grasses glowing gold around him. The Smiling Pool sparkles in the distance and the Old Orchard darkens to purple. Warm honeyed light, peaceful homecoming mood, storybook style.',
-      blocks: [
+      "title": "Chapter 6 · Too Busy Bragging",
+      "art": "pc2-brag",
+      "artPrompt": "A cottontail rabbit stands up tall on a sunlit stone in the middle of the Green Meadow, one paw raised as he announces his fine new name to a striped skunk and a chuckling old frog, while far behind him a red shape creeps low through the tall grass unseen. Bright summer light with a hint of mischief at the edges, humorous storybook illustration.",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'That evening Peter sat by his own front door and watched the sun go down over the Green Meadows.',
+          "kind": "text",
+          "text": "All that summer Peter went around telling the Green Meadows his new name. “Peter Cottontail,” he would say, climbing up on a stone. “My name is Peter Cottontail.” He said it to Jimmy Skunk. He said it to Grandfather Frog. He even said it to a beetle, who did not care."
         },
         {
-          kind: 'text',
-          text: 'He thought about his winter lesson, and his clever escape, and his friends in the orchard.',
+          "kind": "text",
+          "text": "“Cottontail!” he called across the clover, at the top of his voice. “Cottontail! Cottontail!” It was a very fine name, and Peter was very proud of it. He said it so often that his own ears got tired."
         },
         {
-          kind: 'text',
-          text: '"I am Peter Rabbit," he said softly. "And I am Peter Cottontail too. Both names belong to me, and both belong right here."',
+          "kind": "text",
+          "text": "And that was the trouble. While Peter was announcing, he was not watching. His eyes were busy with his own importance, and his ears were full of his own voice. And in the tall grass at the meadow’s edge, a red shape had stopped to listen."
         },
         {
-          kind: 'image',
-          art: 'cottontail-home',
-          text: 'Peter watches the sunset from his own front door.',
+          "kind": "image",
+          "art": "pc2-brag",
+          "text": "Peter announces his name — while a red shape listens in the tall grass."
         },
         {
-          kind: 'note',
-          text: 'Ask your child: Peter went looking for a new self. What did he find instead?',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: announcing — telling everyone something out loud, in a big proud voice.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Then he thumped his big hind feet, twice, for joy — and all the Green Meadows knew that Peter was home.',
+          "kind": "text",
+          "text": "The shape crept closer, paw by paw. The Merry Little Breezes puffed Peter’s ears in warning, but Peter thought the breeze was clapping for his speech. Then Jimmy Skunk came strolling down the Lone Little Path, right between Peter and the grass. Reddy Fox took one look at that black-and-white coat and its little flag of a tail, and remembered his manners. He melted away into the meadow so quietly that Peter never knew. Jimmy strolled on, whistling, as if nothing at all had happened."
         },
-      ],
+        {
+          "kind": "text",
+          "text": "“A fine name is a poor shield, Peter,” said Jimmy Skunk later, in his slow way. “Watch first. Announce after.” Peter thought about that for a long time. And after that, he always watched first — though he still announced, of course, a little more quietly."
+        }
+      ]
     },
+    {
+      "title": "Chapter 7 · Jasper Jay Tells Everyone",
+      "art": "pc2-jay",
+      "artPrompt": "A bright blue jay perched on a dead branch in the Old Orchard, head thrown back, shouting with wide-open beak, while below a cottontail rabbit freezes halfway into a hidden bramble tunnel, ears flat, and two tiny wind-children hurry to hush him with fingers to their lips. Sparkling summer morning light, comic storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Peter had a secret, and it was a good one. It was a hidden back door in the bramble patch, a tunnel of thorns that only he knew. No fox and no weasel could ever follow him in."
+        },
+        {
+          "kind": "text",
+          "text": "One morning Jasper Jay came calling. Jasper was the noisiest bird in the Old Orchard, with a blue coat and a beak that never tired. “Tell me your secret, Peter,” he begged. “I can keep a secret better than anyone alive. Try me!”"
+        },
+        {
+          "kind": "text",
+          "text": "So Peter, flattered, told him. And Jasper Jay puffed up like a blue balloon. There is nothing a jay loves more than knowing something grand that nobody else knows."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-jay",
+          "text": "Jasper can hardly hold the secret — so he shouts it to the whole orchard."
+        },
+        {
+          "kind": "text",
+          "text": "He held it for nearly one whole hour. Then he flew to the top of the tallest apple tree and threw back his head. “Peter’s secret door!” he shouted to the whole Green Meadows. “Peter’s secret door is in the brambles! The back tunnel in the brambles!” The robins heard. The squirrels heard. And Reddy Fox, passing below on his quiet feet, heard too. That very day he came sniffing along the bramble patch, nose down, tail up. He was looking for a door that had better stay secret."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why was it so hard for Jasper to keep the secret? Have you ever felt that way?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the brambles kept their own counsel. The thorns grabbed Reddy’s nose and pulled his fur. And Jasper Jay, feeling terrible, shrieked false warnings from the treetops until Reddy could not tell up from down. At last Reddy yelped, gave up, and limped home with a thorn in his paw. Jasper flew down and hung his head. “I am sorry, Peter,” he said. “A secret shouted is a secret spent.” Peter laughed softly and forgave him. And Jasper held big news gently after that — for nearly a whole week."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Peter Teases Bowser",
+      "art": "pc2-bowser",
+      "artPrompt": "A farmyard in warm afternoon light: a cottontail rabbit sits just out of reach of a big friendly chained hound, hopping sideways to tease him, while the hound wags his tail in great good humor and the farmhouse door stands open in the background. Dust motes drifting in gold light, playful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Near Farmer Brown’s yard lived Bowser the Hound, big and brown and good-natured. Peter found that if he hopped just out of reach, Bowser would woof and wag and shuffle after him. It was the funniest game Peter had ever found."
+        },
+        {
+          "kind": "text",
+          "text": "Every day Peter came to tease. “Too slow, Bowser!” he sang, hop, hop, hopping just beyond the chain’s end. Bowser woofed. Peter laughed all the way home, and came back the next day to do it again. And every day Bowser wagged, a little slower and a little wiser, but always kindly."
+        },
+        {
+          "kind": "text",
+          "text": "But one warm afternoon, Peter hopped his teasing hop — and the kind tug of the chain never came. Bowser was out walking with the boy — and Bowser was close, much closer than he had ever been before."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-bowser",
+          "text": "Peter freezes mid-hop, and finds the yard is bigger than he thought."
+        },
+        {
+          "kind": "note",
+          "text": "New word: good-natured — kind and friendly, easy to get along with, like Bowser.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Peter froze — then remembered what his mother taught him. He did not squeal and he did not dash about. He doubled back along the stone wall and dodged behind the rain barrel. Then he slipped through the gap in the fence, where only a rabbit fits. Bowser stopped at the fence, wagging his whole hindquarters, not angry at all — he had only wanted the game. Peter sat far inside the brambles, breathing fast, his heart drumming like rain on a roof."
+        },
+        {
+          "kind": "text",
+          "text": "“I will tease no more,” panted Peter. And he kept his word. From then on, when he passed the yard, he sat up politely and said, “Good afternoon, Bowser.” And Bowser wagged, slow and kind, and that became their new game — one that included everybody, and hurt nobody. And if you pass the farm today, you may see them still: a rabbit nodding, and a hound wagging."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Playing Possum with Unc’ Billy",
+      "art": "pc2-possum",
+      "artPrompt": "A moonlit orchard path: a grinning old possum hangs upside down by his tail from a low branch, explaining a trick to a wide-eyed cottontail rabbit below, while a plump woodchuck watches from a stump and tiny wind-children gather round like an audience. Silvery moonlight with warm lantern tones, amused storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One evening Peter found Unc’ Billy Possum hanging by his tail from a low branch of the old apple tree. He was as calm as a sack of cotton. “How do you do that?” gasped Peter, whose own tail would never hold him."
+        },
+        {
+          "kind": "text",
+          "text": "“Family custom,” said Unc’ Billy, rocking gently. “We possums are born hangers. But that is not my best trick, Peter. Would you like to see the very best one?” Peter’s ears stood straight up."
+        },
+        {
+          "kind": "text",
+          "text": "“Watch yonder,” said Unc’ Billy. Down the path came Bowser the Hound, out for his evening walk with the boy. And Unc’ Billy dropped from the branch and rolled over in the path. He lay perfectly still — legs stiff, mouth open, eyes shut — like an old rag left in the rain."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-possum",
+          "text": "Unc’ Billy plays his famous trick, and Bowser does not know what to think."
+        },
+        {
+          "kind": "text",
+          "text": "Bowser stopped. He sniffed. He poked the still shape gently with one big nose and backed away, troubled. Whatever the thing in the path was, it was no fun at all. “Come away, Bowser,” said the boy. “It is nothing.” And off they went. The moment they were gone, Unc’ Billy sat up, unhurt and grinning from ear to ear. “The trick,” he said, “is to be so uninteresting that even a hound’s nose gives up.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: playing possum — lying perfectly still and pretending, the way possums do when danger comes.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Peter thought about that for a long time. “So everyone in the Green Meadows carries their own kind of cleverness,” he said. “You have the still trick. Johnny Chuck has the sleeping trick. And I have quick legs and a quick mind.” “Right you are,” said Unc’ Billy, climbing back into his tree. “Never envy another fellow’s trick. Tend your own.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Peter’s Big Dream",
+      "art": "pc2-dream",
+      "artPrompt": "A dream scene above a snowy meadow at night: a cottontail rabbit in the clouds carries a woven basket of painted eggs across a moonlit sky, dropping small colored eggs into snowy gardens far below where children sleep, stars all around, his long ears streaming like ribbons. Dreamy deep-blue night with soft rose and gold egg colors, magical gentle storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One winter evening the snow fell soft and thick. One of the Merry Little Breezes came to Peter’s burrow door with a story. “Far away,” it said, “there lives a great Rabbit who visits children in the springtime, bringing eggs of every color.”"
+        },
+        {
+          "kind": "text",
+          "text": "“A rabbit who brings eggs?” Peter breathed. “A rabbit whose whole job is joy!” He thought about it all evening, nibbling a bud. He went to sleep with his whiskers twitching and his ears full of bells. His whiskers twitched all night, and his dreams smelled of springtime."
+        },
+        {
+          "kind": "text",
+          "text": "That night Peter dreamed the grandest dream. He was the great Rabbit himself, hopping over rooftops and gardens with a basket of painted eggs. Red ones and blue ones and gold — he left one in every snowy yard where a child slept."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-dream",
+          "text": "In his dream, Peter carries painted eggs over the whole sleeping world."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: if you could bring one surprise to everyone in the world, what would it be?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In the dream, the children woke and found the eggs, and their laughter rang like little bells across the snow. Peter had never in his life felt so useful, or so grand, or so warm inside."
+        },
+        {
+          "kind": "text",
+          "text": "Then he woke up, in his own small burrow, with the snow still falling and no basket anywhere at all. For a moment his ears drooped. Then Peter sat up, for he had thought of something. And the snow went on falling, patient as a quilt falling over a bed. “I cannot bring eggs to all the children of the world,” he said to himself. “But I can be kind in the Green Meadows, every single day.” From that morning on, Peter looked for the smallest creature having the hardest day, and shared his clover. And Peter found that a shared clover tastes twice as sweet as a whole one."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · A Christmas Snow Night",
+      "art": "pc2-christmas",
+      "artPrompt": "A snowy Christmas Eve in the meadow: a cottontail rabbit shares a fresh cabbage leaf with three small grey mice under a holly bush dusted with snow, while far away the farmhouse windows glow gold and a decorated tree shines in the window, snowflakes drifting down. Deep blue night with warm golden window light, tender storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Christmas Eve came to the Green Meadows on the coldest, still-est night of the whole year. The snow lay deep and blue under stars sharp as ice. Far across the fields, the farmhouse windows shone gold and merry."
+        },
+        {
+          "kind": "text",
+          "text": "Peter had filled his burrow pantry for winter: bark, and buds, and one great find. The great find was a cabbage leaf, sweet and green, blown from the farm garden in an autumn gale. It was his treasure, saved for the very hungriest day."
+        },
+        {
+          "kind": "text",
+          "text": "As he sat at his door that night, he heard a tiny sound. Out in the cold stood three little meadow mice, whiskers frosted, their store long gone. They were too polite to ask. They only looked. Their eyes were two small dark questions in the snowy night."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-christmas",
+          "text": "Peter shares his cabbage-leaf treasure with three hungry little mice."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: it was Peter’s one treasure. Why do you think he shared it anyway?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Come under the holly bush,” said Peter. “There is room, and there is supper.” He fetched his cabbage leaf, and the mice nibbled, and he nibbled too, while the snow came down like feathers. Far off, a church bell rang across the fields, once for each hopeful heart. The mice fell asleep in a heap, warm at last. Peter sat watching the golden windows and the small colored lights of the tree. Somewhere inside the house, a child was hanging up a very long sock."
+        },
+        {
+          "kind": "text",
+          "text": "“I could not bring eggs to the children of the world,” thought Peter, remembering his dream. “But the Green Meadows had a merry Christmas anyway — and so did I.” And his tummy, full of shared cabbage, felt warmer than any burrow fire could make it. Merry Christmas, little mice. Merry Christmas, Green Meadows."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Smell of Home",
+      "art": "pc2-lostpath",
+      "artPrompt": "Dusk at the edge of the Big Woods: a small cottontail rabbit stands on a darkening path between enormous shadowed trees, nose lifted toward a faint golden ribbon of scent that curls away toward distant open meadows, tiny wind-children glowing softly to light his way. Purple-blue dusk with one warm horizon glow, hopeful storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright morning Peter hopped out for one more adventure — just a little one. Over the hill he went, and into the Big Woods. He went farther than he meant to, and then farther still, the way adventures go."
+        },
+        {
+          "kind": "text",
+          "text": "When he finally sat still to rest, the light was going purple between the great trees. Every path looked like every other path. And every shadow looked like a hundred other shadows. Peter’s ears drooped. The Big Woods, so friendly by daylight, were very big indeed. Even the owls looked bigger than usual, and they were only owls after all."
+        },
+        {
+          "kind": "text",
+          "text": "He felt like squealing and dashing about — and stopped himself just in time. “Freeze first,” he remembered. “Think second.” So he sat very still in the bracken, grey among the greys, until his heart stopped drumming like rain."
+        },
+        {
+          "kind": "image",
+          "art": "pc2-lostpath",
+          "text": "Lost in the Big Woods, Peter lifts his nose and listens."
+        },
+        {
+          "kind": "note",
+          "text": "New word: bracken — tall, curly wild ferns that grow at the wood’s edge.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the Merry Little Breezes came looking for him, the way Breezes look after their friends. They wrapped round him like soft scarves, carrying a scent from far across the fields. It was warm earth, and sweet clover, and the inside of his own front door. “Home,” whispered Peter, and lifted his nose. The Breezes pulled the ribbon of smell along the Lone Little Path. Peter followed it, hop by hop, out of the shadows and into the last pink light. And the way grew easier with every hop, the way home ways always do."
+        },
+        {
+          "kind": "text",
+          "text": "When he reached his own door he thumped his hind feet, twice, for pure joy. “Adventures are grand,” said Peter to the stars. “But the best part of an adventure is the very last hop — the one that lands at home.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Home Is the Best Name of All",
+      "art": "pc2-homefinale",
+      "artPrompt": "A spring morning on the Green Meadows: a happy cottontail rabbit sits at the mouth of his burrow surrounded by laughing friends — a striped skunk, a plump woodchuck, a grinning old possum and a robin on a low bough — new clover all around and apple blossoms drifting on the breeze. Fresh green-and-gold spring light, joyful reunion, storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Spring came round again to the Green Meadows, and the Old Orchard turned pink and white with blossom. On the warmest morning of the new spring, his friends came to visit. They came hopping and strolling and flying to Peter’s front door. Even the Smiling Pool wore a new green scarf of clover."
+        },
+        {
+          "kind": "text",
+          "text": "“Peter Rabbit!” called Jimmy Skunk, arriving with his slow smile. “Peter Cottontail!” called Unc’ Billy, upside down from the apple tree, just to be difficult. “Both of you — I mean, both of them!” laughed Grandfather Frog from the meadow pool."
+        },
+        {
+          "kind": "text",
+          "text": "And Peter stood up on his hind legs in the new clover and answered to both names at once. “I am Peter Rabbit,” he said. “And I am Peter Cottontail too. Both names belong to me, and both belong right here.”"
+        },
+        {
+          "kind": "image",
+          "art": "pc2-homefinale",
+          "text": "Peter answers to both names, in the clover, with all his friends."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Peter went looking for a new self. What did he find instead?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They traded stories all morning long. There was the teasing of Bowser, and the shouting of Jasper Jay. There was the still trick of Unc’ Billy, the Christmas cabbage, and the dream of painted eggs. And every single story, they noticed, ended in the very same place — right here, at this door, with these friends. And that, thought Peter, is the finest ending any story can have. The robin sang from the apple tree. The Merry Little Breezes carried the apple blossom all over the meadow like confetti. And Peter thought that no name in the whole world could be finer than the name his friends called him."
+        },
+        {
+          "kind": "text",
+          "text": "Then Peter thumped his big hind feet, twice, for joy. And all the Green Meadows knew that Peter Rabbit — Peter Cottontail — was home at last. And this time, all the meadows thumped back."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'The Adventures of Peter Cottontail',
-    author: 'Thornton W. Burgess',
-    authorDeathYear: 1965,
-    jurisdiction: 'US',
-    basis: 'pd-us',
-    note: 'Retold for young readers. Published 1914; US public domain (pre-1929 publication). Burgess died in 1965, so EU protection has not expired — distribution outside the US should rely on the platform’s adapted-retelling basis.',
-  },
+  "rights": {
+    "workTitle": "The Adventures of Peter Cottontail",
+    "author": "Thornton W. Burgess",
+    "authorDeathYear": 1965,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "Retold for young readers. Published 1914; US public domain (pre-1929 publication). Burgess died in 1965, so EU protection has not expired — distribution outside the US should rely on the platform’s adapted-retelling basis."
+  }
 }

@@ -1,181 +1,475 @@
+/**
+ * The Wind in the Willows — complete 12-chapter edition, retold in simple English from the original public-domain text.
+ * Existing chapters retained; missing chapters completed 2026-10-25 (找故事全量补全).
+ */
 import type { PackBook } from '../types'
 
-/**
- * The Wind in the Willows — four chapters retold for young English readers.
- * Text: Project Gutenberg eBook #289 (Kenneth Grahame, 1908). Public domain worldwide
- * (Grahame died 1932; 70y pma expired). Plot follows the original book; wording
- * simplified into short sentences for children aged 6–8.
- */
 export const windInWillows: PackBook = {
-  id: 'wind-willows',
-  title: 'The Wind in the Willows',
-  author: 'Kenneth Grahame',
-  lang: 'en',
-  category: 'tale',
-  ageStage: '6-8',
-  intro: 'The Mole leaves his little underground home and finds a whole new world beside the river — boats and picnics, the kindly Water Rat, the wise Badger, and the rich, reckless Mr. Toad.',
-  coverArt: 'river-bank',
-  coverArtPrompt: 'a small mole and a water rat in a little rowing boat on a slow green river, willow trees trailing their leaves in the water, a picnic basket in the bow, warm summer afternoon',
-  coverFrom: '#0277BD',
-  coverTo: '#81D4FA',
-  source: 'Project Gutenberg eBook #289, public domain (Grahame d. 1932)',
-  chapters: [
+  "id": "wind-willows",
+  "title": "The Wind in the Willows",
+  "author": "Kenneth Grahame",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "The Mole leaves his little underground home and finds a whole new world beside the river — boats and picnics, the kindly Water Rat, the wise Badger, and the rich, reckless Mr. Toad.",
+  "coverArt": "river-bank",
+  "coverArtPrompt": "a small mole and a water rat in a little rowing boat on a slow green river, willow trees trailing their leaves in the water, a picnic basket in the bow, warm summer afternoon",
+  "coverFrom": "#0277BD",
+  "coverTo": "#81D4FA",
+  "source": "Project Gutenberg eBook #289, public domain (Grahame d. 1932)",
+  "chapters": [
     {
-      title: 'Chapter 1 · The River Bank',
-      art: 'river-bank',
-      artPrompt: 'a small mole and a water rat in a smart blue rowing boat on a slow green river, willow leaves trailing in the water, a picnic basket open in the bow',
-      blocks: [
+      "title": "Chapter 1 · The River Bank",
+      "art": "river-bank",
+      "artPrompt": "a small mole and a water rat in a smart blue rowing boat on a slow green river, willow leaves trailing in the water, a picnic basket open in the bow",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'The Mole had been spring-cleaning his whole house. Brushes and dusters, whitewash and ladders — at last he could bear it no longer. He threw down his brush and scrambled up his tunnel, up and up, until his nose popped out into the sun.',
+          "kind": "text",
+          "text": "The Mole had been spring-cleaning his whole house. Brushes and dusters, whitewash and ladders — at last he could bear it no longer. He threw down his brush and scrambled up his tunnel, up and up, until his nose popped out into the sun."
         },
         {
-          kind: 'image',
-          art: 'river-bank',
-          text: 'The Mole’s first sight of the river, bright and quiet in the sun.',
+          "kind": "image",
+          "art": "river-bank",
+          "text": "The Mole’s first sight of the river, bright and quiet in the sun."
         },
         {
-          kind: 'text',
-          text: 'He had never seen a river before. It was a sleek, sinuous animal, chasing and chuckling, catching things, throwing them away, and then rushing on to play with something else. The Mole could not look away.',
+          "kind": "text",
+          "text": "He had never seen a river before. It was a sleek, sinuous animal, chasing and chuckling, catching things, throwing them away, and then rushing on to play with something else. The Mole could not look away."
         },
         {
-          kind: 'note',
-          text: 'New word: bank — the land at the very edge of a river, where the water stops.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: bank — the land at the very edge of a river, where the water stops.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'A Water Rat came rowing by in a smart little blue boat. "Would you like to come for a row?" he said. The Mole stepped in, and they went gliding over the water together.',
+          "kind": "text",
+          "text": "A Water Rat came rowing by in a smart little blue boat. \"Would you like to come for a row?\" he said. The Mole stepped in, and they went gliding over the water together."
         },
         {
-          kind: 'text',
-          text: 'The Rat had a wonderful picnic basket, packed with cold chicken, cold tongue, cold ham, pickled gherkins, and ginger beer, and lemonade, and bread and butter. The Mole had never had such a splendid meal.',
+          "kind": "text",
+          "text": "The Rat had a wonderful picnic basket, packed with cold chicken, cold tongue, cold ham, pickled gherkins, and ginger beer, and lemonade, and bread and butter. The Mole had never had such a splendid meal."
         },
         {
-          kind: 'text',
-          text: 'An Otter popped up in the water to say hello. They talked of their friend Mr. Toad, who had taken up a new fancy for a gipsy caravan. "He is always trying something new," said the Rat, "and always giving it up again." The Mole lay back and watched the willows, and was perfectly happy.',
-        },
-      ],
+          "kind": "text",
+          "text": "An Otter popped up in the water to say hello. They talked of their friend Mr. Toad, who had taken up a new fancy for a gipsy caravan. \"He is always trying something new,\" said the Rat, \"and always giving it up again.\" The Mole lay back and watched the willows, and was perfectly happy."
+        }
+      ]
     },
     {
-      title: 'Chapter 2 · The Open Road',
-      art: 'open-road',
-      artPrompt: 'a canary-yellow gipsy caravan pulled by an old grey horse on a dusty country road, a toad in a driving cap singing at the front, summer fields',
-      blocks: [
+      "title": "Chapter 2 · The Open Road",
+      "art": "open-road",
+      "artPrompt": "a canary-yellow gipsy caravan pulled by an old grey horse on a dusty country road, a toad in a driving cap singing at the front, summer fields",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'One bright summer morning, Toad arrived at Rat’s door in his new gipsy caravan. It was painted canary yellow, picked out with green and red. "This is the life!" cried Toad. "The open road, the fresh air, the dust of the highway! Come with us!"',
+          "kind": "text",
+          "text": "One bright summer morning, Toad arrived at Rat’s door in his new gipsy caravan. It was painted canary yellow, picked out with green and red. \"This is the life!\" cried Toad. \"The open road, the fresh air, the dust of the highway! Come with us!\""
         },
         {
-          kind: 'image',
-          art: 'open-road',
-          text: 'Toad’s canary-yellow caravan, pulled by an old grey horse.',
+          "kind": "image",
+          "art": "open-road",
+          "text": "Toad’s canary-yellow caravan, pulled by an old grey horse."
         },
         {
-          kind: 'text',
-          text: 'So the Rat and the Mole packed their things, and the little caravan rolled out into the world. The horse went clip-clop, and the pots and pans jingled, and Toad sang songs about the road.',
+          "kind": "text",
+          "text": "So the Rat and the Mole packed their things, and the little caravan rolled out into the world. The horse went clip-clop, and the pots and pans jingled, and Toad sang songs about the road."
         },
         {
-          kind: 'note',
-          text: 'New word: motor car — a carriage with no horse, that goes very fast and makes a terrible roar.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: motor car — a carriage with no horse, that goes very fast and makes a terrible roar.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Then, from far away, came a low humming sound. It grew louder — BRROOM! A great motor car came rushing past. The horse reared up in fright, and the caravan went over into a ditch with a crash.',
+          "kind": "text",
+          "text": "Then, from far away, came a low humming sound. It grew louder — BRROOM! A great motor car came rushing past. The horse reared up in fright, and the caravan went over into a ditch with a crash."
         },
         {
-          kind: 'text',
-          text: 'The Mole and the Rat picked themselves up and tried to quiet the horse. But Toad sat in the middle of the road, his eyes shining, and his face quite empty of sense. "Poop-poop!" he whispered. "That was the most beautiful thing I have ever seen!"',
+          "kind": "text",
+          "text": "The Mole and the Rat picked themselves up and tried to quiet the horse. But Toad sat in the middle of the road, his eyes shining, and his face quite empty of sense. \"Poop-poop!\" he whispered. \"That was the most beautiful thing I have ever seen!\""
         },
         {
-          kind: 'text',
-          text: 'They sent for another cart and took the wreck home. But the Rat and the Mole looked at each other sadly. They knew Toad. He would want a motor car of his own — and nothing good would come of it.',
-        },
-      ],
+          "kind": "text",
+          "text": "They sent for another cart and took the wreck home. But the Rat and the Mole looked at each other sadly. They knew Toad. He would want a motor car of his own — and nothing good would come of it."
+        }
+      ]
     },
     {
-      title: 'Chapter 3 · The Wild Wood',
-      art: 'wild-wood',
-      artPrompt: 'a snowy winter wood with dark bare trees, a mole hiding among beech roots while wicked weasel faces peer from behind trunks, a rat approaching with a lantern',
-      blocks: [
+      "title": "Chapter 3 · The Wild Wood",
+      "art": "wild-wood",
+      "artPrompt": "a snowy winter wood with dark bare trees, a mole hiding among beech roots while wicked weasel faces peer from behind trunks, a rat approaching with a lantern",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'In the winter, the Mole went out alone to explore the Wild Wood. At first it was quiet and pretty. Then the faces came — little, hard, wicked faces peeping out from behind every tree and stone.',
+          "kind": "text",
+          "text": "In the winter, the Mole went out alone to explore the Wild Wood. At first it was quiet and pretty. Then the faces came — little, hard, wicked faces peeping out from behind every tree and stone."
         },
         {
-          kind: 'image',
-          art: 'wild-wood',
-          text: 'The Wild Wood in winter, dark and full of watching eyes.',
+          "kind": "image",
+          "art": "wild-wood",
+          "text": "The Wild Wood in winter, dark and full of watching eyes."
         },
         {
-          kind: 'text',
-          text: 'The faces whispered. The Mole began to run, then to blunder. He fell into a ditch, and hid among the roots of a great beech tree, shivering. The snow fell thicker and thicker.',
+          "kind": "text",
+          "text": "The faces whispered. The Mole began to run, then to blunder. He fell into a ditch, and hid among the roots of a great beech tree, shivering. The snow fell thicker and thicker."
         },
         {
-          kind: 'note',
-          text: 'New word: panic — a sudden great fear that makes you run without thinking at all.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: panic — a sudden great fear that makes you run without thinking at all.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Just then he heard a small, cheerful piping. It was the Water Rat, with two pistols in his belt and a stout stick in his hand. "Come along, Mole," he said. "We will go to my friend the Badger. He knows every hole in this wood."',
+          "kind": "text",
+          "text": "Just then he heard a small, cheerful piping. It was the Water Rat, with two pistols in his belt and a stout stick in his hand. \"Come along, Mole,\" he said. \"We will go to my friend the Badger. He knows every hole in this wood.\""
         },
         {
-          kind: 'text',
-          text: 'They followed a tunnel in the snow and came at last to a great dark door set in a stone wall. The Badger opened it himself, and drew them in out of the cold, for no animal is ever turned away at the Badger’s door.',
+          "kind": "text",
+          "text": "They followed a tunnel in the snow and came at last to a great dark door set in a stone wall. The Badger opened it himself, and drew them in out of the cold, for no animal is ever turned away at the Badger’s door."
         },
         {
-          kind: 'text',
-          text: 'Inside it was warm and bright. A great fire roared in the kitchen, and the Badger gave them a supper of eggs and bacon and mulled ale. They sat and talked of nothing but Toad and his reckless, dangerous driving.',
-        },
-      ],
+          "kind": "text",
+          "text": "Inside it was warm and bright. A great fire roared in the kitchen, and the Badger gave them a supper of eggs and bacon and mulled ale. They sat and talked of nothing but Toad and his reckless, dangerous driving."
+        }
+      ]
     },
     {
-      title: 'Chapter 4 · Mr. Toad',
-      art: 'toad-hall',
-      artPrompt: 'a great red-brick manor house beside a river, weasels fleeing through its windows, a toad, a rat, a mole and a badger charging through the front door',
-      blocks: [
+      "title": "Chapter 4 · Mr. Toad",
+      "art": "toad-hall",
+      "artPrompt": "a great red-brick manor house beside a river, weasels fleeing through its windows, a toad, a rat, a mole and a badger charging through the front door",
+      "blocks": [
         {
-          kind: 'text',
-          text: 'Toad had gone from bad to worse. He had crashed seven motor cars, and at last he stole a car that was not his, and drove it like a madman through the streets. The judge sent him to prison — twenty years, the longest sentence he could give.',
+          "kind": "text",
+          "text": "Toad had gone from bad to worse. He had crashed seven motor cars, and at last he stole a car that was not his, and drove it like a madman through the streets. The judge sent him to prison — twenty years, the longest sentence he could give."
         },
         {
-          kind: 'image',
-          art: 'toad-hall',
-          text: 'Toad Hall, the great red-brick house beside the river.',
+          "kind": "image",
+          "art": "toad-hall",
+          "text": "Toad Hall, the great red-brick house beside the river."
         },
         {
-          kind: 'note',
-          text: 'New word: prison — a place with locked doors, where people are kept for doing wrong.',
-          art: 'lamp-hint',
+          "kind": "note",
+          "text": "New word: prison — a place with locked doors, where people are kept for doing wrong.",
+          "art": "lamp-hint"
         },
         {
-          kind: 'text',
-          text: 'Toad was miserable. But the gaoler’s daughter was kind. She brought him a washerwoman’s bonnet and skirt, and said, "Put these on. My aunt does the washing, and nobody looks twice at a washerwoman." So Toad, in his disguise, walked out of the prison through the great gates.',
+          "kind": "text",
+          "text": "Toad was miserable. But the gaoler’s daughter was kind. She brought him a washerwoman’s bonnet and skirt, and said, \"Put these on. My aunt does the washing, and nobody looks twice at a washerwoman.\" So Toad, in his disguise, walked out of the prison through the great gates."
         },
         {
-          kind: 'text',
-          text: 'His adventures home were many. He tricked a train driver and rode on the footplate, he traded horses, and he was thrown into a river by a barge woman — all because he could not stop boasting about being Toad. At last he came back to his own river bank.',
+          "kind": "text",
+          "text": "His adventures home were many. He tricked a train driver and rode on the footplate, he traded horses, and he was thrown into a river by a barge woman — all because he could not stop boasting about being Toad. At last he came back to his own river bank."
         },
         {
-          kind: 'text',
-          text: 'There the Rat and the Mole and the Badger were waiting with terrible news. While Toad was away, the weasels and stoats of the Wild Wood had taken over Toad Hall! They were drinking his wine and breaking his chairs.',
+          "kind": "text",
+          "text": "There the Rat and the Mole and the Badger were waiting with terrible news. While Toad was away, the weasels and stoats of the Wild Wood had taken over Toad Hall! They were drinking his wine and breaking his chairs."
         },
         {
-          kind: 'text',
-          text: 'That night, armed to the teeth, the four friends went down a secret tunnel the Badger had known since he was young. They burst into Toad Hall through the back. The weasels scattered like leaves, and Toad’s home was his own again. After that, Toad still boasted a little — but he never forgot the friends who had saved him.',
-        },
-      ],
+          "kind": "text",
+          "text": "That night, armed to the teeth, the four friends went down a secret tunnel the Badger had known since he was young. They burst into Toad Hall through the back. The weasels scattered like leaves, and Toad’s home was his own again. After that, Toad still boasted a little — but he never forgot the friends who had saved him."
+        }
+      ]
     },
+    {
+      "title": "Chapter 5 · Dulce Domum",
+      "art": "willows-dulce-domum",
+      "artPrompt": "a cozy underground home with a round window showing snowy woods outside, a mole and a water rat serving supper to six little field mice in scarves singing carols by a red fire, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Winter still lay deep upon the Wild Wood. The Mole and the Rat were still guests at the Badger's warm house. They had eaten well and slept well for many days. But home calls every animal at last, and one bright morning the time came for going home."
+        },
+        {
+          "kind": "image",
+          "art": "willows-dulce-domum",
+          "text": "The Mole finds his old underground home again on a snowy night."
+        },
+        {
+          "kind": "text",
+          "text": "The Badger walked them to the door and told them which road to take. Then the two friends set out through the snow, side by side. They walked for a long time. Then the Mole stopped very suddenly. His nose went up, and his whole body shook with joy. \"Rat!\" he cried. \"I can smell my old home! It is close by. Oh, please, let us find it!\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: Dulce Domum — old Latin words that mean \"sweet, sweet home\".",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Rat could smell nothing at all. But he loved his friend, so they hunted and hunted. At last, under the roots of a great tree, they found a little wooden door. Inside was the Mole's own small house. The Mole felt ashamed of his poor dark rooms. But the Rat rubbed his hands and smiled. \"Why, this is a fine little home!\" he said. \"We shall be warm and cosy here.\""
+        },
+        {
+          "kind": "text",
+          "text": "So they lit the fire and set the table. Then came a small knock at the door. Six little field mice stood in the snow. They were carol singers, walking from house to house in the cold. They sang a Christmas song, and their small voices were sweet and clear. \"Come in, come in!\" cried the Mole, with his heart full. Outside, the snow fell on and on."
+        },
+        {
+          "kind": "text",
+          "text": "The Rat cooked a grand supper out of everything they could find. The mice ate until they were round, and sang once more before they went home. The Mole looked about his little house, warm and bright and full of friends. \"There is no place half so sweet as home,\" he said. And that night he slept better than he had ever slept before."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · Toad's Great Escape",
+      "art": "willows-great-escape",
+      "artPrompt": "a toad disguised as an old washerwoman in a bonnet and long skirt riding on the footplate of a steam train at night, a kind engine driver beside him, stars overhead, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "You have heard how Toad walked out of prison in a washerwoman's bonnet and skirt. But that was only the beginning of his great escape. Outside the gates, Toad was free at last. He was also hungry, and penniless, and a very long way from home. The night was coming on, and he had nowhere to go."
+        },
+        {
+          "kind": "image",
+          "art": "willows-great-escape",
+          "text": "Toad rides on the footplate of a steam train, still dressed as a washerwoman."
+        },
+        {
+          "kind": "text",
+          "text": "At dawn he came limping to a railway yard. A big engine stood there, hissing and ready to go. Toad, in his bonnet, told the driver a sad story. \"Please, kind sir,\" he said, \"my poor old aunt is sick, and I must get to her today.\" The driver was sorry for the poor washerwoman. \"Jump up,\" he said kindly, \"and I will take you a long way.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: footplate — the driver's standing place at the front of a steam engine.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So Toad rode on the footplate, warm and proud. The fields rushed by, and the wind sang. The driver chatted, and Toad grew merry. At last he could hold it in no longer. \"I am not a washerwoman at all!\" he cried. \"I am the Toad — the famous, clever, rich Toad!\" The driver only laughed. Then, far behind them, came a whistle. Another engine was chasing them, and it was full of police."
+        },
+        {
+          "kind": "text",
+          "text": "\"Faster! Faster!\" cried Toad. The engine flew on, but the police engine came nearer and nearer. \"Well,\" said the driver, \"we must lose them now. I shall slow down — and when I say jump, you jump!\" Toad jumped, rolled over, and landed in soft grass beside a dark wood. The police train rushed past without stopping. Toad lay in the grass and laughed and laughed. He was free again — but many miles from home."
+        },
+        {
+          "kind": "text",
+          "text": "All that day Toad hid and slept. He thought of his fine hall, his good dinners, and his friends. \"I will get home yet,\" he said to himself. \"And what a tale I shall have to tell!\" For once, even Toad could see that boasting would not help him now. He needed luck, and cleverness, and kindness from strangers."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Piper at the Gates of Dawn",
+      "art": "willows-piper-dawn",
+      "artPrompt": "a great gentle wild god with curved horns standing among reeds on a misty green island at sunrise, a little otter cub asleep between his hooves, golden light on still water, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That summer, the Rat and the Mole went boating far up the river. They slept in the boat under the stars, and it was all very happy. Then one night they heard sad news. Their friend the Otter was in trouble. His little son Portly had been lost for two days, and nobody could find him. Every night Otter searched the river banks alone."
+        },
+        {
+          "kind": "image",
+          "art": "willows-piper-dawn",
+          "text": "The Rat and the Mole row up the quiet river before sunrise, searching for Portly."
+        },
+        {
+          "kind": "text",
+          "text": "Before the sun came up, the Rat woke the Mole with a whisper. \"We will look for little Portly ourselves,\" he said. They rowed up the river, very slow and very quiet. The world was still. The water was silver, and the birds were not yet awake. Then, far away, they heard music. It was thin and sweet, like a song with no words at all."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Have you ever half-remembered a beautiful dream in the morning? That is how the friends felt that day.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They followed the music to a small green island. And there, in the golden light, they saw a wonder. A great figure stood among the reeds, tall and gentle, with curved horns and shining eyes. It was Pan, the kind god of all wild animals. And there, asleep between his hooves, lay little Portly, safe and smiling. The friends could not speak. Their hearts were full of fear and joy together."
+        },
+        {
+          "kind": "text",
+          "text": "Then the Piper seemed to smile, and softly call. Little Portly woke, rubbed his eyes, and trotted down to the boat. The sun was rising now, red and round. They rowed him home to his father, and the Otter's happiness was a thing to see."
+        },
+        {
+          "kind": "text",
+          "text": "As they rowed back, the wonder faded, like a dream at breakfast time. Soon they could not remember what they had seen. Only one thing stayed with them: it had been beautiful, and kind, and true. \"We came out for nothing,\" said the Rat softly. \"And yet,\" said the Mole, \"I am glad we came.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Wayfarers All",
+      "art": "willows-wayfarers",
+      "artPrompt": "a water rat in a navy jacket listening to a weathered sea rat with a knotted stick on a river bank at sunset, a small sailing ship far down the golden river, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Summer was nearly over. The hay was cut, and the swallows gathered on the wires. The Mole was busy about his house, but the Rat walked up and down the bank, quiet and sad. \"The summer is going,\" he said, \"and I have done nothing.\" He did not feel like boating or picnics. He wanted something, and he did not know what."
+        },
+        {
+          "kind": "image",
+          "art": "willows-wayfarers",
+          "text": "The Rat meets a Sea Rat who has sailed the great oceans."
+        },
+        {
+          "kind": "text",
+          "text": "One evening he met a stranger on the bank. It was a neat brown rat, with a wise face and a long story. He was a Sea Rat. He had sailed on great ships to far warm lands. He told of blue water and little white towns by the sea. He told of grapes, oranges, and ports where the sun always shone. The Rat listened, and his eyes grew wide and strange."
+        },
+        {
+          "kind": "note",
+          "text": "New word: wayfarer — a traveller who wanders from place to place.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "When the Sea Rat had gone his way, the Rat came home in a dream. \"Mole,\" he said, \"I am going to the sea. I will see those blue waters with my own eyes.\" He packed a bag and took his stick, and would not be stopped. \"Now I cast off everything!\" he cried. His eyes were far away, and his voice was not his own."
+        },
+        {
+          "kind": "text",
+          "text": "The Mole was frightened, but he did not shout. He took the bag gently from his friend's paw. He talked of simple things — the harvest, warm fires, boats to mend, and stores laid up for winter. Slowly the Rat's eyes came back. A big tear ran down his face. \"I am sorry, Mole,\" he said. \"You have brought me home.\""
+        },
+        {
+          "kind": "text",
+          "text": "That evening they ate their supper by the fire, and the Rat was quiet and happy again. The wide sea was a fine thing to dream of. But home, said the Mole, was a finer thing to keep. The river sang outside the window all night long. And the Rat never spoke of going away again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Toad's Long Road Home",
+      "art": "willows-long-road-home",
+      "artPrompt": "a toad in a washerwoman bonnet riding a plump barge horse along a canal towpath, a fat barge woman shaking her fist from a painted canal barge behind him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Now we must go back to Toad, who had jumped from the runaway train into the dark wood. In the morning he found a canal, and a slow barge pulled along by a fat horse. A fat barge woman looked down at him. \"If you will wash my clothes,\" she said, \"you may ride on my barge.\" Toad, still in his bonnet, said yes."
+        },
+        {
+          "kind": "image",
+          "art": "willows-long-road-home",
+          "text": "The barge woman makes Toad do the washing — and he cannot wash at all."
+        },
+        {
+          "kind": "text",
+          "text": "But Toad had never washed a thing in his life. He rubbed and scrubbed, and the clothes came out worse than before. The barge woman laughed at him. Then Toad grew angry, and could hold his tongue no longer. \"I am the Toad!\" he cried. \"The famous Toad!\" She picked him up by the collar of his gown and threw him straight into the canal."
+        },
+        {
+          "kind": "note",
+          "text": "New word: towpath — the grassy path beside a canal, where the horse walks and pulls the barge.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Toad swam out, wet and furious. Then came his revenge. He untied the barge horse, jumped on its back, and trotted away down the road. By evening he met a gipsy, who looked at the horse kindly. \"Six shillings,\" said the gipsy, \"and a hot breakfast.\" Toad made the deal, ate like a lord, and walked on, rich and proud. His money jingled in his pocket, and his nose was in the air."
+        },
+        {
+          "kind": "text",
+          "text": "Then came the sound that froze his blood: poop-poop! A great motor car rolled up, full of fine gentlemen. Toad shook with fear, for he had stolen a car once. But the gentlemen only smiled at the poor washerwoman. \"Come and sit in front,\" they said kindly, \"and you may drive, if you like.\" Toad's paws trembled on the wheel. \"I am only a washerwoman,\" he began. Then the old wicked joy took him. \"I am the Toad! The famous Toad!\" And he drove like a wild thing, until the car leapt off the road into a hedge. Toad ran away, laughing, into the night."
+        },
+        {
+          "kind": "text",
+          "text": "He ran all night, tired and torn, until he saw a sight that made him weep for joy. It was his own river, silver in the moonlight. And there, standing at a hole in the bank, was the Water Rat, armed and grave. \"Rat!\" cried Toad. \"It is I, your old friend!\" But the Rat's face was dark. \"Toad,\" he said, \"we have terrible news. While you were away, the weasels have taken Toad Hall.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Secret Tunnel",
+      "art": "willows-secret-tunnel",
+      "artPrompt": "an old badger in a long coat holding a lantern inside a dark earthy tunnel, a rat a mole and a toad listening close behind him, tree roots hanging from the ceiling, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Toad gave one great cry and fell down among the rushes. \"My beautiful hall!\" he wept. \"I will fight them all! Give me a stick!\" \"You will do nothing of the kind,\" said the Rat. \"The weasels are many, and they carry guns. We must wait, and watch, and think.\" So they sat together in the dark, and Toad sniffled, and the Rat made tea. It was the darkest hour before the dawn."
+        },
+        {
+          "kind": "image",
+          "art": "willows-secret-tunnel",
+          "text": "At midnight, the Badger arrives with a secret plan."
+        },
+        {
+          "kind": "text",
+          "text": "At midnight there came a quiet knock, and in walked the Badger, big and calm. \"Badger!\" they cried. \"Where have you been?\" \"Watching,\" said the Badger. \"The Mole and I have been hiding close to the hall. And I know something the weasels do not know. There is an old secret tunnel. It runs under the wood, and it comes up inside Toad Hall, right beside the pantry.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: tunnel — a long passage under the ground, leading from one place to another.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the Badger told his news. Tomorrow night, the weasels would hold a grand banquet. It was the Chief Weasel's birthday, and all his friends were coming. There would be guards on every road. But inside the hall, the weasels would be eating and drinking, singing and laughing, with their backs turned. \"And that,\" said the Badger, \"is when we strike.\""
+        },
+        {
+          "kind": "text",
+          "text": "The Rat went pale with excitement. Toad begged to lead the charge, but the Badger said no, very firmly. Then the Mole did a brave thing. He walked right up to the weasel guards and asked them friendly questions, till he had heard all their plans. \"The banquet is sure,\" he whispered, when he came home. \"I heard it from their own mouths.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"One thing more,\" said the Badger. \"When we go in, we go in together. Not one word, not one shout, till I give the sign.\" They shook paws on it, grave as soldiers. Then they lay down to sleep — all but Toad. He lay awake, hugging his stick and smiling in the dark."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Weasels' Banquet",
+      "art": "willows-weasels-banquet",
+      "artPrompt": "weasels and stoats in party clothes feasting and laughing at a long candlelit table in a grand dining hall, a toad listening angrily through a small pantry door, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The next night came at last. The four friends crept out to the mouth of the secret tunnel. It was cold and muddy under the earth, and roots hung down like fingers. They went slowly, one behind another, whispering. Toad wanted to march and sing, but the Badger's paw held him fast. Somewhere above their heads, they could hear the weasels' music."
+        },
+        {
+          "kind": "image",
+          "art": "willows-weasels-banquet",
+          "text": "Overhead, the weasels feast and laugh in Toad Hall."
+        },
+        {
+          "kind": "text",
+          "text": "At the tunnel's end stood a little wooden door. Through it came warm light, and the smell of roast meat and wine. The hall beyond was bright with a hundred candles. The weasels were singing a song — a song that made fun of Toad! Toad shook with rage. \"Let me at them!\" he breathed. \"Not yet,\" said the Badger. \"You shall have your turn.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Why do you think Toad wanted all the glory for himself? What would you say to a friend like that?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The friends stood still and listened. They heard the Chief Weasel make a long, proud speech. They heard glasses clink, and tables thump, and forty weasels laughing with their mouths full. It was all just as the Badger had said it would be. Best of all, the dining hall door stood open, and no weasel was watching it at all."
+        },
+        {
+          "kind": "text",
+          "text": "\"They are fat with feasting,\" whispered the Badger, \"and their hour has come.\" He set the Rat on one side of the door, and the Mole on the other. Toad stood behind them, shaking — half with fear, half with joy. Above them, the singing grew louder and prouder. The Badger raised his paw, and every heart beat like a drum."
+        },
+        {
+          "kind": "text",
+          "text": "Toad drew the deepest breath of his whole life. \"Now,\" said the Badger, in a voice like thunder, \"we go in.\" He flung open the little door. And what the friends found, and what happened next, you shall hear in the last chapter of all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Battle of Toad Hall",
+      "art": "willows-battle-hall",
+      "artPrompt": "a toad a badger a water rat and a mole bursting out of a pantry door upon startled weasels at a candlelit banquet table, cake and bottles flying, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Bang! The four friends burst in upon the banquet. First came the Badger, with his great stick. Then the Rat, armed and hot. Then the Mole, steady as a rock. And last came Toad, shrieking with rage. Sticks swung. Glasses flew. For one moment the weasels sat frozen, with their mouths open. Then all was noise and squealing. The weasels, fat with food and wine, tumbled from their chairs. Some fought, but most ran for the windows."
+        },
+        {
+          "kind": "image",
+          "art": "willows-battle-hall",
+          "text": "The four friends burst in upon the weasels' feast — and the hall is won back."
+        },
+        {
+          "kind": "text",
+          "text": "It was all over in a few minutes. The Chief Weasel and his bravest friends were marched out as prisoners. The rest leapt into the river and swam away in the dark. The stoats on guard came running, saw the Badger's face, and threw down their sticks at once. Toad Hall belonged to Toad again."
+        },
+        {
+          "kind": "note",
+          "text": "New word: prisoner — a person or animal caught and kept by those who have beaten him.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then came the cleaning. There was broken glass everywhere, and cake on the ceiling. The weasel prisoners were set to work with mops and buckets. They scrubbed from morning till night, and hated every minute of it. The friends worked too, and even Toad took a brush. In a few days the hall shone like new."
+        },
+        {
+          "kind": "text",
+          "text": "At last Toad gave a little victory feast for his three dear friends. He stood up to make a grand speech all about himself. Then he caught the Badger's eye, and sat down quickly. \"Thank you, my friends,\" was all he said. \"Without you, I should have no home at all.\" Afterwards he sent money to the engine driver, the gipsy, and the barge woman. It paid for everything he had taken from them."
+        },
+        {
+          "kind": "text",
+          "text": "After that, Toad walked and boated with his friends, and gave quiet suppers, and grew gentler every year. People still told tales of Toad the boastful. But the animals of the river bank knew better. He was quite an altered Toad — and it all began on the night of the weasels' banquet."
+        }
+      ]
+    }
   ],
-  rights: {
-    workTitle: 'The Wind in the Willows',
-    author: 'Kenneth Grahame',
-    authorDeathYear: 1932,
-    jurisdiction: 'EU',
-    basis: 'pd-70',
-    sourceUrl: 'https://www.gutenberg.org/ebooks/289',
-    note: 'Published 1908; public domain worldwide (Grahame d. 1932, 70y pma expired). Plot follows Project Gutenberg eBook #289; wording simplified into short sentences for young English readers.',
-  },
+  "rights": {
+    "workTitle": "The Wind in the Willows",
+    "author": "Kenneth Grahame",
+    "authorDeathYear": 1932,
+    "jurisdiction": "EU",
+    "basis": "pd-70",
+    "sourceUrl": "https://www.gutenberg.org/ebooks/289",
+    "note": "Published 1908; public domain worldwide (Grahame d. 1932, 70y pma expired). Plot follows Project Gutenberg eBook #289; wording simplified into short sentences for young English readers."
+  }
 }
