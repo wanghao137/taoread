@@ -1,0 +1,12 @@
+{
+  "id": "ozaki-japanese",
+  "packFile": "ozaki-japanese.ts",
+  "cur": 8,
+  "target": 16,
+  "mode": "B",
+  "note": "Japanese Fairy Tales (Ozaki 1903) 全 22 篇，一章一篇；先读现有 8 篇避免重复",
+  "parts": [
+    "9-15",
+    "16-22"
+  ]
+}

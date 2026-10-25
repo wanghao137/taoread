@@ -1,0 +1,13 @@
+{
+  "id": "lang-red",
+  "packFile": "lang-red.ts",
+  "cur": 5,
+  "target": 20,
+  "mode": "B",
+  "note": "The Red Fairy Book 全 37 篇，一章一篇；先读现有 5 篇避免重复",
+  "parts": [
+    "6-16",
+    "17-27",
+    "28-37"
+  ]
+}

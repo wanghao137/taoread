@@ -1,0 +1,12 @@
+{
+  "id": "oz-scarecrow",
+  "packFile": "oz-scarecrow.ts",
+  "cur": 5,
+  "target": 12,
+  "mode": "A",
+  "note": "",
+  "parts": [
+    "5-14",
+    "15-24"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "jacobs-english",
+  "packFile": "jacobs-english.ts",
+  "cur": 8,
+  "target": 20,
+  "mode": "B",
+  "note": "English Fairy Tales (Jacobs 1890) 全 43 篇，一章一篇；先读现有 8 篇避免重复",
+  "parts": [
+    "9-20",
+    "21-32",
+    "33-43"
+  ]
+}

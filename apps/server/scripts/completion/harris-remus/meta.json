@@ -1,0 +1,12 @@
+{
+  "id": "harris-remus",
+  "packFile": "harris-remus.ts",
+  "cur": 4,
+  "target": 9,
+  "mode": "B",
+  "note": "Uncle Remus (Harris 1881) 初版 25 则动物故事，一章一则；先读现有 4 则避免重复",
+  "parts": [
+    "5-15",
+    "16-25"
+  ]
+}

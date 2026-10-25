@@ -1,0 +1,12 @@
+{
+  "id": "chinfairy-wilhelm",
+  "packFile": "chinfairy-wilhelm.ts",
+  "cur": 8,
+  "target": 14,
+  "mode": "B",
+  "note": "The Chinese Fairy Book (Wilhelm/Martens 1921) 补至 24 篇，一章一篇；先读现有 8 篇避免重复，选公版经典篇目",
+  "parts": [
+    "9-16",
+    "17-24"
+  ]
+}

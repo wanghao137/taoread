@@ -1,0 +1,11 @@
+{
+  "id": "alice-wonderland",
+  "packFile": "tale-alice.ts",
+  "cur": 3,
+  "target": 12,
+  "mode": "B",
+  "note": "",
+  "parts": [
+    "4-12"
+  ]
+}

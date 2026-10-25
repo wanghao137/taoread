@@ -1,0 +1,73 @@
+id	packFile	cur	target	mode	note	parts
+alcott-littlewomen	alcott-littlewomen.ts	5	23	A		5-15;16-26;27-37;38-47
+alcott-littlemen	alcott-littlemen.ts	5	21	A		5-13;14-21
+alcott-oldfashioned	alcott-oldfashioned.ts	5	19	A		5-14;15-24;25-33
+alice-wonderland	tale-alice.ts	3	12	B		4-12
+tale-lookingglass	tale-lookingglass.ts	6	12	A		6-12
+peter-pan	tale-peterpan.ts	3	17	B		4-10;11-17
+heidi	tale-heidi.ts	8	23	A		8-15;16-23
+tale-secretgarden	tale-secretgarden.ts	8	27	B		9-18;19-27
+tale-littleprincess	tale-littleprincess.ts	8	19	B		9-19
+tale-anne	tale-anne.ts	5	38	A		5-16;17-28;29-38
+montgomery-avonlea	montgomery-avonlea.ts	8	20	A		8-18;19-29;30-38
+tale-tomsawyer	tale-tomsawyer.ts	8	35	B		9-17;18-26;27-35
+twain-pauper	twain-pauper.ts	7	33	A		7-15;16-24;25-33
+tale-treasure	tale-treasure.ts	8	34	B		9-21;22-34
+pinocchio	tale-pinocchio.ts	8	36	B		9-18;19-28;29-36
+porter-pollyanna	porter-pollyanna.ts	8	19	A		8-20;21-32
+wiggin-rebecca	wiggin-rebecca.ts	8	16	A		8-15;16-23
+black-beauty	tale-blackbeauty.ts	4	49	B		5-16;17-28;29-40;41-49
+burnett-fauntleroy	burnett-fauntleroy.ts	5	9	A		5-15
+tale-dolittle	tale-dolittle.ts	5	12	A		5-12
+tale-dolittlevoyage	tale-dolittlevoyage.ts	5	12	A		5-12;13-20
+macdonald-curdie	macdonald-curdie.ts	5	11	A		5-14;15-24;25-32
+tale-princessgoblin	tale-princessgoblin.ts	5	10	A		5-14;15-24;25-32
+kingsley-waterbabies	kingsley-waterbabies.ts	6	9	A		6-9
+lagerlof-nils	lagerlof-nils.ts	6	14	A		6-18;19-31;32-44;45-55
+kipling-puck	kipling-puck.ts	3	8	A		3-11
+kipling-jungle2	kipling-jungle2.ts	8	11	B		9-15
+jungle-book	tale-junglebook.ts	8	10	B		9-15
+tale-fivechildren	tale-fivechildren.ts	5	9	A		5-9
+nesbit-amulet	nesbit-amulet.ts	5	11	A		5-16
+nesbit-arden	nesbit-arden.ts	5	11	A		5-13;14-21
+nesbit-enchanted	nesbit-enchanted.ts	5	12	A		5-12
+nesbit-phoenix	nesbit-phoenix.ts	5	10	A		5-12
+tale-northwind	tale-northwind.ts	5	11	B		6-16;17-27;28-38
+tale-robinson	tale-robinson.ts	5	11	A		5-16
+tale-robinhood	tale-robinhood.ts	5	10	A		5-13;14-22
+tale-gulliver	tale-gulliver.ts	5	10	B	原著 39 章按四部合并为 16 章（每部 4 章）	6-16
+tale-railway	tale-railway.ts	6	15	A		6-15
+baum-santa	baum-santa.ts	6	11	A		6-14;15-22
+burgess-cottontail	burgess-cottontail.ts	6	13	A		6-13;14-20
+burgess-reddyfox	burgess-reddyfox.ts	6	13	A		6-13;14-20
+burgess-westwind	burgess-westwind.ts	6	12	A		6-16
+gruelle-raggedyann	gruelle-raggedyann.ts	4	9	A		4-12
+gruelle-raggedyandy	gruelle-raggedyandy.ts	4	9	A		4-14
+wind-willows	tale-windwillows.ts	4	12	B		5-12
+wizard-oz	tale-oz.ts	5	24	A		5-14;15-24
+tale-ozma	tale-ozma.ts	6	13	A		6-14;15-22
+oz-dorothy	oz-dorothy.ts	5	13	A		5-12;13-20
+oz-emerald	oz-emerald.ts	5	13	A		5-12;13-20
+oz-glinda	oz-glinda.ts	5	12	A		5-13;14-21
+oz-lostprincess	oz-lostprincess.ts	5	12	A		5-12;13-19
+oz-magic	oz-magic.ts	5	12	A		5-13;14-21
+oz-patchwork	oz-patchwork.ts	5	12	A		5-16;17-27
+oz-rinkitink	oz-rinkitink.ts	5	11	A		5-14;15-24
+oz-road	oz-road.ts	5	11	A		5-15;16-26
+oz-scarecrow	oz-scarecrow.ts	5	12	A		5-14;15-24
+oz-tiktok	oz-tiktok.ts	5	11	A		5-11;12-18
+oz-tinwoodman	oz-tinwoodman.ts	5	10	A		5-11;12-18
+aesop-fables	tale-aesop.ts	5	25	B	每章一则寓言；补齐经典 20 则（ Tortoise/Grasshopper 等已有 5 则之外）	6-15;16-25
+lang-blue	lang-blue.ts	5	25	B	The Blue Fairy Book 全 37 篇，一章一篇；先读现有 5 篇避免重复	6-16;17-27;28-37
+lang-red	lang-red.ts	5	20	B	The Red Fairy Book 全 37 篇，一章一篇；先读现有 5 篇避免重复	6-16;17-27;28-37
+lang-violet	lang-violet.ts	4	16	B	The Violet Fairy Book 全 30 篇，一章一篇；先读现有 4 篇避免重复	5-17;18-30
+jacobs-english	jacobs-english.ts	8	20	B	English Fairy Tales (Jacobs 1890) 全 43 篇，一章一篇；先读现有 8 篇避免重复	9-20;21-32;33-43
+ozaki-japanese	ozaki-japanese.ts	8	16	B	Japanese Fairy Tales (Ozaki 1903) 全 22 篇，一章一篇；先读现有 8 篇避免重复	9-15;16-22
+chinfairy-wilhelm	chinfairy-wilhelm.ts	8	14	B	The Chinese Fairy Book (Wilhelm/Martens 1921) 补至 24 篇，一章一篇；先读现有 8 篇避免重复，选公版经典篇目	9-16;17-24
+harris-remus	harris-remus.ts	4	9	B	Uncle Remus (Harris 1881) 初版 25 则动物故事，一章一则；先读现有 4 则避免重复	5-15;16-25
+tale-grimm3	tale-grimm3.ts	4	10	B	Grimm 童话第三册补至 12 篇，一章一篇；先读现有 4 篇避免重复	5-12
+tale-andersen2	tale-andersen2.ts	8	10	B	安徒生精选补至 10 篇，一章一篇；先读现有 8 篇避免重复	9-10
+tale-happyprince	tale-happyprince.ts	4	5	B	Wilde 1888 全 5 篇；先读现有 4 篇，补缺的那篇	5-5
+tale-wonderbook	tale-wonderbook.ts	4	6	B	A Wonder-Book for Girls and Boys 全 6 篇希腊神话；先读现有 4 篇，补缺 2 篇	5-6
+tale-tanglewood	tale-tanglewood.ts	4	6	B	Tanglewood Tales 全 6 篇；先读现有 4 篇，补缺 2 篇	5-6
+just-so	tale-justso.ts	4	13	B	Just So Stories 全 13 篇；先读现有 4 篇避免重复	5-13

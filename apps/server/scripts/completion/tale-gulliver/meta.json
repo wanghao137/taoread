@@ -1,0 +1,11 @@
+{
+  "id": "tale-gulliver",
+  "packFile": "tale-gulliver.ts",
+  "cur": 5,
+  "target": 10,
+  "mode": "B",
+  "note": "原著 39 章按四部合并为 16 章（每部 4 章）",
+  "parts": [
+    "6-16"
+  ]
+}

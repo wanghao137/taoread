@@ -1,0 +1,11 @@
+{
+  "id": "tale-grimm3",
+  "packFile": "tale-grimm3.ts",
+  "cur": 4,
+  "target": 10,
+  "mode": "B",
+  "note": "Grimm 童话第三册补至 12 篇，一章一篇；先读现有 4 篇避免重复",
+  "parts": [
+    "5-12"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "twain-pauper",
+  "packFile": "twain-pauper.ts",
+  "cur": 7,
+  "target": 33,
+  "mode": "A",
+  "note": "",
+  "parts": [
+    "7-15",
+    "16-24",
+    "25-33"
+  ]
+}

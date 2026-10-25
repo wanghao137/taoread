@@ -1,0 +1,12 @@
+{
+  "id": "lang-violet",
+  "packFile": "lang-violet.ts",
+  "cur": 4,
+  "target": 16,
+  "mode": "B",
+  "note": "The Violet Fairy Book 全 30 篇，一章一篇；先读现有 4 篇避免重复",
+  "parts": [
+    "5-17",
+    "18-30"
+  ]
+}

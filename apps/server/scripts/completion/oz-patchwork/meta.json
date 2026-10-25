@@ -1,0 +1,12 @@
+{
+  "id": "oz-patchwork",
+  "packFile": "oz-patchwork.ts",
+  "cur": 5,
+  "target": 12,
+  "mode": "A",
+  "note": "",
+  "parts": [
+    "5-16",
+    "17-27"
+  ]
+}

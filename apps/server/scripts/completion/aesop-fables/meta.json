@@ -1,0 +1,12 @@
+{
+  "id": "aesop-fables",
+  "packFile": "tale-aesop.ts",
+  "cur": 5,
+  "target": 25,
+  "mode": "B",
+  "note": "每章一则寓言；补齐经典 20 则（ Tortoise/Grasshopper 等已有 5 则之外）",
+  "parts": [
+    "6-15",
+    "16-25"
+  ]
+}

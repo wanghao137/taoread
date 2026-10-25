@@ -1,0 +1,12 @@
+{
+  "id": "wizard-oz",
+  "packFile": "tale-oz.ts",
+  "cur": 5,
+  "target": 24,
+  "mode": "A",
+  "note": "",
+  "parts": [
+    "5-14",
+    "15-24"
+  ]
+}

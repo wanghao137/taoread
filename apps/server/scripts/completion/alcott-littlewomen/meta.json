@@ -1,0 +1,14 @@
+{
+  "id": "alcott-littlewomen",
+  "packFile": "alcott-littlewomen.ts",
+  "cur": 5,
+  "target": 23,
+  "mode": "A",
+  "note": "（压缩目标：儿童改写本按完整故事弧压缩）",
+  "parts": [
+    "5-15",
+    "16-26",
+    "27-37",
+    "38-47"
+  ]
+}

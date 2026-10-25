@@ -1,0 +1,13 @@
+{
+  "id": "tale-northwind",
+  "packFile": "tale-northwind.ts",
+  "cur": 5,
+  "target": 11,
+  "mode": "B",
+  "note": "",
+  "parts": [
+    "6-16",
+    "17-27",
+    "28-38"
+  ]
+}

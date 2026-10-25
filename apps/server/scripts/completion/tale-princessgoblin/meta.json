@@ -1,0 +1,13 @@
+{
+  "id": "tale-princessgoblin",
+  "packFile": "tale-princessgoblin.ts",
+  "cur": 5,
+  "target": 10,
+  "mode": "A",
+  "note": "",
+  "parts": [
+    "5-14",
+    "15-24",
+    "25-32"
+  ]
+}
