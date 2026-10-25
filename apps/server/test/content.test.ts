@@ -55,8 +55,8 @@ describe('内容域 /api/content/books', () => {
     const alice = body.books.find((b: { id: string }) => b.id === 'alice-wonderland')
     expect(alice).toBeDefined()
     expect(alice.bookId).toBe('cbf:alice-wonderland')
-    // P0-8：英文公版书扩至 3 章（docs/09 §4.2）
-    expect(alice.chapterCount).toBe(3)
+    // docs/86：找故事 72 本扩章后 alice 补全至完整故事弧（2026-10-25）
+    expect(alice.chapterCount).toBe(12)
     expect(alice.coverArt).toBe('alice-rabbit')
     const peterRabbit = body.books.find((b: { id: string }) => b.id === 'peter-rabbit')
     expect(peterRabbit).toBeDefined()
