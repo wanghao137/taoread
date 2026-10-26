@@ -260,6 +260,29 @@ describe('phonics v2 persistence and authorization', () => {
     const reread = await call('POST', childPath('attempts'), childToken, { clientAttemptId: randomUUID(), versionId, planKind: 'reread', resourceKey: 'r-l07' })
     expect(reread.json().attempt).toMatchObject({ planKind: 'reread', stepCount: 1, state: { pageIndex: 0 } })
   })
+  it('opens word cards only after the introducing lesson completes, with image, three readings and meaning', async () => {
+    expect((await call('GET', childPath('words'), childToken)).json().words).toEqual([])
+    await enroll()
+    expect((await call('GET', childPath('words'), childToken)).json().words).toHaveLength(0)
+    await finishAll((await start()).attempt)
+    const words = (await call('GET', childPath('words'), childToken)).json().words
+    expect(words.map((w: { id: string }) => w.id)).toEqual(['w-sat', 'w-mat', 'w-map', 'w-sam'])
+    for (const word of words) {
+      expect(word.meaningZh).toBeTruthy()
+      expect(word.audios.map((a: { purpose: string }) => a.purpose)).toEqual(['segment', 'blend', 'word'])
+      for (const audio of word.audios) {
+        expect(audio.url).toContain(`/api/media/phonics/${versionId}/`)
+        expect(audio.durationMs).toBeGreaterThan(0)
+      }
+    }
+    // w-sam has no task image; the card falls back to the reader page illustration instead of failing.
+    const sam = words.find((w: { id: string }) => w.id === 'w-sam')
+    expect(sam.image?.url).toContain('/api/media/phonics/')
+    // Enrollment is the gate: another household's child gets an empty list, not another family's cards.
+    const otherChild = await createChild(h.app, other.token, other.familyId, '邻家孩子', '6-8')
+    expect((await call('GET', `${base}/children/${otherChild}/words`, other.token)).json().words).toEqual([])
+    expect((await call('GET', childPath('words'), other.token)).statusCode).toBe(404)
+  })
   it('protects whitelisted media, Range responses and withdrawn URLs', async () => {
     await enroll(); const { attempt: a } = await start()
     const url = a.assets.find(x => x.purpose === 'instruction_zh')!.url!

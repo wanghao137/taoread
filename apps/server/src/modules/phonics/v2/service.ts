@@ -1,6 +1,6 @@
 import { Prisma, type PhonicsAttempt, type PrismaClient } from '@prisma/client'
 import type { z } from 'zod'
-import type { PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto } from '@taoread/shared'
+import type { PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto, PhonicsWordCardDto } from '@taoread/shared'
 import type { TokenClaims } from '../../../lib/auth'
 import { AppError } from '../../../lib/errors'
 import { mediaUrl } from '../../media/access'
@@ -198,6 +198,43 @@ export class PhonicsService {
         return asset ? [{ id, purpose: asset.purpose, durationMs: asset.durationMs, url: asset.sha256 ? mediaUrl(`/api/media/phonics/${plan.versionId}/${asset.sha256}.${asset.extension}`, claims, this.tokenSecret) : null }] : []
       }),
     }
+  }
+
+  /**
+   * 已开放词的词卡（一词一图、三种读法、中文释义）。开放口径与 readers 一致：
+   * 词义引入课已完成，或课序早于家长选择的起点。仅返回已绑定真实文件的资产。
+   */
+  async wordCards(claims: TokenClaims, childId: string): Promise<PhonicsWordCardDto[]> {
+    const enrollment = await this.enrollment(claims, childId)
+    if (!enrollment.enabled || !enrollment.versionId) return []
+    const course = await this.runtime.requireCourse(claims.fid, enrollment.versionId)
+    const { history } = await this.practiceHistory(childId, enrollment.versionId)
+    const eligible = new Set([
+      ...history.filter(h => h.kind === 'lesson' && h.status === 'completed').map(h => h.lessonKey!),
+      ...course.lessons.filter(l => l.order < (course.lessons.find(x => x.id === enrollment.entryLessonKey)?.order ?? 1)).map(l => l.id),
+    ])
+    const lessonOrder = new Map(course.lessons.map(l => [l.id, l.order]))
+    const assetOf = (id?: string) => (id ? course.assets.find(a => a.id === id) : undefined)
+    const signed = (versionId: string, asset: { sha256: string | null; extension: string }) =>
+      asset.sha256 ? mediaUrl(`/api/media/phonics/${versionId}/${asset.sha256}.${asset.extension}`, claims, this.tokenSecret) : null
+    const opened = course.words
+      .filter(w => Boolean(w.meaningIntroducedAt) && eligible.has(w.meaningIntroducedAt!))
+      .sort((a, b) => (lessonOrder.get(a.meaningIntroducedAt!) ?? 99) - (lessonOrder.get(b.meaningIntroducedAt!) ?? 99))
+    return opened.map(w => {
+      const audios = (['segment', 'blend', 'word'] as const)
+        .map(kind => assetOf(w.audioIds?.[kind]))
+        .filter((a): a is NonNullable<ReturnType<typeof assetOf>> => Boolean(a?.sha256))
+        .map(a => ({ id: a.id, purpose: a.purpose, durationMs: a.durationMs, url: signed(enrollment.versionId!, a) }))
+      const taskImage = course.tasks.find(t => t.wordId === w.id && assetOf(t.imageAssetId)?.sha256)?.imageAssetId
+      const readerImage = course.readers.flatMap(r => r.pages).find(p => p.wordIds.includes(w.id) && assetOf(p.imageAssetId)?.sha256)?.imageAssetId
+      const imageAsset = assetOf(taskImage ?? readerImage)
+      const imageUrl = imageAsset?.sha256 ? signed(enrollment.versionId!, imageAsset) : null
+      return {
+        id: w.id, text: w.text, meaningZh: w.meaningZh,
+        image: imageUrl ? { url: imageUrl } : null,
+        audios,
+      }
+    })
   }
 
   async mutate(claims: TokenClaims, id: string, input: PhonicsEventRequest | ControlInput | ObservationInput, kind: string) {

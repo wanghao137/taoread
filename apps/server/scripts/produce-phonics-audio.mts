@@ -6,15 +6,22 @@ import { parseArgs } from 'node:util'
 import dotenv from 'dotenv'
 import { loadCourse, candidateDirectory, digest } from '../src/modules/phonics/v2/courseRegistry'
 import { synthesizeSegment, TtsError } from '../src/modules/tts/client'
+import { parseWav, synthesizeSegmentMimo } from '../src/modules/tts/mimo'
 import { parseMp3 } from '../src/modules/tts/mp3duration'
 
-const { values } = parseArgs({ options: { out: { type: 'string' }, 'env-file': { type: 'string' }, concurrency: { type: 'string', default: '2' }, ids: { type: 'string' } } })
+const { values } = parseArgs({ options: { out: { type: 'string' }, 'env-file': { type: 'string' }, concurrency: { type: 'string', default: '2' }, ids: { type: 'string' }, provider: { type: 'string', default: 'stepaudio' } } })
 if (!values.out || !values['env-file']) throw Error('Explicit --out and --env-file are required')
+const provider = values.provider === 'mimo' ? 'mimo' : 'stepaudio'
+if (!['stepaudio', 'mimo'].includes(values.provider ?? '')) throw Error('Provider must be stepaudio or mimo')
 const concurrency = Number(values.concurrency)
 if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 4) throw Error('Concurrency must be 1-4')
 const env = dotenv.parse(await readFile(path.resolve(values['env-file'])))
-if (!env.TTS_BASE || !env.TTS_API_KEY) throw Error('Configured TTS provider is missing')
-const model = env.TTS_MODEL || 'stepaudio-3-gen-preview'
+if (provider === 'mimo') {
+  if (!env.MIMO_BASE || !env.MIMO_API_KEY) throw Error('MiMo provider is missing MIMO_BASE/MIMO_API_KEY')
+} else if (!env.TTS_BASE || !env.TTS_API_KEY) throw Error('Configured TTS provider is missing')
+const model = provider === 'mimo' ? env.MIMO_MODEL || 'mimo-v2.5-tts' : env.TTS_MODEL || 'stepaudio-3-gen-preview'
+// MiMo 只出 WAV；音色用预置名（中文课堂老师=茉莉，GB 候选=Mia，正式口音归属待听审）。
+const mimoVoice = (accent: 'GB' | 'zh') => (accent === 'zh' ? env.MIMO_VOICE_ZH || '茉莉' : env.MIMO_VOICE_EN || 'Mia')
 const out = path.resolve(values.out)
 const course = await loadCourse(candidateDirectory)
 const dest = path.join(out, 'phonics', course.manifest.versionId)
@@ -56,7 +63,7 @@ const jobs: Job[] = course.assets.filter(a => a.purpose !== 'image' && (!selecte
   if (!text) throw Error(`No production text for ${asset.id}`)
   return { id: asset.id, purpose: asset.purpose, requestedAccent: asset.purpose === 'instruction_zh' ? 'zh' : 'GB', text, instruction }
 })
-type Receipt = Job & { status: string; inputHash: string; sha256?: string; extension?: 'mp3'; durationMs?: number; bytes?: number; flags?: string[]; model: string; provider: string; reviewedByHuman: false; httpStatus?: string | null }
+type Receipt = Job & { status: string; inputHash: string; sha256?: string; extension?: 'mp3' | 'wav'; durationMs?: number; bytes?: number; flags?: string[]; model: string; provider: string; voice?: string | null; reviewedByHuman: false; httpStatus?: string | null }
 const stateFile = path.join(out, 'audio-candidates.json')
 let receipts: Record<string, Receipt> = {}
 try { receipts = JSON.parse(await readFile(stateFile, 'utf8')).assets } catch (e) { if ((e as NodeJS.ErrnoException).code !== 'ENOENT') throw e }
@@ -71,26 +78,39 @@ function save() {
 async function worker() {
   while (!halted && cursor < jobs.length) {
     const job = jobs[cursor++]!
-    const inputHash = digest({ ...job, model })
+    const mimoVoiceName = provider === 'mimo' ? mimoVoice(job.requestedAccent) : null
+    const inputHash = digest({ ...job, model, provider, mimoVoice: mimoVoiceName })
     const old = receipts[job.id]
     if (old?.inputHash === inputHash && old.sha256) {
-      try { const bytes = await readFile(path.join(dest, `${old.sha256}.mp3`)); if (createHash('sha256').update(bytes).digest('hex') === old.sha256 && parseMp3(bytes)) continue } catch { /* regenerate missing candidates */ }
+      const ext = old.extension ?? 'mp3'
+      const bytes = await readFile(path.join(dest, `${old.sha256}.${ext}`)).catch(() => null)
+      const valid = bytes && createHash('sha256').update(bytes).digest('hex') === old.sha256 && (ext === 'wav' ? parseWav(bytes) : parseMp3(bytes))
+      if (valid) continue
     }
     try {
-      const voice = { id: job.requestedAccent === 'zh' ? 'phonics-zh-candidate-v1' : 'phonics-gb-candidate-v1', label: 'Unreviewed phonics candidate', lang: job.requestedAccent === 'zh' ? 'zh' as const : 'en' as const,
-        description: job.requestedAccent === 'zh' ? '成年女性，标准普通话，温和清晰的儿童课堂老师' : 'Adult native British English female phonics teacher, standard southern British accent, warm clear unhurried voice', instruction: job.instruction }
-      const result = await synthesizeSegment({ base: env.TTS_BASE!, apiKey: env.TTS_API_KEY!, model }, { text: job.text, voice, speed: 1, lang: voice.lang, format: 'mp3' })
-      const info = parseMp3(result.audio)
-      if (!info?.durationMs) throw Error('Invalid MP3')
-      const sha256 = createHash('sha256').update(result.audio).digest('hex')
-      await writeFile(path.join(dest, `${sha256}.mp3`), result.audio)
+      let audio: Buffer, extension: 'mp3' | 'wav', durationMs: number, voiceName: string | null
+      if (provider === 'mimo') {
+        const result = await synthesizeSegmentMimo({ base: env.MIMO_BASE!, apiKey: env.MIMO_API_KEY!, model }, { text: job.text, instruction: job.instruction, voice: mimoVoiceName! })
+        const info = parseWav(result.audio)
+        if (!info) throw Error('Invalid WAV')
+        audio = result.audio; extension = 'wav'; durationMs = info.durationMs; voiceName = mimoVoiceName
+      } else {
+        const voice = { id: job.requestedAccent === 'zh' ? 'phonics-zh-candidate-v1' : 'phonics-gb-candidate-v1', label: 'Unreviewed phonics candidate', lang: job.requestedAccent === 'zh' ? 'zh' as const : 'en' as const,
+          description: job.requestedAccent === 'zh' ? '成年女性，标准普通话，温和清晰的儿童课堂老师' : 'Adult native British English female phonics teacher, standard southern British accent, warm clear unhurried voice', instruction: job.instruction }
+        const result = await synthesizeSegment({ base: env.TTS_BASE!, apiKey: env.TTS_API_KEY!, model }, { text: job.text, voice, speed: 1, lang: voice.lang, format: 'mp3' })
+        const info = parseMp3(result.audio)
+        if (!info?.durationMs) throw Error('Invalid MP3')
+        audio = result.audio; extension = 'mp3'; durationMs = info.durationMs; voiceName = voice.id
+      }
+      const sha256 = createHash('sha256').update(audio).digest('hex')
+      await writeFile(path.join(dest, `${sha256}.${extension}`), audio)
       const maximum = job.purpose === 'phoneme' ? 2500 : ['word', 'segment', 'blend'].includes(job.purpose) ? 6000 : 20000
-      const flags = info.durationMs > maximum ? ['EXCESS_DURATION_REQUIRES_REVIEW'] : []
-      receipts[job.id] = { ...job, inputHash, status: 'generated_pending_listening_and_rights', sha256, extension: 'mp3', durationMs: info.durationMs, bytes: result.audio.length, flags, model, provider: 'configured-stepaudio', reviewedByHuman: false }
-      console.log(JSON.stringify({ id: job.id, generated: true, durationMs: info.durationMs, flags }))
+      const flags = durationMs > maximum ? ['EXCESS_DURATION_REQUIRES_REVIEW'] : []
+      receipts[job.id] = { ...job, inputHash, status: 'generated_pending_listening_and_rights', sha256, extension, durationMs, bytes: audio.length, flags, model, provider: provider === 'mimo' ? 'xiaomi-mimo' : 'configured-stepaudio', voice: voiceName, reviewedByHuman: false }
+      console.log(JSON.stringify({ id: job.id, generated: true, durationMs, flags }))
     } catch (error) {
       const httpStatus = error instanceof TtsError ? error.message.match(/\d{3}/)?.[0] ?? null : null
-      receipts[job.id] = { ...job, inputHash, status: 'generation_failed', httpStatus, model, provider: 'configured-stepaudio', reviewedByHuman: false }
+      receipts[job.id] = { ...job, inputHash, status: 'generation_failed', httpStatus, model, provider: provider === 'mimo' ? 'xiaomi-mimo' : 'configured-stepaudio', voice: mimoVoiceName, reviewedByHuman: false }
       console.error(JSON.stringify({ id: job.id, generated: false, httpStatus }))
       if (httpStatus === '401' || httpStatus === '403') halted = true
     }

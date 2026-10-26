@@ -1,5 +1,5 @@
 import { uid } from '../../../lib/uid'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { PhonicsAttemptDto, PhonicsEventRequest, PhonicsLearningInput, PhonicsNextDto } from '@taoread/shared'
 import { useSession } from '../../../stores/session'
@@ -8,6 +8,8 @@ import { audioPlayer } from '../../../lib/audioPlayer'
 import { tts } from '../../../lib/tts'
 import { phonicsApi } from './api'
 import { PhonicsAudio } from './phonicsAudio'
+import { phonicsSfx } from './phonicsSfx'
+import { WordCards } from './WordCards'
 import './phonics.css'
 
 type StartBody = Parameters<typeof phonicsApi.start>[2]
@@ -24,6 +26,7 @@ export function PhonicsPage() {
 
 function PhonicsHome({ token, childId }: { token: string; childId: string }) {
   const navigate = useNavigate()
+  const calmMode = useSession(s => s.calmMode)
   const [next, setNext] = useState<PhonicsNextDto | null>(null)
   const [readers, setReaders] = useState<Array<{ id: string; titleZh: string; versionId: string }>>([])
   const [attempt, setAttempt] = useState<PhonicsAttemptDto | null>(null)
@@ -35,6 +38,11 @@ function PhonicsHome({ token, childId }: { token: string; childId: string }) {
   const live = useRef(true)
   const lock = useRef(false)
   const engine = useRef<PhonicsAudio | null>(null)
+  useEffect(() => {
+    phonicsSfx.init()
+    return () => undefined
+  }, [])
+  useEffect(() => { phonicsSfx.setCalmMode(calmMode) }, [calmMode])
   const refresh = useCallback(async () => {
     const [n, r] = await Promise.allSettled([phonicsApi.next(token, childId), phonicsApi.readers(token, childId)])
     if (n.status === 'rejected') throw n.reason
@@ -118,6 +126,7 @@ function PhonicsHome({ token, childId }: { token: string; childId: string }) {
           </div>
         </section>
         {readers.length > 0 && <section className="phonics-readers"><h2>还想再读</h2>{readers.map(reader => <div className="phonics-reader-row" key={reader.id}><b>{reader.titleZh}</b><button className="sticker-btn" disabled={busy || failed || next?.reason === 'continue'} onClick={() => void execute({ type: 'start', body: { clientAttemptId: uid(), versionId: reader.versionId, planKind: 'reread', resourceKey: reader.id } })}>再读一次</button></div>)}</section>}
+        <WordCards token={token} childId={childId} blocked={busy || failed} />
         <details className="phonics-readers"><summary>原来的练习记录</summary><p>以前的字形练习保留在草稿入口，由家长决定是否查看。</p><Link to="/child/phonics/draft">查看旧草稿</Link></details>
       </>}
   </section>
@@ -169,13 +178,23 @@ function Classroom({ attempt, blocked, engine, onEvent, onPause, onFinish }: {
     finally { if (engine.current === player) setPlaying(false) }
   }
   const disabled = blocked || !ready || playing
+  const sfxOn = useSyncExternalStore(phonicsSfx.subscribe, () => phonicsSfx.enabled, () => phonicsSfx.enabled)
+  useEffect(() => {
+    // 反馈音只在结果定格时响一次；undefined（未观察/听取 ack）保持安静
+    if (!state.resolved) return
+    if (state.correct === true) phonicsSfx.play('correct')
+    else if (state.correct === false) phonicsSfx.play('try')
+  }, [state.resolved, state.correct])
   const page = attempt.reader?.pages[state.pageIndex]
   const imageId = page?.imageAssetId ?? task?.imageAssetId
   const image = attempt.assets.find(a => a.id === imageId)?.url
-  const empty = (kind: 'step_ack' | 'step_advanced' | 'hint_requested' | 'retry_requested' | 'task_skipped_with_help' | 'reader_page_advanced') => onEvent({ kind, payload: {} })
-  if (!task) return <section className="phonics-sheet"><h2 className="phonics-heading">这一段练完了</h2><p>练习已经保存。点一下，给今天收个尾。</p><button className="sticker-btn hot" disabled={blocked} onClick={onFinish}>完成这一段</button></section>
+  const empty = (kind: 'step_ack' | 'step_advanced' | 'hint_requested' | 'retry_requested' | 'task_skipped_with_help' | 'reader_page_advanced') => {
+    if (kind === 'step_advanced' || kind === 'reader_page_advanced') phonicsSfx.play('tap')
+    onEvent({ kind, payload: {} })
+  }
+  if (!task) return <section className="phonics-sheet"><h2 className="phonics-heading">这一段练完了</h2><p>练习已经保存。点一下，给今天收个尾。</p><button className="sticker-btn hot" disabled={blocked} onClick={() => { phonicsSfx.play('finish'); onFinish() }}>完成这一段</button></section>
   return <section className="phonics-sheet" aria-busy={blocked}>
-    <div className="phonics-top"><span>第 {state.stepIndex + 1} / {attempt.stepCount} 个小活动</span><button className="sticker-btn" disabled={blocked} onClick={onPause}>先休息</button></div>
+    <div className="phonics-top"><span>第 {state.stepIndex + 1} / {attempt.stepCount} 个小活动</span><span className="phonics-top-actions"><button className="sticker-btn" aria-pressed={sfxOn} aria-label={sfxOn ? '关掉按键声音' : '打开按键声音'} onClick={() => phonicsSfx.setPreference(!sfxOn)}>{sfxOn ? '🔊' : '🔇'}</button><button className="sticker-btn" disabled={blocked} onClick={onPause}>先休息</button></span></div>
     <div className="phonics-progress" aria-label={`进度 ${state.stepIndex + 1}/${attempt.stepCount}`}><span style={{ width: `${state.stepIndex / attempt.stepCount * 100}%` }} /></div>
     <p className="phonics-hint">{task.instructionZh}</p>
     {image && <img key={`${image}:${reload}`} className="phonics-image" src={image.startsWith('/') ? `${API_BASE}${image}` : image} alt="本次活动的情境图" onError={() => { setReady(false); setAudioError('图片没有取到，可以重新加载') }} />}

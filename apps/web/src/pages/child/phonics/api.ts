@@ -1,4 +1,4 @@
-import type { PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto, PhonicsPlanKind } from '@taoread/shared'
+import type { PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto, PhonicsPlanKind, PhonicsWordCardDto } from '@taoread/shared'
 import { request } from '../../../lib/api'
 
 const root = '/api/phonics/v2'
@@ -25,6 +25,7 @@ export const phonicsApi = {
   setEnrollment: (token: string, child: string, body: PhonicsEnrollmentInput) => request<{ enrollment: PhonicsEnrollmentDto }>(`${childPath(child)}/enrollment`, { token, method: 'PUT', body }),
   next: (token: string, child: string) => request<{ next: PhonicsNextDto }>(`${childPath(child)}/next`, { token }),
   readers: (token: string, child: string) => request<{ readers: Array<{ id: string; titleZh: string; versionId: string }> }>(`${childPath(child)}/readers`, { token }),
+  words: (token: string, child: string) => request<{ words: PhonicsWordCardDto[] }>(`${childPath(child)}/words`, { token }),
   summary: (token: string, child: string, page = 0) => request<PhonicsSummary>(`${childPath(child)}/summary?page=${page}`, { token }),
   start: (token: string, child: string, body: { clientAttemptId: string; versionId: string; planKind: PhonicsPlanKind; resourceKey?: string }) => request<{ attempt: PhonicsAttemptDto }>(`${childPath(child)}/attempts`, { token, method: 'POST', body }),
   attempt: (token: string, id: string) => request<{ attempt: PhonicsAttemptDto }>(attemptPath(id), { token }),

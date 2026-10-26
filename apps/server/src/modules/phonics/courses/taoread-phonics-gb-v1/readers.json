@@ -195,5 +195,525 @@
         "imageAssetId": "r-l08-image-2"
       }
     ]
+  },
+  {
+    "id": "r-l09",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L09",
+    "pages": [
+      {
+        "text": "dad",
+        "wordIds": [
+          "w-dad"
+        ],
+        "audioAssetId": "w-dad-word",
+        "imageAssetId": "w-dad-meaning-image"
+      },
+      {
+        "text": "sad",
+        "wordIds": [
+          "w-sad"
+        ],
+        "audioAssetId": "w-sad-word",
+        "imageAssetId": "w-sad-meaning-image"
+      },
+      {
+        "text": "dip",
+        "wordIds": [
+          "w-dip"
+        ],
+        "audioAssetId": "w-dip-word",
+        "imageAssetId": "w-dip-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l10",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L10",
+    "pages": [
+      {
+        "text": "dig",
+        "wordIds": [
+          "w-dig"
+        ],
+        "audioAssetId": "w-dig-word",
+        "imageAssetId": "w-dig-meaning-image"
+      },
+      {
+        "text": "pig",
+        "wordIds": [
+          "w-pig"
+        ],
+        "audioAssetId": "w-pig-word",
+        "imageAssetId": "w-pig-meaning-image"
+      },
+      {
+        "text": "gap",
+        "wordIds": [
+          "w-gap"
+        ],
+        "audioAssetId": "w-gap-word",
+        "imageAssetId": "w-gap-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l11",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L11",
+    "pages": [
+      {
+        "text": "dog",
+        "wordIds": [
+          "w-dog"
+        ],
+        "audioAssetId": "w-dog-word",
+        "imageAssetId": "w-dog-meaning-image"
+      },
+      {
+        "text": "dot",
+        "wordIds": [
+          "w-dot"
+        ],
+        "audioAssetId": "w-dot-word",
+        "imageAssetId": "w-dot-meaning-image"
+      },
+      {
+        "text": "pot",
+        "wordIds": [
+          "w-pot"
+        ],
+        "audioAssetId": "w-pot-word",
+        "imageAssetId": "w-pot-meaning-image"
+      },
+      {
+        "text": "top",
+        "wordIds": [
+          "w-top"
+        ],
+        "audioAssetId": "w-top-word",
+        "imageAssetId": "w-top-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l12",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L12",
+    "pages": [
+      {
+        "text": "pig",
+        "wordIds": [
+          "w-pig"
+        ],
+        "audioAssetId": "w-pig-word",
+        "imageAssetId": "w-pig-meaning-image"
+      },
+      {
+        "text": "dig",
+        "wordIds": [
+          "w-dig"
+        ],
+        "audioAssetId": "w-dig-word",
+        "imageAssetId": "w-dig-meaning-image"
+      },
+      {
+        "text": "dot",
+        "wordIds": [
+          "w-dot"
+        ],
+        "audioAssetId": "w-dot-word",
+        "imageAssetId": "w-dot-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l13",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L13",
+    "pages": [
+      {
+        "text": "cat",
+        "wordIds": [
+          "w-cat"
+        ],
+        "audioAssetId": "w-cat-word",
+        "imageAssetId": "w-cat-meaning-image"
+      },
+      {
+        "text": "cap",
+        "wordIds": [
+          "w-cap"
+        ],
+        "audioAssetId": "w-cap-word",
+        "imageAssetId": "w-cap-meaning-image"
+      },
+      {
+        "text": "can",
+        "wordIds": [
+          "w-can"
+        ],
+        "audioAssetId": "w-can-word",
+        "imageAssetId": "w-can-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l14",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L14",
+    "pages": [
+      {
+        "text": "kid",
+        "wordIds": [
+          "w-kid"
+        ],
+        "audioAssetId": "w-kid-word",
+        "imageAssetId": "w-kid-meaning-image"
+      },
+      {
+        "text": "kit",
+        "wordIds": [
+          "w-kit"
+        ],
+        "audioAssetId": "w-kit-word",
+        "imageAssetId": "w-kit-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l15",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L15",
+    "pages": [
+      {
+        "text": "pen",
+        "wordIds": [
+          "w-pen"
+        ],
+        "audioAssetId": "w-pen-word",
+        "imageAssetId": "w-pen-meaning-image"
+      },
+      {
+        "text": "pet",
+        "wordIds": [
+          "w-pet"
+        ],
+        "audioAssetId": "w-pet-word",
+        "imageAssetId": "w-pet-meaning-image"
+      },
+      {
+        "text": "net",
+        "wordIds": [
+          "w-net"
+        ],
+        "audioAssetId": "w-net-word",
+        "imageAssetId": "w-net-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l16",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L16",
+    "pages": [
+      {
+        "text": "cat",
+        "wordIds": [
+          "w-cat"
+        ],
+        "audioAssetId": "w-cat-word",
+        "imageAssetId": "w-cat-meaning-image"
+      },
+      {
+        "text": "kid",
+        "wordIds": [
+          "w-kid"
+        ],
+        "audioAssetId": "w-kid-word",
+        "imageAssetId": "w-kid-meaning-image"
+      },
+      {
+        "text": "pen",
+        "wordIds": [
+          "w-pen"
+        ],
+        "audioAssetId": "w-pen-word",
+        "imageAssetId": "w-pen-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l17",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L17",
+    "pages": [
+      {
+        "text": "sun",
+        "wordIds": [
+          "w-sun"
+        ],
+        "audioAssetId": "w-sun-word",
+        "imageAssetId": "w-sun-meaning-image"
+      },
+      {
+        "text": "cup",
+        "wordIds": [
+          "w-cup"
+        ],
+        "audioAssetId": "w-cup-word",
+        "imageAssetId": "w-cup-meaning-image"
+      },
+      {
+        "text": "mud",
+        "wordIds": [
+          "w-mud"
+        ],
+        "audioAssetId": "w-mud-word",
+        "imageAssetId": "w-mud-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l18",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L18",
+    "pages": [
+      {
+        "text": "run",
+        "wordIds": [
+          "w-run"
+        ],
+        "audioAssetId": "w-run-word",
+        "imageAssetId": "w-run-meaning-image"
+      },
+      {
+        "text": "rat",
+        "wordIds": [
+          "w-rat"
+        ],
+        "audioAssetId": "w-rat-word",
+        "imageAssetId": "w-rat-meaning-image"
+      },
+      {
+        "text": "red",
+        "wordIds": [
+          "w-red"
+        ],
+        "audioAssetId": "w-red-word",
+        "imageAssetId": "w-red-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l19",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L19",
+    "pages": [
+      {
+        "text": "hat",
+        "wordIds": [
+          "w-hat"
+        ],
+        "audioAssetId": "w-hat-word",
+        "imageAssetId": "w-hat-meaning-image"
+      },
+      {
+        "text": "hen",
+        "wordIds": [
+          "w-hen"
+        ],
+        "audioAssetId": "w-hen-word",
+        "imageAssetId": "w-hen-meaning-image"
+      },
+      {
+        "text": "hop",
+        "wordIds": [
+          "w-hop"
+        ],
+        "audioAssetId": "w-hop-word",
+        "imageAssetId": "w-hop-meaning-image"
+      },
+      {
+        "text": "hid",
+        "wordIds": [
+          "w-hid"
+        ],
+        "audioAssetId": "w-hid-word",
+        "imageAssetId": "w-hid-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l20",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L20",
+    "pages": [
+      {
+        "text": "sun",
+        "wordIds": [
+          "w-sun"
+        ],
+        "audioAssetId": "w-sun-word",
+        "imageAssetId": "w-sun-meaning-image"
+      },
+      {
+        "text": "run",
+        "wordIds": [
+          "w-run"
+        ],
+        "audioAssetId": "w-run-word",
+        "imageAssetId": "w-run-meaning-image"
+      },
+      {
+        "text": "hat",
+        "wordIds": [
+          "w-hat"
+        ],
+        "audioAssetId": "w-hat-word",
+        "imageAssetId": "w-hat-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l21",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L21",
+    "pages": [
+      {
+        "text": "bag",
+        "wordIds": [
+          "w-bag"
+        ],
+        "audioAssetId": "w-bag-word",
+        "imageAssetId": "w-bag-meaning-image"
+      },
+      {
+        "text": "bed",
+        "wordIds": [
+          "w-bed"
+        ],
+        "audioAssetId": "w-bed-word",
+        "imageAssetId": "w-bed-meaning-image"
+      },
+      {
+        "text": "bus",
+        "wordIds": [
+          "w-bus"
+        ],
+        "audioAssetId": "w-bus-word",
+        "imageAssetId": "w-bus-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l22",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L22",
+    "pages": [
+      {
+        "text": "fan",
+        "wordIds": [
+          "w-fan"
+        ],
+        "audioAssetId": "w-fan-word",
+        "imageAssetId": "w-fan-meaning-image"
+      },
+      {
+        "text": "fin",
+        "wordIds": [
+          "w-fin"
+        ],
+        "audioAssetId": "w-fin-word",
+        "imageAssetId": "w-fin-meaning-image"
+      },
+      {
+        "text": "fun",
+        "wordIds": [
+          "w-fun"
+        ],
+        "audioAssetId": "w-fun-word",
+        "imageAssetId": "w-fun-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l23",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L23",
+    "pages": [
+      {
+        "text": "leg",
+        "wordIds": [
+          "w-leg"
+        ],
+        "audioAssetId": "w-leg-word",
+        "imageAssetId": "w-leg-meaning-image"
+      },
+      {
+        "text": "lip",
+        "wordIds": [
+          "w-lip"
+        ],
+        "audioAssetId": "w-lip-word",
+        "imageAssetId": "w-lip-meaning-image"
+      },
+      {
+        "text": "log",
+        "wordIds": [
+          "w-log"
+        ],
+        "audioAssetId": "w-log-word",
+        "imageAssetId": "w-log-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l24",
+    "kind": "caption",
+    "titleZh": "萨姆的小片段",
+    "introducedAt": "L24",
+    "pages": [
+      {
+        "text": "Sam ran.",
+        "wordIds": [
+          "w-sam",
+          "w-ran"
+        ],
+        "audioAssetId": "r-l24-page-1"
+      },
+      {
+        "text": "Sam hid.",
+        "wordIds": [
+          "w-sam",
+          "w-hid"
+        ],
+        "audioAssetId": "r-l24-page-2"
+      },
+      {
+        "text": "sad dad.",
+        "wordIds": [
+          "w-sad",
+          "w-dad"
+        ],
+        "audioAssetId": "r-l24-page-3"
+      }
+    ]
   }
 ]

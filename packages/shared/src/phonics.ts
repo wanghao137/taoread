@@ -90,3 +90,12 @@ export interface PhonicsNextDto {
   planKind?: PhonicsPlanKind
   resourceKey?: string
 }
+
+/** 词卡：一词一图、三种读法（分音/拼读/整词）与中文释义。音频仅在资产可取时给 url。 */
+export interface PhonicsWordCardDto {
+  id: string
+  text: string
+  meaningZh: string
+  image: { url: string } | null
+  audios: PhonicsAssetDto[]
+}
