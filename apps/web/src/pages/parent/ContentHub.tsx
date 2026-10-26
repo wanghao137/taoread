@@ -4,7 +4,7 @@
  * 纸质书本版只放说明卡（不放假数据）；搜索为客户端过滤（书名/作者，500ms 防抖）。
  * v8 贴纸绘本语言（2026-09-21 家长端重构）：tab/筛选胶囊 + hub-row 贴纸行，数据逻辑不变。
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   api,
   ApiError,
@@ -116,8 +116,21 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   const [category, setCategory] = useState<CategoryKey>('all')
   const [busyKey, setBusyKey] = useState<string | null>(null)
   // docs/40 F3：渐进渲染可见行数；切来源回默认。docs/87：40→24，首屏 DOM 与
-  // 解码压力随书目扩容同步下调（286 本时首屏 24 行足够，其余走「显示更多」）
+  // 解码压力随书目扩容同步下调（286 本时首屏 24 行足够）。docs/88：滚动自动
+  // 追加（sentinel 进入视口附近 +80），按钮仅作无 IntersectionObserver 的回退。
+  // sentinel 只在「还有更多」时渲染，effect 随 visibleCount 在追加后重新 observe
   const [visibleCount, setVisibleCount] = useState(24)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const sentinel = loadMoreRef.current
+    if (!sentinel || typeof IntersectionObserver === 'undefined') return
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) setVisibleCount((n) => n + 80)
+    }, { rootMargin: '0px 0px 240px 0px' })
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+    // 依赖 tao/weread：数据从 loading→ready 时 sentinel 才挂载，需要此时 observe
+  }, [visibleCount, tao, weread])
   const [notice, setNotice] = useState<string | null>(null)
   // docs/34 P0-1：纸质书共读（后端早已支持 paperTitle，此前前端无入口）
   const [paperTitle, setPaperTitle] = useState('')
@@ -573,10 +586,20 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
             </div>
           </article>
         ))}
+        {/* docs/88：滚动自动加载（与孩子端发现页同模式）——sentinel 进入视口附近即追加，
+            不支持 IntersectionObserver 的环境回退为按钮 */}
         {rows.length > visibleCount ? (
-          <button type="button" className="sticker-btn" style={{ margin: '6px auto 0', display: 'flex', gridColumn: '1 / -1' }} onClick={() => setVisibleCount((n) => n + 80)}>
-            显示更多（还有 {rows.length - visibleCount} 本）
-          </button>
+          typeof IntersectionObserver === 'undefined' ? (
+            <button type="button" className="sticker-btn" style={{ margin: '6px auto 0', display: 'flex', gridColumn: '1 / -1' }} onClick={() => setVisibleCount((n) => n + 80)}>
+              显示更多（还有 {rows.length - visibleCount} 本）
+            </button>
+          ) : (
+            <div
+              ref={loadMoreRef}
+              style={{ gridColumn: '1 / -1', minHeight: 1 }}
+              aria-hidden
+            />
+          )
         ) : null}
       </div>
     )

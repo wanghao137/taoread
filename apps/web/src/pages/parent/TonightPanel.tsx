@@ -124,7 +124,7 @@ export function TonightPanel({ token, childrenList, refreshKey }: TonightPanelPr
                 {row.child.nickname}（{row.child.stage}）
               </b>
             </div>
-            {row.state === 'loading' && <Loading label="看一眼今天…" />}
+            {row.state === 'loading' && <Loading label="看一眼今天…" compact />}
             {row.state === 'error' && <ErrorState message={row.message} onRetry={reload} />}
             {row.state === 'idle' && (
               <p>今天还没开始，请小读者在自己的设备上打开「找故事」。</p>

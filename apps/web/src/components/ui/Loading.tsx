@@ -2,8 +2,38 @@ import { m as motion } from 'framer-motion'
 
 /** 加载态（docs/26 二轮复盘重做）：
  * 品牌桃子 logo 贴纸卡呼吸 + 三颗跳动的贴纸圆点 + 正向文案 + aria-busy。
- * 不再使用小尺寸 SVG 吉祥物（小桃在大留白里显得单薄），品牌 logo 质量稳定。 */
-export function Loading({ label = '小桃正在准备…' }: { label?: string }) {
+ * 不再使用小尺寸 SVG 吉祥物（小桃在大留白里显得单薄），品牌 logo 质量稳定。
+ * docs/88：compact 档用于卡片内等待态（家长端今晚卡等）——行内小 logo，
+ * 不再带 py-20 的大留白（卡片内全尺寸加载态让等待比内容还高）。 */
+export function Loading({ label = '小桃正在准备…', compact = false }: { label?: string; compact?: boolean }) {
+  if (compact) {
+    return (
+      <div aria-busy="true" aria-live="polite" className="flex items-center gap-3 py-3">
+        <picture className="block leading-none">
+          <source srcSet="/brand/logo-256.webp" type="image/webp" />
+          <motion.img
+            src="/brand/logo-256.png"
+            alt=""
+            aria-hidden
+            className="h-10 w-10 rounded-xl border-ink border-2 bg-paper-200 object-cover shadow-card"
+            animate={{ scale: [1, 1.06, 1], rotate: [-2, 2, -2] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </picture>
+        <div className="flex gap-1.5" aria-hidden>
+          {['bg-sun', 'bg-sky', 'bg-rose'].map((c, i) => (
+            <motion.span
+              key={c}
+              className={`h-2 w-2 rounded-full border border-ink/60 ${c}`}
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: i * 0.18 }}
+            />
+          ))}
+        </div>
+        <p className="text-sm font-bold text-ink-700">{label}</p>
+      </div>
+    )
+  }
   return (
     <div
       aria-busy="true"

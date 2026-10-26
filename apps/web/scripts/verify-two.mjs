@@ -1,0 +1,33 @@
+import { chromium } from 'playwright'
+const BASE = 'http://localhost:5181'
+const browser = await chromium.launch()
+const page = await (await browser.newContext({ viewport: { width: 390, height: 844 }, locale: 'zh-CN' })).newPage()
+await page.goto(BASE + '/login', { waitUntil: 'commit' })
+await page.waitForSelector('.role-pick', { timeout: 20000 })
+await page.locator('.role-pick', { hasText: '爸爸妈妈' }).first().click()
+await page.locator('button', { hasText: '输入家庭码加入' }).first().click()
+await page.fill('.code-input', 'XUA6GNHY')
+await page.getByLabel('家长 PIN', { exact: true }).fill('864209')
+// 等待态瞬间抓拍：点登录后 400ms 截今晚卡区域
+await page.getByRole('button', { name: /进入桃阅读/ }).click()
+await page.waitForURL(/parent/, { timeout: 20000 }).catch(() => {})
+await page.waitForTimeout(350)
+await page.screenshot({ path: 'D:/codesolo/taoread/e2e/output/parent-audit/today-loading.png' })
+const loadingH = await page.evaluate(() => {
+  const el = document.querySelector('.tonight-grid [aria-busy="true"]')
+  return el ? el.getBoundingClientRect().height : null
+})
+console.log('等待态高度:', loadingH, 'px（原 py-20 版约 300px+）')
+await page.waitForTimeout(2500)
+await page.getByRole('button', { name: '内容', exact: true }).first().click()
+await page.waitForTimeout(2500)
+const count1 = await page.locator('.hub-card').count()
+console.log('初始卡数:', count1)
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+await page.waitForTimeout(1200)
+const count2 = await page.locator('.hub-card').count()
+console.log('滚动到底后卡数:', count2, '（自动追加=', count2 > count1, '）')
+const hasBtn = await page.getByText('显示更多').count()
+console.log('「显示更多」按钮残留:', hasBtn)
+await page.screenshot({ path: 'D:/codesolo/taoread/e2e/output/parent-audit/mobile-内容-auto.png' })
+await browser.close()
