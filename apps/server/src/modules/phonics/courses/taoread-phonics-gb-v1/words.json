@@ -2185,5 +2185,1431 @@
       "blend": "w-log-blend",
       "word": "w-log-word"
     }
+  },
+  {
+    "id": "w-jam",
+    "text": "jam",
+    "meaningZh": "果酱",
+    "meaningIntroducedAt": "L25",
+    "decodingIntroducedAt": "L25",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-j"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-m"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-jam-segment",
+      "blend": "w-jam-blend",
+      "word": "w-jam-word"
+    }
+  },
+  {
+    "id": "w-jet",
+    "text": "jet",
+    "meaningZh": "喷气式飞机",
+    "meaningIntroducedAt": "L25",
+    "decodingIntroducedAt": "L25",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-j"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-jet-segment",
+      "blend": "w-jet-blend",
+      "word": "w-jet-word"
+    }
+  },
+  {
+    "id": "w-jog",
+    "text": "jog",
+    "meaningZh": "慢跑",
+    "meaningIntroducedAt": "L25",
+    "decodingIntroducedAt": "L25",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-j"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-g"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-jog-segment",
+      "blend": "w-jog-blend",
+      "word": "w-jog-word"
+    }
+  },
+  {
+    "id": "w-van",
+    "text": "van",
+    "meaningZh": "小货车",
+    "meaningIntroducedAt": "L26",
+    "decodingIntroducedAt": "L26",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-v"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-van-segment",
+      "blend": "w-van-blend",
+      "word": "w-van-word"
+    }
+  },
+  {
+    "id": "w-vet",
+    "text": "vet",
+    "meaningZh": "兽医",
+    "meaningIntroducedAt": "L26",
+    "decodingIntroducedAt": "L26",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-v"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-vet-segment",
+      "blend": "w-vet-blend",
+      "word": "w-vet-word"
+    }
+  },
+  {
+    "id": "w-wet",
+    "text": "wet",
+    "meaningZh": "湿的",
+    "meaningIntroducedAt": "L27",
+    "decodingIntroducedAt": "L27",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-w"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-wet-segment",
+      "blend": "w-wet-blend",
+      "word": "w-wet-word"
+    }
+  },
+  {
+    "id": "w-web",
+    "text": "web",
+    "meaningZh": "蜘蛛网",
+    "meaningIntroducedAt": "L27",
+    "decodingIntroducedAt": "L27",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-w"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-b"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-web-segment",
+      "blend": "w-web-blend",
+      "word": "w-web-word"
+    }
+  },
+  {
+    "id": "w-wig",
+    "text": "wig",
+    "meaningZh": "假发",
+    "meaningIntroducedAt": "L27",
+    "decodingIntroducedAt": "L27",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-w"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-g"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-wig-segment",
+      "blend": "w-wig-blend",
+      "word": "w-wig-word"
+    }
+  },
+  {
+    "id": "w-yak",
+    "text": "yak",
+    "meaningZh": "牦牛",
+    "meaningIntroducedAt": "L29",
+    "decodingIntroducedAt": "L29",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-y"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-k"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-yak-segment",
+      "blend": "w-yak-blend",
+      "word": "w-yak-word"
+    }
+  },
+  {
+    "id": "w-yes",
+    "text": "yes",
+    "meaningZh": "是的",
+    "meaningIntroducedAt": "L29",
+    "decodingIntroducedAt": "L29",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-y"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-s"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-yes-segment",
+      "blend": "w-yes-blend",
+      "word": "w-yes-word"
+    }
+  },
+  {
+    "id": "w-zip",
+    "text": "zip",
+    "meaningZh": "拉链",
+    "meaningIntroducedAt": "L30",
+    "decodingIntroducedAt": "L30",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-z"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-zip-segment",
+      "blend": "w-zip-blend",
+      "word": "w-zip-word"
+    }
+  },
+  {
+    "id": "w-zap",
+    "text": "zap",
+    "meaningZh": "咔嚓闪一下",
+    "meaningIntroducedAt": "L30",
+    "decodingIntroducedAt": "L30",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-z"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-zap-segment",
+      "blend": "w-zap-blend",
+      "word": "w-zap-word"
+    }
+  },
+  {
+    "id": "w-box",
+    "text": "box",
+    "meaningZh": "箱子",
+    "meaningIntroducedAt": "L31",
+    "decodingIntroducedAt": "L31",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-b"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-x"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-box-segment",
+      "blend": "w-box-blend",
+      "word": "w-box-word"
+    }
+  },
+  {
+    "id": "w-fox",
+    "text": "fox",
+    "meaningZh": "狐狸",
+    "meaningIntroducedAt": "L31",
+    "decodingIntroducedAt": "L31",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-f"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-x"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-fox-segment",
+      "blend": "w-fox-blend",
+      "word": "w-fox-word"
+    }
+  },
+  {
+    "id": "w-six",
+    "text": "six",
+    "meaningZh": "六",
+    "meaningIntroducedAt": "L31",
+    "decodingIntroducedAt": "L31",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-x"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-six-segment",
+      "blend": "w-six-blend",
+      "word": "w-six-word"
+    }
+  },
+  {
+    "id": "w-quiz",
+    "text": "quiz",
+    "meaningZh": "问答游戏",
+    "meaningIntroducedAt": "L32",
+    "decodingIntroducedAt": "L32",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-qu"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-z"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-quiz-segment",
+      "blend": "w-quiz-blend",
+      "word": "w-quiz-word"
+    }
+  },
+  {
+    "id": "w-quit",
+    "text": "quit",
+    "meaningZh": "停下来了",
+    "meaningIntroducedAt": "L32",
+    "decodingIntroducedAt": "L32",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-qu"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-quit-segment",
+      "blend": "w-quit-blend",
+      "word": "w-quit-word"
+    }
+  },
+  {
+    "id": "w-off",
+    "text": "off",
+    "meaningZh": "关掉",
+    "meaningIntroducedAt": "L34",
+    "decodingIntroducedAt": "L34",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            3
+          ]
+        ],
+        "mappingId": "g-ff"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-off-segment",
+      "blend": "w-off-blend",
+      "word": "w-off-word"
+    }
+  },
+  {
+    "id": "w-bell",
+    "text": "bell",
+    "meaningZh": "铃铛",
+    "meaningIntroducedAt": "L34",
+    "decodingIntroducedAt": "L34",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-b"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-e"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ll"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-bell-segment",
+      "blend": "w-bell-blend",
+      "word": "w-bell-word"
+    }
+  },
+  {
+    "id": "w-doll",
+    "text": "doll",
+    "meaningZh": "布娃娃",
+    "meaningIntroducedAt": "L34",
+    "decodingIntroducedAt": "L34",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-d"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ll"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-doll-segment",
+      "blend": "w-doll-blend",
+      "word": "w-doll-word"
+    }
+  },
+  {
+    "id": "w-sock",
+    "text": "sock",
+    "meaningZh": "袜子",
+    "meaningIntroducedAt": "L35",
+    "decodingIntroducedAt": "L35",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ck"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sock-segment",
+      "blend": "w-sock-blend",
+      "word": "w-sock-word"
+    }
+  },
+  {
+    "id": "w-duck",
+    "text": "duck",
+    "meaningZh": "鸭子",
+    "meaningIntroducedAt": "L35",
+    "decodingIntroducedAt": "L35",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-d"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-u"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ck"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-duck-segment",
+      "blend": "w-duck-blend",
+      "word": "w-duck-word"
+    }
+  },
+  {
+    "id": "w-kick",
+    "text": "kick",
+    "meaningZh": "踢",
+    "meaningIntroducedAt": "L35",
+    "decodingIntroducedAt": "L35",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-k"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ck"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-kick-segment",
+      "blend": "w-kick-blend",
+      "word": "w-kick-word"
+    }
+  },
+  {
+    "id": "w-ship",
+    "text": "ship",
+    "meaningZh": "轮船",
+    "meaningIntroducedAt": "L36",
+    "decodingIntroducedAt": "L36",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-sh"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-ship-segment",
+      "blend": "w-ship-blend",
+      "word": "w-ship-word"
+    }
+  },
+  {
+    "id": "w-shop",
+    "text": "shop",
+    "meaningZh": "商店",
+    "meaningIntroducedAt": "L36",
+    "decodingIntroducedAt": "L36",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-sh"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-shop-segment",
+      "blend": "w-shop-blend",
+      "word": "w-shop-word"
+    }
+  },
+  {
+    "id": "w-fish",
+    "text": "fish",
+    "meaningZh": "鱼",
+    "meaningIntroducedAt": "L36",
+    "decodingIntroducedAt": "L36",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-f"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-sh"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-fish-segment",
+      "blend": "w-fish-blend",
+      "word": "w-fish-word"
+    }
+  },
+  {
+    "id": "w-chip",
+    "text": "chip",
+    "meaningZh": "炸薯条",
+    "meaningIntroducedAt": "L38",
+    "decodingIntroducedAt": "L38",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-ch"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-p"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-chip-segment",
+      "blend": "w-chip-blend",
+      "word": "w-chip-word"
+    }
+  },
+  {
+    "id": "w-chin",
+    "text": "chin",
+    "meaningZh": "下巴",
+    "meaningIntroducedAt": "L38",
+    "decodingIntroducedAt": "L38",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-ch"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-chin-segment",
+      "blend": "w-chin-blend",
+      "word": "w-chin-word"
+    }
+  },
+  {
+    "id": "w-chat",
+    "text": "chat",
+    "meaningZh": "聊天",
+    "meaningIntroducedAt": "L38",
+    "decodingIntroducedAt": "L38",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-ch"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-t"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-chat-segment",
+      "blend": "w-chat-blend",
+      "word": "w-chat-word"
+    }
+  },
+  {
+    "id": "w-thin",
+    "text": "thin",
+    "meaningZh": "细的",
+    "meaningIntroducedAt": "L39",
+    "decodingIntroducedAt": "L39",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            2
+          ]
+        ],
+        "mappingId": "g-th"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            3
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            3,
+            4
+          ]
+        ],
+        "mappingId": "g-n"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-thin-segment",
+      "blend": "w-thin-blend",
+      "word": "w-thin-word"
+    }
+  },
+  {
+    "id": "w-moth",
+    "text": "moth",
+    "meaningZh": "飞蛾",
+    "meaningIntroducedAt": "L39",
+    "decodingIntroducedAt": "L39",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-m"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-o"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-th"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-moth-segment",
+      "blend": "w-moth-blend",
+      "word": "w-moth-word"
+    }
+  },
+  {
+    "id": "w-bath",
+    "text": "bath",
+    "meaningZh": "洗澡",
+    "meaningIntroducedAt": "L39",
+    "decodingIntroducedAt": "L39",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-b"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-a"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-th"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-bath-segment",
+      "blend": "w-bath-blend",
+      "word": "w-bath-word"
+    }
+  },
+  {
+    "id": "w-ring",
+    "text": "ring",
+    "meaningZh": "戒指",
+    "meaningIntroducedAt": "L40",
+    "decodingIntroducedAt": "L40",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-r"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ng"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-ring-segment",
+      "blend": "w-ring-blend",
+      "word": "w-ring-word"
+    }
+  },
+  {
+    "id": "w-wing",
+    "text": "wing",
+    "meaningZh": "翅膀",
+    "meaningIntroducedAt": "L40",
+    "decodingIntroducedAt": "L40",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-w"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ng"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-wing-segment",
+      "blend": "w-wing-blend",
+      "word": "w-wing-word"
+    }
+  },
+  {
+    "id": "w-sing",
+    "text": "sing",
+    "meaningZh": "唱歌",
+    "meaningIntroducedAt": "L40",
+    "decodingIntroducedAt": "L40",
+    "spans": [
+      {
+        "ranges": [
+          [
+            0,
+            1
+          ]
+        ],
+        "mappingId": "g-s"
+      },
+      {
+        "ranges": [
+          [
+            1,
+            2
+          ]
+        ],
+        "mappingId": "g-i"
+      },
+      {
+        "ranges": [
+          [
+            2,
+            4
+          ]
+        ],
+        "mappingId": "g-ng"
+      }
+    ],
+    "audioIds": {
+      "segment": "w-sing-segment",
+      "blend": "w-sing-blend",
+      "word": "w-sing-word"
+    }
   }
 ]

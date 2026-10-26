@@ -20,7 +20,7 @@ export function WordCards({ token, childId, blocked }: { token: string; childId:
   }, [token, childId])
   if (!words?.length) return null
   return <section className="phonics-readers" aria-label="我的词卡">
-    <h2>我的词卡</h2>
+    <h2>我的词卡<span className="phonics-card-count">已收集 {words.length} 张</span></h2>
     <p className="phonics-hint">点一张卡，听它的声音，看它的意思。</p>
     <div className="phonics-card-grid">
       {words.map(word => (
@@ -41,13 +41,23 @@ function WordCardSheet({ card, onClose }: { card: PhonicsWordCardDto; onClose: (
   const [playing, setPlaying] = useState<string | null>(null)
   const [error, setError] = useState('')
   const player = useRef<PhonicsAudio | null>(null)
+  const greeted = useRef(false)
   useEffect(() => {
     const engine = new PhonicsAudio()
     player.current = engine
     let live = true
     setReady(false); setError('')
     engine.prepare(card.audios.map(a => ({ ...a, url: a.url ? absolute(a.url) : null })))
-      .then(() => { if (live) setReady(true) })
+      .then(() => {
+        if (!live) return
+        setReady(true)
+        // 词光式「点开就能听」：卡片打开自动读一次整词，之后由孩子自己点
+        if (!greeted.current && card.audios.some(a => a.purpose === 'word' && a.url)) {
+          greeted.current = true
+          setPlaying('word')
+          engine.play([card.audios.find(a => a.purpose === 'word')!.id]).catch(() => undefined).finally(() => { if (live) setPlaying(null) })
+        }
+      })
       .catch(e => { if (live) setError(e instanceof Error ? e.message : '声音还没准备好，请重试') })
     return () => { live = false; engine.dispose(); player.current = null }
   }, [card])

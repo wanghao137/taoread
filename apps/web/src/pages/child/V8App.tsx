@@ -30,11 +30,10 @@ import { DisclosureSummary } from '../../components/ui/DisclosureSummary'
 import { saveOfflineBook } from '../../lib/offline'
 import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
-import { PhonicsToday } from './phonics/PhonicsToday'
 import { RecentReading } from '../../components/ReadingSupport'
 import { MemoryArchive } from '../../components/MemoryArchive'
 import { ReadingIllustration } from '../../components/art/ReadingIllustration'
-import { IconSun, IconStar, IconSearch, IconUser, IconFamily, IconBookOpen, IconType, IconPlay, IconHeart, IconHeartFilled, IconChevronDown, IconArrowRight, IconMoon, IconShelf, IconShield, IconLeaf } from '../../components/ui/icons'
+import { IconSun, IconStar, IconSearch, IconUser, IconFamily, IconVolume, IconBookOpen, IconType, IconPlay, IconHeart, IconHeartFilled, IconChevronDown, IconArrowRight, IconMoon, IconShelf, IconShield, IconLeaf } from '../../components/ui/icons'
 import type { WordCardDto } from '../../lib/api'
 import type { InitialListeningRequest } from './ListeningPage'
 
@@ -783,6 +782,7 @@ function TodayPage() {
       </div>
       <div className="today-shortcuts" aria-label="选书入口">
         <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/discover')}><span className="shortcut-icon"><IconSearch size={48} /></span><span className="shortcut-copy"><b>找故事</b><small>发现下一本喜欢的书</small></span><IconArrowRight size={34} /></button>
+        <button className="today-shortcut wide min-h-[44px]" onClick={() => navigate('/child/phonics')}><span className="shortcut-icon"><IconVolume size={48} /></span><span className="shortcut-copy"><b>英语声音课堂</b><small>听一听，拼一拼，读一读</small></span><IconArrowRight size={34} /></button>
         <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/family-books')}><span className="shortcut-icon"><IconFamily size={48} /></span><span className="shortcut-copy"><b>家庭书架</b><small>家人为你挑好的故事</small></span><IconArrowRight size={34} /></button>
       </div>
       {windowMode === 'daily_limit' && !limitAcked ? (
@@ -886,7 +886,6 @@ function TodayPage() {
         </div>
       </details>
       </div>
-      <PhonicsToday enabled={v.home?.phonicsEnabled === true} />
       {finishOpen && paper ? (
         <Dialog label="纸质书共读收尾" onClose={() => setFinishOpen(false)}>
           <div className="side-card" style={{ maxWidth: 420, width: '100%', background: 'var(--card)' }}>

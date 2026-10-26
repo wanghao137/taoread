@@ -759,5 +759,547 @@
       "r-l24"
     ],
     "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L25",
+    "order": 25,
+    "titleZh": "认识 j",
+    "prerequisites": [
+      "L24"
+    ],
+    "newMappingIds": [
+      "g-j"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L25-model-j",
+      "L25-hear-j",
+      "L25-meaning-jam",
+      "L25-meaning-jet",
+      "L25-meaning-jog",
+      "L25-blend-jam",
+      "L25-build-jet",
+      "L25-oral-jog",
+      "L25-read"
+    ],
+    "readerIds": [
+      "r-l25"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L26",
+    "order": 26,
+    "titleZh": "认识 v",
+    "prerequisites": [
+      "L25"
+    ],
+    "newMappingIds": [
+      "g-v"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L26-model-v",
+      "L26-hear-v",
+      "L26-meaning-van",
+      "L26-meaning-vet",
+      "L26-blend-van",
+      "L26-build-van",
+      "L26-oral-vet",
+      "L26-read"
+    ],
+    "readerIds": [
+      "r-l26"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L27",
+    "order": 27,
+    "titleZh": "认识 w",
+    "prerequisites": [
+      "L26"
+    ],
+    "newMappingIds": [
+      "g-w"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L27-model-w",
+      "L27-hear-w",
+      "L27-meaning-wet",
+      "L27-meaning-web",
+      "L27-meaning-wig",
+      "L27-blend-wet",
+      "L27-build-web",
+      "L27-oral-wig",
+      "L27-read"
+    ],
+    "readerIds": [
+      "r-l27"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L28",
+    "order": 28,
+    "titleZh": "把声音连起来",
+    "prerequisites": [
+      "L27"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L28-hear-j",
+      "L28-hear-w",
+      "L28-build-jam",
+      "L28-build-web",
+      "L28-read"
+    ],
+    "readerIds": [
+      "r-l28"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L29",
+    "order": 29,
+    "titleZh": "认识 y",
+    "prerequisites": [
+      "L28"
+    ],
+    "newMappingIds": [
+      "g-y"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L29-model-y",
+      "L29-hear-y",
+      "L29-meaning-yak",
+      "L29-meaning-yes",
+      "L29-blend-yak",
+      "L29-build-yak",
+      "L29-oral-yes",
+      "L29-read"
+    ],
+    "readerIds": [
+      "r-l29"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L30",
+    "order": 30,
+    "titleZh": "认识 z",
+    "prerequisites": [
+      "L29"
+    ],
+    "newMappingIds": [
+      "g-z"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L30-model-z",
+      "L30-hear-z",
+      "L30-meaning-zip",
+      "L30-meaning-zap",
+      "L30-blend-zip",
+      "L30-build-zip",
+      "L30-oral-zap",
+      "L30-read"
+    ],
+    "readerIds": [
+      "r-l30"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L31",
+    "order": 31,
+    "titleZh": "认识 x",
+    "prerequisites": [
+      "L30"
+    ],
+    "newMappingIds": [
+      "g-x"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L31-model-x",
+      "L31-hear-x",
+      "L31-meaning-box",
+      "L31-meaning-fox",
+      "L31-meaning-six",
+      "L31-blend-box",
+      "L31-build-fox",
+      "L31-oral-six",
+      "L31-read"
+    ],
+    "readerIds": [
+      "r-l31"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L32",
+    "order": 32,
+    "titleZh": "认识 qu",
+    "prerequisites": [
+      "L31"
+    ],
+    "newMappingIds": [
+      "g-qu"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CCVC"
+    ],
+    "taskIds": [
+      "L32-model-qu",
+      "L32-hear-qu",
+      "L32-meaning-quiz",
+      "L32-meaning-quit",
+      "L32-blend-quiz",
+      "L32-build-quiz",
+      "L32-oral-quit",
+      "L32-read"
+    ],
+    "readerIds": [
+      "r-l32"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L33",
+    "order": 33,
+    "titleZh": "把声音连起来",
+    "prerequisites": [
+      "L32"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L33-hear-x",
+      "L33-hear-qu",
+      "L33-build-yak",
+      "L33-build-zip",
+      "L33-read"
+    ],
+    "readerIds": [
+      "r-l33"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L34",
+    "order": 34,
+    "titleZh": "双写也好听",
+    "prerequisites": [
+      "L33"
+    ],
+    "newMappingIds": [
+      "g-ff",
+      "g-ll",
+      "g-ss"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L34-model-ff",
+      "L34-hear-ff",
+      "L34-meaning-off",
+      "L34-meaning-bell",
+      "L34-meaning-doll",
+      "L34-blend-off",
+      "L34-build-bell",
+      "L34-oral-doll",
+      "L34-read"
+    ],
+    "readerIds": [
+      "r-l34"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L35",
+    "order": 35,
+    "titleZh": "认识 ck",
+    "prerequisites": [
+      "L34"
+    ],
+    "newMappingIds": [
+      "g-ck"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L35-model-ck",
+      "L35-hear-ck",
+      "L35-meaning-sock",
+      "L35-meaning-duck",
+      "L35-meaning-kick",
+      "L35-blend-sock",
+      "L35-build-duck",
+      "L35-oral-kick",
+      "L35-read"
+    ],
+    "readerIds": [
+      "r-l35"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L36",
+    "order": 36,
+    "titleZh": "认识 sh",
+    "prerequisites": [
+      "L35"
+    ],
+    "newMappingIds": [
+      "g-sh"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L36-model-sh",
+      "L36-hear-sh",
+      "L36-meaning-ship",
+      "L36-meaning-shop",
+      "L36-meaning-fish",
+      "L36-blend-ship",
+      "L36-build-shop",
+      "L36-oral-fish",
+      "L36-read"
+    ],
+    "readerIds": [
+      "r-l36"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L37",
+    "order": 37,
+    "titleZh": "再读一本小书",
+    "prerequisites": [
+      "L36"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L37-hear-sh",
+      "L37-hear-ck",
+      "L37-build-kick",
+      "L37-build-fish",
+      "L37-read"
+    ],
+    "readerIds": [
+      "r-l37"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L38",
+    "order": 38,
+    "titleZh": "认识 ch",
+    "prerequisites": [
+      "L37"
+    ],
+    "newMappingIds": [
+      "g-ch"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L38-model-ch",
+      "L38-hear-ch",
+      "L38-meaning-chip",
+      "L38-meaning-chin",
+      "L38-meaning-chat",
+      "L38-blend-chip",
+      "L38-build-chin",
+      "L38-oral-chat",
+      "L38-read"
+    ],
+    "readerIds": [
+      "r-l38"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L39",
+    "order": 39,
+    "titleZh": "认识 th",
+    "prerequisites": [
+      "L38"
+    ],
+    "newMappingIds": [
+      "g-th"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L39-model-th",
+      "L39-hear-th",
+      "L39-meaning-thin",
+      "L39-meaning-moth",
+      "L39-meaning-bath",
+      "L39-blend-thin",
+      "L39-build-moth",
+      "L39-oral-bath",
+      "L39-read"
+    ],
+    "readerIds": [
+      "r-l39"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L40",
+    "order": 40,
+    "titleZh": "认识 ng",
+    "prerequisites": [
+      "L39"
+    ],
+    "newMappingIds": [
+      "g-ng"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L40-model-ng",
+      "L40-hear-ng",
+      "L40-meaning-ring",
+      "L40-meaning-wing",
+      "L40-meaning-sing",
+      "L40-blend-ring",
+      "L40-build-wing",
+      "L40-oral-sing",
+      "L40-read"
+    ],
+    "readerIds": [
+      "r-l40"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L41",
+    "order": 41,
+    "titleZh": "声音捉迷藏",
+    "prerequisites": [
+      "L40"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CVCC"
+    ],
+    "taskIds": [
+      "L41-hear-ch",
+      "L41-hear-th",
+      "L41-build-ring",
+      "L41-build-chin",
+      "L41-read"
+    ],
+    "readerIds": [
+      "r-l41"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
   }
 ]

@@ -715,5 +715,517 @@
         "audioAssetId": "r-l24-page-3"
       }
     ]
+  },
+  {
+    "id": "r-l25",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L25",
+    "pages": [
+      {
+        "text": "jam",
+        "wordIds": [
+          "w-jam"
+        ],
+        "audioAssetId": "w-jam-word",
+        "imageAssetId": "w-jam-meaning-image"
+      },
+      {
+        "text": "jet",
+        "wordIds": [
+          "w-jet"
+        ],
+        "audioAssetId": "w-jet-word",
+        "imageAssetId": "w-jet-meaning-image"
+      },
+      {
+        "text": "jog",
+        "wordIds": [
+          "w-jog"
+        ],
+        "audioAssetId": "w-jog-word",
+        "imageAssetId": "w-jog-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l26",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L26",
+    "pages": [
+      {
+        "text": "van",
+        "wordIds": [
+          "w-van"
+        ],
+        "audioAssetId": "w-van-word",
+        "imageAssetId": "w-van-meaning-image"
+      },
+      {
+        "text": "vet",
+        "wordIds": [
+          "w-vet"
+        ],
+        "audioAssetId": "w-vet-word",
+        "imageAssetId": "w-vet-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l27",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L27",
+    "pages": [
+      {
+        "text": "wet",
+        "wordIds": [
+          "w-wet"
+        ],
+        "audioAssetId": "w-wet-word",
+        "imageAssetId": "w-wet-meaning-image"
+      },
+      {
+        "text": "web",
+        "wordIds": [
+          "w-web"
+        ],
+        "audioAssetId": "w-web-word",
+        "imageAssetId": "w-web-meaning-image"
+      },
+      {
+        "text": "wig",
+        "wordIds": [
+          "w-wig"
+        ],
+        "audioAssetId": "w-wig-word",
+        "imageAssetId": "w-wig-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l28",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L28",
+    "pages": [
+      {
+        "text": "jet",
+        "wordIds": [
+          "w-jet"
+        ],
+        "audioAssetId": "w-jet-word",
+        "imageAssetId": "w-jet-meaning-image"
+      },
+      {
+        "text": "van",
+        "wordIds": [
+          "w-van"
+        ],
+        "audioAssetId": "w-van-word",
+        "imageAssetId": "w-van-meaning-image"
+      },
+      {
+        "text": "wet",
+        "wordIds": [
+          "w-wet"
+        ],
+        "audioAssetId": "w-wet-word",
+        "imageAssetId": "w-wet-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l29",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L29",
+    "pages": [
+      {
+        "text": "yak",
+        "wordIds": [
+          "w-yak"
+        ],
+        "audioAssetId": "w-yak-word",
+        "imageAssetId": "w-yak-meaning-image"
+      },
+      {
+        "text": "yes",
+        "wordIds": [
+          "w-yes"
+        ],
+        "audioAssetId": "w-yes-word",
+        "imageAssetId": "w-yes-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l30",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L30",
+    "pages": [
+      {
+        "text": "zip",
+        "wordIds": [
+          "w-zip"
+        ],
+        "audioAssetId": "w-zip-word",
+        "imageAssetId": "w-zip-meaning-image"
+      },
+      {
+        "text": "zap",
+        "wordIds": [
+          "w-zap"
+        ],
+        "audioAssetId": "w-zap-word",
+        "imageAssetId": "w-zap-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l31",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L31",
+    "pages": [
+      {
+        "text": "box",
+        "wordIds": [
+          "w-box"
+        ],
+        "audioAssetId": "w-box-word",
+        "imageAssetId": "w-box-meaning-image"
+      },
+      {
+        "text": "fox",
+        "wordIds": [
+          "w-fox"
+        ],
+        "audioAssetId": "w-fox-word",
+        "imageAssetId": "w-fox-meaning-image"
+      },
+      {
+        "text": "six",
+        "wordIds": [
+          "w-six"
+        ],
+        "audioAssetId": "w-six-word",
+        "imageAssetId": "w-six-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l32",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L32",
+    "pages": [
+      {
+        "text": "quiz",
+        "wordIds": [
+          "w-quiz"
+        ],
+        "audioAssetId": "w-quiz-word",
+        "imageAssetId": "w-quiz-meaning-image"
+      },
+      {
+        "text": "quit",
+        "wordIds": [
+          "w-quit"
+        ],
+        "audioAssetId": "w-quit-word",
+        "imageAssetId": "w-quit-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l33",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L33",
+    "pages": [
+      {
+        "text": "box",
+        "wordIds": [
+          "w-box"
+        ],
+        "audioAssetId": "w-box-word",
+        "imageAssetId": "w-box-meaning-image"
+      },
+      {
+        "text": "yak",
+        "wordIds": [
+          "w-yak"
+        ],
+        "audioAssetId": "w-yak-word",
+        "imageAssetId": "w-yak-meaning-image"
+      },
+      {
+        "text": "zip",
+        "wordIds": [
+          "w-zip"
+        ],
+        "audioAssetId": "w-zip-word",
+        "imageAssetId": "w-zip-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l34",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L34",
+    "pages": [
+      {
+        "text": "off",
+        "wordIds": [
+          "w-off"
+        ],
+        "audioAssetId": "w-off-word",
+        "imageAssetId": "w-off-meaning-image"
+      },
+      {
+        "text": "bell",
+        "wordIds": [
+          "w-bell"
+        ],
+        "audioAssetId": "w-bell-word",
+        "imageAssetId": "w-bell-meaning-image"
+      },
+      {
+        "text": "doll",
+        "wordIds": [
+          "w-doll"
+        ],
+        "audioAssetId": "w-doll-word",
+        "imageAssetId": "w-doll-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l35",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L35",
+    "pages": [
+      {
+        "text": "sock",
+        "wordIds": [
+          "w-sock"
+        ],
+        "audioAssetId": "w-sock-word",
+        "imageAssetId": "w-sock-meaning-image"
+      },
+      {
+        "text": "duck",
+        "wordIds": [
+          "w-duck"
+        ],
+        "audioAssetId": "w-duck-word",
+        "imageAssetId": "w-duck-meaning-image"
+      },
+      {
+        "text": "kick",
+        "wordIds": [
+          "w-kick"
+        ],
+        "audioAssetId": "w-kick-word",
+        "imageAssetId": "w-kick-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l36",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L36",
+    "pages": [
+      {
+        "text": "ship",
+        "wordIds": [
+          "w-ship"
+        ],
+        "audioAssetId": "w-ship-word",
+        "imageAssetId": "w-ship-meaning-image"
+      },
+      {
+        "text": "shop",
+        "wordIds": [
+          "w-shop"
+        ],
+        "audioAssetId": "w-shop-word",
+        "imageAssetId": "w-shop-meaning-image"
+      },
+      {
+        "text": "fish",
+        "wordIds": [
+          "w-fish"
+        ],
+        "audioAssetId": "w-fish-word",
+        "imageAssetId": "w-fish-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l37",
+    "kind": "caption",
+    "titleZh": "萨姆的小片段",
+    "introducedAt": "L37",
+    "pages": [
+      {
+        "text": "fox ran.",
+        "wordIds": [
+          "w-fox",
+          "w-ran"
+        ],
+        "audioAssetId": "r-l37-page-1"
+      },
+      {
+        "text": "fox hid.",
+        "wordIds": [
+          "w-fox",
+          "w-hid"
+        ],
+        "audioAssetId": "r-l37-page-2"
+      },
+      {
+        "text": "six fish.",
+        "wordIds": [
+          "w-six",
+          "w-fish"
+        ],
+        "audioAssetId": "r-l37-page-3"
+      }
+    ]
+  },
+  {
+    "id": "r-l38",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L38",
+    "pages": [
+      {
+        "text": "chip",
+        "wordIds": [
+          "w-chip"
+        ],
+        "audioAssetId": "w-chip-word",
+        "imageAssetId": "w-chip-meaning-image"
+      },
+      {
+        "text": "chin",
+        "wordIds": [
+          "w-chin"
+        ],
+        "audioAssetId": "w-chin-word",
+        "imageAssetId": "w-chin-meaning-image"
+      },
+      {
+        "text": "chat",
+        "wordIds": [
+          "w-chat"
+        ],
+        "audioAssetId": "w-chat-word",
+        "imageAssetId": "w-chat-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l39",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L39",
+    "pages": [
+      {
+        "text": "thin",
+        "wordIds": [
+          "w-thin"
+        ],
+        "audioAssetId": "w-thin-word",
+        "imageAssetId": "w-thin-meaning-image"
+      },
+      {
+        "text": "moth",
+        "wordIds": [
+          "w-moth"
+        ],
+        "audioAssetId": "w-moth-word",
+        "imageAssetId": "w-moth-meaning-image"
+      },
+      {
+        "text": "bath",
+        "wordIds": [
+          "w-bath"
+        ],
+        "audioAssetId": "w-bath-word",
+        "imageAssetId": "w-bath-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l40",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L40",
+    "pages": [
+      {
+        "text": "ring",
+        "wordIds": [
+          "w-ring"
+        ],
+        "audioAssetId": "w-ring-word",
+        "imageAssetId": "w-ring-meaning-image"
+      },
+      {
+        "text": "wing",
+        "wordIds": [
+          "w-wing"
+        ],
+        "audioAssetId": "w-wing-word",
+        "imageAssetId": "w-wing-meaning-image"
+      },
+      {
+        "text": "sing",
+        "wordIds": [
+          "w-sing"
+        ],
+        "audioAssetId": "w-sing-word",
+        "imageAssetId": "w-sing-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l41",
+    "kind": "caption",
+    "titleZh": "萨姆的小片段",
+    "introducedAt": "L41",
+    "pages": [
+      {
+        "text": "sing sing.",
+        "wordIds": [
+          "w-sing",
+          "w-sing"
+        ],
+        "audioAssetId": "r-l41-page-1"
+      },
+      {
+        "text": "ring ring.",
+        "wordIds": [
+          "w-ring",
+          "w-ring"
+        ],
+        "audioAssetId": "r-l41-page-2"
+      },
+      {
+        "text": "chat chat.",
+        "wordIds": [
+          "w-chat",
+          "w-chat"
+        ],
+        "audioAssetId": "r-l41-page-3"
+      }
+    ]
   }
 ]

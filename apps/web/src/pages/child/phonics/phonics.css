@@ -44,3 +44,4 @@
 .phonics-entry-body b { font-size: 20px; }
 .phonics-entry-body > span { font-size: 15px; opacity: .75; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .phonics-entry-go { margin-left: auto; font-size: 24px; opacity: .6; }
+.phonics-card-count { margin-left: 10px; padding: 3px 10px; border-radius: 999px; background: #ffd84d; color: #26201a; font-size: 13px; vertical-align: middle; }

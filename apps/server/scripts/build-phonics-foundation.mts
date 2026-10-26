@@ -21,15 +21,27 @@ const HELP = 'shared-help-zh'
 
 // ── 新增 GPC（GB 短元音体系，docs/69 §6.3 排课草案）──────────────────────────
 const NEW_MAPPINGS = [
-  { spelling: 'd', ipa: 'd', kind: 'consonant' }, { spelling: 'g', ipa: 'g', kind: 'consonant' },
-  { spelling: 'o', ipa: 'ɒ', kind: 'vowel' }, { spelling: 'c', ipa: 'k', kind: 'consonant' },
-  { spelling: 'k', ipa: 'k', kind: 'consonant' }, { spelling: 'e', ipa: 'e', kind: 'vowel' },
-  { spelling: 'u', ipa: 'ʌ', kind: 'vowel' }, { spelling: 'r', ipa: 'r', kind: 'consonant' },
-  { spelling: 'h', ipa: 'h', kind: 'consonant' }, { spelling: 'b', ipa: 'b', kind: 'consonant' },
-  { spelling: 'f', ipa: 'f', kind: 'consonant' }, { spelling: 'l', ipa: 'l', kind: 'consonant' },
+  { spelling: 'd', phonemes: [{ ipa: 'd', kind: 'consonant' }] }, { spelling: 'g', phonemes: [{ ipa: 'g', kind: 'consonant' }] },
+  { spelling: 'o', phonemes: [{ ipa: 'ɒ', kind: 'vowel' }] }, { spelling: 'c', phonemes: [{ ipa: 'k', kind: 'consonant' }] },
+  { spelling: 'k', phonemes: [{ ipa: 'k', kind: 'consonant' }] }, { spelling: 'e', phonemes: [{ ipa: 'e', kind: 'vowel' }] },
+  { spelling: 'u', phonemes: [{ ipa: 'ʌ', kind: 'vowel' }] }, { spelling: 'r', phonemes: [{ ipa: 'r', kind: 'consonant' }] },
+  { spelling: 'h', phonemes: [{ ipa: 'h', kind: 'consonant' }] }, { spelling: 'b', phonemes: [{ ipa: 'b', kind: 'consonant' }] },
+  { spelling: 'f', phonemes: [{ ipa: 'f', kind: 'consonant' }] }, { spelling: 'l', phonemes: [{ ipa: 'l', kind: 'consonant' }] },
+  // ── 阶段二（docs/69 §6.4）：剩余常见单字母、双写与首字母组合 ──────────────
+  // x 一个字素对应两个音素、qu 对应 /kw/——schema 的一字多音能力，不教「一块永远一个音」
+  { spelling: 'j', phonemes: [{ ipa: 'dʒ', kind: 'consonant' }] }, { spelling: 'v', phonemes: [{ ipa: 'v', kind: 'consonant' }] },
+  { spelling: 'w', phonemes: [{ ipa: 'w', kind: 'consonant' }] }, { spelling: 'y', phonemes: [{ ipa: 'j', kind: 'consonant' }] },
+  { spelling: 'z', phonemes: [{ ipa: 'z', kind: 'consonant' }] }, { spelling: 'x', phonemes: [{ ipa: 'k', kind: 'consonant' }, { ipa: 's', kind: 'consonant' }], position: 'final' },
+  { spelling: 'qu', phonemes: [{ ipa: 'k', kind: 'consonant' }, { ipa: 'w', kind: 'consonant' }], position: 'initial' },
+  { spelling: 'ff', phonemes: [{ ipa: 'f', kind: 'consonant' }], position: 'final' }, { spelling: 'll', phonemes: [{ ipa: 'l', kind: 'consonant' }], position: 'final' },
+  { spelling: 'ss', phonemes: [{ ipa: 's', kind: 'consonant' }], position: 'final' }, { spelling: 'ck', phonemes: [{ ipa: 'k', kind: 'consonant' }] },
+  { spelling: 'sh', phonemes: [{ ipa: 'ʃ', kind: 'consonant' }] },
+  // ── 阶段三：常见辅音组合（docs/69 §6.4「常见辅音字母组合」）─────────────────
+  { spelling: 'ch', phonemes: [{ ipa: 'tʃ', kind: 'consonant' }] }, { spelling: 'th', phonemes: [{ ipa: 'θ', kind: 'consonant' }] },
+  { spelling: 'ng', phonemes: [{ ipa: 'ŋ', kind: 'consonant' }], position: 'final' },
 ] as const
 const NEW_LETTERS = NEW_MAPPINGS.map(m => m.spelling)
-const LESSON_IDS = Array.from({ length: 16 }, (_, i) => `L${String(9 + i).padStart(2, '0')}`)
+const LESSON_IDS = Array.from({ length: 33 }, (_, i) => `L${String(9 + i).padStart(2, '0')}`)
 
 // 共享中文指令资产：同一 asset 的全部引用任务共享同一条文案（produce 脚本要求一致）
 const INSTRUCTIONS = [
@@ -47,6 +59,8 @@ const INST: Record<string, string> = { model: 'inst-model-zh', hear: 'inst-hear-
 interface WordDef { text: string; zh: string; blend?: string; build?: string; oral?: string }
 interface LessonDef {
   id: string; title: string; letter?: string
+  /** 同课额外新授映射（如 ff/ll/ss 三双写一课） */
+  extraLetters?: string[]
   words: WordDef[]
   /** 巩固课：新近音听辨（target+干扰项字母）+ 摆字复习 + 读词卡 */
   reviewHears?: Array<{ target: string; options: string[] }>
@@ -55,6 +69,8 @@ interface LessonDef {
   /** 毕业课：小书页（全部词必须是词条，含大小写） */
   caption?: Array<{ text: string; words: string[] }>
   hears?: Array<{ target: string; options: string[] }>
+  /** 本课词形白名单（不继承祖先——校验按课判定） */
+  shapes?: string[]
 }
 
 const LESSONS: LessonDef[] = [
@@ -87,6 +103,47 @@ const LESSONS: LessonDef[] = [
     { text: 'leg', zh: '腿', blend: 'leg' }, { text: 'lip', zh: '嘴唇', build: 'lip' }, { text: 'log', zh: '圆木', oral: 'log' } ] },
   { id: 'L24', title: '读一本小书', words: [], hears: [ { target: 'b', options: ['b', 'd', 'p'] }, { target: 'l', options: ['l', 't', 'f'] } ], reviewBuilds: ['bag', 'log'],
     caption: [ { text: 'Sam ran.', words: ['w-sam', 'w-ran'] }, { text: 'Sam hid.', words: ['w-sam', 'w-hid'] }, { text: 'sad dad.', words: ['w-sad', 'w-dad'] } ] },
+  // ── 阶段二（docs/69 §6.4）：剩余常见单字母、双写与首字母组合 ─────────────
+  { id: 'L25', title: '认识 j', letter: 'j', words: [
+    { text: 'jam', zh: '果酱', blend: 'jam' }, { text: 'jet', zh: '喷气式飞机', build: 'jet' }, { text: 'jog', zh: '慢跑', oral: 'jog' } ] },
+  { id: 'L26', title: '认识 v', letter: 'v', words: [
+    { text: 'van', zh: '小货车', blend: 'van', build: 'van' }, { text: 'vet', zh: '兽医', oral: 'vet' } ] },
+  { id: 'L27', title: '认识 w', letter: 'w', words: [
+    { text: 'wet', zh: '湿的', blend: 'wet' }, { text: 'web', zh: '蜘蛛网', build: 'web' }, { text: 'wig', zh: '假发', oral: 'wig' } ] },
+  { id: 'L28', title: '把声音连起来', words: [], reviewHears: [ { target: 'j', options: ['j', 'g', 'd'] }, { target: 'w', options: ['w', 'v', 'r'] } ], reviewBuilds: ['jam', 'web'], reviewCards: ['jet', 'van', 'wet'] },
+  { id: 'L29', title: '认识 y', letter: 'y', words: [
+    { text: 'yak', zh: '牦牛', blend: 'yak', build: 'yak' }, { text: 'yes', zh: '是的', oral: 'yes' } ] },
+  { id: 'L30', title: '认识 z', letter: 'z', words: [
+    { text: 'zip', zh: '拉链', blend: 'zip', build: 'zip' }, { text: 'zap', zh: '咔嚓闪一下', oral: 'zap' } ] },
+  { id: 'L31', title: '认识 x', letter: 'x', words: [
+    { text: 'box', zh: '箱子', blend: 'box' }, { text: 'fox', zh: '狐狸', build: 'fox' }, { text: 'six', zh: '六', oral: 'six' } ],
+    shapes: ['VC', 'CVC', 'CVCC'] },
+  { id: 'L32', title: '认识 qu', letter: 'qu', words: [
+    { text: 'quiz', zh: '问答游戏', blend: 'quiz', build: 'quiz' }, { text: 'quit', zh: '停下来了', oral: 'quit' } ],
+    shapes: ['VC', 'CVC', 'CCVC'] },
+  { id: 'L33', title: '把声音连起来', words: [], reviewHears: [ { target: 'x', options: ['x', 'k', 's'] }, { target: 'qu', options: ['qu', 'k', 'w'] } ], reviewBuilds: ['yak', 'zip'], reviewCards: ['box', 'yak', 'zip'], shapes: ['VC', 'CVC', 'CVCC'] },
+  { id: 'L34', title: '双写也好听', words: [
+    { text: 'off', zh: '关掉', blend: 'off' }, { text: 'bell', zh: '铃铛', build: 'bell' }, { text: 'doll', zh: '布娃娃', oral: 'doll' } ],
+    letter: 'ff', extraLetters: ['ll', 'ss'] },
+  { id: 'L35', title: '认识 ck', letter: 'ck', words: [
+    { text: 'sock', zh: '袜子', blend: 'sock' }, { text: 'duck', zh: '鸭子', build: 'duck' }, { text: 'kick', zh: '踢', oral: 'kick' } ] },
+  { id: 'L36', title: '认识 sh', letter: 'sh', words: [
+    { text: 'ship', zh: '轮船', blend: 'ship' }, { text: 'shop', zh: '商店', build: 'shop' }, { text: 'fish', zh: '鱼', oral: 'fish' } ] },
+  { id: 'L37', title: '再读一本小书', words: [], hears: [ { target: 'sh', options: ['sh', 's', 'c'] }, { target: 'ck', options: ['ck', 'k', 'c'] } ], reviewBuilds: ['kick', 'fish'],
+    caption: [ { text: 'fox ran.', words: ['w-fox', 'w-ran'] }, { text: 'fox hid.', words: ['w-fox', 'w-hid'] }, { text: 'six fish.', words: ['w-six', 'w-fish'] } ],
+    shapes: ['VC', 'CVC', 'CVCC'] },
+  // ── 阶段三：常见辅音组合 ────────────────────────────────────────────────────
+  { id: 'L38', title: '认识 ch', letter: 'ch', words: [
+    { text: 'chip', zh: '炸薯条', blend: 'chip' }, { text: 'chin', zh: '下巴', build: 'chin' }, { text: 'chat', zh: '聊天', oral: 'chat' } ] },
+  { id: 'L39', title: '认识 th', letter: 'th', words: [
+    { text: 'thin', zh: '细的', blend: 'thin' }, { text: 'moth', zh: '飞蛾', build: 'moth' }, { text: 'bath', zh: '洗澡', oral: 'bath' } ],
+    shapes: ['VC', 'CVC', 'CVCC'] },
+  { id: 'L40', title: '认识 ng', letter: 'ng', words: [
+    { text: 'ring', zh: '戒指', blend: 'ring' }, { text: 'wing', zh: '翅膀', build: 'wing' }, { text: 'sing', zh: '唱歌', oral: 'sing' } ],
+    shapes: ['VC', 'CVC', 'CVCC'] },
+  { id: 'L41', title: '声音捉迷藏', words: [], hears: [ { target: 'ch', options: ['ch', 'sh', 'c'] }, { target: 'th', options: ['th', 't', 'f'] } ], reviewBuilds: ['ring', 'chin'], reviewCards: ['ship', 'ring', 'moth'],
+    caption: [ { text: 'sing sing.', words: ['w-sing', 'w-sing'] }, { text: 'ring ring.', words: ['w-ring', 'w-ring'] }, { text: 'chat chat.', words: ['w-chat', 'w-chat'] } ],
+    shapes: ['VC', 'CVC', 'CVCC'] },
 ]
 // ran 服务于 L24 小书；r/a/n 在 L18 全部已授
 const EXTRA_WORDS: Array<{ text: string; zh: string; lesson: string }> = [ { text: 'ran', zh: '跑过了', lesson: 'L18' } ]
@@ -94,11 +151,23 @@ const EXTRA_WORDS: Array<{ text: string; zh: string; lesson: string }> = [ { tex
 // ── 幂等剥离上一轮生成对象 ──────────────────────────────────────────────────
 const newWordIds = new Set([...LESSONS.flatMap(l => l.words.map(w => `w-${w.text}`)), ...EXTRA_WORDS.map(w => `w-${w.text}`)])
 const isGenerated = (id: string) =>
-  LESSON_IDS.includes(id) || /^L(09|1[0-9]|2[0-4])[-.]/.test(id) || /^r-l(09|1[0-9]|2[0-4])/.test(id) || newWordIds.has(id) ||
+  LESSON_IDS.includes(id) || /^L(09|1[0-9]|2[0-9]|3[0-9]|4[01])[-.]/.test(id) || /^r-l(09|1[0-9]|2[0-9]|3[0-9]|4[01])/.test(id) || newWordIds.has(id) ||
   NEW_LETTERS.some(l => id === `sound-${l}` || id === `g-${l}`) || Object.values(INST).includes(id) ||
   (newWordIds.has(id.replace(/-meaning-image$/, '').replace(/-(segment|blend|word)$/, '')) && /-(segment|blend|word|meaning-image)$/.test(id))
 
-const pick = async (name: string) => (await read(name)).filter((x: { id: string }) => !isGenerated(x.id))
+// 词按解码引入课剥离（生成词全部引入于 L09+）——白名单会漏掉被删词的孤儿残留（vest/yell 教训）
+const GEN_LESSON = /^L(09|1[0-9]|2[0-9]|3[0-9]|4[01])$/
+const pick = async (name: string) => {
+  const list: Array<Record<string, unknown>> = await read(name)
+  if (name === 'words') return list.filter(w => !isGenerated(w.id) && !GEN_LESSON.test(String(w.decodingIntroducedAt ?? '')))
+  if (name === 'assets') {
+    const rawWords: Array<{ text: string; decodingIntroducedAt?: string }> = await read('words')
+    // Sam 词条 text 带大写而资产 id 全小写——两种形式都保留
+    const keep = new Set(rawWords.filter(w => !GEN_LESSON.test(w.decodingIntroducedAt ?? '')).flatMap(w => [`w-${w.text}`, `w-${w.text.toLowerCase()}`]))
+    return list.filter(a => !isGenerated(a.id) && !(/^w-[a-z]+-(segment|blend|word|meaning-image)$/.test(a.id) && !keep.has(a.id.replace(/-(segment|blend|word|meaning-image)$/, ''))))
+  }
+  return list.filter(x => !isGenerated(x.id))
+}
 const mappings = await pick('mappings'), words = await pick('words'), tasks = await pick('tasks')
 const lessons = await pick('lessons'), readers = await pick('readers'), assets = await pick('assets')
 const entryPlans = await read('entryPlans'), manifest = await read('manifest')
@@ -106,15 +175,29 @@ const entryPlans = await read('entryPlans'), manifest = await read('manifest')
 // ── 构造 ────────────────────────────────────────────────────────────────────
 const outMappings = [...mappings, ...NEW_MAPPINGS.map(m => ({
   id: `g-${m.spelling}`, spelling: m.spelling, display: m.spelling,
-  phonemes: [{ ipa: m.ipa, kind: m.kind }], accent: 'GB', positionCondition: 'any',
+  phonemes: m.phonemes, accent: 'GB', positionCondition: m.position ?? 'any',
 }))]
 
 const wordDefs = [
   ...EXTRA_WORDS, ...LESSONS.flatMap(l => l.words.map(w => ({ text: w.text, zh: w.zh, lesson: l.id }))),
 ]
+const GRAPHEMES = new Set(NEW_MAPPINGS.map(m => m.spelling))
+/** 按映射表最长匹配切字素：quiz → qu,i,z；bell → b,e,ll（逐字符会把双字素词切错） */
+const splitGraphemes = (text: string): string[] => {
+  const out: string[] = []
+  for (let i = 0; i < text.length;) {
+    const pair = text.slice(i, i + 2)
+    if (GRAPHEMES.has(pair)) { out.push(pair); i += 2 } else { out.push(text[i]!); i += 1 }
+  }
+  return out
+}
 const outWords = [...words, ...wordDefs.map(({ text, zh, lesson }) => ({
   id: `w-${text}`, text, meaningZh: zh, meaningIntroducedAt: lesson, decodingIntroducedAt: lesson,
-  spans: text.toLowerCase().split('').map((ch: string, i: number) => ({ ranges: [[i, i + 1]], mappingId: `g-${ch}` })),
+  spans: splitGraphemes(text.toLowerCase()).reduce<Array<{ ranges: [number, number][]; mappingId: string }>>((acc, g) => {
+    const start = acc.length === 0 ? 0 : (acc[acc.length - 1]!.ranges[0]![1] as number)
+    acc.push({ ranges: [[start, start + g.length]], mappingId: `g-${g}` })
+    return acc
+  }, []),
   audioIds: { segment: `w-${text}-segment`, blend: `w-${text}-blend`, word: `w-${text}-word` },
 }))]
 
@@ -127,7 +210,14 @@ for (const inst of INSTRUCTIONS) outAssets.push(assetSlot(inst.id, 'instruction_
 for (const m of NEW_MAPPINGS) outAssets.push(assetSlot(`sound-${m.spelling}`, 'phoneme', 'wav'))
 for (const w of wordDefs) for (const kind of ['segment', 'blend', 'word'] as const) outAssets.push(assetSlot(`w-${w.text}-${kind}`, kind, 'wav'))
 
-const letterChoices = (text: string) => text.toLowerCase().split('').map(ch => ({ id: ch, label: ch, mappingId: `g-${ch}` }))
+/** 拼摆块按词条 spans 取字素（bell → b,e,ll；quiz → qu,i,z），不是逐字母 */
+const tileChoices = (text: string) => {
+  const word = outWords.find(w => w.text === text)!
+  return word.spans.map(span => {
+    const spelling = outMappings.find(m => m.id === span.mappingId)!.spelling
+    return { id: spelling, label: spelling, mappingId: span.mappingId }
+  })
+}
 const outTasks: Array<Record<string, unknown>> = [], outReaders: Array<Record<string, unknown>> = []
 const orderById = new Map(LESSONS.map((l, i) => [l.id, 9 + i]))
 const hearTask = (id: string, target: string, options: string[]) => ({ id, kind: 'choice', skill: 'mapping', role: 'practice', instructionZh: '听声音，点一个字母。需要时可以再听一遍。', instructionAssetId: INST.hear, choices: options.map(ch => ({ id: ch, label: ch, mappingId: `g-${ch}` })), hintAssetIds: [HELP], canSkipWithHelp: true, timeline: [], mappingId: `g-${target}`, stimulusAssetId: `sound-${target}`, judge: { answerIds: [target] } })
@@ -151,7 +241,7 @@ for (const def of LESSONS) {
   }
   for (const w of def.words) {
     taskIds.push(`${def.id}-meaning-${w.text}`)
-    outTasks.push({ id: `${def.id}-meaning-${w.text}`, kind: 'listen', skill: 'meaning', role: 'model', instructionZh: '看看图片，听一听这个词。可以跟着说一说。', instructionAssetId: INST.meaning, choices: [], hintAssetIds: [HELP], canSkipWithHelp: true, timeline: [], wordId: `w-${w.text}`, stimulusAssetId: `w-${w.text}-word`, imageAssetId: `w-${w.text}-meaning-image` })
+    outTasks.push({ id: `${def.id}-meaning-${w.text}`, kind: 'listen', skill: 'meaning', role: 'model', instructionZh: '看看图片，听一听这个词。可以跟着说一说。', instructionAssetId: INST.meaning, choices: [], hintAssetIds: [HELP], canSkipWithHelp: true, timeline: [], wordId: `w-${w.text}`, stimulusAssetId: `w-${w.text}-word`, displayText: w.text, imageAssetId: `w-${w.text}-meaning-image` })
   }
   const blendWord = def.words.find(w => w.blend)
   if (blendWord?.blend) {
@@ -160,7 +250,7 @@ for (const def of LESSONS) {
   }
   for (const text of def.reviewBuilds ?? def.words.map(w => w.build).filter((x): x is string => Boolean(x))) {
     taskIds.push(`${def.id}-build-${text}`)
-    outTasks.push({ id: `${def.id}-build-${text}`, kind: 'build', skill: 'segment', role: 'practice', instructionZh: '先听完整的词，再点字母，按声音的顺序摆好。', instructionAssetId: INST.build, choices: letterChoices(text), hintAssetIds: [`w-${text}-segment`, `w-${text}-blend`], canSkipWithHelp: true, timeline: [], wordId: `w-${text}`, stimulusAssetId: `w-${text}-word`, judge: { answerIds: text.toLowerCase().split('') } })
+    outTasks.push({ id: `${def.id}-build-${text}`, kind: 'build', skill: 'segment', role: 'practice', instructionZh: '先听完整的词，再点字母，按声音的顺序摆好。', instructionAssetId: INST.build, choices: tileChoices(text), hintAssetIds: [`w-${text}-segment`, `w-${text}-blend`], canSkipWithHelp: true, timeline: [], wordId: `w-${text}`, stimulusAssetId: `w-${text}-word`, judge: { answerIds: tileChoices(text).map(c => c.id) } })
   }
   const oralWord = def.words.find(w => w.oral)
   if (oralWord?.oral) {
@@ -181,9 +271,18 @@ for (const def of LESSONS) {
 
   lessons.push({
     id: def.id, order, titleZh: def.title, prerequisites: [`L${String(order - 1).padStart(2, '0')}`],
-    newMappingIds: def.letter ? [`g-${def.letter}`] : [], capitals: [], exceptions: [], punctuation: [],
-    allowedShapes: SHAPES, taskIds, readerIds: [readerId], parentGuideZh: GUIDE,
+    newMappingIds: def.letter ? [`g-${def.letter}`, ...(def.extraLetters ?? []).map(l => `g-${l}`)] : [],
+    capitals: [], exceptions: [], punctuation: [],
+    allowedShapes: def.shapes ?? SHAPES, taskIds, readerIds: [readerId], parentGuideZh: GUIDE,
   })
+}
+
+// 自愈：保留词（如 w-sam）的音频槽若因历史误删而缺失，补空槽由 produce 重新生成
+for (const w of outWords) {
+  const slots = w.audioIds as Record<string, string>
+  for (const kind of ['segment', 'blend', 'word'] as const) {
+    if (!outAssets.some(a => a.id === slots[kind])) outAssets.push(assetSlot(slots[kind], kind, 'wav'))
+  }
 }
 
 // 词义图槽（一词一画）
