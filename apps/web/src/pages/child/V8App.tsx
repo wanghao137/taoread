@@ -1034,7 +1034,9 @@ function DiscoverPage() {
     v.discoverReturn.current = { search: searchParams.toString(), query, lang: langFilter, count: Math.min(visible, filtered.length), scroll: window.scrollY }
     v.openBook(id)
   }
-  const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(12, visible) : visible
+  // docs/87：筛选/搜索是有明确意图的查询——匹配结果（API 单页 ≤24）应全量渲染，
+  // 渐进渲染（4 起步）只用于无筛选浏览；否则排序靠后的命中项永远不可见
+  const visibleLimit = query.trim() || moodKey || collectionKey || langFilter !== 'all' ? Math.max(filtered.length, 12) : visible
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const hasMore = filtered.length > visibleLimit || Boolean(page.cursor)
   useEffect(() => {
