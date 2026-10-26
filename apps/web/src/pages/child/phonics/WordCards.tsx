@@ -24,7 +24,7 @@ export function WordCards({ token, childId, blocked }: { token: string; childId:
     <p className="phonics-hint">点一张卡，听它的声音，看它的意思。</p>
     <div className="phonics-card-grid">
       {words.map(word => (
-        <button className="phonics-card" key={word.id} disabled={blocked} onClick={() => { phonicsSfx.play('tap'); setOpen(word) }}>
+        <button className="phonics-card min-h-[44px]" key={word.id} disabled={blocked} onClick={() => { phonicsSfx.play('tap'); setOpen(word) }}>
           {word.image?.url
             ? <img src={absolute(word.image.url)} alt="" loading="lazy" />
             : <span className="phonics-card-letter" lang="en-GB">{word.text[0]?.toUpperCase()}</span>}
