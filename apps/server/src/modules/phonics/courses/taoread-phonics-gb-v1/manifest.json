@@ -5,7 +5,7 @@
   "accent": "GB",
   "status": "draft",
   "fixture": false,
-  "contentHash": "6fe122dba4f1143eda1bd891a04c12948f65bd0ea998971a1352d9fcaeeec115",
+  "contentHash": "2bf6e111d484a80d98d2079ca8e1cdf2c60f9147e729e7507d7db9c154c8795e",
   "lessonKeys": [
     "L01",
     "L02",
@@ -504,6 +504,16 @@
     "w-bath-meaning-image",
     "w-ring-meaning-image",
     "w-wing-meaning-image",
-    "w-sing-meaning-image"
+    "w-sing-meaning-image",
+    "w-sam-meaning-image",
+    "r-l24-image-1",
+    "r-l24-image-2",
+    "r-l24-image-3",
+    "r-l37-image-1",
+    "r-l37-image-2",
+    "r-l37-image-3",
+    "r-l41-image-1",
+    "r-l41-image-2",
+    "r-l41-image-3"
   ]
 }

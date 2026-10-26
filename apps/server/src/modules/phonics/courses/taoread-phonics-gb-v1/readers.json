@@ -696,7 +696,8 @@
           "w-sam",
           "w-ran"
         ],
-        "audioAssetId": "r-l24-page-1"
+        "audioAssetId": "r-l24-page-1",
+        "imageAssetId": "r-l24-image-1"
       },
       {
         "text": "Sam hid.",
@@ -704,7 +705,8 @@
           "w-sam",
           "w-hid"
         ],
-        "audioAssetId": "r-l24-page-2"
+        "audioAssetId": "r-l24-page-2",
+        "imageAssetId": "r-l24-image-2"
       },
       {
         "text": "sad dad.",
@@ -712,7 +714,8 @@
           "w-sad",
           "w-dad"
         ],
-        "audioAssetId": "r-l24-page-3"
+        "audioAssetId": "r-l24-page-3",
+        "imageAssetId": "r-l24-image-3"
       }
     ]
   },
@@ -1080,7 +1083,8 @@
           "w-fox",
           "w-ran"
         ],
-        "audioAssetId": "r-l37-page-1"
+        "audioAssetId": "r-l37-page-1",
+        "imageAssetId": "r-l37-image-1"
       },
       {
         "text": "fox hid.",
@@ -1088,7 +1092,8 @@
           "w-fox",
           "w-hid"
         ],
-        "audioAssetId": "r-l37-page-2"
+        "audioAssetId": "r-l37-page-2",
+        "imageAssetId": "r-l37-image-2"
       },
       {
         "text": "six fish.",
@@ -1096,7 +1101,8 @@
           "w-six",
           "w-fish"
         ],
-        "audioAssetId": "r-l37-page-3"
+        "audioAssetId": "r-l37-page-3",
+        "imageAssetId": "r-l37-image-3"
       }
     ]
   },
@@ -1208,7 +1214,8 @@
           "w-sing",
           "w-sing"
         ],
-        "audioAssetId": "r-l41-page-1"
+        "audioAssetId": "r-l41-page-1",
+        "imageAssetId": "r-l41-image-1"
       },
       {
         "text": "ring ring.",
@@ -1216,7 +1223,8 @@
           "w-ring",
           "w-ring"
         ],
-        "audioAssetId": "r-l41-page-2"
+        "audioAssetId": "r-l41-page-2",
+        "imageAssetId": "r-l41-image-2"
       },
       {
         "text": "chat chat.",
@@ -1224,7 +1232,8 @@
           "w-chat",
           "w-chat"
         ],
-        "audioAssetId": "r-l41-page-3"
+        "audioAssetId": "r-l41-page-3",
+        "imageAssetId": "r-l41-image-3"
       }
     ]
   }

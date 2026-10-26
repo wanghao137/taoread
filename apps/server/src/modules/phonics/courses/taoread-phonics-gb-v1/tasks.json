@@ -1555,7 +1555,8 @@
     "stimulusAssetId": "w-sam-word",
     "teachesCapitals": [
       "S"
-    ]
+    ],
+    "imageAssetId": "w-sam-meaning-image"
   },
   {
     "id": "L07-read",

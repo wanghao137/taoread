@@ -116,10 +116,15 @@ export class PhonicsService {
       if (!completed.has(lesson.id) && (next.planKind !== 'lesson' || next.resourceKey !== lesson.id)) throw new AppError('先完成当前准备或复习，再认识新声音', 'PREREQUISITE_REQUIRED', 409)
       taskIds = [...lesson.taskIds]; lessonKeys = [lesson.id]
       // Explicit bridge for a parent-selected later entry; never fabricates prior completions.
+      // 每个前置课只补一个新音示范（~8s）：后起点的最小声音唤醒；词义由已开放的词卡承担，
+      // 否则补偿任务随课程规模线性膨胀（41 课时后起点要先过 75+ 个任务，课堂不可用）。
       if (lesson.order === startOrder && startOrder > 1 && !completed.has(lesson.id)) {
-        const bridge = course.lessons.filter(l => l.order < startOrder).flatMap(l => l.taskIds).filter(id => {
-          const task = course.tasks.find(t => t.id === id)!
-          return task.kind === 'listen' && (task.skill === 'meaning' || (task.skill === 'mapping' && task.role === 'model'))
+        const bridge = course.lessons.filter(l => l.order < startOrder).flatMap(l => {
+          const firstModel = l.taskIds.find(id => {
+            const task = course.tasks.find(t => t.id === id)!
+            return task.kind === 'listen' && task.skill === 'mapping' && task.role === 'model'
+          })
+          return firstModel ? [firstModel] : []
         })
         taskIds = [...new Set([...bridge, ...taskIds])]
       }

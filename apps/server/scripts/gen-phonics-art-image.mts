@@ -59,6 +59,19 @@ const SCENES: Record<string, string> = {
   ring: '一个丝绒小盒里放着一枚亮闪闪的戒指', wing: '一只小鸟张开翅膀落在树枝上', sing: '一只小鸟站在树枝上张嘴唱歌',
 }
 
+// 小书页整句场景（词光原则：画面讲的就是这句话的事），按图槽 id 精确指定
+const CAPTION_SCENES: Record<string, string> = {
+  'r-l24-image-1': '一个戴蓝色帽子的小男孩在草地上开心奔跑，张开双臂',
+  'r-l24-image-2': '一个戴蓝色帽子的小男孩躲在大树后面探出头笑',
+  'r-l24-image-3': '一位爸爸坐在门口台阶上轻轻叹气，一个小孩在旁边拍拍他的肩膀安慰',
+  'r-l37-image-1': '一只橙色小狐狸在林间小路上轻快奔跑',
+  'r-l37-image-2': '一只橙色小狐狸躲在灌木丛后面，只露出大尾巴和耳朵',
+  'r-l37-image-3': '六条橙色小鱼在水草间排成一队游泳',
+  'r-l41-image-1': '两只圆滚滚的小鸟站在树枝上一起张嘴唱歌',
+  'r-l41-image-2': '一枚金色戒指放在打开的丝绒小礼盒里闪闪发光',
+  'r-l41-image-3': '两个小朋友面对面坐着开心聊天',
+}
+
 const course = await loadCourse(candidateDirectory)
 // 词义图槽 → 词：w-<word>-meaning-image 直取；r-lXX-image-N 从 readers 页反查。
 // 词条 text 保留大小写（Sam），场景表键用词条原文——统一经 canonical 归一
@@ -73,8 +86,8 @@ for (const asset of course.assets.filter(a => a.purpose === 'image')) {
   const word = page?.wordIds[0]?.replace(/^w-/, '')
   if (word) slotWord.set(asset.id, canon(word))
 }
-const targets = course.assets.filter(a => a.purpose === 'image' && (values.force || !a.sha256) && slotWord.has(a.id))
-const missingScenes = [...new Set(targets.map(a => slotWord.get(a.id)!))].filter(w => !SCENES[w])
+const targets = course.assets.filter(a => a.purpose === 'image' && (values.force || !a.sha256) && (slotWord.has(a.id) || CAPTION_SCENES[a.id]))
+const missingScenes = [...new Set(targets.map(a => slotWord.get(a.id) ?? a.id))].filter(k => !SCENES[k] && !CAPTION_SCENES[k])
 if (missingScenes.length) throw Error(`Missing scene for: ${missingScenes.join(', ')}`)
 
 const genDir = path.resolve('..', '..', 'output', 'phonics-imagegen-20261026')
@@ -111,26 +124,28 @@ const destDir = path.join(mediaRoot, 'phonics', course.manifest.versionId)
 await mkdir(destDir, { recursive: true })
 let done = 0
 const failed: string[] = []
-// 按唯一词生成（同词多槽复用一张图），生成后绑定到该词的全部槽
-const uniqueWords = [...new Set(targets.map(a => slotWord.get(a.id)!))]
-const queue = [...uniqueWords]
+// 按唯一 key 生成（词或 caption 页槽，同图多槽复用），生成后绑定到对应全部槽
+const uniqueKeys = [...new Set(targets.map(a => CAPTION_SCENES[a.id] ? a.id : slotWord.get(a.id)!))]
+const queue = [...uniqueKeys]
+const sceneOf = (key: string) => `phonics-${CAPTION_SCENES[key] ? 'page' : 'word'}-${key}`
+const descriptionOf = (key: string) => CAPTION_SCENES[key] ?? SCENES[key]!
 async function worker() {
   for (;;) {
-    const word = queue.shift()
-    if (!word) return
-    const scene = `phonics-word-${word}`
-    // 断点续传：已生成的词图直接复用（本轮画风全量替换，重启不重花钱）
+    const key = queue.shift()
+    if (!key) return
+    const scene = sceneOf(key)
+    // 断点续传：已生成的图直接复用（重启不重花钱）
     const genPath = path.join(genDir, 'art', 'mascots', `${scene}.webp`)
     let raw: Buffer
     try { raw = await readFile(genPath) } catch {
-      const art = await gen.generate({ kind: 'mascot', scene, description: SCENES[word]!, label: `自然拼读词义图 ${word}`, lang: 'zh' })
-      if (!art) { failed.push(word); console.error(JSON.stringify({ word, failed: true })); continue }
+      const art = await gen.generate({ kind: 'mascot', scene, description: descriptionOf(key), label: `自然拼读配图 ${key}`, lang: 'zh' })
+      if (!art) { failed.push(key); console.error(JSON.stringify({ key, failed: true })); continue }
       raw = await readFile(genPath)
     }
     const webp = await sharp(raw).resize(768, 768, { fit: 'cover' }).webp({ quality: 82 }).toBuffer()
     const sha256 = createHash('sha256').update(webp).digest('hex')
     await writeFile(path.join(destDir, `${sha256}.webp`), webp)
-    for (const slot of targets.filter(a => slotWord.get(a.id) === word)) {
+    for (const slot of targets.filter(a => (CAPTION_SCENES[a.id] ? a.id : slotWord.get(a.id)) === key)) {
       slot.sha256 = sha256
       slot.extension = 'webp'
       slot.durationMs = null
@@ -140,7 +155,7 @@ async function worker() {
       slot.reviewStatus = 'pending'
     }
     done++
-    if (done % 10 === 0) console.log(JSON.stringify({ done, of: uniqueWords.length }))
+    if (done % 10 === 0) console.log(JSON.stringify({ done, of: uniqueKeys.length }))
   }
 }
 await Promise.all([worker(), worker(), worker()])

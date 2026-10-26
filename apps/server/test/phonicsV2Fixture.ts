@@ -15,7 +15,7 @@ export async function phonicsFixture(mediaRoot: string) {
   course.readers[0]!.pages.push(structuredClone(course.readers[0]!.pages[0]!))
   course.entryPlans = []
   const needed = new Set([
-    ...course.tasks.flatMap(t => [t.instructionAssetId, ...(t.stimulusAssetId ? [t.stimulusAssetId] : []), ...t.hintAssetIds]),
+    ...course.tasks.flatMap(t => [t.instructionAssetId, ...(t.stimulusAssetId ? [t.stimulusAssetId] : []), ...t.hintAssetIds, ...(t.imageAssetId ? [t.imageAssetId] : [])]),
     ...course.words.flatMap(w => Object.values(w.audioIds)),
     ...course.readers.flatMap(r => r.pages.flatMap(p => [p.audioAssetId, ...(p.imageAssetId ? [p.imageAssetId] : [])])),
   ])
