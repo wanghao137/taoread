@@ -16,7 +16,18 @@ async function login(page: Page) {
   } catch {
     /* 单孩直进 */
   }
-  await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
+  // docs/87：CI 上偶发一次瞬态 join 404（「没有找到这个家庭码」，本地与 join 压测
+  // 均无法稳定复现）——重新提交一次自愈；家庭真不存在时第二次仍失败即真实暴露
+  const joinError = page.getByText(/没有找到这个家庭码/)
+  try {
+    await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible({ timeout: 12_000 })
+  } catch {
+    if (await joinError.isVisible().catch(() => false)) {
+      console.log('[login] 瞬态 join 404，重试一次')
+      await page.getByRole('button', { name: /进入桃阅读/ }).click()
+    }
+    await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible({ timeout: 15_000 })
+  }
 }
 
 // A real, decodable WAV keeps browser playback and the production timeline loop active.
