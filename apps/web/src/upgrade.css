@@ -293,6 +293,8 @@ button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action
   .parent-app .page-head { margin-bottom: 6px; }
 }
 
-/* 英语声音课堂与找故事/家庭书架同级，单行跨双列更醒目 */
-.today-shortcut.wide { grid-column: 1 / -1; }
+/* 英语声音课堂与找故事/家庭书架同级：三卡同排三列（首屏密度红线内，高度不变） */
+.today-shortcuts:has(.today-shortcut.wide) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.today-shortcut.wide { grid-column: auto; }
 .today-shortcut.wide .shortcut-copy small { font-size: 15px; }
+@media (max-width: 767px) { .today-shortcut.wide { grid-column: 1 / -1; } }
