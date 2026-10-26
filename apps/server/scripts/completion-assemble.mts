@@ -94,7 +94,6 @@ for (const id of ids) {
 
   // 从源码提取现有 pack 对象（用 Node 直接 import 编译产物不可行——改为内嵌提取：
   // 用 tsx 运行时 import 该 pack 文件拿对象（重写发生在 import 之后，安全）
-  // eslint-disable-next-line no-await-in-loop
   const before = await import(pathToFileURL(join(PACKS_DIR, meta.packFile)).href).catch(e => { errors.push(`${id}: import failed ${e.message}`); return null })
   if (!before) continue
   const packObj = Object.values(before).find(v => typeof v === 'object' && v !== null && (v as { id?: string }).id === id) as Record<string, unknown> | undefined

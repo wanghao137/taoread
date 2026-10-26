@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * 从 spec.tsv 生成全量派发清单 dispatch.json（每个 part 一条任务记录，含完整任务书）。
  * 用法：npx tsx scripts/completion-gen-dispatch.mts
@@ -97,7 +96,8 @@ const STRUCT_RULES = `**每章结构规范（严格）**：
 - 文风与该书现有章节完全一致：简单过去时、对话直引、child-friendly`
 
 const tasks: Array<{ bookId: string; partFile: string; range: string; prompt: string }> = []
-for (const [id, packFile, curS, targetS, mode, note, partsS] of rows) {
+for (const cols of rows) {
+  const [id = '', packFile = '', curS = '0', targetS = '0', mode = 'B', note = '', partsS = ''] = cols
   const info = BOOK_INFO[id]
   if (!info) { console.error(`!! 缺 BOOK_INFO: ${id}`); continue }
   const cur = Number(curS), target = Number(targetS)

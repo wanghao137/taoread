@@ -150,7 +150,6 @@ ok('字号+夜间主题连续调整生效', isNight === true)
 // 目录跳章
 await page.getByRole('button', { name: '目录', exact: true }).click()
 await page.waitForTimeout(900)
-const tocChapters = page.locator('[role="dialog"] .chapter, [role="dialog"] button').filter({ hasText: '第' })
 ok('目录弹层可开', await page.locator('.sheet-backdrop:visible, .chapters-sheet:visible, [role="dialog"]:visible').count() > 0 || await page.getByRole('button', { name: '兔汤' }).count() > 0)
 const ch5 = page.locator('[role="dialog"] button, [role="dialog"] .chapter').filter({ hasText: '兔汤' }).first()
 if (await ch5.count()) {

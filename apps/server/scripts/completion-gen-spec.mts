@@ -94,8 +94,6 @@ const BOOKS: Array<[string, string, number, number, 'A' | 'B', string]> = [
 ]
 
 function splitParts(cur: number, target: number, mode: 'A' | 'B'): string {
-  const startFrom = mode === 'A' ? cur : cur + 1 // A 类第一个 part 负责重写第 cur 章 + 追加 cur+1..；B 类从 cur+1 追加
-  const appendCount = target - startFrom + (mode === 'A' ? 1 : 0)
   // A 类：rewriteLast(1) + 追加 (target-cur) 章 = target-cur+1 章；B 类：追加 target-cur 章
   const total = mode === 'A' ? target - cur + 1 : target - cur
   const parts: string[] = []

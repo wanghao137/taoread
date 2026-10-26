@@ -19,7 +19,6 @@ const CORPUS = resolve(HERE, '../../../.tao-tmp/corpus')
 // ── 1. 解析底本（仅原文 lines）──
 const window: Record<string, unknown> = {}
 for (let i = 1; i <= 8; i++) {
-  // eslint-disable-next-line no-eval
   eval(readFileSync(resolve(CORPUS, `lw-${i}.js`), 'utf8'))
 }
 const yun = window.LW_BOOK as Array<{ juan: string; order: number; name: string; secs: Array<{ no: string; lines: string[] }> }>

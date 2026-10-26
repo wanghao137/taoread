@@ -10,7 +10,7 @@ const rows = readFileSync(join(ROOT, 'spec.tsv'), 'utf8').trim().split('\n').sli
 let done = 0, ready = 0, pending = 0
 const readyIds: string[] = [], pendingIds: string[] = []
 for (const cols of rows) {
-  const [id = '', packFile = '', curS = '0', targetS = '0'] = cols
+  const [id = '', packFile = '', , targetS = '0'] = cols
   const target = Number(targetS)
   const partsDir = join(ROOT, id, 'parts')
   const hasParts = existsSync(partsDir) && readdirSync(partsDir).some(f => f.endsWith('.json'))

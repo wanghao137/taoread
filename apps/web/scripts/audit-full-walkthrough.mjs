@@ -169,7 +169,7 @@ await step('排版设置（字号+主题）', async () => {
     await shot('11-night')
     const bg = await page.evaluate(() => {
       const el = document.querySelector('.reader') ?? document.body
-      return getComputedStyle(el).backgroundColor
+      return window.getComputedStyle(el).backgroundColor
     })
     console.log('    夜间背景:', bg)
   }

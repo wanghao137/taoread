@@ -18,7 +18,7 @@ console.log('书架可见 wizard-oz:', await card.isVisible().catch(() => false)
 if (await card.isVisible().catch(() => false)) {
   await card.click()
   await p.waitForTimeout(2500)
-  const chapters = await p.locator('text=/Chapter \d+/').count()
+  const chapters = await p.locator('text=/Chapter [0-9]+/').count()
   console.log('详情/目录 Chapter 字样出现:', chapters, '次')
   const body = await p.textContent('body')
   console.log('含 Chapter 24:', body.includes('Chapter 24'), '| 含 Chapter 15:', body.includes('Chapter 15'))

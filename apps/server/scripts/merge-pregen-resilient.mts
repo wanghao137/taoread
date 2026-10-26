@@ -43,7 +43,8 @@ const devManifest: Record<string, { durationMs: number; bytes: number; uploaded:
 const prodManifest: typeof devManifest = JSON.parse(await readFile(prodManifestPath, 'utf8'))
 
 // 断点：dev 清单里 uploaded=true 的段视为已上传；每段上传成功即写 dev 清单
-let done = 0, failedKeys = new Set<string>()
+let done = 0
+const failedKeys = new Set<string>()
 for (const [key, info] of Object.entries(devManifest)) {
   if (!info.uploaded && prodManifest[key]?.uploaded) info.uploaded = true
   if (info.uploaded) done++

@@ -23,7 +23,7 @@ const s3 = audioClient(store)
 const rounds = Number(process.argv[2] ?? 6)
 
 type SegInfo = { durationMs: number; bytes: number; uploaded: boolean; audioKey?: string; model?: string; store?: string }
-let manifest: Record<string, SegInfo> =
+const manifest: Record<string, SegInfo> =
   JSON.parse(await readFile(manifestPath, 'utf8'))
 
 const pending = Object.entries(manifest).filter(([, v]) => !v.uploaded)
@@ -35,16 +35,14 @@ for (let round = 1; round <= rounds && uploaded < pending.length; round++) {
   // docs/80 教训：并发上传会在容量守卫的账号锁上互相超时（每笔上传持锁可数分钟）——串行
   const results = [] as Array<PromiseSettledResult<string>>
   for (const [key, info] of batch) {
-    results.push(await new Promise<PromiseSettledResult<string>>(async (resolve) => {
-      try {
-        const audioKey = publicSegmentAudioKey(key, info)
-        const buf = await readFile(join(outDir, `${audioKey}.mp3`))
-        await putAudio(s3, store, `tts-public/${audioKey}.mp3`, buf)
-        resolve({ status: 'fulfilled', value: key })
-      } catch (err) {
-        resolve({ status: 'rejected', reason: err })
-      }
-    }))
+    try {
+      const audioKey = publicSegmentAudioKey(key, info)
+      const buf = await readFile(join(outDir, `${audioKey}.mp3`))
+      await putAudio(s3, store, `tts-public/${audioKey}.mp3`, buf)
+      results.push({ status: 'fulfilled', value: key })
+    } catch (err) {
+      results.push({ status: 'rejected', reason: err })
+    }
   }
   for (let i = 0; i < results.length; i++) {
     const r = results[i]!
