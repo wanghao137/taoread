@@ -20,7 +20,7 @@ const SHAPES = ['VC', 'CVC']
 const HELP = 'shared-help-zh'
 
 // ── 新增 GPC（GB 短元音体系，docs/69 §6.3 排课草案）──────────────────────────
-const NEW_MAPPINGS = [
+const NEW_MAPPINGS: Array<{ spelling: string; phonemes: Array<{ ipa: string; kind: 'vowel' | 'consonant' }>; position?: 'any' | 'initial' | 'final' }> = [
   { spelling: 'd', phonemes: [{ ipa: 'd', kind: 'consonant' }] }, { spelling: 'g', phonemes: [{ ipa: 'g', kind: 'consonant' }] },
   { spelling: 'o', phonemes: [{ ipa: 'ɒ', kind: 'vowel' }] }, { spelling: 'c', phonemes: [{ ipa: 'k', kind: 'consonant' }] },
   { spelling: 'k', phonemes: [{ ipa: 'k', kind: 'consonant' }] }, { spelling: 'e', phonemes: [{ ipa: 'e', kind: 'vowel' }] },
@@ -39,7 +39,7 @@ const NEW_MAPPINGS = [
   // ── 阶段三：常见辅音组合（docs/69 §6.4「常见辅音字母组合」）─────────────────
   { spelling: 'ch', phonemes: [{ ipa: 'tʃ', kind: 'consonant' }] }, { spelling: 'th', phonemes: [{ ipa: 'θ', kind: 'consonant' }] },
   { spelling: 'ng', phonemes: [{ ipa: 'ŋ', kind: 'consonant' }], position: 'final' },
-] as const
+]
 const NEW_LETTERS = NEW_MAPPINGS.map(m => m.spelling)
 const LESSON_IDS = Array.from({ length: 33 }, (_, i) => `L${String(9 + i).padStart(2, '0')}`)
 
@@ -156,12 +156,13 @@ const isGenerated = (id: string) =>
   (newWordIds.has(id.replace(/-meaning-image$/, '').replace(/-(segment|blend|word)$/, '')) && /-(segment|blend|word|meaning-image)$/.test(id))
 
 // 词按解码引入课剥离（生成词全部引入于 L09+）——白名单会漏掉被删词的孤儿残留（vest/yell 教训）
+type Row = { id: string } & Record<string, unknown>
 const GEN_LESSON = /^L(09|1[0-9]|2[0-9]|3[0-9]|4[01])$/
-const pick = async (name: string) => {
-  const list: Array<Record<string, unknown>> = await read(name)
+const pick = async (name: string): Promise<Row[]> => {
+  const list = (await read(name)) as Row[]
   if (name === 'words') return list.filter(w => !isGenerated(w.id) && !GEN_LESSON.test(String(w.decodingIntroducedAt ?? '')))
   if (name === 'assets') {
-    const rawWords: Array<{ text: string; decodingIntroducedAt?: string }> = await read('words')
+    const rawWords = (await read('words')) as Array<{ text: string; decodingIntroducedAt?: string }>
     // Sam 词条 text 带大写而资产 id 全小写——两种形式都保留
     const keep = new Set(rawWords.filter(w => !GEN_LESSON.test(w.decodingIntroducedAt ?? '')).flatMap(w => [`w-${w.text}`, `w-${w.text.toLowerCase()}`]))
     return list.filter(a => !isGenerated(a.id) && !(/^w-[a-z]+-(segment|blend|word|meaning-image)$/.test(a.id) && !keep.has(a.id.replace(/-(segment|blend|word|meaning-image)$/, ''))))
@@ -212,7 +213,7 @@ for (const w of wordDefs) for (const kind of ['segment', 'blend', 'word'] as con
 
 /** 拼摆块按词条 spans 取字素（bell → b,e,ll；quiz → qu,i,z），不是逐字母 */
 const tileChoices = (text: string) => {
-  const word = outWords.find(w => w.text === text)!
+  const word = outWords.find(w => w.text === text)! as unknown as { spans: Array<{ mappingId: string }> }
   return word.spans.map(span => {
     const spelling = outMappings.find(m => m.id === span.mappingId)!.spelling
     return { id: spelling, label: spelling, mappingId: span.mappingId }
@@ -281,7 +282,8 @@ for (const def of LESSONS) {
 for (const w of outWords) {
   const slots = w.audioIds as Record<string, string>
   for (const kind of ['segment', 'blend', 'word'] as const) {
-    if (!outAssets.some(a => a.id === slots[kind])) outAssets.push(assetSlot(slots[kind], kind, 'wav'))
+    const slotId = slots[kind]
+    if (!slotId || !outAssets.some(a => a.id === slotId)) outAssets.push(assetSlot(slotId ?? `w-${String(w.text)}-${kind}`, kind, 'wav'))
   }
 }
 

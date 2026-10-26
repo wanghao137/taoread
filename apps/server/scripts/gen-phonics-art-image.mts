@@ -109,7 +109,8 @@ const gen = new ImageGenerator(
 
 const destDir = path.join(mediaRoot, 'phonics', course.manifest.versionId)
 await mkdir(destDir, { recursive: true })
-let done = 0, failed: string[] = []
+let done = 0
+const failed: string[] = []
 // 按唯一词生成（同词多槽复用一张图），生成后绑定到该词的全部槽
 const uniqueWords = [...new Set(targets.map(a => slotWord.get(a.id)!))]
 const queue = [...uniqueWords]
@@ -122,7 +123,7 @@ async function worker() {
     const genPath = path.join(genDir, 'art', 'mascots', `${scene}.webp`)
     let raw: Buffer
     try { raw = await readFile(genPath) } catch {
-      const art = await gen.generate({ kind: 'mascot', scene, description: SCENES[word]!, titleZh: word })
+      const art = await gen.generate({ kind: 'mascot', scene, description: SCENES[word]!, label: `自然拼读词义图 ${word}`, lang: 'zh' })
       if (!art) { failed.push(word); console.error(JSON.stringify({ word, failed: true })); continue }
       raw = await readFile(genPath)
     }
