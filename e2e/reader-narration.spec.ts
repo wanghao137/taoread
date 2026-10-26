@@ -7,7 +7,15 @@ async function login(page: Page) {
   await page.locator('#family-code').fill('123456')
   await page.getByRole('button', { name: '小朋友', exact: true }).click()
   await page.getByRole('button', { name: /进入桃阅读/ }).click()
-  await page.getByRole('button', { name: /小桃/ }).click()
+  // docs/87：demo 种子家庭为单孩时登录直进首页（无选人页）——与 demo-content 的
+  // loginAsChild 同款容错，不再硬等永远不出现的「小桃」按钮
+  const picker = page.getByText('今天是谁的故事时间？')
+  try {
+    await picker.waitFor({ timeout: 8_000 })
+    await page.getByRole('button', { name: /小桃/ }).click()
+  } catch {
+    /* 单孩直进 */
+  }
   await expect(page.getByRole('heading', { name: /今天读点什么/ })).toBeVisible()
 }
 
