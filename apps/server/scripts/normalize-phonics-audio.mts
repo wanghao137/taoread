@@ -36,7 +36,8 @@ function dataChunk(buf: Buffer): { offset: number; size: number } | null {
 }
 
 const TARGET_PEAK = Math.round(32767 * 0.89)
-let normalized = 0, skipped = 0, failed: string[] = []
+let normalized = 0, skipped = 0
+const failed: string[] = []
 for (const receipt of Object.values(receipts.assets)) {
   if (!receipt.sha256 || receipt.extension !== 'wav') continue
   const file = path.join(outDir, 'phonics', receipts.versionId, `${receipt.sha256}.wav`)
