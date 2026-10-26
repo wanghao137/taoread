@@ -115,8 +115,9 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
   const [sortKey, setSortKey] = useState<SortKey>('title')
   const [category, setCategory] = useState<CategoryKey>('all')
   const [busyKey, setBusyKey] = useState<string | null>(null)
-  // docs/40 F3：渐进渲染可见行数；切来源回默认
-  const [visibleCount, setVisibleCount] = useState(40)
+  // docs/40 F3：渐进渲染可见行数；切来源回默认。docs/87：40→24，首屏 DOM 与
+  // 解码压力随书目扩容同步下调（286 本时首屏 24 行足够，其余走「显示更多」）
+  const [visibleCount, setVisibleCount] = useState(24)
   const [notice, setNotice] = useState<string | null>(null)
   // docs/34 P0-1：纸质书共读（后端早已支持 paperTitle，此前前端无入口）
   const [paperTitle, setPaperTitle] = useState('')
@@ -192,8 +193,9 @@ export function ContentHub({ familyId, token }: ContentHubProps) {  const [sourc
       author: b.author,
       category: b.category,
       blocked: b.blocked,
-      // 真实 AI 封面（与孩子端书架同源）；场景图仅作兜底
-      coverUrl: b.coverArtUrl ?? undefined,
+      // 真实 AI 封面；管理网格用 320w 缩图（docs/87：原图单张 ~180KB，286 本滚动
+      // 浏览流量 14 倍于缩图，点开详情才需要原图）；场景图仅作兜底
+      coverUrl: b.coverThumbUrl ?? b.coverArtUrl ?? undefined,
       scene: { art: b.coverArt, from: b.coverFrom, to: b.coverTo, lang: b.lang },
       readers: b.readers.map((r) => ({
         childId: r.childId,

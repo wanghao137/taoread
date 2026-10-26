@@ -233,3 +233,62 @@ button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action
 @media (hover: hover) {
   .ta-sticker[aria-pressed="true"]:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #26201A; }
 }
+
+/* ══════ docs/88 家长端手机布局优化：首屏密度 / 触控遮挡 / chips 横滚 / hub 横幅卡 ══════ */
+@media (max-width: 760px) {
+  /* 底部 tab 遮挡：家长端主区底部留出 tab 高度 + iOS 安全区 */
+  .parent-app .wrap { padding-bottom: calc(112px + env(safe-area-inset-bottom)); }
+
+  /* 页头紧凑：手机首屏直达内容，页标题/副标题/编号说明压缩 */
+  .parent-app .page-head { margin-bottom: 10px; }
+  .parent-app .page-head .page-index { font-size: 11px; }
+  .parent-app .page-head h2 { font-size: 24px; margin: 2px 0 4px; }
+  .parent-app .page-head p { font-size: 13px; line-height: 1.5; }
+
+  /* 来源说明：降为辅助信息（两行截断），不再独占半屏 */
+  .parent-app .source-explainer {
+    font-size: 13px; line-height: 1.55; margin-block: 8px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; opacity: .85;
+  }
+
+  /* 来源 chips / 分类筛选：横向滑动完整可见（替换换行堆叠与边缘截断） */
+  .parent-app .tabs, .parent-app .filter-row {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    padding-bottom: 4px; margin-bottom: 10px;
+  }
+  .parent-app .tabs::-webkit-scrollbar, .parent-app .filter-row::-webkit-scrollbar { display: none; }
+  .parent-app .tabs .tab, .parent-app .filter-row .filter { flex: 0 0 auto; min-height: 44px; }
+
+  /* 搜索框与列表控件触控高度 */
+  .parent-app .search { min-height: 44px; }
+
+  /* 内容中心：单列横幅封面卡——进度与「屏蔽/生成插画/封面动起来」获得完整横向空间 */
+  .parent-app .hub-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
+  .parent-app .hub-cover { aspect-ratio: 16 / 9; }
+  .parent-app .hub-title b { font-size: 15px; }
+  .parent-app .hub-card .mono-line { font-size: 11px; }
+  .parent-app .hub-actions { flex-wrap: wrap; }
+  .parent-app .hub-actions .sticker-btn.sm { flex: 1 1 auto; min-height: 44px; }
+
+  /* 设置页设备/孩子行：按钮换行不挤压，触控 44px */
+  .parent-app .kid-row { flex-wrap: wrap; row-gap: 8px; }
+  .parent-app .kid-row .sticker-btn.sm { min-height: 44px; }
+  .parent-app .set-grid { gap: 10px; }
+
+  /* 顶部退出按钮手机端收窄（品牌区让位给内容） */
+  .parent-app .mast-actions .sticker-btn { min-height: 40px; padding: 6px 10px; font-size: 13px; }
+}
+
+/* 足迹页控件：字号收小、控件触控高度达标（保持自然换行，不强改 flex 避免 label 文字竖排） */
+@media (max-width: 760px) {
+  .parent-app .filter-row label { font-size: 12px; color: var(--ink2); }
+  .parent-app .filter-row label .field { min-height: 44px; }
+}
+
+/* 手机端来源说明与 PageHead 副标题语义重复（都在讲「有哪些来源」）——隐藏 explainer，
+   首屏直达搜索与内容 */
+@media (max-width: 760px) {
+  .parent-app .source-explainer { display: none; }
+  .parent-app .tabs { margin-top: 6px; }
+  .parent-app .page-head { margin-bottom: 6px; }
+}
