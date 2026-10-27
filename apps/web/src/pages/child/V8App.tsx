@@ -481,7 +481,9 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
   )
 
   // 阅读器（章节路由）为沉浸式：隐藏壳层底部导航与换人浮钮，避免遮挡阅读器控制条
+  // 阅读器与英语声音课堂都是沉浸式全屏：不渲染壳的底部导航，避免盖住页内自己的栏（docs/92）
   const inReader = /^\/child\/(?:book|family-book)\/[^/]+\/chapter\//.test(location.pathname)
+  const inPhonics = /^\/child\/phonics\/?$/.test(location.pathname)
 
   return (
     <V8Context.Provider value={ctx}>
@@ -532,7 +534,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
           </div>
         </div>
         {/* 阅读器为沉浸式全屏（v8 demo）：章节路由下不渲染底部导航，避免盖住阅读器控制条 */}
-        {!inReader ? (
+        {!inReader && !inPhonics ? (
           <nav className="mobile-nav" aria-label="孩子端导航">
             {(
               [

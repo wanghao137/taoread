@@ -99,3 +99,39 @@ export interface PhonicsWordCardDto {
   image: { url: string } | null
   audios: PhonicsAssetDto[]
 }
+
+/** 图鉴词位：未解锁的词不给文本/媒体（防提前偷看），只给占位。 */
+export interface PhonicsAtlasWordDto {
+  id: string
+  unlocked: boolean
+  text?: string
+  meaningZh?: string
+  lessonKey?: string
+  image: { url: string } | null
+  audios: PhonicsAssetDto[]
+}
+
+export interface PhonicsAtlasReaderDto {
+  id: string
+  titleZh: string
+  lessonKey: string | null
+  unlocked: boolean
+  pages: number
+  cover: { url: string } | null
+}
+
+export interface PhonicsAtlasLessonDto {
+  id: string
+  order: number
+  titleZh: string
+  completed: boolean
+  wordCount: number
+  readerCount: number
+}
+
+/** 图鉴全量：词（含锁定占位）/ 小书架 / 课次路线，一次性供孩子端图鉴、书房与学习路线渲染。 */
+export interface PhonicsAtlasDto {
+  words: PhonicsAtlasWordDto[]
+  readers: PhonicsAtlasReaderDto[]
+  lessons: PhonicsAtlasLessonDto[]
+}

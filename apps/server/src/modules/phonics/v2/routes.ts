@@ -71,6 +71,7 @@ export function registerPhonicsV2Routes(app: FastifyInstance, deps: { db: Prisma
     return { readers: course.readers.filter(r => eligible.has(r.introducedAt)).map(r => ({ id: r.id, titleZh: r.titleZh, kind: r.kind, versionId: enrollment.versionId })) }
   })
   app.get<{ Params: { childId: string } }>(`${prefix}/children/:childId/words`, { preHandler: auth }, async request => ({ words: await service.wordCards(claims(request), request.params.childId) }))
+  app.get<{ Params: { childId: string } }>(`${prefix}/children/:childId/atlas`, { preHandler: auth }, async request => ({ atlas: await service.atlas(claims(request), request.params.childId) }))
   app.get<{ Params: { childId: string }; Querystring: { page?: string } }>(`${prefix}/children/:childId/summary`, { preHandler: auth }, async request => {
     const childId = request.params.childId
     await service.ownChild(claims(request), childId)

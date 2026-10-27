@@ -1,6 +1,6 @@
 import { Prisma, type PhonicsAttempt, type PrismaClient } from '@prisma/client'
 import type { z } from 'zod'
-import type { PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto, PhonicsWordCardDto } from '@taoread/shared'
+import type { PhonicsAtlasDto, PhonicsAttemptDto, PhonicsEnrollmentDto, PhonicsEventRequest, PhonicsNextDto, PhonicsWordCardDto } from '@taoread/shared'
 import type { TokenClaims } from '../../../lib/auth'
 import { AppError } from '../../../lib/errors'
 import { mediaUrl } from '../../media/access'
@@ -240,6 +240,67 @@ export class PhonicsService {
         audios,
       }
     })
+  }
+
+  /**
+   * 图鉴全量：全部词（未解锁只给占位，不给文本与媒体）、小书架（按课解锁+封面）、课次路线。
+   * 解锁口径与 wordCards 一致：词义引入课完成，或课序早于家长选择起点。
+   */
+  async atlas(claims: TokenClaims, childId: string): Promise<PhonicsAtlasDto> {
+    const enrollment = await this.enrollment(claims, childId)
+    if (!enrollment.enabled || !enrollment.versionId) return { words: [], readers: [], lessons: [] }
+    const versionId = enrollment.versionId
+    const course = await this.runtime.requireCourse(claims.fid, versionId)
+    const { history } = await this.practiceHistory(childId, versionId)
+    const completed = new Set(history.filter(h => h.kind === 'lesson' && h.status === 'completed').map(h => h.lessonKey!))
+    const entryOrder = course.lessons.find(l => l.id === enrollment.entryLessonKey)?.order ?? 1
+    const beforeEntry = new Set(course.lessons.filter(l => l.order < entryOrder).map(l => l.id))
+    const unlockedLesson = (lessonKey: string | undefined) => Boolean(lessonKey && (completed.has(lessonKey) || beforeEntry.has(lessonKey)))
+    const lessonOrder = new Map(course.lessons.map(l => [l.id, l.order]))
+    const assetOf = (id?: string) => (id ? course.assets.find(a => a.id === id) : undefined)
+    const signed = (asset: { sha256: string | null; extension: string }) =>
+      asset.sha256 ? mediaUrl(`/api/media/phonics/${versionId}/${asset.sha256}.${asset.extension}`, claims, this.tokenSecret) : null
+
+    const words = course.words
+      .filter(w => Boolean(w.meaningIntroducedAt))
+      .sort((a, b) => (lessonOrder.get(a.meaningIntroducedAt!) ?? 99) - (lessonOrder.get(b.meaningIntroducedAt!) ?? 99))
+      .map(w => {
+        const lessonKey = w.meaningIntroducedAt!
+        if (!unlockedLesson(lessonKey)) return { id: w.id, unlocked: false, image: null, audios: [] }
+        const audios = (['segment', 'blend', 'word'] as const)
+          .map(kind => assetOf(w.audioIds?.[kind]))
+          .filter((a): a is NonNullable<ReturnType<typeof assetOf>> => Boolean(a?.sha256))
+          .map(a => ({ id: a.id, purpose: a.purpose, durationMs: a.durationMs, url: signed(a) }))
+        const taskImage = course.tasks.find(t => t.wordId === w.id && assetOf(t.imageAssetId)?.sha256)?.imageAssetId
+        const readerImage = course.readers.flatMap(r => r.pages).find(p => p.wordIds.includes(w.id) && assetOf(p.imageAssetId)?.sha256)?.imageAssetId
+        const imageUrl = assetOf(taskImage ?? readerImage)?.sha256 ? signed(assetOf(taskImage ?? readerImage)!) : null
+        return {
+          id: w.id, unlocked: true, text: w.text, meaningZh: w.meaningZh, lessonKey,
+          image: imageUrl ? { url: imageUrl } : null,
+          audios,
+        }
+      })
+
+    const readers = course.readers.map(r => {
+      const lessonKey = course.lessons.find(l => l.readerIds.includes(r.id))?.id ?? null
+      const cover = assetOf(r.pages.find(p => p.imageAssetId)?.imageAssetId)
+      const coverUrl = cover?.sha256 ? signed(cover) : null
+      return {
+        id: r.id, titleZh: r.titleZh, lessonKey,
+        unlocked: unlockedLesson(lessonKey ?? undefined),
+        pages: r.pages.length,
+        cover: coverUrl ? { url: coverUrl } : null,
+      }
+    })
+
+    const lessons = course.lessons.map(l => ({
+      id: l.id, order: l.order, titleZh: l.titleZh,
+      completed: completed.has(l.id),
+      wordCount: course.words.filter(w => w.meaningIntroducedAt === l.id).length,
+      readerCount: l.readerIds.length,
+    }))
+
+    return { words, readers, lessons }
   }
 
   async mutate(claims: TokenClaims, id: string, input: PhonicsEventRequest | ControlInput | ObservationInput, kind: string) {
