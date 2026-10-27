@@ -780,7 +780,7 @@ function TodayPage() {
         </section>
         <DailyPoemCard readPoem={v.readBook} />
       </div>
-      <div className="today-shortcuts" aria-label="选书入口">
+      <div className="today-shortcuts has-wide" aria-label="选书入口">
         <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/discover')}><span className="shortcut-icon"><IconSearch size={48} /></span><span className="shortcut-copy"><b>找故事</b><small>发现下一本喜欢的书</small></span><IconArrowRight size={34} /></button>
         <button className="today-shortcut wide min-h-[44px]" onClick={() => navigate('/child/phonics')}><span className="shortcut-icon"><IconVolume size={48} /></span><span className="shortcut-copy"><b>英语声音课堂</b><small>听一听，拼一拼，读一读</small></span><IconArrowRight size={34} /></button>
         <button className="today-shortcut min-h-[44px]" onClick={() => navigate('/child/family-books')}><span className="shortcut-icon"><IconFamily size={48} /></span><span className="shortcut-copy"><b>家庭书架</b><small>家人为你挑好的故事</small></span><IconArrowRight size={34} /></button>

@@ -293,8 +293,22 @@ button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action
   .parent-app .page-head { margin-bottom: 6px; }
 }
 
-/* 英语声音课堂与找故事/家庭书架同级：三卡同排三列（首屏密度红线内，高度不变） */
-.today-shortcuts:has(.today-shortcut.wide) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.today-shortcut.wide { grid-column: auto; }
-.today-shortcut.wide .shortcut-copy small { font-size: 15px; }
-@media (max-width: 767px) { .today-shortcut.wide { grid-column: 1 / -1; } }
+/* 英语声音课堂与找故事/家庭书架同级。≥961：三卡同排三列（首屏密度红线内，高度不变）。
+   ≤960：拼读卡 order 垫底整行铺满，找故事+家庭书架保持一对（不留空洞）。
+   ≤760：单列紧凑卡——窄屏两列塞不下 85px 图标+大间距，文字区被挤成负空间致标题逐字折行（10-27 用户截图修复） */
+@media (min-width: 961px) {
+  .today-shortcuts.has-wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .today-shortcut.wide .shortcut-copy small { font-size: 15px; }
+}
+@media (max-width: 960px) {
+  .child-app .today-shortcuts.has-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .today-shortcut.wide { order: 3; grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .child-app .today-shortcuts.has-wide { grid-template-columns: 1fr; }
+  .child-app .today-shortcut { min-height: 76px; gap: 14px; padding: 12px 16px; }
+  .child-app .shortcut-icon { width: 48px; height: 48px; flex-basis: 48px; border-radius: 14px; }
+  .child-app .shortcut-icon svg { width: 30px; height: 30px; }
+  .child-app .shortcut-copy b { font-size: 18px; }
+  .child-app .shortcut-copy small { font-size: 13px; }
+}
