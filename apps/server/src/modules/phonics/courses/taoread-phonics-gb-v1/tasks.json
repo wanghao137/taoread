@@ -12034,5 +12034,2547 @@
     "canSkipWithHelp": true,
     "timeline": [],
     "readerId": "r-l53"
+  },
+  {
+    "id": "L54-model-ou",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ou",
+    "displayText": "ou",
+    "stimulusAssetId": "sound-ou"
+  },
+  {
+    "id": "L54-hear-ou",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "ou",
+        "label": "ou",
+        "mappingId": "g-ou"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ou",
+    "stimulusAssetId": "sound-ou",
+    "judge": {
+      "answerIds": [
+        "ou"
+      ]
+    }
+  },
+  {
+    "id": "L54-model-ow2",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ow2",
+    "displayText": "ow",
+    "stimulusAssetId": "sound-ow2"
+  },
+  {
+    "id": "L54-hear-ow2",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "ow2",
+        "label": "ow",
+        "mappingId": "g-ow2"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ow2",
+    "stimulusAssetId": "sound-ow2",
+    "judge": {
+      "answerIds": [
+        "ow2"
+      ]
+    }
+  },
+  {
+    "id": "L54-meaning-cow",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-cow",
+    "stimulusAssetId": "w-cow-word",
+    "displayText": "cow",
+    "imageAssetId": "w-cow-meaning-image"
+  },
+  {
+    "id": "L54-meaning-how",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-how",
+    "stimulusAssetId": "w-how-word",
+    "displayText": "how",
+    "imageAssetId": "w-how-meaning-image"
+  },
+  {
+    "id": "L54-meaning-now",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-now",
+    "stimulusAssetId": "w-now-word",
+    "displayText": "now",
+    "imageAssetId": "w-now-meaning-image"
+  },
+  {
+    "id": "L54-meaning-down",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-down",
+    "stimulusAssetId": "w-down-word",
+    "displayText": "down",
+    "imageAssetId": "w-down-meaning-image"
+  },
+  {
+    "id": "L54-meaning-out",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-out",
+    "stimulusAssetId": "w-out-word",
+    "displayText": "out",
+    "imageAssetId": "w-out-meaning-image"
+  },
+  {
+    "id": "L54-meaning-cloud",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-cloud",
+    "stimulusAssetId": "w-cloud-word",
+    "displayText": "cloud",
+    "imageAssetId": "w-cloud-meaning-image"
+  },
+  {
+    "id": "L54-blend-cow",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-cow",
+    "stimulusAssetId": "w-cow-blend",
+    "displayText": "cow"
+  },
+  {
+    "id": "L54-build-cow",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "c",
+        "label": "c",
+        "mappingId": "g-c"
+      },
+      {
+        "id": "ow2",
+        "label": "ow",
+        "mappingId": "g-ow2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-cow-segment",
+      "w-cow-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-cow",
+    "stimulusAssetId": "w-cow-word",
+    "judge": {
+      "answerIds": [
+        "c",
+        "ow2"
+      ]
+    }
+  },
+  {
+    "id": "L54-build-how",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "h",
+        "label": "h",
+        "mappingId": "g-h"
+      },
+      {
+        "id": "ow2",
+        "label": "ow",
+        "mappingId": "g-ow2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-how-segment",
+      "w-how-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-how",
+    "stimulusAssetId": "w-how-word",
+    "judge": {
+      "answerIds": [
+        "h",
+        "ow2"
+      ]
+    }
+  },
+  {
+    "id": "L54-build-now",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "n",
+        "label": "n",
+        "mappingId": "g-n"
+      },
+      {
+        "id": "ow2",
+        "label": "ow",
+        "mappingId": "g-ow2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-now-segment",
+      "w-now-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-now",
+    "stimulusAssetId": "w-now-word",
+    "judge": {
+      "answerIds": [
+        "n",
+        "ow2"
+      ]
+    }
+  },
+  {
+    "id": "L54-build-down",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "d",
+        "label": "d",
+        "mappingId": "g-d"
+      },
+      {
+        "id": "ow2",
+        "label": "ow",
+        "mappingId": "g-ow2"
+      },
+      {
+        "id": "n",
+        "label": "n",
+        "mappingId": "g-n"
+      }
+    ],
+    "hintAssetIds": [
+      "w-down-segment",
+      "w-down-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-down",
+    "stimulusAssetId": "w-down-word",
+    "judge": {
+      "answerIds": [
+        "d",
+        "ow2",
+        "n"
+      ]
+    }
+  },
+  {
+    "id": "L54-build-out",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "ou",
+        "label": "ou",
+        "mappingId": "g-ou"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      }
+    ],
+    "hintAssetIds": [
+      "w-out-segment",
+      "w-out-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-out",
+    "stimulusAssetId": "w-out-word",
+    "judge": {
+      "answerIds": [
+        "ou",
+        "t"
+      ]
+    }
+  },
+  {
+    "id": "L54-build-cloud",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "c",
+        "label": "c",
+        "mappingId": "g-c"
+      },
+      {
+        "id": "l",
+        "label": "l",
+        "mappingId": "g-l"
+      },
+      {
+        "id": "ou",
+        "label": "ou",
+        "mappingId": "g-ou"
+      },
+      {
+        "id": "d",
+        "label": "d",
+        "mappingId": "g-d"
+      }
+    ],
+    "hintAssetIds": [
+      "w-cloud-segment",
+      "w-cloud-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-cloud",
+    "stimulusAssetId": "w-cloud-word",
+    "judge": {
+      "answerIds": [
+        "c",
+        "l",
+        "ou",
+        "d"
+      ]
+    }
+  },
+  {
+    "id": "L54-oral-out",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-out-segment",
+      "w-out-blend",
+      "w-out-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-out",
+    "displayText": "out"
+  },
+  {
+    "id": "L54-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-cow-word",
+      "w-how-word",
+      "w-now-word",
+      "w-down-word",
+      "w-out-word",
+      "w-cloud-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l54"
+  },
+  {
+    "id": "L55-model-oi",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-oi",
+    "displayText": "oi",
+    "stimulusAssetId": "sound-oi"
+  },
+  {
+    "id": "L55-hear-oi",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "oi",
+        "label": "oi",
+        "mappingId": "g-oi"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-oi",
+    "stimulusAssetId": "sound-oi",
+    "judge": {
+      "answerIds": [
+        "oi"
+      ]
+    }
+  },
+  {
+    "id": "L55-model-oy",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-oy",
+    "displayText": "oy",
+    "stimulusAssetId": "sound-oy"
+  },
+  {
+    "id": "L55-hear-oy",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "oy",
+        "label": "oy",
+        "mappingId": "g-oy"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-oy",
+    "stimulusAssetId": "sound-oy",
+    "judge": {
+      "answerIds": [
+        "oy"
+      ]
+    }
+  },
+  {
+    "id": "L55-meaning-oil",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-oil",
+    "stimulusAssetId": "w-oil-word",
+    "displayText": "oil",
+    "imageAssetId": "w-oil-meaning-image"
+  },
+  {
+    "id": "L55-meaning-coin",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-coin",
+    "stimulusAssetId": "w-coin-word",
+    "displayText": "coin",
+    "imageAssetId": "w-coin-meaning-image"
+  },
+  {
+    "id": "L55-meaning-boy",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-boy",
+    "stimulusAssetId": "w-boy-word",
+    "displayText": "boy",
+    "imageAssetId": "w-boy-meaning-image"
+  },
+  {
+    "id": "L55-meaning-toy",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-toy",
+    "stimulusAssetId": "w-toy-word",
+    "displayText": "toy",
+    "imageAssetId": "w-toy-meaning-image"
+  },
+  {
+    "id": "L55-meaning-joy",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-joy",
+    "stimulusAssetId": "w-joy-word",
+    "displayText": "joy",
+    "imageAssetId": "w-joy-meaning-image"
+  },
+  {
+    "id": "L55-blend-oil",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-oil",
+    "stimulusAssetId": "w-oil-blend",
+    "displayText": "oil"
+  },
+  {
+    "id": "L55-build-oil",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "oi",
+        "label": "oi",
+        "mappingId": "g-oi"
+      },
+      {
+        "id": "l",
+        "label": "l",
+        "mappingId": "g-l"
+      }
+    ],
+    "hintAssetIds": [
+      "w-oil-segment",
+      "w-oil-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-oil",
+    "stimulusAssetId": "w-oil-word",
+    "judge": {
+      "answerIds": [
+        "oi",
+        "l"
+      ]
+    }
+  },
+  {
+    "id": "L55-build-coin",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "c",
+        "label": "c",
+        "mappingId": "g-c"
+      },
+      {
+        "id": "oi",
+        "label": "oi",
+        "mappingId": "g-oi"
+      },
+      {
+        "id": "n",
+        "label": "n",
+        "mappingId": "g-n"
+      }
+    ],
+    "hintAssetIds": [
+      "w-coin-segment",
+      "w-coin-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-coin",
+    "stimulusAssetId": "w-coin-word",
+    "judge": {
+      "answerIds": [
+        "c",
+        "oi",
+        "n"
+      ]
+    }
+  },
+  {
+    "id": "L55-build-boy",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "b",
+        "label": "b",
+        "mappingId": "g-b"
+      },
+      {
+        "id": "oy",
+        "label": "oy",
+        "mappingId": "g-oy"
+      }
+    ],
+    "hintAssetIds": [
+      "w-boy-segment",
+      "w-boy-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-boy",
+    "stimulusAssetId": "w-boy-word",
+    "judge": {
+      "answerIds": [
+        "b",
+        "oy"
+      ]
+    }
+  },
+  {
+    "id": "L55-build-toy",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      },
+      {
+        "id": "oy",
+        "label": "oy",
+        "mappingId": "g-oy"
+      }
+    ],
+    "hintAssetIds": [
+      "w-toy-segment",
+      "w-toy-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-toy",
+    "stimulusAssetId": "w-toy-word",
+    "judge": {
+      "answerIds": [
+        "t",
+        "oy"
+      ]
+    }
+  },
+  {
+    "id": "L55-build-joy",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "j",
+        "label": "j",
+        "mappingId": "g-j"
+      },
+      {
+        "id": "oy",
+        "label": "oy",
+        "mappingId": "g-oy"
+      }
+    ],
+    "hintAssetIds": [
+      "w-joy-segment",
+      "w-joy-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-joy",
+    "stimulusAssetId": "w-joy-word",
+    "judge": {
+      "answerIds": [
+        "j",
+        "oy"
+      ]
+    }
+  },
+  {
+    "id": "L55-oral-joy",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-joy-segment",
+      "w-joy-blend",
+      "w-joy-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-joy",
+    "displayText": "joy"
+  },
+  {
+    "id": "L55-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-oil-word",
+      "w-coin-word",
+      "w-boy-word",
+      "w-toy-word",
+      "w-joy-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l55"
+  },
+  {
+    "id": "L56-model-au",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-au",
+    "displayText": "au",
+    "stimulusAssetId": "sound-au"
+  },
+  {
+    "id": "L56-hear-au",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "au",
+        "label": "au",
+        "mappingId": "g-au"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-au",
+    "stimulusAssetId": "sound-au",
+    "judge": {
+      "answerIds": [
+        "au"
+      ]
+    }
+  },
+  {
+    "id": "L56-model-aw",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-aw",
+    "displayText": "aw",
+    "stimulusAssetId": "sound-aw"
+  },
+  {
+    "id": "L56-hear-aw",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "aw",
+        "label": "aw",
+        "mappingId": "g-aw"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-aw",
+    "stimulusAssetId": "sound-aw",
+    "judge": {
+      "answerIds": [
+        "aw"
+      ]
+    }
+  },
+  {
+    "id": "L56-meaning-saw",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-saw",
+    "stimulusAssetId": "w-saw-word",
+    "displayText": "saw",
+    "imageAssetId": "w-saw-meaning-image"
+  },
+  {
+    "id": "L56-meaning-paw",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-paw",
+    "stimulusAssetId": "w-paw-word",
+    "displayText": "paw",
+    "imageAssetId": "w-paw-meaning-image"
+  },
+  {
+    "id": "L56-meaning-draw",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-draw",
+    "stimulusAssetId": "w-draw-word",
+    "displayText": "draw",
+    "imageAssetId": "w-draw-meaning-image"
+  },
+  {
+    "id": "L56-blend-saw",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-saw",
+    "stimulusAssetId": "w-saw-blend",
+    "displayText": "saw"
+  },
+  {
+    "id": "L56-build-saw",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "aw",
+        "label": "aw",
+        "mappingId": "g-aw"
+      }
+    ],
+    "hintAssetIds": [
+      "w-saw-segment",
+      "w-saw-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-saw",
+    "stimulusAssetId": "w-saw-word",
+    "judge": {
+      "answerIds": [
+        "s",
+        "aw"
+      ]
+    }
+  },
+  {
+    "id": "L56-build-paw",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "p",
+        "label": "p",
+        "mappingId": "g-p"
+      },
+      {
+        "id": "aw",
+        "label": "aw",
+        "mappingId": "g-aw"
+      }
+    ],
+    "hintAssetIds": [
+      "w-paw-segment",
+      "w-paw-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-paw",
+    "stimulusAssetId": "w-paw-word",
+    "judge": {
+      "answerIds": [
+        "p",
+        "aw"
+      ]
+    }
+  },
+  {
+    "id": "L56-build-draw",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "d",
+        "label": "d",
+        "mappingId": "g-d"
+      },
+      {
+        "id": "r",
+        "label": "r",
+        "mappingId": "g-r"
+      },
+      {
+        "id": "aw",
+        "label": "aw",
+        "mappingId": "g-aw"
+      }
+    ],
+    "hintAssetIds": [
+      "w-draw-segment",
+      "w-draw-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-draw",
+    "stimulusAssetId": "w-draw-word",
+    "judge": {
+      "answerIds": [
+        "d",
+        "r",
+        "aw"
+      ]
+    }
+  },
+  {
+    "id": "L56-oral-draw",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-draw-segment",
+      "w-draw-blend",
+      "w-draw-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-draw",
+    "displayText": "draw"
+  },
+  {
+    "id": "L56-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-saw-word",
+      "w-paw-word",
+      "w-draw-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l56"
+  },
+  {
+    "id": "L57-model-ew",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ew",
+    "displayText": "ew",
+    "stimulusAssetId": "sound-ew"
+  },
+  {
+    "id": "L57-hear-ew",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "ew",
+        "label": "ew",
+        "mappingId": "g-ew"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-ew",
+    "stimulusAssetId": "sound-ew",
+    "judge": {
+      "answerIds": [
+        "ew"
+      ]
+    }
+  },
+  {
+    "id": "L57-meaning-new",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-new",
+    "stimulusAssetId": "w-new-word",
+    "displayText": "new",
+    "imageAssetId": "w-new-meaning-image"
+  },
+  {
+    "id": "L57-meaning-few",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-few",
+    "stimulusAssetId": "w-few-word",
+    "displayText": "few",
+    "imageAssetId": "w-few-meaning-image"
+  },
+  {
+    "id": "L57-blend-new",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-new",
+    "stimulusAssetId": "w-new-blend",
+    "displayText": "new"
+  },
+  {
+    "id": "L57-build-new",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "n",
+        "label": "n",
+        "mappingId": "g-n"
+      },
+      {
+        "id": "ew",
+        "label": "ew",
+        "mappingId": "g-ew"
+      }
+    ],
+    "hintAssetIds": [
+      "w-new-segment",
+      "w-new-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-new",
+    "stimulusAssetId": "w-new-word",
+    "judge": {
+      "answerIds": [
+        "n",
+        "ew"
+      ]
+    }
+  },
+  {
+    "id": "L57-build-few",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "f",
+        "label": "f",
+        "mappingId": "g-f"
+      },
+      {
+        "id": "ew",
+        "label": "ew",
+        "mappingId": "g-ew"
+      }
+    ],
+    "hintAssetIds": [
+      "w-few-segment",
+      "w-few-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-few",
+    "stimulusAssetId": "w-few-word",
+    "judge": {
+      "answerIds": [
+        "f",
+        "ew"
+      ]
+    }
+  },
+  {
+    "id": "L57-oral-few",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-few-segment",
+      "w-few-blend",
+      "w-few-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-few",
+    "displayText": "few"
+  },
+  {
+    "id": "L57-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-new-word",
+      "w-few-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l57"
+  },
+  {
+    "id": "L58-model-c2",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-c2",
+    "displayText": "c",
+    "stimulusAssetId": "sound-c2"
+  },
+  {
+    "id": "L58-hear-c2",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "c2",
+        "label": "c",
+        "mappingId": "g-c2"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-c2",
+    "stimulusAssetId": "sound-c2",
+    "judge": {
+      "answerIds": [
+        "c2"
+      ]
+    }
+  },
+  {
+    "id": "L58-meaning-ice",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-ice",
+    "stimulusAssetId": "w-ice-word",
+    "displayText": "ice",
+    "imageAssetId": "w-ice-meaning-image"
+  },
+  {
+    "id": "L58-meaning-rice",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-rice",
+    "stimulusAssetId": "w-rice-word",
+    "displayText": "rice",
+    "imageAssetId": "w-rice-meaning-image"
+  },
+  {
+    "id": "L58-meaning-nice",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-nice",
+    "stimulusAssetId": "w-nice-word",
+    "displayText": "nice",
+    "imageAssetId": "w-nice-meaning-image"
+  },
+  {
+    "id": "L58-blend-ice",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-ice",
+    "stimulusAssetId": "w-ice-blend",
+    "displayText": "ice"
+  },
+  {
+    "id": "L58-oral-nice",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-nice-segment",
+      "w-nice-blend",
+      "w-nice-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-nice",
+    "displayText": "nice"
+  },
+  {
+    "id": "L58-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-ice-word",
+      "w-rice-word",
+      "w-nice-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l58"
+  },
+  {
+    "id": "L59-model-igh",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-igh",
+    "displayText": "igh",
+    "stimulusAssetId": "sound-igh"
+  },
+  {
+    "id": "L59-hear-igh",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-igh",
+    "stimulusAssetId": "sound-igh",
+    "judge": {
+      "answerIds": [
+        "igh"
+      ]
+    }
+  },
+  {
+    "id": "L59-model-y2",
+    "kind": "listen",
+    "skill": "mapping",
+    "role": "model",
+    "instructionZh": "看这个字母，听它在单词里的声音。你也可以跟着试一试。",
+    "instructionAssetId": "inst-model-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-y2",
+    "displayText": "y",
+    "stimulusAssetId": "sound-y2"
+  },
+  {
+    "id": "L59-hear-y2",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "y2",
+        "label": "y",
+        "mappingId": "g-y2"
+      },
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-y2",
+    "stimulusAssetId": "sound-y2",
+    "judge": {
+      "answerIds": [
+        "y2"
+      ]
+    }
+  },
+  {
+    "id": "L59-meaning-light",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-light",
+    "stimulusAssetId": "w-light-word",
+    "displayText": "light",
+    "imageAssetId": "w-light-meaning-image"
+  },
+  {
+    "id": "L59-meaning-night",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-night",
+    "stimulusAssetId": "w-night-word",
+    "displayText": "night",
+    "imageAssetId": "w-night-meaning-image"
+  },
+  {
+    "id": "L59-meaning-right",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-right",
+    "stimulusAssetId": "w-right-word",
+    "displayText": "right",
+    "imageAssetId": "w-right-meaning-image"
+  },
+  {
+    "id": "L59-meaning-high",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-high",
+    "stimulusAssetId": "w-high-word",
+    "displayText": "high",
+    "imageAssetId": "w-high-meaning-image"
+  },
+  {
+    "id": "L59-meaning-sky",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-sky",
+    "stimulusAssetId": "w-sky-word",
+    "displayText": "sky",
+    "imageAssetId": "w-sky-meaning-image"
+  },
+  {
+    "id": "L59-meaning-fly",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-fly",
+    "stimulusAssetId": "w-fly-word",
+    "displayText": "fly",
+    "imageAssetId": "w-fly-meaning-image"
+  },
+  {
+    "id": "L59-blend-light",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-light",
+    "stimulusAssetId": "w-light-blend",
+    "displayText": "light"
+  },
+  {
+    "id": "L59-build-light",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "l",
+        "label": "l",
+        "mappingId": "g-l"
+      },
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      }
+    ],
+    "hintAssetIds": [
+      "w-light-segment",
+      "w-light-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-light",
+    "stimulusAssetId": "w-light-word",
+    "judge": {
+      "answerIds": [
+        "l",
+        "igh",
+        "t"
+      ]
+    }
+  },
+  {
+    "id": "L59-build-night",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "n",
+        "label": "n",
+        "mappingId": "g-n"
+      },
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      }
+    ],
+    "hintAssetIds": [
+      "w-night-segment",
+      "w-night-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-night",
+    "stimulusAssetId": "w-night-word",
+    "judge": {
+      "answerIds": [
+        "n",
+        "igh",
+        "t"
+      ]
+    }
+  },
+  {
+    "id": "L59-build-right",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "r",
+        "label": "r",
+        "mappingId": "g-r"
+      },
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      }
+    ],
+    "hintAssetIds": [
+      "w-right-segment",
+      "w-right-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-right",
+    "stimulusAssetId": "w-right-word",
+    "judge": {
+      "answerIds": [
+        "r",
+        "igh",
+        "t"
+      ]
+    }
+  },
+  {
+    "id": "L59-build-high",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "h",
+        "label": "h",
+        "mappingId": "g-h"
+      },
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      }
+    ],
+    "hintAssetIds": [
+      "w-high-segment",
+      "w-high-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-high",
+    "stimulusAssetId": "w-high-word",
+    "judge": {
+      "answerIds": [
+        "h",
+        "igh"
+      ]
+    }
+  },
+  {
+    "id": "L59-build-sky",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "k",
+        "label": "k",
+        "mappingId": "g-k"
+      },
+      {
+        "id": "y2",
+        "label": "y",
+        "mappingId": "g-y2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-sky-segment",
+      "w-sky-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-sky",
+    "stimulusAssetId": "w-sky-word",
+    "judge": {
+      "answerIds": [
+        "s",
+        "k",
+        "y2"
+      ]
+    }
+  },
+  {
+    "id": "L59-build-fly",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "f",
+        "label": "f",
+        "mappingId": "g-f"
+      },
+      {
+        "id": "l",
+        "label": "l",
+        "mappingId": "g-l"
+      },
+      {
+        "id": "y2",
+        "label": "y",
+        "mappingId": "g-y2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-fly-segment",
+      "w-fly-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-fly",
+    "stimulusAssetId": "w-fly-word",
+    "judge": {
+      "answerIds": [
+        "f",
+        "l",
+        "y2"
+      ]
+    }
+  },
+  {
+    "id": "L59-oral-fly",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-fly-segment",
+      "w-fly-blend",
+      "w-fly-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-fly",
+    "displayText": "fly"
+  },
+  {
+    "id": "L59-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-light-word",
+      "w-night-word",
+      "w-right-word",
+      "w-high-word",
+      "w-sky-word",
+      "w-fly-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l59"
+  },
+  {
+    "id": "L60-meaning-spring",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-spring",
+    "stimulusAssetId": "w-spring-word",
+    "displayText": "spring",
+    "imageAssetId": "w-spring-meaning-image"
+  },
+  {
+    "id": "L60-meaning-string",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-string",
+    "stimulusAssetId": "w-string-word",
+    "displayText": "string",
+    "imageAssetId": "w-string-meaning-image"
+  },
+  {
+    "id": "L60-meaning-street",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-street",
+    "stimulusAssetId": "w-street-word",
+    "displayText": "street",
+    "imageAssetId": "w-street-meaning-image"
+  },
+  {
+    "id": "L60-blend-spring",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-spring",
+    "stimulusAssetId": "w-spring-blend",
+    "displayText": "spring"
+  },
+  {
+    "id": "L60-build-spring",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "p",
+        "label": "p",
+        "mappingId": "g-p"
+      },
+      {
+        "id": "r",
+        "label": "r",
+        "mappingId": "g-r"
+      },
+      {
+        "id": "i",
+        "label": "i",
+        "mappingId": "g-i"
+      },
+      {
+        "id": "ng",
+        "label": "ng",
+        "mappingId": "g-ng"
+      }
+    ],
+    "hintAssetIds": [
+      "w-spring-segment",
+      "w-spring-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-spring",
+    "stimulusAssetId": "w-spring-word",
+    "judge": {
+      "answerIds": [
+        "s",
+        "p",
+        "r",
+        "i",
+        "ng"
+      ]
+    }
+  },
+  {
+    "id": "L60-build-string",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      },
+      {
+        "id": "r",
+        "label": "r",
+        "mappingId": "g-r"
+      },
+      {
+        "id": "i",
+        "label": "i",
+        "mappingId": "g-i"
+      },
+      {
+        "id": "ng",
+        "label": "ng",
+        "mappingId": "g-ng"
+      }
+    ],
+    "hintAssetIds": [
+      "w-string-segment",
+      "w-string-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-string",
+    "stimulusAssetId": "w-string-word",
+    "judge": {
+      "answerIds": [
+        "s",
+        "t",
+        "r",
+        "i",
+        "ng"
+      ]
+    }
+  },
+  {
+    "id": "L60-build-street",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "s",
+        "label": "s",
+        "mappingId": "g-s"
+      },
+      {
+        "id": "t",
+        "label": "t",
+        "mappingId": "g-t"
+      },
+      {
+        "id": "r",
+        "label": "r",
+        "mappingId": "g-r"
+      },
+      {
+        "id": "ee",
+        "label": "ee",
+        "mappingId": "g-ee"
+      },
+      {
+        "id": "t-1",
+        "label": "t",
+        "mappingId": "g-t"
+      }
+    ],
+    "hintAssetIds": [
+      "w-street-segment",
+      "w-street-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-street",
+    "stimulusAssetId": "w-street-word",
+    "judge": {
+      "answerIds": [
+        "s",
+        "t",
+        "r",
+        "ee",
+        "t-1"
+      ]
+    }
+  },
+  {
+    "id": "L60-oral-street",
+    "kind": "oral",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "试着自己读。读不出来也没关系，可以点“一起读”。",
+    "instructionAssetId": "inst-oral-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-street-segment",
+      "w-street-blend",
+      "w-street-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-street",
+    "displayText": "street"
+  },
+  {
+    "id": "L60-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-spring-word",
+      "w-string-word",
+      "w-street-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l60"
+  },
+  {
+    "id": "L61-hear-oi",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "oi",
+        "label": "oi",
+        "mappingId": "g-oi"
+      },
+      {
+        "id": "oo",
+        "label": "oo",
+        "mappingId": "g-oo"
+      },
+      {
+        "id": "a",
+        "label": "a",
+        "mappingId": "g-a"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-oi",
+    "stimulusAssetId": "sound-oi",
+    "judge": {
+      "answerIds": [
+        "oi"
+      ]
+    }
+  },
+  {
+    "id": "L61-hear-igh",
+    "kind": "choice",
+    "skill": "mapping",
+    "role": "practice",
+    "instructionZh": "听声音，点一个字母。需要时可以再听一遍。",
+    "instructionAssetId": "inst-hear-zh",
+    "choices": [
+      {
+        "id": "igh",
+        "label": "igh",
+        "mappingId": "g-igh"
+      },
+      {
+        "id": "i",
+        "label": "i",
+        "mappingId": "g-i"
+      },
+      {
+        "id": "ee",
+        "label": "ee",
+        "mappingId": "g-ee"
+      }
+    ],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "mappingId": "g-igh",
+    "stimulusAssetId": "sound-igh",
+    "judge": {
+      "answerIds": [
+        "igh"
+      ]
+    }
+  },
+  {
+    "id": "L61-meaning-my",
+    "kind": "listen",
+    "skill": "meaning",
+    "role": "model",
+    "instructionZh": "看看图片，听一听这个词。可以跟着说一说。",
+    "instructionAssetId": "inst-meaning-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-my",
+    "stimulusAssetId": "w-my-word",
+    "displayText": "my",
+    "imageAssetId": "w-my-meaning-image"
+  },
+  {
+    "id": "L61-blend-my",
+    "kind": "listen",
+    "skill": "blend",
+    "role": "model",
+    "instructionZh": "听老师把声音慢慢连起来，跟着一起拼。",
+    "instructionAssetId": "inst-blend-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "shared-help-zh"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-my",
+    "stimulusAssetId": "w-my-blend",
+    "displayText": "my"
+  },
+  {
+    "id": "L61-build-my",
+    "kind": "build",
+    "skill": "segment",
+    "role": "practice",
+    "instructionZh": "先听完整的词，再点字母，按声音的顺序摆好。",
+    "instructionAssetId": "inst-build-zh",
+    "choices": [
+      {
+        "id": "m",
+        "label": "m",
+        "mappingId": "g-m"
+      },
+      {
+        "id": "y2",
+        "label": "y",
+        "mappingId": "g-y2"
+      }
+    ],
+    "hintAssetIds": [
+      "w-my-segment",
+      "w-my-blend"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "wordId": "w-my",
+    "stimulusAssetId": "w-my-word",
+    "judge": {
+      "answerIds": [
+        "m",
+        "y2"
+      ]
+    }
+  },
+  {
+    "id": "L61-read",
+    "kind": "read",
+    "skill": "oral_reading",
+    "role": "practice",
+    "instructionZh": "看看这一页，试着读一读。需要时一起读。",
+    "instructionAssetId": "inst-read-zh",
+    "choices": [],
+    "hintAssetIds": [
+      "w-my-word",
+      "w-toy-word",
+      "w-box-word",
+      "w-spring-word",
+      "w-street-word",
+      "w-cow-word"
+    ],
+    "canSkipWithHelp": true,
+    "timeline": [],
+    "readerId": "r-l61"
   }
 ]

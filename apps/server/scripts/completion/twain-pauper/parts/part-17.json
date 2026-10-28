@@ -1,0 +1,337 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 17 · The Prince and the Peasant",
+      "art": "pauper-peasant-farm",
+      "artPrompt": "A poor farm kitchen in autumn evening light: a kind country wife sets dark bread and milk before two travel-worn guests — a tall soldier and a small proud ragged boy — while worn children's shoes dry by the peat fire and wind rattles the thatch above; warm hearth glow against blue dusk, humble generous mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "After the tramps, the road led through quiet country, brown and empty in the autumn cold. The prince and his soldier were hungry, as usual, and evening found them at the door of a small farm, where a thin thread of smoke rose from the thatch. Edward knocked, and his knock was very like a beggar's."
+        },
+        {
+          "kind": "text",
+          "text": "The goodwife was poor, but her heart was big. She set before them what she had — dark bread, milk, and a rind of bacon — and asked no questions, only looked a little fearfully at the ragged boy's proud, tired face. \"Eat, and welcome,\" she said. \"It is little, but it is clean.\""
+        },
+        {
+          "kind": "text",
+          "text": "Edward looked round the bare room: the children's worn shoes drying by the fire, the single candle, the sound of wind through the thatch. \"Are all the farms of England so poor?\" he asked. \"Too many of them, sire,\" said Miles. \"The taxes are heavy, the winters are long, and the laws are hard.\""
+        },
+        {
+          "kind": "image",
+          "art": "pauper-peasant-farm",
+          "text": "A poor farm wife sets dark bread and milk before her two guests by firelight."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: what did Edward learn at the farm that no palace could teach him?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The prince said little that night. He lay on the hard pallet listening to the wind, and thought of harvests and tax-gatherers and cold little children, and wrote it all in his kingly heart: When I am king, no child of mine shall go breadless while the barns stand full."
+        },
+        {
+          "kind": "text",
+          "text": "In the morning she filled their hands with bread for the road and would take nothing for it. \"May your luck be good, good mother,\" said Edward at the gate. \"You have feasted a king this day — and the king pays when he can.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Mad Hermit",
+      "art": "pauper-mad-hermit",
+      "artPrompt": "A lonely hut deep in dark woods at night: a wild-haired old hermit bends menacingly over a boy bound fast with ropes on the earthen floor, candle shadows swinging huge on the walls, the single door shut and barred; sickly yellow candlelight against blackness, frightening but storybook-tame mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One grey afternoon Edward wandered from the road into deep woods. Miles had called him \"my boy\" once too often before strangers, and the prince had strode off alone to be a king by himself for a while. Kings, he thought, did not need looking after."
+        },
+        {
+          "kind": "text",
+          "text": "The trees thickened, the light failed, and in a clearing stood a lonely hut. Out of it came an old man with wild hair and wilder eyes — a hermit, who fed the lost boy and listened to his tale of rank. At first he seemed as kind as anyone in the world."
+        },
+        {
+          "kind": "text",
+          "text": "But at the word \"prince\" the hermit's eyes grew strange and terrible. \"A prince!\" he cried. \"A prince of that wicked king who wronged me! Come here, my pretty prince — come here.\" And before Edward could reach the door, the old man had bound him fast with ropes."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-mad-hermit",
+          "text": "In the hut among the dark trees, the wild hermit binds the little prince hand and foot."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hermit — a person who lives alone, far from other people.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"The king has taken everything from me,\" the hermit muttered, walking round and round. \"And now one of his house is in my hands.\" Edward pulled at his bonds and called for Miles with all his might — but the woods only laughed back, and the ropes held."
+        },
+        {
+          "kind": "text",
+          "text": "Night came down on the little hut. The fire burned low, the old man chuckled to himself in the dark, and things looked very black indeed for the King of England. Yet Edward lay where he was, calm as he could, and watched the door."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Hendon to the Rescue",
+      "art": "pauper-rescue",
+      "artPrompt": "First light in a misty forest clearing: a tall soldier cuts the ropes of a small bound boy with his sword while a wild old hermit rages waving a staff at the hut door behind them, pale dawn gold breaking between the trees; cool grey-greens warmed by sunrise, brave relieving mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Miles missed the prince at dusk, and hunted the woods all night, calling till his voice cracked. The dark was full of noises — hoots, cracklings, far-off howls — and every hour the boy was gone was a cold hour for Miles. He did not stop once to rest."
+        },
+        {
+          "kind": "text",
+          "text": "Near morning he saw a thread of smoke among the trees, and knocked at the hut door with the butt of his sword. The hermit looked out, wild-eyed, and swore that no boy had come that way. But Miles had been a soldier too long to be fooled by a madman."
+        },
+        {
+          "kind": "text",
+          "text": "He pushed past the old man — and there lay the prince, bound hand and foot, pale but proud. \"Sire,\" said Miles, cutting the ropes with his sword, \"your humble servant is late.\" And Edward, who had meant to be very angry, found he could only grin."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-rescue",
+          "text": "At dawn in the woods, Miles Hendon cuts the prince's ropes while the hermit rages at the door."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: how did Miles find Edward? What did he do first, and what did he never do once?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The hermit screamed and raved and snatched up his staff, but Miles was too quick for him. He kept the old man off with the flat of his sword, set the prince on his feet, and the two were away through the trees before the sun was well up."
+        },
+        {
+          "kind": "text",
+          "text": "Behind them the hut door slammed and the mad voice died away. \"Miles,\" said Edward, when they had breath to speak, \"you called me 'my boy' before the tramps, and I was angry. Call me so again whenever you please. After this night, I shall not forget.\"\nAnd Miles laughed his big quiet laugh, and said nothing at all — which was exactly the right answer, as true friends know."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Ill Tidings",
+      "art": "pauper-ill-tidings",
+      "artPrompt": "A smoky inn parlour by lamplight: a weary scarred soldier sits stricken across a rough table from a talkative traveller raising a mug, while a small ragged boy lays a gentle hand on the soldier's arm; tobacco haze and amber lamplight, grief and comfort mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The two travelled westward now, for the prince had begged to see Hendon Hall, where his friend had been born. Autumn was deepening; the lanes were brown, the inns were smoky, and the prince's velvet — what was left of it — was sadly worn. But his spirits were high, for they were bound for Miles's home."
+        },
+        {
+          "kind": "text",
+          "text": "At a wayside inn they fell in with a talkative traveller just come from those parts, who was glad of listeners. Miles bought him a mug of ale and asked, carelessly enough, after the country and the weather — and at last, after Hendon Hall."
+        },
+        {
+          "kind": "text",
+          "text": "The news was bitter. Arthur Hendon, the gentle younger brother, was dead. Sir Richard, the old father, was failing. And Hugh — Hugh sat in his father's place and ruled Hendon Hall like a little king, and no man dared say him nay."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-ill-tidings",
+          "text": "Across a smoky inn table, a traveller brings a soldier bitter news from home."
+        },
+        {
+          "kind": "note",
+          "text": "New word: tidings — news. Ill tidings are sad news.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Miles sat silent for a long time, looking into his mug. \"Arthur was the best of us,\" he said at last. \"And my father must hear how his son has fared before it is too late. Come, sire — we ride for Hendon Hall, and we ride fast.\""
+        },
+        {
+          "kind": "text",
+          "text": "Edward laid his small hand on the soldier's arm. \"When I am king,\" he said quietly, \"no friend of mine shall sit out in the cold while a brother warms himself at the fire. That is a law I will not forget.\" And they went out together into the wet road."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · The Prince a Prisoner",
+      "art": "pauper-prisoner",
+      "artPrompt": "A moonlit barn loft: a small boy in ragged princely bearing slips down a wooden ladder on hands and feet while below two sleeping ruffians sprawl by a guttering lantern, hay dust drifting in the silver light; cool blue moonlight with one warm lantern spark, hushed adventurous mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "But the road had a thief on it. John Canty had never forgotten the boy he called his son, for a beggar with such a face was worth gold to him — and now, for one unlucky hour, the boy had no soldier at his elbow."
+        },
+        {
+          "kind": "text",
+          "text": "At a lonely crossroads Canty and a ruffian friend seized Edward before Miles could come to him, and carried him off through the fields to a far farm, where they shut him in a loft and set a watch. \"Father or no father,\" Canty growled through the door, \"you will beg for me.\""
+        },
+        {
+          "kind": "text",
+          "text": "But the prince had learned patience in palaces and woods and prisons of one kind and another. He did not scream or pound the boards. He waited, and watched, and marked where the ladder stood, and which floor-board creaked, and how soundly the two men slept after their ale."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-prisoner",
+          "text": "By moonlight the little prince slips down from the hayloft while his captors sleep."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Edward stayed calm and waited for his chance. Why is that sometimes braver than fighting?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One dark night, when the two men slept like logs below, Edward came down the ladder on hands and feet, lifted the latch, and slipped out into the wet grass like a shadow. He did not run at first. He walked, soft and steady, until the barn was out of sight — and then he ran."
+        },
+        {
+          "kind": "text",
+          "text": "He ran through hedges and ditches and sleeping villages till the stars went out and his legs would carry him no further. Then, at the edge of a great wood, he dropped into two waiting arms — for Miles had hardly slept for searching. \"Sire,\" said Miles, holding him fast, \"we will not part again, if I can help it.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · Hendon Hall",
+      "art": "pauper-hendon-hall",
+      "artPrompt": "The long panelled hall of an old English manor in candlelight: a travel-worn soldier stands with a small ragged boy while a sleek smiling man sits at ease in the high carved chair, a pale lady beside him with troubled downcast eyes, servants whispering along the walls; honey oak and candle gold with cold blue shadows, uneasy dramatic mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At last, one autumn evening, the two came to Hendon Hall — a goodly old house among trees, with carved doors and long windows full of firelight. \"Home!\" cried Miles, and his voice shook in spite of himself. For years he had dreamed of this gate, this garden, this bell."
+        },
+        {
+          "kind": "text",
+          "text": "But at the door the old servants looked at him strangely, as men look at a stranger. No one cried his name; no one ran to take his bundle; and the hall he had dreamed of for years felt suddenly cold. Miles's smile faded by inches."
+        },
+        {
+          "kind": "text",
+          "text": "In the great room sat Hugh Hendon at his ease in the high carved chair, with his wife, Lady Edith, beside him — very pale, and with troubled eyes. \"Hugh!\" called Miles. \"It is I — your brother Miles, home from the wars! Where is our father?\""
+        },
+        {
+          "kind": "image",
+          "art": "pauper-hendon-hall",
+          "text": "In the great hall, a smiling man in the high chair denies the soldier who claims his name."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why do you think the servants looked at Miles so strangely? What could be going on?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "A cold silence fell. Then Hugh smiled thinly. \"My brother Miles is dead these many years,\" he said. \"Who are you, that dare to wear his face?\" And the servants, at a look from their master, murmured one after another that they had never seen the stranger before."
+        },
+        {
+          "kind": "text",
+          "text": "\"I am Miles Hendon,\" said Miles steadily, \"and this hall is my home.\" But the faces that met him were stone — every one but Lady Edith's, which fell, and would not rise again while he stood there."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · Disowned",
+      "art": "pauper-disowned",
+      "artPrompt": "A great manor hall in cold evening light: a small ragged boy stands blazing with anger in the middle of the floor, one arm flung out before a pale lady and a sneering man in the high chair, while the tall soldier gathers the boy toward the open door and servants bar the way; cold blue-green tones with one warm doorway, righteous anger and sadness, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Hugh called his witnesses, and one after another they swore that the stranger was no son of Sir Richard's. The more Miles spoke, the more Hugh smiled, till it seemed the whole world was on Hugh's side. Even the very pictures on the walls seemed to look at Miles as a beggar."
+        },
+        {
+          "kind": "text",
+          "text": "Then Hugh turned to his wife. \"Edith, my dear, do you know this man?\" And Lady Edith, white as snow, looked a moment at Miles — one long, strange, troubled look — and said in a small voice, \"I never saw him before.\" Then she covered her face with her hands."
+        },
+        {
+          "kind": "text",
+          "text": "Miles stood very still. To be called a liar in his own father's hall, before his own father's servants, was a wound no battle had ever given him. His sword-arm trembled — but he was too true a gentleman to use it in that house."
+        },
+        {
+          "kind": "text",
+          "text": "Then Edward sprang forward, blazing. \"You lie, all of you! This is Miles Hendon, the truest gentleman in England, and one day I, the King, will make the whole world know it!\" For answer, Hugh only laughed the louder. \"A mad boy and a mad beggar,\" he said. \"Out of the gate with them.\""
+        },
+        {
+          "kind": "image",
+          "art": "pauper-disowned",
+          "text": "The little prince, blazing with anger, defends his friend before the whole disowning household."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Edward lost his temper before the whole hall. Did it help him or hurt him? What else could he have said?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So Miles Hendon was turned out of his father's house into the dark, with the boy he had served. \"Never mind, sire,\" he said at last, when they had walked a mile in silence. \"Truth keeps. One day it will come home to this hall and knock.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · In Prison",
+      "art": "pauper-county-jail",
+      "artPrompt": "A dim stone cell: a ragged boy sits on foul straw among poor prisoners — a weaver, a bent old man, a mother with two small children — while one thin ray of light falls from a high barred window; deep grey-browns pierced by a single pale beam, sorrowful but quietly dignified mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Worse was coming. On Hugh's word that they were rogues and impostors, officers took Miles and the boy upon the road next day and threw them into the county jail, to wait for the judge's coming. No friend, no witness, no king to help them — only stone walls and a lock."
+        },
+        {
+          "kind": "text",
+          "text": "The jail was dark, cold, and dirty, and it was full of the poor. A weaver lay there for debt. Two little children shared a cell with their mother. A bent old man had waited out years already, and expected to wait out more. Nobody wept for any of them; the jail had seen to that."
+        },
+        {
+          "kind": "text",
+          "text": "Edward, King of England, sat among them on the foul straw and saw, close up, what the laws of his kingdom did to the least of his people. Nobody knew him; nobody bowed; the jailers laughed at his story and gave him the worst corner, and he thanked them for it."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-county-jail",
+          "text": "The ragged boy king sits among poor prisoners in the dark, one ray of light from the high window."
+        },
+        {
+          "kind": "note",
+          "text": "New word: debtor — a person who owes money and cannot pay it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Miles,\" he said at last, very low, \"when God gives me back my throne, I will remember this room. These things shall be mended — I swear it on my crown.\" And Miles answered only, \"I know it, sire,\" for that was quite enough, and they sat on together in the dark."
+        },
+        {
+          "kind": "text",
+          "text": "And so the prison did what no palace could: it showed the king his people, and his people their king. Somewhere beyond the walls the coronation trumpets were being polished and the abbey dressed with flowers. In here, a boy learned the last lesson of his exile — mercy."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 25 · The Sacrifice",
+      "art": "pauper-sacrifice",
+      "artPrompt": "A stark prison yard at noon: a broad-shouldered soldier stands firm and silent, head unbowed, taking the punishment of a small ragged boy who watches in anguish between two grim jailers, high stone walls all around, a hard white sky above; pale stone greys with one flash of the soldier's bright sash, sacrifice and loyalty mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the jail the prince's tongue was still a king's tongue. He told the head jailer exactly what he thought of him, in words that left nothing out. The jailer laughed till he coughed, and sentenced the \"mad boy\" to be whipped in the yard at noon, for a lesson in manners."
+        },
+        {
+          "kind": "text",
+          "text": "The prince stood pale but proud, ready to bear it as a king should. Then Miles stepped forward. \"Sir,\" he said, \"the boy is small and sick, and the lash might kill him. Let me take it in his place — I am broad enough to spare it.\" And he smiled, so the boy should guess nothing."
+        },
+        {
+          "kind": "text",
+          "text": "And before Edward could speak, it was done. Miles Hendon stood in the prince's place and bore the lash in silence, and never once looked back at the boy — for he knew that looking back would break the boy's heart, and his own."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-sacrifice",
+          "text": "In the prison yard, Miles Hendon takes the punishment in his king's place, without a sound."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why did Miles take the whipping? What did Edward learn about his friend that day?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Oh, Miles!\" was all Edward could say when they were alone. \"You have taken a whipping for the King of England, and he will never forget it while he lives. I made you a knight in my heart that day — and an earl I will make you, when God gives me back my own.\""
+        },
+        {
+          "kind": "text",
+          "text": "That night the two lay in the dark cell, and the boy cried a little for very love, and Miles said nothing, as true friends know how to do. And when the judge came at last, he could prove nothing against them; so the gates opened, and out they walked into the wide world — free."
+        }
+      ]
+    }
+  ]
+}

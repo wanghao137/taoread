@@ -1,0 +1,374 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 19 · The Frying Pan",
+      "art": "pinocchio-frying-pan",
+      "artPrompt": "a wooden puppet boy white with flour lying beside a giant frying pan on a fire, a green-skinned fisherman reaching for him, a huge brown mastiff bursting through the hut door, smoky firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The Green Fisherman took a bag of flour and shook it all over him, as if he were a sole. \"A pinch of flour, a pinch of salt,\" he sang, \"and the little fish goes into the pan.\" \"Flour makes the crust golden,\" he explained to nobody in particular. Pinocchio, white as a ghost, wept two little rivers of tears. \"I am not a fish! I have a papa called Geppetto!\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-frying-pan",
+          "text": "Alidoro the mastiff bursts in and snatches Pinocchio from the frying pan."
+        },
+        {
+          "kind": "text",
+          "text": "\"Fish are never fish to a frying pan,\" said the fisherman comfortably, and he stirred the fire. The oil began to hiss and spit. Pinocchio, seeing the end so near, held his breath and closed his eyes. He said goodbye to the Fairy, to his papa, and to his own poor nose. \"At least,\" he whispered, \"I shall not be a drum.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Alidoro remembered who saved him in the sea. Why is it good to remember who has helped you?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At that very moment the door flew open with a bang. A whirlwind of brown fur shot across the hut, snatched the floured Pinocchio from the fisherman's very hands, and dashed out again before the astonished man could shout. It was Alidoro, the mastiff! The smell of frying fish had called him, but kindness sent him flying."
+        },
+        {
+          "kind": "text",
+          "text": "The Green Fisherman ran after them, screaming for his rare fish. \"Catch him! Stop, thief!\" — but nobody caught anybody that day. Alidoro ran up the hill and down the other side. Only when the hut was far behind did he set Pinocchio, still snowy with flour, gently on the grass."
+        },
+        {
+          "kind": "text",
+          "text": "\"Alidoro! You saved me!\" cried Pinocchio, hugging his great neck. \"Why?\" The mastiff looked at the ground, then out at the sea. \"This morning you saved me from drowning,\" he said simply. \"Dogs have long memories, and a good turn deserves another.\" Then he wagged his tail like a flag, barked goodbye, and trotted away down the road."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · The Fairy Forgives",
+      "art": "pinocchio-fairy-forgives",
+      "artPrompt": "a wooden puppet boy kneeling by a kind fairy with turquoise hair beside an evening fire in a rose-covered cottage, her hand on his head, warm golden firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "White as a miller and still sneezing flour, Pinocchio ran home to the Fairy and threw himself at her feet. He told her everything — the lazy day by the sea, poor Eugene, the mastiff, and the Green Fisherman's frying pan. \"I have been very silly,\" he finished, \"but I have told you the whole truth.\" His tears fell on her little shoes."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-fairy-forgives",
+          "text": "The Fairy listens kindly to Pinocchio's confession by the evening fire."
+        },
+        {
+          "kind": "text",
+          "text": "The Fairy heard him to the end without one angry word. \"Bad companions lead to bad luck, dear brother,\" she said. \"But you were brave, and you told the truth, so I forgive you. And Eugene is safe at home — he was only stunned.\" Pinocchio felt as if a great stone had rolled off his heart."
+        },
+        {
+          "kind": "note",
+          "text": "New word: forgive — to stop being angry with someone who has done wrong, and be friends again.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "From that day, Pinocchio was a new puppet. He went to school in rain and sunshine. He did his lessons first and played after. The lazy boys called him boring; he only laughed. Month after month his reports grew better, until he was the pride of the whole school. Even the teacher spoke of him to the other masters, and the Fairy's eyes shone when she heard it."
+        },
+        {
+          "kind": "text",
+          "text": "Then, one quiet evening, she called him to her. \"Pinocchio,\" she said, \"tomorrow your dream shall come true. Tomorrow you will stop being a wooden puppet, and you will become a real boy.\" \"Do not tease me with dreams,\" whispered Pinocchio. His eyes grew as big as saucers, and then his joy burst out. \"A real boy! A real boy tomorrow!\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Invite your schoolfriends to a party,\" laughed the Fairy. \"Tomorrow we shall celebrate.\" Pinocchio danced a whole circle on one leg. Then he seized his cap, kissed the Fairy's hands twenty times, and flew out of the door into the evening. He was going to invite every single friend he had in the world."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · Candlewick on the Wall",
+      "art": "pinocchio-candlewick-wall",
+      "artPrompt": "a tall thin cheerful boy sitting on a low stone wall at sunset talking to a wooden puppet boy, a village road and far fields behind, orange sunset light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "All the next morning, Pinocchio went from house to house with his invitations. \"Tomorrow evening, at the Fairy's cottage! There will be cake and candles and games!\" Some friends promised joyfully. One said his grandmother was coming. Another had a cold. But most of them clapped their hands and said, \"We would not miss it for the world.\" The whole school buzzed with the news."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-candlewick-wall",
+          "text": "Candlewick sits on the wall, swinging his legs and grinning."
+        },
+        {
+          "kind": "text",
+          "text": "As the sun went down, one friend was still missing: Candlewick, the laziest boy in school, so tall and thin that everyone called him after a candle's wick. Pinocchio found him sitting on a stone wall by the road, swinging his legs and grinning at nothing. \"Waiting for what?\" asked Pinocchio. Candlewick's grin grew wider and wider."
+        },
+        {
+          "kind": "note",
+          "text": "New word: tempt — to try to make someone do something they know they should not do.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Come to my party tomorrow evening!\" cried Pinocchio. \"A party?\" said Candlewick, pulling a face. \"What a bore. I am waiting for something far better. At midnight a coach will pass this very road, and it is going to the Land of Toys.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"The Land of Toys?\" asked Pinocchio, opening his eyes wide. \"What a wonderful country!\" Candlewick slid down from the wall, warm as a street singer. \"No schools there, and no teachers, and no books. Holidays from the first of January to the last day of December. You play from morning till night, and nobody ever says a word. Imagine it — no lessons, ever again in your whole life.\""
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio's head swam. \"But tomorrow I become a real boy,\" he said, \"and the Fairy expects me —\" \"Bother the Fairy and bother real boys!\" laughed Candlewick. \"Come with me and play forever!\" Pinocchio said no, and walked away. But his feet slowed. And his ears stayed behind him, listening to every golden word. \"Midnight,\" Candlewick called after him. \"At the crossroads!\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · The Midnight Coach",
+      "art": "pinocchio-midnight-coach",
+      "artPrompt": "a small coach drawn by twelve little donkeys wearing white boots standing in a moonlit crossroads, a fat jolly coachman on the box, boys climbing aboard, silver moonlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Pinocchio went home and tried to learn his lessons for the next day. But the words danced on the page. \"No schools,\" they whispered, \"no teachers, no books.\" He laid his head on his arms. \"I will not go,\" he told himself firmly. \"I will not, I will not, I will not.\" Then, very quietly, his legs carried him out of the door and down the road."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-midnight-coach",
+          "text": "The midnight coach arrives, drawn by twelve donkeys in white boots."
+        },
+        {
+          "kind": "text",
+          "text": "Midnight. The moon stood over the crossroads, and the grass was silver. Candlewick was already there, hopping from foot to foot. All around, sleepy boys appeared from the shadows, whispering and giggling. Then, from far away, came the jingling of harness. Into the moonlight rolled a little coach drawn by twelve donkeys, and every one of them wore little white boots."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: A soft voice told Pinocchio not to go. What helps you say no when something is wrong?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the box sat a fat little coachman, round and jolly as a plum pudding. \"All aboard for the Land of Toys!\" he called gaily. \"Room for one more! Hurry, hurry, we must not be late for the fun!\" Candlewick scrambled up beside two dozen other boys. The donkeys tossed their heads, and their white boots shone in the moonlight."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio stood frozen between the road and the coach. \"I promised the Fairy,\" he whispered. \"I promised to be good.\" And at that moment a soft voice, gentle and a little sad, sounded close to his ear. It was a voice he knew well. \"Do not go, Pinocchio. Remember those who love you.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"One seat left!\" sang the coachman, cracking his whip. \"Coming or not?\" Pinocchio covered his ears. \"She will forgive me,\" he thought. \"It is only a little holiday.\" He ran, and leaped, and landed on the coach beside Candlewick. And the twelve white boots went trotting off into the night."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · Five Months of Play",
+      "art": "pinocchio-funland-play",
+      "artPrompt": "crowds of happy boys playing ball and hoops and little carts in a toy village of candy-colored houses, a wooden puppet boy laughing in the middle, bright sunny light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The coach ran all night, and at sunrise it stopped at the gates of the Land of Toys. Pinocchio tumbled out with the others and stood with his mouth open. Boys were everywhere — shouting, racing, playing ball, riding little carts, laughing from morning light to lamplight. Somewhere a band was playing, and the air smelled of sugar."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-funland-play",
+          "text": "Games and laughter everywhere in the Land of Toys, from morning to night."
+        },
+        {
+          "kind": "text",
+          "text": "And it was all true, every golden word. There were no schools. There were no books, no lessons, no teachers, and nobody to say \"sit still.\" You woke when you liked, played what you liked, and went to bed when the stars came out. Even Candlewick said it was better than he had promised — and Candlewick promised a lot."
+        },
+        {
+          "kind": "note",
+          "text": "New word: lazy — not wanting to work or make any effort. A lazy life is not always a happy one.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Weeks went by like days. Pinocchio played ball, built sand castles, and chased hoops down the green lanes. Candlewick was always at his side, and they were the merriest of the merry. Sometimes, at night, a small voice inside him whispered, \"And school? And the Fairy? And poor papa?\" But each morning the games sang louder, and the little voice grew fainter and fainter."
+        },
+        {
+          "kind": "text",
+          "text": "Five months passed this way. And Pinocchio, who noticed nothing but fun, noticed nothing at all changing. Not the small tired lines around his eyes. Not the strange itch on top of his head. Not the long silky hairs that had begun to sprout there in the night."
+        },
+        {
+          "kind": "text",
+          "text": "One morning he woke with his head feeling heavy as a bucket. He put up a hand and touched two long, soft, hairy ears. \"Oh,\" said Pinocchio sleepily, \"what a funny dream. I dreamed I had donkey ears.\" But the ears were as real as the morning sunlight. It was not a dream at all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · Donkey Ears",
+      "art": "pinocchio-donkey-ears",
+      "artPrompt": "a wooden puppet boy staring in horror at two long grey donkey ears in a looking glass, a wise little marmot in a nightcap and dressing gown beside the bed, soft grey morning light through shutters, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Pinocchio ran to the looking glass, and what he saw made him leap backwards. Two enormous grey donkey ears stood up from his head. He pulled them; they were his. He rubbed them, he tried to tie them under his cap — but there was no mistake. \"It is some trick of Candlewick's,\" he told himself, but his heart knew better."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-donkey-ears",
+          "text": "The little Marmot in her nightcap studies Pinocchio's long donkey ears."
+        },
+        {
+          "kind": "text",
+          "text": "The door opened, and in came the little Marmot who lived next door, wearing a nightcap and a dressing gown. \"Sit down, my dear,\" she said, \"and do not be frightened.\" She felt his pulse, looked in his eyes, and shook her head wisely. \"My poor friend,\" she said at last, \"you have a donkey fever.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: fever — when your body gets hot and ill, and you must rest.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"A donkey fever?\" stammered Pinocchio. \"But fevers pass! How long will mine last?\" The Marmot folded her paws. \"Until tomorrow morning,\" she said. \"And then?\" asked Pinocchio in a tiny voice. \"And then you will be a donkey, my dear, from ears to tail. It is what happens to boys who will not learn and will not work.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"But I don't want to be a donkey!\" wept Pinocchio. \"I want to be a real boy!\" He pulled his ears, he beat the floor, he begged the Marmot for medicine. But the kind little animal only tucked him into bed. The Marmot had seen a hundred such boys, and she knew the end of the story. \"Sleep now,\" she said. \"Perhaps tomorrow you will be wiser, even with four legs.\""
+        },
+        {
+          "kind": "text",
+          "text": "And while he wept and tossed, the change crept on, quietly, like the tide coming in. That night his whole body itched. A tail pushed out behind him. Grey fur spread over his arms and legs. And when he tried to cry \"Oh, Fairy, help me,\" it came out as a long, trembling \"Hee-haw! Hee-haw!\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 25 · Sold at the Market",
+      "art": "pinocchio-donkey-market",
+      "artPrompt": "a sad grey donkey with rope lines standing in a busy animal market square, farmers and buyers examining donkeys all around, dusty market daylight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When morning came, a donkey stood in the room where a puppet had slept. A beautiful grey donkey, with a sad face and eyes that still looked, somehow, like Pinocchio's. He looked in the glass, and the donkey in the glass looked back, and they both burst into tears. He kicked the bedpost. He stamped. Nothing helped — the hooves were his."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-donkey-market",
+          "text": "Donkey Pinocchio, roped and sad, at the busy animal market."
+        },
+        {
+          "kind": "text",
+          "text": "There was no time for tears. That very morning, men came with ropes and sticks, as the men of the Land of Toys always came. For that was the coachman's secret trade. He collected idle boys, let them turn into donkeys, and then sold them for money at the market."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The boys wasted five whole months of school. Why does lost time matter so much?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All the new donkeys were driven braying to the market square, and sold one by one. Candlewick was bought by a farmer, to pull his cart up the hill. \"Farewell, Pinocchio,\" brayed Candlewick. \"Farewell, Candlewick,\" brayed Pinocchio. And two donkey tears rolled down two grey noses."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio himself was bought by the master of a circus, a man with a whip and a quick eye. \"A strong young donkey,\" said the master. \"With training, he will jump and dance, and make my fortune. What a voice he has, too,\" he added, pinching an ear. \"A donkey that can bray a song is worth gold.\" So Pinocchio was led away, roped and trembling, to a life of sawdust and drums."
+        },
+        {
+          "kind": "text",
+          "text": "The rope hurt his neck, and the dust tasted of ashes. \"Never again,\" Pinocchio said to himself on the dark road. \"If ever I am a puppet again, I will be the best puppet in the world. I will go to school forever. Only — oh, why did I not listen?\" And the circus wagon rattled on."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 26 · The Circus",
+      "art": "pinocchio-circus-ring",
+      "artPrompt": "a grey donkey leaping through a paper hoop in a circus ring while a band plays and crowds cheer, a beautiful lady with turquoise hair watching from a box above, lantern light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "For three long months the circus master trained him. Pinocchio learned to walk on his back legs, to jump through paper hoops, and to dance a waltz while the band played. If he was slow, the whip cracked; so he learned everything quickly and well."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-circus-ring",
+          "text": "Donkey Pinocchio dances and jumps in the circus ring."
+        },
+        {
+          "kind": "text",
+          "text": "At last came the great evening. The theatre was full from floor to roof, and children sat on the edge of their seats. When the donkey Pinocchio trotted into the ring, the applause shook the roof. He bowed, he waltzed, he leaped through hoop after hoop. Even the sad-eyed clown laughed until he cried, and the crowd shouted, \"Bravo! Bravo!\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: circus — a travelling show with acrobats, animals and clowns.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then, in the finest box, Pinocchio saw a beautiful lady with turquoise-blue hair. Around her neck, on a golden chain, hung a little painted portrait of a wooden puppet. She leaned forward, and her eyes were full of tears. Pinocchio's heart thundered. \"It is she! It is the Fairy! My Fairy has come to see me!\""
+        },
+        {
+          "kind": "text",
+          "text": "He forgot the hoops, the master, the whole wide world. He ran toward her box, braying with joy. But the floor was polished, his hooves slipped, and he fell — crash! — in the middle of the ring. He tried to stand. One leg would not obey him. The whole theatre heard him call to her, but nobody understood a word."
+        },
+        {
+          "kind": "text",
+          "text": "The band stopped. The crowd groaned. The circus master ran out, red with anger, for a lame donkey earns nothing and eats plenty. \"Take him away!\" he cried. \"He is no good to me any more — unless someone wants a drum skin!\" And at the back of the crowd, a hand went slowly up."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 27 · A Drum Made of Skin",
+      "art": "pinocchio-heavy-stone",
+      "artPrompt": "a man in mountain clothes tying a heavy stone around the neck of a sad lame donkey on a grassy cliff above the sea, grey afternoon light on the water below, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The hand belonged to a man from a mountain village. \"I will buy him,\" said the man, counting out the money. \"His hide is fine and strong. I will make a drum of it for our village band — a beautiful drum, that will boom from one end of the valley to the other.\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-heavy-stone",
+          "text": "The heavy stone is tied to the sad donkey's neck by the drum maker."
+        },
+        {
+          "kind": "text",
+          "text": "\"A drum,\" thought poor Pinocchio, \"of my skin.\" He wanted to cry, to beg, to explain that inside the donkey there still lived a puppet with a papa called Geppetto. But the buyer only checked his hide as a man checks cloth at the market. \"Fifty pennies,\" said one. \"Fifty it is,\" said the other. And the donkey was sold between two puffs of pipe smoke."
+        },
+        {
+          "kind": "note",
+          "text": "New word: drum — a round instrument with a skin stretched over it, that goes boom when you hit it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The drum maker did not want to wait. He led the lame donkey to a cliff above the sea. There he tied a heavy stone around his neck with a long rope, and tied the rope to a rock. \"The sea will do the rest,\" he said, quite calm, as if he were watering flowers. \"By tomorrow the skin will be ready.\""
+        },
+        {
+          "kind": "text",
+          "text": "He gave the donkey a push over the edge. Splash! Down, down sank Pinocchio, stone and all, into the deep green water. The man sat down comfortably on the grass, took out his pipe, and waited. Far above, the gulls cried. The waves came and went. Nobody in the world said a prayer for the little donkey."
+        },
+        {
+          "kind": "text",
+          "text": "But the sea, which had hurt Pinocchio before, now became his friend. Down in the deep it was dark and cold — and full of hungry fish. The drum maker smiled at his pipe. \"Five minutes more,\" he said to himself. \"Patience makes perfect drums.\" And the rope began, very gently, to twitch."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 28 · The Hungry Fish",
+      "art": "pinocchio-fish-feast",
+      "artPrompt": "a school of fish of every size nibbling away a grey donkey body in green underwater light, leaving a thin wooden puppet standing on the sandy sea floor, shafts of light from above, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Down in the green dark, a whole school of fish came hurrying — big fish, little fish, middle-sized fish, all with their mouths open. They had never seen such a feast fall from the sky. They nibbled the grey fur. They nibbled the long ears. They nibbled hooves and tail and everything. Pinocchio could not even tremble, for donkeys cannot swim with a stone around their necks."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-fish-feast",
+          "text": "The hungry fish nibble away the whole donkey body, leaving only wood."
+        },
+        {
+          "kind": "text",
+          "text": "But when their teeth reached the hard wood beneath, they stopped in surprise. \"Too hard!\" said the big fish. \"Not food!\" said the little fish. And the whole school swam away, disappointed, to look for softer dinners. So the donkey body went, bit by bit. And what remained, thin and light in the deep water, was a wooden puppet."
+        },
+        {
+          "kind": "note",
+          "text": "New word: nibble — to eat in tiny bites, like a fish or a mouse.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "After a long while the drum maker pulled up his rope, smiling at the thought of his drum. But what rose from the sea, dripping and blinking, was not a donkey at all. It was Pinocchio, wooden from head to foot, thin as a needle, and very much alive. The stone was still tied around him, and he untied it with shaking fingers."
+        },
+        {
+          "kind": "text",
+          "text": "\"My donkey! Where is my donkey?\" roared the man. \"The fish have eaten him,\" answered Pinocchio, wringing out his cap. \"Skin, ears, tail — every bit of him. They were terribly hungry, and I am sorry to say he was delicious.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"And — and who are you, then?\" stammered the man. \"I am what was inside,\" said Pinocchio. \"Your fish could not chew me, for I am good hard wood.\" And before the drum maker could catch him, the puppet slipped off the rock, dived into the sea, and swam away as fast as two wooden arms could swim."
+        }
+      ]
+    }
+  ]
+}

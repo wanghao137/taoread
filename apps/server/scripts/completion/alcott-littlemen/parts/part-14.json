@@ -1,0 +1,236 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 14 · Huckleberry Day",
+      "art": "lm-huckleberries",
+      "artPrompt": "children with pails and sun hats scattered in a berry pasture on a hillside, one girl hiding behind a bush to jump out and startle her friends, dark berries stained around happy mouths, summer clouds over green hills, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When the huckleberries were ripe on the hills, school stopped being school and became an expedition. Pails were issued, rules were repeated, and the whole crowd set off. They went in a straggling line like a small army with tin buckets. The berries hung in fat dark clusters among the bushes. The first hour was all cheerful picking and stained fingers and blue mouths. And every mouth in the company told tales."
+        },
+        {
+          "kind": "image",
+          "art": "lm-huckleberries",
+          "text": "A shriek, a rustle, and Nan leaps out of the bushes like a small thunderstorm."
+        },
+        {
+          "kind": "text",
+          "text": "Then Nan, as usual, improved the day. She hid in the deepest bush and leaped out with a war whoop. Three small boys went backward into the berry bushes, and pails flew, and berries rolled. It was, she said afterward, the finest joke of the summer. Mother Bhaer, arriving with the lunch baskets, heard the whole story from six witnesses at once. She had to look away to laugh, and then she looked back and was stern."
+        },
+        {
+          "kind": "note",
+          "text": "Question for you: Nan’s whoop cost three boys their berries and nearly their tempers. When is a scare funny, and when does it go too far?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "After lunch came a sudden summer shower. The whole school ran home through the rain like drowned kittens, laughing. The berries were made into jam under Nan’s loud directions, and every child at Plumfield ate that jam for weeks. It had the special flavor of a day spent wild and well. And the three boys who had fallen in the bushes always took the first taste, for some reason. Nan was made to carry the smallest pail home. She bore the punishment like a martyr, and like a queen. The rain filled every pail to the brim and washed the berries clean. The jam turned out better than any they had made before. Mother Bhaer said it was the laughter that did it. Nan said it was her directions. Both were probably true."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Doctor Nan",
+      "art": "lm-doctor-nan",
+      "artPrompt": "a girl with short golden curls in an apron bandaging the hand of a boy on a garden bench, a small box of medicines and splints open beside her, other children waiting in line behind the bench, farmhouse garden, warm afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "It turned out that wild Nan had one gift nobody expected: she could nurse. When boys came in with scraped knees, burned fingers, and bee stings, Nan was there. She handled the whole school’s yearly list of damages. She had her little box of remedies and her strange cool hands. She bandaged, she fussed, she scolded like a small doctor. And the patients obeyed her better than they had ever obeyed the grown-ups."
+        },
+        {
+          "kind": "image",
+          "art": "lm-doctor-nan",
+          "text": "The waiting line grows behind the bench, and every boy would rather be first."
+        },
+        {
+          "kind": "text",
+          "text": "When one of the little boys took a bad fall, Nan splinted the arm as neat as a book. She kept the whole school from frightening him, which is half of nursing. Mother Bhaer watched her at work. “That child will be a doctor yet,” she said quietly, “if we do not make her stop.” And nobody wanted her to stop. Least of all the patients, who called her Doctor by way of joke — and by way of truth."
+        },
+        {
+          "kind": "note",
+          "text": "New word: remedy — something that heals or eases a hurt. Nan’s remedies were simple, but her way with them was not.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“When I grow up,” Nan announced at supper, with her mouth full, “I shall be a doctor. And I shan’t have time to sit about being admired.” Tommy, who admired her more than his dinner, looked stricken. The table laughed, but Mother Bhaer did not. “A doctor is a fine thing to be,” she said. “And Plumfield has always had room for brave plans.” Tommy recovered by helping Nan carry her box, and was promoted to head patient. He told everyone she had cured him of a terrible wound. It had been a stubbed toe, but he stood by his story. The little box had come from Mother Bhaer at Christmas, with real bandages and a tiny bottle of sweet oil. Nan kept it packed like a treasure chest, ready for battle at any hour."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · Demi's Big Question",
+      "art": "lm-demi-question",
+      "artPrompt": "a small serious boy in a round jacket sitting close beside a bearded professor in a firelit study, both looking at the flames, a globe and books on the shelf above, the boy's face lifted with a great question, warm evening lamplight, quiet storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Demi was the thinkingest child at Plumfield. He asked about everything, twice. One evening he appeared at the Professor’s study door, very serious. He carried a question so large he could hardly hold it. “Who made God?” he asked. “And where does He live? And what is He like?” The Professor put down his book. He drew the boy up close beside him, and the fire cracked softly while the little thinker began."
+        },
+        {
+          "kind": "image",
+          "art": "lm-demi-question",
+          "text": "The biggest question in the world, asked by the smallest scholar by the fire."
+        },
+        {
+          "kind": "text",
+          "text": "Now, many grown-ups would have fussed or dodged. The Professor answered simply, the way one talks to a friend. He spoke of God as a Father, nearer than the dark and kinder than the day. He said we feel Him best when we are loving and truthful. Demi listened with his whole soul. He nodded slowly, like a small judge hearing a good case. And the big case took the whole evening, which suited them both."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Demi asked the oldest question in the world. What answer would you give a friend who asked it?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Then He is like Father, but bigger than all fathers,” Demi said at last, satisfied. “Yes,” said the Professor, “and He is glad when you are kind and true, as any father is.” The boy walked home quietly with the answer folded up inside him. At prayers that night his voice was very clear. The fire burned low, and neither of them noticed. It was the best sort of talk, the kind that does not watch the clock. And nobody at Plumfield ever laughed at Demi’s questions again, least of all the Professor. Demi asked questions on the walk home too, but they were easier ones now. His heart was quiet, like a pond after wind. And that, the Professor thought, watching him go, is what all my teaching is really for."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · The Old Wild Ways",
+      "art": "lm-wild-ways",
+      "artPrompt": "a rough-haired boy holding out a sheathed hunting knife to a tall bearded professor in a dim barn doorway, both faces grave and honest, hay bales and dangling harness behind them, gray evening light through the open door, serious storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As Dan grew taller, his old wildness grew taller too. He had come back from his wander days with a heavy hunting knife hidden away among his treasures. The boys begged to see it, till he could not refuse. They played fierce games with it, louder and wilder each week. Then one day the blade flashed very close to Tommy’s arm, and everyone’s blood went cold. And the game, which had seemed brave, suddenly looked very small."
+        },
+        {
+          "kind": "image",
+          "art": "lm-wild-ways",
+          "text": "The knife flashes too near, and the game stops in a breathless hush."
+        },
+        {
+          "kind": "text",
+          "text": "The old Dan would have hidden the knife and lied about it. The new Dan stood still in the ringing quiet. He picked up the knife himself and carried it straight to the Professor. “It was my fault,” he said. “I brought it here. Take it.” No punishment was needed, and none was given. The Professor talked with him long and low in the barn. What he heard made him sad and hopeful at once."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Dan owned his fault at once this time. What changed in him — and what changed in the people around him?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“You need wider skies than my schoolyard, Dan,” the Professor said at last. “Rules make some boys good, and they only make you restless. Let us find you work that eats up wildness honestly.” Dan looked out the barn door at the wide world. He understood that he was not being thrown away. He was being handed on — like a colt given to a kind rider. And he stood a little taller at the thought. That night he packed his few things, and the boys watched him in silence, and nobody said the word goodbye. The knife went into the Professor’s locked drawer, where it stayed. Nobody ever teased Dan about it, and nobody ever needed to. The school trusted him again at once, for trust given is trust earned."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · Dan Goes West",
+      "art": "lm-dan-west",
+      "artPrompt": "a rough-haired boy in a coarse new jacket standing by a loaded wagon at a farm gate, shaking the hand of a bearded professor while a crowd of children waves from the porch, morning mist over green fields, pale gold sunrise light, tender storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The Professor had a friend, a good and quiet man, who was going out West. He meant to make a farm in the great cattle country. And he wanted a boy who could ride, work, and keep his word. Dan stood at the gate with his little bundle and his heart going like a drum. It was the wide world he had always hungered for. But this time he was sent to it with a blessing instead of a curse."
+        },
+        {
+          "kind": "image",
+          "art": "lm-dan-west",
+          "text": "One small bundle, one long road, and a whole school waving from the porch."
+        },
+        {
+          "kind": "text",
+          "text": "The goodbyes were hard and plain. Nan gave him a little roll of bandages in case of trouble. Nat played him his favorite tune on the violin, right there in the yard. Little Rob brought the lamb to say farewell. Dan lifted it up and set it down again very gently. Mother Bhaer kissed his rough cheek, and he let her, which said more than any speech. And then the wagon was there, and there was no more time."
+        },
+        {
+          "kind": "note",
+          "text": "Question for you: Dan leaves to grow strong, not because he failed, but because the school could not give him what he needed. Is that a sad ending or a good one?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“I shall come back a man,” Dan said, and the wagon rolled away in the morning mist. The school watched until it was a speck on the road. And Plumfield had learned its hardest and proudest lesson. Sometimes loving a boy best means letting him go be one. That evening nobody played games. They sat round the fire, and Nat played softly, and everybody thought his own thoughts about roads. The porch stayed empty after that, and the school seemed bigger and quieter at once. His bundle was small: a spare shirt, Nan’s bandages, and the tune Nat had played him, folded up inside him. The wagon man said he needed strong hands and could teach him the rest. Dan said he had both, and meant it."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Uncle Teddy's Visit",
+      "art": "lm-uncle-teddy",
+      "artPrompt": "a cheerful young gentleman in a fine summer suit hoisting a small laughing boy onto his shoulders in a farmyard, a circle of delighted children around him, a wagon of hampers and gifts behind, the old farmhouse bright with flags, warm noon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One golden day a fine carriage came up the hill. Out stepped Laurie — Uncle Teddy, as the whole school called him. He was rich and grand and entirely useless for anything but fun, and the boys worshipped him. He had brought hampers of good things, and news, and games. But best of all he had brought himself. And Plumfield knew it, and shouted for it."
+        },
+        {
+          "kind": "image",
+          "art": "lm-uncle-teddy",
+          "text": "Uncle Teddy arrives, and Plumfield stops being a school for one glad day."
+        },
+        {
+          "kind": "text",
+          "text": "He told stories of the four aunts he loved best: Meg, Jo, Beth, and Amy. He told how he had grown up next door to them. And how they had adopted him at a snowy window. He took the children sailing on the river and lost his hat to the wind on purpose. Then he sat Nat down and listened to his violin till the sun went down. And he said it was the best concert in town, which nobody believed and everybody treasured."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Uncle Teddy has money and gives away his time instead. Which gift do the children seem to treasure more?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Aunt Jo built a fine thing here,” Laurie said to the Bhaers that evening. He looked down the hill at the lamplit house. “I have been to grand places, but I never saw children grow like these.” He drove away with his carriage lamps swinging. Every child at Plumfield watched him go. And every child meant to be worth knowing when he came back. That is the best compliment a guest can take away. The boys carried his hampers in like treasure, and he let them, and paid them in stories. By evening the whole school knew every one of his aunts by name. They loved them all without ever seeing their faces. That is the kind of family the Marches were. Even Stuffy asked to hear about Beth’s cooking."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Daisy and Nan",
+      "art": "lm-buttercups",
+      "artPrompt": "two little girls in the garden at dusk, one in a tidy pinafore holding a doll and one wild-haired with a toad cupped in her hands, laughing together over something small, fireflies above the flower beds, soft blue evening light, sweet storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Daisy and Nan were as different as sugar and pepper. Daisy liked quiet corners, tidy dolls, and work done neatly. Nan liked frogs, heights, and anything with a shout in it. For a while the two little girls circled each other like two moons. Plumfield held its breath to see which way they would land. Daisy kept her dolls in order of rank, like a small queen. Nan kept toads in her pockets, like a small thunderstorm."
+        },
+        {
+          "kind": "image",
+          "art": "lm-buttercups",
+          "text": "A doll, a toad, and two very different little girls find one small thing to share."
+        },
+        {
+          "kind": "text",
+          "text": "Then one dusk Nan caught a toad, and Daisy, instead of screaming, asked to look at it properly. They examined it together by firefly light. Daisy held the lantern and Nan held the patient toad, which they named General. Something quietly settled between them. After that, Daisy’s tea parties grew a little bolder, and Nan’s romps grew a little gentler. And each little girl was the better for the other, which is the way of true friends."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pinafore — a plain apron-dress little girls wore over their clothes. Daisy’s was spotless until she met the toads.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“You need not be alike to be friends,” Mother Bhaer said, seeing it all. “A school is a garden, not a shelf of copies.” The two girls proved it every day after, in their own opposite ways. Daisy learned to climb one fence, and Nan learned to mend one doll, and both stories ended well. General the toad was returned to the pond with full honors. Both girls stood barefoot at the edge to see him off. And Plumfield was richer by one strange, strong, sweet friendship. General the toad was fat and solemn, and sat in Nan’s hands like a small green bishop. Daisy held the lantern very steady. It was the first time she had ever been out after dark without a grown-up. She stood very tall about it."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · Nat's Concert",
+      "art": "lm-concert-night",
+      "artPrompt": "a small town hall full of people in 1870s clothes, a thin young boy in a neat suit standing alone on stage playing an old violin under a hanging oil lamp, rows of farm families leaning forward, a proud woman in a gray dress and a bearded professor in the front row, warm golden evening light, joyful storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Winter came, and with it the great day of Nat’s life so far. The Professor had heard of a concert in town. Even a beginner might earn his first honest money there with his violin. Nat’s hands trembled so that he could not button his new coat. “Play as you play for us by the fire,” whispered Mother Bhaer. “That is all music ever asks of anybody.” And the wagon stood waiting at the gate."
+        },
+        {
+          "kind": "image",
+          "art": "lm-concert-night",
+          "text": "Nat lifts his old violin in a strange bright hall, and thinks of Plumfield."
+        },
+        {
+          "kind": "text",
+          "text": "The hall was full of strangers, and Nat’s bow shook on the very first note. Then he shut his eyes and thought of Plumfield: the garden, the barn, the boys by the fire. The music carried him the rest of the way. When the last note faded, the room clapped long and loud. Nat stood amazed. Strangers liked his playing. Strangers liked him. And the strangest thing of all was that he believed them."
+        },
+        {
+          "kind": "note",
+          "text": "Question for you: a year or two before, Nat played in the streets for cold pennies. Name three things that changed his life since.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He came home with his first true earnings in his pocket and gave them to Mother Bhaer for the school. “Keep them,” she laughed. “You have paid us already, a hundred times.” That night there was music at Plumfield. Somewhere far out West, if the wind was right, perhaps a wild boy heard it in his dreams. Perhaps he whistled along. And the school grew year by year, full of children learning to be good, brave, and glad. The concert was in the town hall on a Saturday night, and the whole school scrubbed for it. Nat’s violin was old, with a worn brown neck. Mother Bhaer polished it till it shone like her kitchen. On the drive in, the other players were grown men. Nat sat very small and very still between them."
+        }
+      ]
+    }
+  ]
+}

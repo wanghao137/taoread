@@ -1,0 +1,829 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 25 · Reuben Smith",
+      "art": "beauty-reuben-smith",
+      "artPrompt": "a man riding a black horse at a stumbling trot along a dark flint road at night, a loose horseshoe hanging, rain and mist, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Reuben Smith was the head groom under Mr. York. He knew horses as well as any man in England, and when he was sober there was no better servant. But now and then he drank. When the drink was in him, all his cleverness turned to ruin, and he forgot everything he knew. Mr. York had warned him once, and again."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-reuben-smith",
+          "text": "Reuben Smith rides Beauty home through the dark, and the shoe comes loose."
+        },
+        {
+          "kind": "text",
+          "text": "One evening at an inn, Smith stayed drinking with company, and the other man could not drive. So Smith rode me home through the dark and the rain. A nail had worked loose in one of my shoes. On the hard flint road the shoe came off, and my hoof was cut. I began to stumble, and he struck me for stumbling."
+        },
+        {
+          "kind": "note",
+          "text": "New word: farrier — a man who makes and fits the iron shoes for horses.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then came the stones. I fell heavily on my knees, and Smith was thrown over my head. That is all I knew of it. I stood up, shaking, and no one answered when I called. So I waited by the roadside, in the rain, with my knees burning, until morning found us there."
+        },
+        {
+          "kind": "text",
+          "text": "A little thought the evening before — a nail seen, a ride refused — would have saved two lives from ruin. That is what drink does. It unties all the knots a man has spent years in tying."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 26 · How It Ended",
+      "art": "beauty-how-it-ended",
+      "artPrompt": "a black horse with bandaged knees standing in a loose box looking out of a half door, a grave groom and a vet in the yard beyond, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the morning they found us. Poor Reuben Smith was past all help. He had made a sad end of a clever life, and everyone who knew him grieved. For myself, the horse doctor came and looked at my broken knees. They would heal, he said, but they would always show the scars."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-how-it-ended",
+          "text": "Beauty's knees heal, but the scars will always stay."
+        },
+        {
+          "kind": "text",
+          "text": "I lay in a loose box for weeks, and the kind stablemen were patient with me. At last I could walk out into the sunshine again, stiff and patched. But I heard the coachman's words plainly enough. \"A horse with broken knees can never be a gentleman's horse again. He will have to go.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: One bad habit undid all Reuben Smith's cleverness. What good habits are worth keeping careful watch over?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Ginger was sold soon after, and I missed her sorely. Then my turn came. A dealer took me away from the grand gates of Earlshall, and I never saw that great house again. Downhill is an easy road, they say. I was setting out on it, and I did not know how far it went."
+        },
+        {
+          "kind": "text",
+          "text": "One thing I kept, and no buyer could take it: the memory of John Manly, and of my mother's words — do your best wherever you go, and keep up your good name. I meant to keep it, come what might."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 27 · Ruined and Going Downhill",
+      "art": "beauty-downhill",
+      "artPrompt": "a tired black horse standing in a gloomy rented stable, rough men looking him over by lantern light, cobwebs in the rafters, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "My new home was a livery stable. There I was hired out, with a carriage, to anyone who would pay. No more grass fields, no more kind voices. I was washed smart enough for show, but nobody asked how I felt inside. A horse may be hungry, lame, or weary, and still be hired out the next morning."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-downhill",
+          "text": "At the livery stable, Beauty is hired out to anyone who pays."
+        },
+        {
+          "kind": "text",
+          "text": "There were many horses there like me — once fine, now going downhill. One had been a racehorse, one a lady's favourite. We did not talk much. There is a silence that comes over horses when hope grows thin. We stood in our rows and watched the door."
+        },
+        {
+          "kind": "note",
+          "text": "New word: livery stable — a place where horses and carriages are rented out by the day.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Yet I must not make my story too dark. Even downhill, good people were met sometimes, as stars show in dirty skies. There were drivers who spoke kindly and paid fairly. And I was still strong then, and my spirit, though bruised, was not broken."
+        },
+        {
+          "kind": "text",
+          "text": "Downhill roads run fast. Month by month the hands grew rougher and the feed grew poorer. It is wonderful how far a horse can fall from a pleasant meadow, and how little anyone notices on the way."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 28 · A Job Horse and His Drivers",
+      "art": "beauty-job-horse",
+      "artPrompt": "a black horse between the shafts of a hired carriage while different drivers take the reins, a country lane and a town street behind, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As a job horse I was lent to all kinds of drivers, and I learned hands the way a schoolboy learns letters. There was the driver who sawed my mouth and jerked me along, as if I were a pump. There was the driver who slept on the box and let me find the way home myself."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-job-horse",
+          "text": "All kinds of drivers take Beauty out — the good and the rough."
+        },
+        {
+          "kind": "text",
+          "text": "But there were good ones too, and they were sunshine. One old gentleman drove me for a week, and never once raised his whip. \"A horse knows a kind hand as soon as it touches the rein,\" he told his daughter. I stretched my neck proud under his light fingers, and did twice the work for half the asking."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Beauty met kind and unkind drivers in the same week. Which kind of driver — or friend — do you want to be?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then there were the careless ones, who forgot the hill and forgot the stones. A job horse soon learns the whole world, for the whole world comes to his stall, holding the reins. Most people mean no harm. But not meaning harm is a small coat. It does not always keep the cold out."
+        },
+        {
+          "kind": "text",
+          "text": "I often thought of John Manly in those days. A horse's fortune does not hang on his own legs alone. It hangs, hour by hour, on whoever is holding the reins."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 29 · Cockneys",
+      "art": "beauty-cockneys",
+      "artPrompt": "two young men in city clothes driving a carriage fast down a steep lane toward a heavy waggon, wheels bouncing, dust flying, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright morning two young men came from London to hire a carriage. The stable keeper chose me, and told them plainly: \"He is a willing horse. Keep the rein easy, mind the hills, and he will serve you well.\" They laughed, and promised everything, and forgot it all before the gate was open."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-cockneys",
+          "text": "The two young men from London drive far too fast down the hill."
+        },
+        {
+          "kind": "text",
+          "text": "They drove me hard from the first mile, and held my head up tight. Coming to a steep hill, they let me fly down at full speed, shouting to each other. At the bottom of the lane stood a heavy waggon. There was no room to pass. There was a crash, a splash of glass, and I was thrown down on my knees in the dust."
+        },
+        {
+          "kind": "note",
+          "text": "New word: waggon — a big, strong cart for carrying very heavy loads.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "I got up, trembling, with my old knees cut again. The carriage was smashed, and the two young men picked themselves up, laughing as if it were a joke. They had not a scratch, and they had learned nothing. That was the hardest part to bear."
+        },
+        {
+          "kind": "text",
+          "text": "The stable keeper shook his head over the wreck. \"Fun for them,\" he said, \"and my carriage broken and my horse bleeding. City gentlemen should learn horses before they hire them.\" I stood quietly while he washed my knees. Forgive them, the good man said, for they know not what they do."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 30 · A Thief",
+      "art": "beauty-thief",
+      "artPrompt": "a shadowy figure leading a black horse out of a stable by lantern light at midnight, a half open door, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Not long after, one dark night, I was stolen. A stranger crept into the stable with a lantern, put a rough halter over my head, and led me out past the sleeping horses. I went with him willingly enough. A horse never thinks he is being stolen. He only thinks he is going somewhere new."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-thief",
+          "text": "A thief leads Beauty away into the night."
+        },
+        {
+          "kind": "text",
+          "text": "He rode me hard through the night, and through the next day, giving me scarcely time to eat or drink. The saddle galled my back, and my sides were wet. When he met men on the road he turned his face away. A stolen horse has a hard road, for the thief is always in a hurry."
+        },
+        {
+          "kind": "note",
+          "text": "New word: thief — a person who takes what belongs to somebody else.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the second day two policemen rode after us and took him, in a village inn yard. He had tried to sell me cheap and fast. So I was brought back to the livery stable, sore and thinner, but safe. The keeper patted me and gave me a warm mash. \"Well, old fellow,\" he said, \"so you have been seeing the world.\""
+        },
+        {
+          "kind": "text",
+          "text": "I had seen it, and was glad to see the stall again. It is a strange thing, that a horse may have many masters in one life, and love only a fence and a full manger. But kindness is a place, as much as any stable is."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 31 · A Humbug",
+      "art": "beauty-humbug",
+      "artPrompt": "a horse dealer brightly grooming a worn old horse to look young in a market shed, a country buyer counting coins nearby, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At that stable I saw many dealers come and go, and I learned their tricks. One day a dealer brought in a poor old horse, dull-eyed and shaky. Then began the dressing. He was groomed till he shone. His feet were oiled, his mane was combed, and something was given him to make him step out lively."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-humbug",
+          "text": "A dealer dresses up a worn-out horse to look young and strong."
+        },
+        {
+          "kind": "text",
+          "text": "A country man came to buy, and the old horse trotted up and down like a four-year-old. \"A finer little horse you will not find,\" said the dealer, smiling. The bargain was made, and the buyer rode away proud. The dealer counted his money and grinned. The stable men shook their heads and said nothing."
+        },
+        {
+          "kind": "note",
+          "text": "New word: humbug — a trick or cheat dressed up to look honest.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In a week the poor old horse would be dull again, and lame, perhaps, and the buyer would know he had been fooled. \"It is the way of the trade,\" they said. That is the worst of humbug — everyone knows it, and it goes on all the same."
+        },
+        {
+          "kind": "text",
+          "text": "I thought of the old horse that night in my straw. Nobody had asked him anything. Nobody ever asks the horse. But the day was coming, and not far off, when a buyer would look into my mouth and my eyes, and see the truth of me, and be kind."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 32 · A Horse Fair",
+      "art": "beauty-horse-fair",
+      "artPrompt": "a busy country horse fair with rows of horses and buyers, a kind cabman in a warm coat gently opening a black horse's mouth to look at his teeth, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the spring I was sent to a great horse fair. There were hundreds of horses there, and men walking up and down the rows, looking at legs and teeth, and dealers crying up their beasts. Some horses were dressed up, as you know, like the poor old fellow in the last chapter. It made me sad to watch it."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-horse-fair",
+          "text": "Jerry Barker looks Beauty over kindly at the horse fair."
+        },
+        {
+          "kind": "text",
+          "text": "Then a man came to my stand — not grand, but clean and cheerful, with a firm, soft hand. He looked at my knees, and my scars, and then quiet and long into my eyes. He walked me, and trotted me, and felt my legs all over. \"Well, my fine fellow,\" he said, \"you have seen trouble, but you are honest. I want a willing horse, not a show horse.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: horse fair — a big market where horses are brought from far and wide to be sold.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "His name was Jeremiah Barker, and he drove a cab in London. He paid a fair price for me, without a single trick. The dealer told him my knees were a pity. \"Many a good horse has fallen,\" said Jerry. \"It is the man who is hurt by that, not the horse. I like his eye.\""
+        },
+        {
+          "kind": "text",
+          "text": "So I left the fair behind me, tied behind his cab, and trotted toward London. Downhill had not been the whole road after all. It had turned, at last, at a fair, in a field, under a kind man's eye."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 33 · A London Cab Horse",
+      "art": "beauty-cab-horse",
+      "artPrompt": "a black horse in polished harness waiting on a London cab stand, a cheerful cabman polishing the bright metal, a small girl bringing a basket, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "London was loud and strange to me — iron roads, roaring carts, and people like a river that never stops flowing. But Jerry's little yard in the city was a home. He kept his cab bright as a lady's boot. His horse's coats, he said, were his Sunday clothes, and his own best coat too."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-cab-horse",
+          "text": "Beauty becomes a London cab horse in Jerry Barker's kind care."
+        },
+        {
+          "kind": "text",
+          "text": "Jerry's wife Polly came every day with his dinner, warm in a basket. Little Dolly came too, with her brother, and they knew every horse on the stand by name. We were fed first and petted after, and never hurried when we were tired. \"A cab horse's life is hard enough,\" said Jerry. \"It shall not be unkind as well, while I hold the reins.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: cab stand — the row in the street where cabs wait in line for people to hire them.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The other cabmen liked Jerry, though they laughed at his fancies. There was old Grant, who kept a beautiful fat horse and said a cabman's horse was his banker. And there was poor Captain, who stood next to me — but I shall tell you about Captain in the next chapter. He had been a soldier."
+        },
+        {
+          "kind": "text",
+          "text": "At night, when the lanterns came out, Jerry would give me a warm drink and rub my legs with his own hands. \"Good night, old boy,\" he would say. And I would say, in my way, good night to the kindest master since John Manly."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 34 · An Old War Horse",
+      "art": "beauty-war-horse",
+      "artPrompt": "a thoughtful old grey horse in a London cab stable remembering a battlefield, cavalry and smoke fading like mist behind him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Captain, the horse who stood beside me on the stand, was an old war horse. He had carried a soldier of the cavalry in a far-away war, across the sea. He seldom spoke of it. But one quiet evening, as we rested in our stalls, I asked him, and he told me a little."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-war-horse",
+          "text": "Captain remembers his days as a cavalry horse in the war."
+        },
+        {
+          "kind": "text",
+          "text": "\"We charged with the bugles blowing,\" he said, \"and the guns spoke like thunder. I lost my rider that day, and many a friend beside him. Horses fell all around me, and I could not stop, and I could not help. War is a terrible field for a horse, Beauty. There is no hay on it, and no kindness.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: cavalry — soldiers who fight on horseback.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"And after?\" I asked. \"They sold me home, and I have drawn cabs ever since,\" said Captain. \"It is quiet work. Give me the noise of London streets over the noise of guns. I have carried heroes, and now I carry clerks and babies. Both pay their fare, and both are welcome.\""
+        },
+        {
+          "kind": "text",
+          "text": "He was a grand old fellow, Captain, patient as a church. I think of him still when I hear people call some horse a dull old screw. There is many a quiet horse standing at a cab stand who has seen great things, and never mentions them."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 35 · Jerry Barker",
+      "art": "beauty-jerry-barker",
+      "artPrompt": "a cheerful cabman whistling on his box while his black horse trots through a sunny London park road, children waving from the pavement, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Jerry Barker was poor, but he was the happiest man on the stand. He whistled on his box in all weathers, and he knew everyone — the crossing sweeper, the baker's boy, and the old lady who always wanted to be driven slowly. \"Good luck to you, friend!\" they called to him, all along the street."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-jerry-barker",
+          "text": "Jerry whistles on his box, and all the street knows him."
+        },
+        {
+          "kind": "text",
+          "text": "He never used the whip when a word would do, and never used a hard word when a pat would do. If a fare kept him waiting, he walked me up and down to keep me warm. \"They can wait a minute for their own pleasure,\" he said. \"They shan't let my horse stand and shiver for it.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Jerry was poor but happy, and everyone on the street liked him. What made him rich?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Polly kept their little home as bright as a new coin, and there were always flowers in the window. \"We have no gold, Polly,\" Jerry would say, \"but we have the sunshine, and the children, and the best horse in London.\" And that, I can tell you, was wealth enough for any man."
+        },
+        {
+          "kind": "text",
+          "text": "I grew sleek and strong under his care, and my spirits came back to me like birds in spring. Downhill, I found, can turn uphill again — when the hands at the rein are right."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 36 · The Sunday Cab",
+      "art": "beauty-sunday-cab",
+      "artPrompt": "a cabman resting beside his horse in a green field on a quiet Sunday, a small town church and blue bells beyond a hedge, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One Saturday a rich gentleman came to the stand. He wanted a cab to drive his family on Sunday, and he offered Jerry double fare. Sunday work was money, and money was scarce that winter. But Jerry shook his head. \"No, sir, I thank you. I need one day of rest in seven, and so does my horse.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-sunday-cab",
+          "text": "Jerry refuses Sunday work and keeps a day of rest for man and horse."
+        },
+        {
+          "kind": "text",
+          "text": "The gentleman laughed at him. \"You are a strange one, Barker.\" \"Maybe, sir,\" said Jerry. \"But I have seen men and horses worked all the seven days, and it uses them up like candles. God gave the seventh day for rest, and I find He knew what He was about.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Jerry said men and horses both need a day of rest. Why is rest so important for everyone?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So every Sunday we had our day of peace. Jerry turned me loose in a grassy paddock beyond the town, and sat under the hedge with his pipe, and Dolly made chains of flowers. It was the sweetest day of my week. I grew fat on it, and Jerry grew sane."
+        },
+        {
+          "kind": "text",
+          "text": "Another cabman took the Sunday fare, and made the money, and spent it on Monday. Jerry stayed poor and we stayed well. There are two ways of being rich, I learned on that stand. Only one of them lasts."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 37 · The Golden Rule",
+      "art": "beauty-golden-rule",
+      "artPrompt": "a cabman helping a poor mother carrying a baby into his cab in the rain at night, a warm lantern glowing inside, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One rainy night, a poor woman came down to the stand. She carried a sick baby in her arms, and two little children hung on her skirt. She had only pence in her hand, and the great hospital was far away. Two cabbies refused her before she reached Jerry. \"Jump in, mother,\" said Jerry. \"Never mind the rain, and never mind the fare.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-golden-rule",
+          "text": "Jerry drives a poor sick baby to the hospital, rain or no rain."
+        },
+        {
+          "kind": "text",
+          "text": "I took them through the wet streets as smoothly as I could, for the baby's sake. At the hospital Jerry helped her out, and waited, and brought her back, and would take barely a penny more than the law allowed. \"Do to others,\" he said, \"as you would have them do to you. That is the whole rule, and the rest is commentary.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: golden rule — the old rule: treat others exactly as you wish to be treated.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The other cabbies teased him for a soft-hearted fool. \"Fools we all are, one way or another,\" laughed Jerry. \"I'd rather be a fool for kindness than a fool for cruelty.\" Then he gave me an extra rub down, for he said I had earned my corn that night, driving like a gentleman's carriage."
+        },
+        {
+          "kind": "text",
+          "text": "The baby lived, Polly heard afterwards, and grew fat in the country air. It is a fine thing to be a cab horse. You stand still, and watch kindness go past you every day, if your driver is the right sort of man."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 38 · Dolly",
+      "art": "beauty-dolly",
+      "artPrompt": "a little girl in a pinafore offering an apple to a patient black horse on a London cab stand, morning light on wet cobbles, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Dolly Barker was the sunshine of the cab stand. She came skipping down with her mother, carrying the dinner basket, and knew every horse's nose from every other. \"Good morning, Beauty! Good morning, Captain!\" she would say, very seriously, going along the row. And every horse lifted his head when he heard her."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-dolly",
+          "text": "Dolly brings Beauty an apple and a morning greeting."
+        },
+        {
+          "kind": "text",
+          "text": "She always saved the apple from her own dinner for me. She had a friend, too, a little crossing sweeper whose broom was taller than himself, and Dolly saved half of everything for him. \"Mammy says there is always room at our table for one more,\" she told Jerry once. Jerry wiped his eye and said she took after her mother."
+        },
+        {
+          "kind": "note",
+          "text": "New word: nosebag — a bag of feed hung over a horse's nose so he can eat standing in harness.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Horses love children. They speak softly, and hang on, and mean no harm. I would stand for an hour with Dolly's hand on my nose, happier than in any grand stable. A child's hand on a horse's neck is worth all the sugar in London."
+        },
+        {
+          "kind": "text",
+          "text": "Those were good months, with the Barkers. If my story had stopped there, I should have had nothing to tell but kindness. But horses' stories do not stop while their legs do. Looking back, I am glad of every apple, every flower chain, and every soft morning greeting. They were bread for a long road."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 39 · A Real Gentleman",
+      "art": "beauty-real-gentleman",
+      "artPrompt": "an elderly gentleman in plain clothes walking uphill beside a cab instead of riding, patting the black horse's neck, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Among our regular fares was an old gentleman, plainly dressed, who never let a horse struggle for him. Whenever we came to a hill, he called out, \"Walk on, driver! I'll get out and stretch my legs.\" Then he climbed the hill on foot, chatting with Jerry, and took his seat again at the top."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-real-gentleman",
+          "text": "The old gentleman walks up the hill to spare his horse."
+        },
+        {
+          "kind": "text",
+          "text": "One day a rich young man, all gold chains and fine buttons, took the same ride. He sat like a sack of corn all the way up the hill, and shouted at Jerry to whip me. \"Your horse is lazy! Lash him!\" \"I never lash a willing horse, sir,\" said Jerry, with his jaw set. The young man went off in a temper at not being obeyed."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: One rider wore fine clothes and one wore plain. Which one showed a true gentleman's heart, and how?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"There,\" said Jerry, as the old gentleman came back for another ride, \"that is what I call a real gentleman. Fine clothes can be bought at a shop. Gentleness can't.\" The old gentleman laughed and gave Dolly a shilling for sweets."
+        },
+        {
+          "kind": "text",
+          "text": "I have carried the great and the small since then, and I back Jerry's rule to this day. A real gentleman is known, not by his buttons, but by the way he treats a horse, a servant, or a child — anyone, in short, who cannot answer him back."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 40 · Seedy",
+      "art": "beauty-seedy",
+      "artPrompt": "a thin young man in a worn coat hurrying into a cab in a grey street, a kind cabman leaning down to him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One cold grey day a young man came hurrying to the stand. His coat was thin and shiny at the elbows, and his boots were old, but his collar was clean. Jerry would have called him seedy — down at heel, and hanging on to respectability by his fingertips."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-seedy",
+          "text": "Jerry drives a shabby young man to the chance of a lifetime."
+        },
+        {
+          "kind": "text",
+          "text": "He was late for an interview — a chance of work that might feed him all winter. \"It is across the town, and I have only a few minutes,\" he said, red with hurry. \"All right, sir,\" said Jerry, \"Beauty will do it if anyone can.\" And I did it, smooth and quick, without a stumble."
+        },
+        {
+          "kind": "note",
+          "text": "New word: seedy — worn and shabby, like an old coat that has seen better days.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He got the place. He came back a week after, better dressed, and pressed Jerry to take extra money. \"Not a penny more than the law allows,\" said Jerry. \"But you may tell Beauty, yourself.\" And the young man patted my neck and said, \"Old fellow, you carried my whole fortune that morning.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Never judge a man by his coat,\" Jerry told Dolly that night. \"Today's seedy gentleman is tomorrow's good customer. And even if he never is — he's still a man.\" Horses know it too. We do not look at the cloth. We look at the hand."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 41 · Poor Ginger",
+      "art": "beauty-poor-ginger",
+      "artPrompt": "two horses touching noses sadly over a London cab stand, a thin chestnut mare with a dull coat and a black horse, evening mist, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One day, at a cab stand across the street, I saw a horse I knew. She was thinner now, and her coat was dull, but I could never mistake that proud head. It was Ginger. I called to her, and she came to me at once, and we touched noses over the rail like two old friends. Which is what we were."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-poor-ginger",
+          "text": "Beauty finds Ginger again, worn out, at a London cab stand."
+        },
+        {
+          "kind": "text",
+          "text": "Her story since Earlshall was like my own, only harder. Sold on and on, from grand to plain, from plain to poor. Her last master overloaded her and beat her, and thought her wicked because she was weak. \"They have worn me out, Beauty,\" she said, in her old proud voice, now quiet. \"I am only a cab horse now. But I did try, once.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Ginger's fierce heart was made fierce by cruel treatment. Who tried to soften it, in all her life?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "We stood together a long while, saying the things horses say without words. Then her driver came, rough and loud, and she was jerked away down the street. I watched her as long as I could see her. I did not know — how could I? — that it was the last time."
+        },
+        {
+          "kind": "text",
+          "text": "Jerry fed me an extra pat that night, for he had seen the meeting. \"Old friends, eh?\" he said softly. \"Well, well.\" A cab horse sees every kind of life roll past his stand. The hardest of all is an old friend, going downhill, and no way to help."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 42 · The Butcher",
+      "art": "beauty-butcher",
+      "artPrompt": "a sweating horse galloping a butcher's cart through hot streets while a boy cracks a whip, a kind cabman watching with a frown, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On our stand, right across the street, was a butcher's shop. All day long their horse came and went at a gallop, up hill and down, loaded with meat. The butcher's boy thought it looked fine to arrive so fast. He cracked his whip and shouted, and the poor horse did his best, steaming and trembling."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-butcher",
+          "text": "The butcher's horse is galloped and whipped all day long."
+        },
+        {
+          "kind": "text",
+          "text": "\"It is the fashion in the trade,\" said Jerry, watching him with a frown. \"The meat is not one bit fresher for the gallop. But the horse dies a year or two sooner. I have seen it many a time. There is no sense in it and no kindness in it — only idleness, dressed up as business.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: butcher — a person who sells meat.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The poor horse grew thin before our eyes, and his shoulders sore. One day he stumbled, and the boy beat him for stumbling in the very street where he had been galloped. Old Grant went over and said what he thought, with his fist on the cart. But fashion is fashion, and the galloping went on."
+        },
+        {
+          "kind": "text",
+          "text": "\"A horse is not a clock, to be wound up fast,\" said Jerry that night, rubbing my tired legs. \"Fast is soon enough, when fast is wanted. But meat will keep, and horses will not.\" I have remembered that, through every master since."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 43 · The Election",
+      "art": "beauty-election",
+      "artPrompt": "a noisy crowd with flags and banners surging down a London street while cab horses stand trembling, papers flying, gaslight and noise, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There came a week that all London went mad — the election week. Crowds filled the streets with flags and banners, shouting for one man or another. Bands played, boys rattled sticks along the railings, and men rolled out of the public houses with ribbons in their hats. For horses, it was a week of terror."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-election",
+          "text": "Election crowds roar through the streets, and the horses tremble."
+        },
+        {
+          "kind": "text",
+          "text": "Fancy horses shied, plunged, and smashed their harness. More than one fell on the slippery wood paving. We stood at our rank and shook, while the yelling went over us like a storm. Jerry kept my head and talked to me all the time, quietly, under all the noise. \"Steady, old boy — it's only men being foolish. It will pass. Steady now.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: election — the days when people vote for their leaders, with big excited crowds in the streets.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "It did pass, as all storms do. The winning side drove about all night, singing; the losing side walked home in silence. \"Well, Beauty,\" said Jerry, unharnessing me at last, \"we kept our legs and our temper, and that is more than some of them did.\""
+        },
+        {
+          "kind": "text",
+          "text": "But the week had cost us all something — many a poor horse caught cold standing, and many a man caught worse in the public houses. Loud times, I have noticed, are hardest on the quiet ones, who only want to stand still and be safe."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 44 · A Friend in Need",
+      "art": "beauty-friend-in-need",
+      "artPrompt": "two cabmen gently helping a fallen young horse back onto its feet on a snowy street while a young driver looks on gratefully, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bitter morning a young cabman, new to the stand, loaded his fare and his boxes too heavily. His young horse, thin and half shod, slipped on the frozen crossing and fell. The people laughed. The boy on the box nearly cried, for his horse was his whole living."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-friend-in-need",
+          "text": "Jerry and old Grant help a young cabman raise his fallen horse."
+        },
+        {
+          "kind": "text",
+          "text": "Jerry was off his box in a moment, and old Grant with him. \"Loose the traces, keep his head low, and speak softly,\" said Grant, like a man reading a recipe. Together they eased the young horse over onto his breast, and helped him rise, and rubbed his legs with snow. No whip, no noise, no shame. In ten minutes the horse stood trembling but safe."
+        },
+        {
+          "kind": "note",
+          "text": "New word: proverb — a short old saying that carries a truth in a few words.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Load lighter coming back,\" said Jerry, \"and get those shoes seen to. A horse's shoes are a poor man's roof.\" The young man thanked them over and over. \"A friend in need is a friend indeed,\" said Grant, climbing back to his box. \"We have all been down on the ice ourselves, one time or another.\""
+        },
+        {
+          "kind": "text",
+          "text": "The old cabmen were rough men, with rough voices, and I would trust every one of them with my legs. Kindness wears strange coats in London. It is the helping hand that tells you, not the coat it wears."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 45 · Old Captain and His Successor",
+      "art": "beauty-old-captain",
+      "artPrompt": "a wise old grey horse resting his head over a stall door while a cabman grieves beside him, a young lively newcomer horse looking on, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The saddest day of all that winter came without warning. A runaway dray came thundering down a narrow street, and it struck poor Captain where he stood at the cab rank. His leg was broken, and worse. The horse doctor came and shook his head. I saw Jerry hold Captain's head, and I understood, though no one said it aloud."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-old-captain",
+          "text": "Jerry says goodbye to old Captain, the brave war horse."
+        },
+        {
+          "kind": "text",
+          "text": "Captain had carried a soldier through the guns, and now, in a quiet street, a heavy cart had ended it all. \"He was the bravest, steadiest fellow that ever ate corn,\" said Jerry, and he turned away and was a long time coming back. Dolly cried that night, and Polly's eyes were red at supper."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Losing a friend hurts. What helped Jerry and his family remember Captain kindly?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In a week Jerry brought home a new horse, a young, tall, quick fellow called Hotspur. He was full of fun and knew nothing of cab work, and I did my best to teach him the stands and the streets, as Captain had taught me. It took my mind off my grief, and added to his."
+        },
+        {
+          "kind": "text",
+          "text": "So life went on, as it always does. There was a new head over the next stall, and the old head was gone. A horse learns to carry that too, and to be thankful for every kindly voice while it lasts. They do not last forever. Nothing does."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 46 · Jerry's New Year",
+      "art": "beauty-jerry-new-year",
+      "artPrompt": "a cabman waiting in his cab through a snowstorm by lamplight, his patient black horse steaming in the frost, deep snow on the London street, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That New Year came in with a frost like iron. The snow fell for days, the streets were slippery as glass, and the cold bit through every blanket. Jerry worked from dark to dark. Then one evening a gentleman kept his cab waiting in the bitter wind, hour upon hour, while he sat warm at a party."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-jerry-new-year",
+          "text": "Jerry waits through the frosty night, and catches a deadly chill."
+        },
+        {
+          "kind": "text",
+          "text": "Between the freezing wait and the hot room, Jerry fell ill that very night. The fever was fierce, and the cough was worse. The doctor came and shook his head. \"Your lungs will not stand another London winter, Barker. You must give up the cab, and live in the clean country air — or I will not answer for you.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: frost — freezing cold that turns the ground and iron as hard as stone.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "There was nothing to be done. A friend found Jerry work in the country, away from the fog and the frost. Polly packed their little house into boxes, and Dolly cried at leaving her friends. The cab was sold, and Hotspur too, and then it was my turn. Jerry held my face in his two hands for a long minute. \"God bless you, Beauty,\" he said. \"You were a good friend to a poor man.\""
+        },
+        {
+          "kind": "text",
+          "text": "So I lost the kindest home of my whole life, for the second time, and not for the last. The people we love cannot always keep us, however much they wish it. That is a hard lesson, and the horses learn it young."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 47 · Hard Times",
+      "art": "beauty-hard-times",
+      "artPrompt": "a thin black horse fallen on his knees on wet slippery city stones, a heavy loaded cab behind him and an angry master raising his whip, rain, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "My next master kept a string of cabs, and worked them without mercy. His name was Skinner, and he was a hard man. His horses were cheap, his loads were heavy, and his whip was always out. It was his boast that his horses worked to the last hour they could stand. They wore out fast, and were sold for what their hides would fetch."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-hard-times",
+          "text": "Overloaded and weary, Beauty falls on the wet stones."
+        },
+        {
+          "kind": "text",
+          "text": "I grew thin and dull in that place. One grey morning I passed a cart in the lane, carrying a dead horse to be sold. I looked, though I wished I had not. It was Ginger. She was past all hard words and heavy loads at last. Her troubles were over, and I have never been able to forget her. Hers had been a hard life from the beginning."
+        },
+        {
+          "kind": "note",
+          "text": "New word: overload — to load with more weight than a horse can safely pull.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Not long after came my own last ride. A wet day, a load too heavy, and stones slippery as ice. Down I came on my knees, and down I should have fallen again, but my strength gave out. Skinner's first cry was for the lost fares, not the horse. When I could stand at all, I stood on three legs, shaking."
+        },
+        {
+          "kind": "text",
+          "text": "There was no rest for me there while I could be sold. Skinner sent me to auction as soon as my knees could bear standing in a ring. I thought of Jerry, of John, of my mother's meadow, and wondered what would become of me. Even at auction, a man may fall into kind hands or cruel ones. It is all chance — so people say."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 48 · Farmer Thoroughgood and His Grandson Willie",
+      "art": "beauty-thoroughgood",
+      "artPrompt": "a kind old farmer and his small grandson gently examining a thin scarred black horse in a sunny auction yard, other buyers walking away behind, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The auction was a sad, noisy place, with men shouting prices and horses trembling in the ring. I was a poor sight by then — knees scarred, coat rough, head down. The buyers passed me over for younger legs. Then a kind voice said, \"And what do you say, Willie?\" It was an old farmer, with a little boy at his side."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-thoroughgood",
+          "text": "Farmer Thoroughgood and little Willie choose Beauty at the sale."
+        },
+        {
+          "kind": "text",
+          "text": "The farmer was Mr. Thoroughgood, and the boy was his grandson Willie. Willie patted my nose, and the old man looked long at my sores and my eyes. \"There is something in this horse's eye,\" he said slowly. \"He has been a gentleman's horse, and has fallen on hard times. A few pounds, gentlemen — and I'll give him a chance.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: pasture — a grassy field where horses are turned out to feed.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So I went home with them, to a farm of green fields and slow, kind ways. Willie rode me softly round the yard, and told me I was a good horse. I believed him, after a while. With grass, and rest, and good oats, my legs found their strength again, and my coat shone once more."
+        },
+        {
+          "kind": "text",
+          "text": "\"We'll find him a good home, Willie,\" said the old farmer. \"A home where kindness is the rule. He has earned that, if ever a horse did.\" And he kept his word, as you shall hear in my last chapter."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 49 · My Last Home",
+      "art": "beauty-last-home",
+      "artPrompt": "a young groom joyfully hugging a healed black horse with a white star in a sunny orchard while three kind ladies watch from a garden gate, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the autumn, Mr. Thoroughgood took me to see some ladies who wanted a safe, quiet horse. They were three sisters, the Misses Blomefield, and they lived in a pleasant house with orchards. Mr. Blomefield, their good father, had been the vicar in the old Birtwick days — the very family that had little Merrylegs, and I heard that the fat old pony still lived with them, as merry as ever."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-last-home",
+          "text": "In a sunny orchard, Beauty is recognized — and his troubles are over."
+        },
+        {
+          "kind": "text",
+          "text": "The ladies' groom came out to try me across the park. I trotted and cantered as gently as I could, for I wanted the home, and I think they saw it. Then, as he rubbed me down in the stable, he suddenly held the lantern to my face, and gave a great cry. \"It is Black Beauty! Black Beauty, sure enough! I knew him the moment I saw the white star!\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Beauty stayed kind all his life, through good masters and bad. How did kindness come back to him at the end?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The groom was Joe Green — little Joe, grown tall and wise, and now the ladies' own groom. He told them my whole story, from the meadow to the auction. \"He shall never be sold again,\" said the eldest Miss Blomefield. \"He has found his last home.\" And Joe cared for me morning and night, as he had once been forgiven for not doing."
+        },
+        {
+          "kind": "text",
+          "text": "So my story ends. My troubles are all over, and I am at home. The ladies are gentle, Joe is the best of grooms, my work is light, and my grass is sweet. I dream sometimes of my mother in the meadow, of Ginger in the sunny paddock, of John Manly's voice. And if ever you see a horse with a white star and one white foot, pat him gently — for he may have a story too, like mine."
+        }
+      ]
+    }
+  ]
+}

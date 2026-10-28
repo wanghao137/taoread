@@ -39,6 +39,7 @@ for (const item of Object.values(us.assets as Record<string, { sha256: string }>
 }
 
 const lexicon = JSON.parse(readFileSync(path.join(candidateDirectory.replace(/[\\/]+$/, ''), 'lexicon.json'), 'utf8'))
+const edgeDir = path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'phonics', candidateDirectory.replace(/[\\/]+$/, '').split(/[\\/]/).pop()!)
 for (const entry of lexicon.entries as Array<{ word: string; example: { audio: { sha256: string } | null }; wordAudio?: { uk?: { sha256: string } | null; us?: { sha256: string } | null } }>) {
   if (entry.example.audio) {
     const source = path.join(atlasDir, 'public', 'atlas', 'audio', 'ex', `${entry.word.toLowerCase()}.mp3`)
@@ -48,7 +49,13 @@ for (const entry of lexicon.entries as Array<{ word: string; example: { audio: {
   for (const accent of ['uk', 'us'] as const) {
     const audio = entry.wordAudio?.[accent]
     if (!audio) continue
-    const source = path.join(atlasDir, 'public', 'atlas', 'audio', accent, `${entry.word.toLowerCase()}.mp3`)
+    // 词光来源走词光目录；Edge 来源文件名即 sha，直接从 Edge 输出目录取
+    const candidates = [
+      path.join(atlasDir, 'public', 'atlas', 'audio', accent, `${entry.word.toLowerCase()}.mp3`),
+      path.join(edgeDir, `${audio.sha256}.mp3`),
+    ]
+    const source = candidates.find(p => existsSync(p))
+    if (!source) throw new Error(`音频源不存在: ${entry.word} ${accent}`)
     if (copyVerified(source, audio.sha256, 'mp3') === 'copy') copied++
     else skipped++
   }

@@ -1,0 +1,236 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Death of Koschei the Deathless",
+      "art": "lr-koschei-deathless",
+      "artPrompt": "an ancient gnarled oak on a misty plain with an iron-bound chest open at its roots, a young prince in a red cloak holding a glowing golden egg up to the light, a dark rider galloping in the far distance, cool grey-green dawn light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a prince named Ivan, who had three sisters and a fine garden. One by one, his three sisters were carried off and married by three warrior brothers. The brothers could turn themselves, when they pleased, into a falcon, an eagle and a raven. In time the old Czar and Czarina died. Prince Ivan set out to visit his sisters, and everywhere he was welcomed like spring itself. On the road home his army met the army of Marya Morevna, a warrior princess. She took a fancy to Ivan, and married him, and they lived happy in her castle. One day Marya Morevna rode away to the wars. 'Go everywhere in my castle,' she said, 'but never open the little door in the dungeon.'"
+        },
+        {
+          "kind": "text",
+          "text": "Ivan waited a few days, and then, of course, he opened the little door. There, hung in chains, was Koschei the Deathless, who cannot die. 'I am perishing of thirst,' groaned Koschei. 'Give me a bucket of water.' Ivan, who was kind, gave him one, and with every drink a new strength poured into Koschei. The third bucket filled him with strength enough to snap his twelve chains like thread. He swept Marya Morevna onto his horse and was gone before you could say knife. Ivan rode after him, and twice Koschei caught him and let him go, for old kindness. The third time, Koschei cut him into little pieces, packed them in a barrel, and rolled it into the sea."
+        },
+        {
+          "kind": "image",
+          "art": "lr-koschei-deathless",
+          "text": "The old oak, the chest, the hare, the duck — and the egg."
+        },
+        {
+          "kind": "note",
+          "text": "New word: deathless — unable to die. Koschei was deathless all right, but even a deathless man must keep his death somewhere safe, and that was his mistake.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the falcon, the eagle and the raven were not brothers-in-law for nothing. They heard the splash, drew the barrel out of the sea, and opened it. They poured on the pieces first the water of death, which knit them together again. Then they poured the water of life, and Ivan stood up alive. Ivan rode softly back, and hid, and watched. And Marya Morevna coaxed Koschei, as wives can, until he boasted where his death lay hidden. 'In an egg, in a duck, in a hare, in a chest, on top of an old oak,' said Koschei. When Koschei rode off hunting, Ivan found the oak, the chest, the hare, the duck — and the egg. He squeezed it gently, and at once Koschei came galloping home, crying for mercy. But there is no mercy for a man who cuts princes into little pieces. Ivan crushed the egg, and Koschei fell down dead. Then Ivan and Marya Morevna were married all over again, and visited the three sisters, and lived happily."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Soria Moria Castle",
+      "art": "lr-soria-moria",
+      "artPrompt": "a shining white and gold castle on a dark rock rising from a calm northern sea, a lad with a great sword on a stony shore beside a weeping princess, a monstrous many-headed troll wading across the water in the distance, cold silver dawn light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a lazy lad named Halvor, who would not dig and would not chop wood. At last his father said he must go out and shift for himself. So Halvor wandered off, and lodged the night with a little old woman, who fed him and asked his plans. 'Anywhere at all,' said Halvor, honestly. The old woman sighed, for she had a story. East of the sun and west of the moon stood a castle called Soria Moria. It shone over the sea on a high rock, and nobody had ever reached it."
+        },
+        {
+          "kind": "text",
+          "text": "Each old woman sent him on to a sister a hundred leagues farther on. The last of the three gave him a sword that would cut through anything. Her brothers, she said, had all ridden to Soria Moria, and none had come back. At last Halvor came to a grey stony shore, and across the water stood Soria Moria Castle, gleaming like dawn. On the beach sat a weeping princess. 'A six-headed troll comes tonight to carry me off,' she said. 'Never mind,' said Halvor, 'I will stay.'"
+        },
+        {
+          "kind": "image",
+          "art": "lr-soria-moria",
+          "text": "Soria Moria Castle, east of the sun and west of the moon."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Halvor forgot the princess just by saying her name, and remembered by hearing it again. Ask your child: what things can a name call back?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "That night the troll came striding over the water, sniffing and grumbling that he smelled Christian blood. Halvor met him with the sword, and all six heads rolled into the sea. Next night came a troll with nine heads, and Halvor hewed them off too. The third night came a troll with twelve heads, and the princess trembled. But Halvor's sword sang, and twelve more heads rolled into the sea. Then there was peace in Soria Moria, and Halvor and the princess lived happily among the gold and silver. But by and by Halvor grew homesick, and begged leave to see his father and mother. 'Go,' said the princess, 'but never speak my name at home, for then you will forget me.' At home, of course, he told everything, and out slipped the name. In a twinkling he had forgotten her, and soon it was arranged that he should marry another princess. On the wedding morning a ship with golden sails came gliding up the fjord. Aboard her stood a beautiful lady, with a little dog at her side. She looked long at Halvor, and he did not know her at all. But as she gently asked about the days of his wandering, the name of Soria Moria Castle came up. And everything rushed back — the trolls, the sword, the shining shore. Halvor leapt over the rail, and the ship sailed away east of the sun and west of the moon. And no one has heard tell of them since."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Master Thief",
+      "art": "lr-master-thief",
+      "artPrompt": "a candle-lit manor courtyard at night with a heavy wooden chest standing in the middle, a squire and his wife climbing inside while a finely dressed gentleman holds the lid and smiles, warm amber lantern light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a poor man with many sons, and the youngest ran away from home. After some years he came back, so finely dressed, and on so fine a horse, that his father hardly knew him. 'I wish you had never been born,' sighed the father, 'for thieves come to bad ends.' 'Wait till you hear what I can do,' said the son. 'I am a master thief.' The richest squire in the country heard of it, and offered a wager: three feats of stealing, well paid."
+        },
+        {
+          "kind": "text",
+          "text": "The first feat was to steal his horse out of the stable, with the squire himself keeping watch. That night an old woman came shuffling to the stable door with a jug of beer. The squire and his soldiers drank her health so often that they fell fast asleep. In the morning the horse was gone — and so was half the squire's beard, shaved off clean, just for fun. The squire, furious, set a second feat: the sheet off his bed and his wife's nightcap. And they would both be lying broad awake. At midnight a voice in the yard cried that thieves were carrying off the horses again. The moment the squire and his wife leapt out of bed to look, he whisked sheet and nightcap away."
+        },
+        {
+          "kind": "image",
+          "art": "lr-master-thief",
+          "text": "The safest place in the world, according to the master thief."
+        },
+        {
+          "kind": "note",
+          "text": "New word: feat — a clever or daring deed. Stealing is a bad thing to be good at, but you must admit the master thief was very, very good at it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The third feat was the boldest: steal the squire and his wife out of their own house. The master thief dressed like a respectable traveller, called at the door, and whispered dreadful news. A band of robbers was coming that very night, he said. The only safe place on earth, he declared, was the big empty chest in the hall. The squire and his wife climbed in, and the lid went down. Then the thief had the chest carried out and set down in the middle of the squire's own yard. 'You have won,' the squire had to own, when he climbed out cross and dusty. 'There is no thief in the world like you.' And the master thief took his reward, and no door in that country ever felt quite safe again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Princess Rosette",
+      "art": "lr-princess-rosette",
+      "artPrompt": "a small wooden boat drifting on a sunlit blue sea with a girl in a golden gown and a little white dog, a rocky green island ahead and a fleet of tall ships on the horizon, bright airy midday light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a king and queen who had two children, a boy and a girl called Rosette. Rosette was as kind as she was lovely, and so fond of birds that they came to her fingers. When the king and queen died, the brother became king, and his councilors said it was time Rosette married. Far over the sea lived the great King of the Peacocks, and to him the young king sent his sister. Rosette packed her jewels, took her little dog, and set sail with all her servants."
+        },
+        {
+          "kind": "text",
+          "text": "But among the servants sailed an old nurse and her daughter, and the nurse wanted a queen for a daughter. In the middle of the sea they lowered Rosette and her little dog into a boat with no oars. Then the nurse's daughter came ashore at the peacock court, veiled, pretending to be ill. The King of the Peacocks waited and waited, and at last tore the veil away — and found a sham. He was so angry that he declared war on Rosette's brother on the spot."
+        },
+        {
+          "kind": "image",
+          "art": "lr-princess-rosette",
+          "text": "Adrift on the sea, with one small friend."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Rosette's little dog stayed with her through everything. Ask your child: who was the truest friend in this story, and why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The little boat drifted and drifted, and came at last to a rocky island. There Rosette lived on what the sea and the hedges gave her, with the little dog for company. Her brother, hearing of the quarrel, guessed some mischief had been done at sea. He sailed from coast to coast, looking everywhere, till one day his ship passed the island, and there stood Rosette, waving. What a meeting that was! The two of them sailed straight to the kingdom of the peacocks. There the whole trick came out — the nurse, the veil, and all. The nurse and her daughter were sent away where they could trouble nobody. Then there was a double wedding. Rosette married the King of the Peacocks, and her brother married the peacock king's sister. And the little dog had the place of honour at both feasts."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Nettle Spinner",
+      "art": "lr-nettle-spinner",
+      "artPrompt": "a tall grey stone tower at moonrise with a long pale cord of twisted nettle thread hanging from the high window to the grass, a girl sliding down it with a bundle of spun thread, a dark forest edge ahead, silver-blue moonlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a girl who spun thread better than anyone in the country. The great lord of that country fell in love with her, and asked her to marry him. 'I cannot,' she said, 'for I love a poor lad, and I have promised him.' The lord did not like that at all. He had the lad sent away to the wars, far away, and then told the girl her lover was dead. But the girl only spun, and said no again. So the lord shut her up in a high tower, and set her a cruel task. She was to spin the garden nettles into thread, every day, with no one to speak to."
+        },
+        {
+          "kind": "text",
+          "text": "Now the lord thought nettles were only for stinging. He did not know that a patient girl can work wonders with them. Day after day she softened the nettles, spun them fine, and twisted the thread into one long strong cord. And when the cord reached from her window to the ground, she slid down it, and ran into the wood. There, among the trees, she met her own lad — alive, escaped from the wars, and looking for her. They had no money between them, but they had each other, and they walked away as quick as they could."
+        },
+        {
+          "kind": "image",
+          "art": "lr-nettle-spinner",
+          "text": "The cruel task that turned into a rope."
+        },
+        {
+          "kind": "note",
+          "text": "New word: spin — to twist wool, flax or nettles into thread. It takes patience, and patience, as the girl proved, can be stronger than a locked tower.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The lord was in a fury when he found the tower empty. There was nothing left but a nettle cord hanging from the window, swinging in the wind. He hunted the country high and low for the runaways, but nobody would tell him anything. Everybody knew how he had used the girl, and nobody likes a bully. So the girl and her lad crossed into the next country, where nobody asked who they were. There he worked and she spun — flax now, for they had left the nettles behind. In time they had a little house, a wheel by the fire, and everything they wished for. And if the old lord still climbs his tower and looks out of the window, that is his own affair."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Half-Chick",
+      "art": "lr-half-chick",
+      "artPrompt": "a church spire in old Madrid at golden sunset with a small iron weathercock with one eye and one leg on top, swirling wind and dry leaves around it, red rooftops below, warm amber evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A hen once had a brood of chicks, and one of them was the strangest of all. He had only one eye, one wing and one leg, and he was called the Half-Chick. He was also the naughtiest of the brood. He would not help his mother, and he would not mind anybody. One day he up and said he was off to Madrid, to see the King. 'Don't go,' clucked the hen. But off he hopped on his one leg, proud as a peacock."
+        },
+        {
+          "kind": "text",
+          "text": "On the road he met a little stream, all tangled in the weeds that choked it. 'Half-Chick, help me clear my weeds,' begged the stream. 'Help yourself,' said the Half-Chick, and hopped on. Farther on, the wind himself asked the Half-Chick for a little help. 'Help yourself,' said the Half-Chick again, and hopped on. By evening he reached Madrid, and strutted straight into the King's palace."
+        },
+        {
+          "kind": "image",
+          "art": "lr-half-chick",
+          "text": "The weathercock on the tallest tower, still turning."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the Half-Chick said 'Help yourself' to everyone who asked. Ask your child: what could he have said instead, and how might his story have ended differently?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "There the cook caught him. 'A half-chick will make half a dinner,' said the cook, and into the pot he went. But the water in the pot would not hurry. When the lid came off, there he was — boiled on one side and raw on the other. Nobody can eat that, and the cook flung him out into the yard. Then the wind, who had a long memory, came whirling by. He picked the Half-Chick up, spun him round and round like a dry leaf. And he set him down on the top of the tallest tower in Madrid. And there he has stood from that day to this. Half a chick turned to iron: a weathercock, with one eye and one leg. He turns whichever way the wind chooses to blow."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Drakestail",
+      "art": "lr-drakestail-friends",
+      "artPrompt": "a small plump duck wearing a tiny cap marching proudly up a road toward a golden palace gate, a friendly fox, an old wooden ladder, a sparkling stream and a little cloud of bees following behind, cheerful green countryside morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a little duck called Drakestail, very small and very proud. He saved up every penny he could find, until he had a nice little heap of money. Then the King came along, borrowed every penny of it, and never paid it back. 'I shall go and ask the King for my money,' said Drakestail. And off he set, singing his little song: 'Quack, quack, when shall I get my money back?'"
+        },
+        {
+          "kind": "text",
+          "text": "On the road he found friends. There was a fox caught fast in a snare, and Drakestail freed him. There was an old ladder lying in the mud, and Drakestail took him along. There was a little stream, stopped up with leaves; Drakestail cleared it, and the stream ran on beside him. And there was a swarm of bees drenched in the rain; Drakestail tucked them up warm, and they came too. 'Quack, quack, when shall I get my money back?' sang Drakestail all the way to the palace gates."
+        },
+        {
+          "kind": "image",
+          "art": "lr-drakestail-friends",
+          "text": "Drakestail and four friends, off to see the King."
+        },
+        {
+          "kind": "note",
+          "text": "New word: savings — the small sums you put away instead of spending. Drakestail's savings were little, but he knew exactly where every penny was.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The King was not at all pleased to see him. 'Throw him to the turkeys!' he cried. But the bees flew out and stung the turkeys till they fled. 'Then throw him into the deep well!' But the ladder came down the well, and up climbed Drakestail. 'Then throw him into the river!' But the little stream was there first, and Drakestail swam and floated and enjoyed himself very much. Then the King got into such a rage that he turned quite red and stamped. He fell down in a fit of temper, and that was the end of his borrowing. Drakestail counted out his money, penny by penny, and tucked it under his wing. Then he went home singing, 'Quack, quack, I got my money back.'"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Three Princesses of Whiteland",
+      "art": "lr-whiteland-princesses",
+      "artPrompt": "a magical underwater kingdom with three shining castles of copper, silver and gold on a white seabed, a small wooden boat drifting down through deep blue-green water toward them, a princess waiting in the golden castle doorway, soft glowing underwater light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a fisherman who could never, ever catch a fish. One evening he sat looking so gloomy that a strange old man rose up out of the sea. 'Nothing will bite,' sighed the fisherman. 'Get into this little boat,' said the old man, 'and think no more about it.' The boat went down and down under the water, quite pleasantly, until it reached the bottom of the sea. And there lay Whiteland, with three castles shining in a row. One was of copper, one of silver, and one of gold."
+        },
+        {
+          "kind": "text",
+          "text": "In the gold castle lived the youngest of the three princesses, and the fisherman stayed with her three whole years. But after three years anyone grows homesick. 'Go, then,' said the princess. 'Here is a ring: wish with it, and you shall have what you wish. Only promise one thing — never speak my name, for if you do, you will forget me and never find Whiteland again.' The fisherman promised, wished himself home, and stood at his own door, rich in rings and memories."
+        },
+        {
+          "kind": "image",
+          "art": "lr-whiteland-princesses",
+          "text": "The boat going down, and Whiteland at the bottom of the sea."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the fisherman broke one small promise and forgot a whole kingdom. Ask your child: which promises are the hardest ones to keep?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But his mother questioned him so warmly about the beautiful lady under the sea that out slipped the name. In a twinkling he had forgotten Whiteland, the princess, and everything. Years went by, and his friends arranged that he should marry another girl. But on the very morning of the wedding, a ship with golden sails came sailing up the fjord. Aboard her stood the Princess of Whiteland, who had come a long way to look for her fisherman. She spoke his name, and at the sound of her voice everything came back. The boat, the sea road down, the three castles — and her. He stepped aboard so quickly that he nearly fell into the sea. The ship sailed away to Whiteland, and the wedding guests were left waving on the shore. And there the fisherman and the princess lived happily ever after, and he never once said the name again."
+        }
+      ]
+    }
+  ]
+}

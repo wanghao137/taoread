@@ -1,0 +1,185 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Flying Island",
+      "art": "gv-flying-island",
+      "artPrompt": "a great dark diamond-shaped island floating in the evening sky above a calm sea, a long chain hanging down from it, a tiny man in a canoe looking up in wonder, gulls circling, deep blue and gold light, astonishing storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Gulliver was not made to stay at home for long. In a year or two he sailed again as captain, with a good ship and a sturdy crew. But his sailors fell sick and died in the hot southern seas, and he had to hire new men on the way. And the new men turned out to be pirates at heart."
+        },
+        {
+          "kind": "image",
+          "art": "gv-flying-island",
+          "text": "The flying island floats overhead, and a chain comes down from the sky."
+        },
+        {
+          "kind": "text",
+          "text": "One day the new crew seized the ship and shut their captain below. They set Gulliver adrift in a little canoe, with four days' food, and left him to the mercy of the sea. He paddled from one rocky islet to another, eating shellfish off the stones. And he wished himself home in England."
+        },
+        {
+          "kind": "text",
+          "text": "Then one evening he saw the strangest sight of all his travels: an island up in the sky, floating like a great dark diamond over the water. Down from it came a chain and a little seat. Men on high pulled him up, and Gulliver stood in a country that sailed above the clouds. The islanders called it Laputa."
+        },
+        {
+          "kind": "text",
+          "text": "The people of Laputa were queer-looking folk. Their heads slanted to one side, with one eye looking inward and the other up at the stars. Each great man had a servant walking behind him, carrying a blown bladder on a short stick. The servant tapped his master's mouth and ears whenever a thought wandered off. For the Laputans thought of nothing but mathematics and the sky."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: astronomer — a person who studies the sun, the moon and the stars. The astronomers of Laputa thought of hardly anything else."
+        },
+        {
+          "kind": "text",
+          "text": "They fed Gulliver well and were kind in their dreamy way. But he longed to stand on ground that did not move. Soon he asked leave to go down to the country below."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Dreamers of Lagado",
+      "art": "gv-lagado-dreamers",
+      "artPrompt": "a curious academy hall where wild-haired wise men in long gowns press cucumbers in a wooden press, another man building a crooked house upside down from its roof, odd machines everywhere, dusty windows and crooked light, funny storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The flying island hung over a wide country called Balnibarbi, and the King could make it rise, sink or drift by turning a great magnet stone. If a city below displeased him, he simply parked the island over its fields. Then no sun and no rain could reach them until the city said sorry."
+        },
+        {
+          "kind": "text",
+          "text": "Gulliver asked to be let down, and travelled to the great city of Lagado. He found the fields half wild and the houses crooked, for the whole country had gone mad over new inventions that never worked. Everyone was a dreamer now. Nobody seemed to plant or bake or mend."
+        },
+        {
+          "kind": "image",
+          "art": "gv-lagado-dreamers",
+          "text": "In the Academy of Lagado, a wise man squeezes cucumbers, hunting for sunbeams."
+        },
+        {
+          "kind": "text",
+          "text": "In the Academy of Lagado the wise men were busy from morning to night. One had spent eight years trying to squeeze sunbeams out of cucumbers, to warm the land in cold winters. Another was building his house from the roof down, beginning at the top. He was still waiting for the lower floors to behave."
+        },
+        {
+          "kind": "text",
+          "text": "There was a blind man who taught his pupils colours by smell and taste. And there was a man who ploughed his fields with hogs, by burying acorns for them to dig up. Gulliver watched them all kindly, for they were gentle men and meant well. But he saw that a dream is a poor wall and a worse roof."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: invention — a new machine or clever idea made by someone. Some inventions work; the dreamers of Lagado were still waiting for theirs."
+        },
+        {
+          "kind": "text",
+          "text": "In time Gulliver said goodbye to his dreamy friends and took ship for home. He reached England safely, kissed his wife and children, and rested. But only for a while. The sea, as he always said, had one more story for him yet."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Land of the Horses",
+      "art": "gv-land-of-horses",
+      "artPrompt": "a green country lane between low hedgerows where two grave dapple-grey horses stand studying a bedraggled man in a torn coat, shaggy wild beasts scattering into tall grass behind him, soft grey morning light, quiet astonishing storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On his last great voyage Gulliver was captain of his own ship once more. But his sailors grew sick in the tropics, and while they lay recovering on a strange island, the new crew he had hired plotted against him. One morning they rowed him ashore to look for water. And then they rowed away without him, leaving him nothing but the sky."
+        },
+        {
+          "kind": "image",
+          "art": "gv-land-of-horses",
+          "text": "Two grave grey horses study the strange two-legged stranger in the lane."
+        },
+        {
+          "kind": "text",
+          "text": "Gulliver walked inland, weak and hungry, and came upon a troop of ugly, hairy beasts, quarrelling and snatching and squealing in the grass. He pushed them off him with his stick, and stood his ground, heart beating. Then, to his amazement, a horse came trotting quietly down the lane."
+        },
+        {
+          "kind": "text",
+          "text": "The horse looked at him with wise, gentle eyes, like a schoolmaster looking over a new pupil. It spoke two soft words in a strange language, and a second horse came. The two of them felt his hands and looked into his hat, and talked together as gravely as judges. Then Gulliver understood: in this country, the horses were the people."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: mutiny — when sailors rise against their captain and take his ship. Gulliver had sailed the world four times, and this was the strangest shore of all."
+        },
+        {
+          "kind": "text",
+          "text": "They led him to a neat low house, where a dapple-grey horse was master, and the servants were smaller horses and ponies. The master gave him a room by the stable, with clean straw for a bed. He set before him hay, milk and oat bread. Gulliver ate thankfully, slept like a child, and woke in the strangest, calmest country he had ever seen."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Wise Horses",
+      "art": "gv-houyhnhnm-assembly",
+      "artPrompt": "a circle of noble grey horses sitting gravely in a great ring on a green hillside at evening, debating with quiet gestures of their heads, a small man in rough clothes waiting outside the ring among grazing foals, amber dusk light, dignified storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The horses called themselves Houyhnhnms, a word that means \"the perfection of nature\". The hairy beasts were called Yahoos, and the Houyhnhnms harnessed them to carts like other countries harness oxen. Gulliver's master was a wise and patient dapple-grey horse. Every day he taught Gulliver new words, as one teaches a clever child."
+        },
+        {
+          "kind": "image",
+          "art": "gv-houyhnhnm-assembly",
+          "text": "The grand assembly of the wise horses debates far into the evening."
+        },
+        {
+          "kind": "text",
+          "text": "Gulliver learned fast, and soon he could tell his master about England: the ships and the cities, the kings and the wars. The grey horse listened gravely, and then said, gently, that men sounded to him much like Yahoos who had learned to build. Gulliver opened his mouth to answer — and found he had no answer at all."
+        },
+        {
+          "kind": "text",
+          "text": "Not all the horses agreed about him. Some said this speaking Yahoo was dangerous, and should be sent away at once. So the grand assembly of the Houyhnhnms met to decide the matter, and talked far into the evening. Gulliver waited outside in the field with his heart going like a hammer."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: assembly — a great meeting where important matters are decided. The assembly of the horses decided Gulliver's future with great kindness."
+        },
+        {
+          "kind": "text",
+          "text": "Their judgement was kind but firm. This country belonged to the Houyhnhnms, and Gulliver must go. They would help him build a boat. He built it over five weeks, of wood and skins, and it was small and sad, but it floated."
+        },
+        {
+          "kind": "text",
+          "text": "He wept as he said goodbye to the grey horse, who had been kinder to him than many men. He stored hay and milk and water in his little boat, and sailed out from the shore. He looked back till the land was gone. And as the shore faded, he thought of the grey horse's last look, and made a promise to remember it all his days."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Home at Last",
+      "art": "gv-home-at-last",
+      "artPrompt": "a warm English kitchen fireside where a travel-worn man in a worn blue coat sits amazed as his wife and little daughter embrace him, a steaming supper on the table, a kettle over the fire, candlelight and firelight, cosy tender storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "For some days Gulliver sailed the lonely sea, sleeping in his little boat and living on what he had stored. Then a sail found him — a Portuguese ship. Its captain, a kind man named Pedro de Mendez, gave him food, a cabin and all the help in the world. The captain asked him a hundred questions, and was never tired of his strange tale."
+        },
+        {
+          "kind": "image",
+          "art": "gv-home-at-last",
+          "text": "Gulliver at his own fireside, with wife and children and a steaming supper."
+        },
+        {
+          "kind": "text",
+          "text": "But Gulliver had grown strange in the land of the horses. When the sailors touched him he shivered, for to his eyes they seemed like Yahoos dressed in fine coats. It took all the long voyage home, and all the captain's patience, to teach him to love the company of men again."
+        },
+        {
+          "kind": "text",
+          "text": "At last his own front door opened, and his wife and children ran into his arms. His little daughter kissed him, and he held her close and wept. It was partly for joy, and partly because he had almost forgotten what a human face was for. Then there was a steaming supper, and a fire, and a bed like a bed at last."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: voyage — a long journey by sea. Gulliver's voyages were over at last, but his stories were only just beginning."
+        },
+        {
+          "kind": "text",
+          "text": "Gulliver bought a little house with a garden, and planted flowers and fruit trees in it. In his stable he kept two fine young horses, and every evening he visited them to talk over the day. His neighbours thought it odd. Gulliver only smiled, and thought of a wise grey horse on the other side of the world."
+        },
+        {
+          "kind": "text",
+          "text": "And that is the end of the travels of Lemuel Gulliver: to Lilliput, where he was a giant; to Brobdingnag, where he was a toy; to Laputa in the sky; and to the land of the wise horses. He told his story to anyone who would listen, and he ended it always the same way. There is no place like home, and no friend like a kind heart, whatever shape it comes in."
+        }
+      ]
+    }
+  ]
+}

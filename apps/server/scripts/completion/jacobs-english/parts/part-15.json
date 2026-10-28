@@ -1,0 +1,202 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 15 · The Ass, the Table and the Stick",
+      "art": "engfair-stick",
+      "artPrompt": "a cosy inn room at night where a young man sleeps hugging an old cloth sack in his arms, a sneaking innkeeper tiptoeing toward him with a candle, a small grey donkey and a carved wooden table waiting in the corner, warm candle glow against deep blue night, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "An old father sent his three sons out to seek their fortunes. The eldest found a donkey that shook its ears and dropped gold pieces. The second found a table that, at the words \"Spread yourself,\" covered itself with every good dish."
+        },
+        {
+          "kind": "text",
+          "text": "But a thieving innkeeper swapped the donkey and the table in the night. Both brothers came home rich in nothing but shame, and the old father was cross with them indeed."
+        },
+        {
+          "kind": "text",
+          "text": "The youngest son found an old sack. Inside it lived a cudgel that sprang out at one word and beat whatever needed beating. At the inn he slept with the sack hugged tight, so the innkeeper's fingers found nothing at all."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-stick",
+          "text": "The youngest son sleeps with the sack in his arms while the innkeeper tiptoes near."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why did the first two brothers lose their treasures? What did the youngest do differently?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At home the lad set the sack on the floor. \"Cudgel, out of the sack!\" — and out it sprang, and beat the air with a whistling swish. Then the innkeeper, who had followed him home hoping for more tricks, trembled in the doorway. \"Cudgel,\" said the young man, pointing, \"mind the innkeeper well.\" And the cudgel beat him till he promised, on his knees, to bring back the golden donkey and the magic table from far away. Then the family was rich indeed: gold from the donkey, feasts from the table, and a cudgel in the sack for thieves. And they lived together in comfort for many a long year."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Master and His Pupil",
+      "art": "engfair-pupil",
+      "artPrompt": "a dark study lit by one guttering candle where a nervous apprentice hugs an enormous chained book, a huge shadowy spirit towering to the rafters with folded arms, books and an astrolabe tumbling about the floor, green-gold midnight light, dramatic but friendly storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a master who knew more than any man in the country. He knew the songs of birds and the speech of beasts. And he had a great black book that told how to call up a mighty spirit, and how to send it away again."
+        },
+        {
+          "kind": "text",
+          "text": "His pupil was never allowed to touch the book. But one day the master went out, and the boy could not resist. He opened the pages, read the words aloud — and the room filled with smoke. A terrible spirit stood before him."
+        },
+        {
+          "kind": "text",
+          "text": "\"You have called me,\" it rumbled, \"now give me work, or I will eat you!\" The poor boy set it task after task: to sweep the study, to groom the mare, to fetch water in a leaky pail. But the spirit finished everything in a wink and growled for more."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-pupil",
+          "text": "The apprentice faces the huge spirit, with the black book shut tight in his arms."
+        },
+        {
+          "kind": "note",
+          "text": "New word: spirit — a being of air and shadow, older than the hills. Ask your child: what should the pupil have done at the very start?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All night the boy tried to remember the words that send the spirit away. But he had read too fast, and they would not come. Toward morning the master came home, saw the spirit towering to the rafters, and frowned. Then he opened the great black book, spoke the true words, and the spirit bowed and sank into the floor like smoke going down a chimney. The master locked the book away, and the pupil never touched it again — though he told his grandchildren the tale, ending: \"Learn a thing well before you begin it.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · The Well of the World's End",
+      "art": "engfair-well",
+      "artPrompt": "a lonely round stone well under a vast dark sky at the edge of the world, a small girl holding a wooden sieve while a gentle frog with wise eyes sits on the mossy rim, drifting stars above, soft green-silver light, tender storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A girl lived with a cruel stepmother, who sent her one day to fetch water from the Well of the World's End — and gave her a sieve to carry it in. The girl walked and walked till she found the well. She dipped the sieve, and the water ran out. She dipped again, and it ran out again."
+        },
+        {
+          "kind": "text",
+          "text": "Sitting on the well's edge, she began to cry. Up popped a frog. \"Why do you weep?\" \"The sieve will not hold water.\" \"Then stop the holes with moss and clay,\" said the frog, \"and it will hold. But first set me on your knee.\" The girl did as the frog said, and carried the water home."
+        },
+        {
+          "kind": "text",
+          "text": "But the frog hopped after her. All night it called at her window, till at last she had to let it in. It ate from her little plate and slept in her little bed — and each night it seemed gentler and sadder."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-well",
+          "text": "The frog on the well's rim tells the girl how to mend the sieve."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the girl is kind to a small, ugly creature. What does her kindness earn her in this tale?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the last night the frog said, \"Chop off my little head.\" The girl wept, for she had grown fond of the frog. But she took the little axe, shut her eyes tight, and swung. And there stood a fine young prince, smiling, for a cruel spell had broken at last. They were married in her stepmother's own parish, and the girl never carried a sieve again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Laidly Worm of Spindleston Heugh",
+      "art": "engfair-worm",
+      "artPrompt": "a vast gentle dragon with sorrowful eyes coiled on a rocky headland above a grey sea, a small sailing ship with a young man at the prow drawing near, a castle on the cliff above, storm clouds parting in one beam of gold light, dramatic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago a king of Bamborough had two children: a daughter named Margaret, as fair as summer, and a son, Childe Wynd, who sailed away over the sea."
+        },
+        {
+          "kind": "text",
+          "text": "The king married a new queen, and the queen was a witch at heart. She hated Margaret's beauty. One day she muttered a wicked spell — and Margaret became a laidly worm: a great serpent with a small, sad face."
+        },
+        {
+          "kind": "text",
+          "text": "The worm coiled itself on the rocks by the sea, and its breath withered the sails of ships. But the people whispered a hope: only Childe Wynd's kiss can break this spell. So messages flew across the water, and home came Childe Wynd."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-worm",
+          "text": "Childe Wynd steps ashore and walks straight toward the coiled worm."
+        },
+        {
+          "kind": "note",
+          "text": "New word: laidly — an old northern word for ugly or fearsome. Ask your child: why did the spell break at a kiss and not at a sword?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He stepped onto the rocks and walked straight to the worm. Once he kissed its cold head. Twice. And at the third kiss the great coils melted away, and there knelt Margaret, weeping with joy. The queen's magic was broken for ever, and she hopped away in the shape of a toad, and was never seen in Bamborough again. And Childe Wynd ruled kindly after his father, with Margaret beside him, and the high rock kept only its name."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Binnorie",
+      "art": "engfair-binnorie",
+      "artPrompt": "a moonlit mill race with a golden-haired maiden's reflection in dark moving water, an old wooden waterwheel turning, a small glowing harp resting on mossy stones nearby, wedding lanterns burning far up the hill, silver-blue melancholy light, ballad storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A lord had two daughters, and a knight came courting the elder. But his heart turned to the younger, who was kind as morning. The elder sister's love turned to jealousy, and jealousy is a cruel counsel."
+        },
+        {
+          "kind": "text",
+          "text": "One day by the river she pushed her sister in. \"Sister, reach me your hand!\" cried the one in the water. But the current ran strong, and carried her down to the mill, and she never rose again."
+        },
+        {
+          "kind": "text",
+          "text": "A harper came wandering, and found her long golden hair among the reeds. Of it he made a harp, and carried it from house to house. At last he came to the castle, where the elder sister's wedding feast was laid."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-binnorie",
+          "text": "The golden harp sings by itself at the wedding feast, and all listen in silence."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the harp sings the truth that no one dared to say. Why is telling the truth important, even when it is hard?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The harper touched the strings — and the harp sang all alone. \"And there sits my sister,\" it sang, \"who drowned me.\" The hall fell quite silent. The wedding was ended, the elder sister went away in shame, and the truth could never be hidden again. And the old ballad ends there: truth may sink for a while, but it always floats home at last."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Fairy Ointment",
+      "art": "engfair-ointment",
+      "artPrompt": "a moonlit country lane where a midwife in a long cloak rides behind a small dark gentleman on a fine black horse, a hidden little house glowing warmly between two great oaks ahead, cornfields silvered by moonlight, whispering magical storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A midwife lay fast asleep one night when a gentle knock came at the door. A small dark gentleman stood outside. \"Come quickly,\" he said. \"My wife needs you.\" She climbed up behind him on his fine black horse, and away they flew over the moonlit fields."
+        },
+        {
+          "kind": "text",
+          "text": "They came to a grand house she had never seen before. Inside, the lady lay in a great bed with a tiny baby, and the gentleman gave the midwife a little box of ointment. \"Anoint the baby's eyes,\" he said. \"But let it not touch your own.\""
+        },
+        {
+          "kind": "text",
+          "text": "She nursed the baby well. But as she smoothed its little eyelids, her own eye itched — and without thinking, she rubbed it. At once the room changed. The grand house was a hollow hill, and the room was full of small folk, laughing and feasting and counting corn as bright as gold."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-ointment",
+          "text": "The midwife nurses the fairy baby in the glowing hidden house."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ointment — a smooth, healing cream. Ask your child: was it luck or mischief that made the midwife's eye itch?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The fairy folk paid her in gold and led her home. Some days later, marketing in the town, she saw the small dark gentleman strolling off with a sack of corn that was not his. \"Well met!\" she cried. He turned sharply. \"You see me?\" \"That I do.\" \"With which eye?\" \"This one.\" Quick as thought he breathed on her eye — and from that day she never saw the fairies again. But she always left a saucer of cream on the window sill, just in case."
+        }
+      ]
+    }
+  ]
+}

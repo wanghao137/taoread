@@ -1,0 +1,485 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The Morning of the Dig",
+      "art": "treasure-morning-march",
+      "artPrompt": "dawn light on a tropical island, rough pirates with muskets and spades marching out of a log stockade into green woods, a one-legged cook with a green parrot on his shoulder carried in a rope sling by two sailors, a boy in a red cap walking beside him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Morning came bright and hot over the island. The pirates were up before the sun, and the empty stockade rang with their noise. They cleaned their muskets and whetted their spades on the stones. Today was the day of the great dig, and every man saw himself rich already. Only young Dick sat apart, pale as paper, with the Bible open on his knees."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-morning-march",
+          "text": "The pirates march out at dawn, and Silver rides in a rope sling."
+        },
+        {
+          "kind": "text",
+          "text": "Long John Silver came out last, neat and cheerful, with his green parrot on his shoulder. A steep hill was no place for a wooden crutch. So two strong sailors carried the cook in a rope sling. The parrot screamed \"Pieces of eight!\" from his shoulder. \"I'm captain here,\" he laughed. \"And a captain may as well ride.\" The men laughed too at that."
+        },
+        {
+          "kind": "note",
+          "text": "New word: sling - a hanging seat of rope, in which a man who cannot walk is carried along by two bearers.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Jim walked at Silver's side, on his parole. \"Stick by me, Jim,\" said the cook softly. \"I've stood your friend once or twice already,\" he said. \"And I'll stand it yet, never fear.\" Jim remembered that Silver had saved his life. So he kept close, and watched, and said very little. The woods smelt of hot leaves and sea salt."
+        },
+        {
+          "kind": "text",
+          "text": "There were six pirates, with Silver and Jim and the boy Dick. They carried muskets, a great pickaxe, and two spades. The chart with the red cross lay safe next to Silver's heart. \"Gold enough up that hill, lads,\" said Silver. \"And we'll have every coin before dark.\" The pirates cheered. Dick's face grew paler than before."
+        },
+        {
+          "kind": "text",
+          "text": "So they set out through the trees, towards the great hill called the Spy-glass. Behind them the stockade stood empty, and the union flag still flew above it. Ahead the green slopes climbed and climbed towards the tallest trees. \"Come on, my hearties!\" cried Silver from his sling. \"Gold waits for no man!\" It was a strange little army. Never was an army so gay, or so near to ruin."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Up the Spy-glass",
+      "art": "treasure-spyglass-climb",
+      "artPrompt": "a hot tropical hillside of palms and pines, pirates climbing a steep path among tall trees, a one-legged cook swinging in a rope sling between two bearers, a green parrot on his shoulder, a boy in a red cap scrambling beside him, sunlight falling in long green rays, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "It was a long, hot climb. The path wound up through tall trees and thick green bushes, and the sun beat down between the leaves. Now and then the men saw the sea far below, blue and shining through a gap. The pirates marched with their muskets on their shoulders, and their eyes searched left and right for gold. No man talked much, for every mouth was dry. Even the flies seemed sleepy in the heat."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-spyglass-climb",
+          "text": "Silver checks the chart with his brass compass beneath a giant tree."
+        },
+        {
+          "kind": "text",
+          "text": "Silver swung along in his sling like a strange king. When the bearers stumbled on the rocks he cursed them. The next minute he was all smiles again. His crutch lay across his knee like a sceptre. Once he leaned towards Jim and spoke low. \"You're a good boy, Jim,\" he said. \"Mark me - when we're rich, I'll turn gentleman yet.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: compass - a little box with a needle that always points to the north, by which sailors find their way.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "About noon they stopped to rest beneath a tree taller than a church. Silver took out the chart and his little brass compass. He turned the paper this way and that, and studied it long. Jim looked over his shoulder at the sea. \"Bearing east and by north,\" Silver muttered at last. \"The tall tree on the shoulder of the hill - that's where Flint dug his hole, boys.\""
+        },
+        {
+          "kind": "text",
+          "text": "There were three tall trees on the slope, standing up above the others like masts above a ship. The chart marked the biggest of the three. The pirates stared at it, and their mouths went dry with longing. George Merry was for running on at once. Even the parrot was silent on Silver's shoulder. \"Not yet, my son,\" said Silver. \"Patience is a sailor's best friend.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Softly, lads,\" said Silver, and held up his hand. \"Keep your muskets ready, and stay together. Flint was not the man to leave his gold unguarded.\" They went on again, slower now and quieter. The shadows began to stretch. And suddenly, from the men in front, came a cry that stopped them all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Flint's Pointer",
+      "art": "treasure-tree-skeleton",
+      "artPrompt": "a great forest tree with a human skeleton hanging from a branch by a green rope, the arm bones stretched out like a compass needle, pirates below shrinking back in fear, a one-legged cook leaning on a crutch looking up calmly, green shade and slanting light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Under the branches of a great tree, high above their heads, a dead man was hanging. He was only bones by now, held up by a rope of green withy. His clothes had long since fallen away. The bones turned slowly, very slowly, whenever the wind moved the leaves. Between them the sky showed small and far away. It was a dreadful thing to see. Not a pirate could find his voice."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-tree-skeleton",
+          "text": "The skeleton hangs in the great tree, its arm pointing the way."
+        },
+        {
+          "kind": "text",
+          "text": "At last Silver gave a strange little laugh. The pirates stood as still as stones. One man cried out, and another began to shake. \"I'm glad my heart is strong,\" said Silver at last. \"For this is a sight to freeze the blood. It would turn a strong man sick.\" For a long moment nobody spoke. The whole crew was shaking now. Nobody looked up twice."
+        },
+        {
+          "kind": "note",
+          "text": "New word: skeleton - all the bones of a dead body, laid bare when the flesh is gone.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He looked up, cool and steady, and studied the hanging bones. \"See there,\" he said. \"The arm points straight out, east and by north, just as the compass says. It's a pointer, mates. Dead men tell no tales, but this one points a finger. Flint has hung one of his own men up here to show the way.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"It's Allardyce,\" whispered Tom Morgan, going down on his knees. \"Poor Allardyce, that owed me money, and took my knife ashore with him. Flint killed his own six sailors, every one, so no man could tell the secret. And now we come digging under his very wing.\" The other pirates muttered darkly at that."
+        },
+        {
+          "kind": "text",
+          "text": "The men looked at each other, white to the lips. \"Come,\" said Silver sharply. \"Flint is dead, and I'm not afraid of him. Follow me, and save your shivers for the walk home.\" So they went on again through the quiet wood. Every man glanced back at the hanging bones. The wood smelt damp and dark."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Tall Pine",
+      "art": "treasure-tall-pine",
+      "artPrompt": "a tall pine tree standing alone above a green forest slope, pirates running and tumbling down towards it shouting, a one-legged cook left behind on his crutch waving his hat, a boy in a red cap running among them, the blue sea far beyond the trees, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Past the skeleton the ground began to fall away, and the trees grew thinner. The three tall trees fell behind them one by one. Below them, on a low green shoulder of the hill, a tall pine stood over all the forest. It rose like a mast above a ship. The red cross on the chart pointed to the ground below that pine. Every man on the slope knew it, and every man walked faster."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-tall-pine",
+          "text": "The pirates run shouting down the slope towards the tall pine."
+        },
+        {
+          "kind": "text",
+          "text": "At the sight, all their caution flew out of their heads. With a great shout they broke into a run, spades and muskets clattering, down through the bushes. \"The gold! The gold!\" they cried. The ground rang under their boots. Their spades caught on the roots. They ran like madmen. Not one of them looked back."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The men run faster and faster towards the gold. Are they running towards treasure, or towards trouble?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Silver was left behind on his crutch, red in the face, roaring after them to wait. Jim ran too, close at the heels of the pirates. The slope ran with them like a river. His heart thumped with hope and fear together. He had learned not to trust good luck on this island. Only Dick stayed back with Silver, hugging his Bible."
+        },
+        {
+          "kind": "text",
+          "text": "So it was Jim who ran with the pirates, down and down, the tall pine growing greater above them. They were fifty yards from the flat when a strange, high voice began to sing. Every running man stopped as if he had struck a wall. Every head came up at once. Even Dick stopped praying. The tall pine filled half the sky. Jim's hair stood on end."
+        },
+        {
+          "kind": "text",
+          "text": "It was a thin, trembling voice from somewhere among the trees. It was the song of Captain Flint, and no man could mistake it. And this was the song: \"Fifteen men on the dead man's chest - yo-ho-ho, and a bottle of rum!\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Voice Among the Trees",
+      "art": "treasure-hidden-voice",
+      "artPrompt": "pirates frozen in terror on a green forest slope, dropping spades and muskets, staring up into tall dark trees, a cloud passing over the sun, a boy in a red cap wide-eyed among them, deep green shadows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The song ended. Nobody moved and nobody spoke. The pirates stood staring up into the green shadows, their faces grey, their muskets loose in their hands. The woods had never seemed so still. Even the birds had stopped singing, and the leaves hardly stirred. A cloud came over the sun, and the slope grew dark. The sea sounded a long way off. Every ear was strained."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-hidden-voice",
+          "text": "The pirates stand frozen under the tall pine as the strange voice sings."
+        },
+        {
+          "kind": "text",
+          "text": "It was the song of Captain Flint, the old dreadful captain, sung in a thin, shaking, far-away voice. Every man of them had heard Flint sing it in the old days, round the fires on this very shore. And Flint, they all knew, was dead and gone. None of them would sing it now, not for a hundred pounds. George Merry's face was the colour of tallow. It carried over the whole slope. No sword had ever frightened them so."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Why is a quiet, far-away song more frightening than a shout or a growl?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "George Merry found his voice first. \"That was Flint's song,\" he whispered. Tom Morgan buried his face in his hands. \"It's Flint himself,\" he groaned. \"That's his voice, and he's come for us all.\" Another sat down and cried like a child."
+        },
+        {
+          "kind": "text",
+          "text": "Jim stood pressed against a tree, too frightened to move. Far behind, on the path, the parrot had stopped screaming. The silence stretched on and on, worse than any noise. Nobody dared to breathe. The whole hill seemed to hold its breath. Then Silver's voice came, low and steady, from down the slope, and every head lifted."
+        },
+        {
+          "kind": "text",
+          "text": "\"That was a strange voice,\" he called up. \"And I'll not say I like it. But gold is gold, my lads. Are you men or mice? Stand up and let us see.\" Not one pirate answered him. Their teeth were chattering too hard for that. Jim was nearly as bad himself. They began to creep upright, one by one."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · Darby M'Graw",
+      "art": "treasure-ghost-terror",
+      "artPrompt": "pirates on their knees in fear on a forest slope, one man praying with clasped hands, dark green gloom under tall trees as if a voice spoke from them, a boy pressed against a tree trunk, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The silence broke. The voice came again, and this time it did not sing. \"Darby M'Graw!\" it cried, thin and fierce. \"Darby M'Graw!\" - twice, exactly as a captain calls a sailor. Then it fell to cursing, and the oaths rang among the trees. Every pirate on the slope heard it and understood. The voice was nowhere and everywhere. Nobody could say where it was."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-ghost-terror",
+          "text": "The pirates fall on their knees as the voice calls for Darby M'Graw."
+        },
+        {
+          "kind": "text",
+          "text": "That was too much. The pirates dropped where they stood, like cut-down grass. Morgan fell to praying aloud, with his hands clasped. Another lay flat and hid his eyes. Some of them moaned like sick men. Their muskets lay where they had fallen. Only George Merry still stood, white as a sail, staring at the trees. The tall pine watched over them all."
+        },
+        {
+          "kind": "note",
+          "text": "New word: curse - angry, wicked words that wish harm on somebody; sailors feared a curse more than a wound.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"It's Flint,\" someone whispered. \"It's Flint's ghost, and this is his island still.\" Poor Dick began to cry softly behind them. The curse faded away, echo by echo, and the woods were as silent as a church. No man dared to look at his neighbour. The very sun seemed afraid. Morgan's prayer wandered and broke."
+        },
+        {
+          "kind": "text",
+          "text": "Jim crept back till he stood beside Silver. The one-legged man's face was pale enough, but his eyes burned. \"They're down, Jim,\" he whispered. \"All my fine crew is down. Stand by me, boy, and we'll win clear of this place yet.\" Jim's own knees were shaking too. Clinging to Silver's coat was the only courage left."
+        },
+        {
+          "kind": "text",
+          "text": "\"Up, lads!\" Silver cried, swinging forward on his crutch. \"Are you brave men, or a parcel of babies? There's gold below that tree, and I mean to have it. Dead men don't bite - and Flint has been dead these six years!\" One by one, they got up. They looked at the ground as they rose. It was the bravest thing they ever did."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Dead Men Don't Bite",
+      "art": "treasure-silver-standing",
+      "artPrompt": "a one-legged cook standing alone and calm on his crutch among fallen terrified pirates on a forest slope, holding up his hand to speak, a green parrot on his shoulder, shafts of light through tall trees, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Ashamed and shivering, the pirates crept together behind Silver. He marched them forward, swearing and cheering by turns, like a shepherd driving sheep. Jim walked at his side, and neither of them looked at the tall trees to left or right. Twice something rustled in the bushes, and muskets swung round. It was only a bird. The birds were the only living things they saw."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-silver-standing",
+          "text": "Silver drives his frightened crew forward across the sunlit flat."
+        },
+        {
+          "kind": "text",
+          "text": "\"It's a strange thing,\" said Silver under his breath. \"And I'll not pretend to like it. But I want that treasure, Jim, and I've come too far to turn back. A man who is afraid, and goes on, is brave.\" Jim believed him, and was the better for it. Fear walked with them both."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Silver is afraid too, but he keeps walking. Where does courage come from when it is needed most?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So they came out at last upon the flat green ground below the tall pine. The sun lay hot on the open space, and the tree's shadow ran across it like a fallen mast. The chart had promised treasure here, below the tall pine. Every eye was fixed upon the middle of the flat. The men walked slower and slower."
+        },
+        {
+          "kind": "text",
+          "text": "Then they stopped, all together, and stared. Some strange hand had been at work here before them. A great pit lay open in the sunlight, deep and empty, with old earth heaped beside it. Nobody sang out now, and nobody ran. The pirates looked at the hole, and at each other, and said nothing. The joy had gone out of their faces like a tide."
+        },
+        {
+          "kind": "text",
+          "text": "One by one, slow and afraid, they came to the edge of the pit and looked down. Jim looked too, over Silver's shoulder. The bottom of the hole was dry and bare. Nothing shone there. Nothing waited there. What they saw was nothing at all. Every man held his breath. The silence was worse than any screaming."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Empty Pit",
+      "art": "treasure-empty-pit",
+      "artPrompt": "a huge empty pit dug in a green forest clearing, heaped earth beside it, pirates standing frozen around the edge staring down, two gold coins and an old pick handle lying in the bottom, the tall pine above, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was no chest, and no gold, and no dead pirate left to guard it. The hole was wide and deep, and honestly dug, long ago by other hands. The earth had been thrown out in a neat grey wall. Only two guineas lay in the bottom, and an old pick with a broken handle. Some poor soul had worked hard at that pit once. It had waited a long time for them. It was a faithful, empty hole."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-empty-pit",
+          "text": "The pirates stare down into the empty pit under the tall pine."
+        },
+        {
+          "kind": "text",
+          "text": "That pick came from Ben Gunn's cave - though the pirates did not know it. Somebody had been before them. Somebody had found the chart's secret, dug the treasure out, and carried it away. The work was old, and the thief was gone. Even the two guineas seemed to laugh at them. Gold had beaten them all, after three years of dreaming."
+        },
+        {
+          "kind": "note",
+          "text": "New word: guinea - an old English gold coin, worth a little more than a pound silver.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "For a full minute not a man moved or spoke. Then George Merry began to swear, softly at first, then louder, dancing with rage upon the edge. Nobody dared stop him. The other pirates looked at the empty hole, and then at Silver. The sweat stood cold on their faces. Their mouths worked without sound. The pit gaped behind them like an open grave."
+        },
+        {
+          "kind": "text",
+          "text": "\"It's gone,\" said George Merry at last, in a voice like a growl. \"The treasure is gone. Dug out. Stolen from under our feet!\" He swung round on Silver, and his eyes were red. \"And whose doing is this, Captain Silver? Yours! Yours, and your fine friends ashore!\""
+        },
+        {
+          "kind": "text",
+          "text": "\"You traded us away to the doctor,\" cried Morgan. \"You, and your chart, and your fine talk!\" The pirates closed in a ring. Their hands went to their knives. Silver leaned on his crutch and did not answer them at once. His little eyes went from face to face, cool as a fish's."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · The Rage of the Crew",
+      "art": "treasure-pirate-rage",
+      "artPrompt": "angry pirates closing round a one-legged cook beside an empty pit, shaking fists and drawing knives, a dark frowning pirate leader pointing at him, the cook leaning calm on his crutch with narrowed eyes, storm light under the trees, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"The black spot!\" cried one man from the back. \"Give him the black spot! He has ruined us all!\" The ring closed tighter, and six angry faces looked nothing like friends. The empty pit gaped behind them all. Jim felt for Silver's sleeve and stood his ground. Every man of them had lost a fortune that morning."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-pirate-rage",
+          "text": "The pirates close round Silver by the empty pit, knives drawn."
+        },
+        {
+          "kind": "text",
+          "text": "But Silver did not argue, and he did not run. He leaned easily on his crutch, and smiled his flat smile, and let them shout. Only Jim, watching close, saw his little eyes flick sideways. They flicked once, twice, towards the trees beyond the flat. He was buying time, and he knew it. Silver was the only easy man on the flat. And they shouted all the louder."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Silver sees something in the trees and tells no one. Why does he keep the secret?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Something was moving in the green wood. Jim saw it too now: a shadow sliding between the trunks, then another. The doctor's party was creeping out to surround them, gun by gun and tree by tree. Jim's heart began to beat fast. But Silver said not one word of it. Not a word, and not a blink."
+        },
+        {
+          "kind": "text",
+          "text": "\"Softly, mates,\" said Silver at last, as if they had all the time in the world. \"You are in a hurry today, that I will say. But hear me first. Who brought you the chart? Who kept the doctor sweet? Who fed you when you were sick?\" The pirates growled. His voice was honey, but his eyes were ice."
+        },
+        {
+          "kind": "text",
+          "text": "\"Talk, talk, talk!\" screamed George Merry. \"The gold is gone, and you with it! Take him, lads! Take him and hang him from the tall pine!\" Hands closed on knife-hilts all round the ring. Silver's own hands slid quietly into the sides of his coat. Two pistols hung there, loaded and ready. Jim saw them, and his mouth went dry."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Fall of a Chieftain",
+      "art": "treasure-ambush-reveal",
+      "artPrompt": "a one-legged cook firing two pistols with a flash of smoke, a dark pirate leader falling beside an empty pit, honest men with muskets bursting out of the green trees behind, pirates dropping their guns and running, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"Take him!\" cried George Merry, and his musket came up. But Silver was quicker by half a second. His hands flashed out of his coat, and two pistol shots rang as one. George Merry threw up his arms, swayed, and fell dead beside the pit. The parrot screamed and beat her wings. George Merry never spoke again. The ring of pirates broke apart like ice."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-ambush-reveal",
+          "text": "Silver's pistols fire, and the ambush bursts out of the trees."
+        },
+        {
+          "kind": "text",
+          "text": "Before the smoke had cleared, the wood behind them burst open. Out came Dr. Livesey and the Squire, with Ben Gunn and the sailor Gray, muskets levelled. \"Drop your arms!\" cried the doctor. \"Or drop where you stand!\" It was an ambush, laid ready in the trees. Every gun there was an honest one."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ambush - a surprise attack by men who have lain hidden and waiting.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The three pirates left did not wait to argue. Their knives rang on the grass, and away they went, flying down the slope towards the shore. Nobody fired after them. Their guilt ran faster than their legs. There was better work to do than that. Nobody even watched them go. The battle of the treasure was over in a breath."
+        },
+        {
+          "kind": "text",
+          "text": "Silver stood quite still, with his two empty pistols smoking in his hands. \"Here is what I call fair play,\" said he cheerfully. \"I have shot my own captain, doctor. And here I am, your humble servant.\" He held out the empty guns, handle first. Not a hair of his head was troubled. His face was as smooth as butter."
+        },
+        {
+          "kind": "text",
+          "text": "The doctor looked at him long and gravely. \"So you have changed your coat once more, John Silver. Well - you kept your word about the boy, and we shall keep ours about you. Now run, all of you. The day is not done yet.\" Jim ran to the doctor's side, glad beyond words. Behind them the empty pit lay in the sun."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Silver Turns His Coat",
+      "art": "treasure-silver-turncoat",
+      "artPrompt": "a one-legged cook smiling and sweeping off his cap to a grave doctor in a blue coat, pirates fled, an empty pit between them, honest sailors with muskets standing among the trees, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"You gave me up for lost, doctor,\" said Silver easily, swinging on his crutch. \"But I was never the man to be hanged by the likes of George Merry. I always meant to come back to my duty, as you see.\" He swept off his cap in fine style. Nobody could say he was out of breath. His crutch rang on the stones like a drumstick."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-silver-turncoat",
+          "text": "Silver raises his cap to the doctor - a prisoner on parole."
+        },
+        {
+          "kind": "text",
+          "text": "The Squire snorted, and even the doctor had to smile. \"Duty is a word you wear like a coat, Silver,\" said he. \"It was Jim's word that saved you, not mine. The boy gave his promise, and would not break it in the wolf's den.\" Silver nodded, well pleased. It was the nearest thing to praise he could give. Jim went red to the ears."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Silver changes sides whenever his life is in danger. Can a clever person be trusted without honour?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Silver looked at Jim, and for once his sharp old face grew almost gentle. \"That he did,\" he said. \"There is not a boy like him in England. Now, gentlemen - what next? I am at your orders, and my head is worth saving, I promise you.\" He meant it, after his fashion. Whatever it was worth, that is."
+        },
+        {
+          "kind": "text",
+          "text": "\"Then save it by running,\" said the doctor sharply. \"Those three villains have made for the shore and the boats. If they win the boats, we are all prisoners here yet. Ben - away, and show us the short cut!\" Nobody stopped to argue. The day was for swift feet now. Every heart among them heard it."
+        },
+        {
+          "kind": "text",
+          "text": "So Ben Gunn, quick as a goat, went bounding ahead along a hidden path. The whole party ran after him through the green wood. Doctor, Squire, Gray, Jim, and the cook came leaping last, crutch and all. Even the Squire found new legs. They ran as men run who see home ahead of them. Not one of them looked back."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Why the Doctor Gave the Chart",
+      "art": "treasure-doctor-explains",
+      "artPrompt": "a doctor in a blue coat explaining to a boy in a red cap as they walk fast along a tropical shoreline path, a wild ragged man in a goat-skin cap leading the way ahead, palm trees and a white rock in the distance, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "As they ran, the doctor talked to Jim over his shoulder. \"You will want to know about the chart,\" said he. \"Well, it was worth nothing from the first. Ben Gunn found the treasure long ago, living alone and quiet, with nothing else to do. And you shall hear how.\" Jim had half guessed it already."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-doctor-explains",
+          "text": "The doctor explains the secret as the party runs along the shore."
+        },
+        {
+          "kind": "text",
+          "text": "\"Ben found the place and dug the treasure out,\" the doctor went on. \"He carried it home to his cave, load by load, on his own back. Ben Gunn is small, but his heart is patient. So when I gave Silver the chart, I gave him paper and nothing more. It kept his crew quiet, and it kept you safe, my boy.\" Three years of patience went into it."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ventriloquism - the art of throwing your voice, so that it seems to come from somewhere far away.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Jim remembered the doctor's strange white-flag visit. He remembered the questions about Ben Gunn, and the long look at the one-legged cook. Now it all came clear, like fog lifting off the water. Jim laughed out loud in the middle of running. His feet hardly touched the path. It was a wonder he did not fall. So that was the meaning of the doctor's odd manners."
+        },
+        {
+          "kind": "text",
+          "text": "\"And the voice?\" asked Jim. \"That was Ben himself,\" said the doctor. \"He stood safe and far away, throwing his voice among the trees. He knows every trick of ventriloquism on this island. It cost him nothing but breath, and it half-killed five pirates.\" Jim had to laugh again at that."
+        },
+        {
+          "kind": "text",
+          "text": "By this time they were clear of the wood, running along the shore with the sea sparkling beyond. \"Now, boys,\" cried the Squire, \"if we win the boats, we win all! On, on - Ben leads the way!\" Nobody was tired now. Every man ran like a boy at play. The sun swam on the water ahead of them."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · The White Rock",
+      "art": "treasure-white-rock",
+      "artPrompt": "a great white rock standing above a tropical beach, a hidden low dark doorway in the hillside behind a curtain of hanging bushes, a wild ragged man in a goat-skin cap pulling the branches aside, the blue sea beyond, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The hidden path ran along the shore, through thick bushes and over black rocks. Ben Gunn went first, sure-footed as a mountain goat, and the rest followed gasping. The tide hissed and bubbled among the stones. Twice the runners looked back for pursuit, and saw none. The race was not lost yet. The sun stood high over the bay. The race was nearly won."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-white-rock",
+          "text": "Ben Gunn pulls the bushes aside from a hidden door by the white rock."
+        },
+        {
+          "kind": "text",
+          "text": "At last Ben stopped before a great white rock, standing taller than a house above the beach. \"There she stands,\" said Ben, proud as a lord. \"White as a lamb, and the only one of her colour on this coast. My door is behind her. Nobody marks it from the sea - nobody but Ben.\" He patted the rock like a horse."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Ben Gunn hid his house where only he could find it. Why is a secret sometimes safer than a locked door?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Behind the white rock, hidden by a curtain of hanging bushes, there was a low dark doorway in the hillside. A thread of smoke came out of it, and the smell of cooking meat. \"Ben Gunn's house,\" said Ben. \"Enter, gentlemen - and mind your heads.\" He held the branches aside like a servant."
+        },
+        {
+          "kind": "text",
+          "text": "They stooped and went in, one after another. Jim's eyes, coming out of the blazing daylight, saw nothing at first but the glow of a fire. Then shapes came out of the shadows, and a voice he knew cried out his name. The air inside was warm and smoky, and the floor was dry sand. Somebody laughed, and it was the best sound in the world."
+        },
+        {
+          "kind": "text",
+          "text": "\"Jim!\" It was Captain Smollett, sitting up by the fire, pale and thin, but alive and smiling. Every face in the cave was a friend's face. And beyond the fire, glittering in the smoky light, Jim saw something else. It glinted like a hundred stars. He rubbed his eyes and stared again. His heart turned over with joy."
+        }
+      ]
+    }
+  ]
+}

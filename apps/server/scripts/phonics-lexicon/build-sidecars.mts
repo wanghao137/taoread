@@ -13,6 +13,9 @@ import { courseHash, loadCourse, candidateDirectory } from '../../src/modules/ph
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..')
 const atlasDir = process.argv.includes('--atlas') ? process.argv[process.argv.indexOf('--atlas') + 1]! : path.join(repoRoot, 'output', 'word-atlas-src')
+const edgeLedgerPath = process.argv.includes('--edge-ledger') ? process.argv[process.argv.indexOf('--edge-ledger') + 1]! : path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'audio-candidates-edge.json')
+// Edge 神经录音（免费兜底）：词光无整词录音的词条用 Edge 补英美口音
+const edgeByWord = (() => { try { const l = JSON.parse(readFileSync(edgeLedgerPath, 'utf8')) as { assets: Array<{ id: string; sha256: string; durationMs: number; bytes: number; voice: string }> }; const m = new Map<string, { uk?: typeof l.assets[number]; us?: typeof l.assets[number] }>(); for (const a of l.assets) { const w = /^edge-(gb|us)-(w-[a-z0-9-]+?)(-blend|-segment)?$/.exec(a.id); if (!w || w[3]) continue; const key = w[2]; const slot = m.get(key) ?? {}; if (w[1] === 'gb') slot.uk = a; else slot.us = a; m.set(key, slot) } return m } catch { return new Map<string, { uk?: typeof l.assets[number]; us?: typeof l.assets[number] }>() } })()
 const usDir = path.join(repoRoot, 'output', 'phonics-sync-20261028', 'us-audio')
 
 const sha256 = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
@@ -64,6 +67,7 @@ const TAOREAD_ORIGINALS: Record<string, {
   quit: { uk: '/kwɪt/', us: '/kwɪt/', senses: [{ pos: 'v.', zh: '停止；退出', en: 'To stop doing something.' }], ex: { en: 'We quit the game to eat lunch.', zh: '我们停下游去吃午饭。' }, col: ['quit a game｜退出游戏'], fam: [], tip: 'quit 的过去式还是 quit。' },
   moth: { uk: '/mɒθ/', us: '/mɔːθ/', senses: [{ pos: 'n.', zh: '飞蛾', en: 'An insect like a butterfly that flies at night.' }], ex: { en: 'A moth flew to the lamp.', zh: '一只飞蛾朝台灯飞去。' }, col: [], fam: ['butterfly (n.)'], tip: 'moth 长得像蝴蝶，但大多在夜里活动。' },
   // ── 阶段四扩充词（词光无匹配的自备条目，2026-10-28）──
+  how: { uk: '/haʊ/', us: '/haʊ/', senses: [{ pos: 'adv.', zh: '怎样；多么', en: 'In what way; used to ask about manner.' }], ex: { en: 'How do you go to school?', zh: '你怎么去上学？' }, col: ['how many｜多少', 'how old｜几岁'], fam: [], tip: 'how 里 ow 发 /aʊ/，和 cow 同音。' },
   five: { uk: '/faɪv/', us: '/faɪv/', senses: [{ pos: 'num.', zh: '五', en: 'The number after four.' }], ex: { en: 'I have five red apples.', zh: '我有五个红苹果。' }, col: ['five ducks｜五只鸭子'], fam: [], tip: 'five 里 i 发长音 /aɪ/，结尾 e 不发音。' },
   three: { uk: '/θriː/', us: '/θriː/', senses: [{ pos: 'num.', zh: '三', en: 'The number after two.' }], ex: { en: 'Three ducks swim in the pond.', zh: '三只鸭子在池塘里游泳。' }, col: ['three trees｜三棵树'], fam: [], tip: 'three 开头的 th 要咬住舌尖发音。' },
   zoo: { uk: '/zuː/', us: '/zuː/', senses: [{ pos: 'n.', zh: '动物园', en: 'A place where many animals live.' }], ex: { en: 'We saw a panda at the zoo.', zh: '我们在动物园看到了熊猫。' }, col: ['at the zoo｜在动物园'], fam: [], tip: 'zoo 里 oo 发长长的 /uː/ 音。' },
@@ -115,6 +119,12 @@ async function main() {
         wordAudio[accent] = { sha256: sha256(bytes), durationMs, bytes: bytes.length, voice: accent === 'uk' ? 'ElevenLabs Alice (UK)' : 'ElevenLabs Sarah (US)' }
         exampleAudio.push({ word: `${lower}-${accent}`, file, sha256: sha256(bytes), bytes: bytes.length })
       }
+      const edge = edgeByWord.get(word.id)
+      for (const accent of ['uk', 'us'] as const) {
+        if (wordAudio[accent]) continue
+        const e = accent === 'uk' ? edge?.uk : edge?.us
+        if (e) wordAudio[accent] = { sha256: e.sha256, durationMs: e.durationMs, bytes: e.bytes, voice: e.voice }
+      }
       lex = {
         wordId: word.id, word: word.text, source: 'word-atlas', reviewStatus: 'pending',
         ukIpa: source.uk, usIpa: source.us, senses,
@@ -127,10 +137,17 @@ async function main() {
     } else {
       const original = TAOREAD_ORIGINALS[word.text]
       if (!original) throw new Error(`词光无匹配且缺少自备条目: ${word.text}`)
+      const edge = edgeByWord.get(word.id)
+      const originalAudio: Record<string, unknown> = {}
+      for (const accent of ['uk', 'us'] as const) {
+        const e = accent === 'uk' ? edge?.uk : edge?.us
+        if (e) { originalAudio[accent] = { sha256: e.sha256, durationMs: e.durationMs, bytes: e.bytes, voice: e.voice }; exampleAudio.push({ word: lower + '-' + accent, file: path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'phonics', course.manifest.versionId, e.sha256 + '.mp3'), sha256: e.sha256, bytes: e.bytes }) }
+      }
       lex = {
         wordId: word.id, word: word.text, source: 'taoread-original', reviewStatus: 'pending',
         ukIpa: original.uk, usIpa: original.us, senses: original.senses,
         example: { en: original.ex.en, zh: original.ex.zh, audio: null },
+        wordAudio: originalAudio,
         collocations: original.col, family: original.fam, tip: original.tip, cefr: null,
       }
       usedSources['taoread-original']++

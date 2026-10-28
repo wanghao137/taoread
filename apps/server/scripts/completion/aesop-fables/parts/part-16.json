@@ -1,0 +1,384 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 16 · The Hare with Many Friends",
+      "art": "aes-hare-friends",
+      "artPrompt": "a little brown hare looking up pleadingly at a horse and an ox in a farmyard while a pack of hounds chases across the green meadow behind, bright day, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A hare had friends all over the meadow, and he boasted about them every day. He knew every path and every burrow from the hedge to the hill. “The horse is my friend,” he said, “and the ox, and the goat, and even the men’s calf. He had a name for every one of them. With so many friends, what have I to fear?” And he smiled as he counted his long list of names."
+        },
+        {
+          "kind": "note",
+          "text": "New word: boast — to talk too proudly about yourself or what you have.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One day the hounds came hunting through the meadow, and the hare ran for his life. The hounds were big and swift, and their voices rang over the fields. He reached the farmyard, panting. “Help me, friend Horse!” he cried. But the horse said, “I must carry my master just now,” and trotted away. So the hare looked about for another friend."
+        },
+        {
+          "kind": "image",
+          "art": "aes-hare-friends",
+          "text": "The little hare looks up at the horse and the ox, while the hounds come nearer."
+        },
+        {
+          "kind": "text",
+          "text": "He begged the ox, but the ox was ploughing and could not stop. He begged the goat, who was busy eating on the hill. He begged the calf, who was too young and too afraid. The shadows grew long, and still they refused. Every friend had a reason, and every friend went away, and the hounds came closer and closer."
+        },
+        {
+          "kind": "text",
+          "text": "At last the hare doubled and dodged and escaped by a whisker. He sat in his burrow all night, listening to the baying of the hounds far away. He had a hundred friends, he thought, and not one of them had lifted a hoof to help him. It is better to have one friend than a hundred who are only friends in name. It was a long lesson, but he learned it well."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: He that has many friends has no friends. One true friend is worth more than a hundred busy ones.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · The Wolf in Sheep’s Clothing",
+      "art": "aes-wolf-fleece",
+      "artPrompt": "a grey wolf wrapped in a white sheep’s fleece creeping among a flock of sheep at dusk while a shepherd with a lantern comes walking over the grass, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A wolf had waited a long time to catch a sheep. But the shepherd and his dogs kept such good watch that he never could. The shepherd was careful, and his dogs were watchful. Then one evening the wolf found a sheep’s fleece lying in the field. It was soft and white, and he wrapped it round himself like a coat. Then a wicked thought came to him, and he smiled."
+        },
+        {
+          "kind": "note",
+          "text": "New word: fleece — the woolly coat of a sheep, taken off whole.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "That night the wolf crept into the pasture among the flock, right past the shepherd’s eyes. No dog barked, and nobody looked at him twice. In the fold the sheep slept close together, warm and calm. The moon was high, and the grass was silver with dew. To every eye he was a sheep. But under the fleece his heart was still a wolf’s heart, hungry and sly. He smiled to himself in the dark."
+        },
+        {
+          "kind": "image",
+          "art": "aes-wolf-fleece",
+          "text": "A grey wolf in a white fleece creeps among the flock in the dusk."
+        },
+        {
+          "kind": "text",
+          "text": "In the night he led a little lamb away, whispering that he was its mother. The little lamb trotted after him without a fear in the world. The night was still, and every step could be heard. But the shepherd, counting his flock at bedtime, missed one sheep and one lamb. He took up his crook and his lantern and followed the tracks over the dewy grass till he found them."
+        },
+        {
+          "kind": "text",
+          "text": "The lantern light fell on the white fleece, and the shepherd knew the wolf at once. The fleece could not hide him from a lantern held close. He shut the lamb safely in the fold and dealt with the wolf as wolves deserve. And after that night the shepherd looked twice at every white coat in his flock. He looked hardest at the ones that seemed the softest."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: An evil heart does not change under a white coat. Watch out for wolves in sheep’s clothing.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Ass in the Lion’s Skin",
+      "art": "aes-ass-lion",
+      "artPrompt": "a donkey wearing a lion’s skin standing proudly in a meadow while sheep and goats run away, a fox laughing at the edge of the wood, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "An ass found a lion’s skin lying in a field where the hunters had been. He pulled it over his long ears and tied it under his chin. The skin was heavy and warm, and it smelled of the lion. Then he looked at himself in a quiet pool and laughed. “Now I am a lion!” he said, and trotted off to try his new looks."
+        },
+        {
+          "kind": "note",
+          "text": "New word: mane — the long hair that grows round a lion’s neck.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Every animal he met ran away in terror. The sheep fled from the fold, the goats scrambled up the rocks, and a fox dashed into its hole. Even the dogs hid behind the barn door. Not one animal stayed to see who he really was. The ass stood in the middle of the empty meadow and swelled with pride. “What a great lion I am,” he said to himself, “and how brave they all think me!”"
+        },
+        {
+          "kind": "image",
+          "art": "aes-ass-lion",
+          "text": "The ass in the lion’s skin stands in the meadow while the small animals flee."
+        },
+        {
+          "kind": "text",
+          "text": "But a fox knew the lion well, and she did not run far. She sat at the edge of the wood and watched. She had heard the story from the sheep, and she meant to see for herself. Just then the ass grew so pleased with himself that he lifted up his head and brayed. It was a long, loud, silly hee-haw, and it echoed over all the meadow."
+        },
+        {
+          "kind": "text",
+          "text": "The fox laughed till she fell over. “You would have frightened me indeed,” she called, “if you had kept your mouth shut. But I know a donkey’s voice when I hear one.” The animals came back laughing, and the ass pulled off the lion’s skin and slunk away home in shame. And from that day he was glad to be only himself."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Fine clothes may hide a fool for a moment, but silly words will always show him.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · The Old Lion and the Fox",
+      "art": "aes-old-lion",
+      "artPrompt": "an old grey lion lying still inside a rocky den while animals gather at the entrance, a wise fox pausing outside on the grass, dim cave light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A lion had grown so old that he could not hunt any more. His legs were stiff, his teeth were gone, and his breath came slowly. His mane was thin, and his eyes were dim. It was sad to see the great king so weak and grey. So he thought of a trick instead. He lay down in his den and told every animal that he was very ill, too ill to move."
+        },
+        {
+          "kind": "note",
+          "text": "New word: den — the home cave where a wild animal sleeps.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The animals came one by one to visit their sick king. Kind hearts came trotting to the door, one after another. And the lion thanked each one most sweetly. The lion lay still and sighed till they came close. Then his paws shot out. Visitor after visitor went into the den, and visitor after visitor was seen no more. The den grew very quiet, and the old lion grew very comfortable."
+        },
+        {
+          "kind": "image",
+          "art": "aes-old-lion",
+          "text": "The old lion lies still in his den, watching the animals come to his door."
+        },
+        {
+          "kind": "text",
+          "text": "At last the fox came. She walked up to the mouth of the den and stopped, and stood looking carefully at the ground. The shadow of the den lay cool and dark. She did not go one step nearer. “Come in, dear fox,” said the lion, in his gentlest, weakest voice. “You see a sick old king. Come in and comfort me before it is too late.”"
+        },
+        {
+          "kind": "text",
+          "text": "“Thank you, Majesty,” said the fox. “I see many footprints going into your den, and I do not see one coming out. I shall visit you from here.” The lion sighed, for his dinner was safe from her. And the fox trotted home across the meadow, telling the news as she went, safe and sound. So the old lion learned that eyes can be as sharp as teeth."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Wise folk learn from the troubles of others, not only from their own.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · The Frogs Who Wanted a King",
+      "art": "aes-frogs-king",
+      "artPrompt": "green frogs leaping around a big wooden log floating in a quiet pond, tall reeds and a faraway mountain, gentle morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In a quiet marsh there lived a family of frogs, free to leap and swim and croak all day. The pool was their own, and the reeds were soft and green. They were free, but they did not know it. “We need a king to rule over us,” they croaked. So they sent a message up to Jupiter, the great god on the mountain, to ask for one."
+        },
+        {
+          "kind": "note",
+          "text": "New word: content — happy and satisfied with what you already have.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Jupiter heard, and he smiled at their silliness. He dropped a great log into the pool with a mighty splash. The water rose high, and the reeds shook. The frogs dived under the mud in fright. But after a while one brave frog peeped out, and then another. Soon they all came up to look at their new king. It did not look like a king, but there it lay."
+        },
+        {
+          "kind": "image",
+          "art": "aes-frogs-king",
+          "text": "The frogs gather round the big wooden log that has fallen into their pool."
+        },
+        {
+          "kind": "text",
+          "text": "The log lay perfectly still. It neither spoke nor moved. The shyest frogs soon dared to sit upon it, and the boldest even jumped on the king’s head. The frogs sat round and waited to see what kings do. They wanted a king with a crown and a voice. Before long the frogs grew bored. “This king is only wood!” they croaked, and they sent again to Jupiter, asking for a real king."
+        },
+        {
+          "kind": "text",
+          "text": "Now Jupiter lost his patience. He sent down a stork, who stood tall and proud on the shore. The stork bowed politely — and then she began to eat the frogs, one by one, day after day. The reeds hid them, and the stork waited. The frogs wished with all their hearts for their wooden king again, but wishes do not come back. And the marsh was never so quiet again."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Let well enough alone. Be content with what you have, and think before you ask for more.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · The Fox and the Goat",
+      "art": "aes-fox-well",
+      "artPrompt": "a wet fox standing in a deep round stone well looking up at a horned goat climbing down the wall toward him, a bright circle of sky far above, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A fox was leaping about the top of an old well one summer evening, and down he fell. The well was deep, and though he swam and scrambled, he could not get out. The rope and the bucket were long gone, and nobody came that way. Before long he was wet, tired, and sorry, with no way at all up the smooth stone sides."
+        },
+        {
+          "kind": "note",
+          "text": "New word: well — a deep hole dug in the ground to reach the water below.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "By and by a goat came to the well and looked down. The evening was warm, and the goat was thirsty from the road. “Is the water good down there?” he asked. The fox saw his chance at once. He smiled to himself in the dark of the well. “Good?” he cried. “It is the sweetest water in all the country! Come down and taste it for yourself. There is plenty for us both.”"
+        },
+        {
+          "kind": "image",
+          "art": "aes-fox-well",
+          "text": "The goat climbs down into the well while the clever fox waits below."
+        },
+        {
+          "kind": "text",
+          "text": "The goat could think of nothing but cold, sweet water. Down he jumped — splash! — and he drank his fill. Then he began to wonder how they would both get out again. “Do not worry,” said the fox. “Put your front feet against the wall and lower your horns. I will run up your back, and pull you after me.”"
+        },
+        {
+          "kind": "text",
+          "text": "So the goat stood still as a rock. The fox ran lightly up his back and his horns, and out of the well in a trice. “If you had as much sense in your head as hair on your chin,” he called down. “You would never have jumped before thinking of the way out.” And the goat stayed in the well a long, long time. And that is the story of the fox, the goat, and the well."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Look before you leap. Think of the way out before you jump in.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · The Two Crabs",
+      "art": "aes-two-crabs",
+      "artPrompt": "a mother crab and a small young crab walking sideways along golden sand by the sea, little waves and shells around them, sunny morning, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On a warm sandy shore there lived a mother crab and her young daughter. The sea was calm, and the shells lay thick upon the sand. The morning sun shone warm, and the tide had gone out. Little tracks ran behind them across the sand. One morning they came out of their hole together and walked sideways down the beach, as crabs do. The mother watched her daughter sidling along, and she grew very cross with what she saw."
+        },
+        {
+          "kind": "note",
+          "text": "New word: shore — the sandy or stony land along the edge of the sea.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Child,” she said, “why do you always walk sideways, crooked as a bent twig? Walk straight ahead, like a well-brought-up crab, and do not shame your family before the whole beach.” The mother crab lifted a claw, and her face was stern. The waves came in softly, and went out again. The little crab stopped and looked at her mother in surprise, and then she made a quiet answer."
+        },
+        {
+          "kind": "image",
+          "art": "aes-two-crabs",
+          "text": "The mother crab and the young crab walk side by side on the golden sand."
+        },
+        {
+          "kind": "text",
+          "text": "“Mother,” said the young crab, “that is easy for you to say. But try it yourself first. Walk straight ahead, and I shall gladly follow your example.” The little crab waited politely in the shade of a shell. So the mother tried, and tried, and tried again. She huffed and puffed and wiggled, but the harder she tried, the more she went sideways."
+        },
+        {
+          "kind": "text",
+          "text": "She tried again and again on the warm sand, and every time she only scuttled sideways, as crabs always have. At last she gave it up, and laughed at herself instead. The mother said no more about walking straight. And the two went on down the beach together, sidling happily side by side. They went just as they were made to go, and they were both quite content with the way crabs go."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Example is the best lesson. Do not teach what you cannot do yourself.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · The Mountains in Labour",
+      "art": "aes-mountains",
+      "artPrompt": "villagers gathered in a green field pointing up at a great smoking mountain that rumbles and shakes, tiny puffs of smoke above the rocky peaks, dramatic daylight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One day a great rumbling was heard among the mountains. Smoke curled up from the peaks, the ground shook, and the trees cracked and swayed. The people in the villages below ran out of their houses. It was said that the mountains were in labour, and about to bring forth. The oldest people could not remember the like of it. Every window was full of faces, and every road was full of people."
+        },
+        {
+          "kind": "note",
+          "text": "New word: rumbling — a long deep rolling sound, like far-away thunder.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“A city is being born!” some said. “A giant!” said others. Everyone came running from far and near to see what wonderful thing would come out. Some brought bread for a long wait, for the day was fine. The morning passed, and the noon passed, and still they waited. They stood in the fields all day, pointing and waiting. Above them the mountains groaned and smoked and thundered on and on."
+        },
+        {
+          "kind": "image",
+          "art": "aes-mountains",
+          "text": "The villagers watch the mountain, which smokes and groans and rumbles above them."
+        },
+        {
+          "kind": "text",
+          "text": "The groaning grew louder, and the smoke grew thicker, till nobody dared to breathe. Even the birds left the trees on the mountainside. The crowd held its breath, and nobody moved an inch. Then the mountain gave one last mighty rumble — and out ran a little mouse. Just one small brown mouse, who whisked across a stone, looked at the crowd, and scampered away into the grass."
+        },
+        {
+          "kind": "text",
+          "text": "The people stood staring for a moment, and then went slowly home, shaking their heads. All that noise, all that smoke, all that thunder — and only a mouse. The crowd laughed, and the children laughed loudest of all. And the mountains, having had their say, were quiet again for many a long year. The wise folk smiled as they went. The villages below were very glad of it."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Much noise may mean nothing at all. Do not judge a thing by the size of the fuss.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · The Man and the Wood",
+      "art": "aes-man-wood",
+      "artPrompt": "a man with a new axe cutting down trees at the edge of a green forest, birds flying up from the falling branches, strong afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A man went into the wood and called out to the trees. His voice was soft, and his face was as smooth as oil. The trees rustled kindly in the light of the morning. “Good trees,” he said, “I have only a little favour to ask. My axe has lost its handle. Please give me one small branch, no more, and I shall be on my way at once.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: favour — a small kindness that you do for someone who asks.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The trees stood together and talked it over in their whispering leaves. “It is only a little branch,” they said. “What harm can one small stick do to a whole forest?” The leaves whispered uneasily, but they let him have his way. So they agreed, and the man cut off one fine branch. He carried it home, promising to be grateful for ever. And he went away whistling, with the branch over his shoulder."
+        },
+        {
+          "kind": "image",
+          "art": "aes-man-wood",
+          "text": "The man cuts one small branch from a tree at the edge of the forest."
+        },
+        {
+          "kind": "text",
+          "text": "At home he fitted the branch to his axe-head, and made a brand-new handle. The handle fitted well, and the axe was sharp and new. Then back he went into the wood — but not to ask for anything this time. The sound of the axe rang far through the green wood. He swung his mended axe, and boughs began to fall, and trunks began to topple, one after another."
+        },
+        {
+          "kind": "text",
+          "text": "The trees creaked and groaned as the man cut them down. “Oh, foolish friends,” sighed the oldest oak, “we gave away our own branch, and with it our whole forest.” And when the man went home at evening, the wood was much thinner than before. The trees had learned their lesson, but too late. The birds flew far and wide, and the wood was silent where they had sung."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: What we give to a wicked man may be used against us. Guard the little things, for they may cost us everything.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 25 · The Eagle and the Beetle",
+      "art": "aes-eagle-beetle",
+      "artPrompt": "a great eagle swooping above a mountain crag while a tiny beetle pushes a little ball up the rocks toward her nest, bright wide sky, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One spring morning an eagle came sweeping down a valley after a hare. The hare ran to a hollow log where a little beetle lived. “Help me, friend!” he cried. The valley rang with the cry, and the beetle heard it well. The beetle flew up and begged the eagle: “Spare the hare, great bird, for he has asked my protection.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: protection — keeping someone safe from harm.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the eagle was proud, and a beetle seemed very small to her. Her wings were wide, and her beak was strong. “I owe nothing to so little a creature,” she said. And she snatched the hare away and carried him off. The eagle spread her wings, and her shadow crossed the log. The beetle watched from his log, and he did not forget. Even the smallest friend can keep his word."
+        },
+        {
+          "kind": "image",
+          "art": "aes-eagle-beetle",
+          "text": "The tiny beetle climbs the high rock where the proud eagle has built her nest."
+        },
+        {
+          "kind": "text",
+          "text": "The beetle followed the eagle to her nest on the high rock. While she was away, he rolled her eggs out, one by one. The little beetle was slow, but he never stopped, and he never forgot. The eagle built again on a higher crag, and again the little beetle climbed. Not one egg was left for the high nest. Three times the nest was emptied, and the eagle could find no place safe from him."
+        },
+        {
+          "kind": "text",
+          "text": "At last the eagle flew to Jupiter and laid her eggs in his lap, where nothing could reach them. But the beetle knew a way too. He rolled a little ball of dust right into Jupiter’s lap, and the god sprang up in surprise. The eggs rolled off and were lost. The eagle wept, and the beetle went home to his log. And the hare was well avenged, though he was never seen again."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Never look down on the small. Even the weakest can stand up for a friend.",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

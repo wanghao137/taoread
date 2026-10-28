@@ -1,0 +1,78 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · The Three Golden Apples",
+      "art": "wb-golden-apples",
+      "artPrompt": "a strong young hero in a lion-skin cloak asking his way among three graceful singing nymphs beside a misty silver stream, a distant tree of shining golden apples behind them, violet and gold evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Hercules was given the hardest task yet. He must fetch three golden apples from a garden at the very edge of the world. The apples grew on a tree guarded by a hundred-headed dragon. In that garden only the nymphs, the singing maidens of the sunset, might wander. Hercules took his club and set out, asking his way of everyone he met. He had done many labours, but none so far away as this."
+        },
+        {
+          "kind": "text",
+          "text": "One evening, in a mist beside a silver stream, he met the nymphs themselves. They danced and sang, and their voices sounded like wind in the apple boughs. “We know the garden,” they laughed, “but we may not pick for you. Ask Atlas, the giant who holds the sky. He alone may pass the dragon.” Their laughter followed him like bells as he walked on."
+        },
+        {
+          "kind": "image",
+          "art": "wb-golden-apples",
+          "text": "The singing nymphs showing Hercules the way to the garden."
+        },
+        {
+          "kind": "text",
+          "text": "Atlas heaved the sky upon his shoulders and sighed. He had stood there for a thousand years. “I will pick your apples,” he said, “if you will hold my burden a little while.” So Hercules bent his knees and took the whole weight of heaven. Atlas strolled past the coiled, snoring dragon and plucked three apples from the shining tree."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the nymphs could point the way, but Hercules had to walk every step himself. Ask your child: when a job feels too big, who helps you keep going?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "When Atlas came back, he rather liked being free. “You hold the sky so well,” he said, “that I may as well walk about a while longer.” Hercules smiled. “Gladly,” said he, “only set it back for a moment, while I put a pad upon my shoulders.” The simple giant took the sky again — and the hero thanked him, took his apples, and left at once."
+        },
+        {
+          "kind": "text",
+          "text": "Hercules carried the apples all the way home. The king who set the task dared not even touch them. So the golden apples went back to the far garden, to shine beside the singing nymphs. Hercules, the strongest man alive, had learned that a kind word can carry the heaviest things of all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Miraculous Pitcher",
+      "art": "wb-miraculous-pitcher",
+      "artPrompt": "a white-haired old couple pouring milk from a small brown pitcher that never runs empty for two ragged travellers at their humble wooden table, a fire glowing, one grey goose hiding under a chair, warm candlelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago, on a hillside in Phrygia, there lived a poor old couple named Philemon and Baucis. They had one goose, one beehive, a small garden, and the kindest hearts in the valley. Below the hill stood a village of rich people, who never shared with anyone."
+        },
+        {
+          "kind": "text",
+          "text": "One evening two travellers came up the road, dusty and footsore. One was tall and grand; the other was small and quick, with laughing eyes. They knocked at every door in the village, and every door was shut. At last they climbed the hill to Philemon’s little cottage. The old couple welcomed them as if they were kings."
+        },
+        {
+          "kind": "text",
+          "text": "Baucis set out her best: brown bread, honey from the beehive, berries, and milk from her little brown pitcher. She poured and poured for the guests, and still the pitcher stayed full. The old couple looked at each other in wonder. Meanwhile Philemon chased their old goose, meaning to cook it for supper. The frightened bird ran to the guests and hid behind the tall one’s chair. “Let her live,” said the travellers, smiling. So the goose kept her life, and the pouring went on."
+        },
+        {
+          "kind": "image",
+          "art": "wb-miraculous-pitcher",
+          "text": "The little brown pitcher, pouring milk that never came to an end."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the neighbours shut their doors and lost everything; the poor couple shared their supper and were spared. Ask your child: what could you share this week, even when you do not have much?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the tall traveller stood up, and his ragged clothes turned to shining gold. “We are gods,” he said. “Jupiter is my name, and this is Quicksilver. Come with us to the top of the hill.” When they looked back, the whole valley was a lake, and the selfish village was gone. Only the little cottage remained — and now it was a temple of white marble."
+        },
+        {
+          "kind": "text",
+          "text": "“Ask any reward you wish,” said Jupiter. The couple asked for three things: to keep the pitcher, to care for the temple, and to die together. Neither wished to be left alone in the world. Many years later, as they stood before the marble door, green leaves sprouted from their hair. Their arms became branches, and two trees grew on the spot — an oak and a linden, wrapped around each other. The two trees stand twined together still, and travellers rest in their kindly shade."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 16 · The Master-Maid",
+      "art": "lb-master-maid",
+      "artPrompt": "a brave maid on a hilltop casting a small brush behind her as a thorny forest rises up to block a huge raging troll, a young prince watching from a winding road, wild golden wind and motion, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A king's son, wishing to see the world, took service with a great ugly troll who lived beyond the forest. The troll gave him tasks no servant could live through: to fetch things that did not wish to be fetched, and to carry what could not be carried. But in the troll's kitchen worked the Master Maid, a king's daughter whom the troll had stolen, and she knew all the secrets of the house. 'Do this, and say that,' she told him each time, 'and not a hair of your head shall be hurt.' And every task came right, and the troll's jaw fell lower and lower."
+        },
+        {
+          "kind": "text",
+          "text": "'Now we must flee,' said the Master Maid, and she took a worn brush and a flask from the shelf, and they ran. When the troll came roaring after them, she threw the brush behind her, and it became a wood of brambles a thousand miles deep. She threw the flask, and it became a lake too wide to see across. The troll lay down and drank, and drank, and drank the lake — until he burst, and that was the end of him."
+        },
+        {
+          "kind": "image",
+          "art": "lb-master-maid",
+          "text": "The Master Maid throws a charm behind her, and a forest rises."
+        },
+        {
+          "kind": "note",
+          "text": "New word: charm — a small thing with magic hidden in it. In this story a worn brush and an old flask were worth more than any sword.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the road she warned the prince: 'Do not kiss me, or you will forget me.' But at an inn he kissed her while she slept, and woke remembering nothing of her. Sad and silent, she took service at the palace as a maid, and there, as the prince was about to marry another, one look at her face brought everything back — the troll, the flight, and her. The other bride went home, and the prince married the Master Maid, who had saved his life twice over. They were as happy as people who have escaped a troll can be."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · Felicia and the Pot of Pinks",
+      "art": "lb-pot-pinks",
+      "artPrompt": "a kind shepherdess kneeling in soft snow with a basket of fresh strawberries, a pot of red pinks blooming beside her with tiny sparkles in the air, gentle winter sunrise in pinks and blues, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Felicia was a poor shepherdess, so kind that even the shy animals trusted her. She lived with a godmother who was never pleased, and who set her tasks that no one could do. 'Bring me strawberries in the middle of winter,' said the godmother, 'and if you fail, you shall have no supper.' There was more unkindness where that came from, but Felicia bore it all with a soft word and a steady hand."
+        },
+        {
+          "kind": "text",
+          "text": "Felicia's one treasure was a pot of pinks, which she watered morning and evening and talked to as to a friend. One day the pot of pinks answered her! The voice was gentle, and it told her where the impossible things were to be found, and how to carry them, and what to say. And every task came right, and the godmother grew more and more angry, until at last she cast off her old-woman shape — the wicked fairy herself, who had hated Felicia's family for years."
+        },
+        {
+          "kind": "image",
+          "art": "lb-pot-pinks",
+          "text": "Winter strawberries, and the pot of pinks that helped her find them."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Felicia was kind to the little pot of pinks long before it could help her. Ask your child: what kindness did the pinks repay?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The fairy's anger rose like a storm — and broke. When it had passed, the pot of pinks opened like a door, and a young prince stepped out: the fairy had shut him inside long ago, and only such kindness as Felicia's could free him. He asked Felicia to marry him, and she said yes, and they were married in the spring. The pot of pinks stood in their garden window for years, and bloomed — people said — a little redder than any pinks in the kingdom."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Terrible Head",
+      "art": "lb-terrible-head",
+      "artPrompt": "a young hero in winged sandals raising a curved sword while watching a sleeping gorgon only in his polished bronze shield, dark island rocks and sea mist, cool silver moonlight with one golden gleam, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the old Greek story, a mother and her baby were shut in a chest and set adrift on the sea, because a king feared a prophecy. But the chest floated to an island, where a good fisherman drew it up in his nets and brought the mother and her little son, Perseus, home to his own house. The boy grew tall and strong, and one day, boasting before the king of the island, he promised to bring back the Terrible Head — the head of Medusa the Gorgon, at one look from whom living things turned to stone."
+        },
+        {
+          "kind": "text",
+          "text": "A shining stranger called Quicksilver met him and gave him a sword that could cut through anything, and a shield polished bright as a mirror. 'Look only at the shield,' said Quicksilver, 'never at the Gorgon herself.' On the way Perseus found three old women who shared one eye among them, passing it from hand to hand; he held the eye till they told him the way. Then, at the far north, the nymphs gave him winged sandals, a cap of darkness, and a pouch that would hold anything."
+        },
+        {
+          "kind": "image",
+          "art": "lb-terrible-head",
+          "text": "Only in the shield's reflection could the terrible head be faced."
+        },
+        {
+          "kind": "note",
+          "text": "New word: Gorgon — one of three sisters so dreadful to look upon that no living thing could bear the sight. Perseus never looked at Medusa once — only at her reflection.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He flew to the Gorgons' island, glided down through the dark, and struck once, looking only at the shield — and Medusa's head was in the pouch. From her blood sprang the winged horse Pegasus, and the two remaining sisters woke and hunted the air for him; but the cap of darkness hid him, and he flew home over sea and field. With the Terrible Head he turned the cruel king and his court to stone, gave the head to the goddess Athene, and his mother, safe at last, married the good fisherman."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Prince Darling",
+      "art": "lb-prince-darling",
+      "artPrompt": "a huge shaggy monster sitting alone in a deep green forest looking toward a distant palace on a hill, fireflies and shafts of warm evening light through the trees, a gentle and sorrowful mood, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a young prince whom everyone loved, and a good fairy who watched over him. When he was old enough to rule, she gave him a plain ring for his finger. 'Whenever you do wrong,' she said, 'the ring will prick you, to remind you.' At first it pricked often — when he told a lie to save himself trouble, when he broke a promise, when he mocked a servant for his own amusement. But the prince grew tired of being pricked. He flung the ring away and told himself he needed no reminders."
+        },
+        {
+          "kind": "text",
+          "text": "Then the wrong-doing grew large. He punished anyone who displeased him and cared for nobody but himself, and the fairy saw it all. One morning the court awoke to find their prince gone — and in his place a hideous monster, shaggy and enormous, with a voice like a storm. The fairy had changed his shape to match his heart. The prince fled to the forest, where even the hunters cried out and ran from him."
+        },
+        {
+          "kind": "image",
+          "art": "lb-prince-darling",
+          "text": "The monster in the wood, learning to be gentle."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the ring did not make the prince good — it only reminded him when he was not. Ask your child: what reminds you when you have done something unkind?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Alone in the forest, the prince had time to think. He began to use his great strength to help people instead of to frighten them, and to wish, more than anything, to be good again. The fairy was watching, as fairies are. One morning the monster woke as a prince once more, and this time he kept the ring on his finger and the promise with it. He ruled his kingdom justly and kindly all his days — and it is said the ring never pricked him again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · The History of Whittington",
+      "art": "lb-whittington-cat",
+      "artPrompt": "a poor kitchen boy standing on a misty road outside London at dawn listening to great church bells ringing above the rooftops, a small cat on his shoulder, pale gold morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a poor orphan boy called Dick Whittington, who heard that London streets were paved with gold, and set off to see. He found no gold — only mud, and no work. At last he fell faint and hungry on the steps of a great merchant named Mr. Fitzwarren, who took him into his kitchen. The cook was cross, and the attic was full of rats, so Dick spent his first penny on a cat to keep the rats away while he slept. The merchant's daughter Alice was kind to him, and made the kitchen less lonely."
+        },
+        {
+          "kind": "text",
+          "text": "One of Mr. Fitzwarren's ships was going out to trade, and every servant might send one thing aboard. Dick had nothing in the world but his cat, so the cat sailed. Soon after, Dick decided London had nothing for him either, and set out on the north road at dawn. But Bow Bells began to ring: 'Turn again, Whittington, thrice Lord Mayor of London!' And he turned back to his kitchen, wondering."
+        },
+        {
+          "kind": "image",
+          "art": "lb-whittington-cat",
+          "text": "Bow Bells ring out: Turn again, Whittington!"
+        },
+        {
+          "kind": "note",
+          "text": "New word: Lord Mayor — the chosen head of the city of London for a year. There really was a Richard Whittington long ago, and he really was Lord Mayor — more than once.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The ship came at last to a foreign court where rats and mice swarmed over the king's dinner table, and nothing had ever driven them off. Dick's cat ended the plague in a single night, and the king paid for her more gold than the ship's whole cargo. When Mr. Fitzwarren's ship came home, the riches made Dick a gentleman, and in time he and Alice were married. Three times the bells' promise came true, for Dick Whittington was three times Lord Mayor of London."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · Hans in Luck",
+      "art": "lb-hans-luck",
+      "artPrompt": "a cheerful young man dancing down a dusty summer lane with empty hands and a happy face, past a stone well under leafy trees, warm afternoon sunlight and drifting seeds, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Hans served his master faithfully for seven years, and his wages were a lump of gold as big as his own head. He tied it on his back and set out for home, singing. But the gold was heavy, and when a passing rider offered his horse for it, Hans cried, 'Trade!' — and the gold was gone. The horse bolted and threw him into the ditch, and he gladly traded the horse for a cow, for now he was thinking of milk."
+        },
+        {
+          "kind": "text",
+          "text": "The cow gave no milk, and a butcher came by: 'A fat pig for your cow — trade!' Hans traded. A goose-girl came by: 'A goose for your pig — trade!' Hans traded again. Then a man with a whetstone wanted the goose, and Hans, whose shoulders were tired of carrying things, traded once more. At a well he knelt to drink, and the whetstone slipped into the water — and he threw the stones in his pocket after it, and ran home light as a feather."
+        },
+        {
+          "kind": "image",
+          "art": "lb-hans-luck",
+          "text": "Hans comes home light as a feather, and lucky as ever."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Hans traded away everything he owned in one day and called himself lucky all day long. Ask your child: what made Hans happy — the things in his hands, or the thoughts in his head?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "'No one was ever so lucky as I!' cried Hans to his grandmother, and told her every trade of the day, and laughed till the house rang. For he had learned, without meaning to, the lightest thing in the world to carry — a contented heart. And it may be that Hans, who kept his cheer through every trade, was the richest man in the story after all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · Snow-White and Rose-Red",
+      "art": "lb-snow-rose",
+      "artPrompt": "a great gentle bear standing beside two young sisters in a snowy forest clearing, a frightened little dwarf and his scattered treasure at their feet, soft blue winter light and snowflakes, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A poor widow lived in a little cottage with her two daughters, Snow-White and Rose-Red, as different as summer and winter and as fond of each other as two sisters can be. Two rose trees grew by the door, one white and one red. One snowy evening a great black bear knocked, shivering, at the door. 'Don't be afraid,' he said. 'I only want to warm myself.' The girls brushed the snow from his shaggy coat, and all winter he came every evening, and they played games on the hearth-rug until spring."
+        },
+        {
+          "kind": "text",
+          "text": "'Now I must go,' said the bear when the thaw came, 'and guard my treasures from a wicked dwarf.' In the woods that summer the sisters met a dwarf three times: once with his beard caught in a split tree-trunk, once tangled in a fishing line, and once seized by an eagle. Each time they saved his life, cutting a little of his beard to set him free. And each time he snatched a bag of hidden gold or gems and trotted off grumbling, without one word of thanks."
+        },
+        {
+          "kind": "image",
+          "art": "lb-snow-rose",
+          "text": "The bear keeps his promise to the two sisters."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ungrateful — not thankful. The dwarf's life was saved three times, and he never once said thank you.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Another day they found him quarreling over a sack of pearls, and the bear stepped out of the wood. 'Eat them, not me!' begged the dwarf, pointing at the sisters. One blow of the bear's paw ended the dwarf's wickedness forever — and as the girls watched, the bear's skin fell to the ground, and a tall prince stood there, whom the dwarf had enchanted all these years. The treasures were his own. In time Snow-White married the prince and Rose-Red his brother, and the widow lived with them, and the two rose trees bloomed at their windows every summer of their lives."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · The Goose-Girl",
+      "art": "lb-goose-girl",
+      "artPrompt": "a gentle goose girl speaking to a horse head mounted above a dark city gate at sunrise, white geese around her feet, her golden hair lifting in the wind, tender rose and amber morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "An old queen sent her daughter to be married in a far kingdom, with a maid to wait on her, and a wonderful horse called Falada, who could speak. The queen pricked her finger and let three drops of blood fall on a handkerchief. 'Keep this, my child; it will take care of you on the way.' But on the road the waiting-woman demanded the princess's horse and her fine clothes, and made her swear never to tell any living creature what had happened. At a brook, bending to drink, the princess let the handkerchief slip into the water — and from then on the false bride rode ahead as the princess, and the true princess walked behind as a maid."
+        },
+        {
+          "kind": "text",
+          "text": "At the palace the false bride begged that the girl be sent to mind the geese, and begged too that the speaking horse Falada be put to death. But the true princess persuaded the man who took Falada's body to fasten his head above the great city gate, so that she might pass under it every morning. 'Alas, Falada, hanging there!' she said softly each day, and the head answered, 'Alas, young queen, how you are changed!' And when she combed her hair, the wind blew it like gold, till the goose-boy who watched her grew cross with envy."
+        },
+        {
+          "kind": "image",
+          "art": "lb-goose-girl",
+          "text": "Every morning the goose-girl greets Falada at the gate."
+        },
+        {
+          "kind": "note",
+          "text": "New word: waiting-woman — a maid who travels with a princess to serve her on a journey.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The old king watched from behind the gate one morning, and that night he asked the goose-girl to tell her story. 'I may tell no living creature,' she said — so the king said, 'Then tell it to the iron stove,' and she wept her whole story into the stove while he listened behind it. At the wedding feast the false bride was asked what such a traitor deserved. 'Strip her, and shut her away forever,' said she, not knowing whom she judged — and so it was done, by her own words. And it is told that Falada lived again, and neighed for joy at the true wedding."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · Why the Sea Is Salt",
+      "art": "lb-sea-salt",
+      "artPrompt": "a small wooden hand-mill on a ship deck grinding an endless stream of white salt into the sea, sailors shouting as the ship sinks low, stormy grey-green waves and one beam of light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Two brothers lived side by side, one rich and one poor. On Christmas Eve the poor one went to ask for a morsel for the feast, and the rich wife said they had nothing to spare, and sent him home through the snow. In the wood he met a white-bearded old man, who asked where he came from so sadly. Then the old man led him to a cave where a dozen trolls were dancing and quarreling over an old hand-mill, and bargained the mill away from them. 'It will grind anything you ask,' said the old man, 'and one word stops it.'"
+        },
+        {
+          "kind": "text",
+          "text": "At home the mill ground out herrings and porridge for Christmas, and gold after that, and in a year the poor family wanted for nothing. His rich brother heard of it and came to borrow the mill — and when it began to grind, he found he had never learned the word that stopped it. It ground herrings and gruel and sausages, faster and faster, until the rich man's kitchen was waist-deep in food, and he staggered back to his brother with the mill under his arm, begging him to take it back."
+        },
+        {
+          "kind": "image",
+          "art": "lb-sea-salt",
+          "text": "The mill that never stopped grinding salt at the bottom of the sea."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hand-mill — a small mill turned by hand for grinding grain into flour.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In time the mill passed to a sea-captain, who set it grinding salt on his ship. But the salt came and came, and no one aboard remembered the stopping word, and the ship went down with the mill and all. And the mill stands there yet at the bottom of the sea, grinding salt and salt and salt — and that, the old story says, is why the sea is salt."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 25 · The Princess on the Glass Hill",
+      "art": "lb-glass-hill",
+      "artPrompt": "a young rider on a horse clad in golden armor climbing a steep hill of polished glass, a princess at the summit holding golden apples, banners and knights far below, bright morning light on crystal slopes, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A farmer had a meadow whose hay disappeared every night — mowed and stacked by day, gone by morning. The two elder sons watched it in turn and ran away at the first dreadful clattering in the dark. Then the youngest, whom everyone laughed at and called the Cinder Lad, took his turn. At midnight a horse came eating the hay, clad in armor of copper, with a golden apple at its saddle-bow — and the Cinder Lad tamed it, and hid it, and the meadow held its hay."
+        },
+        {
+          "kind": "text",
+          "text": "Two more nights brought two more horses, one in silver armor and one in gold, and the Cinder Lad tamed them both and hid them away. About that time the king of that country set his daughter on a hill of glass, smooth as a frozen lake, with three golden apples in her lap: whoever could ride up and take them should have the princess and half the kingdom. Knights and princes came from everywhere — and every one of them slid halfway up the glass and helplessly down again."
+        },
+        {
+          "kind": "image",
+          "art": "lb-glass-hill",
+          "text": "The Cinder Lad rides the glass hill where all the knights slid down."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: everyone laughed at the boy in the ashes until the golden apples were in his pocket. Ask your child: who was right about the Cinder Lad in the end?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the first day of the trials the Cinder Lad rode a third of the way up the glass and took one golden apple from the princess's lap, then rode away before anyone could see his face. The next day he rode higher, in silver armor, and took a second apple. The third day he rode in gold to the very top, took the last apple, and let the princess see him plainly. When the king demanded to know who he was, he brought out all three apples, and there was no more doubt. The princess and the Cinder Lad were married, and no one ever laughed at the ashes on his clothes again."
+        }
+      ]
+    }
+  ]
+}

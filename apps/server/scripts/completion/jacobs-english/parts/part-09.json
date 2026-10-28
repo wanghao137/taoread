@@ -1,0 +1,202 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The Three Sillies",
+      "art": "engfair-sillies",
+      "artPrompt": "a candlelit farm cellar where a farmer, his wife and their daughter all weep together under a mutton bone hanging from a ceiling beam, a puzzled young gentleman in a fine coat holding a jug of beer, warm hearth glow spilling down the stairs, comic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A young gentleman came courting at a farmhouse, where the farmer had one daughter. Down in the cellar, hunting for beer, he found the whole family weeping as if their hearts would break."
+        },
+        {
+          "kind": "text",
+          "text": "They pointed at a mutton bone hanging from a beam. \"If you came down with a candle,\" they sobbed, \"you might knock your head on that bone and be killed!\" The daughter wept loudest of all, for she loved him dearly."
+        },
+        {
+          "kind": "text",
+          "text": "The gentleman laughed till his sides ached, then set off to find three sillier people. On the road he met a man in a great fuss. The man was trying to lift his cow onto the roof of his house, to eat the grass growing there."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-sillies",
+          "text": "The gentleman finds a man trying to graze his cow on the roof."
+        },
+        {
+          "kind": "note",
+          "text": "New word: fret — to fuss and worry over a thing. Ask your child: was the mutton bone really so dangerous? What would you have said to the weeping family?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He helped the man with his cow, and rode on. But wherever he went, he never found a sillier sorrow than fretting over what might never happen. So he turned his horse and rode back to the farm. \"You three are the sillies I went seeking,\" he said, laughing, \"and I have been just as silly, for I nearly lost you by my own folly.\" Then they all laughed together, and pulled the mutton bone from the cellar beam. They roasted it for the wedding feast, and I daresay they never fretted over nothing again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Teeny-Tiny",
+      "art": "engfair-teeny",
+      "artPrompt": "a tiny old woman in a nightcap sitting up in a little bed under a small window, moonlight silvering a churchyard wall and leaning gravestones outside, one small white bone lying on the floor, quiet blue night light, gentle spooky storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once upon a time there was a teeny-tiny woman, and she lived in a teeny-tiny house in a teeny-tiny village. One fine day she put on her teeny-tiny bonnet and went out for a teeny-tiny walk. She walked past the teeny-tiny fields, and past the teeny-tiny mill, till she came to a churchyard with a low stone wall."
+        },
+        {
+          "kind": "text",
+          "text": "There, among the grass, she found a teeny-tiny bone. \"How useful,\" said the teeny-tiny woman to herself. \"I will take it home and make some soup.\" So she carried the teeny-tiny bone home, put it in her teeny-tiny pot, and made a pot of teeny-tiny soup. Then she washed her teeny-tiny spoon, and went to bed."
+        },
+        {
+          "kind": "text",
+          "text": "But in the middle of the night, the teeny-tiny woman heard a teeny-tiny voice. It seemed to come from under the window. \"Give me my bone!\" said the voice."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-teeny",
+          "text": "The teeny-tiny woman sits up in bed and hears the small voice."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: whose bone was it, do you think? Should the teeny-tiny woman have taken it home from the churchyard?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The teeny-tiny woman pulled the covers over her head and pretended to be asleep. But the voice came again, a teeny-tiny bit louder than before. \"Give me my bone!\" And the third time it called, quite loud and quite cross: \"GIVE ME MY BONE!\" Then the teeny-tiny woman could bear it no more. She jumped out of bed, threw the teeny-tiny bone out of the window, and dived back under the covers. And she never took anything home from the churchyard again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Old Woman and Her Pig",
+      "art": "engfair-stile",
+      "artPrompt": "an old woman in a shawl and bonnet standing beside a wooden stile in a green lane, a fat little pig sitting stubbornly on the other side, market basket and red ball of wool at her feet, dappled afternoon light, comical storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One market day an old woman bought a fine little pig. She led it home on a string, meaning to make much of it. But at the stile the pig would not jump. The old woman pushed, and pulled, and begged. The pig only sat still."
+        },
+        {
+          "kind": "text",
+          "text": "So she sat down on a stone and cried. Along came a dog. \"Bite the pig, dog!\" she begged. But the dog said no. So she asked a stick to beat the dog, and a fire to burn the stick, and water to quench the fire."
+        },
+        {
+          "kind": "text",
+          "text": "Then she asked an ox to drink the water, and a butcher to kill the ox, and a rope to hang the butcher. Last of all she asked a rat to gnaw the rope."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-stile",
+          "text": "The old woman pleads with every helper in the lane — and one small cat listens."
+        },
+        {
+          "kind": "note",
+          "text": "New word: stile — little steps for climbing over a fence. Ask your child: what did the cat want before it would help?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last a little cat mewed: \"A saucer of milk, and I will kill the rat.\" The cow in the near field gave milk freely, and the cat kept its promise. The cat killed the rat, the rat gnawed the rope, and down the long chain it went, till the pig jumped the stile at last. And the old woman got home that very night, with her pig trotting happily on before her."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · How Jack Went to Seek His Fortune",
+      "art": "engfair-jackroad",
+      "artPrompt": "a dusty country road at dusk where a tall boy leads an odd procession of a cat on his shoulder, a dog, a goat, a bull and a rooster, toward a crooked house glowing with candlelight among the pines, long shadows, adventurous storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One autumn day Jack set out to seek his fortune. Soon he met a cat. \"Where are you going?\" asked the cat. \"To seek my fortune,\" said Jack. \"May I come?\" \"Yes.\""
+        },
+        {
+          "kind": "text",
+          "text": "Next came a dog, then a goat, then a bull, then a rooster. Off they all went together through the woods. Night fell, and across a river and up a hill they came to a lonely house. It was full of robbers, counting gold."
+        },
+        {
+          "kind": "text",
+          "text": "So Jack posted his friends: the cat in the chimney corner, the dog behind the door, the goat in the yard, the bull by the well, and the rooster on the roof. Then they waited for midnight."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-jackroad",
+          "text": "The robbers hear the strangest chorus in the world — and run."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: every friend made his own sound, one after another. What do you think the robbers thought it was?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At midnight the cat yowled, the dog barked, the goat bleated, the bull bellowed, and the rooster crowed with all his might. The robbers tumbled out of the door and fled into the dark. One robber crept back for the gold. In the dark the cat scratched him, the dog bit him, the goat butted him, and the bull tossed him over the hedge. \"Never go back!\" he told the others. \"The ugliest crew I ever saw!\" And Jack and his friends lived in the house, warm and rich, ever after."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Johnny-Cake",
+      "art": "engfair-johnnycake",
+      "artPrompt": "a golden corn cake with bright smiling eyes sprinting down a dusty farm lane, an old man, an old woman and a boy chasing behind, geese flapping out of the way, rolling fields and a distant woods, bright morning light, brisk comic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once an old man and an old woman and a little boy made a johnny-cake, and put it in the oven to bake. Soon a thump and a scramble came from the oven. The door flew open, and out jumped the johnny-cake, and ran down the road as fast as fast could be."
+        },
+        {
+          "kind": "text",
+          "text": "The old man chased it, but could not catch it. The old woman chased it, and could not catch it. The little boy chased it too. \"I've outrun you!\" called the johnny-cake, and on it ran."
+        },
+        {
+          "kind": "text",
+          "text": "Two well-diggers chased it, and could not catch it. Two ditch-diggers chased it, and could not catch it. A bear chased it, and a wolf chased it. \"I've outrun you all!\" sang the johnny-cake, though its golden sides were growing tired."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-johnnycake",
+          "text": "The johnny-cake sprints past everyone, calling that it has outrun them."
+        },
+        {
+          "kind": "note",
+          "text": "New word: johnny-cake — a flat bread made of cornmeal. Ask your child: who was the only one the johnny-cake could not outrun, and why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last a sly fox by a fence spoke softly. \"What was that you said? Come a little nearer, for I am hard of hearing.\" So the tired johnny-cake ran close to ask again. And snap! The fox gobbled it up in one bite. And that was the end of the johnny-cake who had outrun everyone but the fox."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · Molly Whuppie",
+      "art": "engfair-molly",
+      "artPrompt": "a bold small girl in a tartan shawl tiptoeing beside a sleeping giant with a gold sword under his pillow, her two sisters hiding by the great bed, moonlight through a horn window, a thin silver bridge of one hair far below the window, gentle tense storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A hard winter came, and a father led his three little girls into the wood and left them there. The two eldest cried. But Molly Whuppie, the youngest, said, \"Follow me,\" and she led them through the dark to a great house."
+        },
+        {
+          "kind": "text",
+          "text": "The house belonged to a giant. His wife fed the girls and hid them for the night. In the dark the giant came feeling round the beds — but Molly had slipped her sisters out of the window, and off they ran, over a bridge of one hair, and safe home."
+        },
+        {
+          "kind": "text",
+          "text": "The king heard the tale. \"Bring me the giant's sword,\" he said, \"and my sons shall marry you and your sisters.\" So back went Molly Whuppie, alone, to the giant's house."
+        },
+        {
+          "kind": "image",
+          "art": "engfair-molly",
+          "text": "Molly slides the great sword from under the sleeping giant's pillow."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Molly is the smallest of all, and the bravest. What does she dare to do that the grown men never could?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "She crept under the giant's bed, and while he slept she drew out the great sword. He woke and chased her to the river. Molly tripped lightly over the bridge of one hair, and the giant, heavy and furious, fell flat on his own side. Twice more she went: once for the giant's purse of gold, and at last for the crown from his very pillow. Then the king kept his promise, and there was a wedding for all three sisters. And Molly Whuppie lived in the palace ever after, the wisest girl in the kingdom."
+        }
+      ]
+    }
+  ]
+}

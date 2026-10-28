@@ -89,7 +89,9 @@ export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWor
   async function play(audio: PhonicsAssetDto | null | undefined) {
     if (!audio?.url || !player.current || playing) return
     setPlaying(audio.id); setError('')
-    try { await player.current.play([audio.id]) } catch { setError('声音没有播出来，请再试一次') } finally { setPlaying(null) }
+    // 例句（词典/课文）为成人语速录音：儿童收听降速到 0.8 倍（保音高）
+    const rate = audio.purpose === 'passage' ? 0.8 : 1
+    try { await player.current.play([audio.id], undefined, { rate }) } catch { setError('声音没有播出来，请再试一次') } finally { setPlaying(null) }
   }
   async function favorite() {
     if (saving) return
@@ -133,21 +135,22 @@ export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWor
           const segment = word.audios.find(a => a.purpose === 'segment')
           const blend = word.audios.find(a => a.purpose === 'blend')
           return <>
-            <button disabled={!ready || !uk?.url || Boolean(playing)} onClick={() => void play(uk)} title={word.lexicon?.ukIpa}>
-              <IconVolume size={20} />{playing === uk?.id ? '播放中' : '英式'}{!word.audios.some(a => a.accent === 'GB') && <small className="ph-accent-tag">课</small>}
-            </button>
-            {us && <button disabled={!ready || Boolean(playing)} onClick={() => void play(us)} title={word.lexicon?.usIpa}>
+            {uk && <button disabled={!ready || Boolean(playing)} onClick={() => void play(uk)} title={`英式发音 ${word.lexicon?.ukIpa ?? ''}`}>
+              <IconVolume size={20} />{playing === uk.id ? '播放中' : '英式'}
+            </button>}
+            {us && <button disabled={!ready || Boolean(playing)} onClick={() => void play(us)} title={`美式发音 ${word.lexicon?.usIpa ?? ''}`}>
               <IconVolume size={20} />{playing === us.id ? '播放中' : '美式'}
             </button>}
-            {segment && <button disabled={!ready || Boolean(playing)} onClick={() => void play(segment)}>
-              <IconVolume size={20} />{playing === segment.id ? '播放中' : '分开听'}
+            {segment && <button disabled={!ready || Boolean(playing)} onClick={() => void play(segment)} title="把单词读得很慢，一个音一个音听清楚">
+              <IconVolume size={20} />{playing === segment.id ? '播放中' : '分开读'}
             </button>}
-            {blend && <button disabled={!ready || Boolean(playing)} onClick={() => void play(blend)}>
+            {blend && <button disabled={!ready || Boolean(playing)} onClick={() => void play(blend)} title="比正常慢一点，把音连起来拼读">
               <IconVolume size={20} />{playing === blend.id ? '播放中' : '拼一拼'}
             </button>}
           </>
         })()}
       </div>
+      <p className="phonics-hint">英式/美式=标准发音 · 分开读=特慢速听清每个音 · 拼一拼=慢速连起来拼</p>
       {word.examples.length > 0 && <div className="ph-examples"><h4>在句子里</h4>{word.examples.map(example =>
         <div key={example.text} className="ph-example"><p lang="en-GB">{example.text}</p>
           {example.audio && <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="播放句子" aria-label="播放句子" disabled={!ready || Boolean(playing)} onClick={() => void play(example.audio)}><IconVolume size={22} /></button>}

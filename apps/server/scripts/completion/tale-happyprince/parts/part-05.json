@@ -1,0 +1,41 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · The Devoted Friend",
+      "art": "hp-devoted-friend",
+      "artPrompt": "a kind young gardener in a patched shirt offering a basket of roses to a stout rich miller in a fine coat, a rickety old wheelbarrow standing between them, a little cottage garden full of flowers behind, warm summer morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once there was a poor young gardener called little Hans. He had a small cottage and a lovely garden full of flowers. In summer he sold his roses and fruit, and he was happy. His best friend, he thought, was the rich Miller, who lived on the hill. “Real friends have everything in common,” the Miller liked to say. But somehow the sharing always went one way."
+        },
+        {
+          "kind": "text",
+          "text": "“I will give you my old wheelbarrow,” the Miller said again and again. “It is a little broken, but you must not mind that.” Yet he never actually brought it. Instead he took armfuls of Hans’s flowers for nothing. He asked Hans to carry his flour sacks and drive his sheep. So Hans had no time to tend his own garden. By winter he was cold, hungry, and quite out of money."
+        },
+        {
+          "kind": "image",
+          "art": "hp-devoted-friend",
+          "text": "The rich Miller taking flowers from little Hans’s garden."
+        },
+        {
+          "kind": "note",
+          "text": "New word: wheelbarrow — a small cart with one wheel, for carrying earth and flowers round a garden.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One stormy night the Miller knocked at Hans’s little door. “My little boy has fallen off a ladder and hurt himself,” he cried. “Run and fetch the doctor at once!” “Lend me your lantern,” said Hans, “for the night is very dark.” “I am sorry,” said the Miller, “but it is my new lantern, and it might get wet.” So brave little Hans set out into the rain without one."
+        },
+        {
+          "kind": "text",
+          "text": "The doctor rode off on his horse, and Hans started home. But the rain was heavy, and the moor was dark. Poor Hans lost his way and fell into a deep pool, and that was the end of him. At the funeral the Miller wore the longest face of all. “The wheelbarrow is on my hands now,” he sighed. “It is very much in my way. What shall I do with it?”"
+        },
+        {
+          "kind": "text",
+          "text": "A green linnet told this story by the river, to a water-rat. “Is that the end?” asked the water-rat. “It is,” said the linnet. “But what became of the Miller?” asked the water-rat. “I do not know,” said the linnet, “and I do not care.” Then the bird flew away, for the rat had missed the point of the whole story."
+        }
+      ]
+    }
+  ]
+}

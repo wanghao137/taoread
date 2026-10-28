@@ -1,0 +1,310 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Sleeping Beauty in the Wood",
+      "art": "lb-briar-rose",
+      "artPrompt": "a fairytale princess asleep among candlelit castle towers wrapped in a deep hedge of blooming thorns, a young prince kneeling beside her as rose petals drift through the air, warm dawn light breaking over the sleeping castle, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago a king and queen longed for a child, and at last a daughter was born to them, more lovely than any child ever seen. The king made a great feast for her christening and invited the seven fairies of his kingdom, for each fairy would bring the baby a gift. One fairy more there was, very old, who had not left her tower for fifty years. People believed she was dead, or under a spell, and nobody invited her. She came anyway, in her fury, and the whole hall went cold."
+        },
+        {
+          "kind": "text",
+          "text": "The old fairy cried out that the princess would one day prick her hand on a spindle and die of the wound. Then the youngest fairy stepped out from behind the curtains. She could not undo the curse, but she could soften it. 'Your daughter shall not die,' she said. 'She shall sleep a hundred years, and a king's son shall wake her at last.' The king, hoping to cheat fate, had every spindle in the kingdom burnt that very day."
+        },
+        {
+          "kind": "image",
+          "art": "lb-briar-rose",
+          "text": "The hundred-year sleep, with the thorn hedge standing guard over the castle."
+        },
+        {
+          "kind": "text",
+          "text": "Sixteen years went by in peace. One day the princess wandered through the castle and climbed a narrow stair in an old tower, where a gray old woman sat spinning, never having heard the king's law. 'What are you doing?' asked the princess, and took the spindle in her hand. At once she pricked her finger and fell down asleep. The good fairy came flying, and her spell fell over the whole castle: the king and queen slept in their chairs, the dogs in the yard, the flies on the wall, and the very fires on the hearths. A hedge of thorns grew up around it all, higher than the towers."
+        },
+        {
+          "kind": "note",
+          "text": "New word: spindle — the slim stick that twists wool into thread. For a hundred years nothing in the castle moved at all: not the fires, not the clocks, and not even the pigeons on the roofs.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "A hundred years passed, and the son of a king heard an old countryman tell the tale. When the prince came near, the thorns opened for him alone into an archway of flowers. He found the princess and knelt beside her, and she woke and was glad of him. One dark page of the old story remains: while the prince was away at war, his mother, who had ogress blood, ordered her little grandchildren served for supper. But the good steward cooked two lambs instead, and the prince came home in time to stop her. After that the palace knew only peace, and the young family lived long and happily."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Puss in Boots",
+      "art": "lb-puss-boots",
+      "artPrompt": "a clever cat in tall riding boots bowing before a frightened ogre in a torchlit castle hall, the ogre mid-transformation with lion claws and whiskers, golden dishes gleaming on the table, warm firelight and long shadows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A miller died and left the mill to his eldest son, the donkey to the second, and the cat to the youngest — a cat, and nothing more. But the cat asked for a bag and a fine pair of boots, and went hunting in the warren. He caught a young rabbit, carried it to the king, and bowed low. 'Sire, this is from my master, the Marquis of Carabas.' Week after week he brought game to the palace, until the king said, 'This Marquis of Carabas must be a man of great quality.'"
+        },
+        {
+          "kind": "text",
+          "text": "One day the king drove by the river with his daughter. Puss cried out, 'Help, help! My Lord the Marquis of Carabas is drowning!' Clothes were brought, and the miller's son, so grand and so handsome, made the princess smile at once. Then Puss ran ahead of the coach. To the mowers and the reapers he said, 'If anyone asks, these fields belong to the Marquis of Carabas' — and they answered as he wished, for he looked at them so fiercely. At last he came to the castle of an ogre who could change his shape. 'They say you can become a lion!' The ogre roared and became one. 'And something small — a mouse?' And when the ogre became a mouse, the cat pounced, and there was no more ogre in the world."
+        },
+        {
+          "kind": "image",
+          "art": "lb-puss-boots",
+          "text": "The cat and the ogre — and a compliment that went too far."
+        },
+        {
+          "kind": "note",
+          "text": "New word: flatter — to praise someone on purpose, so they will do what you want. The cat called the ogre a marvel, because a proud creature forgets to be careful.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The king's coach stopped at the castle gates, and Puss welcomed him in the name of the Marquis of Carabas. There was a feast that evening, and dancing, and before the day was done the king gave the princess to the miller's son with all his heart. The cat was made a great lord, and afterward hunted mice only for his own amusement."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Little Thumb",
+      "art": "lb-little-thumb",
+      "artPrompt": "seven small brothers tiptoeing out of a dark ogre cottage at first light, the smallest holding a golden crown, a huge snoring shape in the shadows behind, pale blue dawn mist over the forest, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A poor woodcutter had seven sons, and the youngest was born no bigger than a thumb, so they called him Little Thumb — yet he was the cleverest of them all. In a year of famine the father and mother led the boys deep into the forest and slipped away. The first time, Little Thumb had filled his pockets with white pebbles and dropped them along the path, and the brothers followed them home. The second time, he dropped crumbs of bread instead — and the birds of the forest ate every crumb. The seven brothers were lost in the dark, with rain coming down."
+        },
+        {
+          "kind": "text",
+          "text": "Little Thumb climbed a tree and spied a tiny light far off. It was the house of an ogre. 'They will make a tender supper,' said the ogre, and that night the brothers trembled in a bed, while the ogre's seven daughters slept nearby in golden crowns. In the night Little Thumb lifted the crowns from the ogresses' heads and set caps upon them instead, and crowns upon his brothers. In the dark the ogre came groping for the boys — and his cruelty fell upon his own daughters."
+        },
+        {
+          "kind": "image",
+          "art": "lb-little-thumb",
+          "text": "Little Thumb leads his brothers out of the ogre's house before dawn."
+        },
+        {
+          "kind": "text",
+          "text": "The brothers ran before light, and the ogre sprang after them in his seven-league boots, which carry a man seven leagues at a stride. But he grew weary and fell asleep on a rock, and Little Thumb slipped the boots from his feet. Then he ran to the ogre's house and told the ogress that her husband was held by robbers and needed his gold for ransom. He carried off the ogre's whole treasure to his father's cottage, and the woodcutter's family never knew famine again."
+        },
+        {
+          "kind": "note",
+          "text": "New word: famine — a time when there is not enough food for everyone. Little Thumb was the smallest in his family, and the one who saved it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "It was Little Thumb, the smallest of seven, who had saved them all — with pebbles, with a light spied from a tree top, and with a cool head in the dark. And the seven brothers grew up safe and kind, and never went hungry again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Blue Beard",
+      "art": "lb-blue-beard",
+      "artPrompt": "a young woman in a candlelit palace corridor holding up a small stained key, a forbidding iron-studded door at the end of the hall, deep shadows and cold moonlight from a tall window, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a rich man with a blue beard, so blue and so dreadful that the ladies ran away whenever he appeared. He married a young neighbor at last, and after a month he told her he must journey into a far country. He gave her the keys to everything — the gold, the store-rooms, the jewels — and one little key to a room at the end of the corridor. 'Open what you like,' he said, 'but not that room. If you open it, expect no mercy from me.'"
+        },
+        {
+          "kind": "text",
+          "text": "For some days she kept her promise. Then she could bear it no longer, and ran down the corridor with the little key. The floor of the forbidden room was dark with old blood, and along the walls hung the wives who had come before her. In her terror she dropped the key, and it fell in the blood, and no water, no soap, no polishing would ever make it clean again."
+        },
+        {
+          "kind": "image",
+          "art": "lb-blue-beard",
+          "text": "The little key with the stain that would not wash away."
+        },
+        {
+          "kind": "note",
+          "text": "New word: forbidden — not allowed. The key was small enough to hide in a glove, and heavy enough to open a door best left shut.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Blue Beard came home that very night and asked for his keys. When he saw the stain, he knew all. 'You shall go where you opened the door,' he said, and took up his great sword, while she begged only time to say her prayers. Her sister Anne watched from the tower: 'Do you see my brothers coming?' At last two horsemen appeared, and they ran their swords through Blue Beard before he could strike. The widow kept his riches, gave her sisters fine dowries, and married a worthy man who made her forget the blue beard entirely."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Aladdin and the Wonderful Lamp",
+      "art": "lb-magic-lamp",
+      "artPrompt": "a giant genie of blue smoke rising from a small brass lamp above a white marble palace with golden domes at dusk, a boy and a princess watching in wonder, warm lamplight against a violet sky, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Aladdin was a poor boy who played in the streets instead of working. One day a stranger called himself his uncle, and led him out of the city to a secret place among the hills. 'Below you lies a hall of treasure,' said the stranger. 'Go down and bring me the old lamp you will find there, and think of nothing else.' He gave Aladdin a ring for safety. But when Aladdin held up the lamp, the stranger called down, 'Give me the lamp first!' Aladdin would not, and the earth closed over him. Two days later, weeping, he rubbed the ring — and a genie stood before him and carried him home."
+        },
+        {
+          "kind": "text",
+          "text": "At home his mother began to clean the lamp — and a second genie, mightier than the first, sprang up in smoke: 'I am the slave of the lamp; command me.' Aladdin asked first for bread, then for riches, and soon he lived in plenty. He loved the sultan's daughter, and sent before the sultan such heaps of jewels that the king gave him the princess at once. The genie built the young couple a palace of white marble and gold in a single night."
+        },
+        {
+          "kind": "image",
+          "art": "lb-magic-lamp",
+          "text": "The genie of the lamp, and the palace built in a single night."
+        },
+        {
+          "kind": "note",
+          "text": "New word: genie — a mighty spirit bound to obey the owner of its lamp or ring.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the false uncle came back to the city, crying, 'New lamps for old!' The princess, who did not know the lamp's worth, traded it away — and the genie carried the palace, and the princess inside it, to a far desert. Aladdin rubbed the ring, and its genie bore him across the world to his wife's window. She welcomed him and poured the magician a cup of wine in friendship, and the wine made him sleep forever. Aladdin took back the lamp, and the palace stood at home again by morning. When the magician's still more wicked brother came disguised as a holy woman, the genie warned Aladdin in time, and the plot ended there. In time Aladdin succeeded the old sultan, and all the people loved him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Bronze Ring",
+      "art": "lb-bronze-ring",
+      "artPrompt": "a queen mouse wearing a silver crown laying a small glowing bronze ring beside a sleeping young sailor on a ship deck under the stars, gentle lantern light on the waves, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In a far kingdom the king's daughter had a garden so lovely that people traveled to see it, and the one who kept it fair was the young son of the old master gardener. The princess and the gardener's son loved each other. The king set the suitors a task: sail over the sea and bring home the most wonderful things you can find, and the winner shall marry my daughter. The gardener's son spent everything he had on a ship and a cargo of goods, and set out with a brave heart."
+        },
+        {
+          "kind": "text",
+          "text": "At a small island where the ship stopped for water, he found a family of mice about to drown, and carried them to dry ground, though the sailors laughed at him. That night the Queen of the Mice came aboard and laid a small bronze ring by his hand. 'We have dived to the bottom of the sea for this, to repay you,' she said. 'Rub it, and a genie will appear to do your bidding.' He rubbed it, and the genie bowed before him and waited for orders."
+        },
+        {
+          "kind": "image",
+          "art": "lb-bronze-ring",
+          "text": "The Queen of the Mice repays a kindness with the bronze ring."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the sailors laughed when the young man saved the mice, but he saved them all the same. Ask your child: what small kindness might come back one day to help somebody?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He asked for the most splendid ship that ever sailed, with silken sails of gold and a cargo of treasures no king could match — and home he came. The proud lord's cargo looked poor beside it, and the king gave his daughter with a glad heart. The gardener's son and the princess were married, and of all their riches they loved best the old garden where they had first been happy."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Yellow Dwarf",
+      "art": "lb-yellow-dwarf",
+      "artPrompt": "a small mischievous yellow dwarf leaping with a dagger between a young king and a weeping princess in a torchlit fairy cave, serpents coiling in the shadows, dramatic firelight and gold, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was a queen who had one daughter so beautiful that she was called All-Fair, and the queen worried day and night about her future. To know what should befall her, the queen set out for the cave of the Fairy of the Desert — a terrible fairy, with hair of writhing serpents. In the darkest part of the road the Yellow Dwarf appeared: a little misshapen creature, yellow as a lemon, and as cruel as he was ugly. 'I will bring you safely through the forest,' he said, 'if you promise me your daughter for my wife.' The queen, trembling, promised — meaning, in her heart, to break her word."
+        },
+        {
+          "kind": "text",
+          "text": "The fairy gave the queen golden apples that would guard All-Fair as long as she held one. But the Yellow Dwarf stole the apples and carried the princess away, to be shut up where no friend could come. Meanwhile the King of the Golden Isles, who loved All-Fair and was loved by her, rode out to find her. A good mermaid met him at the shore and gave him a sword that nothing could stand against, and told him the way. But the Fairy of the Desert loved the young king too, and she gave him a drink from a golden cup — and when he had drunk it, he forgot All-Fair entirely and agreed to marry the fairy herself."
+        },
+        {
+          "kind": "image",
+          "art": "lb-yellow-dwarf",
+          "text": "The Yellow Dwarf leaps between the king and All-Fair."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the queen promised the dwarf when she was afraid, and the whole sorrow grew from that promise. Ask your child: why should we be careful about promises made in fear?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The mermaid wept when she heard of it, and swam to All-Fair, and told her all. All-Fair came weeping to the palace, and at the sight of her the king's memory came flooding back. But at that moment the Yellow Dwarf leapt out with his dagger, and in the fight the king was struck down, and All-Fair died of grief over him. The mermaid's sorrow was so great that she changed them into two tall palm trees, leaning gently toward each other, where travelers marvel at them to this day."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · East of the Sun and West of the Moon",
+      "art": "lb-sun-moon",
+      "artPrompt": "a girl riding a great white bear across moonlit snow under a sky of stars, holding a tiny candle stub, a distant glowing castle on the horizon, cool blue night with one warm flame, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A poor man had many children and little bread. One evening a great white bear knocked at the door. 'Give me your youngest daughter,' said the bear, 'and you shall be as rich as you are poor now.' The daughter said yes, for the family was hungry, and she rode away on the bear's back to a castle far off, where supper appeared as if by magic. Every night someone came to lie down beside her in the dark, and every morning the bed was empty, and she never once saw a face."
+        },
+        {
+          "kind": "text",
+          "text": "At last she grew homesick, and the bear let her visit her mother. 'Only,' he said, 'listen to no whispering.' But her mother put a candle stub in her hand, and at night the girl lit it and looked at the sleeper beside her. Three drops of tallow fell on his shirt, and he woke. 'You should have waited a year,' he said sadly, 'and then the spell would have broken.' For he was a prince, turned into a bear by day by his wicked stepmother. Now he flew away to a castle east of the sun and west of the moon, to marry a troll princess with a nose three ells long."
+        },
+        {
+          "kind": "image",
+          "art": "lb-sun-moon",
+          "text": "Riding the white bear east of the sun and west of the moon."
+        },
+        {
+          "kind": "text",
+          "text": "The girl set out to find him. Three old women gave her a golden apple, a golden comb, and a golden spinning-wheel, and told her the way to the winds. The East Wind carried her to the South Wind, the South Wind to the West Wind, and the West Wind to the North Wind, who blew her straight to the castle east of the sun and west of the moon. There she traded the apple for one night with the prince. She traded the comb for a second night and the wheel for a third. The troll princess gave him a sleeping draught, but the third night he would not drink it."
+        },
+        {
+          "kind": "note",
+          "text": "New word: tallow — fat once used for making candles. One candle stub was worth more than all the trolls' gold.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the prince cried out that he would marry only the one who could wash three drops of tallow from his shirt. No troll could — but the girl washed them away easily. The trolls vanished in a whirlwind, everyone they had enchanted went free, and the prince and the girl were married, as happy as the day is long."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · Trusty John",
+      "art": "lb-trusty-john",
+      "artPrompt": "a faithful servant standing on a ship deck beneath dark sails, listening to three black ravens perched on the rigging, stormy golden evening light on the sea, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A dying king said to his servant Trusty John: 'Show my son the whole castle — every room but one, the room with the portrait of the Princess of the Golden Dwelling.' After the old king died, the young king would not be denied the locked door. When it stood open, he saw a portrait so lovely that he loved the princess at once and could think of nothing else. Trusty John helped him load a ship with golden cups and rings, and sail to her country. The princess came aboard to admire the treasures, and the ship put out to sea with her. She was angry for a moment and glad forever after, for she came to love the young king too."
+        },
+        {
+          "kind": "text",
+          "text": "On deck one day Trusty John heard three ravens talking above the sails. 'The king will be given a chestnut horse that will carry him off and kill him,' said the first, 'unless someone shoots it dead.' 'The bridal garment will be poisoned,' said the second, 'unless someone burns it.' 'And at the wedding dance the young queen will be seized and carried off,' said the third, 'unless someone holds her and flings her to the ground.' Then the ravens added: 'Whoever speaks of the third danger with his own mouth will turn to stone.'"
+        },
+        {
+          "kind": "image",
+          "art": "lb-trusty-john",
+          "text": "Trusty John listens to the three ravens above the sails."
+        },
+        {
+          "kind": "text",
+          "text": "So it all fell out. A chestnut horse came as a gift, and Trusty John shot it dead. A bridal garment was brought out, and he threw it in the fire, while the courtiers whispered that the king's new friend had gone mad. At the wedding dance a dark hand seized the queen to carry her off — and Trusty John flung her to the ground, and the thing that held her became a raven and fled. Then he told the third danger with his own mouth, and even as he spoke his legs grew cold and hard, and he stood before them turned to stone."
+        },
+        {
+          "kind": "note",
+          "text": "New word: trusty — faithful and true. Trusty John kept every promise, even the ones that cost him the most.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The king had the statue carried to his room and grieved over it daily. Before he hardened, John had said the spell could be broken only by the blood of two little children born on one day. When the king's twin sons were born, the king wept as he paid the price — and Trusty John stepped out of the stone, alive. At once he and the young queen woke the children again with the same blood, and they laughed as if nothing had happened. No friend was ever loved more than John."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Rumpelstiltzkin",
+      "art": "lb-spinning-imp",
+      "artPrompt": "a little imp dancing gleefully around a small fire in a midnight wood, a lantern-lit messenger watching amazed from behind a tree, sparks rising into the dark blue night, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A miller once told the king that his daughter could spin straw into gold. The king shut her in a room full of straw with a spinning wheel: 'Spin it all to gold by morning, or you die.' She wept till a strange little man hobbled in and spun it all to gold in one night — for a necklace. The next night he spun again for a ring. On the third night the king said, 'If you succeed, you shall be my queen,' and the little man said, 'Promise me your first child.' The poor girl, having nothing in the world left to give, promised."
+        },
+        {
+          "kind": "text",
+          "text": "So she became queen, and a year later a beautiful baby was born, and she had quite forgotten the little man — till he came hopping into her room and held out his hand for the child. She offered him all the riches of the kingdom. 'No,' he said. 'A living thing is dearer than all the treasures of the earth.' Then she wept so bitterly that he was sorry for her. 'I will give you three days,' he said. 'If in that time you find out my name, you shall keep your child.'"
+        },
+        {
+          "kind": "image",
+          "art": "lb-spinning-imp",
+          "text": "The little man sings his secret name to an empty wood."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the miller's boasting brought his daughter all this trouble. Ask your child: what is the difference between boasting and telling the truth?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "She sent trusty servants everywhere to gather names, and on the last night the messenger came back laughing. Deep in the wood he had found a little man dancing round a fire, singing: 'To-day I brew and to-morrow I bake, and then the child away I'll take; for little deems my royal dame that Rumpelstiltzkin is my name!' When the queen said the name, the little man stamped his right foot so deep into the ground that he could not pull it out, and in his rage he seized the other foot and tore himself in two. The queen kept her child, and the king and queen lived long and happily."
+        }
+      ]
+    }
+  ]
+}

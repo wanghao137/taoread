@@ -1,0 +1,202 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · Schippeitaro",
+      "art": "lv-schippeitaro",
+      "artPrompt": "a brave young traveller crouching among moonlit rocks while a strong shaggy dog leaps at a huge black mountain spirit beside a wooden cage on a dark pine slope, moonlight breaking through storm clouds, dramatic friendly storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In old Japan a young man went travelling to see the world, and lost his way among the great mountains. Night came on. In a ruined temple an old hermit gave him supper and a mat to sleep on. At midnight he heard a strange singing among the trees. Then a troop of huge cats came dancing past the temple door, wailing one warning over and over."
+        },
+        {
+          "kind": "text",
+          "text": "The song said one thing only: “Tell it not! Tell it not! Tell it not to Schippeitaro!” In the morning the young man travelled on, and came to a village where everyone was weeping. A terrible spirit of the mountain came down every year and carried off a victim. This year a young man of the village had been chosen. Tomorrow he must be carried up the mountain."
+        },
+        {
+          "kind": "image",
+          "art": "lv-schippeitaro",
+          "text": "Schippeitaro waits in the cage on the mountain path."
+        },
+        {
+          "kind": "text",
+          "text": "The traveller went to the elders and offered to take the victim's place. They wept over his kindness, and led him up the mountain path. On the way he asked about the strange song of the cats. Schippeitaro, they told him, was the bravest dog in all Japan, kept by a farmer close by. Then the young man had an idea. He borrowed Schippeitaro, shut the dog gently in the cage, and hid himself among the rocks."
+        },
+        {
+          "kind": "text",
+          "text": "At midnight the mountain spirit came, a huge black thing, snarling over its supper. But the supper snarled back! Schippeitaro burst from the cage and took the spirit by the throat. They fought among the pines till the ground was torn up, and at last the brave dog threw the monster down and slew it. The village kept a feast for Schippeitaro, and the mountain gave no more trouble. The young man went home with a story worth the journey, and the cats never sang that song again."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the young man offers to take a stranger's place. Ask your child: what made him brave — and how did the cats' song help him?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Goat Ears of the Emperor Trojan",
+      "art": "lv-goatears",
+      "artPrompt": "a kind old emperor with long white hair covering his ears listening to a wooden flute played by a young shepherd boy in a sunny palace garden, reeds by a little stream below the window, warm honey-coloured light, cheerful storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Far away there reigned an emperor called Trojan. He had a secret he would rather die than tell. His ears were a goat's ears — long, and pointed, and covered with soft grey hair. Only his barber ever saw them, and the emperor made him swear silence on pain of death."
+        },
+        {
+          "kind": "text",
+          "text": "For years the barber said nothing. But a secret grows heavy, and the barber grew thin, and pale, and ill. At last a wise physician was sent for. “You do not need to tell a person,” said the wise man. “Go out into a meadow, dig a little hole, and whisper your secret to the earth.”"
+        },
+        {
+          "kind": "image",
+          "art": "lv-goatears",
+          "text": "The barber whispers the secret to the earth — and the reeds remember."
+        },
+        {
+          "kind": "text",
+          "text": "The barber did as he was told. He dug a small hole and whispered, “The Emperor Trojan has goat's ears.” Then he filled the hole and went home light-hearted, and was soon as jolly as before. The barber, who had grown thin over the secret, grew round and rosy over the telling of it. But reeds sprang up in that meadow, as reeds do. And a shepherd cut one and carved a little flute, as shepherds do."
+        },
+        {
+          "kind": "text",
+          "text": "When he played it, the flute would not sing his tunes. It sang, over and over: “The Emperor Trojan has goat's ears!” Soon every flute in the land was singing it, and pipes piped it under the palace windows. The emperor heard, called for his barber, and heard the whole story. Then he did the thing nobody expected: he threw off his tall cap, let his long hairy ears show, and laughed. And because he hid nothing any more, nobody mocked him at all, and he was happier every day after."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the flute would not stop singing the truth. Ask your child: what changed for the emperor once he stopped hiding?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Nine Peahens",
+      "art": "lv-peahens",
+      "artPrompt": "a handsome young prince hiding beneath a great apple tree heavy with golden apples as a graceful maiden in bird feathers stands among eight peahens in the orchard at dusk, golden light through the leaves, warm romantic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was an emperor whose garden held a wonder: an apple tree that bore golden apples. It was famous through every land that had heard of it. Every night some of the apples vanished, and no watchman could catch the thief. The emperor's three sons kept watch in their turn. The two elder sons fell fast asleep, as watchmen should not. The youngest son stayed awake, and saw nine peahens fly down into the garden."
+        },
+        {
+          "kind": "text",
+          "text": "Eight peahens pecked at the golden apples. But the ninth shook off her feathers, and there stood a lovely maiden. The prince crept close and caught up her feather dress, and the maiden could not fly away. She was not angry for long, for the prince was kind, and she stayed of her own free will, and they were married with great rejoicing."
+        },
+        {
+          "kind": "image",
+          "art": "lv-peahens",
+          "text": "The ninth peahen becomes a maiden among the golden apples."
+        },
+        {
+          "kind": "text",
+          "text": "Then, one day while the young emperor was away at the wars, a great whirlwind came shrieking over the garden and carried the peahen empress off. He rode home to an empty garden, and set out after the whirlwind without delay, asking every river and mountain for the way. At the end of the world he found the garden where she sat weeping, and brought her home through the sky."
+        },
+        {
+          "kind": "text",
+          "text": "After that nothing wicked dared trouble their empire. The golden apples ripened safe on their tree, year after year. And whenever the youngest child of the palace asked how an emperor came to marry a peahen, the whole story was told, feathers and all, to everyone's delight. And the peahens, they say, still fly over that garden on moonlit nights, nine of them together."
+        },
+        {
+          "kind": "note",
+          "text": "New word: whirlwind — a wind that spins round and round like a top. Ask your child: how did the prince show the peahen maiden that he was kind?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · A Tale of the Tontlawald",
+      "art": "lv-tontlawald",
+      "artPrompt": "a small girl in a patched dress walking gladly through a marvellous forest clearing where silver birches shine and a little black cat with a bottle at its neck leads the way, woodland folk gathered at a feast under flowers, pearly green-gold light, magical storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At the edge of a great forest lived a little girl with her father — and with her father's new wife, who was cross from morning till night. One day there was nothing sweet in the house, and the stepmother had a wicked thought. “Go to the Tontlawald,” she said, “and pick strawberries there.” The Tontlawald was the elves' wood, and no one who was wise ever went into it."
+        },
+        {
+          "kind": "text",
+          "text": "The little girl went, because she was told to. Birds and butterflies kept her company, and by and by a little black cat came dancing before her, bowing, with a small bottle hanging at its neck. At the heart of the wood lay a green clearing bright with flowers, and a merry feast of the woodland folk was spread under the birches."
+        },
+        {
+          "kind": "image",
+          "art": "lv-tontlawald",
+          "text": "The little black cat leads the child into the elves' wood."
+        },
+        {
+          "kind": "text",
+          "text": "The folk of the Tontlawald did not frighten her, and she did not frighten them. They set her at the feast and fed her on strawberries and cream. The maiden of the wood, who was kind as well as beautiful, told her to come back whenever the strawberries ripened, and gave her a little purse. The purse was never empty. Then the cat bowed her safely home again."
+        },
+        {
+          "kind": "text",
+          "text": "The stepmother could hardly scold a child who came back laden with strawberries. And when the purse was found, the scolding stopped altogether. The family wanted for nothing after that, and the girl still went to the wood when the berries were ripe. For — as everyone in that country agreed — the elves' wood opens for kindness and shuts against ill temper."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the stepmother meant harm, but kindness turned the errand into a blessing. Ask your child: how did the girl treat the strange cat and the strange folk?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The History of Dwarf Long Nose",
+      "art": "lv-dwarfnose",
+      "artPrompt": "a small kindly boy with a very long nose in old-fashioned servant clothes cooking in a grand kitchen beside a white goose wearing pearls and a tiny cap, copper pots gleaming, warm firelight from a great hearth, classic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Jacob was a washerwoman's son, a merry boy loved by all the neighbours. One day a cross old woman asked him to carry her basket home, and grumbled at him all the way. She was a witch. She fed him soup made of strange herbs, and he fell into a deep sleep. When he woke, he was a small, ugly dwarf, with a nose as long as your arm."
+        },
+        {
+          "kind": "text",
+          "text": "All the years he slept he had really served the witch in her hidden house, in the shape of a little squirrel. Now he was free — and small, and far from home. His own mother did not know him, and he wept as he went. At last he took service in the kitchen of a grand duke, where everyone called him Long Nose, and his cooking was so good that he rose to be head cook. One day in the market he heard a soft voice. It was a white goose, speaking to him."
+        },
+        {
+          "kind": "image",
+          "art": "lv-dwarfnose",
+          "text": "Long Nose and Mimi the enchanted goose, friends in the great kitchen."
+        },
+        {
+          "kind": "text",
+          "text": "Her name was Mimi, she said, and she was a princess under the witch's spell. Only a certain herb could break such magic. Long Nose hunted through the garden herbs, sniffing with his long nose, till one smell took him back to the witch's kitchen and her soup. He sniffed it, sneezed — and woke as Jacob again, the boy he had been all along."
+        },
+        {
+          "kind": "text",
+          "text": "His first thought was for Mimi. He carried her to the lake and gave her leaves of the same herb, and the feathers fell away, and there stood a princess in silver. The witch's power was broken for good. Jacob went home to his mother, who knew him this time at once, and the neighbours had their merry boy back again."
+        },
+        {
+          "kind": "note",
+          "text": "New word: enchanted — under a magic spell. Ask your child: why did Long Nose help the goose before he helped himself?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Story of Sigurd",
+      "art": "lv-sigurd",
+      "artPrompt": "a young hero in shining mail standing beside his grey horse over a great dragon lying slain on a rocky heath, smoke rising from the beast, the hero holding his mended sword skyward, northern mountains under pale northern light, bold storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago in the north there lived a young hero named Sigurd, as brave as he was kind. One morning an old man in a grey hood came out of the sea mist to speak with him. He showed Sigurd a grey horse standing on the shore, whose fathers had carried the gods. The horse came to Sigurd at once, and would let no one else on his back."
+        },
+        {
+          "kind": "text",
+          "text": "There was a curse on a heap of stolen gold in that country, and a dreadful dragon named Fafnir lay coiled upon it, keeping it forever. Regin, the smith who taught Sigurd, forged him a great sword from the broken pieces of his father's blade. The new sword split an anvil from top to bottom, and Sigurd knew it was a sword for dragon-slaying."
+        },
+        {
+          "kind": "image",
+          "art": "lv-sigurd",
+          "text": "Sigurd waits in the dragon's path, with his mended sword drawn."
+        },
+        {
+          "kind": "text",
+          "text": "Sigurd dug a trench on the heath the dragon crossed each morning to drink. When Fafnir came trailing over it, Sigurd drove the sword up into the soft place under the shoulder, and the great dragon died, roaring so that the hills shook. As the dragon's blood ran past, a drop touched Sigurd's lip — and at once he understood what the birds were saying."
+        },
+        {
+          "kind": "text",
+          "text": "The birds in the tree were talking about him. They warned him that Regin meant to take the treasure and Sigurd's life with it. So Sigurd ended Regin's scheming, heaped the gold on his grey horse, and rode away to the deeds that made his name. People tell of Sigurd to this day — and the birds still chatter, though only he ever knew what they said."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Sigurd understood the birds because of the dragon's blood. Ask your child: what is the bravest thing Sigurd does — and what is the kindest?",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

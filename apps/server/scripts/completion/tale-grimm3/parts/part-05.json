@@ -1,0 +1,82 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · The Six Swans",
+      "art": "g3-swans",
+      "artPrompt": "a girl in a quiet grey dress sewing a star-flower shirt under a high tree in a forest clearing, six great white swans gliding down toward her through evening light, a bonnet of golden stars hanging on a branch beside her, soft amber dusk, gentle storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "A king wandered lost in a great wood. An old witch showed him the way out — if he would marry her daughter. He promised in his fright, and the new queen came home with him. She had no love for his six sons and one little daughter, and before long she turned the six brothers into swans, and they flew away over the wood." },
+        { "kind": "text", "text": "The sister set out alone to find them, and lived in a hollow tree in the deep wood. By night her brothers came to her for one short hour, as young men. “For six years,” they told her, “you must not speak, and you must not smile, and you must sew us six shirts of star-flowers.” So the sister sat under her tree, sewing star-flower shirts, silent as a stone." },
+        { "kind": "image", "art": "g3-swans", "text": "The princess sews the last star-flower shirt as the swans circle down." },
+        { "kind": "text", "text": "A king found her there and married her, and she kept her silence even in his palace. But his wicked old mother whispered that the quiet bride must be a witch. At last the king could not protect her, and she was led out to the fire. Just then six swans came sweeping down through the smoke. She threw the shirts over them one by one — and one by one her brothers stepped out as young men again." },
+        { "kind": "text", "text": "The youngest brother kept one swan's wing, for his shirt had no sleeve — she had not quite finished it. And now at last she spoke, and told the whole truth, and the wicked old mother was punished instead of her. The six brothers went home happy with their sister and the king, and no one in that house was ever called a witch again." },
+        { "kind": "note", "text": "Ask your child: the sister could not speak for six years, even when people called her a witch. What gave her the strength to keep still and keep sewing?", "art": "lamp-hint" }
+      ]
+    },
+    {
+      "title": "Chapter 6 · Mother Holle",
+      "art": "g3-holle",
+      "artPrompt": "a kind old mother with white hair shaking a huge white feather bed high in a cloudy sky so snow falls softly on a little village below, a girl in a brown dress steadying the bed beside her, warm lamplight from a cottage window, cozy wintry storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "A widow had two daughters: her own, who was cross and lazy, and her stepdaughter, who had to do all the work. Every day the girl sat spinning by the well, till her fingers bled. One day the spindle dropped into the well. The girl jumped in after it — and did not drown at all, but landed in a soft green meadow under the earth." },
+        { "kind": "text", "text": "She was polite to everything she met, as a good child should be. She took the loaves out of a crying oven, so they would not burn. She shook an apple tree till all the apples fell, so none would be left hanging. Then she came to a little house, where an old woman looked out. “I am Mother Holle,” said she. “Stay and keep house for me, and you shall be glad you did.”" },
+        { "kind": "image", "art": "g3-holle", "text": "The girl shakes Mother Holle's bed till the feathers fly like snow." },
+        { "kind": "text", "text": "So the girl shook up the great feather bed every day, till the feathers flew like snow over the world. After some months she grew homesick. Mother Holle led her to a great gate, and as the girl passed under it, a shower of gold fell upon her and stuck to her. “That is because you served so well,” said Mother Holle. And far off a cock crowed: “Cock-a-doodle-doo! My golden girl is home so true!”" },
+        { "kind": "text", "text": "Of course the lazy sister had to try her luck too. She jumped into the well — but she was rude to the oven and the apple tree, and served Mother Holle badly. At the gate she got no gold at all: a great kettle of pitch poured over her instead, and stuck to her for the rest of her days. And that is what the tale says comes of laziness and rudeness together." },
+        { "kind": "note", "text": "Ask your child: the two sisters did the same things in different ways. How did politeness change the first girl's day — and the second girl's luck?", "art": "lamp-hint" }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Valiant Little Tailor",
+      "art": "g3-tailor",
+      "artPrompt": "a small cheerful tailor in a smart waistcoat squeezing a soft white cheese in his fist so whey spurts out, three puzzled giants watching in mountain evening light, a cloth banner reading Seven at One Blow flying from his shoulder bag, warm amber dusk, comic heroic storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "A little tailor sat sewing by his window one fine morning, and the jam smelled so good that seven flies came to it. “You are not invited!” cried the tailor, and brought his cloth down — whack! — and when he lifted it, all seven lay still. He was so pleased that he cut himself a belt, and stitched on it in great letters: SEVEN AT ONE BLOW." },
+        { "kind": "text", "text": "He buckled it on and marched out into the world. Soon he met a giant, who read his belt and trembled: seven men at one blow! “Prove it,” growled the giant, and squeezed a stone till water dripped from it. The tailor took out his soft white cheese and squeezed, and whey spurted out. The giant flung a stone so high it was an hour falling; the tailor threw up a little bird, which never came down at all. The giant stepped aside very politely." },
+        { "kind": "image", "art": "g3-tailor", "text": "The little tailor squeezes his cheese, and the giant believes." },
+        { "kind": "text", "text": "A king heard of the famous champion and set him three tasks, hoping to be rid of him. The tailor crept among two real giants and tossed pebbles between their hats, till each thought the other had struck him, and they fought each other down. He coaxed a unicorn to charge, and stepped aside so its horn stuck fast in a tree. He chased a wild boar into a chapel and shut the door. “Done!” said the tailor." },
+        { "kind": "text", "text": "The king had to keep his word, and the tailor married the princess. And if anyone ever muttered that he was only a tailor, they were shown the belt — and nobody, nobody at all, wanted to argue with a man who had killed seven at one blow." },
+        { "kind": "note", "text": "Ask your child: the tailor was small, but he was quick-thinking. How many of the king's three tasks did he solve by cleverness instead of strength?", "art": "lamp-hint" }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Mouse, the Bird and the Sausage",
+      "art": "g3-sausage",
+      "artPrompt": "a cozy cottage kitchen in evening light where a little grey mouse in a white apron carries a water pail, a small bird hangs up a bundle of twigs by the door, and a jolly sausage wearing a nightcap rolls in a warm pot on the stove, gentle amber lamplight, homely funny storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "A mouse, a bird and a sausage made a little household together, and it went well and warmly for a long time. The bird flew to the wood each day and brought home sticks for the fire. The mouse carried the water and laid the fire. The sausage rolled through the pot of broth on cooking days, so that everything tasted rich and good — and every evening they sat down happy." },
+        { "kind": "text", "text": "But one day the bird met another bird in the wood, who laughed at him till the leaves shook. “You break your wings carrying sticks,” she said, “while mouse and sausage feast at home. A fine bargain — for them!” The bird flew home cross, and would not be comforted. “We must trade jobs,” he declared, “and see who does the most.” The mouse and the sausage said no, no — but he sulked and scolded till they gave in, as households sometimes do." },
+        { "kind": "image", "art": "g3-sausage", "text": "The sausage starts her new work — a bath in the warm pot." },
+        { "kind": "text", "text": "So they drew lots. The sausage went out to fetch sticks, and a dog snapped her up on the road. The mouse tried to cook, climbed the pot's rim as the sausage used to do — and slipped in, and that was the end of her. The bird came home to a scattered fire, and his bundle burst apart, and sparks leapt everywhere. He flew for water in all haste — but the well caught him too." },
+        { "kind": "text", "text": "And so the busy little household came to its end, all together, in one unlucky day. And that, says the old tale, is what comes of leaving the work that fits you for work that does not." },
+        { "kind": "note", "text": "Ask your child: everyone had a job that fit them. What happened when the bird wanted someone else's job? What jobs fit the people in our family?", "art": "lamp-hint" }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Jorinda and Jorindel",
+      "art": "g3-jorinda",
+      "artPrompt": "a young couple hand in hand at the edge of a shadowy old castle garden at dusk, an enormous owl with fiery red eyes circling above the wall, a little songbird caught in a silver cage hanging in a blossoming lime tree, purple twilight with one shaft of pale moonlight, mysterious but gentle storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "Deep in a great wood stood an old castle, and in it lived an old woman who was a witch. By night she flew about as a great owl with eyes of fire, and she could bewitch any creature so that it stood still as stone. Any girl who stepped inside her circle became a bird, and the witch led her home in a cage — and she had hundreds of cages already." },
+        { "kind": "text", "text": "Jorinda and Jorindel were sweethearts, and one summer evening they walked a little too near the castle. An owl swept overhead, and Jorinda stood still as a stone. Then, where she had stood, a little nightingale sat singing in the grass. The owl snatched her up in a silver cage and carried her into the castle, and the spell let Jorindel go — and he walked home weeping, and could think of no help at all." },
+        { "kind": "image", "art": "g3-jorinda", "text": "Jorindel holds the blood-red flower before the old witch can stir." },
+        { "kind": "text", "text": "Years later he dreamed of a blood-red flower, with a pearl shining in its heart. “With this flower,” said the dream, “you may open every spell in that castle.” He searched the hills till he found it, and walked straight up to the castle gates. The old witch met him with spells and fury, but she could not come near him while he held the flower. He touched the cages one by one, and the birds became girls again — and in the very middle stood his own Jorinda, more beautiful than ever." },
+        { "kind": "text", "text": "They were married, and the birds who had been girls went home to their own families, free at last. And the old owl flew away into the night, far from that country, and was never seen again." },
+        { "kind": "note", "text": "Ask your child: Jorindel waited years and never gave up. What did the dream tell him, and how did he use it?", "art": "lamp-hint" }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Twelve Huntsmen",
+      "art": "g3-huntsmen",
+      "artPrompt": "a princess in a green hunting coat and feathered cap standing at the head of twelve young huntsmen before a king on his throne, a great golden lion sniffing curiously at their boots in the marble hall, tall windows with morning light, gentle courtly storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "A prince loved a princess dearly, and all the world knew they were promised. But his father, the old king, fell sick, and begged one last thing: that his son should marry a princess of the neighbouring kingdom. Against his heart, the prince could not refuse a dying father — and the true bride heard of it, and her heart nearly broke." },
+        { "kind": "text", "text": "Then she asked her father for eleven maidens as much like her as could be found, and had all twelve dressed alike, in green hunting coats and feathered caps. Together they rode to the prince's court and took service as huntsmen. No one at court guessed their secret. The prince was glad of his brave new huntsmen — but his lion, who saw through everything, whispered to him: “Those huntsmen are girls.”" },
+        { "kind": "image", "art": "g3-huntsmen", "text": "The prince watches his twelve huntsmen from the window." },
+        { "kind": "text", "text": "“Strew peas on the staircase,” said the lion, “and see how they walk.” But a servant had overheard the plan, and the twelve came stamping down the peas like troopers. “Then set twelve spinning wheels in the hall,” said the lion. Eleven looked straight ahead, for they had been warned again — but the true bride's eyes went round with wonder, and her face lit up." },
+        { "kind": "text", "text": "The prince looked, and knew his own true bride, and there was no more pretending after that. He sent the other princess home with kind words and rich gifts, and married the huntsman at the head of the table. As for the lion, he meant no harm, and made friends with the twelve — and they all danced at the wedding, and no one at that court ever puzzled over a huntsman again." },
+        { "kind": "note", "text": "Ask your child: how did the huntsmen stay hidden — and what gave the true bride away in the end?", "art": "lamp-hint" }
+      ]
+    }
+  ]
+}

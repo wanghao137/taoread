@@ -1,0 +1,70 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The White Seal",
+      "art": "jb-white-seal",
+      "artPrompt": "a snowy white seal pup swimming through sparkling green-blue sea between rocky islands, white surf and wheeling gulls, a big gentle sea cow surfacing beside him, bright sunlight on the waves, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Far, far away in the cold sea, the seals meet every summer on their beaches. The waves roll in white foam all day long. One spring a seal pup was born there, as white as new snow. His father was Sea Catch, a great fighter of the beach. They called the pup Kotick, and there had been no white seal for ten thousand years."
+        },
+        {
+          "kind": "image",
+          "art": "jb-white-seal",
+          "text": "Kotick the white seal swims far away, looking for a beach with no men."
+        },
+        {
+          "kind": "text",
+          "text": "One day Kotick saw men come down to the beach with long clubs. They drove the young seals away to their boats. The mothers cried on the sand, and Kotick's heart grew hot. He fought the men as long as he could, but a seal cannot fight clubs. The old seals only shrugged and said it had always been so. 'Then it need not always be so,' said Kotick."
+        },
+        {
+          "kind": "note",
+          "text": "New word: beach — the sand by the sea where the seals rest. Kotick wanted a beach where no man had ever set foot.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So he swam round all the seas, year after year. He passed islands of sea-lions and sleepy turtles. He swam through fogs and drifting ice, asking the way of whales and porpoises. He was tired and lonely, but he would not give up. At last, guided by a wise old Sea Cow, he found a hidden beach behind green islands. There was soft grass, warm still water, and no man within a thousand miles."
+        },
+        {
+          "kind": "text",
+          "text": "Kotick swam home and told the young seals. The next spring he led them there by thousands, and his mother came with him, proud of her white son. No man has found that beach to this day. There the white seal dances in the foam with all his people, safe and free for ever."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Hunting-Song",
+      "art": "jb-hunting-song",
+      "artPrompt": "a pack of grey wolves running together through silver morning grass at golden sunrise with a tall boy running happily among them, a black panther and a brown bear watching from a hill, deer starting up in the mist, warm dawn light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The moon went down over the jungle, and the sky turned gold. It was the hour when the jungle is quiet and bright. The dew steamed on the grass, and the birds woke one by one. On the Council Rock the Seeonee pack gathered for the morning hunt, and Mowgli stood among his brothers in the first light. Morning is the pack's own time."
+        },
+        {
+          "kind": "image",
+          "art": "jb-hunting-song",
+          "text": "The pack runs and sings the Hunting-Song as the sun comes up."
+        },
+        {
+          "kind": "text",
+          "text": "Baloo the bear lifted his big head and gave them the morning Law. 'Speak softly to the dawn. Be thankful for the hunt. Never forget the pack that made you.' The wolves listened, as they always listened to Baloo, the teacher of the Law. The old bear had taught the Law to Mowgli long ago, and he was proud too."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hunting-song — the proud song the wolves sing when they run together. It is the last song in the old book, like a goodbye.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Far away a deer called out in the mist, once, twice, and again. A doe sprang away through the ferns, white-tailed. The whole pack answered with a great happy cry. Then they were running — over the silver grass and through the whispering trees. Their feet made no sound, and their hearts were glad. Mowgli ran among them, laughing, quick as any of his brothers."
+        },
+        {
+          "kind": "text",
+          "text": "Bagheera watched from a rock, with Baloo beside him, and their hearts were proud. The jungle was at peace. The bees hummed, and the elephants trumpeted far away in the hills. Mowgli looked at his pack, and his pack looked at him, and nobody needed to say anything at all. So the wolves of Seeonee ran in the golden morning, with the man-cub in the middle of them. And that is how the story ends — with singing."
+        }
+      ]
+    }
+  ]
+}

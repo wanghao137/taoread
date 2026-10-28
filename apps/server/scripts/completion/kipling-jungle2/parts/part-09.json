@@ -1,0 +1,103 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · Akela's Last Fight",
+      "art": "j2-akela-last",
+      "artPrompt": "an old grey wolf lying gently on a flat moonlit rock with a boy kneeling beside him and his hand resting on the old wolf's head, wolves of the pack sitting in a quiet circle around, tall silver grass and dark trees, soft moonlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "After the red dogs were beaten, the pack rested at last. The wolves lay lazy in the sun, and the jungle was quiet. But Akela, the old leader, had taken wounds in the great fight. He was very old now, and his strength was spent. He knew that his last day had come."
+        },
+        {
+          "kind": "image",
+          "art": "j2-akela-last",
+          "text": "Mowgli sits with old Akela on the Council Rock, and the pack keeps a quiet circle."
+        },
+        {
+          "kind": "text",
+          "text": "Mowgli sat beside him on the warm rock and held his old grey head. 'You led the pack well,' he said softly. 'Sleep now, my teacher.' Akela looked at him kindly with his tired old eyes. Then he sighed, like the wind going out of a cave, and was still. The pack sat in a quiet circle below the rock, and for a long time no one spoke."
+        },
+        {
+          "kind": "note",
+          "text": "New word: leader — the one that the pack follows. Akela had led the Seeonee pack since Mowgli was a baby.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Mowgli buried the old wolf by the river, in a quiet place under the rocks. He laid green leaves upon the grave. It was the saddest night the pack had known for many years. The wolves stood round and cried the farewell cry together. All the jungle knew that an old friend had gone. Then the pack chose another leader, and they begged Mowgli to be it."
+        },
+        {
+          "kind": "text",
+          "text": "But Mowgli shook his head. 'I am a man-cub,' he said. 'A man-cub must not lead wolves. Hunt well, my brothers, and remember me.' The wolves honoured him for that, and they hunted well. Yet in the nights that followed, Mowgli heard a small new voice inside him. It whispered of the lights of men's villages, far down in the plains. Baloo and Bagheera saw it, and said nothing, for growing is a thing each must do alone."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Flight of Messua",
+      "art": "j2-messua-flight",
+      "artPrompt": "a boy walking ahead of a woman in a bright sari and her husband carrying a small bundle on a narrow moonlit jungle path, fireflies floating around them, a black panther slipping quietly through the trees behind, kind protective mood, soft silver light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Spring came round again, and the sap ran sweet in the trees. The whole jungle smelled of young leaves and rain. Mowgli's feet carried him running through the green world, up hill and down valley, for the pure joy of running. One evening he heard news on the wind. The kind woman Messua, who had once taken him into her house, had been driven out of her village."
+        },
+        {
+          "kind": "image",
+          "art": "j2-messua-flight",
+          "text": "Mowgli leads Messua and her husband safely through the night jungle."
+        },
+        {
+          "kind": "text",
+          "text": "The villagers had blamed her for all the trouble the jungle had brought them. They had hurt her and turned her out with her husband. The little gate was shut against them, and the dogs barked them off. Now the two of them were stumbling through the dark forest, afraid of every sound, with nowhere to go."
+        },
+        {
+          "kind": "text",
+          "text": "Mowgli stood before them in the moonlight, tall and quiet. Messua was not afraid at all. 'My son!' she cried, for she knew him at once. She took his hand and held it fast. He took her basket and walked in front of them, and all the jungle drew aside. The boars went quietly, the snakes lay still, and the wolves watched them pass without a sound."
+        },
+        {
+          "kind": "note",
+          "text": "New word: villager — a person who lives in a village. Many villagers feared Mowgli, but Messua had always been kind to him.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All night he led them along secret paths, till they came to a far village where the people were kinder. Messua wept and blessed him. And for the first time since he was a baby, Mowgli cried as men cry. 'You see,' he said softly, 'I belong to men, after all.' Behind them the jungle lay dark and still, and it let them go. His heart was full of a new and gentle feeling, like the first warm day of spring."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Last Goodbye",
+      "art": "j2-last-council",
+      "artPrompt": "a tall boy standing on a great flat moonlit rock facing a circle of wolves with heads lifted in a howl, an old brown bear and a black panther close beside him, a giant rock-python coiled at the foot of the rock, silver grass and warm farewell light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The day came at last when Mowgli knew he must go to his own people. He stood on the Council Rock, where he had sat as a baby. The moon was round and high, and the grass was silver. He looked round at the wolves he loved, and at the friends who had raised him."
+        },
+        {
+          "kind": "image",
+          "art": "j2-last-council",
+          "text": "The pack sings the farewell cry for Mowgli under the full moon."
+        },
+        {
+          "kind": "text",
+          "text": "Every wolf was there, from the oldest to the smallest cub. 'I am a man,' said Mowgli, 'and I must live among men.' He said his heart would always be a wolf's heart, and he asked them to remember him. Then the pack lifted their heads and sang the great farewell cry. The sound rolled away through the jungle from end to end."
+        },
+        {
+          "kind": "text",
+          "text": "Baloo the bear hugged him hard, and grumbled about the Law so as not to cry. Bagheera pressed his black head against the boy's knee. 'Go down, little brother,' said the panther. 'You were the best of all my days.' And old Kaa bowed his great head and wished him cool paths and an easy hunt. Even the monkeys were quiet in the trees."
+        },
+        {
+          "kind": "note",
+          "text": "New word: farewell — a goodbye. The Jungle People sang their saddest, proudest cry, so that Mowgli would hear it all his life.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then Mowgli went down the moonlit slope alone, toward the woodsmoke and the fields of men. He looked back once at the dark green wall of the jungle. The wolves lifted their voices again, and Baloo and Bagheera stood watching till he was out of sight. He made a song of his own as he went, and the pack answered it till morning. And the jungle tells to this day that the man-cub came to them a wolf and left them a man, with the jungle singing in his heart for ever."
+        }
+      ]
+    }
+  ]
+}

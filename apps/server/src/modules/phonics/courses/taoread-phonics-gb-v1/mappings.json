@@ -669,5 +669,135 @@
     ],
     "accent": "GB",
     "positionCondition": "initial"
+  },
+  {
+    "id": "g-ou",
+    "spelling": "ou",
+    "display": "ou",
+    "phonemes": [
+      {
+        "ipa": "aʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ow2",
+    "spelling": "ow",
+    "display": "ow",
+    "phonemes": [
+      {
+        "ipa": "aʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-oi",
+    "spelling": "oi",
+    "display": "oi",
+    "phonemes": [
+      {
+        "ipa": "ɔɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-oy",
+    "spelling": "oy",
+    "display": "oy",
+    "phonemes": [
+      {
+        "ipa": "ɔɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-au",
+    "spelling": "au",
+    "display": "au",
+    "phonemes": [
+      {
+        "ipa": "ɔː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-aw",
+    "spelling": "aw",
+    "display": "aw",
+    "phonemes": [
+      {
+        "ipa": "ɔː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-ew",
+    "spelling": "ew",
+    "display": "ew",
+    "phonemes": [
+      {
+        "ipa": "juː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-igh",
+    "spelling": "igh",
+    "display": "igh",
+    "phonemes": [
+      {
+        "ipa": "aɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-y2",
+    "spelling": "y",
+    "display": "y",
+    "phonemes": [
+      {
+        "ipa": "aɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-c2",
+    "spelling": "c",
+    "display": "c",
+    "phonemes": [
+      {
+        "ipa": "s",
+        "kind": "consonant"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
   }
 ]

@@ -1,0 +1,596 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 8 · The Great Surprise",
+    "art": "heidi-father-joy",
+    "artPrompt": "a city gentleman in a dark coat opening his arms with tears of joy while a girl in a summer dress walks toward him across a flower meadow, a girl in a red dress dancing beside her, bright morning light on snowy alps, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "After that wonderful morning, Clara walked every single day. At first she held Heidi’s arm. Then she held only one of Heidi’s fingers. Then she walked a few steps all alone, laughing like a bird set free. Peter watched with his mouth open, as he always did."
+      },
+      {
+        "kind": "text",
+        "text": "Grandfather helped her practice each morning, steady as a rock. The good mountain food did the rest. Clara drank sweet goat milk from her little bowl. She ate bread with yellow cheese and golden butter. Sometimes she and Heidi rested among the blue flowers. Her pale cheeks grew pink. Her thin arms grew strong. Every night she slept like a tired lamb in the hay. “I feel so well,” she said. “I feel as if I could fly.”"
+      },
+      {
+        "kind": "image",
+        "art": "heidi-father-joy",
+        "text": "Clara walking across the flower meadow to greet her father."
+      },
+      {
+        "kind": "note",
+        "text": "New word: visitor — a person who comes from another place to see you.",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "One bright morning, two visitors came climbing up the steep path. One was the kind doctor who had sent Heidi home from Frankfurt. The other was Clara’s father, Mr. Sesemann. He loved his daughter so much that he could not wait one more day. They had travelled all night, because a happy heart cannot wait. The doctor smiled at the flowers all around him."
+      },
+      {
+        "kind": "text",
+        "text": "Heidi saw them first and gave a loud, happy cry. Then Clara rose up from the grass. She did not wait to be carried. Step by step, steady and sure, she walked across the meadow. “Papa!” she cried. “Look at me! I can walk!” Mr. Sesemann could not speak. He caught his daughter and held her close. Tears of joy ran down his face. “The mountain has given me back my daughter,” he said. “It is a wonder from God.”"
+      },
+      {
+        "kind": "text",
+        "text": "The doctor laughed and wiped his eyes too. Mr. Sesemann shook grandfather’s rough hand again and again. Grandfather said that the sun, the air, and the good milk had done the work. But everyone knew that his kind heart had done the most. Heidi danced around them, too happy to stand still. That evening the mountains turned red and gold, and all the friends watched it together."
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 9 · Peter and the Penny",
+      "art": "heidi-peter-penny",
+      "artPrompt": "a boy in patched clothes holding up a shiny new penny while a kind old lady in a fine grey dress smiles at him outside a wooden hut, warm evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A few days later, Clara’s grandmamma arrived from Frankfurt. It was a long journey, but she said it had never seemed so short. The doctor had written her a wonderful letter about Clara. When Clara walked across the meadow to meet her, the old lady held up her hands. “A miracle!” she cried. “Now I have seen everything with my own eyes.”"
+        },
+        {
+          "kind": "text",
+          "text": "But that evening the grown-ups talked about the broken wheelchair. How had it rolled down the mountain all by itself? Behind the hut stood Peter, and he turned white as snow. He had pushed the chair, and now he was sure he would be punished. He thought of the broken wheels lying far down among the rocks. The next morning he hid in the goat-shed and shook like a leaf. He did not dare to come out at all."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-peter-penny",
+          "text": "Peter opening his hand to show his very first bright penny."
+        },
+        {
+          "kind": "note",
+          "text": "New word: confess — to say truly that you did a thing, even when it is hard.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last the grandmamma went to look for him. She found him behind the woodpile and sat down beside him. “Come, Peter,” she said kindly. “Tell me what is the matter.” Peter crept out and confessed everything. “I pushed the chair,” he whispered. “I was cross, and I did not think. I am so sorry.” He stared at the ground and waited for the worst."
+        },
+        {
+          "kind": "text",
+          "text": "But the grandmamma did not scold him at all. “Listen, Peter,” she said. “You have been honest, and that pleases me. Your naughty trick brought the greatest good in the world. Because of it, Clara stands on her own two feet. So instead of a punishment, I shall give you a reward. Every week, as long as you live, you shall have a bright penny from me.”"
+        },
+        {
+          "kind": "text",
+          "text": "Peter’s eyes grew as round as two full moons. A penny — every week — for the rest of his life! He ran home faster than the wind, holding his treasure tight. He showed it to his mother and the grandmother that very night. The grandmother laughed until she coughed. And from that day on, Peter was the proudest goat-boy on the whole mountain."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Clara Says Good-bye",
+      "art": "heidi-farewell-mountain",
+      "artPrompt": "a girl in a travelling coat waving from an open carriage on a mountain road, looking back at green slopes and snowy peaks, a girl in a red dress and a boy with goats waving from above, golden afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The happy weeks went by like a golden dream. Clara walked to the pasture and back. She sat under the fir trees and listened to the wind. She drank goat milk and grew round and rosy. Grandfather taught her to know the goats by name. Peter taught her where the sweetest berries grew. But summer was ending, and the grandmamma said gently that it was time to go home."
+        },
+        {
+          "kind": "text",
+          "text": "“Must I really leave?” asked Clara. But she knew the answer. Her father was waiting in Frankfurt, and the town needed her. “Yet I promise you one thing,” said Mr. Sesemann. “Every year you shall come back to your mountains. They have given you your health, and we must not forget it.” “My heart will stay up here,” said Clara softly."
+        },
+        {
+          "kind": "text",
+          "text": "On the last morning, Clara did a wonderful thing. She walked down the steep path, step by step, holding Heidi’s hand. She did not need to be carried, not even once. Heidi gathered a last bunch of blue flowers for the journey. The strong men carried only her empty basket, and that made her laugh."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-farewell-mountain",
+          "text": "Clara waving good-bye from the carriage while Heidi waves from the meadow above."
+        },
+        {
+          "kind": "note",
+          "text": "New word: farewell — a goodbye, when someone leaves for a long time.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At the bottom the carriage was waiting. Clara hugged Heidi again and again. “You gave me the mountains, Heidi,” she said. “You gave me my own two feet. Next summer I shall come again. Nothing in the world could keep me away.” Then the carriage rolled off down the road."
+        },
+        {
+          "kind": "text",
+          "text": "Clara leaned out and looked back as long as she could. The green slopes and the snowy peaks seemed to follow her like friends. The mountains turned red and gold, as if they said farewell too. Heidi stood waving until the carriage was only a little dot. Then she climbed back up, and grandfather was waiting for her. “You are not sad,” he said, looking at her bright eyes. “No,” said Heidi. “Clara will come again, and I am home with you. That is the best thing of all.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · A Soft Bed for Grandmother",
+      "art": "heidi-feather-bed",
+      "artPrompt": "an old blind grandmother tucked into a soft white feather bed by a little girl in a red dress, cozy firelight in a small dark cottage, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Before the grandmamma left, she called Heidi to her. The morning air was cold and clear on the mountain. “You have taken such good care of Clara,” she said. “Now tell me, what shall I bring you from Frankfurt? Anything in the world that you wish.” “I thank you with all my heart,” said Heidi."
+        },
+        {
+          "kind": "text",
+          "text": "Heidi thought and thought. She did not wish for fine clothes or toys. Then she remembered Peter’s grandmother, lying awake in her hard bed. The old woman could not sleep, because her bed was thin and lumpy. “Could I have the beautiful soft bed I slept in at Frankfurt?” whispered Heidi. “Not for me, but for the grandmother up here. She cannot sleep at all in her own hard bed.”"
+        },
+        {
+          "kind": "text",
+          "text": "The grandmamma smiled and hugged her. “You are a good child, Heidi,” she said. “The beautiful bed shall come, with fresh white covers and everything that belongs to it. Sleep well, you dear old grandmother!” she added, laughing. “She is a child after my own heart,” she told grandfather. Grandfather nodded, glad and a little proud."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-feather-bed",
+          "text": "The grandmother tucked into the soft white feather bed, smiling in the firelight."
+        },
+        {
+          "kind": "note",
+          "text": "New word: feather bed — a thick, soft bed filled with warm feathers.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "A week later, two men carried a great bundle up the mountain to Peter’s hut. It was the bed from Frankfurt! Peter helped to carry it through the door. Heidi was so excited that she jumped up and down. The grandmother could hardly believe her blind old fingers. “So soft! So warm! Is this truly for me?”"
+        },
+        {
+          "kind": "text",
+          "text": "That night the grandmother lay down in the soft feathers and sighed with happiness. “I have not slept so well for twenty years,” she said. “The kind lady in Frankfurt must be an angel, and so must my little Heidi be.” She closed her eyes and slept until the sun came up. Heidi went home through the golden evening with a warm and happy heart. Now the grandmother slept well every single night."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Autumn on the Alp",
+      "art": "heidi-autumn-alp",
+      "artPrompt": "a flock of goats winding down a golden autumn mountainside, a boy with a stick walking behind them, red and yellow bushes, early snow on the far peaks, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "September came, and the wind turned cool. The mornings grew cold, and the spider webs shone with silver drops. The leaves of the small bushes turned red and yellow. The flowers on the pasture folded their petals and went to sleep. High above, the first snow lay on the peaks like a white blanket. Heidi wore her warm red dress again."
+        },
+        {
+          "kind": "text",
+          "text": "Then came the day when the goats went down to the valley. They knew it was time, and they bleated a long farewell. Peter walked behind them with his stick, looking very solemn. At the door of the hut he stopped. “Good-bye, Heidi,” he said. “I will see you in the village, when the snow comes.” “The mountain is quiet now,” said Heidi. Peter nodded and led his goats down and down."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-autumn-alp",
+          "text": "The goats winding down the mountainside in the golden autumn light, with Peter walking behind."
+        },
+        {
+          "kind": "note",
+          "text": "New word: valley — the low green land between the mountains, where the villages are.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather stood looking at the peaks for a long time. “The snow is coming lower every night,” he said. “Soon it will close the path, and we must be ready.” Heidi was not worried at all. She knew that grandfather was always ready for everything. He began to nail new boards on the little shed and to mend the shutters."
+        },
+        {
+          "kind": "text",
+          "text": "Before the cold days came, Heidi climbed down to see the grandmother. She brought the last flowers of the year, a small bunch of hardy little blue bells. The grandmother felt the little bells with her fingers and smiled. “Soon the snow will fly,” said the grandmother. “But you will come in winter too, Heidi, won’t you?” “Every day that I can,” promised Heidi."
+        },
+        {
+          "kind": "text",
+          "text": "On the way home, Heidi looked at the dark fir trees. They stood green and strong, ready for the snow. They would sing all winter long, the grandfather said, if you knew how to listen. From far below came the sound of the village bells. Heidi hugged her shoulders and ran home through the golden evening light. It smelled of autumn, sweet and a little bit cold."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Pastor on the Mountain",
+      "art": "heidi-pastor-visit",
+      "artPrompt": "a white-haired pastor and an old bearded man talking on a bench outside a wooden hut, a little girl in a red dress listening at the door, clear autumn sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One clear autumn day, a visitor climbed the mountain. It was the pastor from the village church. He was a kind man with white hair and a warm manner. The pastor was one of the few people the grandfather liked. The goats were already gone to the valley. Grandfather set a bench for him in the sun and brought him a bowl of milk. The two men had known each other long ago."
+        },
+        {
+          "kind": "text",
+          "text": "“I have come to ask you something,” said the pastor. “Winter is near. Will you not come down to the village this year? The little Heidi is growing, and she must go to school. The snow up here is deep and lonely. You cannot live alone among the rocks and storms forever. Think about it, friend,” he said gently."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-pastor-visit",
+          "text": "The pastor and the grandfather talking on the bench, with Heidi listening at the door."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pastor — the minister who leads a village church.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather was quiet for a long time. For many years he had kept away from the people in the valley. They had said hard words about him, and he had said hard words back. The pastor waited patiently and drank his milk. Heidi stood quietly by the door and listened. But now he thought of Heidi, and of her lessons, and of the cold snow ahead."
+        },
+        {
+          "kind": "text",
+          "text": "“For the child’s sake, I will come,” he said at last. “A school is good, and God has given her a quick mind. We will take the old house in the village and make it warm.” He looked almost young again as he said it. The pastor shook his hand, glad as a boy."
+        },
+        {
+          "kind": "text",
+          "text": "When the pastor had gone, grandfather sat by the fire. “Well, Heidi,” he said, “we shall live among people again. Are you afraid?” Heidi laughed. “Afraid? With you I am never afraid anywhere!” So it was agreed. When the first deep snow fell, they would move down to the village. Heidi would go to school with the other children, and she could hardly wait."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · Back to the Village",
+      "art": "heidi-village-winter",
+      "artPrompt": "an old bearded man with a hammer mending the shutters of a small stone cottage in a snowy village street, a little girl in a red dress handing him nails, warm lamplight in the windows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When the first deep snow began to fall, grandfather and Heidi came down to the village. The old house stood ready, with thick wooden walls and a big stone stove. Grandfather had mended the windows and hung new doors. Smoke rose from the chimney, and the rooms smelled of pine wood. Heidi carried her own little bundle down the path, happy as a lark. “We shall be as snug as mice,” said grandfather."
+        },
+        {
+          "kind": "text",
+          "text": "The village people could not believe their eyes. The Alm-Uncle, walking among them with nails and a hammer! Children peeped around corners at him. Even the oldest men nodded to him in the street. Slowly the people remembered that his hands were strong and his word was true. “He has come back to us,” they said, “and it is the child who brought him.”"
+        },
+        {
+          "kind": "image",
+          "art": "heidi-village-winter",
+          "text": "Grandfather mending the shutters of Peter’s hut while Heidi hands him the nails."
+        },
+        {
+          "kind": "note",
+          "text": "New word: snug — warm, dry and comfortable, like a mouse in its little house.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather did one more thing before the deep winter. He climbed to Peter’s hut with his tools and mended the grandmother’s broken shutters. Heidi handed him the nails one by one. He fitted them so well that not one cold wind could creep in. “Now the frost must stay outside,” he said. The grandmother thanked him again and again."
+        },
+        {
+          "kind": "text",
+          "text": "On Sunday the church bells rang over the snow, and grandfather went to church with Heidi. The people stared and stared. But the pastor greeted him like an old friend, and by and by the others did too. The singing was beautiful, and the church was warm. Heidi thought the old songs sounded doubly sweet down in the valley."
+        },
+        {
+          "kind": "text",
+          "text": "So the winter began, busy and bright. In the evenings Heidi sat by the stove and told grandfather all about her day. Outside the snow fell softly over the roofs. The fir trees stood under the white, waiting for spring. “We are lucky people,” said grandfather. Inside all was warm and still."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Heidi Goes to School",
+      "art": "heidi-school-day",
+      "artPrompt": "a warm village schoolroom full of children at wooden desks, a little girl in a red dress reading aloud, a boy frowning at his slate, winter light through small windows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The village school stood behind the church, with a bright stove and rows of wooden desks. Every morning Heidi walked there through the snow with Peter. On the way they passed the frozen fountain and the tall white steeple. Inside sat the children of the valley, big and small. They soon loved the little girl from the alp, who knew such wonderful stories about goats and eagles."
+        },
+        {
+          "kind": "text",
+          "text": "Heidi could already read well, for she had learned in Frankfurt. She read so clearly that the teacher smiled. The other children listened with open mouths when it was her turn. She knew her numbers too, and her letters were neat and straight. She liked the reading hour best of all. Grandfather helped her with her homework in the evenings."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-school-day",
+          "text": "Heidi reading aloud in the schoolroom while the teacher smiles and Peter frowns at his slate."
+        },
+        {
+          "kind": "note",
+          "text": "New word: slate — a small black board that schoolchildren once wrote on with chalk.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But poor Peter! The letters would not stay in his head. They danced and jumped and turned upside down. He sighed and squirmed and stared out of the window. “I cannot do it,” he groaned. “Reading is not for goat-boys.” The teacher was patient. “Every bird learns to fly at its own time,” he said. But Peter did not believe him."
+        },
+        {
+          "kind": "text",
+          "text": "“That is not true,” said Heidi on the way home. “You found the courage to confess to the grandmamma. You can find courage for letters too.” Peter made a face, but he kept his slate on his knees a little longer that day. Heidi thought of a plan. She would help Peter herself, a little bit every day."
+        },
+        {
+          "kind": "text",
+          "text": "Walking home, the two friends watched the red sun go down behind the white peaks. The snow creaked under their feet. “Tomorrow I will try again,” said Peter. It was the longest speech he had made all winter. Heidi clapped her mittens together. “That is a wonderful plan,” she said. “And I know just the person who will help us.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · Peter Learns to Read",
+      "art": "heidi-peter-reads",
+      "artPrompt": "a boy sounding out words from a worn hymn book by firelight while a little girl in a red dress points at the page, an old grandmother listening with folded hands, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That evening Heidi climbed to Peter’s hut, deep in the snow. The snow sparkled blue in the moonlight outside. Peter’s mother was out, and the fire burned low and red. Heidi sat down by the fire and looked at Peter. “Peter,” she said, “I will help you learn to read. And I know why you must.” Peter looked doubtful and hung his head."
+        },
+        {
+          "kind": "text",
+          "text": "“Think of the grandmother,” said Heidi. “Her eyes are blind, and she loves the songs in the old book. When I cannot come, her days are long and dark. But if you could read, you could say the songs to her yourself. You could fill her hours with music.”"
+        },
+        {
+          "kind": "image",
+          "art": "heidi-peter-reads",
+          "text": "Peter sounding out his letters by the fire while Heidi points at the page."
+        },
+        {
+          "kind": "note",
+          "text": "New word: patience — staying calm and kind while you wait a long time for something.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Peter sat up straight. He had never thought of that. “I will try,” he said. So they began that very night, letter by letter. Heidi was patient. When Peter grew tired, she told him about the goats, and then they tried again. It was slow work, and Peter groaned many times. Then, one evening, three letters made a word, and the word made sense. “A word!” shouted Peter. “A real word!” Heidi hugged him and laughed too."
+        },
+        {
+          "kind": "text",
+          "text": "After that the letters went faster and faster. Words grew into sentences. At last came the great evening. Peter took the old songbook and read a whole verse aloud, slowly but truly. The grandmother folded her hands. “Peter, my boy, reading to me!” she whispered. “It is the best evening of my life. My long days are filled at last.”"
+        },
+        {
+          "kind": "text",
+          "text": "Peter turned red with pride and hid behind the book. But he read one more verse, and then another. From that night on, the grandmother had songs every single day, rain or shine, snow or storm. Peter walked home through the snow like a giant. He was the only goat-boy in the valley who could read songs."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · Songs by the Fire",
+      "art": "heidi-winter-songs",
+      "artPrompt": "a little girl in a red dress reading aloud from an old book of songs to a blind grandmother in a chair by the hearth, warm fire glow against frosty windows, a kettle steaming, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Deep winter lay on the mountain. Snow filled the paths, but Heidi came down often. The white world was silent and beautiful. She wore her warm coat and her thick boots. She carried bread and the old book under her arm. Peter’s mother opened the door with a smile. The grandmother waited by the fire and listened for footsteps in the snow."
+        },
+        {
+          "kind": "text",
+          "text": "Then Heidi read to her from the old book of songs. The kettle hummed, and the fire kept the room cozy. Sometimes Peter read too, slowly and proudly. The grandmother knew many of the songs by heart. Together they said the words slowly, like a prayer. “The songs are like light,” said the grandmother. “They make my dark room bright.”"
+        },
+        {
+          "kind": "image",
+          "art": "heidi-winter-songs",
+          "text": "Heidi reading by firelight to the grandmother while frost flowers grow on the window."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hymn — a holy song of praise and comfort, often found in an old book of songs.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Heidi loved one song best. It said that God remembers all people, and that no one is forgotten. “Read me that one again,” the grandmother would say. And Heidi read it again, and the old woman smiled in the firelight. It comforted her more than anything else. The words were like a warm hand on her heart."
+        },
+        {
+          "kind": "text",
+          "text": "Heidi had learned to read in the far city of Frankfurt. Grandmamma and Clara had taught her, little by little. Now she knew why. Everything she had learned, she could use to help the people she loved. She was glad she had worked so hard at her letters. That was the very best use of all."
+        },
+        {
+          "kind": "text",
+          "text": "“What you bring me is worth more than gold,” said the grandmother. She reached out and touched Heidi’s cheek. “Now Peter reads on some days, and you on the others. My long hours are filled with song. God has been very good to us.” Heidi walked home under the stars, warm inside her coat. High up, one little window shone yellow in the night. Grandfather was waiting, and the kettle was on the fire. It had been a good day."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · A Letter from Frankfurt",
+      "art": "heidi-clara-letter",
+      "artPrompt": "a little girl in a red dress opening a letter with wide happy eyes while an old grandmother reaches out from her chair, snowy village outside a frosted window, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One gray winter morning, the postman knocked at Peter’s door. Snow was falling, and the world was white and still. He brought a letter with a big red seal. “From Frankfurt!” said Peter’s mother. It was the first letter Heidi had ever received. Heidi was sent for at once, for the letter was for her."
+        },
+        {
+          "kind": "text",
+          "text": "Heidi opened it carefully. It was from Clara. The letters were large and round, and easy to read. The grandmother sat up straight in her chair. Peter stood in the doorway to listen too. Heidi stood by the window and read the letter out loud, so that everyone could hear it."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-clara-letter",
+          "text": "Heidi reading Clara’s letter aloud while the grandmother listens and Peter’s mother smiles."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Clara sent news to her friends far away. Which of your friends would you write to, and what would you tell them?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Dear Heidi,” the letter said. “I have wonderful news. I walk everywhere now, and I take long walks with Papa. The doctor comes every week and says I am strong. Nobody can believe their eyes. I drink my milk and eat my bread, and I grow stronger every day. My wheelchair stands in the corner, and nobody needs it. I think of the mountain every day.”"
+        },
+        {
+          "kind": "text",
+          "text": "“And there is more,” read Heidi. “Papa says that next summer I may come to the mountains again. Peter must keep the goats strong, and you must keep the flowers growing. Your friend, Clara.” The grandmother laughed softly. “Imagine that,” she said. “The little rich girl, walking about like any child!” Heidi danced around the room with joy."
+        },
+        {
+          "kind": "text",
+          "text": "That evening Heidi wrote an answer. She told Clara about the snow, about school, and about Peter, who could now read a whole verse. Her letters were still slow, but grandfather helped with the hard words. She asked for news of the grandmamma and the kind doctor. Then the letter went down to the valley, carried by the postman’s sledge. Before bed, Heidi read Clara’s letter once more. “Winter is not so long,” said the grandmother, “when such letters come.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Spring on the Mountain",
+      "art": "heidi-spring-alp",
+      "artPrompt": "a girl in a red dress running up a green spring meadow full of wildflowers toward a wooden hut, a boy and goats coming up the path, melting snow on the peaks, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Winter passed like a white dream. One morning the wind came warm from the south. The snow grew soft, and the sun grew stronger every day. Streams began to sing under the white blankets. Icicles fell from the roofs, drip, drip, drip. The days grew longer and brighter. Spring had come back to the mountain."
+        },
+        {
+          "kind": "text",
+          "text": "In May the great day arrived. Heidi and grandfather climbed up to the hut with the goats. Even the path up the mountain seemed happy to see them. Heidi sang the whole way up. How green everything was! The meadow was fresh and shining, and a hundred little flowers opened their eyes."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-spring-alp",
+          "text": "Heidi running through the spring meadow toward the hut, with Peter and the goats coming up the path."
+        },
+        {
+          "kind": "note",
+          "text": "New word: meadow — a wide field of grass and flowers, made for running and rolling.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Heidi ran from flower to flower and could not be still. The fir trees had put on new green. The blue gentians were out, and the little yellow flowers too. Butterflies danced over the grass. The sky was deep blue like the gentians. Every little stream hurried and shone. “I am home! I am home!” Heidi sang out."
+        },
+        {
+          "kind": "text",
+          "text": "Peter came whistling up the path with Little Swan and Little Bear and all the rest. The goats kicked up their heels like young lambs. They remembered every stone and every spring. Little Swan bleated a greeting at the hut door. “Good morning, everybody!” cried Heidi to each goat by name. Soon they were grazing again on their old mountain."
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather stood at the door of the hut and looked around him. He breathed the clear air slowly and deeply. “It is good to be up here again,” he said. In the evening the mountains burned red and gold again, just as always. Heidi sat beside grandfather on the bench and watched. “Nothing in the world is as beautiful as this,” she said. And grandfather quite agreed. The stars came out, one by one, over the sleeping valley. It was good to be alive."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · The Doctor Comes Back",
+      "art": "heidi-doctor-return",
+      "artPrompt": "a kind grey-haired doctor in a walking coat sitting on a bench with an old bearded man outside a mountain hut, a girl in a red dress bringing a bowl of milk, summer light on the peaks, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright summer day, a visitor climbed the alp. It was the doctor from Frankfurt. He carried a small pack and a walking stick. He came up the steep path with a light step, and his face was brown from the sun. He looked ten years younger than before."
+        },
+        {
+          "kind": "text",
+          "text": "Once, the doctor had been very sad. His dear daughter had died, and his heart had felt heavy as a stone. He had come to the mountain with his grief. Heidi had shown him the flowers and the golden evenings. Slowly his heart had grown light again. The mountain had done what no medicine could do. Now he smiled a great deal."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-doctor-return",
+          "text": "The doctor sitting on the bench with grandfather while Heidi brings a bowl of milk."
+        },
+        {
+          "kind": "note",
+          "text": "New word: sorrow — a heavy, sad feeling, like when you lose someone you love.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Here is my medicine,” he laughed, breathing the mountain air. “No doctor in Frankfurt could mix a better one!” Grandfather shook his hand warmly. They sat on the bench, and Heidi brought milk and cheese. The goats looked at him kindly, as at an old friend. The doctor told them his news. The grandmamma and Clara were well and sent their love. It was a happy afternoon."
+        },
+        {
+          "kind": "text",
+          "text": "He had worked less and rested more, he said. Every year he felt more that the city was too loud and too gray. “I am growing old,” he said, “and I have learned what matters. Up here the world is simple and good. The mountains do not change, and neither does honest work. I have been thinking, my friends, about a little plan.” “Tell us, tell us!” begged Heidi."
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather raised his eyebrows, and Heidi’s eyes grew wide. But the doctor only laughed and would say no more that day. They talked long by the fire that evening. What the plan was, Heidi did not yet know. But the doctor’s eyes twinkled like stars, and that was a good sign. Outside, the fir trees sang in the evening wind."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · The House with the Fir Trees",
+      "art": "heidi-fir-house",
+      "artPrompt": "a pretty village house with tall dark fir trees before the door, a grey-haired doctor and a little girl in a red dress looking at it happily, spring sunshine on snowy mountains behind, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The next morning, the doctor told his plan. “I want to live near you,” he said. “Down in the village there is a pretty house for sale, with tall old fir trees before the door. I will buy that house and settle there for good. The air here has made a new man of me. What do you say to that?”"
+        },
+        {
+          "kind": "text",
+          "text": "Heidi jumped up. “Then you will be here always? Not only on visits?” “Always,” said the doctor. Heidi’s eyes shone like two stars. “I will keep my rooms in Frankfurt. But my heart will live up here, where people know how to be happy.”"
+        },
+        {
+          "kind": "image",
+          "art": "heidi-fir-house",
+          "text": "The doctor and Heidi standing before the pretty village house with its tall dark fir trees."
+        },
+        {
+          "kind": "note",
+          "text": "New word: settle — to make your home in one place and stay there.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather nodded slowly. “A doctor in the valley,” he said. “The people need one badly. You will not sit still for long, my friend. Your hands will be busy from the first day. And I will be glad of your company,” he added. The doctor pressed the strong old hand. The two men smiled at each other."
+        },
+        {
+          "kind": "text",
+          "text": "So the house with the fir trees was bought. It stood at the edge of the village, looking up at the mountain. He put good books on the shelves and flowers on the table. From his window he could see the alp. It was the happiest house in the valley. Heidi visited it every market day. On warm evenings the doctor sat under his trees and listened to the wind."
+        },
+        {
+          "kind": "text",
+          "text": "The village people were glad. “Now we need not walk far when we are ill,” said an old woman. Even Peter came to see the famous fir trees. And Heidi came often to see the doctor, for the path was short. “You have made a wise choice,” said grandfather one day. The doctor smiled. “I did not make it alone,” he said. “A small girl on a mountain showed me the way.” Heidi glowed with pride and joy."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · Heidi’s Promise",
+      "art": "heidi-doctor-promise",
+      "artPrompt": "a grey-haired doctor holding the hands of a little girl in a red dress by the fire in a mountain hut while an old bearded man smiles on, warm evening light on their faces, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One autumn evening, the doctor sat by the fire in grandfather’s hut. The three friends had eaten supper together. The kettle sang, and the fire was red and warm. Outside, the first snow whispered down. “Friends,” he said, “I have one more wish. I am alone in the world. When I am old, who will keep me company?”"
+        },
+        {
+          "kind": "text",
+          "text": "He looked at Heidi with a smile. Heidi stood very still and listened. “I should like it to be you, my child,” he said. His voice was not sad anymore. “You could read to me, and walk with me, and care for me a little. All that I have shall be yours one day.” Heidi felt her heart grow warm."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-doctor-promise",
+          "text": "The doctor holding Heidi’s hands by the fire while grandfather smiles beside them."
+        },
+        {
+          "kind": "note",
+          "text": "New word: company — having someone near you, so that you are not alone.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Grandfather took the doctor’s hand. “You give us more than you ask,” he said. “Heidi loves you already. She will be your child, and you will be her friend. That is a bargain for life.” The doctor pressed the strong old hand in both of his. Heidi nodded so hard that her braids flew."
+        },
+        {
+          "kind": "text",
+          "text": "“I promise!” said Heidi. “I will read to you every day, and bring you flowers, and tell you when the storms come. And you will tell me stories of the world.” The doctor laughed until his eyes were wet. “You see?” he said. “I am rich already.” The fire crackled its approval."
+        },
+        {
+          "kind": "text",
+          "text": "It was agreed, then and there, among friends. Nobody in the little circle was lonely anymore. The doctor had found a home. Heidi had found another true friend. And grandfather’s old heart was full of peace. That night Heidi looked out of her round window at the stars. She thought of Clara, of the grandmother, of Peter, of the doctor. So many people to love! The mountain held them all, quiet and safe. She fell asleep, smiling into her hay."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · The Happiest Child",
+      "art": "heidi-mountain-home",
+      "artPrompt": "a girl in a red dress standing among goats and wildflowers on a green alp at sunset, her arms spread wide, fir trees and golden snowy peaks behind her, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "And so everything came right, as things do in the mountains, if you wait and work and believe. Heidi lived up on the alp in summer and down in the village in winter. Between them lay the path she knew best in the world. She was never lonely and never idle. Her red dress flashed over the meadows like a little flame."
+        },
+        {
+          "kind": "text",
+          "text": "Clara walked in Frankfurt like any other girl. Her wheelchair gathered dust in a corner. Every summer she came back to the mountain, and her father never worried anymore. “The mountain is my second home,” Clara wrote in one letter. The grandmamma sent kind letters and books for the long winter evenings."
+        },
+        {
+          "kind": "image",
+          "art": "heidi-mountain-home",
+          "text": "Heidi standing among the goats and wildflowers at sunset, her arms spread wide."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Heidi made life better for everyone around her. What little thing can you do for someone you love?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Peter brought his bright penny home every week, proud as a king. He read songs to his grandmother when Heidi could not come. Sometimes Heidi read too, and Peter listened for once. The old woman said her room had never been so bright, not even in spring. “God has been good to us,” she said."
+        },
+        {
+          "kind": "text",
+          "text": "The grandmother lay soft and warm in her feather bed. The doctor sat under his fir trees, at peace. Grandfather walked among the village people like any good neighbor. When he passed, the people greeted him with respect. The hard old years were gone, like snow in spring."
+        },
+        {
+          "kind": "text",
+          "text": "For Heidi had learned the secret of the mountains. She knew that the sun would always rise over the peaks. She knew that friends, like flowers, grow where love is planted. She brought sunshine into dark rooms, wherever she went. And she used everything she had learned, every single day. Up on the green pasture the goats grazed, and the wind sang in the fir trees. At sunset the mountains turned to rose and gold. And there stood Heidi, the happiest child in all the world. Her grandfather watched her and smiled, and the evening bells rang far below."
+        }
+      ]
+    }
+  ]
+}

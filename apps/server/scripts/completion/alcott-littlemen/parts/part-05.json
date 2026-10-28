@@ -1,0 +1,265 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 5 · Naughty Nan",
+    "art": "lm-naughty-nan",
+    "artPrompt": "a girl with short golden curls standing on a farmyard fence rail with her fists on her hips, ragged and proud, a crowd of boys in 1870s clothes looking up from below, an old farmhouse and barn behind, bright morning light, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "After the fire, Plumfield was prouder of itself than ever. The school buzzed like a hive all winter. Then, just when things were settling, a wagon rolled up the hill. Out jumped a new pupil — a girl. Her name was Nan, and she had been raised on mischief. The boys stared. A girl at Plumfield was old news, for Daisy was one. But this girl stood on the fence rail with her fists on her hips. She looked at the whole school like a general reviewing troops. Her trunk was small and scarred, and she carried it herself, declining all help."
+      },
+      {
+        "kind": "image",
+        "art": "lm-naughty-nan",
+        "text": "Nan takes the measure of the school from the top of the fence."
+      },
+      {
+        "kind": "text",
+        "text": "Nan could run faster than most of the boys. She could climb higher and shout louder. She used words that made Mother Bhaer raise her eyebrows. She dared the boys to do things that made the older ones whistle. Tommy Bangs fell head over heels in love at first sight, which made everyone laugh. “She is as wild as Dan was,” whispered Nat. And even Dan grinned to hear it, for he knew the truth of it best. By nightfall Nan had learned every boy’s name and every boy’s weak spot."
+      },
+      {
+        "kind": "note",
+        "text": "Talk together: Plumfield takes boys and girls, wild and tame. Why do you think Mother Bhaer never turns a child away?",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "Mother Bhaer did not scold Nan or try to tame her all at once. “Let the wildness burn like a bonfire,” she said, “and feed it better things to burn.” So Nan was given gardens to dig, games to lead, and rules as clear as a fence. The school braced itself for storms. But under the storms, everybody secretly agreed on one thing: life at Plumfield had just grown twice as interesting. And it had. The boys named her Terror of the Hill before supper, and she accepted the title with a bow."
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 6 · Dan's Ark",
+      "art": "lm-dans-ark",
+      "artPrompt": "a rough-haired boy proudly opening a wooden shed full of cages and boxes with white mice, a small snake, toads and beetles, two children peering in with delight and one girl stepping back with hands raised, autumn barnyard, warm afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Dan had a secret, and the secret lived in an old shed behind the barn. He called it his ark. It was packed with creatures: white mice, a gentle snake, fat toads, and beetles in little boxes. He had caught them, tamed them, and fed them for weeks. At last he led the boys to see it. He wore the proud face of a king showing his kingdom. The ark had cost him every penny he had, and he never said so."
+        },
+        {
+          "kind": "image",
+          "art": "lm-dans-ark",
+          "text": "The ark door opens, and out of the dark blink a dozen bright little eyes."
+        },
+        {
+          "kind": "text",
+          "text": "The boys cheered, and the small ones worshipped. Daisy ran when the snake looked at her. Nan, of course, wanted to hold everything. For a while there was trouble. Mice escaped into the kitchen, and a toad turned up in the bread box. The toad was found by the cook, and the school heard about it for a month. Mother Bhaer did not ban the ark. She made one law only: every creature must be fed, watered, and kindly used, or it went free. And the law was obeyed as if it were written in iron."
+        },
+        {
+          "kind": "note",
+          "text": "New word: menagerie — a collection of animals kept and looked after. Dan’s menagerie had fur, feathers, scales, and none of them clean.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So the ark became a school. Boys who forgot to wash now washed their mice. Rough Dan turned gentle as a nurse over the smallest tenants of his shed. Even the Professor came to look, and said a fine thing. “A boy who keeps creatures well,” he said, “is learning the oldest lesson in the world. The strong must be gentle with the small.” And Dan, who had never been called gentle in his life, stood very straight. Dan fed the whole ark before his own breakfast, and the small ones took turns holding the feeding cups. There was never any dirt in Dan’s shed, and never any sadness either."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Daisy's Ball",
+      "art": "lm-daisy-ball",
+      "artPrompt": "a little girl in a pinafore hosting a tidy party in a farmhouse parlor, dolls seated in a row on a sofa, boys in scrubbed and combed formality standing awkwardly with teacups, paper garlands on the mantel, soft afternoon light, sweet storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Daisy, the only quiet girl among a barnful of boys, decided to give a ball. She had read of parties in a book, and she meant to have one, properly done. Invitations went out in her best round hand. The dolls were seated in a row upon the sofa as guests of honor, in their finest clothes. The boys laughed first. And then, one by one, every boy in school scrubbed his ears and came."
+        },
+        {
+          "kind": "image",
+          "art": "lm-daisy-ball",
+          "text": "The dolls look on while the boys learn to behave at their first party."
+        },
+        {
+          "kind": "text",
+          "text": "It was a strange and wonderful ball. The boys stood about as stiff as fence posts, holding teacups as if they were bombs. Tommy bowed so low he upset a chair. There were little cakes, and marching games instead of dancing, because nobody knew how to dance. There was much giggling that nobody could help. Daisy wore her very best ribbon, and trembled with the honor of it. Even Nan came, on her best behavior, which was a new suit of clothes for her wild heart. And the dolls, being dolls, forgave everything."
+        },
+        {
+          "kind": "note",
+          "text": "Question for you: the boys laughed at Daisy’s ball and then loved it. What does that teach about trying somebody else’s kind of fun?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Mother Bhaer watched from the doorway and said nothing at all, only smiled till her eyes shone. Daisy, the quietest child at Plumfield, had made the wildest school in the world mind its manners. It had lasted one whole afternoon. When the guests went out to the barn, they went gently, for fear of waking the dolls. And the next day Tommy told everyone who had not been there — which was nobody. He said it had been the finest ball in the county. The invitations were written on paper with scalloped edges, and every boy kept his as a treasure. Nan’s best behavior lasted the whole afternoon, which the school never let her forget."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Emil's Sea Stories",
+      "art": "lm-emil-sea",
+      "artPrompt": "a boy of twelve in a sailor jacket standing on a hay bale telling a story with wide arm gestures, a circle of children sitting in the barn straw looking up with open mouths, a stormy sea painted on a barn door behind him, lantern light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Among the boys at Plumfield was Emil, Mrs. Bhaer’s nephew, who meant to be a sailor before he was grown. Emil had salt in his blood and stories in his pocket. He had a real compass, a knife, and a way of standing like a man on a deck. On rainy evenings he stood on a hay bale in the barn and told of ports and storms. He told of whales bigger than the schoolhouse, and icebergs white as hills. The lantern swung, and the barn became the ocean."
+        },
+        {
+          "kind": "image",
+          "art": "lm-emil-sea",
+          "text": "The whole school sits in the straw while Emil’s storm carries them far from Plumfield."
+        },
+        {
+          "kind": "text",
+          "text": "The boys sat in the straw and let the storm take them. Even Dan listened with his chin on his fists. The little ones asked questions in the wrong places, and Emil loved them for it. The Professor soon found that Emil’s stories were lessons in disguise. “Where is that port?” he would ask, and out would come the maps. “What winds drive that ship?” and out would come the books. Geography never tasted so salty. Sums were done in knots and miles and barrels of hardtack."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hardtack — a hard plain biscuit that sailors eat at sea. It lasts for months and forgives no weak teeth.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“When I am grown I shall sail round the world,” Emil declared. “And I shall come back here and tell you all about it.” The little ones believed every word, and so did the big ones. It was a fine thing, the boys agreed, to have a school where the windows opened on maps. It was finer still that the barn opened on the ocean. And the rain on the roof was the best sound in it. When the rain stopped, the boys came out of the barn still talking of lighthouse rocks and trade winds. It was the only lesson they ever asked to have repeated."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Tommy's Trick",
+      "art": "lm-tommy-trick",
+      "artPrompt": "a freckled boy in a rumpled jacket trying not to laugh behind a barn door while a bucket of water tips over onto the path, a small astonished boy standing below it dripping, farmyard and wheelbarrow, bright noon light, funny storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Tommy Bangs was Plumfield’s chief inventor of trouble. He could no more keep out of scrapes than a bucket can keep water. His tricks were famous from the henhouse to the orchard. One bright noon he propped a bucket of water over the barn door. Then he waited, bubbling with joy, for some unlucky soul to come along. He did not have to wait long. Half the school knew about it, and all of them kept quiet, which was the real tragedy."
+        },
+        {
+          "kind": "image",
+          "art": "lm-tommy-trick",
+          "text": "The bucket falls, and Tommy’s joy lasts exactly three seconds."
+        },
+        {
+          "kind": "text",
+          "text": "The trick worked perfectly. Unfortunately, the unlucky soul was little Rob, Mrs. Bhaer’s own small son. He stood dripping in the doorway, too astonished even to cry. Tommy’s joy lasted three seconds. Then his stomach turned over. He discovered that day that there is one thing worse than being punished. It is being forgiven when you have drenched somebody’s dear little boy, and know you deserve nothing better."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Tommy’s trick was funny until it fell on the wrong head. How can you know a joke is safe before you play it?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He ran for dry clothes. He rubbed Rob warm. He gave away his best marbles by way of apology, and confessed the whole plan to Mother Bhaer himself. She kept her stern face with great difficulty. Tommy did penance by carrying water for the kitchen for a week. And it must be told that he never propped another bucket over any door at Plumfield again. The half of the school that had kept quiet learned a lesson too. As for Rob, he forgave Tommy before bedtime, and wanted to play again the very next day. Mother Bhaer told the story to Father Bhaer that night, trying not to laugh, and failing. Tommy’s penance week became a legend at Plumfield. Long after, whenever anyone made a joke that landed wrong, the boys would say, Remember the bucket."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Stuffy's Table",
+      "art": "lm-stuffy-table",
+      "artPrompt": "a round-faced boy in a small white jacket sitting before a table piled high with rich cakes, pies and jellies, his face gone miserable, a bearded professor in glasses watching kindly from a chair, a farmhouse dining room, soft evening lamplight, gentle and funny storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Stuffy was the roundest boy at Plumfield and the best fed, for he loved his dinner more than any game. If there was a scrap of cake left anywhere in the county, Stuffy would find it. The Professor watched him growing heavy and dull, and thought hard. One evening he set a table before Stuffy, piled with every good thing: pies, jellies, cakes, and sweetmeats. “Eat, my son,” he said. “All of it is yours. Eat till you cannot eat more.”"
+        },
+        {
+          "kind": "image",
+          "art": "lm-stuffy-table",
+          "text": "The great temptation table stands loaded, and Stuffy’s appetite fails him at last."
+        },
+        {
+          "kind": "text",
+          "text": "Stuffy began bravely. He ate and ate and ate, while the boys watched from the door in awe. His bright eyes dulled. His fine appetite lay down and died in front of him. “No more, please, sir,” he groaned at last, pale about the edges. “Very good,” said the Professor mildly. “Now you know what too much of a good thing tastes like at the bottom.” And Stuffy, who had never once in his life said no to food, had said no at last."
+        },
+        {
+          "kind": "note",
+          "text": "Question for you: the Professor cured Stuffy without one harsh word. Could kindness cure you of a bad habit better than scolding could?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "It was a gentle trick, and it worked. Stuffy ate wisely after that. Strange to tell, he grew merry and quick as well as rosy. The school learned the lesson with him. A boy who rules his own appetite is stronger than a boy who rules the whole playground. The boys teased him gently for a while. Stuffy only smiled, for a boy who has beaten his own appetite is very hard to tease. At the next birthday feast Stuffy took one piece of cake, and stopped, and looked at it, and was happy. The Professor caught Mrs. Bhaer’s eye across the table, and neither of them said a word. Some victories are best kept quiet."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Writing Day",
+      "art": "lm-writing-day",
+      "artPrompt": "schoolroom children in 1870s clothes at wooden desks with pens and ink, sheets of composition paper everywhere, a boy standing and reading his page aloud while the class laughs, a bearded teacher smiling at the blackboard, bright morning window light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One gray day the Professor announced compositions, and the whole school groaned like a ship in a gale. Every boy and girl must write a page on any subject under heaven, and read it aloud to the class. There was wailing and gnashing of pencils. Demi sat down at once and began gravely. Dan stared at the ceiling. Tommy wrote three lines and decorated the margin. Nan wrote two pages and hid them, which made everyone curious."
+        },
+        {
+          "kind": "image",
+          "art": "lm-writing-day",
+          "text": "The brave readers stand up one by one, and the ink is barely dry."
+        },
+        {
+          "kind": "text",
+          "text": "Reading day came, and the pages were wonderful. One boy described a cat fight with so much truth that the class rolled under the desks. Nat wrote a little song about his violin that made everyone quiet. Demi’s page was earnest and a little sad, about right and wrong. And Dan’s composition was exactly three sentences long. Every word was true, and the Professor read it twice and kept it."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: one page, any subject. What would yours be about — a storm, a friend, an animal, or a secret?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“A boy’s own words are the best windows into a boy,” said the Professor afterward. Writing day became a custom at Plumfield. Even the boys who hated ink at breakfast came round to it by supper. It was discovered that everybody has something true to say, if only the pencils will wait long enough. And Nan’s hidden pages, when they were found, were read aloud too. They were all about boys, and how to manage them. The boys voted her page the most alarming of the day, and carried it about like a warning. The pages were pinned up on the schoolroom wall for a week. The boys walked past them as proudly as sailors past a flag. Even Dan looked at his three sentences now and then, and said nothing, and looked pleased."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Nat's Lie",
+      "art": "lm-nats-lie",
+      "artPrompt": "a thin boy with a violin case standing pale and miserable on a city street corner in the rain, a bright show poster glowing on the wall behind him, umbrellas passing, evening lamplight through wet air, sad and gentle storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Now comes the saddest chapter in Nat’s story. A great show came to town, with flags and music and marvels. The whole school talked of nothing else. Nat had no ticket, and no permission, and a heart hungry for bright things. He slipped off alone. He spent all his little savings on a ticket, and let the wonders swallow him for an afternoon. And the show, which was wonderful, made one small boy miserable for weeks."
+        },
+        {
+          "kind": "image",
+          "art": "lm-nats-lie",
+          "text": "Under the bright poster, a small lie is born."
+        },
+        {
+          "kind": "text",
+          "text": "That night the Professor asked, gently, where he had been. And Nat lied. He said he had been practicing his music at a friend’s house. The lie sat in his chest all through supper like a swallowed stone. At Plumfield nobody lied twice. Not because of punishments, but because a lie made the whole warm house feel far away. It was like a light seen from the bottom of a well."
+        },
+        {
+          "kind": "note",
+          "text": "New word: confess — to tell the truth when it is hardest to tell. It is the only door out of a lie.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He could not play his violin that evening. He could not eat, and he could not sleep. In the end he lay staring at the dark, seeing the Professor’s kind eyes. The next morning Nat would stand before Mr. Bhaer with a white face and a truthful tongue. The Professor received him with no thunder at all, which was somehow worse than thunder. But when it was over, the sky inside Nat was clear. And that, the whole school agreed afterward, was the bravest music he ever made. The show had cost him a dollar and a whole day of trust. Nat counted up the price that night, and it seemed very high. He never once forgot it, all the years he lived. That was the strange mercy of it: the lie hurt so much that he never needed telling twice."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Dan Stands By",
+      "art": "lm-damon-pythias",
+      "artPrompt": "a rough-haired boy in a checked shirt sitting close beside a pale thin boy on a bench apart from the others, offering him roasted chestnuts from his pockets, the school watching from a distance in the yard, gray but kind autumn light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Nat confessed everything, and the punishment was not stripes or dark corners. He was simply set apart for a while from the games and the merry circle. He must stay apart until he had won back the trust he had lost. That quiet sentence weighed more than any whipping. Nat sat alone on the bench at recess, small and ashamed. The games went on without him, loud and bright and far. And the sun shone just as hard on the empty bench."
+        },
+        {
+          "kind": "image",
+          "art": "lm-damon-pythias",
+          "text": "One friend crosses the empty ground, pockets full of chestnuts, and stays."
+        },
+        {
+          "kind": "text",
+          "text": "Then one friend came and sat down beside him. It was Dan, the roughest boy at Plumfield. Dan said nothing about the lie. He said it was partly his own fault for talking so much about the show. He filled Nat’s pockets with roasted chestnuts and stayed by him every day. The other boys shifted and frowned. But Dan looked at them steadily, until one by one they came too."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: when a friend has done wrong, is staying near him loyalty or a bad example? What did Dan’s sitting down say?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Professor watched from the window and did not interfere. That evening he told the boys the old story of Damon and Pythias. They were friends who trusted each other with their lives. “Nat has kept the truth,” he said, “and Dan has kept Nat. Both are brave.” The bench by the fence was crowded after that. And the trust, once mended, came back stronger than before, like a bone that has knit. At first Nat could not eat, and the food tasted like paper. But Dan’s chestnuts were hot and salty, and friendship is a wonderful sauce. By the end of the week Nat was telling the little ones stories on the bench. The bench became a place of honor. Nobody could quite say how it happened, but it did. And Nat played his violin there on Sunday, very softly."
+        }
+      ]
+    }
+  ]
+}

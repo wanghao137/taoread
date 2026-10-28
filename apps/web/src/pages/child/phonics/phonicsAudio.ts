@@ -44,7 +44,7 @@ export class PhonicsAudio {
     }))
   }
 
-  async play(ids: string[], onTime?: (assetId: string, ms: number) => void): Promise<boolean> {
+  async play(ids: string[], onTime?: (assetId: string, ms: number) => void, opts?: { rate?: number }): Promise<boolean> {
     this.stop()
     const epoch = this.epoch
     for (const id of ids) {
@@ -52,6 +52,10 @@ export class PhonicsAudio {
       const url = this.urls.get(id)
       if (!url) throw new Error('声音还没准备好，请重试')
       const audio = new Audio(url)
+      if (opts?.rate && opts.rate !== 1) {
+        audio.playbackRate = opts.rate
+        audio.preservesPitch = true
+      }
       this.audio = audio
       const ended = new Promise<void>((resolve, reject) => {
         this.settle = resolve

@@ -1,0 +1,485 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 22 · Ben Gunn's Cave",
+      "art": "treasure-gunn-cave",
+      "artPrompt": "the warm smoky interior of a cave lit by a driftwood fire, a wild ragged man in a goat-skin cap proudly showing guests smoked goat meat on a stone, a wounded sea captain resting on goatskins, a squire and a boy in a red cap greeting him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The cave ran far into the hill, low and long, with walls of dry rock. A fire of driftwood burned on a hearth of stones, and smoked goat meat hung from pegs. Goatskins lay about for beds. It was poor-looking, but it was clean, and it was home. Three years of a lonely man's care showed in every corner. It was the finest house on the island, for it was the only one."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-gunn-cave",
+          "text": "Friends crowd round the driftwood fire in Ben Gunn's cave."
+        },
+        {
+          "kind": "text",
+          "text": "Captain Smollett sat by the fire, still pale from his wound, but mending well. \"Glad to see you safe, Hawkins,\" said he. \"You have been a plague and a blessing in one small boy. Sit down - you have earned your supper twice over.\" Jim grinned from ear to ear. The kettle was already singing. Hot food and kind words went round together."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Ben Gunn lived alone for three years and kept his heart and his courage. What would have kept you going?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Squire shook Jim's hand till his arm ached, and the doctor counted his little party with great satisfaction. All his friends were here, and the fight was won, and supper was hot. Only one guest sat near the door, quiet as a cat: Long John Silver. Nobody trusted him farther than a musket could reach. Supper waited, but the Squire could not wait."
+        },
+        {
+          "kind": "text",
+          "text": "\"And now, Ben,\" said the Squire, rubbing his hands, \"you have fed us and housed us. But you promised us something more, I think. You promised us a treasure.\" Even the captain leaned forward. Ben Gunn's eyes shone in the firelight like two sparks. The whole cave went quiet."
+        },
+        {
+          "kind": "text",
+          "text": "\"This way then, gentlemen,\" whispered Ben. He took a burning brand from the fire and led them to the deepest corner of the cave. Nobody spoke, for a whole half-minute together. There, in the flickering light, the treasure of Captain Flint lay heaped before them. Every torch and every eye went with him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · Heaps of Gold",
+      "art": "treasure-gold-heap",
+      "artPrompt": "deep inside a torch-lit cave, great heaps of gold coins stacked on a rocky ledge, guineas, doubloons and pieces of eight, a squire digging his hands into the coins with joy, firelight glittering on gold, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "It was coin, all coin, laid on a ledge of rock as thick as shells on a beach. There were English guineas and French louis, Spanish doubloons and pieces of eight. It was money of half the countries of the sea, stacked in shining heaps. The firelight ran along the edges like little suns. The heaps stood as high as Jim's knee. Nobody had ever seen so much gold in one place."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-gold-heap",
+          "text": "Gold coin of a dozen countries lies heaped on the rocky ledge."
+        },
+        {
+          "kind": "text",
+          "text": "The Squire plunged his hands into the gold and laughed like a boy. Even Captain Smollett smiled his grave smile. \"It will want counting,\" said he, \"and it will want carrying. Both are honest work, and we will begin at dawn.\" The sacks were brought, and the work began. Jim counted too, far into the night."
+        },
+        {
+          "kind": "note",
+          "text": "New word: doubloon - a heavy old Spanish gold coin, worth a small fortune in its day.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They fell to work that same night by firelight, counting the coin into sailcloth sacks. Jim dug his hands into the cold coins and let them run through his fingers. More money, the Squire said, than he had ever dreamed of. It was weary, glorious work. Every hour a fresh heap went into a fresh sack. Nobody yawned, and nobody complained."
+        },
+        {
+          "kind": "text",
+          "text": "And it had all been carried there, load by load, on the back of one small marooned man. \"You have earned it, Ben,\" said the doctor warmly. \"You found what six strong pirates could not. And you kept the secret three years alone.\" Ben looked at his own two hands, wondering. The doctor's voice was quite warm for once."
+        },
+        {
+          "kind": "text",
+          "text": "Ben Gunn stood as straight as a soldier. \"Ben Gunn's fortune,\" he said softly. \"Poor Ben Gunn, that they laughed at and left behind. Well - Ben Gunn will laugh last. You will see, when he rides home in his own coach.\" He had waited three years for this one night. Firelight or no firelight, Ben walked an inch taller."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · Carrying the Gold",
+      "art": "treasure-gold-loading",
+      "artPrompt": "sailors carrying heavy sacks of gold coin down a moonlit tropical beach to two ship's boats at the water's edge, a great anchored sailing ship beyond, a wild ragged man staggering under a sack, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At dawn the carrying began. From the cave the treasure went down to the shore, sack by heavy sack. Six backs carried it, and every back ached. The path was steep, and the sacks weighed like lead. Ben Gunn, who had once brought it all up alone, now brought it down again, singing. Nobody saw a pirate the whole time. Each man went down twice for every once he came up."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-gold-loading",
+          "text": "Sacks of gold go down to the boats and out to the waiting ship."
+        },
+        {
+          "kind": "text",
+          "text": "Two boats lay waiting in the shallows, and out beyond the point the Hispaniola swung at her anchor. Again and again they loaded and pulled out through the bright water. Again and again they returned. The sea-road shone like a lane of light. Gray rowed like a man possessed. Jim took an oar till his hands burned. The sacks clinked most beautifully."
+        },
+        {
+          "kind": "note",
+          "text": "New word: hold - the great empty space inside a ship, where cargo and stores are stowed.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "For two whole days they laboured, in sun and moonlight, till their hands were sore. Even the Squire bent his back to a sack. Jim steered boat-loads until his arms could hardly pull another stroke. But nobody grumbled, for the hold was filling with gold. Night and day the boats went back and forth. It was the happiest hard work of their lives."
+        },
+        {
+          "kind": "text",
+          "text": "The ship sank lower and lower in the water as the sacks went down into her hold. At last the final load was aboard. The men stood back and stared at her, very pleased. The water climbed almost to her ports. \"Now,\" said Captain Smollett, \"we can sail.\" She rode deep and rich, like a treasure ship of story."
+        },
+        {
+          "kind": "text",
+          "text": "Only the heaviest bars of silver were left behind, with some old arms too heavy to be worth their freight. There were too few hands to float them all. \"Let them lie,\" said the doctor. \"Flint can keep his last secret.\" The island owed them nothing more."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 25 · The Three Left Behind",
+      "art": "treasure-marooned-begging",
+      "artPrompt": "three ragged pirates standing in the shallows of a tropical bay begging with raised hands towards a departing sailing ship, a stern captain at the rail, supplies stacked on the beach beside them, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On the third morning they got the anchor up and made ready for sea. The tide was high and the morning bright, and not a man aboard had slept much. The sails hung loose, waiting for the word. Then, from the far beach, three ragged figures came running into the shallows. Every rope was manned in silence. They cried out, and waved a rag of white cloth on a stick."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-marooned-begging",
+          "text": "Three pirates stand in the shallows, begging, as the ship spreads her sails."
+        },
+        {
+          "kind": "text",
+          "text": "\"Take us with you!\" they cried. \"For pity's sake, don't leave us here to die!\" It was the three runaways, half-starved and wild with fear. Their voices cracked like boys' voices. They waded out as far as they dared. Even the Squire's heart was moved, and he looked at Captain Smollett. But the captain shook his head."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The pirates begged to come home, and were left behind. Was the captain cruel, or only just?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"You chose your side,\" he called across the water. \"You drew blood on my ship and shot at honest men. The island is wide and the goats are plenty. You shall have food and tools, powder and shot. The stockade shall be your house.\" It was justice, and it sounded like it. The captain's voice did not shake at all."
+        },
+        {
+          "kind": "text",
+          "text": "So they put ashore a store of food, two muskets, some powder and shot, tools, and bedding. The three pirates stood and watched them do it, and one of them wept. It was more than they had left Ben Gunn, three years before. Then the boat pulled back, and the sails went up."
+        },
+        {
+          "kind": "text",
+          "text": "The island sank lower and lower behind them, Spy-glass hill and all. Nobody on deck said anything for a long while. Jim watched the beach until it was gone. The wind was fair, and the deck was golden with the last few sacks. The ship leaned to her gold. Every heart aboard pointed at England. Ben Gunn was the only one who waved."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 26 · The Prisoner with the Parrot",
+      "art": "treasure-silver-galley",
+      "artPrompt": "a one-legged cook peeling potatoes quietly by a ship's galley fire under the watchful eyes of two sailors on deck, a green parrot on his shoulder, a wild ragged man watching him fearfully from behind the mainmast, evening light at sea, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One passenger aboard was not a friend. Long John Silver sailed with them, a prisoner on parole. He made himself as pleasant as a basket of apples. He cooked, he joked, and he told old sea stories. He asked for nothing at all. Even the parrot seemed on best behaviour. He was the best cook the ship ever had. Nobody could be so harmless, and nobody believed it."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-silver-galley",
+          "text": "Silver cooks quietly by the galley fire, watched by two sailors."
+        },
+        {
+          "kind": "text",
+          "text": "But nobody was deceived. Two men watched him always, day and night, and his pistols stayed locked in the cabin. The doctor had given his word that Silver should not hang. Honest men keep their word - even to a rogue. That is how it is with honour. It was a strange sort of peace. Silver knew it, and played his part to the full."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The crew keep their promise to Silver, though he kept none to them. Why keep a promise to someone unworthy?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Ben Gunn kept as far from the cook as a small ship allows. He had been marooned by men like Silver, and he remembered it. But Silver only laughed and called across the deck. He asked after Ben's health as politely as a parson. Ben did not answer him once. Ben kept his knife, all the same."
+        },
+        {
+          "kind": "text",
+          "text": "Jim, watching, saw what the others saw: that Silver was never idle and never downcast. His little eyes were always moving - over the sea, over the crew, over the boats. He was waiting, patient as a fisherman, for his chance to come. Nothing on the horizon escaped him. Jim half admired him and wholly mistrusted him."
+        },
+        {
+          "kind": "text",
+          "text": "\"He will try something before Bristol,\" said Gray one evening at the wheel. \"Mark my words, Hawkins.\" But the days went by quietly. The old rogue only sat by the galley fire and sang. The sea was calm and the nights were warm. It was harder and harder to hate him. Jim almost hoped he would behave for ever."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 27 · Short of Hands",
+      "art": "treasure-homeward-sail",
+      "artPrompt": "a great three-masted sailing ship standing out to sea from a tropical island, a few tired sailors working her ropes, a boy in a red cap at the wheel, a following breeze and bright sky, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The trouble was that they were far too few. A great ship like the Hispaniola wants twenty strong hands on her ropes. They could muster barely ten. So Captain Smollett would not risk the long crossing, but ran for the nearest port on the Spanish Main. Gray and the doctor worked like horses, but horses tire. Every man did the work of two, and slept half a man's sleep."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-homeward-sail",
+          "text": "The short-handed crew works the great ship across blue water."
+        },
+        {
+          "kind": "text",
+          "text": "For some days they sailed eastward through blue water. They worked the ship in watches, and snatched sleep when they could. Their backs ached, and their hands were rope-burned. At night the southern stars came out, strange and splendid. The island fell astern, and nobody looked at it long. Jim stood his watch like a grown man. The gold below was quiet as ballast."
+        },
+        {
+          "kind": "note",
+          "text": "New word: Spanish Main - the old sailors' name for the Spanish coasts and seas of America, where treasure ships once sailed.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They came at last to a harbour town of the Spanish Main. White houses and green hills stood above the bay, with a great fort above them. The people stared at the beautiful ship, so deep in the water and so short of crew. Bells rang, and small boats came off selling fruit. The anchor rattled down in fourteen fathoms. The ship's company went ashore proud and sunburnt."
+        },
+        {
+          "kind": "text",
+          "text": "There they hired honest seamen, and laid in fresh food and water, and patched the sails. The town was friendly, and no questions were asked. The new hands were sturdy, honest fellows. For three days all went well. Then, one bright night, the watch was changed as usual. And after it, something was missing from the ship."
+        },
+        {
+          "kind": "text",
+          "text": "Two things, in fact. One was the ship's boat. The other was Long John Silver. And the third, found missing at dawn, was a heavy sack of gold coin. Jim was the first to understand, and he laughed out loud. He was not even angry."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 28 · Silver Slips Away",
+      "art": "treasure-silver-escape",
+      "artPrompt": "a moonlit harbour with a ship at anchor, a small boat rowing quietly away towards the dark shore, a one-legged man with a parrot on his shoulder hunched in the stern over a heavy sack, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the night, while the town slept, a small boat had slipped away from the Hispaniola's side. The water was black and smooth as oil. The oars made no more noise than a fish. In the stern sat a one-legged man with a crutch across his knees. On his shoulder sat a green parrot. Under the seat lay a heavy sack of gold coin."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-silver-escape",
+          "text": "Silver rows away in the night, a sack of gold beneath his seat."
+        },
+        {
+          "kind": "text",
+          "text": "By the time the missing boat was noticed, Silver was ashore and gone. He hobbled up some back street into the great world. The sack was worth three or four hundred guineas at the least. He had waited, and watched, and taken his chance. It was the last that anyone ever saw of him. Not a footprint on the town beach lasted an hour."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Silver escapes rich and free. Is that a happy ending for him, or the beginning of a lonely one?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Nobody ran after him, and nobody mourned him. The Squire, it is true, was well pleased to be rid of him at any price. \"Let him go, with his guineas and his parrot,\" said the doctor. \"The world is wide, and he is one leg short.\" The parrot's screams faded like a bad dream. There was no forgiveness owing, and none asked."
+        },
+        {
+          "kind": "text",
+          "text": "Only Ben Gunn walked round the deck all morning. He looked behind masts and coils of rope, to make quite sure. He even looked into the ship's boat itself, twice. \"You will not see him again, Ben,\" said Jim. \"He is gone for good.\" \"Gone?\" said Ben, brightening. \"Then Ben Gunn can sleep of nights again.\" And so he could."
+        },
+        {
+          "kind": "text",
+          "text": "And Jim, for his part, could not altogether wish the old rogue hanged. Silver had saved his life once, in his crooked way. \"I dare say he is rich now, and a gentleman,\" Jim thought. \"But I would not change firesides with him. Not for all his gold.\" Rogues have their own luck, and his had held."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 29 · The Voyage Home",
+      "art": "treasure-home-port",
+      "artPrompt": "a great sailing ship coming up a grey northern harbour town with stone quays and crying gulls, sailors on the yards, a boy in a red cap at the rail looking eagerly at the shore, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "With her new crew the Hispaniola put to sea again, and turned her nose for England. The voyage home was fair, wind after wind, day after day of good weather. Nobody fell sick, and nobody grumbled, and the work was like play. The island sank behind them like a bad dream. Home smelled like rain and woodsmoke long before it came in sight."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-home-port",
+          "text": "The homecoming: the deep-laden ship comes up the harbour roads."
+        },
+        {
+          "kind": "text",
+          "text": "Jim spent the hours learning his seamanship and watching the sea. He knew every rope on the ship now. He could box the compass round without a stumble. Gray taught him splicing, and the captain taught him manners. He even began to like the smell of tar. The sea had made a sailor of the cabin-boy. But at night he dreamed of tall trees."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Jim left home a cabin boy. Who is he now, stepping ashore?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last, one grey morning, the smell of the land came off the water. Then the coast itself: the familiar cliffs, the harbour town, the gulls. The Hispaniola came up the roads with every stitch of canvas set. She moved deep and slow, like a rich old lady. Boat-loads of friends came off shouting the news. The pilots came off, grinning at her cargo."
+        },
+        {
+          "kind": "text",
+          "text": "The whole town came down to the quay to stare. The story of the treasure had run ahead of them, as stories will. Sails furled, the fenders bumped, and Jim leapt ashore on English ground. The gold was landed next day under a guard of soldiers. His heart came up into his mouth for gladness."
+        },
+        {
+          "kind": "text",
+          "text": "That night, in a fine old inn, they all sat at one table. Doctor, Squire, captain, Gray, Ben Gunn, and Jim - every one of them. The windows stood open to the home harbour. \"Well, gentlemen,\" said the Squire, filling the glasses, \"the map did not lie.\" Even Captain Smollett raised his glass. Home beer had never tasted so good."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 30 · Shares for All",
+      "art": "treasure-gold-shares",
+      "artPrompt": "a table heaped with counted gold coins by candlelight, honest faces round it - a doctor, a squire, a sea captain, a sailor and a boy in a red cap, a ledger open, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The treasure was counted and divided, and every man got an ample share. The work of counting took five clerks a fortnight. The clerks counted coin from dawn to dusk, and sang as they counted. There was no quarrelling, and no short weight. Captain Smollett took his pay and his honour, well content. Gray, who had stood by the captain in the worst hour, rose in the world."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-gold-shares",
+          "text": "The friends divide the treasure round a table by candlelight."
+        },
+        {
+          "kind": "text",
+          "text": "The doctor went on doctoring exactly as before, as if a fortune were the least of his medicines. The Squire grew grander, and told the story of the voyage at every dinner, longer each time. And Jim Hawkins found himself rich beyond a boy's dreaming. He kept the old chart in a drawer, and looked at it sometimes."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ample - more than enough; plenty, and some to spare.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But they all used their money differently, wisely or foolishly, each according to his nature. That is what gold is, Jim thought - a great mirror. It makes a careful man careful, a kind man kind, and a foolish man a fool in a hurry. A share of gold shows a man to himself. Gold is patient, and it waits to be tested."
+        },
+        {
+          "kind": "text",
+          "text": "Jim's own share was put by for him, safe in a bank, by the doctor's advice. \"Money is a good servant,\" said Dr. Livesey, \"and a bad master. Learn to own it, my boy, before you let it own you.\" Jim never forgot that. The advice was worth more than guineas. He was fifteen, and had seen enough of treasure."
+        },
+        {
+          "kind": "text",
+          "text": "And there was one more share paid out of the treasure. The man who earned it had run away in the night, and nobody missed it. Three or four hundred guineas, more or less, was cheap enough. It bought the whole of Long John Silver, they all agreed. Even the Squire said so."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 31 · Nineteen Days",
+      "art": "treasure-ben-lodgekeeper",
+      "artPrompt": "a ragged man in a fine new coat spending gold coins in a cheerful market town square, buying pies and fine clothes and treating everyone, laughing townsfolk round him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Ben Gunn came home with a thousand pounds, which was his bargain with the Squire. A thousand pounds is a deal of money for one ragged man. He was a hero for a month. He dined out, he told his story, and he bought a watch. He wore a coat so fine it could stand alone in a corner. The town had never seen anything like it."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-ben-lodgekeeper",
+          "text": "Ben Gunn in his fine new coat spends gold like water in the town."
+        },
+        {
+          "kind": "text",
+          "text": "He spent his money like water, and gave it away like air. Feasts, presents, treats for children - nothing was too good for poor Ben Gunn. He forgot no friend and no beggar in the town. Gold burned a hole straight through his pocket. Nineteen days after the bank paid him, the last pound of the thousand was gone."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Ben lost all his money in nineteen days and lost none of his happiness. What was his real treasure?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The twentieth day found him penniless and perfectly cheerful. Money had never troubled Ben for long. The Squire laughed until he cried at the telling. Then, because he liked the man, he did a kind thing. \"Well,\" said Ben, when he heard of it, \"it was a rare fortnight and a half.\""
+        },
+        {
+          "kind": "text",
+          "text": "There was a great house in the country with a lodge at the gate, and the lodge wanted a keeper. \"Can you keep a gate, Ben?\" asked the Squire. \"Ben Gunn can keep anything,\" said Ben. So Ben Gunn became a lodge-keeper, in a little house of his own. He keeps the gate better than any keeper on the estate."
+        },
+        {
+          "kind": "text",
+          "text": "And there he lives to this day, warm and busy and greatly respected. Children come from the villages to hear about the island. Ben tells them everything, twice over. He is famous in the whole countryside round about. He has a warm coat, a dry house, and plenty of porridge. Of all the crew of the Hispaniola, the marooned man fared the best."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 32 · The Boy by His Own Fireside",
+      "art": "treasure-jim-fireside",
+      "artPrompt": "a boy in a red cap sitting warm and safe by an inn fireside at night, a grey sea cove through the window, winter wind bending the trees outside, an old chart on his knee, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "And Jim Hawkins came home to the Admiral Benbow. The old inn stood where it always had, above its lonely cove, and the sea was the same grey sea. The gulls cried as they always had. His mother hugged him for a full ten minutes at the door. But to Jim it all looked smaller, and safer, and somehow more precious."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-jim-fireside",
+          "text": "Jim sits safe by the inn fireside, the old chart on his knee."
+        },
+        {
+          "kind": "text",
+          "text": "No more brown old seamen came limping up the road with sea-chests. No more black spots were pushed through the letter-box at midnight. The glasses shone on the shelves. The fire burnt red in the winter dusk, and the kitchen smelled of bread again. Travellers came for the story now, not for rum. Nobody in the house was afraid of anything."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Jim came home with gold and with memories. Which will still be his when he is old?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Jim sat by his own fireside in the evenings, with his books and his cocoa. The wind walked in the chimneys. Sometimes he took out the old oilskin packet and looked at the chart. There was the red cross, and the three little trees, and the words of Captain Flint. Then he put it away again. The map had lost all its danger, like a snake in glass."
+        },
+        {
+          "kind": "text",
+          "text": "His share of the gold was safe in the bank, growing patiently. He had money enough for school, for books, for his mother's old age, and for kind turns to his friends. He wanted nothing, and there was the whole difference: he wanted nothing. Sleep came easily, and the dreams were quiet ones."
+        },
+        {
+          "kind": "text",
+          "text": "For Jim had seen what the seeking of gold does to men. It had made a wolf of Billy Bones. It had made a spider of Long John Silver, and a hanging judge of blind old Pew. The fireside was better than the treasure, and Jim knew it at fifteen. A boy who wants nothing is richer than Flint."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 33 · The Silver That Remains",
+      "art": "treasure-silver-bars",
+      "artPrompt": "a distant tropical island on the horizon at sunset seen from a departing ship, dark bars of silver half buried in sand on a lonely shore, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Not all of Captain Flint's treasure came home to England. Some heavy bars of silver still lie where he hid them, on that far green island. A few old arms lie with them, rusting quietly. Gold is lighter than silver, and it went aboard first. The ship was small, the hands were few, and silver is heavy."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-silver-bars",
+          "text": "Bars of silver lie buried still beneath the tall pine, far away."
+        },
+        {
+          "kind": "text",
+          "text": "There they lie to this day, for anything Jim knows to the contrary. Sometimes he thinks of them in the firelight. He sees the long grey bars, stamped and dated, deep in the black earth under the tall pine. The chart shows the spot, for anyone brave enough to read it. Any man may read it, if he dares the voyage. Silver is patient, and it can wait a hundred years."
+        },
+        {
+          "kind": "note",
+          "text": "New word: bar - a long, heavy block of metal, cast in a mould and stamped with its weight.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But Jim would not go back for them - not for the whole of it, nor twice the whole. Not past the skeleton in the tree, and the whispering flat. Not past the stockade with its bullet-scarred logs. Some money is bought too dearly, and Flint's money was bought with blood. Even the Squire, who loves gold, agrees. Jim counted the cost once, and never counted it twice."
+        },
+        {
+          "kind": "text",
+          "text": "And the three pirates left behind on the island - what became of them, no man knows. They had food and powder, the stockade, the wild goats, and each other. Perhaps they lived long, and perhaps not. The island keeps its news to itself. Perhaps a passing ship once saw their smoke. The sea is wide, and the island far."
+        },
+        {
+          "kind": "text",
+          "text": "So ends the account of the treasure of Captain Flint. One small piece of it sits in a fireside chair at the Admiral Benbow, and tells this story. Jim tells it seldom, but he tells it well. It is worth more than the silver, he thinks."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 34 · And Last",
+      "art": "treasure-final-dream",
+      "artPrompt": "a boy asleep by a warm fireside under a quilt, above his dream a faint vision of a tropical island with a tall pine and a green parrot flying over the sea, moonlight and firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "And so the friends scattered, like the crew of some fortunate ship. Each went to his own harbour and his own life. The doctor rides about his lanes, and the Squire grows grander, and Ben Gunn keeps his gate. They write to each other at Christmas, every one. Only the island changes nothing, green and far away. It is a fine thing to have such friends."
+        },
+        {
+          "kind": "image",
+          "art": "treasure-final-dream",
+          "text": "Jim sleeps by the fire, dreaming of the island and a green parrot in flight."
+        },
+        {
+          "kind": "text",
+          "text": "And Long John Silver? Somewhere in the wide world, with his parrot and his guineas, no doubt. A one-legged gentleman of fortune, dining well and watching doors. Fortune keeps odd servants, and he was one. Every man is somebody's mystery. But no word of him ever came back. Perhaps that is how he wanted it. Jim sometimes hopes the old rogue is comfortable."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Which of the friends would you most like to meet, and what would you ask them first?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "As for Jim, on winter nights, he dreams the old dream. When the wind is up and the fire burns low, he walks the island again in his sleep. He passes the hot still woods, the white rock, the tall pine against the stars. The dream never frightens him now. It is a good dream, as old dreams go."
+        },
+        {
+          "kind": "text",
+          "text": "And always, at the edge of the dream, a small green shape flies through the dark trees. It screeches the old screech of the dead captain whose name it bears. \"Pieces of eight! Pieces of eight!\" - and Jim wakes with a jump, and laughs. The parrot is somewhere warm, he is sure, eating biscuit. Dreams keep what daylight loses."
+        },
+        {
+          "kind": "text",
+          "text": "Then he stirs the fire, and looks out at the sleeping cove, and hears only the honest sea. There is no treasure like a safe home, and no adventure like a story safely over. Jim locks the door, and the sea says good night. And that is the last of Treasure Island. Sleep well, Jim Hawkins."
+        }
+      ]
+    }
+  ]
+}

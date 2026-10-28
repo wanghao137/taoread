@@ -1,0 +1,301 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 8 · The Lamp Lit Every Day",
+    "art": "rb-banquet-lamp",
+    "artPrompt": "a glowing banquet lamp with a rose-colored glass shade lighting a quiet brick-house parlour where an elderly woman in a shawl and a girl with braids sit contentedly in the evening, lace curtains and geraniums at the window, warm rosy light, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "The brick house learned new customs that spring. Aunt Jane and Rebecca kept it together now, just the two of them, and the rules grew softer, like snow in April. Laughter was allowed after supper. Doors could slam — a very little. And one evening Aunt Jane did the most surprising thing of all: she took the banquet lamp down from its high shelf. It had stood there so long that the shelf beneath wore a pale ring, like a memory of what belonged there. Rebecca held her breath. Some evenings the brick house did the most astonishing things."
+      },
+      {
+        "kind": "text",
+        "text": "That beautiful lamp, won cake by cake so long ago, had sat waiting for 'someday' for years. Saved for company, saved for best, saved for someday. \"Someday has come,\" said Aunt Jane, and filled it with oil, and struck the match. Its rosy glow spread over the parlour, over the rocking chair, over Rebecca's astonished face. From that night on, the lamp was lit every single evening."
+      },
+      {
+        "kind": "image",
+        "art": "rb-banquet-lamp",
+        "text": "The banquet lamp, lit at last, glowing on the parlour table."
+      },
+      {
+        "kind": "note",
+        "text": "Some beautiful things wait years and years for 'someday.' If you have one, today is someday. Light the lamp.",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "Then, one June day, a carriage stopped at the gate, and out stepped Mr. Aladdin — Adam Ladd, who had once bought fifty cakes of soap for the pleasure of Rebecca's conversation. He was grander now, and had travelled far, but his eyes still laughed. Over tea he unfolded his plan: a great school called Wareham, ten miles off. There Rebecca's quick mind could have all the room it wanted. He had watched her sell soap and raise a flag and win a town, he said. He did not intend to watch that gift go rusty. Schools, he added, were the best rust-proofing ever invented."
+      },
+      {
+        "kind": "text",
+        "text": "\"Books, and classes, and a bigger world,\" said Aunt Jane slowly, turning her teacup. Rebecca held her breath and did not dare to hope. Then Aunt Jane looked at the girl's shining face, and at the lamp, and said the bravest yes in Riverboro."
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 9 · Off to Wareham",
+      "art": "rb-wareham-road",
+      "artPrompt": "an open horse-drawn stagecoach rolling down a September country road with two girls and their trunks aboard, an old driver flicking his whip, stone walls and goldenrod, the brick house small behind them, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In September the stage came to the brick house door, and old Mr. Cobb sat on the box — the very driver who had brought Rebecca to Riverboro years before. \"Well, well,\" he said, blinking under his beard. \"I carried you here one small girl, and now I carry off a young lady of learning.\" His stage had carried freight and flour and fiddles, he said, but never such proud freight as this. Rebecca sat very straight and watched Riverboro dwindle behind her. There went the elms, the spire, and the little brick house at the turn of the road. She did not cry. She was too busy being brave and excited at once, which is a crowded occupation."
+        },
+        {
+          "kind": "text",
+          "text": "Emma Jane Perkins went too — of course she did. The two of them boarded at the Cobbs' house in Wareham. There was a room to share, a window seat, and a lamp to study by. Trunks went bumping up the stairs. Drawers were sorted and re-sorted. Rebecca hung her pink parasol in the corner like a flag of her very own."
+        },
+        {
+          "kind": "image",
+          "art": "rb-wareham-road",
+          "text": "Rebecca and Emma Jane riding off to school, with the trunks riding proudest of all."
+        },
+        {
+          "kind": "note",
+          "text": "New word: board — to live and eat in another person's house, like a guest with a homework desk.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The school was far bigger than Riverboro's, with real classes and real examinations and girls who could quote long poems. Rebecca's heart pounded the first morning. Then she raised her hand and answered, and the room turned to look. She was entirely herself again — all elbows and imagination, exactly as at home. By Friday she had three friends, a favorite seat, and a rival in arithmetic, which she considered excellent for the character."
+        },
+        {
+          "kind": "text",
+          "text": "That night she wrote to Aunt Jane, pages and pages, full of Wareham and books and cobblestones. At the very bottom, one last line. \"Light the lamp every evening, and I shall be able to tell, all the way from here.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · A Bigger World",
+      "art": "rb-school-days",
+      "artPrompt": "a schoolgirl reading from a fat notebook to a classroom of girls at wooden desks, late golden sun through tall school windows, a teacher smiling at the back, maples turning outside, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Wareham days were full to the brim. There were histories to learn and sums to conquer and a library with more books than Rebecca could count. The teachers were tougher than Riverboro's, and the girls were quicker, and Rebecca loved it exactly as she loved a hard climb. She learned Latin words that marched like soldiers, and dates that would not sit still. She learned the names of stars she had only ever waved at. On Saturdays there were walks with Emma Jane and arguments about poetry that lasted whole afternoons."
+        },
+        {
+          "kind": "text",
+          "text": "Her writing grew too. She kept a fat notebook of verses and little sketches of every person she saw. One day a teacher asked to read some of it aloud to the class. Rebecca went red as a maple — half proud, half terrified — while the room forgot to whisper. The sketches were the best part, all drawn from memory with a bold, sure pencil."
+        },
+        {
+          "kind": "image",
+          "art": "rb-school-days",
+          "text": "Rebecca reading from her notebook, with the whole class forgetting to whisper."
+        },
+        {
+          "kind": "note",
+          "text": "A gift grows only when you feed it — with practice, with books, with brave tries that sometimes fail. What is your gift eating these days?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"You have something to say,\" the teacher told her quietly afterward, \"and a way of saying it. That is rarer than you think. So keep looking at people, Rebecca. Keep listening. And keep writing it down.\" Rebecca carried those words home like coins in her pocket. That night she wrote them at the head of a fresh page. There she could see them whenever the work grew hard. Teachers, she decided, deserved medals for saying the right thing at the right time."
+        },
+        {
+          "kind": "text",
+          "text": "Homesickness came sometimes, in the evenings, sharp as a pin. Then the letters from Aunt Jane arrived, longer and funnier every week — three pages, four, once five. Emma Jane declared Aunt Jane a regular wit. The stiff old brick house was learning to laugh, ten miles away, by mail."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Christmas at the Brick House",
+      "art": "rb-christmas-parlor",
+      "artPrompt": "a snowy brick-house parlour at Christmas with a rosy lamp glowing on the table, a girl gesturing mid-story, an elderly aunt laughing in her rocking chair, presents on the mantel and frost flowers on the window, warm firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When the snow came, school stopped for the holidays, and Rebecca flew home to Riverboro like a bird to its nest. Aunt Jane was waiting at the gate. Behind her, glowing in the parlour window, stood the banquet lamp, lit as it now was every evening of the year."
+        },
+        {
+          "kind": "text",
+          "text": "It was a Christmas as good as a storybook. There were presents on the mantel and gingerbread in the tin and songs round the stove. Aunt Jane laughed until she cried at Rebecca's stories of school, and made her tell the best one twice. The next day she told Emma Jane's mother every word of it again. Emma Jane came over nearly every day besides, and the parlour had never been so full of laughing."
+        },
+        {
+          "kind": "image",
+          "art": "rb-christmas-parlor",
+          "text": "Stories by the rosy lamp, with the snow falling softly outside."
+        },
+        {
+          "kind": "note",
+          "text": "Home is the place that is glad you came back. Even the bravest growing-up hearts need it once in a while.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Best of all, on one blue morning they took the sled out to Sunnybrook Farm. Rebecca's mother and the little ones were waiting at the gate. Her mother looked tired still, but prouder than the winter sun. Her Rebecca — away at school, learning all the things she would one day write with. The little ones followed her everywhere, in a column, like ducklings. She told them stories till the supper bell rang. Her mother stood in the doorway, doing that quiet arithmetic that mothers do."
+        },
+        {
+          "kind": "text",
+          "text": "On the last evening, Rebecca filled and trimmed the lamp herself, and the two of them sat quiet in its rosy light. \"You will come back in June,\" said Aunt Jane at last. It was not a question. And Rebecca took her hand and held it all the way to bedtime. Outside the window the snow went on falling, soft as a quilt over Riverboro. Inside, the lamp burned rosy, and somebody was glad, and somebody was home."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Hard Choice",
+      "art": "rb-hard-choice",
+      "artPrompt": "a girl at a desk at night with a half-written letter before her, chin on her hand, lamplight and snow at the window, a fat notebook and a railroad timetable beside her, quiet thoughtful mood, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Then a letter came from Sunnybrook with worry folded inside it. Money was shorter than ever at the farm; her mother worked herself thin, and there were many mouths to feed. Rebecca read the letter twice by the study lamp, and her heart went down like a stone. Secretly, she began to add up what she might earn if she left school and went out to work. She was nearly fourteen, and she knew sums better than anybody in her class. But some arithmetic has no honest answer, and this was the kind that keeps a girl awake at night."
+        },
+        {
+          "kind": "text",
+          "text": "She nearly wrote the letter that would end her schooling. She got as far as 'Dear Aunt Jane,' and stopped, and sat a long time in the lamplight. Then she remembered what Mr. Aladdin had said when the plan was made. \"An education is the one gift nobody can take away — and the one that lets you give the most.\""
+        },
+        {
+          "kind": "image",
+          "art": "rb-hard-choice",
+          "text": "The half-written letter, and the hardest arithmetic Rebecca ever did."
+        },
+        {
+          "kind": "note",
+          "text": "Helping is not always quitting. Sometimes the kindest thing you can do for your family is to grow into someone bigger.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So Rebecca wrote a different letter — the whole truth, to Aunt Jane. The answer came back by return stage, in a hand as firm as a handshake: \"Stay. We will manage, as we have always managed. A brick house does not break over money. It breaks over a lost chance.\" Rebecca read it four times. Then she put it under her pillow, where the bravest sayings lived. After that she went back to her books, chin up, eyes wet and shining at once."
+        },
+        {
+          "kind": "text",
+          "text": "Rebecca stayed. After that she studied twice as hard, for the mother who worked, and the aunt who managed, and the friend who believed. And her mother, when she finally heard the whole story, wrote back just one line: \"My girl.\" Rebecca kept that letter always."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Writing Lesson",
+      "art": "rb-writing-desk",
+      "artPrompt": "a girl writing in a fat notebook by lamplight with her tongue between her teeth, loose pages and pen sketches around her, a candle burning low, moonlight on snow outside the window, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Spring came to Wareham, and with it the term's great assignment: an essay on any subject under the sun. Rebecca chose hers before supper was over. She wrote every evening until the lamp oil ran low. She read bits of it to Emma Jane, who declared every single sentence the finest yet written. The subject was a secret, even from Emma Jane, which nearly killed them both. It was about Riverboro — about brick houses and stage drivers and lamps that wait for someday. It was about how small towns hold whole worlds."
+        },
+        {
+          "kind": "text",
+          "text": "The teacher read it alone first. Then she read it aloud to the class, and the class forgot to whisper. At the end there was a silence like held breath. \"Who taught you to see like this?\" she asked. \"Nobody,\" said Rebecca. \"I just look twice.\" The class laughed, because it sounded funny. The teacher did not laugh, because she knew it was the truest sentence in the room."
+        },
+        {
+          "kind": "image",
+          "art": "rb-writing-desk",
+          "text": "The notebook that held a whole future, written at night by lamplight."
+        },
+        {
+          "kind": "note",
+          "text": "Writers are mostly people who look carefully and tell the truth about it. You can begin today, with a pencil and a window.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Then keep looking,\" said the teacher, smiling a very particular smile. \"And keep writing. You have the rarest kind of eye, Rebecca Rowena. Do not let anyone tell you it is a waste of time.\" Nobody had ever said all three of her names quite like that. Rebecca copied the saying onto the first page of the notebook, under the date. Then she blew out her candle and lay in the dark feeling about two inches taller than usual."
+        },
+        {
+          "kind": "text",
+          "text": "That night, in the back of her notebook, in letters as careful as print, Rebecca wrote one sentence. \"I, Rebecca Rowena Randall, am going to be a writer.\" She read it three times, closed the book, and slept the sleep of the decided. Emma Jane, told the secret next morning, said she had known it all along. That was not true, and was entirely forgivable."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · Mr. Aladdin Comes Back",
+      "art": "rb-aladdin-visit",
+      "artPrompt": "a young gentleman with laughing eyes walking and talking with a girl with braids along a village green in June, elm trees in new leaf, a fine carriage waiting at the gate, another girl watching excitedly from an upstairs window, bright summer light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In June a fine carriage stopped at the Cobbs' gate. Out stepped Adam Ladd, home from a year abroad, where the city names had sounded like poetry. Rebecca ran halfway to the gate and then stopped, suddenly shy. The last time they had really talked, she had been a little girl selling soap. He looked at her exactly as he had on the first day. It was as if what she said next might be the best thing he heard all week. Nobody had ever listened to her quite like that."
+        },
+        {
+          "kind": "text",
+          "text": "\"Miss Randall,\" he said gravely, taking off his hat. \"Aunt Jane sent me your essay. I read it twice on the train.\" \"And?\" said Rebecca. \"And I am not a bit surprised,\" he said, \"and immensely proud.\" Then he laughed his old laugh, and the shyness ran away like water."
+        },
+        {
+          "kind": "image",
+          "art": "rb-aladdin-visit",
+          "text": "Mr. Aladdin come back to hear about the future, on the June green."
+        },
+        {
+          "kind": "note",
+          "text": "Some friends like you as you are. The best friends like you as you are becoming.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They walked the school green while he asked about her plans, and she told him everything. The notebook, the sentence in the back, the whole shining future. \"Then you will need books, and time, and a bigger dictionary,\" he said. \"We shall see about all three.\" Emma Jane, watching from an upstairs window, nearly fell out of it with excitement. He stayed to supper at the Cobbs', and made the whole house feel like a fair. He asked Mr. Cobb about stage routes, and Mrs. Cobb about doughnuts. Rebecca's notebook — with permission — kept him a full hour."
+        },
+        {
+          "kind": "text",
+          "text": "\"What did you talk about?\" Emma Jane demanded afterward. \"My future,\" said Rebecca, glowing like a lamp. \"Mr. Aladdin believes in it almost as much as I do.\" \"Which,\" said Emma Jane, \"is the most anybody has ever believed in anything.\" They talked until the supper bell. Emma Jane said it was exactly like a storybook, only better, because storybooks never have supper in them."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Commencement Day",
+      "art": "rb-commencement",
+      "artPrompt": "a girl reading at a decorated school hall podium while a crowded audience rises to applaud, summer flowers and banners everywhere, an elderly woman in a best shawl standing to cheer, bright June morning, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Commencement day came at last, warm and bright, and the whole of Riverboro squeezed itself into the hall. Aunt Jane sat in her best shawl, and the Cobbs sat behind her, and even Mr. Cobb came — parking his stage, he said, where the horses could hear the cheering. Rebecca wore her best white dress and could not eat breakfast, which Emma Jane called the surest sign of greatness."
+        },
+        {
+          "kind": "text",
+          "text": "One by one the graduates spoke their pieces. Then came Rebecca, and her voice shook at first, exactly as it had on flag day, years ago. Then it rang out clear as a bell, and the hall went still. When she finished, the cheering went on and on and simply would not stop. Somebody had put roses on the podium that morning. Nobody ever found out who, though Aunt Jane's gardening gloves were suspiciously damp at supper."
+        },
+        {
+          "kind": "image",
+          "art": "rb-commencement",
+          "text": "The essay that made all Riverboro rise from its seats."
+        },
+        {
+          "kind": "note",
+          "text": "A shaking voice that still rings is what courage sounds like. It gets easier every time you let it ring.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "There was a prize too — a medal for the essay, bright as a little sun. But the largest prize was Aunt Jane's face, which was prouder than any medal ever struck. \"Your Aunt Miranda would have said 'Hmph,'\" Jane whispered on the way home, patting the medal. \"But she would have been proud too. I know it, if nobody else does.\" Rebecca hugged her instead of answering, which was the correct reply, and they both knew it."
+        },
+        {
+          "kind": "text",
+          "text": "That evening the banquet lamp burned in the parlour window, and travelers on the dark road could see it far off. \"Whose house is that, so bright?\" people asked. And those who knew would smile and answer: \"That is the brick house where the writer lives.\" And far away in the city, a young man with laughing eyes read the morning paper. He read the commencement report twice, and cut it out very carefully."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Pink of Perfection",
+      "art": "rb-parasol-gate",
+      "artPrompt": "a girl twirling a pink silk parasol with a carved ivory handle under green elms at sunset while an elderly aunt knits on the brick-house step, the rosy lamp glowing in the parlour window behind, long summer shadows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Summer came, and Rebecca came home to Riverboro — taller, browner, and somehow brighter. She had a medal in her trunk and a dream in her pocket. The elms were green, the gate stood open, and the brick house waited with the lamp already lit. Aunt Jane had even baked, which was her way of cheering, and the whole house smelled of welcome. Emma Jane arrived within the hour. There was so much to tell that they told it all twice, once for the school and once for the medal."
+        },
+        {
+          "kind": "text",
+          "text": "On the first golden evening she unwrapped the pink parasol and opened it under the elms. It was the same parasol, a little older now, still the pink of perfection. Aunt Jane sat on the step with her knitting. On the parlour table lay a new letter from Adam Ladd. It praised the essay again and asked, eagerly, what she would write next."
+        },
+        {
+          "kind": "image",
+          "art": "rb-parasol-gate",
+          "text": "The pink parasol under the elms, still the pink of perfection."
+        },
+        {
+          "kind": "note",
+          "text": "Growing up does not mean leaving love behind. Home walks with you — folded at the bottom of a trunk, glowing in a lamp, waving from a gate.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"What will you do now?\" asked Aunt Jane, watching her twirl. Rebecca looked down the long road — toward Sunnybrook, toward Wareham, toward the cities where her words would one day go. Then she smiled the smile that had won Riverboro long ago. \"Everything,\" she said. \"I am going to do everything, Aunt Jane. But first — supper.\" Aunt Jane laughed, and laughed again, as if she were practicing. The sound went all through the brick house, into corners that had never heard it before."
+        },
+        {
+          "kind": "text",
+          "text": "And the two of them went in together, out of the sunset, into the rosy light of the lamp. It had waited so long for someday — and was waiting for it no more. Somewhere down the road the stage rolled by, and Mr. Cobb lifted his whip to the lit window. Some houses you remember for their size, he liked to say, and some for their light."
+        }
+      ]
+    }
+  ]
+}

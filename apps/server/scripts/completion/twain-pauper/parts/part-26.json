@@ -1,0 +1,300 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 26 · The King's Mother",
+      "art": "pauper-mothers-face",
+      "artPrompt": "A golden royal progress through old London: a small boy in cloth of gold on a white horse gazes down in anguish at a poor woman held back by guards at the rope line, crowds and banners all around, tearful recognition passing between them; warm festival light against cool shadow on the mother's face, poignant historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The day before the coronation, two travel-worn figures topped the last hill. Below them lay London — the towers, the river, the smoke of a hundred thousand fires. \"In time, Miles!\" cried Edward. \"We have come too far to be late now.\" The road was behind them, and the crown was ahead, and the boy's heart drummed with joy."
+        },
+        {
+          "kind": "text",
+          "text": "Inside the walls, all London had poured into the streets to see the new king ride to his crowning. Tom sat in cloth of gold on a great white horse, and the crowds shouted till they were hoarse. Banners hung from every window, the fountains ran sweet wine, and the whole city glittered like a festival."
+        },
+        {
+          "kind": "text",
+          "text": "But Tom's heart was heavy. Tomorrow they would set the crown on him, and the true prince was still lost. Whatever the great lords believed, Tom had never once believed it himself. And that made every day heavier than the last. So he waved when he ought to wave, and bowed when he ought to bow. And all the while his eyes searched every face in the crowd."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-mothers-face",
+          "text": "Amid all the splendour of the royal progress, a poor mother breaks through the guards to find her boy."
+        },
+        {
+          "kind": "note",
+          "text": "New word: progress — a grand royal journey, made so that the people may see their king. Ask your child: how did Tom know the woman at once, in all that crowd?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then, out of the pressing crowd, a poor woman broke through the very guards. She had fought her way to the ropes with all her strength. Now she stood staring up at the splendid boy, with her whole heart in her face. It was his mother."
+        },
+        {
+          "kind": "text",
+          "text": "Tom forgot the horse, the cloth of gold, and the ten thousand eyes. \"Mother!\" he cried, and reached out his arms. The guards closed round her and swept her away, and in a moment she was gone. The music played on as if nothing had happened. Ten thousand people saw nothing, and one boy saw everything. Tom rode on through the cheering streets, white-faced, with the tears running down. The courtiers whispered that their young king was strangely moved. He dried his eyes and sat straight, for kings must. But he did not forget."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 27 · The Cry in the Abbey",
+      "art": "pauper-coronation-cry",
+      "artPrompt": "Westminster Abbey blazing with candles on coronation morning: as a bishop lifts a jeweled crown over a bowed boy in gold, a ragged boy steps out crying out, a tall scarred soldier standing over him with hand on sword hilt, astonished lords turning everywhere; gold, crimson and incense haze, dramatic triumphant mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Coronation morning came, bright and cold, and Westminster Abbey was dressed like a bride. Great lords stood in velvet, bishops in white and gold, and the great throne waited under the eastern window. The air was sweet with incense, and ten thousand candles burned. And through the packed crowds outside came pushing two figures: a tall soldier and a ragged boy."
+        },
+        {
+          "kind": "text",
+          "text": "Miles had marched all night to be in time. Now he spent his last coin and all his wit to find them a way in. \"Where you go, sire, I go,\" he said. So into the abbey they went, and stood among the crowd with the trumpets blazing over their heads."
+        },
+        {
+          "kind": "text",
+          "text": "Inside, the boy king stood before the altar, and the crown was being carried up the long floor. Never had the great abbey held so splendid a day. The Archbishop lifted it high over Tom's bowed head. And at that very moment a clear young voice rang through the abbey like a bell."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-coronation-cry",
+          "text": "A ragged boy steps out before the throne and claims the crown of England in a ringing voice."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the guards could have thrown Edward out at once. What made the great lords stop and listen instead?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Stop!\" it cried. \"Set no crown on any head but mine — for I am Edward, King of England!\" A ragged boy had stepped out before all the court. Guards sprang at him from every side. Miles Hendon sprang faster, and stood over his king with his hand on his sword."
+        },
+        {
+          "kind": "text",
+          "text": "But Edward stood unbowed among the leveled spears, and his bearing was not a beggar's bearing. The old Earl of Hertford came slowly down from the steps and looked long into the boy's face. And Tom had sprung up from the throne, white and trembling, with joy. \"It is the true prince!\" he cried, before any lord could speak. And every person in the abbey saw one plain thing. The boy king was glad — glad to his very bones — that the crowning had stopped."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 28 · The Test of the Seal",
+      "art": "pauper-seal-test",
+      "artPrompt": "A hushed coronation abbey: a proud ragged boy addresses a circle of astonished old lords while a kneeling herald displays a great jeweled seal on golden cloth, the boy king leaning forward eagerly from the throne; candlelight on grey stone, breath-held wonder mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"Prove it,\" said the lords, \"and the throne is yours.\" So the ragged boy was questioned before all the court. Where was his bedchamber? Who kept his books? What were his lessons, his servants, his little ways? Edward answered everything, clearly and without fear. Not once did his voice shake. The lords looked at one another, half convinced, and half afraid to hope."
+        },
+        {
+          "kind": "text",
+          "text": "\"Now for the last question,\" said the old Earl of Hertford. \"Where is the Great Seal of England?\" A murmur ran through the abbey, for the Seal had been missing many weeks. No man alive could find it, and the wisest heads had given it up. Then Edward smiled for the first time that day."
+        },
+        {
+          "kind": "text",
+          "text": "\"The Seal is not lost,\" he said. \"I hid it myself, with these hands, the day before the world turned upside down. No other soul on earth knows the place. I meant it for a secret, and never told it till now.\" And he named the hiding-place, softly, so that the great lords leaned forward to hear."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-seal-test",
+          "text": "The ragged boy tells the court the one secret that only a true king of England could know."
+        },
+        {
+          "kind": "note",
+          "text": "New word: prove — to show that something is certainly true. Ask your child: why could only the true prince know where the Seal was hidden?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "A herald was sent flying to the palace, and the abbey held its breath. Tom waited too, with his hands clasped, for he had no doubt at all. At last feet came running up the great stone floor. The herald knelt and opened the cloth he carried. There lay the Great Seal of England, found in the very place Edward had named."
+        },
+        {
+          "kind": "text",
+          "text": "Then they asked the last witness of all. \"Sire, do you know this boy?\" Tom ran down from the throne and took Edward's hands in both of his. \"I know him!\" he cried. \"It is Edward, the true king — and my heart has known it from the first day!\" And the lords bowed before Edward, one after another, like a field of wheat in the wind."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 29 · The True King",
+      "art": "pauper-true-king",
+      "artPrompt": "The moment of crowning in Westminster Abbey: a small boy in ragged clothes stands proudly as the crown of England is set upon his head, another boy in cloth of gold beams beside the throne, trumpeters and thronging lords all around; floods of candlelight and sunbeams through incense haze, joyful historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Then at last the crowning began, and this time it was right. Incense floated like golden smoke, and the organ played, and the banners stirred in the great roof. The Archbishop set the crown of England on Edward's head, and the trumpets burst out like summer thunder. \"God save the King!\" cried the abbey. And the cry rolled out into the streets of London, from Westminster to Pudding Lane."
+        },
+        {
+          "kind": "text",
+          "text": "Edward's first work as a crowned king was done there before the altar. He raised Tom up, and stood him beside the throne. For one moment the two boys stood together in the eye of all England. \"This boy wore a king's burden for me,\" he said to the court, \"and wore it kindly. Let all England honour him from this day.\""
+        },
+        {
+          "kind": "image",
+          "art": "pauper-true-king",
+          "text": "The crown of England settles on Edward's head while Tom stands beside the throne, glad and unashamed."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Tom could have held the crown with both hands. What did he do instead, and what does that show about him?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "What a day it was for Miles Hendon too! The soldier who had guarded a beggar boy now guarded the King of England. His scarred face shone like a boy's. \"Truth keeps, sire,\" he said quietly. \"It kept.\" He had served the crown when the crown looked like rags. He never once asked whether the boy was mad or royal."
+        },
+        {
+          "kind": "text",
+          "text": "But the strangest sight of all was Tom. He stood in his cloth of gold, plain Tom Canty of Pudding Lane again. And there was not one envious bone in him. He laughed and cried at once, and the whole court loved him for it. Pudding Lane would have laughed to see it, and then wept."
+        },
+        {
+          "kind": "text",
+          "text": "And when the trumpets died away, Edward leaned to Tom and whispered. \"You shall not lose me now, nor I you,\" he said. \"The crown was never the thing between us. The thing is what the crown taught us both.\" And Tom only squeezed his hand. Some things are better said without words."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 30 · The King's Ward",
+      "art": "pauper-kings-ward",
+      "artPrompt": "A bright palace hall: a proud gentle boy in fine new clothes stands with his smiling mother and two little sisters in silken gowns while lords bow politely and a herald reads the king's decree from a parchment; warm daylight and honeyed panelled walls, tender proud mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Edward did not forget one soul who had been kind to him — and he began with Tom. A great decree went out from the new king. Tom Canty was to be the King's Ward for all his life. The title meant honour, and protection, and a place at court that no man could ever take from him. Never before had such a title been given, and never since."
+        },
+        {
+          "kind": "text",
+          "text": "So Tom's mother need never fight the guards again. She came to court, and was received with honour. Nan and Bet had silken gowns and plenty to eat from that day on. The little sisters who had stared at the strange \"brother\" now laughed with him for very joy. As for Offal Court, it talked of nothing else for a year."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-kings-ward",
+          "text": "The King's Ward stands honoured at court, his mother and his sisters beside him at last."
+        },
+        {
+          "kind": "note",
+          "text": "New word: ward — a person placed under a king's special care and protection. Ask your child: why do you think Edward chose the name \"the King's Ward\" for his friend?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "And Tom, who had been kind when he was king, was kind all the rest of his days. He kept his gentle, wondering way of looking at the world. When trouble came to any servant of the court, it was the King's Ward who spoke for him. Humphrey Marlow kept his place too, as promised, and served him gladly all his life."
+        },
+        {
+          "kind": "text",
+          "text": "Yet Tom never lost his little dreams either. On quiet evenings he would tell the old stories of Pudding Lane. The straw bed, the empty belly, and the king who never came. And whoever heard him understood: he knew how the other half of England lived, and he never once forgot it. Hunger, once felt, is never forgotten by a generous heart."
+        },
+        {
+          "kind": "text",
+          "text": "In after years, people would point as a gracious old gentleman rode by. \"There goes the King's Ward,\" they said, softly and proudly. No grander title was ever given in England — and no one ever earned one better. And Tom would bow, and his old eyes would shine. He remembered a cold room in Offal Court, and two little sisters who had once gone to bed hungry."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 31 · An Earl at Last",
+      "art": "pauper-hendon-earl",
+      "artPrompt": "A golden autumn lane leading to a fine old English manor: a tall scarred soldier in a new earl's garments rides home as servants run from the gate with welcome, firelight glowing in the mullioned windows, copper leaves drifting down; amber and bronze foliage in low afternoon sun, homecoming joy mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Next came the promise to the tallest friend in England. Edward called Miles Hendon before the whole court. \"This is the man,\" said the young king. \"He fed me when I was hungry, and guarded me while I slept, and took a whipping in my place.\" And not one man in all that court said him nay."
+        },
+        {
+          "kind": "text",
+          "text": "So Miles Hendon went home from that court an Earl, with the king's own word for it. It was well earned, for he had served the crown when the crown looked like rags. He had won it in a prison yard, standing still while the lash fell. And Edward kept every promise he had made on the road — every one, to the last word."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-hendon-earl",
+          "text": "Miles Hendon, an earl at last, rides home through the golden autumn lane to Hendon Hall."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why did Edward remember a promise made in a jail? What kind of king keeps promises like that?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "And so, in the fullness of time, Miles rode down the autumn lane to Hendon Hall. The trees were gold, the windows were full of firelight, and the old servants knew him at the gate. Every servant ran, and every window filled with faces. Truth had come home at last, and knocked — exactly as he had promised it would."
+        },
+        {
+          "kind": "text",
+          "text": "Hendon Hall was his own again. The hall that had once cast him out was warm to the very walls. The old house seemed to breathe again, as houses can. Miles set the king's letter on the mantel, where every guest could read it. And he never once grew tired of telling the story. How he had stood guard over the King of England — when the King of England slept on straw."
+        },
+        {
+          "kind": "text",
+          "text": "But of all his honours, Miles was proudest of this. He had believed a ragged boy before he could prove anything. He had stood by the truth when standing by it cost something. That, he said, was the whole secret of being a knight. And so his long road ended, warm and golden, at home."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 32 · The Merciful King",
+      "art": "pauper-just-laws",
+      "artPrompt": "A Tudor court of justice seen from behind the throne: a young king leans forward intently as a humble family is brought gently forward, judges setting aside harsh parchment rolls, shafts of clear daylight crossing the quiet hall; warm honest oak tones, hopeful reforming mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "And what of the boy who had begged, and starved, and been locked in jail? He was king now, and he ruled as he had sworn he would. The jail had taught him; now the kingdom was to learn. He had promised it on foul straw. Now he kept his word on a throne. Day after day Edward sat in his courts of justice. Year by year, the harsh old laws grew gentler under his hand."
+        },
+        {
+          "kind": "text",
+          "text": "He remembered the farm where the children's shoes dried by the fire. He made laws to shield the poor from cruel taxes. He remembered the dark jail, and freed poor prisoners who owed only a little money. He remembered a mother swept away by guards, and gave the humblest people a hearing at his gate. Nothing he had seen on the roads was wasted. Every cold night had become a warm law."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-just-laws",
+          "text": "The young king in his court of justice, tempering the harsh old laws of England with mercy."
+        },
+        {
+          "kind": "note",
+          "text": "New word: reign — the time during which a king or queen rules. Ask your child: which memories do you think helped Edward make kinder laws?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The people felt the change, and loved him for it. \"He has worn our shoes,\" they said, \"and he walks gently in his own.\" The poor blessed his name at the palace gates. Travellers carried the young king's fame from shire to shire. No child in England went breadless while the barns stood full — for that, too, had been a king's promise."
+        },
+        {
+          "kind": "text",
+          "text": "A strange thing happens to a king who has been hungry, and cold, and laughed at, and locked up. He cannot forget it. The memory walks with him into every judgement, and sits beside him. It asks one question of every sentence he passes: what if it were I?"
+        },
+        {
+          "kind": "text",
+          "text": "So the little king of the hard streets became one of the best-loved rulers England ever had. The boy in rags taught the crown to be kind — and the crown remembered. And of all his titles, he was said to like this one best: the friend of the poor."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 33 · Two Good Kings",
+      "art": "pauper-two-friends",
+      "artPrompt": "A cozy palace hearth nook on a winter evening: a young king in royal purple and a gracious old gentleman in fine citizen's clothes laugh together cracking walnuts with a great jeweled seal, a grey soldier dozing in the chair behind, snow at the deep window; firelight gold against blue night, warm friendship mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "So ends the story of two boys with one face. One wore the crown, and one was the King's Ward — and which was the greater gift, who can say? Each had lived the other's life. Each came out of it a wiser ruler than any tutor could have made. One had learned how the poor live. The other had learned how the great live. Neither ever forgot the lesson."
+        },
+        {
+          "kind": "text",
+          "text": "And on winter evenings, when the state papers were put away, the king had an old friend by the fire. They talked of roads and rain, of tramps and farms and jail doors. They talked of how a boy learns what no book ever teaches. Miles snored in his chair a little, as true soldiers may."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-two-friends",
+          "text": "The king and the King's Ward by the winter fire, cracking walnuts with the Great Seal of England."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: why does the story call it \"Two Good Kings\" when only one boy ever wore the crown?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Between them lay the Great Seal of England — being used, as often as not, to crack walnuts. The greatest seal in the kingdom, in the service of two friends and a small fire. Some secrets are too good to waste on lords. And if any stern old lord had walked in, the king would only have smiled."
+        },
+        {
+          "kind": "text",
+          "text": "Tom lived long and happily, honoured by all, and never forgot a single hungry friend. Offal Court never saw hunger again, for the King's Ward kept watch over it all his days. Miles served his king to the end of a good life. And Edward ruled so that the least child in his kingdom slept a little warmer. For a king had once slept cold, and had not forgotten."
+        },
+        {
+          "kind": "text",
+          "text": "That is the whole tale: how a prince learned hunger, and a pauper learned thrones, and both learned mercy. Two boys once traded clothes for a game. And England, without ever quite knowing it, traded for two good kings. And that is how mercy is made: not in palaces, but on hard roads."
+        }
+      ]
+    }
+  ]
+}

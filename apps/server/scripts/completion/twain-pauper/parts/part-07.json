@@ -1,0 +1,374 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 7 · Learning to Be a Prince",
+    "art": "pauper-prince-lessons",
+    "artPrompt": "A grand royal bedchamber at morning: a bewildered pauper boy sits up in a huge carved bed among crimson silk curtains, a liveried servant offering a silver ewer while great lords watch from the doorway with worried kindness, tapestries and pale window light behind; warm gold and crimson palette, gentle comic-tender mood, historical storybook illustration.",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "The great day at the abbey was still far away, and the strange weeks before it began quietly. Tom woke in a bed so grand he was afraid to move. Silk curtains hung above him, and a servant stood waiting with warm water for his hands. Somewhere in the palace, silver doors were opening for a boy who had slept on straw all his life."
+      },
+      {
+        "kind": "text",
+        "text": "\"I am not the prince,\" Tom cried out. \"I am Tom Canty, of Pudding Lane. Where is the true prince?\" No one was angry. The great lords only shook their heads and said the prince's illness had shaken his wits. They humored him kindly, as one humors a sick child, and hoped the strange fever would pass."
+      },
+      {
+        "kind": "text",
+        "text": "So Tom saw that arguing was useless, and gave it up. He began, very quietly, to learn. He learned which door led where, and when to speak, and when to keep still, and how to wear silk without stumbling over it. It was like a game of pretend that would not stop — and only Tom knew how much it was not a game."
+      },
+      {
+        "kind": "image",
+        "art": "pauper-prince-lessons",
+        "text": "Tom, lost in velvet among bowing servants, wonders how a pauper came to wake in a prince's bed."
+      },
+      {
+        "kind": "note",
+        "text": "New word: humour — to be gently patient with someone and let them have their own way. Ask your child: why did nobody believe Tom?",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "His old kindness showed through everything. He asked the servants their names, and where they lived, and whether their children were well. No prince had ever talked so, and even the sour old stewards softened when he thanked them. The whole palace began to love the gentle boy in velvet."
+      },
+      {
+        "kind": "text",
+        "text": "But every night, when the candles were out, Tom whispered the same little prayer: \"Let the true prince come back safe, and let me give him all this again.\" Then he slept, and dreamed, as always, of Pudding Lane. For if the prince never came, what would become of them both?"
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 8 · The Question of the Seal",
+      "art": "pauper-great-seal",
+      "artPrompt": "A candlelit state banquet in a Tudor palace: a small serious boy in crimson velvet studies a great jeweled seal lying on the table before him, kind nobles and a smiling princess seated nearby, silver dishes and golden jugs glinting down the long table; rivers of warm candlelight, curious and comic mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At last came a great state dinner. Silver dishes went up and down the long table, pages poured from golden jugs, and music played softly behind the talk. Princess Elizabeth sat smiling beside Tom, and Lady Jane Grey chatted with him like an old friend, until he almost forgot to be afraid."
+        },
+        {
+          "kind": "text",
+          "text": "A little bowl of rose-water stood by his plate, and he eyed it doubtfully. Was it for drinking? The old Earl's quick glance warned him in time that it was for his fingers. Tom washed them solemnly, and Lady Jane smiled, and no one laughed at him at all."
+        },
+        {
+          "kind": "text",
+          "text": "After the dinner Tom asked the question that had been troubling him. \"What is the Great Seal of England for?\" The old Earl turned the heavy disc in his hands and explained about sealing great papers. But Tom asked again, and again, and the more he asked, the less the lords could truly tell him."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-great-seal",
+          "text": "Tom studies the Great Seal of England by candlelight, wondering what it is truly for."
+        },
+        {
+          "kind": "note",
+          "text": "New word: seal — a great stamp pressed into warm wax to make a paper official. Ask your child: why did the lords find Tom's question so strange?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last the lords shook their heads over the prince's strange sickness. The Seal was carried away and laid by, until it should be wanted. Only Tom knew one use for it that no lord had ever guessed — but that was his own secret, and he kept it carefully."
+        },
+        {
+          "kind": "text",
+          "text": "So the days went by, and Tom grew daily more at home in silk. Yet in his heart he never stopped listening for footsteps on the stair — for the true prince, coming back at last to claim his own."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The River Pageant",
+      "art": "pauper-river-pageant",
+      "artPrompt": "A golden royal barge sweeps down the busy Thames past crowded banks under a bright sky: a small boy in silk waves from a canopy of crimson, rowers in fine livery bend to the oars, banners stream, and far off on the shore a ragged boy with the same face presses forward through the cheering crowd; bright river blues with gold and crimson, festive and bittersweet mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright day the Prince of Wales rode through London in a golden barge, and all the city ran to the river banks to see. Trumpets played, banners streamed from every mast, and the crowd shouted until it was hoarse. Oars flashed, water sparkled, and the whole river seemed to be celebrating."
+        },
+        {
+          "kind": "text",
+          "text": "Tom sat wrapped in silk under a canopy, waving as he had been taught. He had never dreamed of such riches, and he wondered that in a city so grand anybody could go hungry. Yet even there, among the splashing oars, his thoughts kept flying back to Pudding Lane."
+        },
+        {
+          "kind": "text",
+          "text": "And there, on the bank, in the very front of the crowd, stood a boy in rags with the same face as the prince. It was Edward. He watched his own double sail past in glory, and his heart burned. The people cheered the barge and never once looked at him."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-river-pageant",
+          "text": "A ragged boy on the riverbank watches his own double ride past in a golden barge."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pageant — a grand procession or show held to honour someone great.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"I am the Prince of Wales!\" Edward cried out, forgetting everything else. The crowd roared with laughter — a beggar boy, a prince! And John Canty seized him by the collar and dragged him away into the dark streets, while the trumpets played on."
+        },
+        {
+          "kind": "text",
+          "text": "That night Edward lay hungry in a doorway, and the trumpets still rang in his ears. \"One day,\" he swore in the dark, \"I shall remember how this felt. No king of mine shall forget the people standing on the bank.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · Offal Court",
+      "art": "pauper-offal-court",
+      "artPrompt": "A dim one-room home at the top of a rotting stair in a narrow London court: a proud ragged boy stands straight among a rough family — a growling father, a muttering grandmother, two small girls staring — while rain drips through the roof and a coal fire barely glows; deep browns with one warm ember glow, sad but dignified mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "John Canty dragged the boy home to a narrow court where the tall houses leaned together like tired old men. The place was called Offal Court, and the Canty family lived in one room at the top of a rotting stair. Edward looked at the dark little room and felt his heart sink."
+        },
+        {
+          "kind": "text",
+          "text": "\"You are my son Tom,\" growled Canty, \"and my son Tom will beg for me.\" But Edward stood as straight as a soldier. \"I am the Prince of Wales,\" he said, \"and I will not beg.\" For that he was sent supperless to bed — but he went a prince still."
+        },
+        {
+          "kind": "text",
+          "text": "It was a strange homecoming. Two little sisters, Nan and Bet, stared at the \"brother\" who talked like a lord. The grandmother muttered by the fire and threw things at random. There was never quite enough to eat, never a quiet hour, and the roof let in the rain."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-offal-court",
+          "text": "The ragged prince, chin high, stands among the poor Canty family in their one dark room."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Edward would not beg, even to stop his hunger. What would you have done?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So the Prince of Wales learned how the poor of England really lived: cold rooms, empty bellies, hard words, and blows for asking. He said little. But he stored every bit of it away in his heart, as a king stores away what he must one day mend."
+        },
+        {
+          "kind": "text",
+          "text": "In the night Tom's mother crept to the boy's bedside and looked long at his sleeping face. \"It is Tom's face,\" she whispered, \"and yet it is not Tom.\" She kissed him softly and went away wondering — and the strange boy slept on, dreaming of a throne."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Feast at Guildhall",
+      "art": "pauper-guildhall",
+      "artPrompt": "A blazing feast hall in old London: a dripping ragged boy stands defiant in the great arched doorway while lords and ladies at long candlelit tables turn to laugh, a tall scarred soldier pushing through the crowd toward him with a stern face; torchlight and gold on deep shadows, brave and dramatic mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Soon the great pageant day came round, when all London feasted and made merry. John Canty drove his \"son\" through the roaring crowds, for a boy with such a face could beg more in an hour than other beggars in a week. Edward stumbled along, angry and ashamed."
+        },
+        {
+          "kind": "text",
+          "text": "In the crush, Edward tore himself free and ran. He darted through a tall doorway — and found himself in a blazing hall full of lords and ladies. It was the feast at Guildhall, and the whole city's pride sat at table there, with music and wine and a thousand candles."
+        },
+        {
+          "kind": "text",
+          "text": "A ragged boy stood dripping in the doorway, and the hall went quiet — and then shook with laughter. \"I am the Prince of Wales!\" Edward cried. \"Make way for me!\" The lords thumped the tables and roared. Never, they said, had they heard such a fine jest."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-guildhall",
+          "text": "A ragged boy stands unbowed in the doorway of a blazing Guildhall feast while the lords laugh."
+        },
+        {
+          "kind": "note",
+          "text": "New word: jest — a joke. Ask your child: why was Miles the only one in the hall who did not laugh?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then a tall soldier pushed his way through the crowd, and the laughter died around his face. He bowed low before the ragged boy. \"The prince is my master,\" he said. \"Who mocks him, mocks Miles Hendon — and Miles Hendon is not mocked.\""
+        },
+        {
+          "kind": "text",
+          "text": "He led Edward out of the hall, through the staring crowd, into the quiet street. And Edward, catching his breath, looked up at the scarred, kind face, and knew that he had found the one friend in London who did not laugh at him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Miles Hendon",
+      "art": "pauper-miles-hendon",
+      "artPrompt": "A humble lodgings room at night: a tall scarred soldier stands guard with drawn sword by a low fire while a ragged boy sleeps soundly on a pallet, boots and cloak cast on the floor, shutters fast against the dark street; warm ember light against deep blue night, faithful guardian mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Miles Hendon was a soldier home from the wars, with a good sword, an empty purse, and a history. His father was old Sir Richard of Hendon Hall. His elder brother was Hugh, who wrote him fair letters. And Miles himself had not seen his home for many years."
+        },
+        {
+          "kind": "text",
+          "text": "He did not believe one word of the boy's story. But he saw that the boy was hungry, brave, and utterly alone — and that was enough for Miles. He bought him supper and called him \"Your Majesty\" with a perfectly straight face, and asked for nothing but that the boy should eat."
+        },
+        {
+          "kind": "text",
+          "text": "All night he stood guard at the prince's door, sword ready, \"as a knight should keep watch for his king.\" Nobody troubled them. And in the morning, who should come roaring for his \"son\" but John Canty himself, with threats on his lips."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-miles-hendon",
+          "text": "By a low fire, Miles Hendon stands guard with his sword while the exhausted prince sleeps."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Miles did not believe Edward was a prince. Why do you think he stayed anyway?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Miles stepped in front of the boy. \"This is my nephew,\" he said coldly, \"and he is mad — he thinks himself a prince. Touch him, and you answer to me.\" Canty, who feared a soldier's sword more than a boy's tongue, slunk off down the street."
+        },
+        {
+          "kind": "text",
+          "text": "\"Mad or no,\" said Miles to himself, \"the lad has the heart of a king, and no business wandering these streets alone.\" So the strange march began — a prince who was a pauper, and a servant who was a true friend, on the roads of England."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Long Live the King",
+      "art": "pauper-proclamation",
+      "artPrompt": "A torchlit palace courtyard at night beneath a great tolling bell: heralds with trumpets cry the news to a gathered crowd while white-faced lords cluster on the steps, banners stirring, a small bewildered boy in silk standing among them; midnight blues with torch gold and crimson banners, solemn dramatic mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Meanwhile, at the palace, a secret trouble was growing. The Prince of Wales had not come home, and though searchers went out quietly, no prince could be found. The court kept the matter dark, for a lost prince is a dangerous thing to talk about, and lords grew grey with worry."
+        },
+        {
+          "kind": "text",
+          "text": "Tom waited too. Every morning he listened for the true prince's step; every morning the servants only bowed. He dared not ask too much, and the great lords gave him grave smiles and no answers at all."
+        },
+        {
+          "kind": "text",
+          "text": "Then, one winter night, a bell began to toll. The old king, Henry the Eighth, was dying. Lords hurried through the corridors with torches, and the whole palace held its breath, and before morning the great bell told London the news: the king was dead."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-proclamation",
+          "text": "Beneath a tolling bell, heralds cry the news while torchlit lords gather in the palace yard."
+        },
+        {
+          "kind": "note",
+          "text": "New word: proclaim — to announce something to everyone in a loud, official voice. Ask your child: why did no one believe Tom when he said who he was?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The council gathered, white-faced. \"The Prince of Wales lives,\" said the Earl of Hertford, \"and he is in this palace still. There is nothing to do but cry God save the King.\" And they meant the boy in the palace — Tom."
+        },
+        {
+          "kind": "text",
+          "text": "So Tom Canty was proclaimed King of England, with trumpets and banners he did not want. \"I am not the king!\" he cried. \"Oh, where is the true prince?\" And the lords sighed kindly, for they were sure his wits were still sick."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The King's First Court",
+      "art": "pauper-kings-court",
+      "artPrompt": "A crowded Tudor courtroom seen from behind the throne: a small boy king sits with his hands gripping the arms of the great chair as a weeping woman and her daughter kneel below, judges and guards looking on, dusty window beams crossing the hushed hall; sombre oak tones with one bright ray of light, tender and thoughtful mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Soon the new king had to sit in judgment, as all kings must. Tom sat on the throne of justice with his small hands gripping its arms, and learned that the room below him was full of trembling people whose lives lay in his single word."
+        },
+        {
+          "kind": "text",
+          "text": "First came three men condemned to death for poisoning a great lady. \"Did anyone see them do it?\" asked Tom. No one had; they were condemned on suspicion only. \"Then no man can say they did it,\" said Tom. \"They shall go free.\" And the whole court gasped."
+        },
+        {
+          "kind": "text",
+          "text": "Then came a poor woman and her daughter, condemned as witches for raising a storm. \"A storm!\" said Tom. \"Did she make the wind blow?\" The woman swore, weeping, that she could not harm a sparrow. Tom looked at her hungry face and remembered Pudding Lane."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-kings-court",
+          "text": "The boy king on his throne pardons a weeping woman and her daughter as the court stares."
+        },
+        {
+          "kind": "note",
+          "text": "New word: suspicion — a belief that someone may be guilty, without any proof. Ask your child: was it fair to punish the woman for the storm?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Set them free,\" he said, \"and give them bread.\" The judges murmured, but the people in the hall cheered until the roof rang. Word went through London that the young king was as gentle as he was grand, and crowds gathered simply to watch him pass."
+        },
+        {
+          "kind": "text",
+          "text": "And Tom, walking back to his rooms, felt taller than he had ever felt in silk. He had gone hungry, and he had been afraid, and now every hungry, frightened person in England was his to protect. \"Perhaps,\" he thought, \"I can do some good after all.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Whipping Boy",
+      "art": "pauper-whipping-boy",
+      "artPrompt": "A rich state banquet under a crimson canopy: the small boy king listens, charmed, to a clever girl in grey silk beside him, while at the door a tearful page boy waits with cap in hand, gold plates and candle flames repeating down the table; warm gold and rose tones, gentle comic-sad mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was a grand state banquet too, with music and gold plates and long speeches, and Tom at the head learning the king's ways bit by bit. Best of all sat Lady Jane Grey, who talked with him of books and stars as if he were nobody grand at all. With her, Tom almost forgot his fear."
+        },
+        {
+          "kind": "text",
+          "text": "One morning after it, a boy of the court crept into the king's room with tears on his cheeks. It was Humphrey Marlow — and his business was a strange one. When his master did wrong, Humphrey was whipped in his place. That was his whole trade at court."
+        },
+        {
+          "kind": "text",
+          "text": "\"But my master has forgotten me these many days,\" Humphrey explained, wiping his eyes. \"And my father says my place is lost. Oh, sir, I don't want to lose my trade!\" And he looked so mournful that the king could scarcely keep his face straight."
+        },
+        {
+          "kind": "image",
+          "art": "pauper-whipping-boy",
+          "text": "The boy king comforts the tearful whipping boy, Humphrey Marlow, in the palace chamber."
+        },
+        {
+          "kind": "note",
+          "text": "New word: err — to do wrong or make a mistake. A whipping boy took the punishment when his master did err.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Tom, who had been beaten many a time for nothing at all, took the boy's hand. \"You shall not lose your place,\" he said gently. \"I will remember you always, Humphrey.\" And Humphrey dried his eyes and served him gladly ever after, and told him all the little news of the court."
+        },
+        {
+          "kind": "text",
+          "text": "So the days passed, and the boy king grew surer and kinder week by week. The old lords nodded over him. The poor blessed his name at the gates. Only Tom himself knew how he still wished for one thing: the true prince, safe, and his own again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Prince with the Tramps",
+      "art": "pauper-tramps",
+      "artPrompt": "A tramp camp around a wood fire at dusk: fierce ragged beggars sprawl and swagger, one showing a fake sore, while a watchful tall soldier draws a small proud boy away into the rising fog, trees black behind the flames; ember orange against blue-grey mist, tense but hopeful mood, historical storybook illustration.",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Far from the palace, Edward and Miles walked the roads of England. Their purse was thin, their lodgings were rough, and the prince learned to sleep on straw as if he had been born to it. He complained of nothing — but he noticed everything, and his notebook heart filled page by page."
+        },
+        {
+          "kind": "text",
+          "text": "One evening they fell in with a gang of tramps camped round a fire in the woods, with a great fierce beggar at their head whom all called the Ruffler. Miles kept his hand near his sword, and they were allowed to sit and share the fire."
+        },
+        {
+          "kind": "text",
+          "text": "The tramps made a trade of misery. Fake sores appeared and vanished; limps came and went; sad stories were told with practiced tears. \"It is all lies,\" whispered Edward, horrified, \"lies to beg with!\" \"Hush, my boy,\" murmured Miles, \"for here, even a king must keep quiet.\""
+        },
+        {
+          "kind": "image",
+          "art": "pauper-tramps",
+          "text": "Tramps sprawl around a campfire while a watchful soldier leads a small boy away into the fog."
+        },
+        {
+          "kind": "note",
+          "text": "New word: tramp — a person who wanders from place to place with no home and no work.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They bade the boy go out and beg in his turn. \"I am the King of England,\" said Edward, \"and I will beg for no man.\" The tramps roared. \"A mad one!\" they cried. \"Mad or no, he shall beg by morning, or feel the Ruffler's staff.\""
+        },
+        {
+          "kind": "text",
+          "text": "But that night a thick fog came up from the marshes, and Miles led his Majesty away between the sleeping rascals, soft as a cat. Among them, snoring, lay John Canty, who muttered in his dream, \"Tom... come back...\" But the fog swallowed the two friends, and they were gone."
+        }
+      ]
+    }
+  ]
+}

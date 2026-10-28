@@ -1,0 +1,70 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The Steadfast Tin Soldier",
+      "art": "an2-tinsoldier",
+      "artPrompt": "a one-legged tin soldier standing firm on the stone sill of an open window, gazing at a paper ballerina in a gauzy skirt raising one leg, a paper castle and little trees on the table behind, evening light through lace curtains, gentle storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There were once twenty-five tin soldiers, all brothers, for they had been made from one old tin spoon. They shouldered their muskets and looked straight ahead, splendid in red and blue. But the last soldier had only one leg, for he had been made last of all, and the tin had run short. Yet he stood on his one leg as firmly as the others stood on two."
+        },
+        {
+          "kind": "image",
+          "art": "an2-tinsoldier",
+          "text": "The little one-legged soldier gazes at the dancer in the window."
+        },
+        {
+          "kind": "note",
+          "text": "New word: steadfast — standing firm, and never giving up.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the table stood a paper castle, and at its little door danced a paper ballerina in a gauzy skirt. She stood on one leg too, with the other stretched high in the air. “She has one leg, like me,” thought the soldier. “She is the one for me.” But a goblin in a snuffbox growled: “Keep your eyes to yourself!” The soldier pretended not to hear — and the goblin did not forget."
+        },
+        {
+          "kind": "text",
+          "text": "In the morning the soldier fell from the window, down among the stones. Boys folded a paper boat, set him in it, and sent him sailing down the gutter. He sailed through the dark, past racing rats, over a waterfall at the road's end — and into the mouth of a great fish. The fish swam and swam, till one day it was caught, carried to market, and sold. In the kitchen it was cut open — and there lay the tin soldier, still holding his musket, still steadfast."
+        },
+        {
+          "kind": "text",
+          "text": "The cook set him back on the windowsill, in his old place, and there stood the ballerina still, balancing on one leg. But the wind blew the paper dancer from the table, straight into the stove, and the flames took her at once. Then the wind whirled the soldier from the sill after her, into the very same fire. The heat was great, but he stood fast, and his colours faded — and no one could say afterwards whether it was the fire or the love that melted him. Next morning the maid swept out the ashes. There lay a little tin heart, and beside it the burnt spangle that had been the dancer's dress."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Fir Tree",
+      "art": "an2-firtree",
+      "artPrompt": "a small decorated fir tree with lighted candles, gilt apples and paper flags standing proud in a warm parlour on Christmas Eve, children circling it hand in hand, a gold star on its tip, cosy firelight and soft snow at the dark window, glowing storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Out in the forest stood a little fir tree. It was young and green, and the sun shone on it and the sweet air washed it — but the little tree was not happy. “I want to grow tall,” it said, “like the great firs, and see the world.” So it never enjoyed the warm sunshine, nor the robins that sang above it."
+        },
+        {
+          "kind": "image",
+          "art": "an2-firtree",
+          "text": "The fir tree shines with candles while the children dance."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: the fir tree waited all its life for one happy night. Did it enjoy the nights before? What made that night happy?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Years went by, and the tree grew tall indeed. One winter the woodcutters came, and the axe fell, and the fir tree was carried away in a waggon, far from the forest. “Now my life begins!” it thought. It was set up in a fine parlour and dressed from top to bottom: gilt apples, coloured candles, paper flags — and at the very top a great gold star. That night the candles were lighted, and the children danced round the tree, and it was the proudest, happiest moment of its life."
+        },
+        {
+          "kind": "text",
+          "text": "But the next day the candles were out, and the tree was dragged up to the loft and left in the dark. The mice came and asked what the brightest room in the world was like, but the tree could only sigh about its own lost night. In spring the door opened, and the tree was dragged out into the yard. “Now I shall live again!” it cried. But they laid it against the wall, and it dried brown, till a man came and carried it into a great stove, where it burned with a crack and a sigh."
+        },
+        {
+          "kind": "text",
+          "text": "The children danced round the bright fire, for no one remembers a tree for long. And that, says the old tale, is why we should enjoy today, and not wait all our lives for tomorrow."
+        }
+      ]
+    }
+  ]
+}

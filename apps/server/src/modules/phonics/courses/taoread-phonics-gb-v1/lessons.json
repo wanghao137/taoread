@@ -1771,5 +1771,313 @@
       "r-l53"
     ],
     "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L54",
+    "order": 54,
+    "titleZh": "惊讶的音（ou / ow）",
+    "prerequisites": [
+      "L53"
+    ],
+    "newMappingIds": [
+      "g-ou",
+      "g-ow2"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV",
+      "CCVC"
+    ],
+    "taskIds": [
+      "L54-model-ou",
+      "L54-hear-ou",
+      "L54-model-ow2",
+      "L54-hear-ow2",
+      "L54-meaning-cow",
+      "L54-meaning-how",
+      "L54-meaning-now",
+      "L54-meaning-down",
+      "L54-meaning-out",
+      "L54-meaning-cloud",
+      "L54-blend-cow",
+      "L54-build-cow",
+      "L54-build-how",
+      "L54-build-now",
+      "L54-build-down",
+      "L54-build-out",
+      "L54-build-cloud",
+      "L54-oral-out",
+      "L54-read"
+    ],
+    "readerIds": [
+      "r-l54"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L55",
+    "order": 55,
+    "titleZh": "好吵的音（oi / oy）",
+    "prerequisites": [
+      "L54"
+    ],
+    "newMappingIds": [
+      "g-oi",
+      "g-oy"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV"
+    ],
+    "taskIds": [
+      "L55-model-oi",
+      "L55-hear-oi",
+      "L55-model-oy",
+      "L55-hear-oy",
+      "L55-meaning-oil",
+      "L55-meaning-coin",
+      "L55-meaning-boy",
+      "L55-meaning-toy",
+      "L55-meaning-joy",
+      "L55-blend-oil",
+      "L55-build-oil",
+      "L55-build-coin",
+      "L55-build-boy",
+      "L55-build-toy",
+      "L55-build-joy",
+      "L55-oral-joy",
+      "L55-read"
+    ],
+    "readerIds": [
+      "r-l55"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L56",
+    "order": 56,
+    "titleZh": "看画的音（aw）",
+    "prerequisites": [
+      "L55"
+    ],
+    "newMappingIds": [
+      "g-au",
+      "g-aw"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV",
+      "CCV",
+      "CCVC"
+    ],
+    "taskIds": [
+      "L56-model-au",
+      "L56-hear-au",
+      "L56-model-aw",
+      "L56-hear-aw",
+      "L56-meaning-saw",
+      "L56-meaning-paw",
+      "L56-meaning-draw",
+      "L56-blend-saw",
+      "L56-build-saw",
+      "L56-build-paw",
+      "L56-build-draw",
+      "L56-oral-draw",
+      "L56-read"
+    ],
+    "readerIds": [
+      "r-l56"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L57",
+    "order": 57,
+    "titleZh": "小雨点的音（ew）",
+    "prerequisites": [
+      "L56"
+    ],
+    "newMappingIds": [
+      "g-ew"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV"
+    ],
+    "taskIds": [
+      "L57-model-ew",
+      "L57-hear-ew",
+      "L57-meaning-new",
+      "L57-meaning-few",
+      "L57-blend-new",
+      "L57-build-new",
+      "L57-build-few",
+      "L57-oral-few",
+      "L57-read"
+    ],
+    "readerIds": [
+      "r-l57"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L58",
+    "order": 58,
+    "titleZh": "会变声的 c",
+    "prerequisites": [
+      "L57"
+    ],
+    "newMappingIds": [
+      "g-c2"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC"
+    ],
+    "taskIds": [
+      "L58-model-c2",
+      "L58-hear-c2",
+      "L58-meaning-ice",
+      "L58-meaning-rice",
+      "L58-meaning-nice",
+      "L58-blend-ice",
+      "L58-oral-nice",
+      "L58-read"
+    ],
+    "readerIds": [
+      "r-l58"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L59",
+    "order": 59,
+    "titleZh": "夜晚的音（igh / y）",
+    "prerequisites": [
+      "L58"
+    ],
+    "newMappingIds": [
+      "g-igh",
+      "g-y2"
+    ],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV",
+      "CCV"
+    ],
+    "taskIds": [
+      "L59-model-igh",
+      "L59-hear-igh",
+      "L59-model-y2",
+      "L59-hear-y2",
+      "L59-meaning-light",
+      "L59-meaning-night",
+      "L59-meaning-right",
+      "L59-meaning-high",
+      "L59-meaning-sky",
+      "L59-meaning-fly",
+      "L59-blend-light",
+      "L59-build-light",
+      "L59-build-night",
+      "L59-build-right",
+      "L59-build-high",
+      "L59-build-sky",
+      "L59-build-fly",
+      "L59-oral-fly",
+      "L59-read"
+    ],
+    "readerIds": [
+      "r-l59"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L60",
+    "order": 60,
+    "titleZh": "三连音（spr / str）",
+    "prerequisites": [
+      "L59"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CCCVC"
+    ],
+    "taskIds": [
+      "L60-meaning-spring",
+      "L60-meaning-string",
+      "L60-meaning-street",
+      "L60-blend-spring",
+      "L60-build-spring",
+      "L60-build-string",
+      "L60-build-street",
+      "L60-oral-street",
+      "L60-read"
+    ],
+    "readerIds": [
+      "r-l60"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
+  },
+  {
+    "id": "L61",
+    "order": 61,
+    "titleZh": "读一本长音小书",
+    "prerequisites": [
+      "L60"
+    ],
+    "newMappingIds": [],
+    "capitals": [],
+    "exceptions": [],
+    "punctuation": [
+      "."
+    ],
+    "allowedShapes": [
+      "VC",
+      "CVC",
+      "CV",
+      "CCV",
+      "CVCC",
+      "CCCVC"
+    ],
+    "taskIds": [
+      "L61-hear-oi",
+      "L61-hear-igh",
+      "L61-meaning-my",
+      "L61-blend-my",
+      "L61-build-my",
+      "L61-read"
+    ],
+    "readerIds": [
+      "r-l61"
+    ],
+    "parentGuideZh": "跟随中文指令即可。先确认词义；孩子可以暂停。口头读出没有自动评分，请只补记自己实际观察到的情况。"
   }
 ]

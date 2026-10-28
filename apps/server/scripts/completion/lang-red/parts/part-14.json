@@ -1,0 +1,207 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 14 · Graciosa and Percinet",
+      "art": "lr-graciosa-percinet",
+      "artPrompt": "a glowing underground palace of gold and pearls with a small waterfall that seems to sing, a gentle fairy prince offering his hand to a girl in a simple gown, crystals lighting the cavern in soft rose and gold, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a lovely girl named Graciosa, who lived happily with her father, the old Count. Then the Count married again, and his new wife was really a cruel fairy called Grognon. She came to the castle disguised as a grand lady. Her true self appeared as soon as the wedding was over. She hated Graciosa at sight, and set her task after task too hard for anyone. Things that could not be washed, counted or carried in a single day. 'If it is not done by nightfall,' said Grognon, smiling, 'you shall have no supper — and worse.'"
+        },
+        {
+          "kind": "text",
+          "text": "But Graciosa had a secret friend: Percinet, a young fairy prince, king of a kingdom underground. He had loved Graciosa a long while. And he could do more with magic in an hour than a hundred servants in a year. Whenever Grognon set a task, Percinet had it finished by nightfall. Whenever she was cruel past bearing, he carried Graciosa down to his kingdom, all gold and pearls and singing water. 'Stay with me forever,' said Percinet. But Graciosa loved the sun, and the world above, and could not stay. And at last the old Count died, and the castle grew no place for her at all."
+        },
+        {
+          "kind": "image",
+          "art": "lr-graciosa-percinet",
+          "text": "The singing water, and the kingdom underground."
+        },
+        {
+          "kind": "note",
+          "text": "New word: disguised — dressed so that nobody knows who you are. Grognon wore a grand disguise, which is why it is wise to judge people by what they do, not what they wear.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then Grognon went too far. She ordered her servants to carry Graciosa away and never bring her back. The servants were fond of Graciosa, so they set her free in the forest instead. There Percinet found her, weeping, and brought her to his kingdom. But that very season a young king came hunting, saw Graciosa, and asked her to marry him. Graciosa said yes, for she was glad to see the sun again. Grognon came raging to the wedding feast in her ugliest mood — but Percinet appeared before her. And Grognon, who was cruel to everyone, could not stand against him, and vanished, and never troubled anyone again. Only Percinet was sad. 'You have chosen the world above,' he said, 'so farewell.' And he went down to his kingdom and was never seen again. Graciosa was a queen, and sometimes, on quiet evenings, she wondered about the pearls and the singing water."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Earl of Cattenborough",
+      "art": "lr-cattenborough-cat",
+      "artPrompt": "a proud tabby cat in tall black boots and a sash striding down a palace corridor carrying a small sack, courtiers bowing, a young man in fine new clothes and a princess watching from a marble staircase, warm golden palace light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a poor young man whose father left him nothing in the world but a cat. 'A pretty fortune,' sighed the young man. 'You may laugh,' said the cat, 'but give me a fine pair of boots, and you shall see.' The young man had just enough money for the boots. The cat strutted off in them, whiskers up, as grand as you please."
+        },
+        {
+          "kind": "text",
+          "text": "Every day the cat caught game in the woods and carried it to the palace, bowing low. 'A present from my master, the Earl of Cattenborough,' he said. The king had never heard of any such earl, but the presents were fine, and the title grander. At last the cat ran to the king, out of breath. 'My master is drowning! He fell into the river while bathing!' The king sent fine clothes and his own carriage at once. Out of the water stepped the young man, dressed like an earl from top to toe. The king's daughter looked, and lost her heart entirely."
+        },
+        {
+          "kind": "image",
+          "art": "lr-cattenborough-cat",
+          "text": "A present from the Earl of Cattenborough."
+        },
+        {
+          "kind": "note",
+          "text": "New word: flattery — nice words that may not be quite true. The cat used it very bravely; at home, we like the truth best.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The king and his daughter drove out with the Earl of Cattenborough, and the cat ran ahead to make everything ready. Wherever trouble stood in the road, a little flattery and one loud cry made everything smooth. By the time the carriage stopped, the young man seemed master of the grandest house in the country. The marriage was settled that very day. As for the cat, he lived in the palace ever after, waited on like a lord, in great honour."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · Snow-White and Rose-Red",
+      "art": "lr-snowwhite-rosered",
+      "artPrompt": "a cozy winter cottage interior with a huge friendly black bear lying on the hearth rug by the fire, two girls in red and white dresses brushing snow from his fur, a window showing one red and one white rose bush under snow, warm firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A poor widow lived in a little cottage by the wood, with a garden where two rose trees grew. One bore red roses, and one bore white. She had two daughters, Snow-White and Rose-Red, as different as their names. They were as fond of each other as two sisters could be. One winter evening something knocked at the door, and in came a great black bear. 'Don't be afraid,' said the bear, 'I am only shivering with cold.' Soon the girls were brushing the snow off his coat, and every night that winter he slept by the fire."
+        },
+        {
+          "kind": "text",
+          "text": "In spring the bear had to go away and guard his treasure in the mountains from a wicked dwarf. The girls missed him sadly all summer. Walking in the wood, they met the dwarf himself three times. First his beard was caught fast in a split tree. Then it was snarled in a thornbush. Then a great bird seized him by it and carried him into the air. Each time the girls cut him loose, and each time he snarled instead of thanking them. And each time he hurried away with his sacks of gold."
+        },
+        {
+          "kind": "image",
+          "art": "lr-snowwhite-rosered",
+          "text": "The winter guest, drying off by the fire."
+        },
+        {
+          "kind": "note",
+          "text": "New word: treasure — gold, jewels and precious things. The dwarf guarded his treasure fiercely and lost everything anyway, which is what comes of snarling.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The third time, as the girls freed him, there came a crash in the wood. It was the great black bear. The dwarf screamed and offered all his treasure if the bear would let him be. But the bear struck once, and the dwarf lay still, and no one was sorry. Then the bear's skin fell from him — and there stood a golden prince. 'The dwarf stole my treasure and changed me into a bear,' he said. 'Now I am free.' Snow-White married the prince, and Rose-Red married his brother. And the two rose trees were brought to the palace garden. There they bore red roses and white every summer, as long as anyone can tell of it."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · Brother and Sister",
+      "art": "lr-brother-sister",
+      "artPrompt": "a moonlit forest clearing with a tiny cottage of green branches, a girl in a simple dress feeding a small roe-deer wearing a golden garter, fireflies among the trees, soft silver-green night light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a little brother and a little sister whose stepmother was a witch in disguise. She used them so ill that one evening they ran away together into the great wood. They slept that night in a hollow tree, arm in arm. But the stepmother had secretly spelled every spring in the wood. In the morning the little brother was burning with thirst. Each time he ran to a spring, the sister begged him to wait. The third time he could not. He knelt and drank, and was changed before her eyes into a little roe-deer."
+        },
+        {
+          "kind": "text",
+          "text": "The sister wept, but the deer laid his head in her lap. She tied her golden garter round his neck for a collar. They stayed together in the wood. She built them a little house of green branches. She gathered moss for beds and berries for supper, and the deer cropped the grass outside. One day the king of that country came hunting in the wood, and found the little house. He saw the girl, and liked her kindness so well that he asked her to be his queen. She said yes — but the little deer must come too. And the deer lived in the palace garden, and all was well, for a while."
+        },
+        {
+          "kind": "image",
+          "art": "lr-brother-sister",
+          "text": "The little house in the wood, and the deer with the golden garter."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the little deer had to wait to drink, and waiting kept him safe — until the day he could not. Ask your child: when is waiting the wise thing to do?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the witch had not forgotten them. While the king was away, she crept in with her own daughter, and did the young queen a great harm. Then she set her daughter in the queen's place. But the true queen came back for a little while, soft and white as moonlight. She came to look at her baby in the cradle. On the third night the king was watching. He caught her hand and held her, and she was alive again, rosy and warm. Then the truth came out about the witch and the false bride, and they were punished, and troubled nobody more. The queen laid her hand on the little deer's head, and there stood her brother, a boy again. And the brother and sister, who had run away into the wood, never had an unhappy day again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Enchanted Pig",
+      "art": "lr-enchanted-pig",
+      "artPrompt": "a determined princess in a travel cloak with worn iron shoes arriving at a small cottage at the edge of the world at dawn, a sleeping prince visible through the open door, stars fading over far hills, pale rose-gold morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a king who found a wonderful old book in his library. It told the fates of his three daughters. The two elder read fine fates. But the youngest opened her page, and went pale: she was to be married to a pig. The king did all he could think of. He hid her, and watched the roads. But one day a great pig came grunting up to the palace gate, and asked for his bride."
+        },
+        {
+          "kind": "text",
+          "text": "So the princess had to go with the pig, in her finest gown, weeping all the way. The pig's house was grand, and the pig was kind to her. And every night he took off the pig's shape and was a handsome young prince. 'Keep my secret,' said the prince, 'and the spell will end in its own time.' But her mother came to visit, and coaxed, and kissed, and asked so sweetly that out came the secret. Next morning the prince put on his pig shape, flew out of the window, and was gone."
+        },
+        {
+          "kind": "image",
+          "art": "lr-enchanted-pig",
+          "text": "The end of the road, and the iron shoes worn through."
+        },
+        {
+          "kind": "note",
+          "text": "New word: fate — what is meant to happen to you. The book of fates said a pig, but the book said nothing about a princess who could walk in iron shoes.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the princess understood what she had done, and set out to find him. She had iron shoes made for the journey, and she walked and walked, and asked at every house. She came to the house of the Moon, and the house of the Sun, and the house of the Winds. The old mother of each asked her in, fed her, and gave the same news. 'He passed here not long ago,' they said. At last her iron shoes were worn through to her bare feet. She limped to one more little house at the edge of the world — and there he lay asleep. She sat down, took his hand, and waited. And as she held it, the enchantment was ended at last, and the pig shape fell from him forever. He knew her at once, iron shoes and all, and they went home."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Dick Whittington and his Cat",
+      "art": "lr-whittington-cat",
+      "artPrompt": "a boy in ragged clothes sitting on a milestone on a country road outside old London at dusk, church spires and ringing bells across the fields, a small cat sitting beside him looking toward the city, warm rose and amber evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a poor boy named Dick Whittington, who had heard that the streets of London were paved with gold. When he got there the streets were paved with mud, and Dick was hungrier than ever. A kind rich merchant took him into his house to work in the kitchen. But the kitchen was full of rats, and Dick had one penny in the world. He spent it on a cat. The cat kept the rats down nicely, and Dick slept soundly at last."
+        },
+        {
+          "kind": "text",
+          "text": "One day a ship was going out to far countries, and every servant might send one thing to sell. Dick had nothing in the world but the cat — so the cat went to sea. The ship came at last to a golden shore where the king's palace was overrun with rats and mice. The cat made short work of them all. 'What will you take for it?' asked the king. And he paid more gold for one small cat than Dick had ever dreamed of. The gold sailed home to London in Dick's name."
+        },
+        {
+          "kind": "image",
+          "art": "lr-whittington-cat",
+          "text": "Turn again, Whittington."
+        },
+        {
+          "kind": "note",
+          "text": "New word: merchant — a person who buys and sells things, sometimes across the sea. Mr. Fitzwarren was the best kind: the kind who gives a kitchen boy his honest share.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Dick, meanwhile, had run away from a rough cook, and sat outside the city on a milestone. He was wondering where to go, when the bells of London began to ring. The wind brought him the words they seemed to say: 'Turn again, Whittington, thrice Lord Mayor of London.' So he turned again — and the very next day the ship came home with the chest of gold. Mr. Fitzwarren, the kind merchant, said the gold was Dick's, every piece of it. Dick grew up rich and kind, married the merchant's daughter Alice, and was three times Lord Mayor of London. And in the old pictures of him there is always a cat sitting at his side."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Little Wildrose",
+      "art": "lr-little-wildrose",
+      "artPrompt": "a girl with wild hair standing on a rocky mountain crag beside an eagle's nest with two young eagles, a prince with a bow far below on the green slopes looking up, drifting clouds and wide golden morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once an old man and his wife who longed for a child. At last a little daughter was born to them, as fresh and pink as a wildrose. They called her Wildrose. But the old people died while she was still small. One day, as she wandered alone by the mountain, a great eagle swept down and carried her off. It set her in its nest on the top of a high crag, where nobody could climb."
+        },
+        {
+          "kind": "text",
+          "text": "The eagle brought her food as if she were one of its own brood. The young eagles grew as fond of her as if she were their sister. Wildrose grew strong and fearless on the crag, with the sky for a roof. She could see the whole world below: the river, the road, the far white town. But there was no way down. One day a king's son came hunting in the mountains, and saw a girl standing on the crag in the sunlight. He had never seen anyone like her, and he came back day after day to look and to wonder."
+        },
+        {
+          "kind": "image",
+          "art": "lr-little-wildrose",
+          "text": "The eagle's crag, high above the world."
+        },
+        {
+          "kind": "note",
+          "text": "New word: crag — a steep, rough rock on a mountainside. A fine home for an eagle, but a hard one for a little girl.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last the prince called up and asked her to come down. 'I cannot,' said Wildrose. 'There is no path.' But the old eagle flew down upon him with her great wings spread, and the prince drew his bow. One true arrow ended the old eagle's wild rule, and then he climbed up and carried Wildrose gently home. She had never worn shoes, nor slept under a roof, nor seen a spoon. But the prince's mother was patient and kind. She taught her all the things a girl in a palace needs to know. Wildrose learned quickly, for she had watched the stars and the birds all her life. And when she was grown she married the prince. All her life after, she would stop and smile whenever an eagle crossed the sky."
+        }
+      ]
+    }
+  ]
+}

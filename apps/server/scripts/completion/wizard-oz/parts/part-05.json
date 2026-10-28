@@ -1,0 +1,377 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 5 · The Guardian of the Gate",
+    "art": "oz-green-gate",
+    "artPrompt": "a little gatekeeper in green clothes fitting tiny green spectacles on a small dog while a girl, a scarecrow, a tin woodman and a lion wait at a towering emerald gate in the morning light, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "The Winged Monkeys flew all day, over dark woods and shining rivers. Toward evening, the green walls of the Emerald City rose up before them. The Monkey King set Dorothy down gently in front of the great gate. “Remember,” he said with a bow, “the Golden Cap may call us only two more times.” Then the Monkeys spread their wings and flew away into the golden sunset."
+      },
+      {
+        "kind": "image",
+        "art": "oz-green-gate",
+        "text": "The Guardian of the Gate fits little green spectacles on every traveler."
+      },
+      {
+        "kind": "text",
+        "text": "Dorothy rang the bell at the gate, once, twice, three times. At last a small window opened, and a little man dressed in green looked out. He was the Guardian of the Gate. When he heard their story, he rubbed his eyes in wonder. “You have really destroyed the Wicked Witch of the West?” he asked. “She melted away,” said Dorothy. “Like brown sugar.” “Then the Winkies are free at last!” cried the Guardian. “Come in, come in, my friends!”"
+      },
+      {
+        "kind": "note",
+        "text": "New word: spectacles — a pair of glasses worn over the eyes. In the Emerald City, the glass is always green.",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "The Guardian unlocked a big green box, full of spectacles of every size. “Everyone in this city must wear them,” he said. “The great green shine would hurt your eyes without them.” He fitted green spectacles on Dorothy, on the Scarecrow, on the Tin Woodman, and on the Lion. He even found a tiny pair for Toto. Then he locked each pair with a little key, so that no one could take them off. Through the green glass, the whole world glowed like a jewel."
+      },
+      {
+        "kind": "text",
+        "text": "The great gate swung open, and the friends walked slowly in. The streets were paved with green marble, and emeralds glittered on every wall. The people wore green clothes and stared at the strangers in wonder. Children peeped out of green doorways and waved. Toto sniffed at the strange green air. At the end of the longest street stood the palace of the great Oz, shining like a green star. “Tomorrow,” said Dorothy softly, “we shall meet the wonderful Wizard himself.”"
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Wonderful City of Oz",
+      "art": "oz-emerald-street",
+      "artPrompt": "four friends and a little dog walking down a green marble street lined with emerald-studded houses and smiling people in green clothes, warm green lamplight glowing at dusk, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That evening the friends walked through the wonderful city. The houses were built of green marble, with emeralds set into the walls. Little shops sold green popcorn, green hats, and green ribbons of every shade. On one corner, a child was selling green lemonade. Dorothy paid a penny and drank it down. It was sweet and cold, and it seemed to taste green all the way through. The people all looked happy and contented."
+        },
+        {
+          "kind": "image",
+          "art": "oz-emerald-street",
+          "text": "The friends walk down the green marble street toward the palace of Oz."
+        },
+        {
+          "kind": "text",
+          "text": "At the end of the street stood the palace of the great Oz. It was grander than anything they had ever seen. Green silk curtains hung beside green marble stairs, and fountains of green water sang in the courtyards. Green peacocks walked on the lawns, and the emeralds caught the light and sparkled. The Scarecrow kept turning his head to look at everything. “A city of green wonders,” he said. “I hope the Wizard is as wonderful as his house.”"
+        },
+        {
+          "kind": "text",
+          "text": "A Soldier with green whiskers was waiting on the palace steps. “We have come to see the Wizard,” said Dorothy politely. He led them to five little rooms, with soft green beds and green towels. Even the Lion got a room, though his bed creaked under his weight. A smiling girl named Jellia Jamb brought them bread, honey, and cold green milk. It was the softest bed Dorothy had slept in for many days."
+        },
+        {
+          "kind": "note",
+          "text": "New word: emerald — a precious jewel of bright green, the favorite stone of the Emerald City.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Everything in this city is green. What color would you choose for a whole city?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the Soldier carried their message to the great Oz. The friends waited and waited, until green lamps were lit in every window. At last he came back, looking very serious. “Oz will see you,” he said. “But only one at a time, and each one alone. The little girl shall come first, tomorrow morning.” Dorothy’s heart went thump, thump, thump. She had walked hundreds of miles for this one moment, and now it was almost here."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Great Head",
+      "art": "oz-giant-head",
+      "artPrompt": "a giant head with no body hovering above a golden throne in a green marble hall, glaring down at a small girl in a green silk gown holding her dog, eerie green torchlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Next morning Jellia Jamb dressed Dorothy in a gown of soft green silk. Then the green Soldier led her down a long green hall. Green curtains hung on both sides, and Toto trotted quietly at her heels. A great door opened all by itself. Dorothy stepped into the Throne Room of Oz. On the shining throne sat the biggest Head she had ever seen. It had no body, no arms, and no legs. It was just a Head, as big as a wagon."
+        },
+        {
+          "kind": "image",
+          "art": "oz-giant-head",
+          "text": "Dorothy, in her green silk gown, sees the great Head of Oz."
+        },
+        {
+          "kind": "text",
+          "text": "“I am Oz, the Great and Terrible,” said the Head. “Who are you, and what do you want?” “I am Dorothy, the small and meek,” said the girl. “Please send me home to Kansas, where Aunt Em lives.” The Head’s eyes turned slowly toward her. “Where did you get the silver shoes on your feet?” it asked. “From the Wicked Witch of the East, when my house fell on her,” said Dorothy. “And where did you get the mark on your forehead?” “The Good Witch of the North kissed me there. It is her kiss, and it protects me.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: meek — quiet, gentle, and humble. Dorothy called herself small and meek.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“What do you wish me to do?” asked the Head. “Send me back to Aunt Em,” said Dorothy. “You are great and strong, and I am only a little girl.” The Head was silent for a long time. “You have already destroyed the Wicked Witch of the West,” it said at last. “That is a great wonder, and I must think what to do. You may go now.”"
+        },
+        {
+          "kind": "text",
+          "text": "The big green door closed behind her, and Dorothy came out with a heavy heart. “He will think about it,” she told her friends. That night she lay in her green bed and watched the moon through the green glass. Somewhere far away, Aunt Em was sleeping in gray Kansas. “He will help me,” Dorothy whispered to Toto. “He is great and terrible, and he must know the way.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Lovely Lady",
+      "art": "oz-green-lady",
+      "artPrompt": "a lovely smiling lady in a flowing green gown seated on a shining throne, a straw scarecrow bowing shyly before her, soft green light filtering through silk curtains, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That evening the Soldier brought new orders from the palace. The Scarecrow would see Oz in the morning. His friends brushed the dust out of his straw and straightened his ragged coat. “Speak up, and do not be afraid,” said the Lion kindly. “I am not afraid,” said the Scarecrow. “But I wish I had my brains already, so I could think of clever words.” Dorothy kissed his painted cheek for luck. The morning sun shone green through the tall palace windows."
+        },
+        {
+          "kind": "image",
+          "art": "oz-green-lady",
+          "text": "The Scarecrow bows low to the lovely Lady on the throne of Oz."
+        },
+        {
+          "kind": "text",
+          "text": "The big green door opened, and the Scarecrow walked in alone. There was no Head on the throne. A lovely Lady sat there instead, in a gown of shining green silk. She smiled at him, and her smile was kind. Green light filled the air like morning, and her gown sparkled like dew. “I am Oz, the Great and Terrible,” she said. “Who are you, and what do you want?”"
+        },
+        {
+          "kind": "text",
+          "text": "“I am only a Scarecrow, stuffed with straw,” he said with a deep bow. “I have no brains, and I come to ask you for some. Please fill my head with good brains, so that I may think like other men.” The Lady looked at him for a long while. “You served the little girl well,” she said, “and you helped destroy the Wicked Witch. That was brave for a man of straw. But brains are a great gift. I must have time to think. Come again another day, my good man.”"
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The Scarecrow asks politely for brains. What would you ask the great Oz for?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The green door closed, and the Scarecrow hurried back to his friends. “I saw a Lady!” he cried. “A lovely Lady in green silk!” Dorothy sat up in surprise. “A Lady?” she said. “But I saw a great Head, as big as a wagon!” The Scarecrow’s painted face grew thoughtful. “Then our Wizard has many faces,” he said slowly, “or something very strange is happening.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Terrible Beast",
+      "art": "oz-terrible-beast",
+      "artPrompt": "a huge gray monster as big as an elephant with five eyes and five long arms crouching on a golden throne, a shiny tin woodman standing bravely before it, dim green torchlight in a marble hall, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On the third morning, it was the Tin Woodman’s turn. He polished his tin from head to foot until he shone like a kettle. “Do not be frightened,” said Dorothy, squeezing his cold hand. “I cannot be frightened,” he answered sadly. “But I do wish I had a heart, to keep me company in there.” Then he marched down the hall, with his axe on his shoulder."
+        },
+        {
+          "kind": "image",
+          "art": "oz-terrible-beast",
+          "text": "The Tin Woodman stands very straight before a terrible Beast as big as an elephant."
+        },
+        {
+          "kind": "text",
+          "text": "No Lady waited on the throne this time. A terrible Beast lay there instead, as big as an elephant. It had five eyes and five long arms, and its voice was deep as thunder. “I am Oz, the Great and Terrible,” it growled. “Who are you, and what do you want?” “I am a Woodman made of tin,” said the traveler. “I have no heart. Please give me one, so that I may love as other men do.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: beast — a big, strong, wild animal. The Beast on the throne had five eyes and five arms.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "It was lucky the Woodman had no heart just then. If he had one, it would have thumped like a drum. The Beast glared at him with all five eyes at once. “You helped free the land from the Wicked Witch,” it growled. “So you are not useless. But a heart is a precious thing. I must think about it. Come again another day.” The green door shut fast, and the hall was quiet again."
+        },
+        {
+          "kind": "text",
+          "text": "The Tin Woodman came back slowly, with one hand on his tin chest. “A Beast!” he told them. “A terrible Beast, as big as a house!” Now the friends were truly puzzled. A Head, a Lady, and a Beast, all in one throne room. “Tomorrow it is my turn,” said the Lion in a very small voice. “What will I see?” Nobody could tell him. That night the Lion hid under the green bed, and only the tip of his tail stuck out."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Ball of Fire",
+      "art": "oz-fire-ball",
+      "artPrompt": "a blazing ball of fire floating over a golden throne, a big lion crouching low with his mane curling from the heat, orange glow filling the great green hall, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At last it was the Lion’s turn. His legs shook, and his great tail hung down between them. “We will wait right here,” said Dorothy, patting his nose. Toto licked the Lion’s paw, and that helped a little. “Then here I go,” said the Lion. He drew himself up, took a deep breath, and walked through the big green door as bravely as he could."
+        },
+        {
+          "kind": "image",
+          "art": "oz-fire-ball",
+          "text": "The Lion crouches low before a burning Ball of Fire on the throne of Oz."
+        },
+        {
+          "kind": "text",
+          "text": "There was no Head, no Lady, and no Beast. On the throne burned a Ball of Fire, so fierce and glowing that the Lion could hardly look at it. The heat swept over him like a hot summer wind. “I am Oz, the Great and Terrible,” said the Fire. “Who are you, and why do you seek me?” “I am a Cowardly Lion, afraid of nearly everything,” said the Lion. “Please give me courage, so that I may become the King of Beasts as I should be.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: fierce — wild, strong, and a little frightening.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Fire flared up, and the Lion’s mane curled a little from the heat. “You helped free the land from the Wicked Witch,” said the Fire. “But courage is a great gift. Why should I give it to you?” “Because you are the greatest Wizard in the world,” said the Lion, “and I am the most cowardly.” The Fire crackled softly and thought. “Come again another day,” it said at last. “I will think about it.”"
+        },
+        {
+          "kind": "text",
+          "text": "The Lion backed out of the room and closed the door with his tail. Now all four friends had seen the great Oz, and no two of them had seen the same thing. “A Head, a Lady, a Beast, and a Ball of Fire,” said Dorothy, counting on her fingers. “The Wizard must be very wonderful,” said the Scarecrow hopefully. “Or very strange,” said the Tin Woodman. Toto barked once at the big green door, as if he knew the answer."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Four Faces of Oz",
+      "art": "oz-green-puzzle",
+      "artPrompt": "a girl, a scarecrow, a tin woodman and a lion sitting around a green table at night looking puzzled, a small dog on the floor, warm lamplight on their faces, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "That evening the four friends sat around a green table and talked. “Perhaps Oz is a Head one day, a Lady the next, and a Beast after that,” said the Scarecrow. “And a Ball of Fire,” added Dorothy. “Like changing clothes?” “Maybe,” said the Tin Woodman. “Or maybe,” said the Lion slowly, “there are four Wizards in that palace, not one.” They all looked at each other in wonder. What a thought that was!"
+        },
+        {
+          "kind": "image",
+          "art": "oz-green-puzzle",
+          "text": "The four friends puzzle over the Wizard around a green table at night."
+        },
+        {
+          "kind": "note",
+          "text": "New word: puzzle — something that is hard to understand, like a mystery.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Next morning they told everything to the Soldier with the green whiskers. He only shook his head. “The great Oz is full of wonders,” he said. “Nobody in this city has ever seen him the same way twice. Do not ask why. Just be glad he will see you at all.” “But when?” asked Dorothy. “Oz is busy with his thoughts,” said the Soldier. “You must all wait a few days more. Please enjoy our city.”"
+        },
+        {
+          "kind": "text",
+          "text": "That night the Scarecrow tried hard to think, but there was only straw in his head. “If I only had my brains, I would understand all this,” he sighed. “If I had a heart, it would tell me what is true,” said the Tin Woodman. “If I had any courage, I would march in and ask him,” said the Lion. Dorothy hugged Toto close. “Then we will just have to wait together,” she said."
+        },
+        {
+          "kind": "text",
+          "text": "So the friends tried to make the best of it. The people of the city came to see them, and the Scarecrow told funny stories. The Tin Woodman sang songs about love, in a tin voice like a sweet kettle. Toto chased his tail and made everyone laugh. But Dorothy kept looking down the long green hall toward the throne room door. “We have come so far,” she said. “Surely our wishes are waiting behind that door.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Days of Waiting",
+      "art": "oz-waiting-days",
+      "artPrompt": "a girl in a blue dress and her little dog gazing out of a tall green palace window at fountains and emerald streets below, soft afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Days went by, slow as honey dripping from a spoon. Every morning the Soldier carried a new message to the throne room. Every evening he brought the same answer back. “Oz says: wait a little longer.” The friends tried to be patient, but it was not easy. The children of the city came to visit, and Toto loved the green cakes they brought him. The fountains sang, and the peacocks walked, and nothing else changed."
+        },
+        {
+          "kind": "image",
+          "art": "oz-waiting-days",
+          "text": "Dorothy looks out of the tall green window while the slow days pass."
+        },
+        {
+          "kind": "note",
+          "text": "New word: patient — staying calm and quiet while you wait for something you want.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Scarecrow stood all day in the garden, for he never needed food or sleep. The Tin Woodman polished and polished himself, until he shone like a mirror. The Lion slept in the warm sun on a marble bench. But Dorothy could not rest. The green spectacles had begun to feel like part of her face. She looked west, toward the yellow brick road and faraway Kansas. “I never thought the hardest part would be the waiting,” she sighed."
+        },
+        {
+          "kind": "text",
+          "text": "One evening Jellia Jamb found Dorothy crying by the window. The green girl sat down beside her and patted her hand. “Do not lose heart, little miss,” she said gently. “You have done the hardest things already. Waiting is hard, but it often ends.” Dorothy wiped her eyes and tried to smile. It was kind of Jellia to sit with her."
+        },
+        {
+          "kind": "text",
+          "text": "At last the Scarecrow called his friends together. “We have been polite long enough,” he said. “We walked hundreds of miles. We crossed rivers and dark forests. We even destroyed the Wicked Witch of the West. Friends, we have earned our answers.” “Hear, hear!” said the Tin Woodman. “Tomorrow we will ask to see him together,” said Dorothy. “All four of us, and Toto too.” The Lion stood up and shook his great mane. For the first time in days, he did not look afraid."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Empty Throne Room",
+      "art": "oz-empty-throne",
+      "artPrompt": "four small friends standing in a vast empty green throne room with a vacant golden throne and tall marble pillars, cool green light and long shadows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Next morning the four friends marched down the long green hall, side by side. The Soldier with the green whiskers threw up his hands. “Oz does not wish to see anyone today!” he cried. “But we wish to see him,” said Dorothy. The Scarecrow walked on. The Tin Woodman walked on. The Lion walked on, showing all his big white teeth. Toto marched too, with his tiny spectacles flashing. The Soldier looked at those teeth and stepped aside."
+        },
+        {
+          "kind": "image",
+          "art": "oz-empty-throne",
+          "text": "The friends stand small and quiet in the great empty Throne Room of Oz."
+        },
+        {
+          "kind": "text",
+          "text": "The green door opened before them, all by itself. They stepped into the great Throne Room and looked around. It was as big as a barn and as quiet as snow. The golden throne stood at the far end, with green cushions on its seat. Every little footstep echoed twice, and even the fountains seemed to hold their breath. And the room was empty. No Head, no Lady, no Beast, and no Ball of Fire. “Where is Oz?” whispered Dorothy."
+        },
+        {
+          "kind": "note",
+          "text": "New word: invisible — impossible to see. An invisible thing can still be there.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then a Voice spoke out of the still air. It seemed to come from everywhere at once. “I am Oz, the Great and Terrible,” said the Voice. “Why have you dared to come here? I told you to wait.” “We have waited many days,” said Dorothy. “We want our wishes now. We are not afraid of you.” “You have no right to trouble me,” grumbled the Voice. “I have been very kind to you.”"
+        },
+        {
+          "kind": "text",
+          "text": "“You were kind with promises,” said the Tin Woodman. “Kind words do not fill an empty chest.” The Scarecrow folded his arms. “A Wizard who hides behind a voice is no Wizard at all,” he said. The Lion said nothing. His tail was stiff, and his chest rose and fell. Deep inside him, a low, angry rumble had begun to grow. Dorothy saw it and pulled Toto close to her side."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Lion’s Roar",
+      "art": "oz-lion-roar",
+      "artPrompt": "a great lion roaring so hard the green hall trembles while a frightened little dog tips over a tall green screen and a tiny bald old man is revealed behind it, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Then the Lion let out the biggest roar of his whole life. ROAR! The roar rolled around the marble hall like thunder in the mountains. The green walls shook. Dust fell from the high ceiling, and a vase crashed somewhere far away. Little Toto leaped into the air with fright. He ran across the floor, too scared to look where he was going. CRASH! He bumped into a tall green screen standing in the corner, and down it fell."
+        },
+        {
+          "kind": "image",
+          "art": "oz-lion-roar",
+          "text": "Toto knocks over the tall screen, and a little old man is found behind it."
+        },
+        {
+          "kind": "text",
+          "text": "The friends all stared at the corner where the screen had fallen. Behind it stood a little old man, with a bald head and a wrinkled face. He wore a green coat, and he trembled from head to foot. His voice was so small that they all leaned closer to hear. “Don’t hurt me!” he cried in a squeaky voice. “Please don’t hurt me! I will do anything you want.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: screen — a tall folding wall used to hide part of a room.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“But who are you?” asked Dorothy. “I am Oz, the Great and Terrible,” said the little man, in a voice as small as a mouse. “You!” gasped the Tin Woodman. “But I saw a terrible Beast in this room!” “And I saw a Ball of Fire!” cried the Lion. “I saw a lovely Lady on that throne,” said the Scarecrow. Dorothy put her hands on her hips. “And I saw a great Head, bigger than a table. What kind of Wizard are you?”"
+        },
+        {
+          "kind": "text",
+          "text": "So this was the wonderful Wizard! He was not tall as a tree or terrible as a storm. He was smaller than Dorothy, and his hands shook, and his eyes were frightened. The little man’s bald head shone in the green light. The friends looked at him, and then they looked at each other. Nobody knew what to say. The little old man looked down at his green shoes. Toto growled at him, the smallest growl in the world."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Discovery of Oz the Terrible",
+      "art": "oz-little-humbug",
+      "artPrompt": "a tiny bald old man in a green coat trembling before four disappointed friends, a girl with crossed arms, a scarecrow, a tin woodman and a lion, a fallen green screen behind him, green daylight streaming in, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "“Then where was the great Head?” demanded Dorothy. “A trick? All those terrible sights were tricks?” “That was one of my tricks,” said the little man meekly. “The Lady, the Beast, and the Ball of Fire were tricks too. I hid behind the screen and made you see what I wanted you to see.” “Then you are not a great Wizard at all!” cried the Scarecrow. “You are a humbug!”"
+        },
+        {
+          "kind": "image",
+          "art": "oz-little-humbug",
+          "text": "The little humbug in his green coat begs the four friends not to be angry."
+        },
+        {
+          "kind": "note",
+          "text": "New word: humbug — someone who tricks people by pretending to be something he is not.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“Exactly so,” said the little man, rubbing his hands together. “I am a humbug, and I am very sorry.” Nobody spoke for a moment. “But I want my brains,” said the Scarecrow sadly. “And I want my heart,” said the Tin Woodman, with his hand on his tin chest. “And I want my courage,” said the Lion, in a very small voice. Dorothy’s eyes filled with tears. “And I want to go home to Aunt Em,” she said."
+        },
+        {
+          "kind": "text",
+          "text": "The little man wiped his bald head with a green handkerchief. “I never meant to hurt anyone,” he said. “Please don’t be angry with me.” “I think you are a very bad man,” said Dorothy. “Oh no, my dear!” he answered quickly. “I am really a very good man, but I must tell you the truth. I am a very bad Wizard.” He looked very sorry for himself."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: The friends feel tricked. Have you ever found that something was not what it looked like?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The friends looked at one another in dismay. They had crossed the whole Land of Oz to find a great Wizard. They had fought wolves and crows and a wicked witch. And now the wonderful Oz was only a little old man in a green coat. “Give me a few days,” begged the humbug, “and I will try to help you.” But the four friends only stared at him. Was this trembling little man really the wonderful Wizard of Oz? It seemed too sad to be true."
+        }
+      ]
+    }
+  ]
+}

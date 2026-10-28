@@ -234,3 +234,88 @@
 .ph-shelf-group { margin-bottom: 18px; }
 .ph-shelf-group-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 8px; font-size: 15px; color: #f3ead8; }
 .ph-shelf-group-title span { font-size: 12.5px; color: #9fb4d8; }
+
+/* ===== 桃阅读纸贴风主题层（docs/95 续：拼读子应用回归主站设计语言） =====
+   复用全局 token：--paper/--card/--ink/--ink2/--sun/--rose/--accent/--border。
+   贴纸语言：白卡 + 2px 暖描边 + 硬阴影（4px 4px 0）+ 大圆角；热区用 accent 橙。 */
+.phonics-app {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(245, 227, 194, 0.5) 0, transparent 30%),
+    radial-gradient(circle at 88% 4%, rgba(255, 214, 204, 0.4) 0, transparent 26%),
+    var(--paper);
+  color: var(--ink);
+}
+.phonics-app .phonics-top, .phonics-app .phonics-hint, .phonics-app .ph-tab-sub,
+.phonics-app .ph-result-count, .phonics-app .ph-book-meta, .phonics-app .ph-card-copy > span,
+.phonics-app .ph-flip-status, .phonics-app .ph-exercise-top, .phonics-app .ph-word-status,
+.phonics-app .ph-mode small, .phonics-app .ph-shelf-group-title span, .phonics-app .phonics-kicker { color: var(--ink2); }
+.phonics-app .phonics-kicker { font-weight: 700; letter-spacing: 0.08em; }
+.phonics-app .ph-greeting, .phonics-app .ph-tab-title, .phonics-app .ph-tab-title *,
+.phonics-app .ph-ladder-title, .phonics-app .ph-mode, .phonics-app .ph-mode b { color: var(--ink); }
+.phonics-app .ph-hero, .phonics-app .ph-today-study {
+  background: var(--card); border: 2px solid var(--ink); border-radius: 16px;
+  box-shadow: 4px 4px 0 rgba(52, 45, 39, 0.9); padding: 18px;
+}
+.phonics-app .ph-hero .ph-cta, .phonics-app .ph-cta {
+  background: var(--accent); color: #fff5e8; border: 2px solid var(--ink);
+  border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); font-weight: 700;
+}
+.phonics-app .ph-hero .ph-cta:active, .phonics-app .ph-cta:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.phonics-app .ph-ghost-btn {
+  border: 2px solid var(--ink); border-radius: 10px; background: var(--sun);
+  color: var(--ink); font-weight: 700; box-shadow: 2px 2px 0 var(--ink);
+}
+.phonics-app .ph-stat { background: var(--sun); border: 2px solid var(--ink); border-radius: 12px; padding: 10px; }
+.phonics-app .ph-stat + .ph-stat { margin-left: 8px; }
+.phonics-app .ph-stat b { color: var(--ink); }
+.phonics-app .ph-stat span, .phonics-app .ph-week, .phonics-app .ph-me-block h3,
+.phonics-app .ph-settings label, .phonics-app .ph-card-copy small { color: var(--ink2); }
+.phonics-app .ph-week-strip, .phonics-app .ph-ladder-wrap, .phonics-app .ph-me-stats,
+.phonics-app .ph-me-block, .phonics-app .ph-wordofday { border-color: var(--border); }
+.phonics-app .ph-tabs { background: var(--card); border-top: 2px solid var(--ink); }
+.phonics-app .ph-tab { color: var(--ink2); border-radius: 12px 12px 0 0; }
+.phonics-app .ph-tab.on { background: var(--sun); color: var(--ink); font-weight: 700; box-shadow: inset 0 -3px 0 var(--accent); }
+.phonics-app .ph-chip { border: 2px solid var(--border); border-radius: 10px; background: var(--card); color: var(--ink2); }
+.phonics-app .ph-chip.on { border-color: var(--ink); background: var(--sun); color: var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+.phonics-app .ph-search, .phonics-app .ph-select { border: 2px solid var(--border); border-radius: 10px; background: var(--card); color: var(--ink); }
+.phonics-app .ph-star-card, .phonics-app .ph-book, .phonics-app .ph-flip-nav,
+.phonics-app .ph-answer-grid button, .phonics-app .ph-spelling input, .phonics-app .ph-typing-input,
+.phonics-app .ph-word-dialog, .phonics-app .ph-settings input[type="number"] {
+  background: var(--card); color: var(--ink); border: 2px solid var(--border); border-radius: 12px;
+}
+.phonics-app .ph-star-card:hover, .phonics-app .ph-book:not(.locked):hover { border-color: var(--ink); box-shadow: 3px 3px 0 rgba(52, 45, 39, 0.55); }
+.phonics-app .ph-star-placeholder { background: var(--sun); color: var(--accent); }
+.phonics-app .ph-card-copy b { color: var(--ink); }
+.phonics-app .ph-card-copy small { color: var(--accent); }
+.phonics-app .ph-book.locked { color: var(--ink3); border-color: var(--border); background: transparent; }
+.phonics-app .ph-book-action { color: var(--accent); }
+.phonics-app .ph-ladder-row { border-top-color: var(--border); color: var(--ink2); }
+.phonics-app .ph-ladder-row.now { color: var(--ink); }
+.phonics-app .ph-ladder-mark { color: var(--accent); }
+.phonics-app button.ph-ladder-row { background: transparent; border: 0; border-top: 1px solid var(--border); width: 100%; text-align: left; }
+.phonics-app .ph-listen { background: var(--mint); border: 2px solid var(--ink); color: var(--ink); border-radius: 10px; }
+.phonics-app .ph-word-dialog { border: 2px solid var(--ink); border-radius: 16px; box-shadow: 6px 6px 0 rgba(52, 45, 39, 0.85); }
+.phonics-app .ph-reading-controls button {
+  border: 2px solid var(--ink); border-radius: 10px; background: var(--card);
+  color: var(--ink); font-weight: 700; box-shadow: 2px 2px 0 var(--ink);
+}
+.phonics-app .ph-reading-controls button:active { transform: translate(2px, 2px); box-shadow: none; }
+.phonics-app .ph-examples, .phonics-app .ph-lexicon { border-color: var(--border); background: rgba(245, 227, 194, 0.35); }
+.phonics-app .ph-lexicon h4, .phonics-app .ph-ipa-tag, .phonics-app .ph-accent-tag { color: var(--accent); }
+.phonics-app .ph-ipa { color: var(--ink); }
+.phonics-app .ph-lex-sense, .phonics-app .ph-lex-col { color: var(--ink); }
+.phonics-app .ph-lex-sense span, .phonics-app .ph-lex-col b { color: var(--ink2); }
+.phonics-app .ph-lex-tip { background: var(--sun); color: var(--ink); border-radius: 10px; }
+.phonics-app .ph-accent-row > span { color: var(--ink); }
+.phonics-app .ph-settings-note { color: var(--ink2); }
+.phonics-app .ph-mode { border-color: var(--border); }
+.phonics-app .ph-mode-icon { background: var(--sun); }
+.phonics-app .ph-upcoming div { background: var(--sun); border-radius: 8px; }
+.phonics-app .ph-upcoming b { color: var(--ink); }
+.phonics-app .ph-feedback { background: var(--mint); border-color: var(--accent); }
+.phonics-app .ph-feedback b { color: var(--ink); }
+.phonics-app .ph-week-dot.lit { background: var(--mint); color: var(--ink); }
+.phonics-app .ph-week-dot.today { outline: 2px solid var(--accent); }
+.phonics-app .ph-shelf-group-title { color: var(--ink); }
+.phonics-app .ph-shelf-group-title span { color: var(--ink2); }
+.phonics-app .ph-settings input[type="number"], .phonics-app .ph-settings input[type="range"] { accent-color: var(--accent); }

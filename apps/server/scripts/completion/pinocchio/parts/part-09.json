@@ -1,0 +1,374 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · Where Is My Papa?",
+      "art": "pinocchio-seeks-father",
+      "artPrompt": "a wooden puppet boy with a feathered cap asking a bearded old fisherman on a dusty country road at sunset, far hills and a little harbour behind them, golden evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "For many days Pinocchio lived happily in the Fairy's little white cottage, and he grew strong and well again. But at night, when the house was quiet, he thought of one person only. \"I miss my papa,\" he told the Fairy at breakfast. \"I have not seen Geppetto since he sold his warm coat to buy my spelling book. May I go and look for him?\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-seeks-father",
+          "text": "Pinocchio sets off down the dusty road, asking everyone about his papa."
+        },
+        {
+          "kind": "text",
+          "text": "\"Go, dear brother,\" said the Fairy, \"but be wise, and come home before the winter cold.\" So Pinocchio kissed her hand and set off with a happy heart. He walked all day under the sun, past fields and vineyards and sleepy little towns. The whole day long he asked himself where a poor old carpenter could be."
+        },
+        {
+          "kind": "note",
+          "text": "New word: search — to look everywhere for something. Pinocchio began a long search for his father Geppetto.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In the first town he asked at every door. \"Have you seen my papa, Geppetto? He is a little old man with a white beard and kind eyes.\" The people shook their heads. \"No, little puppet, not here.\" He asked the bakers, the sailors, and the boys flying kites on the hill. Nobody had seen Geppetto anywhere, but Pinocchio did not lose heart."
+        },
+        {
+          "kind": "text",
+          "text": "At the harbour he stood among the nets and watched the fishing boats come in. \"Please,\" he asked an old fisherman, \"has a little old carpenter sailed away from here?\" The fisherman looked at him sadly. \"Many fathers sail away and never come back,\" he said. \"The sea is big, little one, and it keeps what it takes.\" Pinocchio thanked him and walked on, quieter now."
+        },
+        {
+          "kind": "text",
+          "text": "When evening came, he sat down on a stone at the side of the road. His feet hurt and his hope felt small. Two big tears ran down his wooden cheeks. \"Papa, dear papa,\" he whispered, \"where in all the world are you?\" He did not give up. He wiped his eyes and turned his steps toward the coast, where the great ships begin their journeys."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Great Pigeon",
+      "art": "pinocchio-pigeon-flight",
+      "artPrompt": "a wooden puppet boy riding on the back of a huge white pigeon flying above the clouds over a blue sea at dawn, wind in his cap feather, rosy morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Early the next morning, a great shadow crossed the road. A big Pigeon, as large as an eagle, flew down and landed beside him. \"Why do you weep, little Marionette?\" asked the Pigeon kindly. Pinocchio wiped his eyes and told her everything. He told her about the kind Fairy, and about his dear papa, who was lost somewhere in the great wide world."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-pigeon-flight",
+          "text": "The great Pigeon, big as an eagle, comes down to help Pinocchio."
+        },
+        {
+          "kind": "text",
+          "text": "\"Do not cry any more,\" said the Pigeon. \"I know your papa. Only yesterday I saw him at the seashore. He was building a little boat with his own hands, because he means to sail far away and search all the seas for his lost son.\" Pinocchio jumped up so fast that his cap fell off. \"That is my papa! That is truly my papa!\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: seashore — the land beside the sea, where the waves touch the sand.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Take me to him, dear Pigeon!\" begged Pinocchio. \"Climb on my back, then,\" said the bird. \"But hold tight, for I fly fast and I never stop.\" Pinocchio climbed up between the great white wings and held on with both hands. His heart beat like a drum, but he was not afraid. He would have crossed fire and water to find Geppetto."
+        },
+        {
+          "kind": "text",
+          "text": "Up, up they flew, higher than the church towers, higher than the snowy mountains. The wind whistled past Pinocchio's long nose. Below them, the fields became green squares and the rivers became silver threads. They flew all day, over hills and woods and sleepy towns. Pinocchio held tight and did not dare to look down."
+        },
+        {
+          "kind": "text",
+          "text": "When night came, the stars rose around them like little lamps. \"Papa, wait for me,\" whispered Pinocchio into the cold air. \"I am coming.\" The brave Pigeon beat her wings and flew on and on. And when at last the sky turned grey and then gold, Pinocchio saw it — the endless sea, shining below them in the morning light."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Storm and the Dogfish",
+      "art": "pinocchio-storm-boat",
+      "artPrompt": "a wooden puppet boy on a flying pigeon's back looking down at a tiny boat on stormy grey waves, an enormous fish with a giant open mouth rising from the sea, dark storm light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"The seashore!\" called the Pigeon, sinking lower. \"Look well, little one, for we are near.\" Pinocchio looked down at the great grey-green sea. The waves were running high, and the wind had turned cold and sharp. Far out on the water he saw a tiny black dot. It was a little boat, and in it sat a tiny man, rowing with all his strength."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-storm-boat",
+          "text": "From high in the sky, Pinocchio sees his papa's tiny boat far below."
+        },
+        {
+          "kind": "text",
+          "text": "\"It is my papa!\" cried Pinocchio. \"Papa! Papa! It is I, your Pinocchio!\" His thin voice flew down through the wind. The little man in the boat stood up and waved his cap. \"Pinocchio! My son!\" came the answer, faint as a whisper. But between them lay a whole mile of angry, foaming water."
+        },
+        {
+          "kind": "note",
+          "text": "New word: storm — very bad weather, with strong wind, rain and giant waves.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Then the sky grew black, and the storm broke like a fury. The waves rose like mountains and fell like falling houses. \"We must fly away, or the wind will tear us apart!\" cried the Pigeon. But Pinocchio looked down again, and his heart stopped. Out of the dark water rose an enormous fish, bigger than a railway train. It was the Terrible Dogfish, the same great fish that had swallowed Papa's boat."
+        },
+        {
+          "kind": "text",
+          "text": "Before Pinocchio could cry out, the great mouth opened wide like a train tunnel. It swallowed the little boat, mast, oars and all. Then the fish sank down into the deep water like a dark mountain going to sleep. \"Papa! Papa!\" screamed Pinocchio. \"He is gone! The Dogfish has eaten my papa!\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Put me down!\" begged Pinocchio. \"I must go to him!\" The good Pigeon flew as low as she dared. Pinocchio slid from her back and threw himself into the sea, clothes and all. \"I am made of wood, and I cannot drown!\" he called up to her. \"Wait for me on the rocks! I will find my papa, dead or alive!\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Island of the Busy Bees",
+      "art": "pinocchio-bee-island",
+      "artPrompt": "a wooden puppet boy standing dripping on a sunny island shore, busy townspeople carrying baskets and tools around him, beehives and flowering trees, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Pinocchio swam all night long. The storm threw him about like a cork, and the salt water stung his eyes, but he never stopped. \"Papa, papa,\" he panted, \"I am coming.\" Toward morning the waves grew tired, the sky grew pale, and a long green shore came to meet him. It was an island, with white houses and flowering trees."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-bee-island",
+          "text": "Pinocchio crawls out of the sea onto the Island of the Busy Bees."
+        },
+        {
+          "kind": "text",
+          "text": "He crawled up the sand, kissed the ground, and looked around. The island was full of life. Men carried baskets, women worked in the gardens, and every wall had hives full of busy bees. A kind sailor told him its name. \"This is the Island of the Busy Bees. Here nobody is idle, for everybody works. Nobody is ever hungry here — if he is willing to work.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: island — land with water all around it, like a hill rising from the sea.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio hurried from boat to boat and asked his questions. \"Have you seen a little boat? Have you seen a small old man with a white beard? Have you seen a fish as big as a train?\" The sailors shook their heads. Some had seen nothing at all. Some had heard of the Terrible Dogfish, and they grew pale and would say no more."
+        },
+        {
+          "kind": "text",
+          "text": "By afternoon, Pinocchio had walked the whole harbour twice, and he had found no news at all. Worse still, he was terribly hungry. He had not eaten since the Fairy's cottage, and his wooden legs shook under him. The smell of fresh bread came from a bakery, and it made him dizzy. He stopped a woman with a basket and asked, very politely, for a piece of bread."
+        },
+        {
+          "kind": "text",
+          "text": "The woman looked at him kindly but firmly. \"In this island we give bread only to those who work,\" she said. \"Everybody here earns what he eats.\" Pinocchio stood still for a moment. Then he held up his head. \"Then I shall work too,\" he said. \"I am strong, and I am not ashamed of work. Show me what to do.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Bread for a Worker",
+      "art": "pinocchio-island-work",
+      "artPrompt": "a wooden puppet boy carrying two heavy wooden pails of water up a sunny lane for a kind little woman in a white headscarf, beehives and white houses behind, warm midday light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The next morning, Pinocchio was at the bakery before the sun. \"I will carry your baskets to the far end of town,\" he offered. The baker gave him a heavy basket of warm loaves, and Pinocchio carried it on his head, step by step, all the long way. When he came back, the baker paid him with a piece of bread, a smile, and a pat on the head."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-island-work",
+          "text": "Pinocchio carries heavy pails of water for a kind little woman."
+        },
+        {
+          "kind": "text",
+          "text": "He was eating it slowly, to make it last, when he saw a little woman trying to lift two big pails of water. They were too heavy for her thin arms. Pinocchio ran at once. \"Let me carry those for you,\" he said. \"They are heavy, little one,\" she warned. \"I am stronger than I look,\" said Pinocchio. \"And I want to earn my supper.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: earn — to get something by working for it. Pinocchio earned his bread with honest work.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The woman's house was half a mile away, up a sunny lane. Pinocchio took a pail in each hand and walked on. His arms ached, and the water splashed his legs, but he did not put the pails down. A bee flew beside him the whole way, as if it were watching to see whether he would give up. He did not give up."
+        },
+        {
+          "kind": "text",
+          "text": "At last they reached a little gate, and Pinocchio set the pails down, puffing like a steam engine. \"Well done, brave worker!\" said the woman. \"Wait here a moment.\" She went inside, and came back with bread, a slice of cheese, and a big glass of milk. \"You have earned every crumb,\" she said."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio thanked her and began to eat. It was the best meal of his whole life, after the ones at the Fairy's table. Work had made him hungry, and work had made the food taste sweet. Then he looked up at the kind woman — and the bread almost fell out of his mouth. Under her white headscarf he had seen a lock of shining turquoise hair."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Fairy Finds Pinocchio",
+      "art": "pinocchio-fairy-reunion",
+      "artPrompt": "a kind little woman in a white headscarf revealing shining turquoise hair beside a wooden puppet boy in a flowering island garden, a white cottage with rose bushes behind them, soft golden afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"You!\" cried Pinocchio, jumping up. \"The turquoise hair — you are the Fairy!\" The woman laughed like a little silver bell and took off her headscarf. \"Yes, dear brother, it is I,\" she said. \"When you did not come back to the cottage, I sailed across the sea to look for you. And I have found you working like a good boy. My search has been worth it.\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-fairy-reunion",
+          "text": "The Fairy throws off her headscarf, her turquoise hair shining in the sun."
+        },
+        {
+          "kind": "text",
+          "text": "Then Pinocchio told her everything: the long search, the great Pigeon, the storm, and the terrible moment when the Dogfish swallowed his papa's little boat. He cried as he told it, and the Fairy's beautiful eyes grew sad. \"Poor Geppetto,\" she said softly. \"The sea is cruel. But do not lose hope, little one. This story may not be over. Strange things happen at sea.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Pinocchio promised to be good and to study. What is a promise you have kept?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "She led him up the lane, and there — Pinocchio rubbed his eyes — stood a little white cottage with rose bushes, exactly like her old home. \"But how —\" he began. The Fairy laughed. \"A fairy's house can move,\" she said. \"When I crossed the sea, my cottage crossed it too. Fairies' houses go where they are needed.\""
+        },
+        {
+          "kind": "text",
+          "text": "That evening they sat by the fire, and Pinocchio spoke from his heart. \"I want to be good,\" he said. \"I want to be a real boy, so that papa can be proud of me. Tell me what to do, and I will do it.\" The Fairy laid her hand on his wooden head. \"Then be good, be honest, and go to school,\" she said. \"Learning is the road to everything.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"And if I am good for a long, long time?\" asked Pinocchio. \"Then one day your wish may come true,\" said the Fairy, smiling. That night Pinocchio slept in a real bed, under a real quilt. He dreamed of the sea, and of a little boat, and of a voice calling his name through the waves."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Best in School",
+      "art": "pinocchio-school-days",
+      "artPrompt": "a wooden puppet boy at a desk in a bright schoolroom surrounded by laughing boys, a kind teacher at the blackboard, morning sunlight through tall windows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When school began again, Pinocchio was the first at the gate. The Fairy had bought him new schoolbooks, and he carried them like treasure. He brushed his jacket and even polished his nose until it shone. \"Today I begin to be good,\" he told himself. \"Today everything starts. Good morning, school!\" he called to the empty street."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-school-days",
+          "text": "Pinocchio at his desk, with the boys laughing behind him."
+        },
+        {
+          "kind": "text",
+          "text": "But the first days were hard. \"Look! Look!\" shouted the boys when he walked in. \"It is Polendina, the wooden puppet! Here to learn arithmetic, Pinocchio?\" One boy pulled his cap, and another tried to make his long nose ring like a bell. Pinocchio's wood grew hot with anger, and his fist itched to fly at somebody's nose."
+        },
+        {
+          "kind": "note",
+          "text": "New word: tease — to laugh at someone in an unkind way. The boys teased Pinocchio at first.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But he remembered the Fairy, and he sat down without a word. He opened his book and read, while the teasing bounced off him like rain off a roof. Slowly the boys grew tired of teasing a puppet who would not fight. Questions that had once seemed like mountains now climbed themselves. And slowly the boys began to notice something else."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio knew all the answers. He knew them in the morning, and he knew them in the evening. In a few weeks he was the best in the whole school. The teacher patted his shoulder, and even the teacher spoke of him to the other masters. He helped the little ones with their letters, and he never laughed at anyone. Soon the boys were proud of him. \"He is one of us,\" they said. \"The puppet with the brain of gold.\""
+        },
+        {
+          "kind": "text",
+          "text": "Only the laziest boys were not pleased. They did not like a newcomer sitting at the top. \"He makes us look bad,\" they grumbled. \"He studies too much. He is the teacher's little pet.\" And one morning, on the way to school, they crowded around Pinocchio with a plan. \"We have a fine idea,\" said the biggest one, with a sideways look."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · A Day by the Sea",
+      "art": "pinocchio-beach-battle",
+      "artPrompt": "a crowd of boys on a sunny beach throwing schoolbooks like cannonballs, a wooden puppet boy ducking in the middle of the sand, torn pages and blue waves behind, bright harsh light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"No lessons tomorrow!\" said the biggest boy. \"We are all going to the seashore for the whole day — swimming, running, games on the sand. Every boy in school is coming. Are you coming, Pinocchio?\" Pinocchio shook his head at once. \"I cannot,\" he said. \"I promised the Fairy I would go to school. She is waiting for my good reports.\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-beach-battle",
+          "text": "The great battle on the beach, with schoolbooks flying like cannonballs."
+        },
+        {
+          "kind": "text",
+          "text": "The boys burst out laughing. \"Goody-goody! Little teacher's pet!\" they cried. \"One single day cannot matter! School will still be there on Monday!\" Pinocchio looked at the road to school. He looked at the road to the sea. And, as always when he was weak, his feet began to decide for themselves. \"Perhaps one day truly cannot matter,\" he said slowly."
+        },
+        {
+          "kind": "note",
+          "text": "New word: accident — when something bad happens that nobody meant to happen.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At dawn the boys ran shouting down to the sea. The beach was wide and golden, and for a while everything was wonderful. They swam, they raced, they built towers of sand. Even Pinocchio forgot the Fairy for one whole golden hour. Then someone shouted, \"Let us play war! Two armies, and our schoolbooks for cannonballs!\" And that is where the trouble began."
+        },
+        {
+          "kind": "text",
+          "text": "The battle raged up and down the beach. Books flew through the air, and torn pages fluttered down like white butterflies. A big heavy reader flew straight at Pinocchio's head. He ducked — and the book flew on and struck another boy, named Eugene, hard on the temple. Eugene dropped to the sand without a sound."
+        },
+        {
+          "kind": "text",
+          "text": "The boys scattered like frightened birds. \"Eugene is hurt! Fetch a doctor! Fetch the police!\" cried the voices. Pinocchio ran to Eugene and tried to lift him. But someone shouted, \"It was the puppet! The puppet did it!\" Poor Pinocchio felt his legs turn cold with fear. He let go, turned, and ran like the wind along the shore. Behind him he could already hear heavy footsteps on the sand."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · Alidoro the Mastiff",
+      "art": "pinocchio-mastiff-chase",
+      "artPrompt": "a huge brown mastiff chasing a small wooden puppet boy along a sandy beach, the boy leaping toward crashing white waves, dust and spray flying, hot midday light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The police had sent their biggest helper: a huge mastiff named Alidoro, with legs like a lion and jaws like a trap. He was the strongest police dog on the whole coast. \"Stop, little puppet!\" puffed the policeman, far behind. But Alidoro did not need anyone's help. He ran like the wind, and his hungry eyes never left Pinocchio's back."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-mastiff-chase",
+          "text": "Alidoro the huge mastiff races after Pinocchio along the beach."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio ran as he had never run before, not even the day he kicked Geppetto's nose and escaped down the street. His wooden legs flashed. But the beach grew narrow, the rocks rose up ahead, and the great dog came nearer and nearer. He could hear the hot breath now, close behind him. There was no road left but the sea."
+        },
+        {
+          "kind": "note",
+          "text": "New word: grateful — feeling thankful to someone who has helped you. Alidoro would not forget.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"I am made of wood,\" thought Pinocchio, \"and wood cannot drown!\" He took a great jump and plunged into the green water like a frog. The cold sea closed over his head. Alidoro leaped after him, and for one moment it seemed that the puppet was caught at last."
+        },
+        {
+          "kind": "text",
+          "text": "But a mastiff is heavy, and heavy dogs cannot swim for long. The waves rolled him over. He sank, came up snorting and choking, and sank again. Then, from under the water, came a faint, heartbreaking voice: \"Help! Help! I am drowning!\" Pinocchio turned in the water and looked back at the great dog he had been running from."
+        },
+        {
+          "kind": "text",
+          "text": "Perhaps you will not believe it, but that puppet had a heart of the very best wood. \"Hold on, Alidoro!\" he called. \"Catch my hand and do not bite! I am wood, and I float like a cork!\" He swam back, held out his hand, and pulled the great dog up, stroke by stroke, until they both fell gasping onto the sand. Alidoro shook himself, hung his head, and ran away with his tail between his legs, too ashamed to say a word."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · The Fisherman's Net",
+      "art": "pinocchio-green-fisherman",
+      "artPrompt": "a wooden puppet boy tangled in a dripping fishing net full of silver fish, a tall green-skinned fisherman in a green coat lifting the net, watery grey seaside light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When the beach was quiet again, Pinocchio crept out from behind the rocks. His clothes were soaked, his teeth were chattering, and he wanted nothing in the world so much as a warm supper. \"I will walk to the next village,\" he sighed, \"and ask the way home.\" But the sea, it seemed, was not finished with him yet."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-green-fisherman",
+          "text": "Pinocchio is caught in the Green Fisherman's net, tangled among the fish."
+        },
+        {
+          "kind": "text",
+          "text": "On the rocky point below, an old fisherman was pulling in a great net, heavy with fish. Pinocchio, who was always polite, went to help. \"Let me push your basket for you,\" he offered. \"You are kind,\" said the fisherman. At that very moment the fisherman swung his net — and Pinocchio, tangled like a sardine, tumbled in with the whole catch."
+        },
+        {
+          "kind": "note",
+          "text": "New word: net — a wide mesh of string, used for catching fish.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"What have we here?\" cried the fisherman. He was green from head to foot — green hair, green beard, green coat — so like a great lizard that Pinocchio felt quite small. The fisherman turned him over with one finger. \"A new kind of fish, by my whiskers! A fish with a jacket and boots! The king of the market will pay gold for this.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"But I am not a fish!\" cried Pinocchio. \"I am a puppet, a poor puppet! I only came to push your basket!\" \"Please, please let me go,\" he begged. But the Green Fisherman shook his green head. \"A fish that talks is a rare fish. And rare fish must be fried with care. Into the house you go — supper is waiting to be cooked.\""
+        },
+        {
+          "kind": "text",
+          "text": "So, wrapped in the net like a parcel, Pinocchio was carried up the stairs of a smoky little hut. He kicked and he shouted, but the net was strong, and the fisherman hummed a little green tune. At the top of the stairs, Pinocchio saw something that made his wooden blood run cold. A frying pan, as big as a cartwheel, was already getting hot on the fire."
+        }
+      ]
+    }
+  ]
+}

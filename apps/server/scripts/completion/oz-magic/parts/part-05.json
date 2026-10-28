@@ -1,0 +1,116 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 5 · The Lamb and the Goose",
+    "art": "ozmagic-lamb",
+    "artPrompt": "a small woolly white lamb and a large grey goose standing surprised in a green forest clearing with woodland beasts watching, a dark-haired boy and a grumpy old man walking away down the path, dappled afternoon forest light, gently magical storybook illustration",
+    "blocks": [
+      { "kind": "text", "text": "When the beasts of the forest would not join them, Kiki Aru grew angry, and Ruggedo whispered in his ear. \"Never mind the beasts,\" said the old Nome. \"Remove the two meddlers first — the little girl and the wizard who watch us so closely.\"" },
+      { "kind": "text", "text": "Before anyone could move, Kiki spoke the magic word — quickly, and in a temper. Whoosh! Where Dorothy had stood there now stood a small woolly lamb. And where the Wizard had stood, a large grey goose flapped its wings in great surprise." },
+      { "kind": "text", "text": "The lamb bleated and the goose honked, and the beasts growled low — but Kiki had already turned away. \"Come,\" said Ruggedo. \"A lamb and a goose cannot stop us now. On to the Emerald City, and to the Princess!\"" },
+      { "kind": "image", "art": "ozmagic-lamb", "text": "Kiki's magic turns Dorothy into a lamb and the Wizard into a goose." },
+      { "kind": "note", "text": "Ask your child: Kiki has huge magic, but he uses it in a hurry and in a temper. What does that tell you about power without patience?", "art": "lamp-hint" },
+      { "kind": "text", "text": "The two friends were left alone in the clearing. It was strange to be woolly, and stranger still to be feathery. But the goose stretched his long neck and said, \"Do not be afraid, Dorothy. In Oz we can still talk. And I remember something that Kiki does not know I know.\"" },
+      { "kind": "text", "text": "\"The magic word!\" whispered the lamb. \"Exactly,\" said the goose, smoothing his rumpled feathers with his bill. \"He spoke it aloud in the forest, and I never forget anything I hear. Now we must warn King Gugu, and then fly to the Emerald City before two wicked travelers get there first.\" And the little lamb trotted bravely down the forest path after the big grey goose." }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 6 · Warning the King",
+      "art": "ozmagic-goose",
+      "artPrompt": "a big grey goose and a little white lamb standing earnestly before a wise old leopard king with a golden crown on a great council rock, forest animals listening closely all around, green dappled woodland light, earnest gentle storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The goose waddled as fast as a goose can waddle, and the lamb bounded beside him over the roots and ferns, until they reached the great council rock where King Gugu the leopard sat among his wise counselors in the dappled light." },
+        { "kind": "text", "text": "\"Your Majesty,\" honked the goose, \"the strangers who came to frighten you are Kiki Aru and Ruggedo, the old Nome King. They mean to change Ozma's friends into beasts and seize the Emerald City. We heard their plans with our own two ears.\"" },
+        { "kind": "text", "text": "Gugu's yellow eyes grew narrow and bright. \"I thought the little monster's tale smelled wrong,\" he said. \"No monster and no magic word will ever change that. Beasts of the forest, we shall keep faith with Ozma, as we always have. Let every path be watched from tonight.\"" },
+        { "kind": "image", "art": "ozmagic-goose", "text": "The lamb and the goose bring their warning to King Gugu." },
+        { "kind": "note", "text": "Ask your child: a lamb and a goose bring the warning, though they are small and slow. Why does Gugu listen to them just the same? What makes a warning worth believing?", "art": "lamp-hint" },
+        { "kind": "text", "text": "Rango the gray ape and the other counselors promised to guard the forest paths and slow any wicked travelers who came sneaking through. But the goose shook his feathered head. \"They will go around the forest, not through it,\" he said. \"Someone must warn the Emerald City — and it must be tonight.\"" },
+        { "kind": "text", "text": "So under the stars the little lamb and the big grey goose set out across the meadows of Oz — one trotting, one flying a little way and walking a little way, taking turns, and telling each other small jokes to keep their spirits up." }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Two Wicked Travelers",
+      "art": "ozmagic-sneak",
+      "artPrompt": "a winged monster with a lion's body a monkey face and eagle wings walking a dark country road beside a smiling old gardener with wicked eyes, the shadowy towers of a faraway emerald city on the horizon under stars, sneaky night mood, gently mysterious storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "Meanwhile Kiki and Ruggedo hurried along quiet back roads toward the Emerald City, keeping out of sight of every farmhouse and every friendly face. They slept in ditches by day and walked by night, and Ruggedo grumbled about every single stone in Oz." },
+        { "kind": "text", "text": "\"You must make me look like someone else,\" begged Ruggedo. \"If any old enemy sees this face, we are finished before we start.\" So Kiki changed the old Nome's crooked face into the round, smiling face of a kindly old gardener, and Ruggedo practiced looking harmless in a puddle." },
+        { "kind": "text", "text": "\"And once we are inside the walls,\" hissed Ruggedo, \"you shall change the Princess and all her court into beasts, one by one, and no forest council will save them.\" Kiki nodded, though his stomach felt odd and heavy, as if he had eaten unripe plums." },
+        { "kind": "image", "art": "ozmagic-sneak", "text": "Ruggedo, wearing a borrowed face, slips toward the Emerald City." },
+        { "kind": "note", "text": "New word: disguise — something that hides who you really are. Ruggedo wears a disguise, but a new face cannot lend him a new heart. Ask your child: can you spot a disguise by someone's deeds, even when the face looks kind?", "art": "lamp-hint" },
+        { "kind": "text", "text": "From a hilltop the lamb and the goose saw them coming: two travelers trudging along the road — one a winged monster with a lion's body, a monkey's face and great eagle wings, and one a smiling old gardener with wicked, wicked eyes. There could be no mistake about it." },
+        { "kind": "text", "text": "\"That is Kiki's magic work,\" panted the goose. \"Quick — we must reach the gates first!\" And the little lamb set off on the fastest trot of her whole woolly life, while the goose flew low beside her, honking encouragement, which is difficult to do while flying low." }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Ozma Hears the News",
+      "art": "ozmagic-glinda",
+      "artPrompt": "a gentle fairy princess listening calmly to a small woolly lamb and a large grey goose in a sunny emerald palace garden, a kind sorceress in rose-pink standing beside an open glowing magic book, flower beds and marble paths, peaceful golden light, warm storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The city guards stared hard at a lamb and a goose who asked, very politely, to speak with Princess Ozma at once. Oz animals can talk, of course, but lambs that speak so earnestly are worth listening to, and Ozma came herself." },
+        { "kind": "text", "text": "Dorothy told her story in small bleats, and the Wizard honked out the rest — the magic word, the plots, the two travelers on the road. Ozma listened calmly, the way she listened to everything, and never once looked frightened." },
+        { "kind": "text", "text": "Then a message came from Glinda's far tower: her Great Book of Records had begun to write about a winged monster with a lion's body, coming toward the Emerald City. \"Then we are all telling the same story,\" said Ozma. \"That is good. Now let us get ready.\"" },
+        { "kind": "image", "art": "ozmagic-glinda", "text": "Ozma and the Wizard plan quietly in the palace garden." },
+        { "kind": "note", "text": "Ask your child: Ozma does not shout or panic. She gathers the facts first, then she prepares. What does staying calm let you do that panicking cannot?", "art": "lamp-hint" },
+        { "kind": "text", "text": "The Wizard was given a quiet room, a looking glass, and a whole day to himself — for saying a magic word is like whistling: it must be done exactly right, and he was, after all, still a goose. He practiced the strange word over and over, softly, until it sat ready on his tongue." },
+        { "kind": "text", "text": "And Ozma sent a happy invitation to every corner of Oz: the Princess's birthday was coming, and all friends — and all strangers, too — would be welcome in the garden. \"Let everyone come,\" she said gently, \"and let us see who comes.\"" }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Monster at the Gates",
+      "art": "ozmagic-gates",
+      "artPrompt": "a winged monster with a lion's body and eagle wings hovering before the shining green gates of the Emerald City, a calm fairy princess walking out to meet it with a quiet crowd behind her, garlands on the walls, bright unafraid daylight, brave storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The next day, just as the garlands went up along the city walls, a shadow crossed the sun. Down came the winged monster over the meadows, and along the dusty road beside it walked a smiling old gardener with wicked eyes." },
+        { "kind": "text", "text": "\"Change them all!\" cried Ruggedo. \"Change the guards, the gates, the whole shining city!\" Kiki raised his hands and spoke the word — and the nearest guard suddenly had four legs, long ears, and a very surprised expression." },
+        { "kind": "text", "text": "But the people of the Emerald City did not scream and did not run. They had seen strange things before, and they trusted their Princess. Ozma walked out through the gates herself, calm in the sunshine, and the whole crowd stood quietly behind her." },
+        { "kind": "image", "art": "ozmagic-gates", "text": "The winged monster swoops over the gates of the Emerald City." },
+        { "kind": "note", "text": "Ask your child: Ozma walks out to meet the monster with no armor and no army. Where does her courage come from, do you think?", "art": "lamp-hint" },
+        { "kind": "text", "text": "\"Go home, boy,\" said Ozma kindly to the monster. \"Magic cannot buy you friends, and Oz is not for taking.\" The great wings slowed. Behind the monkey face, the boy was suddenly unsure what he had wanted all this for." },
+        { "kind": "text", "text": "And in that moment of stillness, a large grey goose stepped forward through the crowd, cleared his long throat, and said, \"Now, if you please — watch closely, everyone. This part is difficult, and I have practiced.\"" }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Word, Spoken Just Right",
+      "art": "ozmagic-nutspell",
+      "artPrompt": "a dignified grey goose speaking carefully with one wing raised on a sunny road before the emerald city gates, two small nuts lying side by side in the dust where a monster and a gardener stood, a cheering crowd, sparkle of magic in the air, funny triumphant storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The goose stood very straight, took a long breath, and spoke the strange magic word — slowly, carefully, syllable by syllable, exactly right, in his best and most careful goose voice. Not one sound was hurried, and not one sound was wasted." },
+        { "kind": "text", "text": "Whoosh! There was a whirl of feathers and leaves. And there on the dusty road sat two little nuts — one round and wrinkly, one long and brown — rolling gently against each other in the sunshine, quite ordinary and quite harmless." },
+        { "kind": "text", "text": "The monster and the gardener were gone. The small rabbit-guard became a tall guard again, straightening his cap in wonder. And the whole Emerald City began, at first quietly and then all together, to cheer." },
+        { "kind": "image", "art": "ozmagic-nutspell", "text": "The Wizard speaks the magic word, and two villains become two little nuts." },
+        { "kind": "note", "text": "Ask your child: Kiki learned the word in a hurry and used it in anger. The Wizard learned it by listening and used it with care. What made the difference, do you think?", "art": "lamp-hint" },
+        { "kind": "text", "text": "The goose bowed left and right, feeling extremely dignified for a goose. Ozma picked up the two little nuts and looked at them for a long moment. \"No harm,\" she said at last. \"Only rest.\" And she gave them into the Wizard's keeping, in his deepest pocket." },
+        { "kind": "text", "text": "\"Perhaps a long, quiet rest will teach them to be kinder,\" said the Wizard. \"And now, if everyone will kindly close their eyes and count to three, I have a lamb to un-wool and a goose to un-feather.\" The lamb bleated something that sounded very much like laughing." }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Every Gift in the Garden",
+      "art": "ozmagic-gifts",
+      "artPrompt": "a little girl and an old sailor with a wooden leg setting a single glowing magic flower in a pot of white sand in the middle of a beautiful garden party, a fairy princess and happy friends and woodland beasts gathered around, bright birthday morning light, joyful storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The Wizard spoke the word twice more, gently and carefully. First a woolly lamb stood up as Dorothy again, brushing herself off. Then a large grey goose became the Wizard once more, patting his robe to be sure all of him had come back." },
+        { "kind": "text", "text": "Then the birthday morning came, bright and clear. Down the forest paths came King Gugu and the beasts, invited and welcome. Trot and Cap'n Bill carried the Magic Flower in its pot of enchanted sand, and set it in the middle of Ozma's garden, where it began to glow." },
+        { "kind": "text", "text": "Button-Bright brought his usual present — himself, slightly late and not at all sorry — and the Glass Cat wore a pink ribbon, which nobody had asked her to do and nobody dared to mention. It was going to be a very fine party." },
+        { "kind": "image", "art": "ozmagic-gifts", "text": "Trot and Cap'n Bill set the Magic Flower in Ozma's garden." },
+        { "kind": "note", "text": "New word: restore — to put back the way it was. The Wizard restored his friends, and the garden was ready for the party. Ask your child: could the two little nuts be restored someday? What would they need to learn first?", "art": "lamp-hint" },
+        { "kind": "text", "text": "Ozma thanked every guest by name. To Gugu and the beasts she said, \"You kept faith with me, though a monster tried to frighten you.\" To Dorothy and the Wizard she said, \"You came to me as a lamb and a goose, and neither of you lost one grain of courage on the way.\"" },
+        { "kind": "text", "text": "And in the Wizard's deep pocket, the two little nuts rested — quiet, harmless, and, some say, listening to every word about friendship, and wondering what it would be like to be invited to a table like that." }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Ozma's Birthday",
+      "art": "ozmagic-birthday",
+      "artPrompt": "a magical garden birthday feast at twilight with lanterns, a glowing flower opening blossom after blossom for a crowd of happy guests including a leopard king in a crown and forest beasts and a glass cat, a fairy princess laughing at the center, warm glowing celebration light, radiant storybook illustration",
+      "blocks": [
+        { "kind": "text", "text": "The birthday feast was the merriest Oz had seen in years. The Magic Flower opened a new blossom for every guest, one after another, each flower brighter than the last, until the whole garden glowed like a festival." },
+        { "kind": "text", "text": "King Gugu told the story of the lamb and the goose who saved the forest's honor, and every beast thumped the ground like gentle thunder. Somewhere in the Wizard's pocket, two little nuts sat very still, and if nuts can listen, they heard every word." },
+        { "kind": "text", "text": "Kiki Aru had wanted power, but power had only made him lonely and small. What he had needed was there all along, waiting for him: friends, kindness, and a place at the birthday table — the very things he had thrown away." },
+        { "kind": "image", "art": "ozmagic-birthday", "text": "The Magic Flower opens a blossom for every guest at Ozma's birthday." },
+        { "kind": "text", "text": "\"Will the nuts ever wake?\" asked Trot. \"Someday, perhaps,\" said Ozma, \"when they have dreamed enough quiet dreams to want better things. Oz never locks a door that kindness can open.\" And she smiled at the garden, and the garden seemed to smile back." },
+        { "kind": "note", "text": "Ask your child: what did Kiki really want at the end of the story? Talk about a time when being with friends felt better than winning.", "art": "lamp-hint" },
+        { "kind": "text", "text": "So the lanterns glowed, the flower bloomed, and Ozma of Oz laughed with all her friends on her birthday. And high on a green mountain far away, the wind turned the pages of an empty old book of magic — but nobody read it anymore, and nobody needed to." }
+      ]
+    }
+  ]
+}

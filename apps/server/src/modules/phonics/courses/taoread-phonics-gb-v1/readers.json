@@ -1708,5 +1708,318 @@
         "audioAssetId": "r-l53-page-3"
       }
     ]
+  },
+  {
+    "id": "r-l54",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L54",
+    "pages": [
+      {
+        "text": "cow",
+        "wordIds": [
+          "w-cow"
+        ],
+        "audioAssetId": "w-cow-word",
+        "imageAssetId": "w-cow-meaning-image"
+      },
+      {
+        "text": "how",
+        "wordIds": [
+          "w-how"
+        ],
+        "audioAssetId": "w-how-word",
+        "imageAssetId": "w-how-meaning-image"
+      },
+      {
+        "text": "now",
+        "wordIds": [
+          "w-now"
+        ],
+        "audioAssetId": "w-now-word",
+        "imageAssetId": "w-now-meaning-image"
+      },
+      {
+        "text": "down",
+        "wordIds": [
+          "w-down"
+        ],
+        "audioAssetId": "w-down-word",
+        "imageAssetId": "w-down-meaning-image"
+      },
+      {
+        "text": "out",
+        "wordIds": [
+          "w-out"
+        ],
+        "audioAssetId": "w-out-word",
+        "imageAssetId": "w-out-meaning-image"
+      },
+      {
+        "text": "cloud",
+        "wordIds": [
+          "w-cloud"
+        ],
+        "audioAssetId": "w-cloud-word",
+        "imageAssetId": "w-cloud-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l55",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L55",
+    "pages": [
+      {
+        "text": "oil",
+        "wordIds": [
+          "w-oil"
+        ],
+        "audioAssetId": "w-oil-word",
+        "imageAssetId": "w-oil-meaning-image"
+      },
+      {
+        "text": "coin",
+        "wordIds": [
+          "w-coin"
+        ],
+        "audioAssetId": "w-coin-word",
+        "imageAssetId": "w-coin-meaning-image"
+      },
+      {
+        "text": "boy",
+        "wordIds": [
+          "w-boy"
+        ],
+        "audioAssetId": "w-boy-word",
+        "imageAssetId": "w-boy-meaning-image"
+      },
+      {
+        "text": "toy",
+        "wordIds": [
+          "w-toy"
+        ],
+        "audioAssetId": "w-toy-word",
+        "imageAssetId": "w-toy-meaning-image"
+      },
+      {
+        "text": "joy",
+        "wordIds": [
+          "w-joy"
+        ],
+        "audioAssetId": "w-joy-word",
+        "imageAssetId": "w-joy-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l56",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L56",
+    "pages": [
+      {
+        "text": "saw",
+        "wordIds": [
+          "w-saw"
+        ],
+        "audioAssetId": "w-saw-word",
+        "imageAssetId": "w-saw-meaning-image"
+      },
+      {
+        "text": "paw",
+        "wordIds": [
+          "w-paw"
+        ],
+        "audioAssetId": "w-paw-word",
+        "imageAssetId": "w-paw-meaning-image"
+      },
+      {
+        "text": "draw",
+        "wordIds": [
+          "w-draw"
+        ],
+        "audioAssetId": "w-draw-word",
+        "imageAssetId": "w-draw-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l57",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L57",
+    "pages": [
+      {
+        "text": "new",
+        "wordIds": [
+          "w-new"
+        ],
+        "audioAssetId": "w-new-word",
+        "imageAssetId": "w-new-meaning-image"
+      },
+      {
+        "text": "few",
+        "wordIds": [
+          "w-few"
+        ],
+        "audioAssetId": "w-few-word",
+        "imageAssetId": "w-few-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l58",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L58",
+    "pages": [
+      {
+        "text": "ice",
+        "wordIds": [
+          "w-ice"
+        ],
+        "audioAssetId": "w-ice-word",
+        "imageAssetId": "w-ice-meaning-image"
+      },
+      {
+        "text": "rice",
+        "wordIds": [
+          "w-rice"
+        ],
+        "audioAssetId": "w-rice-word",
+        "imageAssetId": "w-rice-meaning-image"
+      },
+      {
+        "text": "nice",
+        "wordIds": [
+          "w-nice"
+        ],
+        "audioAssetId": "w-nice-word",
+        "imageAssetId": "w-nice-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l59",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L59",
+    "pages": [
+      {
+        "text": "light",
+        "wordIds": [
+          "w-light"
+        ],
+        "audioAssetId": "w-light-word",
+        "imageAssetId": "w-light-meaning-image"
+      },
+      {
+        "text": "night",
+        "wordIds": [
+          "w-night"
+        ],
+        "audioAssetId": "w-night-word",
+        "imageAssetId": "w-night-meaning-image"
+      },
+      {
+        "text": "right",
+        "wordIds": [
+          "w-right"
+        ],
+        "audioAssetId": "w-right-word",
+        "imageAssetId": "w-right-meaning-image"
+      },
+      {
+        "text": "high",
+        "wordIds": [
+          "w-high"
+        ],
+        "audioAssetId": "w-high-word",
+        "imageAssetId": "w-high-meaning-image"
+      },
+      {
+        "text": "sky",
+        "wordIds": [
+          "w-sky"
+        ],
+        "audioAssetId": "w-sky-word",
+        "imageAssetId": "w-sky-meaning-image"
+      },
+      {
+        "text": "fly",
+        "wordIds": [
+          "w-fly"
+        ],
+        "audioAssetId": "w-fly-word",
+        "imageAssetId": "w-fly-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l60",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L60",
+    "pages": [
+      {
+        "text": "spring",
+        "wordIds": [
+          "w-spring"
+        ],
+        "audioAssetId": "w-spring-word",
+        "imageAssetId": "w-spring-meaning-image"
+      },
+      {
+        "text": "string",
+        "wordIds": [
+          "w-string"
+        ],
+        "audioAssetId": "w-string-word",
+        "imageAssetId": "w-string-meaning-image"
+      },
+      {
+        "text": "street",
+        "wordIds": [
+          "w-street"
+        ],
+        "audioAssetId": "w-street-word",
+        "imageAssetId": "w-street-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l61",
+    "kind": "caption",
+    "titleZh": "长音小故事二",
+    "introducedAt": "L61",
+    "pages": [
+      {
+        "text": "my toy box.",
+        "wordIds": [
+          "w-my",
+          "w-toy",
+          "w-box"
+        ],
+        "audioAssetId": "r-l61-page-1"
+      },
+      {
+        "text": "spring street.",
+        "wordIds": [
+          "w-spring",
+          "w-street"
+        ],
+        "audioAssetId": "r-l61-page-2"
+      },
+      {
+        "text": "my cow.",
+        "wordIds": [
+          "w-my",
+          "w-cow"
+        ],
+        "audioAssetId": "r-l61-page-3"
+      }
+    ]
   }
 ]

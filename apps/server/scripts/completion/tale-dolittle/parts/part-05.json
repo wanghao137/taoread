@@ -1,0 +1,268 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 5 · The King of Jolliginki",
+    "art": "dd-king-refuses",
+    "artPrompt": "a proud African king in robes and shells frowning on a carved wooden throne, a round-faced doctor in a tall black hat bowing before him, a green parrot on the doctor's shoulder, torchlit village huts behind, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "At last the monkeys were well, and the Doctor packed his black bag for home. Then Chee-Chee came down from a tall tree with a worried face. “Bad news,” he said. “The King of the Jolliginki has taken your ship. No white man may sail from his shores, he says. White men were cruel to his people long ago, and a king does not forget. The ship lies in his harbour now, with guards all round it.”"
+      },
+      {
+        "kind": "text",
+        "text": "“Then I shall go and ask him for it back,” said the Doctor. Nobody could argue him out of it. He walked through the morning to the King’s great village, and stood before the throne, and bowed. But the King only frowned. “You come with soft words, as the others came,” he said. “Go now, before my soldiers grow angry.” Polynesia pulled the Doctor’s coat very gently, and her sharp eye was already counting the spears."
+      },
+      {
+        "kind": "image",
+        "art": "dd-king-refuses",
+        "text": "The King of the Jolliginki turns the Doctor away, and his soldiers begin to stir."
+      },
+      {
+        "kind": "text",
+        "text": "So the travellers slipped away into the forest as the sun went down. But behind them the war drums began to beat — tap, tap, tap — and torchlight moved among the trees. “Run,” said Chee-Chee. “His soldiers are many, and they are fast.” On and on they ran, until the ground fell away before them into a deep, dark gorge. A wild river roared at the bottom of the world."
+      },
+      {
+        "kind": "note",
+        "text": "New word: gorge — a deep, narrow valley with steep rocky sides and a river rushing along its floor.",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "The torches glowed closer. The gorge was wide, and there was no bridge, and no road around it. Jip began to whimper, and Gub-Gub began to cry, and even Too-Too looked grave. Then Chee-Chee climbed onto a high root and filled his little lungs. He called into the darkness, a long, chattering monkey call, like rain beginning. And the whole night forest answered him at once, from every branch above their heads. The forest had heard, and the forest was coming."
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Bridge of Apes",
+      "art": "dd-ape-bridge",
+      "artPrompt": "a long swinging chain of monkeys linking hand and foot and tail across a deep forest gorge, a round-faced doctor climbing hand over hand above a wild river, torchlight far behind, moonlight on wet leaves, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Out of the dark trees they came, leaping and swinging — a hundred monkeys, and then a hundred more. “The Doctor needs us,” called Chee-Chee. “Bring the bridge!” And the monkeys knew what to do, for a kind doctor is a friend to every monkey in Africa. Down the cliff they poured. Over the roaring river a great chain began to build, monkey linked to monkey, hand and foot and tail. It was the bravest thing the forest had ever done."
+        },
+        {
+          "kind": "text",
+          "text": "At last the chain was fast, and the crossing began. The Doctor went first, hand over hand above the black water, with the monkeys cheering him on. Dab-Dab simply flew. Jip ran along the linked arms with his ears blown back. Gub-Gub shut his eyes tight and was passed along like a parcel, squealing loudly. Too-Too rode on the Doctor’s shoulder, whispering that owls do not care for bridges of any kind whatsoever."
+        },
+        {
+          "kind": "image",
+          "art": "dd-ape-bridge",
+          "text": "The living bridge of apes swings above the wild river as the Doctor climbs across."
+        },
+        {
+          "kind": "text",
+          "text": "The Doctor was the last but one to cross. When his feet touched the far bank, the whole bridge let go and swung itself up into the trees. Every monkey waved. On the other side of the gorge the King’s soldiers shook their spears and shouted, but the river shouted louder. The way home was open at last, and nobody had been hurt."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: a hundred small monkeys made one strong bridge. Ask your child: what could you and your friends do together that none of you could do alone?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They camped that night in a quiet green valley, with sentries of monkeys dozing in the trees. The Doctor sat by the fire counting his bottles of medicine. Polynesia smoothed her feathers, and the forest was friendly all around. The fire crackled, and nobody felt afraid. Tomorrow they would walk to the sea. “And tomorrow,” said Chee-Chee, looking grave, “we must pass through the country of the lions.”"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Leader of the Lions",
+      "art": "dd-lion-basket",
+      "artPrompt": "a great lion with a shaggy golden mane bowing his head to take a wicker basket of medicine in his jaws, a doctor with a black bag watching in surprise, antelopes and leopards gathered under a warm rock, evening jungle light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Early next morning two swallows swooped into camp with news. Away in the deepest valley of the forest, monkeys lay still too weak to walk to the Doctor’s camp. They badly needed medicine. The Doctor mixed a fresh barrel at once. But the valley lay far away across lion country, and medicine is heavy. There were not enough monkey carriers to take it there quickly."
+        },
+        {
+          "kind": "text",
+          "text": "So the Doctor went to the Lion King, who lay in the shade of a great rock. His mane was spread out like a crown. “Will your lions carry my medicine to the sick ones?” asked the Doctor. The Lion King’s eyes grew narrow. “Lions,” he said, “do not run errands for monkeys.” “Then I am sorry for the lions,” said the Doctor quietly. “For they will never learn how good it feels to help.” And he turned away."
+        },
+        {
+          "kind": "image",
+          "art": "dd-lion-basket",
+          "text": "The Lion King, ashamed of his pride, lifts the basket of medicine gently in his great jaws."
+        },
+        {
+          "kind": "text",
+          "text": "The antelopes stepped forward first, and offered their swift legs. Then the leopards offered, and then the elephants. The Lion King watched them from under his rock, and his pride grew smaller and smaller. At last he rose, and came to the Doctor, and bowed his great head. “Give me the basket,” he said. “A king should carry the heaviest thing.” All that night he ran through the forest with the medicine. In the morning the monkeys of the deep valley drank it, and they lived."
+        },
+        {
+          "kind": "note",
+          "text": "New word: errand — a small journey made to carry or fetch something for someone. Even a king can run a good errand.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Lion King came back thin with running, but proud as morning. The Doctor dressed his sore paws without being asked. “You are the best kind of king,” said the Doctor. “The kind that carries.” And the Lion King walked with them towards the sea, like a great gold shadow among the trees. No animal in that country troubled them at all."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Rarest Animal of All",
+      "art": "dd-rarest-animal",
+      "artPrompt": "a strange gentle creature with two heads, one at each end, standing shyly in a jungle clearing led by two patient elephants, monkeys crowding the branches above, a doctor bowing to it in delight, warm shafts of sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Soon the party came to the edge of the monkey country, and it was nearly time to say goodbye. But the monkeys would not let the Doctor go away empty-handed. They called a great council in the tallest trees, and argued from morning till night about a parting gift. They offered fruit, and honey, and bright feathers, and the Doctor thanked them kindly and shook his head at everything."
+        },
+        {
+          "kind": "text",
+          "text": "“He wants nothing,” Chee-Chee translated. So the oldest elephants went away together, deep into the jungle, and for three days the monkeys waited. On the third day the elephants came back, walking slowly and gently, leading a strange shy animal between them. It had two heads, one at each end, so that it could watch for danger whichever way it walked. It was a pushmi-pullyu — the rarest animal in all the world."
+        },
+        {
+          "kind": "image",
+          "art": "dd-rarest-animal",
+          "text": "The shy pushmi-pullyu is led out of the jungle, one head watching each way."
+        },
+        {
+          "kind": "text",
+          "text": "“He says,” translated Chee-Chee, “that he would be proud to be the Doctor’s patient, if ever the Doctor needs money. He asks only to be shown quietly, and never more than twice a week.” The Doctor bowed, because such a gift deserves a bow. He had never been given so great a present. And the pushmi-pullyu bowed back with both ends at once, which took some doing. The smallest monkeys fell out of the trees with laughing."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: the pushmi-pullyu is very shy, so the Doctor promises to show him gently and rarely. Ask your child: how would you help a shy new friend feel safe?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The pushmi-pullyu came quietly along with them, keeping to the shade. The party went down through the palms towards the sea. On the last hill Chee-Chee stopped and looked back at the great green forest where he was born. He waved his little hand. Then he looked at the Doctor, and took his hand, and walked on towards the sea without looking back again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Black Prince",
+      "art": "dd-black-prince",
+      "artPrompt": "a tall young African prince in a college scarf bowing politely to a doctor among palm trees by a moonlit harbour, a green parrot whispering on the prince's shoulder, a sailing ship anchored beyond guards' tents, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The sea glittered ahead, and below lay the little harbour of the Jolliginki. And there, at anchor, was the Doctor’s own ship, with the King’s guards camped all round it. The party hid in the palms and wondered what to do. Then a young voice spoke behind them. “Are you,” it said, “the Doctor Dolittle of whom they talk at Oxford?”"
+        },
+        {
+          "kind": "text",
+          "text": "He was a tall young man in a college scarf — Prince Bumpo himself, home from his studies in England. He was the King’s own son. He had read of the Doctor in the papers his friends sent him. And he had a wish of his own. “The Sleeping Beauty can only be woken,” he said sadly, “by a prince with a white face. Doctor, could you make me white?” The Doctor looked grave, for skin is not an illness, and cannot be cured like one."
+        },
+        {
+          "kind": "image",
+          "art": "dd-black-prince",
+          "text": "Prince Bumpo, home from Oxford, makes his strange request in the shade of the palms."
+        },
+        {
+          "kind": "text",
+          "text": "Then Polynesia flew up onto Bumpo’s shoulder and whispered in his ear, and a bargain was made. That night the Doctor mixed a gentle sleeping draught. Bumpo drank it and smiled in his sleep, and Polynesia painted his face white as a lily. In the morning Bumpo looked into a mirror and shouted for joy. Then he marched down to the harbour in his finest clothes. And he gave the guards the Prince’s own order. The ship was to be given back to the Doctor at once."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Polynesia knew the paint would fade, but a kind heart does not. Ask your child: was Polynesia’s trick a kind one? Why?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The guards saluted, and the little ship was fetched round to the steps, and her sails were bent on again. Bumpo stood on the sand and waved his college scarf until the ship was small on the water. “Goodbye, Doctor,” he called. “Tell Oxford about me!” And the Doctor, watching him grow small on the beach, was not at all sure that anybody could."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Last Lesson",
+      "art": "dd-last-lesson",
+      "artPrompt": "a doctor with a black bag teaching a crowd of attentive monkeys under vast jungle trees, twelve small monkeys holding little medicine bags in a row, swallows circling above, warm green light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was one more thing to do before the anchor came up. The Doctor called the monkeys together under the great trees for a last lesson. “Medicine cures,” he said, “but care prevents. Boil the water you drink. Keep your camps clean. Bury what is left of supper far away from where you sleep.” The monkeys repeated every word in monkey language, until the whole forest rang with it."
+        },
+        {
+          "kind": "text",
+          "text": "He chose the twelve cleverest monkeys and made them doctors of the forest. Each had a little bag of simple medicines. He showed them how to boil water over a little fire of sticks. The swallows promised to carry word to Puddleby if sickness ever came again. “And I will come,” said the Doctor. “You may be sure of that. A doctor never forgets his patients, and I have never had better ones than these.”"
+        },
+        {
+          "kind": "image",
+          "art": "dd-last-lesson",
+          "text": "The whole tribe of monkeys walks the Doctor to the shore, waving from every tree."
+        },
+        {
+          "kind": "text",
+          "text": "On the morning of sailing, the whole tribe came down to the beach. Old monkeys and young ones lined the sand, and the smallest sat up in a row like sparrows. Chee-Chee went along the line shaking hands in monkey fashion, and his eyes were bright. Then the anchor came up, and the wind filled the sails. From the forest came one last great good-bye, and the Doctor took off his hat."
+        },
+        {
+          "kind": "note",
+          "text": "New word: prevent — to stop a thing from happening at all. Clean water and clean camps prevented the sickness from coming back.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The little ship ran west with the trade winds behind her. The white mice kept watch in the rigging. Mice see in the dark, and hear a hundred times better than sailors. The pushmi-pullyu stood quietly in a bed of straw between the barrels. He watched the green hills of Africa grow small and disappear. “England by autumn,” said the Doctor. And Gub-Gub began at once to count the days until the apple harvest."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Voyage Home",
+      "art": "dd-voyage-home",
+      "artPrompt": "a small wooden sailing ship running up a green English river in evening light, a strange two-headed creature peering over the side, a church tower and water-meadows beyond, gulls circling in a soft golden sky, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The sea was kind for days and days. Jip taught Gub-Gub to play follow-my-leader along the deck. Too-Too counted the flying fish, and Dab-Dab kept the little kitchen shining. Every evening the Doctor told the pushmi-pullyu about England: the wet gardens, the church bells, the smell of bread. And every evening the pushmi-pullyu listened politely with both heads at once. That is twice as much politeness as most of us manage."
+        },
+        {
+          "kind": "text",
+          "text": "One night a storm came up out of the west. The little ship ran before it with all hands on deck. But the Doctor’s crew had crossed a whole ocean of weather by now, and nobody was afraid for long. By morning the sky was blue and the wind was soft. Then Polynesia, perched at the masthead, gave a sudden scream of joy. “Land!” she cried. “Land ho!”"
+        },
+        {
+          "kind": "image",
+          "art": "dd-voyage-home",
+          "text": "The little ship runs into a soft blue morning, and England rises green ahead."
+        },
+        {
+          "kind": "text",
+          "text": "They came up the river past the water-meadows, and the church bells of Puddleby were ringing for evening service. At the little stone steps the Doctor stepped ashore, and the pushmi-pullyu followed him very quietly. The whole procession walked up the hill through the autumn leaves. The garden gate was still broken. The fishpond was still green. It was the loveliest sight in the world."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: home looked just as the Doctor had left it, broken gate and all. Ask your child: what small things make a place feel like home to you?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the house was dark, and the chimney had no smoke. The Doctor’s sister Sarah was gone. She had packed her boxes and gone away in anger long before, and no one knew where. The Doctor stood in the empty kitchen with his hat in his hands. Then Dab-Dab lit the fire, and the kettle began to sing. One by one the animals crept in and found their old corners. And the little house was a home again."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · A New Life in Puddleby",
+      "art": "dd-new-life",
+      "artPrompt": "a shy two-headed creature standing meekly in a village meadow while a polite queue of visitors in old-fashioned clothes peers over a garden fence, a fat doctor lifting his hat, a crooked little cottage with smoking chimney behind, autumn afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Morning came, and with it a new life. The Doctor mended the garden gate, and swept the study, and put the shell collection back on its shelf. The hens laid eggs, and the garden gave apples, and the fire never quite went out. The animals were all home again, and knew it. It was a poor house still. But it was full of the sound of friends, and there is no better furniture than that."
+        },
+        {
+          "kind": "text",
+          "text": "Money, of course, was short. And then the pushmi-pullyu came shyly to the Doctor and stood very straight. “He says,” translated Chee-Chee, “that a promise is a promise. He is ready to be shown.” So twice a week, quietly, the rarest animal in the world stood in the meadow. Gentle folk came from far-away towns to look at him, and paid, and went home wondering."
+        },
+        {
+          "kind": "image",
+          "art": "dd-new-life",
+          "text": "The pushmi-pullyu stands meekly in the meadow while a queue of visitors peers over the garden fence."
+        },
+        {
+          "kind": "text",
+          "text": "There was money now for oats and lamp oil, and paper for the Doctor’s big book. There was even a new collar for Jip. Every evening the Doctor wrote in that book. He wrote the words for oats, and the words for a warm place by the fire. He wrote the whole grammar of dog and duck and horse. “Somebody must write it all down,” said Polynesia. “Languages can die, you know, even animal ones.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: grammar — the way the words of a language fit together. The Doctor was writing the grammar of every animal he knew.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So the winter evenings were warm, and the garden gate stood open. Every animal that was lonely or hurt found its way to the little house with the light in the window. The people of Puddleby grew used to it at last. And children passing by would say, softly, “That is the house of Doctor Dolittle, the doctor who talks to animals.” And that was true then, and it is true still."
+        }
+      ]
+    }
+  ]
+}

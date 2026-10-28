@@ -1,0 +1,400 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The Gilded Dome",
+      "art": "tom-gilded-dome",
+      "artPrompt": "a crowded village schoolroom on examination evening, children in Sunday clothes reciting on a platform, a bald schoolmaster nodding asleep behind a tilted blackboard, warm lantern light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Tom came to school next morning like a conquering hero. Becky smiled at him across the schoolroom, and that smile was better than any prize in the world. The boys looked at him with envy, and the girls looked at him with wonder. But Tom had little time to enjoy it. The last day of the school year was hurrying near, and with it came Examination Day."
+        },
+        {
+          "kind": "image",
+          "art": "tom-gilded-dome",
+          "text": "The schoolhouse fills with proud parents for the great Examination Day."
+        },
+        {
+          "kind": "text",
+          "text": "On that evening the schoolhouse was full from wall to wall. Farmers and their wives sat in the best seats, fanning themselves. The little ones stood up bravely and recited their pieces. Boys in stiff collars spelled against each other for a prize. Girls in ribbons read essays full of long, fine words about Friendship and Faith. The audience clapped everything warmly. It was a grand evening, and St. Petersburg was proud of its children."
+        },
+        {
+          "kind": "note",
+          "text": "New word: examination - the great school show at the end of the year, when parents come to hear what the children have learned.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Mr. Dobbins, the master, had worked hard for weeks training his scholars. He was tired out, and he sat down behind the great blackboard to rest his eyes. Behind that screen nobody could see him, and presently he began to nod. Now some of the boys owed him grudges. They slipped up behind the sleeping master with a pot of gold leaf. Softly they gilded his bald head till it shone like the morning sun. Then they slid back to their seats, innocent as angels."
+        },
+        {
+          "kind": "text",
+          "text": "At last the moment came to give out the prizes. Mr. Dobbins rose and bowed to the audience. The candlelight flashed upon his head, and it glittered like a golden dome. The whole house roared. Boys howled, ladies waved their fans, and even the minister held his sides. The poor master rubbed his head and stared at the gold on his hand. So ended the examinations. Tom raced out into the sunlight, and three golden months of vacation lay before him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Long Vacation",
+      "art": "tom-lazy-summer",
+      "artPrompt": "a drowsy village street in high summer, a boy lying idle in the shade of a fence rail with a straw hat over his face, shimmering golden afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The first days of vacation were pure delight. Tom swam in the river until his shoulders ached. He fished, and lay in the grass, and did nothing at all. The days were long and hot, and the world belonged to the boys. But even a holiday can grow too long. By and by swimming lost its sweetness, and fishing lost its fun. Tom sat on the fence and yawned at the empty road. Never had time dragged so slowly in St. Petersburg."
+        },
+        {
+          "kind": "image",
+          "art": "tom-lazy-summer",
+          "text": "The long, lazy days of vacation, when even doing nothing grows dull."
+        },
+        {
+          "kind": "text",
+          "text": "Then for one whole day a circus came to town. Tom spent his saved pennies and shouted himself hoarse at the clowns. For days afterwards the boys played circus in the lanes. They turned tubs into horses and fences into arenas. But every boy wanted to be the clown, and that made trouble. Then the circus rolled away down the river, and the pennies went with it. After that the village seemed duller than ever before."
+        },
+        {
+          "kind": "text",
+          "text": "Tom and Joe Harper tried playing at robbers in the woods. They wore red handkerchiefs and leapt out at each other from the bushes. But a robber needs somebody to rob. After a week the game wore out, for there was nothing in the town worth taking. Tom grew so low in spirits that he wished he could die, just for a little while. Dying temporarily would at least be an adventure. But as that was out of the question, he sighed and waited for something to happen."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Tom says even holidays can grow too long. Do you think that is true? What would you do with a whole free summer?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Something was coming, though Tom did not know it yet. In the village jail a man waited for his trial. On the river a ferryboat was making ready for a picnic. And high on Cardiff Hill two boys would soon go digging for buried gold. The second half of Tom's summer was to be anything but dull."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Cadets of Temperance",
+      "art": "tom-temperance-sash",
+      "artPrompt": "a boys' parade on a dusty village street, a proud boy in a scarlet sash and shoulder straps marching at the front beside a drum and banner, bright noon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A new society had been formed in St. Petersburg: the Cadets of Temperance. The members marched in parades wearing red sashes, shoulder straps, and shining belts. Tom had never once thought about temperance in his life. But the fine regalia went straight to his heart. He joined the Cadets at once and signed the pledge. The pledge was a solemn promise never to smoke or chew tobacco again. That very day he strutted down the street, and every boy in town envied him."
+        },
+        {
+          "kind": "image",
+          "art": "tom-temperance-sash",
+          "text": "Tom marches with the Cadets of Temperance, splendid in his new red sash."
+        },
+        {
+          "kind": "text",
+          "text": "His glory lasted several days. Tom wore his sash to the mill and to the post office, even when there was no parade at all. He looked at himself in every shop window. Small boys followed him for a block, and he let them. He wished Becky Thatcher could see him, but Becky was away with her parents for the summer. Then the charm began to fade. A sash is a fine thing, but a promise is a heavy thing. Tom had sworn off his pipe, and summer evenings were long."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pledge - a solemn promise. Tom's pledge was to give up tobacco, and he found it very hard to keep.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last Tom quietly gave back his sash and resigned from the Cadets. That very evening he sat by the river with his old pipe, smoking in perfect peace. He told Huck that being temperate was harder work than being a pirate. Huck believed him. He had never trusted a sash in his life. A free boy again, Tom decided that glory was cheaper than it looked."
+        },
+        {
+          "kind": "text",
+          "text": "So the slow, warm days went by. But while Tom fished and marched and yawned, a shadow hung over the town. In the jail on the square, Muff Potter waited for his trial. It was set for August. And Tom knew something about that midnight in the graveyard that no lawyer knew. At night he turned and tossed, and the bright summer seemed suddenly dark."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · A Friend in Jail",
+      "art": "tom-jail-grating",
+      "artPrompt": "a small brick village jail window with iron bars, a boy slipping little gifts through the grating to a ragged, weary man inside, soft evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Tom had not forgotten the graveyard. He and Huck had sworn a terrible oath, never to tell what they saw that midnight. Injun Joe had struck the doctor down, and laid the blame on poor drunken Muff Potter. Now Muff sat in jail, friendless, and the whole town judged him guilty. Even the newspapers were against him. Nobody remembered that Muff had once been kind to every boy in the village. The reward for Injun Joe brought no hunters, for he was gone like smoke. The whole town counted the days to the trial."
+        },
+        {
+          "kind": "image",
+          "art": "tom-jail-grating",
+          "text": "Tom brings little gifts to Muff Potter at the barred jail window."
+        },
+        {
+          "kind": "text",
+          "text": "Tom's conscience would not let him rest. Every few days he brought small treasures to the jail window. He carried a smooth pipe, a little tobacco, an apple, a marble. Muff Potter always wept when he saw him. “Tom, you have been a friend to me,” the poor man would say. “You have been a true friend, and I won't forget it.” Tom would walk away with his heart breaking. Huck had the same bad nights, but the boys never spoke of them."
+        },
+        {
+          "kind": "note",
+          "text": "New word: conscience - the small voice inside you that speaks up when something is wrong. Tom's conscience talked to him all summer.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "For Muff Potter had mended their kites and helped their fishing lines in better days. He was a poor, weak, drunken fellow, but he had never harmed a child. The trial came on like a black cloud. Each night Tom thought more about the witness box, and slept less. He had sworn silence. But an oath sits heavy on a boy in summer, when a man's life is weighing."
+        },
+        {
+          "kind": "text",
+          "text": "At last the August morning came. The courtroom filled early, and farmers crowded in from all the country around. Muff Potter was brought in, pale and trembling. The lawyers rose, the judge took his seat, and the great trial began. Somewhere in the crowd sat Tom Sawyer, with his heart hammering. It was the biggest day St. Petersburg could remember."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Tom Tells the Truth",
+      "art": "tom-trial-truth",
+      "artPrompt": "a wooden courtroom packed with villagers, a small boy standing steady in the witness box, a frightened bearded man in chains, a judge high on the bench, tall sunlit windows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The trial lasted two days. Witnesses told how the knife was found, and how Muff Potter had been seen near the graveyard that night. It all looked black against the prisoner, and the town said he would surely hang. On the third morning, the lawyer for Muff Potter rose with a strange smile. “We have one more witness,” he said. “Call Thomas Sawyer.” Even the judge leaned forward, polishing his spectacles."
+        },
+        {
+          "kind": "image",
+          "art": "tom-trial-truth",
+          "text": "Tom climbs into the witness box and tells the truth about the graveyard."
+        },
+        {
+          "kind": "text",
+          "text": "A buzz of wonder ran around the room. Tom climbed into the witness box, pale but steady. He told how he and Huck had hidden among the elms that midnight. He told how the three men quarrelled, and how Muff Potter was struck down senseless. The lawyers asked their questions gently, and Tom told it all. “The doctor struck Muff down with the grave-board,” he said. “Then Injun Joe took the knife and struck the doctor down. Muff never moved.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: verdict - the decision of the jury: guilty, or not guilty. The whole room held its breath for the verdict.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "For one moment the courtroom sat frozen in silence. Then every face turned. Injun Joe sprang from his seat, threw a man aside, and leapt through the window. He was gone before the sheriff could raise a hand. The room burst into a roar like thunder. The jury took no time at all. Muff Potter was innocent, and they said so before the echo of the window died away."
+        },
+        {
+          "kind": "text",
+          "text": "So Muff Potter walked out of the courtroom a free man, weeping and blessing Tom Sawyer. Tom was the hero of the town, greater than ever before. Old men shook his hand, and the village paper praised him. Old friends clapped him on the back till it ached. But two people in St. Petersburg slept badly that night. Tom and Huck feared one thing above all others. The half-breed had escaped, and nobody knew where he slept. Revenge was a word Injun Joe knew well."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Hero with Bad Dreams",
+      "art": "tom-bad-dreams",
+      "artPrompt": "a boy tossing in a small bed under a quilt in a dark bedroom, moonlight through the window, a shadowy bearded face drifting in his dream above him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Being a hero, Tom discovered, did not make a boy happy. He lay awake at night listening to every sound. Was that the creak of a stair, or a hand at the window? Twice he dreamed that Injun Joe stood over him in the dark. Huck had the same dreams, for he slept in doorways and empty barrels. A reward was offered for the half-breed, but no man dared hunt far for him. Little by little, time is kind to boys, and fear wears thin as a river wears a stone."
+        },
+        {
+          "kind": "image",
+          "art": "tom-bad-dreams",
+          "text": "A hero by day, Tom lies awake at night and dreams of a shadow with a knife."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Tom does a brave thing and then feels afraid. Can a brave person still feel afraid? Which is the braver part?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The summer days were too bright for long fears. Tom's thoughts crept back to fishing and swimming and idle joy. Boys who had once envied him now copied the very way he walked. Then, one morning, a new idea walked into his head and would not walk out again. He hurried to find Huck Finn, and found him in his old place among the barrels."
+        },
+        {
+          "kind": "text",
+          "text": "“Huck,” said Tom, “let's go and dig for buried treasure.” Huck sat up at once, wide awake. “Treasure?” he said. “What is treasure?” “Gold and silver, of course,” said Tom. “Coins in iron boxes, buried in the ground by robbers.” Huck scratched his head. “Who buried it there?” “Robbers do,” said Tom. “They hide it in haunted houses, on islands, and under dead trees. Then they go away and forget, or die. It lies there and waits. Sometimes for a hundred years.”"
+        },
+        {
+          "kind": "text",
+          "text": "“Where will we dig?” asked Huck. Tom pointed up the river toward Cardiff Hill. “Under the dead-limb tree,” he said, “the one with the strange look about it. If there is treasure anywhere, it is there. Nobody watches a dead tree but ghosts.” Huck shivered, but he agreed all the same. And so the two partners shook hands on it, and the treasure hunt began."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · Digging on Cardiff Hill",
+      "art": "tom-dead-limb",
+      "artPrompt": "two boys with a pick and shovel digging hard under a bare dead tree on a green hill at noon, a river village far below, bright summer light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The next day the two partners climbed Cardiff Hill with a pick and a shovel. At the top stood a great dead tree, one limb bare and white against the sky. “Robbers always bury their treasure under a dead limb,” said Tom. “A marked tree means money under it, everybody knows that. Pick there, Huck, pick there!” So they dug and dug in the heat, until their backs ached. The hole grew deep. The treasure did not appear."
+        },
+        {
+          "kind": "image",
+          "art": "tom-dead-limb",
+          "text": "Tom and Huck dig for treasure under the dead-limb tree on Cardiff Hill."
+        },
+        {
+          "kind": "text",
+          "text": "“Where is it?” gasped Huck at last. Tom climbed out of the hole and thought hard. “I know what we did wrong,” he said. “We dug under the limb in the daytime. But a robber hides his gold at midnight, and at midnight the shadow falls in a different place. We must dig where the shadow of the limb falls at midnight.” That night the boys crept back with a lantern and dug again under the cold moonlight. Still they found nothing but stones and earth."
+        },
+        {
+          "kind": "note",
+          "text": "New word: shadow - the dark shape a thing throws when a light shines behind it. Midnight shadows point where noon shadows do not.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Late that night the boys crept home, tired and empty-handed. “It is no use,” said Tom at last. “There is no treasure under that tree.” “I thought so,” said Huck. “But never you mind. There is one more place left, and it is the best of all.” Tom looked over his shoulder and spoke low. “Tomorrow,” he said, “we go to the haunted house on Still-House branch.”"
+        },
+        {
+          "kind": "text",
+          "text": "Huck's teeth chattered, but treasure is treasure. All the way home the partners talked of gold and robbers and ghosts. The dead limb had failed them. Perhaps the ghosts kept the better luck. And neither boy guessed how near the real treasure lay, nor who was already carrying it away. They agreed to meet at noon, right after dinner. That night both boys dreamed of iron boxes, and neither slept well."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Haunted House",
+      "art": "tom-haunted-house",
+      "artPrompt": "a crooked, empty old wooden house with boarded windows on a lonely hillside, two small boys with a pick and shovel standing at the door, grey afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The haunted house stood alone on the Still-House branch, grey and leaning. Nobody had lived in it for years, and nobody wished to. The windows were dark, the fence was gone, and weeds grew in the doorstep. People said that lights had been seen there, and voices too. Tom and Huck stood at the gate for a long minute. “You can stay outside,” said Tom. “That is, if you are afraid.” “Afraid?” said Huck. “Who's afraid?” But his voice was very small."
+        },
+        {
+          "kind": "image",
+          "art": "tom-haunted-house",
+          "text": "The haunted house on Still-House branch, empty for years and full of stories."
+        },
+        {
+          "kind": "text",
+          "text": "They went in, whispering, with their hearts loud in their ears. Downstairs there was nothing but dust, spiders, and old barrels. They dug under the floor by the ruin of the fireplace, and struck nothing at all. “Let's go upstairs,” whispered Tom. “Maybe they hid it up there.” Upstairs they found an old hearth and corners full of shadows. They were about to dig again when Huck caught Tom's arm. “Hush,” he breathed. “Somebody is coming.” The boys crept into a dark corner and lay as still as the dead."
+        },
+        {
+          "kind": "note",
+          "text": "New word: haunted - said of a place where ghosts are believed to walk. Nobody in St. Petersburg would sleep in a haunted house for money.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Two men came in below, talking low. One was rough and ragged. The other wore a slouch hat and green goggles, and his long hair was white as snow. It was the strange old Spaniard, deaf and dumb, who had been seen about the village. The men sat down to rest, and the boys lay still, hardly breathing. Treasure was forgotten. The only gold they wanted now was the gold of the sunlight outside."
+        },
+        {
+          "kind": "text",
+          "text": "Then the ragged man spoke of burying a bag of silver under the floor. He took up the pick and began to loosen the earth. From their corner above, the boys watched every stroke of it. And suddenly Huck pressed his face into his arm. The pick had rung upon something made of iron."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · Real Robbers Seize the Treasure",
+      "art": "tom-gold-strongbox",
+      "artPrompt": "two rough men in a ruined house lifting an iron strong box out of a hole in the floor, gold coins catching the light, two hidden boys watching wide-eyed from a shadowy corner above, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Under the floor the men lifted out a strong iron box, heavy with coin. The ragged man's eyes grew round. “There's a power of money here,” he said. The old Spaniard pried the lid open, and gold ran through his fingers like water. It was more money than any man in the county had ever seen. The boys above stared down and forgot how to breathe."
+        },
+        {
+          "kind": "image",
+          "art": "tom-gold-strongbox",
+          "text": "The robbers lift the iron box of gold from under the haunted-house floor."
+        },
+        {
+          "kind": "text",
+          "text": "Then the Spaniard spoke, and the boys' blood ran cold. It was the voice of Injun Joe. “That pick is fresh with earth,” he said slowly. “Somebody has been digging here. Boys, I think. Where are they now?” He looked about the ruined room and started toward the stair. Up above, the two boys lay like dead things. But the ragged man called him back. “Whoever dug has gone long ago,” he said. “The coins are what matter. Let us hide the box and go.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: disguise - clothes and false hair that change a person's looks. Injun Joe's disguise was a white wig and green goggles.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Injun Joe stood thinking, with his hand on the box. “We'll carry it to my den,” he said at last. “It is safe there. Number Two, under the cross.” “Under the what?” asked the ragged man. “Under the cross,” said Injun Joe. “Never you mind where. You will see when the time comes.” Then the men lifted the box between them and went out. The boys slid down the stairs and looked at each other in the dust and the silence."
+        },
+        {
+          "kind": "text",
+          "text": "“Twelve thousand dollars,” whispered Tom, “and we found it first, and they carried it away!” The boys ground their teeth. If they had only kept digging downstairs, the gold would have been theirs that very hour. “Never mind,” said Tom at last. “They took it to Number Two, under the cross. We do not know where that is. But Tom Sawyer means to find out.” From that hour the two became detectives."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · Number Two at the Tavern",
+      "art": "tom-tavern-watch",
+      "artPrompt": "a village Temperance tavern at dusk with a lamplit back stairway, a ragged boy hidden behind barrels watching a door at the top of the steps, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "All the next day Tom puzzled over Number Two. At last he struck an idea. “It's a room,” he said. “Rooms have numbers. The Temperance Tavern has a room numbered Two, with a back door and a back stair. Nobody ever seems to go in or out. That is the den, or I'm a fool.” So the boys watched the tavern evening after evening. Nothing moved. On the third night Tom slipped up the dark stair alone."
+        },
+        {
+          "kind": "image",
+          "art": "tom-tavern-watch",
+          "text": "Tom creeps up the dark back stair of the Temperance Tavern to the door marked Two."
+        },
+        {
+          "kind": "text",
+          "text": "The door was not locked. Tom pushed it softly and put his head inside. Then he drew back as if he had touched a snake. On the floor, beside a bottle, lay Injun Joe, dead drunk and fast asleep. The floor creaked once, and Tom stood frozen till the snoring came again. Then he tiptoed down and told Huck. The whole room had smelled of tobacco and spilled liquor."
+        },
+        {
+          "kind": "note",
+          "text": "New word: den - the hiding place of a fox or a robber. Injun Joe's den was a room called Number Two.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "They agreed on a plan. Huck should watch the back stair every night. When Injun Joe came out, Huck would run for Tom at once. “Soon or late,” said Tom, “a robber must go home.” “Watching is hungry work,” said Huck, but he watched all the same. For two nights nothing happened, and the boys grew weary. The moon was down, and the streets were empty. Then, on the third night, Huck heard the door creak."
+        },
+        {
+          "kind": "text",
+          "text": "Injun Joe came out carrying a bundle under his arm, and turned toward the river. Where Injun Joe went, Huck followed. That was the plan, and Huck's heart thumped like a hammer. But that night nothing went as they had planned. For Injun Joe did not go to the river at all. He climbed the hill toward the big white house of the Widow Douglas. Huck crept after him in the dark, afraid to go on and more afraid to stop."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · The Revenge on the Hill",
+      "art": "tom-widow-hill",
+      "artPrompt": "two rough men talking in a dark lane under trees before a white house on a hill, a small boy crouched listening behind a picket fence, one lit window in the distance, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Huck pressed himself against a garden fence in the black shadow of the trees. Not ten steps away stood the two men from Number Two. The starlight was enough to see them by. “It's a long way to the river,” said the ragged man. “I'm for the river road.” “All right,” said Injun Joe. “But first there is a little business at that house.” He pointed to the widow's bright windows."
+        },
+        {
+          "kind": "image",
+          "art": "tom-widow-hill",
+          "text": "Huck, hidden by the fence, overhears the two men under the widow's trees."
+        },
+        {
+          "kind": "text",
+          "text": "“What business?” asked the ragged man. “Revenge,” said Injun Joe, and the word came out like a hiss. “The widow's late husband was a justice of the peace. He had me horsewhipped in public, like a dog. He is dead, but she shall pay me back.” “You would hurt a woman?” whispered the ragged man. “I don't kill women,” said Injun Joe. “I mean to tie her to her own bed. And I will mark her face, so she remembers me all her life.” The ragged man shivered. “That is wicked work,” he said. “I'll have no part in it.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: revenge - hurting a person to pay them back for a hurt they did you. Revenge is a stone that never stops rolling.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Huck heard it all from behind the fence, cold with horror. This was worse than graveyards. The ragged man walked a step away, but Injun Joe pulled him back. “You helped me once, and you will help me now,” he said. “I need you at midnight, at this house. Go and fetch the bundle.” The men moved away up the dark road. Huck fled the other way, running like the wind."
+        },
+        {
+          "kind": "text",
+          "text": "Whom could he tell? Not the constable, who would ask his name. Not Tom, safely asleep in bed. Injun Joe would kill any boy who betrayed him. But the widow had once fed Huck when he was hungry, and kindness came back to his heart. One brave old man might help. That was the Welshman, Mr. Jones, who lived at the foot of the hill."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · The Welshman to the Rescue",
+      "art": "tom-welshman-guns",
+      "artPrompt": "a sturdy white-haired old man and his two grown sons setting out with muskets at night, a ragged boy pointing up a dark hill road, lantern light on determined faces, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Huck hammered at the Welshman's door until the windows shook. Mr. Jones opened it in his nightshirt, candle in hand. “Please, sir,” gasped Huck, “don't ask me my name. But trouble is coming to the Widow Douglas tonight. Two men will go to her house at midnight to do her harm. Quick, sir, quick!” The old man's eyes flashed. He woke his two sons, tall young men who did not waste words. In a minute three muskets were down from the wall."
+        },
+        {
+          "kind": "image",
+          "art": "tom-welshman-guns",
+          "text": "The Welshman and his sons march up the hill with muskets, and Huck leads the way."
+        },
+        {
+          "kind": "text",
+          "text": "“But who told you this?” asked Mr. Jones, as they started. “If you knew, he'd be killed before morning,” said Huck. “I daren't give my name, sir. Please don't ask.” “You are a strange lad,” said the old man, “and I believe an honest one.” The Welshman asked no more. The three men went up the hill, and Huck showed them where to wait near the widow's lane. Then he hid behind a rock to watch the end of it."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Huck keeps his name secret because he fears Injun Joe. Why is warning the Welshman anyway a brave thing to do?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Midnight came, and with it the two men. There was a challenge in the dark, and then a crack of muskets on both sides. Nobody was hurt. The villains fled down the hill like rabbits and were swallowed by the night. Huck ran the other way, his heart thumping. He had saved the widow, and nobody in the world knew it. Far off a dog barked itself to sleep."
+        },
+        {
+          "kind": "text",
+          "text": "The next morning all St. Petersburg talked of the mystery. Who had fired on the Welshman's hill? Who was the ragged boy who came in the night? The widow sent word that she wished to thank her unknown friend. And at the Welshman's table a ragged boy ate the best breakfast of his life. He wondered what he had done to deserve it. The Welshman only smiled into his cup, and said nothing."
+        }
+      ]
+    }
+  ]
+}

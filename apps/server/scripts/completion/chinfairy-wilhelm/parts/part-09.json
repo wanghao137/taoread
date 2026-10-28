@@ -1,0 +1,242 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 9 · The Old Man of the Moon (月下老人)",
+      "art": "cf-redthread",
+      "artPrompt": "a white-bearded old man in pale robes reading a great blue book by the light of a huge full moon in a small temple courtyard, a glowing red thread stretching from his hand across the night sky, a young scholar watching from the temple steps, silver-blue light, serene storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago a young scholar named Wei Gu traveled far to find a wife. One evening he came to a small temple, and there in the courtyard sat a white-bearded old man, reading a strange blue book by the light of the moon."
+        },
+        {
+          "kind": "text",
+          "text": "\"What book is that?\" asked Wei Gu. \"The book of all marriages,\" said the old man. \"Every child already has a thread tied to her ankle — a red thread that stretches to the one she will marry. No one can untie it."
+        },
+        {
+          "kind": "image",
+          "art": "cf-redthread",
+          "text": "The old man shows the red thread glowing across the moonlit sky."
+        },
+        {
+          "kind": "text",
+          "text": "Wei Gu asked who his own wife would be. The old man pointed to a market stall, where a poor vegetable seller held a little baby girl. Wei Gu was proud and angry. He sent his servant to strike the child, and fled far away to another land."
+        },
+        {
+          "kind": "text",
+          "text": "Fourteen years passed. Then Wei Gu married a governor's niece, a gentle girl with a small scar between her brows. \"When I was a baby,\" she told him, \"a stranger struck me at a vegetable stall, and the governor took me in as his own.\""
+        },
+        {
+          "kind": "text",
+          "text": "Wei Gu remembered the old man and the red thread, and he never doubted fate again. And to this day, people say that marriages are made on the moon — tied with a red thread that no one can untie."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: Wei Gu tried to run away from fate, and it made a sad scar. What would have been the kind thing to do at the market stall?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Wedding of the Rat (老鼠嫁女)",
+      "art": "cf-ratwedding",
+      "artPrompt": "a festive red wedding procession of little mice carrying a tiny sedan chair through an underground burrow strung with paper lanterns, a proud father mouse in a mandarin hat walking ahead, warm red-and-gold light, cheerful comic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Father Rat had a daughter as pretty as a moonbeam. \"I will marry her,\" he said, \"to the mightiest creature in the world. Nothing is too good for my girl.\""
+        },
+        {
+          "kind": "text",
+          "text": "First he went to the sun. \"You are mightiest of all!\" But the sun sighed. \"A little cloud can cover me whenever it likes.\""
+        },
+        {
+          "kind": "text",
+          "text": "So Father Rat hurried to the cloud. \"You are mightiest of all!\" But the cloud sighed. \"The wind blows me wherever it pleases.\" The wind sighed too. \"The wall stops me every single time.\""
+        },
+        {
+          "kind": "image",
+          "art": "cf-ratwedding",
+          "text": "Father Rat runs from the sun to the cloud to the wind to the wall, asking each in turn."
+        },
+        {
+          "kind": "text",
+          "text": "And the wall said, \"The mightiest of all is the cat, for no one can pass her door.\""
+        },
+        {
+          "kind": "text",
+          "text": "So Father Rat dressed his daughter in her red wedding clothes, and the little mice carried her to the cat's door with lanterns and drums. No one in the burrow quite agrees on what happened next — but ever since that wedding, mice have crept softly past sleeping cats, and father rats pick gentler bridegrooms."
+        },
+        {
+          "kind": "text",
+          "text": "And on the seventh day of the new year, people still say, the mice hold their wedding. Children are told to go to bed early, so the little procession can pass in peace."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: everyone Father Rat asked passed the honor on to someone else. Why was the cat the only one who did not?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The White Snake (白蛇传)",
+      "art": "cf-whitesnake",
+      "artPrompt": "a graceful lady in white and pale green silk standing beside a young herb-seller under a paper umbrella on a lakeside bridge, the West Lake shining behind them, a faint white snake-shape of light in the water, soft spring rain ending in sunshine, gentle storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago a white snake spirit took the shape of a gentle lady in white, and walked one spring day by the West Lake. Rain began to fall, and a kind young man named Xu Xian held his umbrella over her. That was how they came to be married."
+        },
+        {
+          "kind": "text",
+          "text": "They lived happily by the lake. But a monk named Fahai watched them with cold eyes. \"Your wife is a snake,\" he told Xu Xian. On the Dragon Boat Festival he pressed the husband to give her wedding wine mixed with magic herbs."
+        },
+        {
+          "kind": "text",
+          "text": "One sip, and the lady sank into her true shape — a great white snake. Xu Xian fell down in fright, still as stone. To save him, his wife journeyed to the mountain of the gods and stole back the herb of life."
+        },
+        {
+          "kind": "image",
+          "art": "cf-whitesnake",
+          "text": "The lady in white keeps watch with the herb of life while her husband sleeps."
+        },
+        {
+          "kind": "text",
+          "text": "But Fahai lured the husband away to his temple by the river. The white lady called the waters to rise, and with her green-clothed sister she fought the monk's golden bowl. Yet she was weak with child that day, and the bowl drew her in."
+        },
+        {
+          "kind": "text",
+          "text": "The monk sealed her under the great pagoda by the lake. Years later her grown son came to kneel before the tower, and the stone opened, and the white snake lady walked out into the sunlight at last."
+        },
+        {
+          "kind": "text",
+          "text": "Go to the West Lake today, people say, and you may feel a soft white mist on the very bridge where the umbrella first opened."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: was the monk right to judge the snake lady, or should he have watched what she did, not what she was?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Nüwa Mends the Sky (女娲补天)",
+      "art": "cf-nuwa",
+      "artPrompt": "a gentle goddess in rainbow-colored robes kneeling among drifting clouds, fitting a huge five-colored glowing stone into a torn hole in the deep blue sky, four stone pillars holding up the heavens at the corners, stars streaming softly through her fingers, luminous dawn light, wondrous storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago the four pillars that held up the sky broke, and heaven cracked like a dropped bowl. Fires burned the forests. Floods swallowed the valleys. Fierce beasts hunted the people, and the people hid in caves."
+        },
+        {
+          "kind": "text",
+          "text": "Then the goddess Nüwa looked down from heaven, and she could not bear it. She gathered five-colored stones from the bed of the Great River and melted them in a great fire of burning reeds."
+        },
+        {
+          "kind": "text",
+          "text": "With the molten five-colored stone she patched every crack in the sky, and the blue became smooth and whole again. Then she set four strong pillars at the corners of the world, so the sky could never fall."
+        },
+        {
+          "kind": "image",
+          "art": "cf-nuwa",
+          "text": "Nüwa fits the last five-colored stone into the hole in the sky."
+        },
+        {
+          "kind": "text",
+          "text": "She tamed the black dragon that tormented the land, dammed the floods with piles of reeds, and scattered ash to make the wet earth firm. Then she made little figures from yellow clay, and breathed on them, and they laughed and stood up — the first people."
+        },
+        {
+          "kind": "text",
+          "text": "When the world was quiet, Nüwa rested at last. Her five-colored stones are said to shine in the sky still, as the rainbow after rain. And on clear nights, children look up and search the smooth blue heaven for the place where the goddess mended it."
+        },
+        {
+          "kind": "note",
+          "text": "New word: patch — a piece put over a hole to mend it. Ask your child: Nüwa mended the sky stone by stone. What is something broken you could help mend?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · Jingwei Fills the Sea (精卫填海)",
+      "art": "cf-jingwei",
+      "artPrompt": "a small determined bird with a white beak, red claws and patterned grey wings flying low over vast blue waves with a twig in her beak and a pebble in one claw, the great sea rolling to the horizon, sunrise gold on the water, brave storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago the daughter of the Sun Emperor went out alone in a little boat to sail the Eastern Sea. A great storm rose, and the waves swallowed the boat, and the sea kept her."
+        },
+        {
+          "kind": "text",
+          "text": "But her spirit would not drown. She rose from the waves as a small bird with a white beak, red claws and patterned wings — the bird people call Jingwei."
+        },
+        {
+          "kind": "text",
+          "text": "\"The sea took my life,\" said the bird, \"but it shall not take yours.\" And she began to carry twigs and pebbles, beakful by beakful, from the western mountains to drop into the Eastern Sea."
+        },
+        {
+          "kind": "image",
+          "art": "cf-jingwei",
+          "text": "Jingwei drops a twig into the great sea, tiny but never tired."
+        },
+        {
+          "kind": "text",
+          "text": "The sea laughed with its great grey waves. \"Give it up, little bird! You could not fill me in a hundred thousand years.\""
+        },
+        {
+          "kind": "text",
+          "text": "Sailors say that on quiet nights you can still see a small bird skimming the waves, crying \"jing-wei, jing-wei,\" as she drops another pebble. The sea is still deep and wide. But the bird is not afraid of it, and she never, ever stops."
+        },
+        {
+          "kind": "text",
+          "text": "But Jingwei flew on through storm and calm, summer and snow. She drops her pebbles still. And when something seems too big to finish — a long book, a high hill, a hard day — people remember the little bird, and say: be like Jingwei. Fill the sea one twig at a time."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: can a little bird really fill the whole sea? The old story says that what matters is that she never gives up. What is your own twig-carrying task?",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Carp and the Dragon Gate (鲤鱼跃龙门)",
+      "art": "cf-dragongate",
+      "artPrompt": "golden carp leaping in a mighty arc up a thundering waterfall between towering amber cliffs, spray and mist catching rainbow light, one carp at the crest beginning to shine like a dragon with small horns of light, dynamic dawn light, heroic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the upper reaches of the Yellow River there is a place where high cliffs squeeze the water into one roaring gate of falls. The old people call it the Dragon Gate."
+        },
+        {
+          "kind": "text",
+          "text": "Every spring the golden carp gather in the pool below, flickering like coins in the sun. They have heard the old promise: any carp strong enough to leap over the Dragon Gate will become a dragon."
+        },
+        {
+          "kind": "text",
+          "text": "So the carp swim hard all spring, and grow strong, and leap. Most fall back with a splash, and rest, and try again."
+        },
+        {
+          "kind": "image",
+          "art": "cf-dragongate",
+          "text": "One golden carp hangs in mid-air at the very crest of the falls."
+        },
+        {
+          "kind": "text",
+          "text": "Year after year the river rings with leaping splashes. And now and then, one carp clears the gate. In the mist and thunder it begins to shine, and horns of light rise from its head, and it swims up into the clouds a young dragon."
+        },
+        {
+          "kind": "text",
+          "text": "One small carp with a torn fin leapt more times than anyone. \"Why do you keep trying?\" asked a lazy fish. \"Because my grandfather leapt,\" said the small carp, \"and his mother leapt before him. The gate is hard, but trying is easy — you just begin again.\""
+        },
+        {
+          "kind": "text",
+          "text": "Ever since, in China, when a child does well in study, the family smiles and says: the little carp has leapt the Dragon Gate. Hard work, says the old tale, is how fish become dragons."
+        },
+        {
+          "kind": "note",
+          "text": "Ask your child: what should a carp do when it falls back into the pool? What is your own Dragon Gate this year?",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

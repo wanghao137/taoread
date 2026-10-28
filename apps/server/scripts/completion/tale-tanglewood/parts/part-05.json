@@ -1,0 +1,78 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · Circe’s Palace",
+      "art": "tw-circe-palace",
+      "artPrompt": "a fair enchantress in flowing robes offering a golden cup to a travel-worn hero at a marble doorway, tame lions and wolves dozing on flowered palace steps, honeyed afternoon light on a green island, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "After long storms at sea, Ulysses and his sailors came to a green island. They dragged their ship onto the sand and rested. Then Ulysses sent half his crew to look for food and shelter. A young officer named Eurylochus led them up the wooded slope."
+        },
+        {
+          "kind": "text",
+          "text": "In a valley they found a marble palace, gleaming white among flowers. Strange beasts lay on the steps — lions, tigers and wolves — but they did not roar. They fawned and purred like friendly dogs. The sailors stared, for these creatures had once been men. From inside the palace came a lovely voice, singing."
+        },
+        {
+          "kind": "text",
+          "text": "The singer was Circe, an enchantress, beautiful and smiling. She set the sailors a feast and filled a great golden cup with wine. Hidden in the wine were bitter, magic herbs. When they had drunk, she touched each man with her wand. At once they had curly tails and pigs’ snouts — though their minds stayed human as ever inside. Grunting and weeping, they were driven out to the sties."
+        },
+        {
+          "kind": "image",
+          "art": "tw-circe-palace",
+          "text": "Circe’s marble palace, where tame lions dozed on the steps like dogs."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Circe’s magic changed the sailors’ bodies, but never the minds inside. Ask your child: what kept Ulysses safe — the little flower, the good advice, or his steady heart?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One frightened sailor had hidden behind the door, and he ran back to the ship with the news. Ulysses seized his sword and went alone. On the path he met a youth with quick eyes and a golden wand. It was Quicksilver, the friend of heroes. He pulled up a small plant — a black root with a milk-white flower — and named it moly. “Guard it well,” he said, “and it will guard you.”"
+        },
+        {
+          "kind": "text",
+          "text": "Circe smiled and offered Ulysses the golden cup. He drank it all, for moly made the magic powerless. When her wand touched his shoulder, he sprang up with his sword. The enchantress turned pale and fell to her knees. “Forgive me,” she cried. “You must be Ulysses himself!” She swore never to use her magic against him, and led him to the sties. At a touch of her wand, every pig became a man again. For many days the crew rested and feasted, and then they sailed away with fair winds, glad to be men."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Pomegranate Seeds",
+      "art": "tw-pomegranate-seeds",
+      "artPrompt": "a girl in a simple tunic sitting at a long empty table in an underground palace lit by glowing jewels, a dark-bearded king watching kindly from his throne, pale blue crystal light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Proserpina was the daughter of Ceres, the gentle mother of the green earth. They lived together in a cottage near the sea. Ceres loved nothing in the world so much as her daughter. “Stay where I can see you,” her mother always said, “and never wander past the headland.”"
+        },
+        {
+          "kind": "text",
+          "text": "But one morning, chasing a bright butterfly, Proserpina wandered farther than ever before. Along the cliff the ground suddenly split open. Out of the crack came a dark king in a chariot drawn by two black horses. He lifted the wondering girl in beside him and drove straight down into the earth. The grass closed over them, and the headland was silent again."
+        },
+        {
+          "kind": "text",
+          "text": "Down below stood King Pluto’s palace, lit by jewels and a strange glow. Pluto was lonely, and he treated Proserpina gently. But she missed the sunshine, her flowers, and her mother above all. She refused every dish he offered her. There was an old rule in that kingdom: whoever tasted food below must stay there always. Day after day she sat hungry at the empty table."
+        },
+        {
+          "kind": "image",
+          "art": "tw-pomegranate-seeds",
+          "text": "Proserpina in the underground palace, wishing for sunlight and her mother."
+        },
+        {
+          "kind": "text",
+          "text": "Above, Ceres searched everywhere with a lighted torch in her hand. She questioned the stars, the winds and the sea-nymphs, and at last the truth was told. In her sorrow she let the fields grow brown and empty, until Jupiter himself promised to help. “If Proserpina has tasted no food,” he said, “she shall come home again.” So Ceres carried her torch down to the underworld."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pomegranate — a round rosy fruit, full of tiny ruby-coloured seeds. Six little seeds changed the whole year.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "“I have eaten nothing, not a crumb,” said Proserpina — and she believed it. But a grumbling gardener spoke up from the shadows. He had seen her eat six pomegranate seeds when her hunger was greatest. Six seeds meant six months. “Your daughter must spend half the year with me,” said Pluto, “and half with you.” So it was arranged, and so it is still. When Proserpina climbs up to her mother, the world breaks into blossom. When she goes down, the leaves fall and the earth sleeps. But Ceres never despairs in winter, for she knows her daughter will come back with the spring."
+        }
+      ]
+    }
+  ]
+}

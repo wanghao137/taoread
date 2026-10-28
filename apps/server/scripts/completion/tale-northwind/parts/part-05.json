@@ -1,0 +1,235 @@
+{
+  "rewriteLast": {
+    "title": "Chapter 5 · The Quiet Country Again",
+    "art": "nw-country-again",
+    "artPrompt": "a calm wide silver river under a soft glowing sky with a small boy drifting in a little white boat among tall luminous flowers, the North Wind as a tall starry-haired lady wading beside the boat laughing, gentle pearlescent light coming from everywhere, dreamy pastel blues and golds, storybook illustration",
+    "blocks": [
+      {
+        "kind": "text",
+        "text": "After that, the North Wind came oftener than ever, and sometimes she took Diamond back to the country at her back. There was the silver river again, and the little boat, and the flowers that shone without hurting anyone's eyes, and the song that seemed made of all the songs in the world."
+      },
+      {
+        "kind": "image",
+        "art": "nw-country-again",
+        "text": "The little boat glides again on the silver river, under the kind light."
+      },
+      {
+        "kind": "text",
+        "text": "Diamond could never find the way there by himself. He would be watching the little hole in the wall, and then — quite suddenly — he would be there, with the North Wind beside him, laughing like leaves. 'Why can't I come alone?' he asked one night. 'Because it is not a place you walk to, little one,' she said. 'It is a place you are carried to.'"
+      },
+      {
+        "kind": "text",
+        "text": "But one night she stood very still at the window and would not open the wall. 'I have far work, Diamond,' she said, 'away over the cold sea. And you have work here. Do not be sad. Whoever does kind work is close to my country, whether they know it or not.'"
+      },
+      {
+        "kind": "note",
+        "text": "Talk together: the wind goes away, but she leaves her lesson behind. Ask your child: what stays with you from someone you love when they must go away for a while?",
+        "art": "lamp-hint"
+      },
+      {
+        "kind": "text",
+        "text": "So the wind was quiet for a long time, and Diamond went on with his work — small jobs, small kindnesses, songs at the crossings. And one cold grey morning he found a little girl sweeping the crossing by the baker's shop, with no stockings and a very stubborn chin. Her name was Nanny."
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "title": "Chapter 6 · Nanny and the Old Horse",
+      "art": "nw-old-horse",
+      "artPrompt": "a snowy London street at dusk where a small boy in a cap stands with his hand on the nose of a trembling thin cab horse, shielding it from a burly driver with a whip, a ragged little girl watching with a broom beside a baker's shop window glowing warm, cold blue evening against amber lamplight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Nanny swept crossings for pennies, and slept where nobody knew. Diamond shared his bread with her, and told her about the horse, and the wind, and the country at her back — and Nanny said he was queer, but she came back the very next day all the same."
+        },
+        {
+          "kind": "text",
+          "text": "One raw evening they saw a cab horse beaten and sworn at by its own driver, who had had too much beer. The poor horse stood trembling in the sleet, with its head hanging low. Diamond walked straight up and put his hand on its nose — and the driver stopped, ashamed at being seen."
+        },
+        {
+          "kind": "image",
+          "art": "nw-old-horse",
+          "text": "A small boy stands between a trembling cab horse and a cross driver."
+        },
+        {
+          "kind": "note",
+          "text": "New word: mash — warm soft food for horses, made of boiled grain. There is nothing in the world a cold tired horse likes better.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "'He is a good horse,' said Diamond. 'He is only tired, like the rest of us.' The man grumbled, but he let the boy lead the horse to his father's stable, and there they rubbed him down and gave him warm mash and a deep bed of straw."
+        },
+        {
+          "kind": "text",
+          "text": "Diamond sat with the horse till morning, and Nanny sat with Diamond. In the morning the driver came back, quite sober and very red in the face, and touched his hat. 'I'll treat him better,' he said. And strange to tell, he did."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Nanny by the Window",
+      "art": "nw-nanny-window",
+      "artPrompt": "a cozy hay loft in deep winter with a small round hole high in the plank wall letting in pale snowlight, a thin pale boy lying in a straw bed telling a story with his hands raised, a ragged little girl sitting on the floor beside the bed with a candle, frost ferns on the beams, soft blue and gold light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Winter was hard on Diamond that year. He caught a cough that would not leave him, and had to lie in the hay loft day after day, too tired to work. The little hole in the wall sang very low and kind, like a mother singing over a cradle."
+        },
+        {
+          "kind": "text",
+          "text": "Nanny came every evening after her sweeping, with cold hands and a warm heart. She sat on the floor by the bed and did the small things Diamond could not do, and scolded him gently for smiling about it. 'You ought to be the one in bed,' she said. 'I am the one in bed,' said Diamond, 'and the bed is telling me stories.'"
+        },
+        {
+          "kind": "image",
+          "art": "nw-nanny-window",
+          "text": "A cold little girl sits by a sick boy's bed, where the wind sings low."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Diamond is too weak to sweep or drive, but he can still give comfort. Ask your child: what can a kind word do that nothing else can do?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "'Tell me about the country again,' Nanny would say, when she was tired of being brave. So Diamond told her — the river, and the boat, and the light that came from everywhere. 'Is it near?' asked Nanny. 'It is wherever the wind is kind,' said Diamond. 'And the wind is kind here tonight.'"
+        },
+        {
+          "kind": "text",
+          "text": "The nights grew long, and the loft grew bright, for Nanny hung a candle by the bed. And Diamond's mother, listening at the ladder, heard the two children laughing softly, and went down content."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Great Storm",
+      "art": "nw-great-gale",
+      "artPrompt": "a wild London street at night in a huge gale with shutters banging and chimneys whirling smoke, a cab horse and driver leaning home against the wind under a tossing lamp, high above a small boy's face framed at a little round hole in a hay loft wall listening calmly, sweeping blue-grey storm tones with one warm window, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Then came the great storm, the fiercest in twenty years. The wind ran down the streets like a wild river, tearing chimneys and rattling shutters — and out in the middle of it all was Diamond's father, somewhere, with the cab."
+        },
+        {
+          "kind": "text",
+          "text": "His mother stood at the window, grey with fear. Diamond lay in the loft with his face to the little hole, listening. He was not afraid. 'She is only working,' he said. 'It is a big night's work, but it is work, and work is not cruel.'"
+        },
+        {
+          "kind": "image",
+          "art": "nw-great-gale",
+          "text": "The great gale over London, and a small boy listening, unafraid."
+        },
+        {
+          "kind": "note",
+          "text": "New word: gale — a very strong wind. This gale was the strongest London had heard for twenty years, and it had a great deal of work to do.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Through the hole he could hear the wind's great song, and it was not cruel at all — only vast, and sweeping, like a sea. He sang the wind's own tune back to it, low, so that his mother on the stairs heard singing in the storm and took heart."
+        },
+        {
+          "kind": "text",
+          "text": "Long past midnight, hooves came splashing home. The door burst open, and there stood the father, wet and laughing, and the old horse steaming like a kettle. 'The wind drove us home,' he said. 'The whole way, it blew behind us like a friend.'"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · One Last Flight",
+      "art": "nw-last-flight",
+      "artPrompt": "a boy in a nightshirt riding on the arm of a tall starry wind-lady flying over a spring city at night, rooftops and a silver river far below with a small stable like a shoebox, green parks and blossom trees below, her hair streaming into soft clouds, gentle indigo and pearl spring night, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Spring came early that year, and Diamond grew thin and quiet, and slept more than he woke. And one soft night, when the wind moved gently in the little hole, the North Wind came — as young and bright as the first morning of the world."
+        },
+        {
+          "kind": "text",
+          "text": "'Come out, Diamond,' she said, holding out her arms. 'I am off on a long journey, and I have saved you the prettiest flight.' He climbed to her shoulder, lighter than a leaf, and they rose over the roofs into the blue spring dark."
+        },
+        {
+          "kind": "image",
+          "art": "nw-last-flight",
+          "text": "A last gentle flight over the waking roofs, on the arm of the North Wind."
+        },
+        {
+          "kind": "text",
+          "text": "They flew over the river, all silver now, and over the parks green with May, and Diamond looked down at the crossing where Nanny swept, and at the stable, small as a shoebox, and waved to both. 'You have made a great many streets kind,' said the North Wind. 'A wind remembers every door it has opened.'"
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Diamond is not afraid of his last flight, because he knows where it leads. Ask your child: what makes a journey feel safe instead of frightening?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "'The country is very near now,' she said at last, gently. 'I know,' said Diamond, and his eyes were shining, not wet. 'Is it lovely?' 'It is what all lovely things are the lovely side of.' And she carried him home, and sang him to sleep."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Garden at Her Back",
+      "art": "nw-garden",
+      "artPrompt": "a luminous garden beyond a wide still river, tall shining flowers and low kind golden light coming from everywhere, a small empty white boat drawn up on the pearl shore, a faint figure of a happy small boy walking up a gentle slope toward a great soft brightness, peaceful pastel golds and greens, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One morning in June, Diamond did not wake. He lay smiling in the straw, with the little hole in the wall wide open and the wind coming through like a song. They could not wake him, and by and by they did not try."
+        },
+        {
+          "kind": "text",
+          "text": "His father stood with his cap in his hands. 'He is gone to the country at her back,' he said at last, 'where the wind never blows at all.' And the mother wept, and the old horse hung his head, and Nanny cried as if her heart would break — but not one of them was quite afraid."
+        },
+        {
+          "kind": "image",
+          "art": "nw-garden",
+          "text": "The garden at the back of the North Wind, where the light is kind and low."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: this ending is gentle, but it is still a goodbye. Ask your child: what did Diamond promise about the country at her back? What would you look for first, in a garden like that?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "For Diamond had told them all about it, so many times: the river that glided, and the flowers that shone, and the song made of every good song. 'He was always half there,' said Nanny, drying her eyes. 'Now he is all there — and glad of it.'"
+        },
+        {
+          "kind": "text",
+          "text": "They laid him where the morning sun came first, and on the stone they cut the first line of his favourite song — the one about the North Wind and the snow. And after the snow, always, the spring."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Hole Still Sings",
+      "art": "nw-wind-song",
+      "artPrompt": "a green cottage garden on a breezy summer afternoon with washing on a line and blossoms drifting, a grown young woman standing still among the flowers with her eyes closed and a small smile, wind rippling the long grass toward a little wooden shed with a round hole in its wall, warm golden daylight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "After that, the family could not bear the city, and moved away to a little house with a garden. Old Diamond the horse went with them, and lived long and happily, dozing in a meadow like a gentleman with nothing left to prove."
+        },
+        {
+          "kind": "text",
+          "text": "Nanny grew up strong and kind, and took care of children of her own in time. She never forgot the boy in the hay loft who shared his bread and his country too. When the wind blew hard, she would stand still and listen, and smile without quite knowing why."
+        },
+        {
+          "kind": "image",
+          "art": "nw-wind-song",
+          "text": "Years later, a woman stands in the wind in a green garden, listening and smiling."
+        },
+        {
+          "kind": "note",
+          "text": "New word: remember — to keep someone safe in your heart after they are gone. Diamond was little, but he was very easy to remember.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "And sometimes — in that garden, or in any town on a windy night — the wind sings through some small hole, in a door or a wall or a window, low and kind. Most people hear only weather. But a few stop, and listen, and feel quite suddenly that everything is going to be well."
+        },
+        {
+          "kind": "text",
+          "text": "That is the whole of the story, and it is the way of stories like this one: they do not end, they only change key. For the North Wind goes on her work forever, and her country lies just at her back — and whoever listens kindly may hear the singing too."
+        }
+      ]
+    }
+  ]
+}

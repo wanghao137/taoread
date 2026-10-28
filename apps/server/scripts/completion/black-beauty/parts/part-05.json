@@ -1,0 +1,664 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 5 · A Fair Start",
+      "art": "beauty-fair-start",
+      "artPrompt": "a calm groom in a flat cap riding a glossy young black horse with a white star along a soft green lane, morning light through the hedgerows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "You have heard the short story of my life. Now let me tell it slowly, from my first days at Birtwick Park. The head groom there was John Manly. He was tall and quiet, with a kind voice and steady grey eyes. He had lived among horses all his life, and he understood them like no one else. \"Well, my boy,\" he said gently, \"I hope we shall be good friends.\" I nuzzled his shoulder, and he smiled."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-fair-start",
+          "text": "John Manly gives Black Beauty his first gentle ride at Birtwick Park."
+        },
+        {
+          "kind": "text",
+          "text": "A few days later John saddled me for my first ride. The saddle felt strange at first, but I trusted him and stood quite still. He spoke to me all the time, soft and low. He kept the rein light, and made everything easy. We went along the green lanes, through the ford, and up the hill. I was proud and happy, and my hooves rang on the stones. \"That was a fair start,\" said John, patting my neck."
+        },
+        {
+          "kind": "note",
+          "text": "New word: groom — a person whose job is to wash, brush, and care for horses.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "John told the master that I was safe and willing. \"He is young,\" said John, \"but he wants to do right. Kind words are all he needs.\" The master was glad, for he liked his horses to be treated like friends. \"Give a horse a fair start,\" he said, \"and he will serve you with all his heart.\" Then he gave me an apple, and touched my white star gently with his thumb. So my new life began in peace and good will."
+        },
+        {
+          "kind": "text",
+          "text": "Every day I worked a little and learned a little. John never hurried me, and he never whipped me. When I did well, he spoke kindly. When I made a mistake, he only waited, and tried again. Good training, like good bread, stays with you all your life. In time I would have gone through fire and water for John Manly. And I believe he knew it, for he trusted me more each day."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · Liberty",
+      "art": "beauty-liberty",
+      "artPrompt": "a young black horse and a chestnut mare galloping free in a grassy orchard paddock on a summer day, a fat grey pony watching from the fence, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the sweet summer time the master turned us out into the old paddock. It was my first taste of liberty since I left my mother's meadow. I rolled, I galloped, I kicked up my heels for joy. The grass was soft, the sky was blue, and the shade lay deep under the apple trees. There was nothing to do but be happy. Merrylegs watched me from his corner, and laughed at my games."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-liberty",
+          "text": "Free in the paddock, Beauty gallops under the summer sky."
+        },
+        {
+          "kind": "text",
+          "text": "Ginger was turned out with me. At first she laid her ears back and snapped if I came near. I kept away, and quietly ate my grass. After a few days she came nearer, and then nearer still. At last we stood side by side in the shade, swishing our tails. From that time we were fast friends. In the autumn we pulled the carriage together, and were proud of each other."
+        },
+        {
+          "kind": "note",
+          "text": "New word: liberty — freedom to move, run, and play as you please.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "In the cool of the evening we talked under the trees. Ginger told me about her young days in other stables. I told her about my mother, and the clear pond, and the meadow. Merrylegs would come too, with burrs in his mane, and make us laugh till our sides ached. We were three very different horses. But the sweet grass was the same for all of us, and the water was clean."
+        },
+        {
+          "kind": "text",
+          "text": "When autumn came we went back to the stable, grown round and glossy. We were ready for work, and the work was fair. John rubbed us down and praised our shining coats. No whip, no rein, no hurry — only the wind and the sun. Looking back on all my life, those free summer days shine like a bright field. They were the happiest I ever knew, before or since."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Ginger",
+      "art": "beauty-ginger-bite",
+      "artPrompt": "a tall chestnut mare with a long neck laying her ears back in a sunny stable yard, a young black horse listening nearby, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "People at Birtwick often asked why Ginger bit and kicked. One evening she told me her story, and I understood her at last. \"When I was young,\" she said, \"no one was ever kind to me. The men who broke me in were hard and rough. They believed a horse must be beaten, to break his spirit. I fought them, and they beat me harder. It was war between us from the very first day.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-ginger-bite",
+          "text": "Ginger tells Beauty why she learned to bite and kick."
+        },
+        {
+          "kind": "text",
+          "text": "\"Then I was sent to a livery stable,\" she went on. \"Strangers hired me every week of my life. Some sawed my mouth and jerked the reins. Some were gentle, but the gentle ones never stayed. So I grew cross, and ready to snap at anyone. They called me an ugly, wicked mare. After a while I began to believe it was true myself.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: break in — to train a young horse to carry a rider and pull a carriage.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"And then?\" I asked her softly. \"Then I was sold to Squire Gordon,\" said Ginger. \"Here the men are patient, and the food is good, and nobody raises a hand to me. Bit by bit I am growing quiet again. If every horse could have a fair start, there would be far fewer wicked horses in the world.\""
+        },
+        {
+          "kind": "text",
+          "text": "I never forgot her words. A horse is not born bad. Bad hands make bad tempers, and kind hands make kind ones. Ginger was not wicked at heart. She was only very, very unlucky — until the day she came to us. From that evening, I loved her like a sister, and understood her ways."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · Ginger's Story Continued",
+      "art": "beauty-ginger-story",
+      "artPrompt": "a chestnut mare as a young horse in a dark cobbled stable, a rough man with a whip in the shadows, moonlight through a high window, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Another evening, Ginger told me more. \"The worst of my young days,\" she said, \"was the man who first taught me to carry a saddle. He had no patience at all. If I started, or stumbled, he struck me at once. He made me afraid of everything. Then he beat me for being afraid. Fear and pain were all my lessons, week after week.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-ginger-story",
+          "text": "Ginger remembers the hard men of her young days."
+        },
+        {
+          "kind": "text",
+          "text": "\"At the livery stable,\" she said, \"I learned all kinds of hands. One week a careless driver, the next week a good one. My mouth grew sore, and my temper grew sore with it. I began to bite when anyone came near my head. The men called me a savage thing. Nobody ever asked why I had grown savage. That was the hardest part of all.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Ginger bit because she had been hurt. How would you help a new friend who is frightened of people?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Then a dealer bought me cheap,\" said Ginger, \"and sold me to the Squire. John Manly spoke to me the very first day as if I were a lady. He never hurried my head. He gave me the best hay in the stable. Kindness has come into my life little by little, like spring after a hard winter.\""
+        },
+        {
+          "kind": "text",
+          "text": "And so it was. In that quiet yard, Ginger grew gentler every month. She was never quite like other horses. Her eyes kept something proud and fierce to the end. But a kind word would make her soft as silk. I loved her dearly, and she trusted me as she trusted few living things."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Merrylegs",
+      "art": "beauty-merrylegs",
+      "artPrompt": "a fat little grey pony carrying two laughing little girls along a garden path, an orchard and a sunny house behind, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "I must say a word about my friend Merrylegs. He was a fat grey pony, with short legs and a long mane. He belonged to the little girls of the house, Jessie and Flora. Every morning he carried them about the garden and the lanes. He was never in a hurry, and never in a temper. No horse was patted so often, or loved so well."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-merrylegs",
+          "text": "Merrylegs, the fat grey pony, carries his little girls home."
+        },
+        {
+          "kind": "text",
+          "text": "\"The children trust me,\" Merrylegs told me one day. \"And I take good care of that trust. I never bite, and I never kick, and I never startle. But the boys who come to tease me get a different lesson. If a boy pulls my mane on purpose, I set him gently down in the soft grass. It never hurts him, and he always remembers it.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: pony — a small, strong kind of horse, just the right size for children.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"You see,\" said Merrylegs, \"the little ones are light, and they bring me apples. But some people think a pony is a plaything. I teach them better, without hurting them at all.\" He was a wise old fellow, though he was not really old at all. Even Ginger was gentle with him, and that is saying much."
+        },
+        {
+          "kind": "text",
+          "text": "So we lived, the three of us. Ginger with her fierce heart, Merrylegs with his tricks, and I between them. The stable was warm, the grooms were good, and every day brought kind words and clean straw. We did not know then how soon it must all come to an end. But that is a horse's life. Nothing good is kept for long."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · A Talk in the Orchard",
+      "art": "beauty-orchard-talk",
+      "artPrompt": "three horses grazing together under old apple trees in a golden afternoon orchard, ripe apples in the grass, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On Sunday afternoons we were often turned into the old orchard. One warm day we stood together under the apple trees. Sir Oliver, a wise old horse, was grazing near us. He was a noble-looking fellow, with a kind eye and a strong back. But his tail had been cut very short. A young pony beside us asked him why, in the polite way of horses."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-orchard-talk",
+          "text": "The horses talk together in the quiet orchard."
+        },
+        {
+          "kind": "text",
+          "text": "\"Men cut it off when I was young,\" said Sir Oliver. \"It was the fashion of that year, and nobody asked me. A horse's tail is his fly-whisk and his warm blanket. Without it, summer is bitter and winter is cold. The cutting gave no comfort to anyone. It was done only for looks, and the looks were not even pretty.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: fashion — a custom people follow just because others do it, right or wrong.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "We all shook our heads at that. Ginger said men would cut off our ears too, if it came into fashion. \"They do worse to dogs,\" said Sir Oliver sadly. \"Fashion is a hard master. It makes kind people do cruel things, and never once stop to think. If men would only ask the horse, the fashion would end tomorrow.\""
+        },
+        {
+          "kind": "text",
+          "text": "I have thought of that talk many times since. It is not only wicked men who make horses suffer. Good, gentle people can cause great pain too, when they follow a fashion blindly. A little thought, a little asking, would save a world of hurting. That is what the orchard taught me, one Sunday, between the falling apples."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Plain Speaking",
+      "art": "beauty-plain-speaking",
+      "artPrompt": "a groom speaking earnestly to a kind old gentleman in a stable doorway, a chestnut mare looking out of her stall, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "John Manly was not afraid to speak the truth. One day a new helper came to the yard. He was quick and clever, but his hands were rough. He threw the harness about, and shouted at the horses. Once he struck Ginger across the nose for moving. John saw it, and his face went hard as stone. He said nothing that minute, but we all knew a storm was coming."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-plain-speaking",
+          "text": "John speaks plainly to the master about rough hands in the stable."
+        },
+        {
+          "kind": "text",
+          "text": "John went straight to the master. \"Sir,\" he said, \"I must speak plainly. That young man is rough with the horses. A frightened horse is a dangerous horse. A beaten horse is a broken one. If rough hands stay in this yard, I cannot answer for the horses.\" The master listened, for he trusted John's word in all things."
+        },
+        {
+          "kind": "note",
+          "text": "New word: plain speaking — saying what is true, clearly and bravely, even when it is hard.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The helper was spoken to that same evening. He was not a bad young man, only thoughtless and hasty. When he heard how Ginger had been treated in her young days, he was ashamed. He learned to move slowly and to speak softly. In a month the horses would follow him about the yard like dogs."
+        },
+        {
+          "kind": "text",
+          "text": "\"There,\" said John to me afterwards, \"that is the way. Speak plainly, and give a man a chance to mend. Silence lets small cruelties grow into big ones.\" I have loved plain speaking ever since. It is a fine thing, when it is spoken for the sake of the helpless."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · A Stormy Day",
+      "art": "beauty-storm-bridge",
+      "artPrompt": "a black horse refusing to step onto a dark wooden bridge over a flooding river in heavy rain, a groom leaning down to look at the broken planks, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One cold, wet day John drove me out on business. The wind howled, and the rain came sideways, and the ditches ran like little rivers. On the way home, in the dark, we came to the wooden bridge over the river. The water roared under it, high and brown and angry. Something in that roar made me afraid. I stopped dead, and no whip could move me."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-storm-bridge",
+          "text": "Beauty refuses to cross the broken bridge in the storm."
+        },
+        {
+          "kind": "text",
+          "text": "John did not beat me for stopping. He jumped down into the rain and felt his way forward. The middle of the bridge was gone! The flood had torn the planks away in the night. One more step, and we should both have fallen into the deep water. John came back and put his arms around my neck. \"Well done, Beauty!\" he said. \"You have saved my life.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: flood — when heavy rain makes a river rise over its banks.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "We turned back the long way round, and came home safe and soaked. The master heard the whole story at the fireside. Then he came out and patted me too. \"That horse has more sense than many men,\" he said. I had a warm mash that night, and the softest straw in my stall. Ginger whinnied to me through the wall."
+        },
+        {
+          "kind": "text",
+          "text": "John often said afterwards that a horse should never be forced past his fear. A horse's eyes see more than men think. When a horse says no, sometimes he knows something that nobody else knows. I had said no, and the flood had proved me right. That night I slept like a foal in the meadow."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Devil's Trade Mark",
+      "art": "beauty-cruel-mark",
+      "artPrompt": "a carter whipping a tired old horse on a dusty road, a groom stepping forward to speak with him, evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One market day, John and I saw a sad sight on the road. A carter was beating his tired old horse. The poor thing could not pull a heavy load up the hill, and the whip came down again and again. The old horse trembled, and strained, and almost fell. My own sides ached to watch it. So, I could see, did John's heart."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-cruel-mark",
+          "text": "John speaks up for an old horse that cannot pull any more."
+        },
+        {
+          "kind": "text",
+          "text": "John could not pass by. He stepped over and spoke quietly. \"Friend, your horse is past his strength. Take off some of the load, and he will do his best for you. The whip will only make him worse.\" The carter was sulky at first. But other men had stopped to watch, and he was ashamed. He lightened the cart, and the old horse struggled on."
+        },
+        {
+          "kind": "note",
+          "text": "New word: cruelty — causing pain on purpose, or not caring about another's pain.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On the way home John was silent for a long while. Then he said, \"I have seen men drink, and men gamble. But cruelty is the worst mark a man can carry. The master says it is the devil's own trade mark. When you see it on a man, you may be sure everything else in him is wrong too.\""
+        },
+        {
+          "kind": "text",
+          "text": "I thought of Ginger, made wicked by rough hands. I thought of the old horse on the hill. There are many kinds of evil in the world, as men count them. But the kind an animal knows best is the hand that hurts him. May every horse find hands that are quick to feed and slow to strike."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · James Howard",
+      "art": "beauty-james-howard",
+      "artPrompt": "a cheerful young groom in a stable yard brushing a black horse, tools hanging neatly on a sunny wall, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Under John Manly worked a young groom named James Howard. He was quick, merry, and kind, and he loved horses with all his heart. John taught him the whole trade. He learned how to rub us down, how to clean our feet, and how to make a hard bed soft. \"Never frighten a horse,\" John would say. \"Patience costs nothing, and it buys everything.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-james-howard",
+          "text": "James Howard learns the groom's trade under John Manly's eye."
+        },
+        {
+          "kind": "text",
+          "text": "James was careful with Ginger, and she let him do things she allowed to few others. He used to bring me lumps of sugar in his pocket, and apples in autumn. \"A horse that trusts you,\" he said, \"will go through fire and water for you.\" He was shaping into a fine horseman, and everyone in the yard knew it."
+        },
+        {
+          "kind": "note",
+          "text": "New word: apprentice — a young person learning a trade from a skilled worker.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One day the master sent for him. \"James,\" he said, \"you have learned well. Next month I shall trust you to drive the carriage on a long journey.\" James's face shone like a new coin. John smiled too, though I saw him glance at us horses. It was almost the look of a man saying goodbye, but I did not understand it yet."
+        },
+        {
+          "kind": "text",
+          "text": "A young man's first great trust is a fine and fearful thing. It can lead to honour and good luck. Sometimes, too, it leads straight into the fire — as ours did, one night at an inn, far from home. That story comes next, and I remember it still with a shiver."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Old Hostler",
+      "art": "beauty-old-hostler",
+      "artPrompt": "an old hostler with a lantern caring for two horses in a warm inn stable at night, hay and harness hanging on wooden walls, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At last the day of the journey came. James drove Ginger and me in the carriage, with the master's family, to a town many miles away. We went proudly, and reached the inn in the evening, warm and dusty. There an old hostler took us in to stable us for the night. He was a little bent man with white hair. But his hands were the gentlest I ever felt."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-old-hostler",
+          "text": "The old hostler tends the tired horses at the inn."
+        },
+        {
+          "kind": "text",
+          "text": "He gave us a little hay first. Then he let us drink cool water slowly, a mouthful at a time. He rubbed us down with long, soft strokes, and looked at our feet one by one. \"Never rush a hot horse,\" he told James. \"Hay first, water by degrees, and let his heart slow down of itself. That is half the doctor's art, and it costs nothing at all.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: hostler — a man who looks after horses at an inn for the night.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "James watched and listened, hungry to learn every trick of the trade. The old hostler went on talking, telling of horses he had known in fifty years. \"I have seen fine horses ruined in one night,\" he said, \"by hot oats and a cold draft. Care is cheaper than medicine, every time. And kindness is cheapest of all, if you have the habit of it.\""
+        },
+        {
+          "kind": "text",
+          "text": "We slept well in the fresh straw, with full stomachs and easy legs. But we did not know what the night still held for us. Before morning the inn stable would be full of smoke. And this quiet, gentle evening would seem very far away, like another life."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 16 · The Fire",
+      "art": "beauty-stable-fire",
+      "artPrompt": "a young groom leading two frightened horses out of a burning inn stable at night, orange flames and smoke above the doorway, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the middle of the night I woke choking. Smoke was creeping under the stable door, and a red light flickered through the cracks. Ginger screamed in her stall. I heard men shouting outside, \"Fire! The stable is on fire!\" I pulled at my halter and kicked the wall. My heart beat like a drum, and the smoke grew thicker."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-stable-fire",
+          "text": "James leads Beauty and Ginger out of the burning stable."
+        },
+        {
+          "kind": "text",
+          "text": "Then came James, with a wet cloth over his mouth. He cut me loose and led me out into the cold night air. But Ginger was still inside, wild with terror and screaming. James went back in for her. The smoke rolled out of the doorway in black clouds, and we thought he was lost. Then, out of the cloud, he came, with Ginger rearing and trembling beside him."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: James was afraid, but he did the brave thing anyway. What helps you be brave when you are scared?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "We stood shaking in the yard while the inn people fought the fire with buckets and wet blankets. It burned fast, for the hay was dry. By morning only a black, smoking shell was left. But no horse had died, and no man either. That was counted a great mercy, and James was called the hero of the night."
+        },
+        {
+          "kind": "text",
+          "text": "Everyone praised James, and the master said he would not forget such courage. James was white and quiet all the next day. But his eyes were glad, all the same. Being brave does not mean feeling no fear. It means going back into the smoke, on purpose, for your friend."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 17 · John Manly's Talk",
+      "art": "beauty-john-talk",
+      "artPrompt": "a groom sitting on an upturned bucket beside a black horse's stall late at night, one lantern burning low, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Soon after our journey, James Howard had wonderful news. A gentleman who had heard of the fire offered him a fine place as his coachman. It was a step up in the world for a young man. The master was sorry to lose him, but glad for his sake. \"You have earned it, James,\" he said. He shook James's hand as he would his own son's."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-john-talk",
+          "text": "John Manly talks to Beauty in the quiet of the stable."
+        },
+        {
+          "kind": "text",
+          "text": "The night before James left, John came and stood by my stall a long time. He talked half to me and half to himself, as he often did. \"I shall miss the lad,\" he said. \"But we must not grudge a young bird his wings. Do your work, keep your temper, and be content. That is the whole of a good life, as near as I can tell it.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: content — quietly happy with what you have and where you are.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Some men are always reaching for more,\" John went on, \"and never hold anything at all. I have my horses, my fireside, and my work, and I want no more. A wise horse eats his corn and does not bite the post he is tied to. That is what I have learned in forty years of stable yards.\""
+        },
+        {
+          "kind": "text",
+          "text": "I breathed softly against his shoulder, and he rested his hand on my nose. We were old friends, John and I. I did not know then how few such friends a horse is given in one life. Nor how soon this one would be taken from me. Young creatures never know, and it is perhaps a mercy."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 18 · Going for the Doctor",
+      "art": "beauty-doctor-ride",
+      "artPrompt": "a young groom galloping a black horse along a dark country road at night, wind in the trees, a lantern far ahead, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One night, very late, there came running feet and a lantern in the yard. The mistress had fallen suddenly ill. John was away from home that night, and they needed a doctor at once. So Joe Green, the little stable boy, saddled me in the dark. \"Now then, Beauty,\" he said, trembling, \"do your best tonight!\" And I did the best that was ever in me."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-doctor-ride",
+          "text": "Joe rides Beauty through the night to fetch the doctor."
+        },
+        {
+          "kind": "text",
+          "text": "Never did a horse go faster. The wind whistled past my ears. We took the dark lanes at a gallop, and I never stumbled once. The doctor's door opened before Joe had finished knocking. \"My good horse,\" said the doctor, patting my neck. \"Now, boy, see to him while I dress.\" And he went back inside for his bag."
+        },
+        {
+          "kind": "note",
+          "text": "New word: fever — a sickness that makes the body burn hot and shake.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But there was no groom at the doctor's house, and Joe was only a little boy. I was boiling hot from the road. They gave me cold water to drink, and hot food a tired horse must never touch. Nobody told Joe, and Joe did not know. Then the doctor came out, and we flew home again through the night, faster than the wind."
+        },
+        {
+          "kind": "text",
+          "text": "The doctor reached my dear mistress in time, and she was saved. But my grand run that night had a bitter end. By morning I was burning all over, and my strong legs shook under me. The best night's work of my life nearly cost me my life. Nobody meant any harm — and the harm was done all the same."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 19 · Only Ignorance",
+      "art": "beauty-fever",
+      "artPrompt": "a sick black horse lying in a dim stable stall, a groom kneeling with a lantern and a bucket at midnight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "For many days I was very ill. My body burned, and my food had no taste. The horse doctor came and gave me bitter medicine. John hardly left my stall, night or day. He made me warm drinks, and changed my straw, and talked to me in a low voice. Once or twice I was so low that the men spoke of me in whispers, outside the door."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-fever",
+          "text": "John nurses Beauty through the long fever."
+        },
+        {
+          "kind": "text",
+          "text": "\"It was the cold water and the hot food on a heated body,\" the doctor said, shaking his head. \"The boy meant no harm, I am sure of that.\" \"No,\" said John heavily. \"No harm — only ignorance. But ignorance in a stable is as bad as wickedness. The horse suffers just the same, whichever of the two has hold of the rein.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: ignorance — not knowing a thing that you ought to know.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "I heard them through my fever, as through a fog. Slowly, day by day, the burning left me. The cool wind through the door began to taste sweet again. One morning I ate my hay with a true appetite. John turned away quickly, so that I should not see his face."
+        },
+        {
+          "kind": "text",
+          "text": "Wickedness hurts on purpose, and ignorance hurts by accident. To the one who is hurt, the pain is the same. That is why everyone who touches a horse's life should learn. Learning is kindness, put into practice. It was a hard lesson, and I paid for it with my blood."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 20 · Joe Green",
+      "art": "beauty-joe-green",
+      "artPrompt": "a small boy in a stable doorway wiping his eyes while a kind groom rests a hand on his shoulder, a black horse looking over its stall door, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Through all my illness, Joe Green was the saddest boy in the county. Word had gone round that I should die. He could not eat, and he could not sleep. John found him crying behind the harness room, in the dark. \"I have killed him,\" Joe sobbed. \"The finest horse in the stable, and I have killed him with my foolishness.\""
+        },
+        {
+          "kind": "image",
+          "art": "beauty-joe-green",
+          "text": "John comforts little Joe Green in the harness room."
+        },
+        {
+          "kind": "text",
+          "text": "\"You did your best with what you knew,\" said John. \"The fault was that you did not know more. So learn, Joe. Learn all you can, and never let ignorance hurt another horse through you. That is the better way to be sorry.\" Joe wiped his face on his sleeve. Then he stood up straight, like a little soldier."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Joe made a sad mistake, but he learned from it. Why is it good to forgive someone who is truly sorry?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "From that day Joe studied horses like a little scholar. He asked questions, and watched John's hands, and read about feeding and care. He came to my stall every day with a kind word. In time I was strong in the legs again, and glossy as ever. I forgave him long before he forgave himself."
+        },
+        {
+          "kind": "text",
+          "text": "I did not dream, then, how strange the world would be. This small boy and I were to meet again, far from Birtwick. We would meet on a day when I badly needed a friend. But that story lies many miles down the road, and many masters away."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 21 · The Parting",
+      "art": "beauty-parting",
+      "artPrompt": "a groom patting a black horse's neck in a sunny stable yard while a carriage waits, a grey pony and a chestnut mare nearby, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Good times, I have found, are the first to be taken away. The doctor said my dear mistress must live in a warmer country. Her lungs were weak, and the English winters were too much for her. So the great house was shut up, and the horses were all to be sold. The yard, that had rung with our hooves, fell silent as a Sunday."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-parting",
+          "text": "The friends at Birtwick say goodbye to one another."
+        },
+        {
+          "kind": "text",
+          "text": "Merrylegs was given to the good vicar, Mr. Blomefield, for his little girls. \"They will be kind to him,\" said the master. \"And he will carry them many a happy mile yet.\" Ginger and I were sold together, to a grand house called Earlshall Park. John shook his head when he heard of it. But he said nothing, for it was not his place to speak."
+        },
+        {
+          "kind": "note",
+          "text": "New word: parting — saying goodbye to those you love.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "On our last morning, John came to say goodbye. He patted Ginger, and then he put his arm over my neck. \"You were the best horse I ever had,\" he said quietly. \"Do your best wherever you go, and keep up your good name.\" Then he walked away fast, and did not look back. I whinnied after him, but he did not turn."
+        },
+        {
+          "kind": "text",
+          "text": "I never saw John Manly again. But I carried his words through all the hard years that followed. They were food for the road, like oats in a saddlebag. When the road was long, and my heart was empty, I ate that bread, and went on."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 22 · Earlshall Park",
+      "art": "beauty-earlshall",
+      "artPrompt": "a grand stone house with lawns and cedars, two carriage horses with their heads pulled up high by tight straps, a coachman in the foreground, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Earlshall Park was a fine place, with great lawns and dark cedar trees. The coachman there was Mr. York, a tall, fair man. He did not love his horses the way John did, but he was not unkind either. His trouble was this. The family followed fashion, and the fashion of that year was the tight bearing rein."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-earlshall",
+          "text": "At Earlshall, carriage horses must carry their heads up high."
+        },
+        {
+          "kind": "text",
+          "text": "My head was strapped up so high that I could not see the road before my feet. My neck ached, and my wind was short. When I asked for my head, the strap only pulled tighter. It is easy to look proud in a picture, with your head in the air. It is misery to be forced to hold it there for hours. My spirit sank under that strap."
+        },
+        {
+          "kind": "note",
+          "text": "New word: coachman — the man in charge of a grand family's stables and carriages.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Ginger suffered even more than I did. She had fought that strap before, in other places, and she had not forgotten. \"It is like being held by the throat,\" she said between her teeth. \"I will bear it if I can. But if they pull it tighter, I cannot answer for myself.\" I hoped her warning would be heard."
+        },
+        {
+          "kind": "text",
+          "text": "But fashion has no ears. The very next week, for a grand party, the straps were to be shortened. Mr. York gave the order without a smile. Ginger heard it, and her eyes went red. Then the storm came, and I shall never forget it as long as I live."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 23 · A Strike for Liberty",
+      "art": "beauty-strike-liberty",
+      "artPrompt": "a chestnut mare rearing and kicking before a grand carriage in a park drive, alarmed grooms and ladies in crinolines stepping back, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The order came on a bright morning. The bearing reins were to be shortened, for the grand party at the house. When the groom reached for Ginger's strap, she warned him with her ears flat back. He pulled it tight all the same. Then Ginger struck her great blow for liberty. She reared, she kicked, and she threw herself against the harness."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-strike-liberty",
+          "text": "Ginger fights the tight strap with all her strength."
+        },
+        {
+          "kind": "text",
+          "text": "The carriage shook, and the people shouted, and the horses behind us plunged. Nobody was badly hurt, thank goodness. But it was a fearful thing to see. All the anger of her hard young days came out of her in that one storm. When it was over, she stood trembling, with foam on her neck. No one near her dared to speak."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Was Ginger wrong to fight? What should you do when something hurts you and nobody listens?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Ginger and I were turned out to grass for a while, to rest and grow quiet. \"They will drive us with looser reins now,\" I told her, hoping to comfort her. \"Perhaps,\" said Ginger. \"I would rather be beaten than strapped. Some horses can bear it. I was not made to bear it.\" Her head was high, even grazing in the sweet grass."
+        },
+        {
+          "kind": "text",
+          "text": "For a time the reins were indeed let out. But the fashion stayed, and stayed. And I learned a lesson I never forgot. A great house is not always a kind home. What matters to a horse is not the greatness of the walls, but the gentleness of the hands."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 24 · The Lady Anne",
+      "art": "beauty-lady-anne",
+      "artPrompt": "a black horse galloping after a runaway brown mare across a wide grassy common, a lady lying in the grass, morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At Earlshall I was given a new name. The young Lady Anne chose me for her riding horse, and she called me Black Auster. She was a light, fearless rider, and we grew fond of each other. Those were the pleasant days of Earlshall for me. Morning rides over the common, with the wind in my mane, and her voice singing above me."
+        },
+        {
+          "kind": "image",
+          "art": "beauty-lady-anne",
+          "text": "Beauty, now called Black Auster, gallops to catch the runaway mare."
+        },
+        {
+          "kind": "text",
+          "text": "One morning Lady Anne rode out with her friend Mr. Blantyre. For that day she chose a beautiful brown mare named Lizzie, who was young and nervous. I did not like it, but horses cannot speak. On the common, something jumped in the hedge, and Lizzie bolted like an arrow. Lady Anne sat very straight and still, and then Lizzie fell, and my lady lay quiet in the grass."
+        },
+        {
+          "kind": "note",
+          "text": "New word: bolt — to run away suddenly in fright, with no stopping.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Mr. Blantyre was on my back in a moment. I ran as I had run for the doctor, that night long ago. We overtook Lizzie by the wood, and he caught her rein. When we rode back, Lady Anne was sitting up, pale but safe. \"Black Auster,\" she said softly, \"you are my horse, and no other's.\" And so it was, from that day."
+        },
+        {
+          "kind": "text",
+          "text": "But glad hours fly fastest, and trouble was already on the road. It came riding to Earlshall on a dark night, with a loose horseshoe and a smell of drink. Its name was Reuben Smith. That story, my dear reader, comes next."
+        }
+      ]
+    }
+  ]
+}

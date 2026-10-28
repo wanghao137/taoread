@@ -1,0 +1,384 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 6 · The Crow and the Pitcher",
+      "art": "aes-crow-pitcher",
+      "artPrompt": "a black crow standing beside a tall clay pitcher on a garden path, dropping a small pebble into it, warm summer light under a leafy fig tree, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One hot summer day, a crow was very thirsty. He flew from pond to stream to well, and found them all dried up in the heat. At last he came to a quiet garden and saw a tall clay pitcher under a fig tree. It looked cool and old, and the crow fluttered down and peeped inside. His throat was as dry as a stone, and his wings were tired with flying all day. The garden was very still, and the afternoon was burning hot."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pitcher — a tall clay jar with a small mouth, for holding water or juice.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "There was water at the bottom, but only a little of it. The crow put his beak down as far as it would go, and still the water was out of reach. He tipped the pitcher this way and that, but it was far too heavy to lift. He pushed and he pulled, but the jar would not fall. He even tried to scoop the water out, but he had nothing to scoop it with. The poor crow sat down beside it in the shade, thirstier than ever."
+        },
+        {
+          "kind": "image",
+          "art": "aes-crow-pitcher",
+          "text": "The thirsty crow peeps into the tall pitcher and sees the water far below."
+        },
+        {
+          "kind": "text",
+          "text": "Then he stopped flapping and began to think. All round the pitcher, little pebbles lay on the garden path, smooth and dry. The crow picked one up in his beak and dropped it into the pitcher. Plip! He picked up another, and another. Plip, plip, plip, all through the sunny afternoon, till his wings ached with working."
+        },
+        {
+          "kind": "text",
+          "text": "With every pebble, the water rose a little higher in the jar. The crow watched it climb, and he worked harder than ever, pebble after pebble. At last the water came right up to the top. Then the clever bird put in his beak and drank his fill, cool and sweet. He had saved himself by thinking, and nobody had helped him at all. And off he flew, feeling smarter than any crow in the whole wide garden."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Little by little does the trick. When one way fails, think of another.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Fox and the Crow",
+      "art": "aes-fox-crow",
+      "artPrompt": "a red fox looking up from the grass at a black crow holding a piece of golden cheese in her beak on a high tree branch, sunny morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright morning a crow found a big piece of cheese, fresh and golden, lying by a farmhouse door. She flew up to the high branch of a tree to eat it in peace. The cheese smelled sweet, and she felt very proud of her prize. She sat perched on the branch with the cheese held tight in her black beak. She meant to enjoy every crumb."
+        },
+        {
+          "kind": "note",
+          "text": "New word: perch — to sit on a branch or a high place, the way birds do.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "A fox came trotting below and looked up. The smell of the cheese made his mouth water at once. He was hungry too, and the cheese was his favourite thing. So he began to think of a clever way to get it. “Good day, Mistress Crow,” he called up sweetly. “How black and shiny your feathers are! Your eyes are bright, your claws are strong — and how fine you look today!”"
+        },
+        {
+          "kind": "image",
+          "art": "aes-fox-crow",
+          "text": "The fox praises the crow, who sits high above with the cheese in her beak."
+        },
+        {
+          "kind": "text",
+          "text": "The crow listened, and her feathers swelled with pride. She had never been praised so much in all her life. “And you must have a lovely voice too,” said the fox. “Sing me just one little song, Queen of the Birds!” The crow was so pleased that she quite forgot the cheese. She opened her beak wide, and gave her loudest caw."
+        },
+        {
+          "kind": "text",
+          "text": "Down fell the cheese — and the fox snapped it up in a moment. “Thank you kindly,” he said. “That was a sweet song, and your cheese is sweeter still.” Then off he trotted into the wood with his dinner. The poor crow sat silent on her branch, hungry and sorry, with no one to blame but herself. For a whole day after, she kept her beak shut whenever anyone praised her."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Beware of flatterers. Sweet words are often after your supper.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Wind and the Sun",
+      "art": "aes-wind-sun",
+      "artPrompt": "a smiling golden sun and a blustery blue wind with puffed cheeks above a traveller in a big brown coat on a country road, soft clear daylight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One day the North Wind and the Sun quarrelled about which of them was the stronger. While they were arguing, a traveller came walking along the road below. He wore a big warm coat, wrapped close round him. The road was long and dusty, and the day was cool. “Let us test it fairly,” said the Sun. “Whoever makes the man take off his coat is the strongest of us two.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: quarrel — to argue angrily with someone about something.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The Wind tried first. He blew and blew, a great cold gust down from the hills. But the harder he blew, the tighter the man held his coat. He buttoned it up to his chin and wrapped it close. The coat flapped and snapped about him in the gale. The Wind puffed and panted until he had no breath left, but the coat stayed on."
+        },
+        {
+          "kind": "image",
+          "art": "aes-wind-sun",
+          "text": "The Wind blows with puffed cheeks while the traveller pulls his coat tighter."
+        },
+        {
+          "kind": "text",
+          "text": "Then it was the Sun’s turn. The Sun smiled gently, and warm beams came down one by one. The man wiped his hot face and walked more slowly. The day grew warmer and warmer, and soon the man was glowing. He undid his buttons, and at last he slipped the coat right off. The traveller smiled up at the sky, glad of the kind weather."
+        },
+        {
+          "kind": "text",
+          "text": "The Sun shone kindly on, until the man sat down under a tree in his shirt. So the North Wind had lost the contest. He blew once more, softly this time, and promised to be gentle for a whole week. “You see,” said the Sun, “a little warmth and kindness will do what all the force in the world cannot.” And the Wind had to agree that it was true."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Persuasion is better than force. Gentle warmth goes further than stormy wind.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The City Mouse and the Country Mouse",
+      "art": "aes-mice-town",
+      "artPrompt": "two small mice on a grand dining table laid with cakes, cheese and jam, a big cat creeping through the door behind them, warm candlelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once a country mouse asked his cousin from the city to come to dinner. He brought out all that he had: barley corns, dried peas, and a small bit of cheese rind. The dinner was laid neatly on a clean leaf, and the cousin sat down gladly. “Eat, dear cousin, and welcome,” he said. “I am sorry the dinner is plain, but it is the very best I have.”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: barley — a kind of grain that grows in fields, a little like wheat.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The city mouse nibbled a little and sighed. “My dear friend,” she said, “you live like a poor farmer in a hut. Come to the town and see how I live! White bread and jam every day! There is rich cheese too, and no mouse in the city ever eats plain barley.” So the country mouse agreed, and off they went together."
+        },
+        {
+          "kind": "image",
+          "art": "aes-mice-town",
+          "text": "The two mice creep up onto a grand table laid with cakes, cheese, and jam."
+        },
+        {
+          "kind": "text",
+          "text": "In a fine dining room they climbed up onto the table. There lay rich cakes, honey, cheese, and jam in silver dishes. Everything smelled rich and sweet, and the mice danced about the cloth. “Now this is living!” cried the city mouse. But just then the door flew open, and in came a great cat! The two mice ran for their lives and hid in a crack in the wall."
+        },
+        {
+          "kind": "text",
+          "text": "When the cat had gone, they crept back for another taste. But then the cook banged the door, and a big dog barked, and the mice ran again, shaking with fear. “Goodbye, cousin,” said the country mouse at last. “Keep your cakes. Plain food in peace is better than a feast in fear.” And he went back to his barley, happy under the quiet stars."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: A quiet supper in peace is better than a grand feast full of frights.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Goose That Laid the Golden Eggs",
+      "art": "aes-goose-egg",
+      "artPrompt": "a white goose sitting on a straw nest with one shining golden egg beside her, a farmer and his wife gazing in wonder in a farmhouse yard, fresh morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A man and his wife had a wonderful white goose. Every morning the goose laid one great egg of pure gold. The man carried the egg to market and sold it for a fine price. The goose was quiet and gentle, and ate the corn from the children’s hands. Day by day the family grew richer, with a new roof and a full pantry. And all of it came from one goose."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pantry — the cool little room or cupboard where food is kept at home.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "But the man and his wife were not content. “Why wait for one egg a day?” they said to each other. “There must be a great lump of gold inside the goose herself. If we cut her open, we shall be rich all at once!” Patience seemed a very slow way to be rich. They would not listen to anyone who asked them to wait."
+        },
+        {
+          "kind": "image",
+          "art": "aes-goose-egg",
+          "text": "The farmer and his wife stand looking at their white goose on her nest of straw."
+        },
+        {
+          "kind": "text",
+          "text": "So one morning they took the goose and killed her, hoping to find all their treasure at once. The sun was hardly up, and the yard was still. They looked inside her, from beak to toe. But there was no gold there at all — nothing but an ordinary goose. The gold had been in the eggs, and the eggs had never been laid."
+        },
+        {
+          "kind": "text",
+          "text": "The man and his wife sat down and wept. They had been rich, and now they were poor, and it was all their own doing. And no goose in the world can lay a golden egg after she is gone. The yard felt empty without her, too. Greed had taken their treasure and their happiness too. So they lived on, plain and careful, and never forgot their greedy morning."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Greed loses everything. Grasp for too much, too fast, and you may be left with nothing.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · The Dog and His Shadow",
+      "art": "aes-dog-shadow",
+      "artPrompt": "a brown dog with a piece of meat in his mouth crossing a narrow wooden bridge, looking down at his own reflection in the clear brook below, dappled sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A dog stole a great piece of meat from a butcher’s shop and ran off with it in his mouth. He was proud and happy, for it was a very fine dinner. The meat was fresh and sweet, and the day was bright. He trotted gaily along, with the sun on his back. On his way home he came to a little brook. He had to cross it over a narrow wooden bridge. The bridge was old, and the water ran quiet below."
+        },
+        {
+          "kind": "note",
+          "text": "New word: brook — a very small river, small enough to step across.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "As he trotted over the bridge, he happened to look down into the clear water. There below him he saw another dog, and that dog seemed to be carrying a piece of meat too! The meat below looked even bigger than his own. His eyes grew big, and his tail wagged with greed. “I will have that one as well,” thought the greedy dog."
+        },
+        {
+          "kind": "image",
+          "art": "aes-dog-shadow",
+          "text": "The dog on the bridge stares down at his own reflection in the still water."
+        },
+        {
+          "kind": "text",
+          "text": "So he opened his mouth and snapped at the shadow. Splash! The meat he was carrying fell from his jaws and sank deep into the brook. The other dog vanished too, for it had been only his own reflection all along. The water grew still, and the dinner was gone for good. It was a snap, a splash, and a sorry ending, all in one moment."
+        },
+        {
+          "kind": "text",
+          "text": "So the dog went home with nothing at all. He had lost his own dinner because he wanted two dinners. A wise dog keeps one dinner and enjoys it well. That is the way of greed. On quiet evenings he still stopped on the bridge and looked down at the water. And he never snapped at shadows again — not once, all the rest of his days."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Do not grasp at shadows, or you may lose the good thing you already have.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · Belling the Cat",
+      "art": "aes-bell-cat",
+      "artPrompt": "a family of little grey mice holding a meeting behind a wooden wall at night, one mouse holding up a tiny golden bell, a sleeping tabby cat beyond, soft moonlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In an old house there lived a family of mice, and in the same house lived a cat. The cat was sleek and silent, with sharp ears and a soft tread. She caught a mouse nearly every day, and life grew very hard for the little family. The mice crept out only when the cat was far away. So one night they held a meeting behind the wall, to think of a plan together."
+        },
+        {
+          "kind": "note",
+          "text": "New word: meeting — a gathering where people, or mice, talk things over together.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Every mouse gave his idea, and none of them seemed quite right. At last a young mouse stood up and made a fine speech. The young mouse’s whiskers trembled, but his voice was brave. “Our danger is that the cat walks without a sound,” he said. “Let us hang a little bell round her neck. When the bell rings, we shall always have time to run and hide.”"
+        },
+        {
+          "kind": "image",
+          "art": "aes-bell-cat",
+          "text": "The mice hold their meeting behind the wall, and one holds up a little bell."
+        },
+        {
+          "kind": "text",
+          "text": "Every mouse clapped his paws. “A bell for the cat!” they cried. The bell was small and golden, and it rang merrily in the young one’s paw. It was the cleverest plan they had ever heard, and they wondered that nobody had thought of it before. They squeaked with joy and danced till midnight, for they all felt quite safe already."
+        },
+        {
+          "kind": "text",
+          "text": "Then an old grey mouse stood up, and the dancing stopped. “The plan is good,” he said. “But tell me, friends — who of us will hang the bell on the cat?” Not one mouse answered. Not the young speaker, not the dancers, not one. The old mouse sat down slowly, shaking his grey head. And so they live in that house to this day — careful, hungry, and un-belled."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: It is easy to propose a clever plan, and hard to be the one who does it.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The Miller, His Son, and the Donkey",
+      "art": "aes-miller-donkey",
+      "artPrompt": "a miller and his son walking beside a small grey donkey on a dusty road leading to a market town, warm afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A miller and his son were driving their donkey to the market to sell him. They walked along the dusty road beside him, leading him quietly with a rope. The donkey plodded along, and the morning was young and fresh. Soon they met a girl, who laughed at the sight of them. “What silly people!” she cried. “One of you might ride, and let the poor donkey walk!”"
+        },
+        {
+          "kind": "note",
+          "text": "New word: market — the place in town where people buy and sell things.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So the boy climbed up at once, quite pleased with the ride. But an old man passing by frowned at them. The old man shook his stick as he spoke. “Shame on the lazy boy,” he said, “riding while his poor old father walks in the dust!” So they changed places, and the miller rode and the son walked on. The dust of the road rose round the boy’s shoes."
+        },
+        {
+          "kind": "image",
+          "art": "aes-miller-donkey",
+          "text": "The miller and his son walk the dusty road beside their little grey donkey."
+        },
+        {
+          "kind": "text",
+          "text": "A little farther on, some women called out. “Look at that selfish father, riding while his small son walks in the heat!” So the miller lifted his boy up too, and they both rode the donkey together. The donkey groaned a little under the weight. The sun climbed higher, and the road grew dustier. Then other travellers grumbled, “Poor beast! Two riders will wear him out before he reaches market at all.”"
+        },
+        {
+          "kind": "text",
+          "text": "What could they do now? The miller and his son tied the donkey’s legs to a pole. They carried him on their shoulders, sweating and red. Everyone they met laughed till they cried. At the bridge the donkey kicked and struggled, fell into the river, and was lost. The market was never reached, and the rope hung empty. And the miller went home with nothing at all."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Try to please everyone, and you will please no one — and may lose your donkey too.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Wolf and the Crane",
+      "art": "aes-wolf-crane",
+      "artPrompt": "a grey wolf standing at the edge of a dark wood while a long-legged crane draws a bone out of his throat with her beak, cool evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One evening a wolf was gobbling his supper so fast that a bone stuck fast in his throat. He could not swallow it, and he could not cough it out. The pain was dreadful. The bone was long and sharp, and it would not stir. Supper had been good, but now it was sorrow. Howling, he ran up and down the shore, offering a rich reward to anyone who would help him."
+        },
+        {
+          "kind": "note",
+          "text": "New word: howling — crying out loud and long, the way a wolf does.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last a crane was persuaded to try. The wolf called to her most politely, for his throat was very sore. Her long neck shook a little, but she did not run. She stood brave and still, put her beak down the wolf’s throat, and drew the bone out. “Now give me my reward,” said the crane, when her head was safe again."
+        },
+        {
+          "kind": "image",
+          "art": "aes-wolf-crane",
+          "text": "The crane pulls the long bone out of the wolf’s throat with her pointed beak."
+        },
+        {
+          "kind": "text",
+          "text": "The wolf grinned and licked his lips. “Reward?” he said. “You put your head into a wolf’s mouth, and you took it out again in one piece. That is reward enough for anybody. Be thankful that you were not eaten, and go home.” His supper tasted better now that the bone was gone. And he walked off into the dark wood, yawning."
+        },
+        {
+          "kind": "text",
+          "text": "The crane looked at her long beak and flew away without a word. But she told every bird in the marsh about the wolf and his promise. So the wolf learned that a promise from him was worth little. From that day, whenever the wolf passed by the water, every bird flew up into the trees at once. And no crane ever helped him again. The marsh was quiet, and the wolf grew thin and lonely."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Do not expect a reward from the ungrateful. Be glad if you come away safe yourself.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 15 · The Fox and the Stork",
+      "art": "aes-fox-stork",
+      "artPrompt": "a red fox and a long-legged stork at a little table with a flat dish of soup and a tall glass jar, a cosy cottage kitchen at dusk, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A fox asked a stork to dinner one day, and the stork gladly came. She came at sunset, hungry and hopeful. The table was set in the garden, under the wide evening sky. But the fox played a trick on her. He put out a big flat dish of soup, and lapped it up easily with his red tongue. The soup was good, but the dish was a shallow one. The stork had only a long pointed bill, and she could barely wet the tip of it."
+        },
+        {
+          "kind": "note",
+          "text": "New word: lap — to drink by taking little quick licks with the tongue, as dogs and cats do.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "All the poor stork could do was stand hungry while her supper vanished. The fox sat smiling. “How do you like the soup?” he asked. “Is it not good?” The stork went home with an empty tummy, but she said not one cross word. Then she sat by her nest and thought and thought. She quietly made a little plan of her own."
+        },
+        {
+          "kind": "image",
+          "art": "aes-fox-stork",
+          "text": "The fox laps soup from a flat dish while the stork stands hungry beside it."
+        },
+        {
+          "kind": "text",
+          "text": "A few days later the stork asked the fox to dinner. She brought out a tall glass jar, full to the very neck of fine soup. The soup inside smelled even sweeter than the fox’s had. The stork dipped in her long bill and supped happily. The fox could only lick round the rim, for his nose was far too short to reach the soup inside."
+        },
+        {
+          "kind": "text",
+          "text": "So the fox had to go home as hungry as he had made the stork. “Do not be upset,” said the stork sweetly. “One bad turn deserves another. Next time, let us serve our supper in a dish we can both enjoy.” And after that, the two of them were very good friends indeed. And the fox never played tricks at his own table again."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: One bad turn deserves another. Treat others the way you would like to be treated.",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

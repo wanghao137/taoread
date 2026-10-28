@@ -1,0 +1,300 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 29 · Inside the Dogfish",
+      "art": "pinocchio-dogfish-swallowed",
+      "artPrompt": "an enormous dogfish with a giant open mouth rising over a small wooden puppet swimmer in stormy grey-blue sea, waves crashing around, dark stormy light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Pinocchio swam for his life, farther and farther from the shore. The water was rough now, and the sky had gone dark. The waves lifted him and dropped him and spun him about. \"Never mind,\" he panted. \"No one will make a drum of me now. I only wish I knew the way to some safe shore.\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-dogfish-swallowed",
+          "text": "The enormous Dogfish rises from the deep sea with its huge mouth open."
+        },
+        {
+          "kind": "text",
+          "text": "Then he heard, behind him, a rushing like a whirlpool. He looked back — and his heart fell like a stone. Rushing toward him was an enormous Dogfish, bigger than a railway train, with a mouth like a dark train tunnel. It was the Terrible Dogfish himself — the same great fish that had swallowed Papa's boat."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Pinocchio felt afraid in the dark water. What helps you be brave when you are afraid?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio swam right, he swam left, he swam in circles. \"Too late!\" The great mouth opened — and closed. In one moment the Dogfish had swallowed him whole, as easily as you might swallow a small egg. Down Pinocchio slid into the dark, and the dark closed over him like a blanket of night."
+        },
+        {
+          "kind": "text",
+          "text": "Inside the Dogfish it was pitch black, deeper than any cellar, and quiet as a snowy evening. Pinocchio called out, \"Hello! Who is here?\" and the dark swallowed his voice. He cried a little. Then he dried his eyes — and saw, far, far away, the tiniest point of light, like a candle at the end of a long street."
+        },
+        {
+          "kind": "text",
+          "text": "\"What can that be?\" whispered Pinocchio. Perhaps it was a way out. Perhaps it was a trap. But anything was better than sitting still in the dark. He set his little wooden jaw, struck out with both arms, and swam toward the light. \"Hold on, papa,\" he thought. \"Your Pinocchio is coming.\""
+        }
+      ]
+    },
+    {
+      "title": "Chapter 30 · Papa, Is That You?",
+      "art": "pinocchio-dogfish-reunion",
+      "artPrompt": "an old carpenter with white hair sitting at a small candlelit table inside a dark fish belly, a wooden puppet boy swimming up toward him with open arms, little candle flame light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The light grew from a star to a lamp to a little fire. And there, in a hollow of the great fish's belly, Pinocchio saw a table set with a candle, a loaf of bread, and a plate of dried fish. At the table sat a little old man, thin and white, eating his supper slowly. He looked so tired, and so patient, that Pinocchio's eyes filled with tears."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-dogfish-reunion",
+          "text": "Geppetto at his little candlelit table inside the Dogfish, as Pinocchio swims up."
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio's heart stood still, and then it raced. That white hair. Those tired, kind eyes. That coat with the patches. \"Papa! Papa!\" he cried, half swimming, half flying. \"Papa, it is I! It is your Pinocchio!\" The old man's spoon fell clattering onto the plate."
+        },
+        {
+          "kind": "note",
+          "text": "New word: reunion — a happy meeting with someone you love, after a long time apart.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Pinocchio? My Pinocchio?\" They fell into each other's arms — a wooden puppet hugging a carpenter, hot tears falling on a patched coat. \"Are you real? Am I dreaming?\" whispered Geppetto, touching his face. For a long time neither of them could say anything at all. The candle burned lower, and the great fish slept on around them."
+        },
+        {
+          "kind": "text",
+          "text": "\"But how did you come here?\" asked Geppetto at last. \"It is a long story, papa. Tell me yours first.\" So Geppetto told him how he had searched everywhere for his son. \"I wept for you every night of two years,\" said the carpenter. \"At last I built a little boat, to search all the seas of the world. And on the very first night, the storm came, and the Terrible Dogfish swallowed me, boat and all.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"A ship loaded with biscuits, cheese, candles and matches had been swallowed before me,\" said Geppetto. \"That is why I am alive today. Two years in this dark belly, my son. And now you are here, and I am almost glad — for at least we are together.\" Pinocchio squeezed his papa's rough old hand and would not let go."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 31 · The Great Escape",
+      "art": "pinocchio-dogfish-escape",
+      "artPrompt": "a wooden puppet boy carrying an old man on his shoulders tiptoeing along a giant fish tongue toward pale light, three long teeth like white poles ahead, pale underwater glow, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"We cannot sit here forever, papa,\" said Pinocchio at last. \"The sea gave you back to me once. Now let us take ourselves back.\" Geppetto shook his head sadly. \"The only door is the Dogfish's mouth, my son, and it is always shut. And even if it were open, how could an old man swim so far?\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-dogfish-escape",
+          "text": "Pinocchio carries Geppetto on his shoulders along the Dogfish's great tongue."
+        },
+        {
+          "kind": "text",
+          "text": "\"The Dogfish is old, and he has asthma,\" said Pinocchio, thinking hard. \"When he sleeps, he sleeps with his mouth wide open. We shall walk out on his tongue, quiet as mice, and jump into the sea. Wood floats, papa, and I am the best swimmer in the world. You shall ride on my shoulders.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: escape — to get away from a place that holds you.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "So they waited for the great fish to fall asleep, and for his snoring to rumble like distant thunder. Then, in the dark, Pinocchio lifted Geppetto onto his shoulders. Step by careful step they crossed the fish's great tongue toward the pale line of the open sea. \"Not one word,\" breathed Pinocchio. \"Not even a little cough.\""
+        },
+        {
+          "kind": "text",
+          "text": "They were almost out — they could taste the salt wind — when the Dogfish sneezed. ACHOO! A wind like a hurricane threw them backwards, tail over nose, deep into the belly again. They sat in the dark, holding each other, hearts hammering. \"We shall try again,\" said Pinocchio. \"And again, and again, if we must.\""
+        },
+        {
+          "kind": "text",
+          "text": "They waited another hour. Then they crossed the tongue once more, and this time the great fish only snored. \"Now, papa!\" whispered Pinocchio. They leaped — splash! — into the cold free sea. The old man rode high on the wooden shoulders, and they struck out for the shore. Behind them, a great silver shape shot past through the water, and the stars came out above."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 32 · A Glass of Milk for Papa",
+      "art": "pinocchio-farmer-well",
+      "artPrompt": "a wooden puppet boy drawing bucket after bucket of water from a deep stone well on a farm at sunrise, an old carpenter resting on a bench nearby, goats and fresh golden dawn light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The silver shape was a great Tuna, who had lived two years in the Dogfish too. \"I saw you dare,\" said the Tuna, swimming alongside. \"Put the old man on my back — I am strong and fast.\" So Geppetto rode the Tuna, and Pinocchio swam beside them, and at dawn they touched the warm sand of the shore. The Tuna wished them well and dashed away to tell the whole sea."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-farmer-well",
+          "text": "Pinocchio draws bucket after bucket of water from the farmer's deep well."
+        },
+        {
+          "kind": "text",
+          "text": "They lay on the warm sand, coughing sea water and laughing weakly for joy. But joy cannot feed an empty stomach. Geppetto was faint with hunger and cold, and his old legs shook like leaves. \"Lean on me, papa,\" said Pinocchio. \"I know the road to everywhere.\" Slowly they set off along the coast road."
+        },
+        {
+          "kind": "note",
+          "text": "New word: bargain — an agreement where each side gives something: work for pay.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At the edge of the fields they came to a farm, where farmer Giangio was watering his goats. \"Good morning,\" said Pinocchio politely. \"My papa is starving. Have you work for a strong puppet? I ask only a glass of milk each day for him. And bread, dear sir, if it can be managed,\" he added, blushing wood-red."
+        },
+        {
+          "kind": "text",
+          "text": "The farmer looked at the pale old man, and then at the steady little puppet, and he liked what he saw. \"My well is deep and my arms are old,\" he said. \"Draw my water every morning, and your papa shall have his glass of milk — fresh and warm from the goat. And there is bread for workers.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Done!\" cried Pinocchio, and they shook hands on the bargain. That very day he drew water until the garden drank like a thirsty giant. At supper he carried a glass of warm white milk to Geppetto, walking carefully, carefully, as if he carried the moon in a cup. Geppetto drank it slowly, and some color came back into his cheeks."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 33 · Working Day and Night",
+      "art": "pinocchio-basket-work",
+      "artPrompt": "a wooden puppet boy weaving willow baskets by a cottage fire at night while an old carpenter rests in a chair smiling, warm orange firelight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "So the new life began. Every morning, before the sun, Pinocchio was at farmer Giangio's well. The bucket went up and down, up and down, until the whole garden shone with water. Then he ran to draw water for the goats, and the goats bumped him fondly with their horns. Every evening he carried home the glass of milk, warm from the goat."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-basket-work",
+          "text": "Pinocchio weaves baskets by the fire while Geppetto rests and smiles."
+        },
+        {
+          "kind": "text",
+          "text": "But a glass of milk is not a whole supper. So by the fire at night Pinocchio learned to weave baskets of green willow. On Saturdays he carried them to town and sold them. With the pennies he bought bread, a little cheese, and real coffee for Geppetto — never a sweet for himself."
+        },
+        {
+          "kind": "note",
+          "text": "New word: proud — the warm feeling when someone you love does well. Geppetto was proud of his son.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Geppetto grew stronger week by week. And Pinocchio grew too — not taller, but better. At night, when the house was quiet, he studied his old schoolbooks again, moving his lips in the firelight. \"So many lost years,\" he sighed. \"But better late, papa, than never. One day I will buy you a new coat — a blue one, with brass buttons.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"Better late than never,\" agreed Geppetto, watching him from his chair with shining eyes. \"And to think this is the same puppet who once sold his spelling book to see a puppet show!\" Pinocchio laughed and turned the page. The fire crackled. The kettle sang. It was a poor little house, but it was warm inside."
+        },
+        {
+          "kind": "text",
+          "text": "Months passed this way. Then, one grey market day, as Pinocchio walked to town with his baskets, the road bent around the hill. There, sitting on a stone, were a lame old fox and a blind old cat, holding out their hats for alms. Pinocchio's wooden blood ran hot and cold together, for he knew those two at once."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 34 · Old Friends, Sad Farewells",
+      "art": "pinocchio-sad-farewells",
+      "artPrompt": "a wooden puppet boy with tears in his eyes standing beside a thin old donkey lying down at the side of a country road, a cart and an angry driver behind, overcast afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "\"A penny, dear boy, for two poor old creatures,\" whined the fox. He was lame in one leg, nearly blind, and his beautiful tail was gone — sold, he said, for bread. Beside him the cat sat with clouded eyes, thin as a shadow. \"Once I was clever,\" sighed the fox. \"Now I am only hungry. We have fallen on hard times.\""
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-sad-farewells",
+          "text": "The lame fox and the blind cat beg by the roadside, grown old and poor."
+        },
+        {
+          "kind": "text",
+          "text": "\"You are the fox and the cat who led me to the Field of Miracles,\" said Pinocchio. \"You are the false friends who stole my gold.\" The two beggars hung their heads. \"Money I have none,\" Pinocchio went on, gently but firmly. \"And if I had any, I would not give it to those who trick little boys. But I am sorry for you, for it is a sad thing to grow old and poor. Punishment comes late, but it comes. Go home, and learn to earn your bread.\""
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Pinocchio was angry, but he did not laugh at them. Can we feel sorry for someone and still remember what they did?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "He walked on, sadder but wiser. Then, at the turn of the road, he met a cart drawn by an old thin donkey, so weak he could hardly pull. The driver was beating him, and the flies buzzed about the poor beast's ears. Pinocchio's heart turned over — for the donkey turned his head, and Pinocchio knew that grey face at once."
+        },
+        {
+          "kind": "text",
+          "text": "\"Candlewick!\" whispered Pinocchio. The donkey tried to bray. \"Pinocchio,\" it said faintly, \"I have worked... and worked... and there was never any play, and never any bread. Goodbye, my friend. You were right about school.\" And Candlewick laid down his grey head and died. Pinocchio cried the whole long way home, and he worked still harder after that day."
+        },
+        {
+          "kind": "text",
+          "text": "\"If only I could begin again,\" he told Geppetto that night. \"Every day I would go to school, and every night I would sit beside you.\" Geppetto smoothed the boy's wooden hair. \"You cannot begin again, my son,\" he said kindly. \"But you can begin from here.\" And that, though nobody knew it yet, is exactly what happened."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 35 · Forty Pennies for the Fairy",
+      "art": "pinocchio-snail-return",
+      "artPrompt": "a wooden puppet boy in rags pouring his saved pennies into the care of a little snail with a green shell at a cottage door at first light, pale early morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The winter came and went, and Pinocchio worked on. His old clothes hung in rags, so he began to save. A penny for a basket here, a penny for a day at the well there — and after many weeks he had saved forty pennies, kept in a little tin box under his bed. Enough, at last, for a new suit of clothes. He counted them every night by candlelight, and they made a little silver song."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-snail-return",
+          "text": "The little Snail returns, and Pinocchio gives her all his saved pennies."
+        },
+        {
+          "kind": "text",
+          "text": "\"Tomorrow I shall buy my new suit!\" he sang, going to bed. But early, early in the morning came a soft, slow knock at the door. There on the step stood the little Snail with the green shell — the Fairy's own messenger. Her shell wobbled, for she had hurried as she never had before, and her face was very sad."
+        },
+        {
+          "kind": "note",
+          "text": "New word: generous — giving freely, even when you have very little yourself.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Dear Pinocchio,\" said the Snail slowly, \"the Fairy is ill. She lies in the hospital, and she has not a penny in the world for bread. She has helped you so many times — and now she asks for nothing. But I came all the same.\""
+        },
+        {
+          "kind": "text",
+          "text": "Pinocchio did not stop to think — good hearts never do. He fetched the little tin box and poured all forty pennies into the Snail's care. \"Take them — every one — and go, dear Snail, go!\" he cried. \"Tell her Pinocchio is coming with more! Tell her I owe her more than gold!\" It was the second time in his life he had given away everything he had."
+        },
+        {
+          "kind": "text",
+          "text": "That night Pinocchio went to bed poor but glad. And he dreamed a beautiful dream. The Fairy came to him, pale and lovely, and kissed his forehead. \"Good Pinocchio,\" she said softly. \"For your kind heart, I forgive everything. Boys who work hard and love their parents deserve to be real boys.\" And she smiled, and was gone."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 36 · A Real Boy at Last",
+      "art": "pinocchio-true-boy",
+      "artPrompt": "a real live boy in a handsome new suit of clothes standing by a bed in sunny morning light, an empty wooden puppet lying limp on a chair beside him, bright cheerful morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When Pinocchio woke, the sun was streaming through the window. Something felt strange. His head felt lighter. His arms felt — warm? Even his nose felt short. He sat up, looked at his hands, and rubbed his eyes. They were not wooden hands. They were hands of flesh, with pink fingers and everything."
+        },
+        {
+          "kind": "image",
+          "art": "pinocchio-true-boy",
+          "text": "Pinocchio wakes as a real boy, while his wooden body sleeps on the chair."
+        },
+        {
+          "kind": "text",
+          "text": "He leaped out of bed. On the chair lay his old wooden body, still and empty, with its arms hanging down and its long nose drooping — a puppet whose story was finished. Beside the chair hung a handsome suit of new clothes, and Pinocchio knew at once whose gift it was. He dressed himself as fast as he could, laughing all the while."
+        },
+        {
+          "kind": "note",
+          "text": "Talk together: Pinocchio's dream came true because he was good, brave and generous. Which of those will you try tomorrow?",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Papa! Papa!\" he shouted, running into the next room. \"Look at me! I am a real boy! A real, true boy!\" Geppetto, well and strong now, took him in his arms. The old carpenter laughed and cried at the same time, and hugged him until he squeaked. \"My son,\" he said, \"today we are the richest family in the world.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"How funny I was when I was a puppet!\" cried Pinocchio, looking back at the wooden body in the chair. \"Dear old nose,\" he said, touching his own short new one. \"I shall not miss you. And how happy I am to be a real boy at last!\" And with that, the puppet's story was truly done."
+        },
+        {
+          "kind": "text",
+          "text": "From that day, Pinocchio went to school like all the other boys, and he was the best of them — not because he had to be, but because he loved to learn. Geppetto worked happily at his bench and wanted for nothing. And sometimes, at dusk, they saw a soft blue light moving among the rose bushes, watching them and smiling — the Fairy, who had loved a naughty wooden puppet until he became a good boy."
+        }
+      ]
+    }
+  ]
+}
