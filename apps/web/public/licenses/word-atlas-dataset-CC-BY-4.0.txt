@@ -1,0 +1,23 @@
+桃阅读自然拼读「词典旁挂内容」数据来源与授权说明
+======================================================
+
+本产品自然拼读模块的词典旁挂内容（apps/server/src/modules/phonics/courses/taoread-phonics-gb-v1/lexicon.json
+及其引用的例句朗读音频）部分来源于开源项目 Word Atlas（词光）：
+
+  来源：https://github.com/designfuchen/word-atlas
+  锁定提交：99c007673d38f02c418d8e4cd2e9ec90b5d40be5
+  署名：Word Atlas contributors — CC BY 4.0
+  授权：https://creativecommons.org/licenses/by/4.0/
+  修改说明：仅做了字段挑选与词条子集截取（72 个精确匹配词的英美音标、义项、
+  生活例句、搭配、词族、用法提示），未逐条改动其文本；例句朗读音频原样引用
+  （ElevenLabs "Alice" 英音，来自 public/atlas/audio/ex）。
+
+其余 17 个词条（at, sat, sip, Sam, ran, dad, sad, hen, hid, wig, yak, yes,
+zip, zap, six, quit, moth）为桃阅读自备条目，按词光公开的编写规范面向 5-7 岁
+改写，权利归桃阅读项目。
+
+上述全部内容（含词光导入部分）在本产品中仍处于「待人工审校」状态，随自然拼读
+课程一起受发布门控约束；在通过逐条审校前仅对自用家庭开放。
+
+词光官方声明其内容由 AI 模型生成、经自动校验、未逐条人工审校、按现状提供。
+本产品的引入不构成对内容准确性的背书，也不代表词光项目为桃阅读背书。

@@ -1,6 +1,7 @@
 import { uid } from '../../../lib/uid'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { IconArrowLeft, IconBookOpen, IconStar, IconSun, IconType, IconUser, IconVolume } from '../../../components/ui/icons'
 import type { PhonicsAttemptDto, PhonicsEventRequest, PhonicsLearningInput, PhonicsNextDto } from '@taoread/shared'
 import type { PhonicsAtlasDto, PhonicsAtlasWordDto } from '@taoread/shared'
 import { useSession } from '../../../stores/session'
@@ -15,6 +16,7 @@ import { AtlasTab } from './PhonicsAtlas'
 import { ShelfTab } from './PhonicsShelf'
 import { PracticeTab } from './PhonicsPractice'
 import { MeTab } from './PhonicsMe'
+import { streakOf, weekStrip } from './phonicsDates'
 import './phonics.css'
 
 type StartBody = Parameters<typeof phonicsApi.start>[2]
@@ -25,11 +27,11 @@ function readPending(key: string): Pending | null {
 }
 
 const TABS = [
-  { key: 'today', label: '今日', icon: '☀' },
-  { key: 'atlas', label: '图鉴', icon: '★' },
-  { key: 'shelf', label: '书房', icon: '📖' },
-  { key: 'practice', label: '练习', icon: '✎' },
-  { key: 'me', label: '我的', icon: '●' },
+  { key: 'today', label: '今日', icon: IconSun },
+  { key: 'atlas', label: '图鉴', icon: IconStar },
+  { key: 'shelf', label: '书房', icon: IconBookOpen },
+  { key: 'practice', label: '练习', icon: IconType },
+  { key: 'me', label: '我的', icon: IconUser },
 ] as const
 type TabKey = typeof TABS[number]['key']
 
@@ -42,11 +44,13 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
   const navigate = useNavigate()
   const calmMode = useSession(s => s.calmMode)
   const [searchParams, setSearchParams] = useSearchParams()
-  const tab = (searchParams.get('tab') ?? 'today') as TabKey
+  const requestedTab = searchParams.get('tab')
+  const tab: TabKey = TABS.find(item => item.key === requestedTab)?.key ?? 'today'
   const [next, setNext] = useState<PhonicsNextDto | null>(null)
   const [atlas, setAtlas] = useState<PhonicsAtlasDto | null>(null)
   const [summary, setSummary] = useState<PhonicsSummary | null>(null)
   const [readerVersions, setReaderVersions] = useState<Record<string, string>>({})
+  const [autoStudy, setAutoStudy] = useState(false)
   const [attempt, setAttempt] = useState<PhonicsAttemptDto | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -62,17 +66,15 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
   }, [])
   useEffect(() => { phonicsSfx.setCalmMode(calmMode) }, [calmMode])
   const refresh = useCallback(async () => {
-    const [n, r, a, s0, s1, s2] = await Promise.allSettled([
+    const [n, r, a, s0] = await Promise.allSettled([
       phonicsApi.next(token, childId), phonicsApi.readers(token, childId),
       phonicsApi.atlas(token, childId), phonicsApi.summary(token, childId, 0),
-      phonicsApi.summary(token, childId, 1), phonicsApi.summary(token, childId, 2),
     ])
     if (n.status === 'rejected') throw n.reason
     if (live.current) {
       setNext(n.value.next)
       if (r.status === 'fulfilled') setReaderVersions(Object.fromEntries(r.value.readers.map(reader => [reader.id, reader.versionId])))
-      const practices = [s0, s1, s2].flatMap(x => x.status === 'fulfilled' ? x.value.recentPractice : [])
-      setSummary(s0.status === 'fulfilled' ? { ...s0.value, recentPractice: practices } : null)
+      setSummary(s0.status === 'fulfilled' ? s0.value : null)
       if (a.status === 'fulfilled') setAtlas(a.value.atlas)
       if (r.status === 'rejected' && !['disabled', 'unavailable'].includes(n.value.next.reason)) setError('阅读材料暂时没有取到，可以重新加载')
     }
@@ -137,10 +139,19 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
     if (busy || failed) return
     void execute({ type: 'start', body: { clientAttemptId: uid(), versionId, planKind: 'reread', resourceKey: readerId } })
   }
+  async function setFavorite(wordId: string, favorite: boolean) {
+    if (!atlas?.versionId) throw new Error('课程暂不可用')
+    await phonicsApi.favorite(token, childId, wordId, atlas.versionId, favorite)
+    setAtlas(previous => previous ? { ...previous, words: previous.words.map(word => word.id === wordId ? { ...word, favorite } : word) } : previous)
+  }
   const active = attempt && ['started', 'paused'].includes(attempt.status)
-  const switchTab = (key: TabKey) => { engine.current?.stop(); setSearchParams(key === 'today' ? {} : { tab: key }, { replace: true }) }
+  const switchTab = (key: TabKey) => {
+    engine.current?.stop()
+    if (key !== 'practice') setAutoStudy(false)
+    if (tab === 'practice' && key !== 'practice') void refresh().catch(e => setError(message(e)))
+    setSearchParams(key === 'today' ? {} : { tab: key }, { replace: true })
+  }
   return <div className="phonics-app" aria-label="英语声音课堂" lang="zh-CN">
-    <div className="ph-starfield" aria-hidden="true" />
     {error && <div role="alert" className="phonics-notice">{error}</div>}
     {failed && <div className="phonics-notice"><p>刚才的记录还没有确认。先重新保存，再接着玩。</p><button className="sticker-btn hot min-h-[44px]" disabled={busy} onClick={() => { if (pending.current) void execute(pending.current) }}>重新保存</button></div>}
     {active ? !attempt.available ? <section className="phonics-sheet"><h2>先休息一下</h2><p>这份英语内容暂时不能使用，请家长帮忙看看。</p><button className="sticker-btn min-h-[44px]" disabled={busy || failed} onClick={() => control('pause')}>保存并暂停</button></section>
@@ -149,18 +160,18 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
       : <>
         <header className="ph-topbar">
           <h1>英语声音课堂</h1>
-          <button className="ph-ghost-btn min-h-[44px] min-w-[44px]" onClick={() => { engine.current?.stop(); navigate('/child/today') }}>回到今天</button>
+          <button className="ph-ghost-btn min-h-[44px] min-w-[44px]" onClick={() => { engine.current?.stop(); navigate('/child/today') }}><IconArrowLeft size={20} />回到今天</button>
         </header>
         <main className="ph-body">
-          {tab === 'today' && <TodayTab next={next} atlas={atlas} summary={summary} busy={busy} failed={failed} attemptStatus={attempt?.status} onStart={() => void openNext()} onReload={() => { setError(''); void refresh().catch(e => setError(message(e))) }} showReload={Boolean(error) && !failed} />}
-          {tab === 'atlas' && <AtlasTab atlas={atlas} blocked={busy || failed} />}
-          {tab === 'shelf' && <ShelfTab atlas={atlas} versionOf={id => readerVersions[id]} blocked={busy || failed} nextBusy={next?.reason === 'continue'} onReread={startReader} onGoShelfStudy={() => switchTab('today')} />}
-          {tab === 'practice' && <PracticeTab next={next} atlas={atlas} blocked={busy || failed} onStartReview={() => void openNext()} onGoShelf={() => switchTab('shelf')} />}
-          {tab === 'me' && <MeTab atlas={atlas} summary={summary} />}
+          {tab === 'today' && <TodayTab next={next} atlas={atlas} summary={summary} busy={busy} failed={failed} attemptStatus={attempt?.status} onStart={() => void openNext()} onStudy={() => { setAutoStudy(true); switchTab('practice') }} onReload={() => { setError(''); void refresh().catch(e => setError(message(e))) }} showReload={Boolean(error) && !failed} />}
+          {tab === 'atlas' && <AtlasTab atlas={atlas} blocked={busy || failed} onFavorite={setFavorite} />}
+          {tab === 'shelf' && <ShelfTab token={token} childId={childId} atlas={atlas} versionOf={id => readerVersions[id]} blocked={busy || failed} nextBusy={next?.reason === 'continue'} onReread={startReader} onGoShelfStudy={() => switchTab('today')} onFavorite={setFavorite} />}
+          {tab === 'practice' && <PracticeTab token={token} childId={childId} atlas={atlas} blocked={busy || failed} autoStudy={autoStudy} onAutoStudyHandled={() => setAutoStudy(false)} />}
+          {tab === 'me' && <MeTab token={token} childId={childId} atlas={atlas} summary={summary} />}
         </main>
         <nav className="ph-tabs" aria-label="课堂栏目">
           {TABS.map(t => <button key={t.key} className={`ph-tab min-h-[44px] min-w-[44px]${tab === t.key ? ' on' : ''}`} aria-current={tab === t.key ? 'page' : undefined} onClick={() => switchTab(t.key)}>
-            <span className="ph-tab-icon" aria-hidden="true">{t.icon}</span><span>{t.label}</span>
+            <t.icon size={24} /><span>{t.label}</span>
           </button>)}
         </nav>
       </>}
@@ -176,44 +187,20 @@ const dateLine = () => {
   const week = ['日', '一', '二', '三', '四', '五', '六'][d.getDay()]
   return `${d.getMonth() + 1}月${d.getDate()}日 · 星期${week}`
 }
-/** 最近 7 天（含今天）每天的练习次数；数据来自 summary 最近记录，足够点亮一周条。 */
-function weekStrip(summary: PhonicsSummary | null): Array<{ day: string; count: number; today: boolean }> {
-  const counts = new Map<string, number>()
-  for (const p of summary?.recentPractice ?? []) {
-    if (p.status !== 'completed' || !p.hadLearningActions) continue
-    const key = new Date(p.startedAt)
-    const day = `${key.getFullYear()}-${key.getMonth()}-${key.getDate()}`
-    counts.set(day, (counts.get(day) ?? 0) + 1)
-  }
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(); d.setDate(d.getDate() - (6 - i))
-    const day = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
-    return { day: '一二三四五六日'[d.getDay()] ?? '', count: counts.get(day) ?? 0, today: i === 6 }
-  })
-}
-/** 连续练习天数：从今天（或昨天）往前数有练习的日子。 */
-function streakOf(summary: PhonicsSummary | null): number {
-  const days = new Set((summary?.recentPractice ?? []).filter(p => p.status === 'completed' && p.hadLearningActions).map(p => { const d = new Date(p.startedAt); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}` }))
-  let streak = 0
-  const cursor = new Date()
-  if (!days.has(`${cursor.getFullYear()}-${cursor.getMonth()}-${cursor.getDate()}`)) cursor.setDate(cursor.getDate() - 1)
-  while (days.has(`${cursor.getFullYear()}-${cursor.getMonth()}-${cursor.getDate()}`)) { streak++; cursor.setDate(cursor.getDate() - 1) }
-  return streak
-}
-
-function TodayTab({ next, atlas, summary, busy, failed, attemptStatus, onStart, onReload, showReload }: {
+function TodayTab({ next, atlas, summary, busy, failed, attemptStatus, onStart, onStudy, onReload, showReload }: {
   next: PhonicsNextDto | null; atlas: PhonicsAtlasDto | null; summary: PhonicsSummary | null
   busy: boolean; failed: boolean; attemptStatus?: string
-  onStart: () => void; onReload: () => void; showReload: boolean
+  onStart: () => void; onStudy: () => void; onReload: () => void; showReload: boolean
 }) {
   const words = useMemo(() => atlas?.words.filter(w => w.unlocked) ?? [], [atlas])
   const lessons = atlas?.lessons ?? []
   const completedLessons = lessons.filter(l => l.completed).length
   const entryOrder = lessons.find(l => !l.completed && l.order >= Math.min(...(lessons.length ? lessons.map(x => x.order) : [0])))?.order ?? 0
   const current = lessons.find(l => !l.completed && (l.order >= entryOrder || entryOrder === 0)) ?? null
-  const wordOfDay = words.length ? words[Math.floor(Date.now() / 86400000) % words.length] : null
-  const week = weekStrip(summary)
-  const streak = streakOf(summary)
+  const dailyWords = words.length ? words : (atlas?.words ?? []).slice(0, 5)
+  const wordOfDay = dailyWords.length ? dailyWords[Math.floor(Date.now() / 86400000) % dailyWords.length] : null
+  const week = weekStrip(summary?.practiceCalendar ?? [])
+  const streak = streakOf(summary?.practiceCalendar ?? [])
   return <>
     <p className="ph-date">{dateLine()}</p>
     <h2 className="ph-greeting">{greeting()}，今天也听听英语吧</h2>
@@ -227,10 +214,11 @@ function TodayTab({ next, atlas, summary, busy, failed, attemptStatus, onStart, 
       </div>
     </section>
     <section className="ph-row" aria-label="学习进度">
-      <div className="ph-stat"><b>{words.length}</b><span>颗星已点亮</span></div>
+      <div className="ph-stat"><b>{words.length}</b><span>词已开放</span></div>
       <div className="ph-stat"><b>{completedLessons}<i>/{lessons.length}</i></b><span>课上完</span></div>
       <div className="ph-stat"><b>{streak}</b><span>天连续</span></div>
     </section>
+    <section className="ph-today-study"><div><p className="phonics-kicker">单词学习</p><h3>看看图，认识单词</h3></div><button className="ph-ghost-btn min-h-[44px]" disabled={busy || failed || !words.length} onClick={onStudy}>开始单词学习</button></section>
     <section className="ph-week" aria-label="这一周">
       <h3>这一周</h3>
       <div className="ph-week-strip">
@@ -279,7 +267,7 @@ function WordOfDayCard({ word }: { word: PhonicsAtlasWordDto }) {
       <p className="phonics-kicker">今日一词</p>
       <b lang="en-GB">{word.text}</b>
       <p className="phonics-hint">{word.meaningZh}</p>
-      <span className="ph-wordofday-play" aria-hidden="true">{playing ? '…' : '🔊 点一下听'}</span>
+      <span className="ph-wordofday-play" aria-hidden="true"><IconVolume size={18} />{playing ? '播放中' : '听发音'}</span>
     </div>
   </section>
 }

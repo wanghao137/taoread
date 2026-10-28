@@ -26,7 +26,8 @@ import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerPhonicsV2Routes } from './modules/phonics/v2/routes'
 import { PhonicsRuntime, type PhonicsV2Options } from './modules/phonics/v2/runtime'
-import { candidateDirectory, loadCourse } from './modules/phonics/v2/courseRegistry'
+import { candidateDirectory, courseHash, loadCourse } from './modules/phonics/v2/courseRegistry'
+import { loadSidecars } from './modules/phonics/v2/sidecars'
 import { registerTtsRoutes } from './modules/tts/routes'
 import { routePreloads } from './lib/routePreloads'
 import { timed, serverTiming } from './lib/requestTiming'
@@ -269,7 +270,15 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
 
   registerPhonicsRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
   const phonicsRuntime = new PhonicsRuntime(options.db, options.phonicsV2 ?? {}, mediaDir)
-  await phonicsRuntime.install(options.phonicsV2?.courses ?? ((options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off') || (options.phonicsV2?.selfUseFamilyId && options.phonicsV2.selfUseHash) ? [await loadCourse(candidateDirectory)] : []))
+  app.decorate('phonicsRuntime', phonicsRuntime)
+  if (options.phonicsV2?.courses) {
+    await phonicsRuntime.install(options.phonicsV2.courses, options.phonicsV2.sidecars)
+  } else if ((options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off') || (options.phonicsV2?.selfUseFamilyId && options.phonicsV2.selfUseHash)) {
+    const course = await loadCourse(candidateDirectory)
+    // 旁挂词典/美音包与课程同目录安装；哈希锁定由 loadSidecars 自行校验。
+    const sidecars = await loadSidecars(candidateDirectory.replace(/[\\/]+$/, ''), course.manifest.versionId, courseHash(course))
+    await phonicsRuntime.install([course], [sidecars])
+  }
   registerPhonicsV2Routes(app, { db: options.db, tokenSecret: options.tokenSecret, runtime: phonicsRuntime })
   registerImprovementRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
   registerCspReports(app)

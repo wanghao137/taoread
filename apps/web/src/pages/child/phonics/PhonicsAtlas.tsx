@@ -1,98 +1,156 @@
-// 图鉴：全部词的星星墙——已解锁的点开听三种读法，未解锁的灰星占位（学到的课越多，点亮的越多）。
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { PhonicsAtlasDto, PhonicsAtlasWordDto } from '@taoread/shared'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import type { PhonicsAssetDto, PhonicsAtlasDto, PhonicsAtlasWordDto } from '@taoread/shared'
+import { Dialog } from '../../../components/ui/Dialog'
+import { IconHeart, IconHeartFilled, IconVolume } from '../../../components/ui/icons'
 import { API_BASE } from '../../../lib/api'
 import { PhonicsAudio } from './phonicsAudio'
-import { phonicsSfx } from './phonicsSfx'
+import { PHONICS_TOPICS, phonicsTopic, type PhonicsTopicId } from './phonicsTopics'
+import { createWordCardImage } from './wordCardImage'
 
 const absolute = (url: string) => (url.startsWith('/') ? `${API_BASE}${url}` : url)
-const READING_LABELS: Record<string, string> = { segment: '分开听', blend: '拼一拼', word: '听整词' }
+const READING_LABELS = { segment: '分开听', blend: '拼一拼', word: '听整词' } as const
+const PhonicsGalaxy = lazy(() => import('./PhonicsGalaxy').then(module => ({ default: module.PhonicsGalaxy })))
 
-export function AtlasTab({ atlas, blocked }: { atlas: PhonicsAtlasDto | null; blocked: boolean }) {
+export function AtlasTab({ atlas, blocked, onFavorite }: { atlas: PhonicsAtlasDto | null; blocked: boolean; onFavorite: (id: string, favorite: boolean) => Promise<void> }) {
   const [query, setQuery] = useState('')
-  const [onlyCollected, setOnlyCollected] = useState(false)
-  const [open, setOpen] = useState<PhonicsAtlasWordDto | null>(null)
-  const words = atlas?.words ?? []
-  const collected = words.filter(w => w.unlocked)
-  const shown = useMemo(() => collected.filter(w => {
+  const [status, setStatus] = useState<'all' | 'open' | 'later' | 'favorite' | 'unseen' | 'learning' | 'familiar'>('all')
+  const [view, setView] = useState<'grid' | 'list' | 'galaxy'>('grid')
+  const [lesson, setLesson] = useState('all')
+  const [topic, setTopic] = useState<PhonicsTopicId | 'all'>('all')
+  const [openId, setOpenId] = useState<string | null>(null)
+  const words = useMemo(() => atlas?.words ?? [], [atlas])
+  const open = words.find(word => word.id === openId)
+  const shown = useMemo(() => words.filter(word => {
     const q = query.trim().toLowerCase()
-    if (!q) return true
-    return w.text?.toLowerCase().includes(q) || w.meaningZh?.includes(query.trim())
-  }), [collected, query])
-  return <section aria-label="词的图鉴">
-    <h2 className="ph-tab-title">图鉴 <span className="ph-tab-sub">{collected.length} / {words.length} 颗星已点亮</span></h2>
-    <p className="phonics-hint">学会一个词，这里就多一颗星。点星星，听它的声音。</p>
+    return (!q || word.text?.toLowerCase().includes(q) || word.meaningZh?.includes(query.trim())) &&
+      (status === 'all' || (status === 'favorite' ? word.favorite : status === 'open' ? word.unlocked : status === 'later' ? !word.unlocked : (word.studyState ?? 'unseen') === status)) &&
+      (lesson === 'all' || word.lessonKey === lesson) && (topic === 'all' || phonicsTopic(word.id) === topic)
+  }), [words, query, status, lesson, topic])
+  return <section aria-label="词的图鉴" className="ph-atlas">
+    <div className="ph-section-heading"><div><p className="phonics-kicker">WORD ATLAS</p><h2 className="ph-tab-title">单词图鉴</h2></div><span className="ph-tab-sub">{words.length} 个词</span></div>
     <div className="ph-atlas-tools">
-      <input className="ph-search min-h-[44px]" type="search" placeholder="搜单词或中文" value={query}
+      <input className="ph-search min-h-[44px]" type="search" placeholder="搜索单词或中文" value={query}
         onChange={e => setQuery(e.target.value)} aria-label="搜索单词或中文释义" />
-      <button className={`ph-chip min-h-[44px]${onlyCollected ? ' on' : ''}`} aria-pressed={onlyCollected}
-        onClick={() => setOnlyCollected(v => !v)}>{onlyCollected ? '只看点亮' : '全部'}</button>
+      <select className="ph-select" aria-label="按课程筛选" value={lesson} onChange={event => setLesson(event.target.value)}>
+        <option value="all">全部课程</option>
+        {atlas?.lessons.filter(item => item.wordCount > 0).map(item => <option key={item.id} value={item.id}>{item.titleZh}</option>)}
+      </select>
+      <select className="ph-select" aria-label="按主题筛选" value={topic} onChange={event => setTopic(event.target.value as PhonicsTopicId | 'all')}>
+        <option value="all">全部主题</option>
+        {PHONICS_TOPICS.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
+      </select>
     </div>
-    {!atlas && <p role="status">正在打开图鉴…</p>}
-    <div className="ph-atlas-grid">
-      {(onlyCollected ? shown : [...shown, ...words.filter(w => !w.unlocked)]).map(w => w.unlocked
-        ? <button key={w.id} className="ph-star-card min-h-[44px]" disabled={blocked} onClick={() => { phonicsSfx.play('tap'); setOpen(w) }}>
-            {w.image?.url ? <img src={absolute(w.image.url)} alt="" loading="lazy" /> : <span className="ph-star-placeholder" aria-hidden="true">★</span>}
-            <b lang="en-GB">{w.text}</b>
-          </button>
-        : <span key={w.id} className="ph-star-card locked" aria-label="还没点亮">
-            <span className="ph-star-placeholder" aria-hidden="true">✩</span>
-          </span>)}
+    <div className="ph-filters" role="group" aria-label="词条状态">
+      {([['all', '全部'], ['open', '已开放'], ['later', '未开放'], ['unseen', '未学'], ['learning', '学习中'], ['familiar', '较熟悉'], ['favorite', '收藏']] as const).map(([value, label]) =>
+        <button key={value} className={`ph-chip min-h-[44px]${status === value ? ' on' : ''}`} aria-pressed={status === value} onClick={() => setStatus(value)}>{label}</button>)}
     </div>
-    {atlas && shown.length === 0 && <p className="phonics-hint">{query ? '没找到这个词，换个说法试试。' : '还没有点亮的星。先去「今日」上一课吧。'}</p>}
-    {open && <WordSheet word={open} onClose={() => setOpen(null)} />}
+    <div className="ph-filters" role="group" aria-label="图鉴视图">
+      {([['grid', '图片'], ['list', '列表'], ['galaxy', '星图']] as const).map(([value, label]) => <button key={value} className={`ph-chip min-h-[44px]${view === value ? ' on' : ''}`} aria-pressed={view === value} onClick={() => setView(value)}>{label}</button>)}
+    </div>
+    {!atlas ? <p role="status">正在打开图鉴…</p> : <p className="ph-result-count">{shown.length} 个词</p>}
+    {view === 'galaxy' ? <Suspense fallback={<p role="status">正在准备星图…</p>}><PhonicsGalaxy words={shown} onOpen={id => { if (!blocked) setOpenId(id) }} onTopic={setTopic} /></Suspense> : <div className={`ph-atlas-grid${view === 'list' ? ' list' : ''}`}>
+      {shown.map(word => <button key={word.id} className="ph-star-card min-h-[44px]" disabled={blocked} onClick={() => setOpenId(word.id)}>
+        {word.image?.url ? <img src={absolute(word.image.url)} alt="" loading="lazy" /> : <span className="ph-star-placeholder" aria-hidden="true">Aa</span>}
+        <span className="ph-card-copy"><b lang="en-GB">{word.text}</b><span>{word.meaningZh}</span><small>{word.studyState === 'familiar' ? '较熟悉' : word.studyState === 'learning' ? '学习中' : word.unlocked ? '未学' : '未开放'}</small></span>
+      </button>)}
+    </div>}
+    {atlas && !shown.length && <p className="phonics-hint">没有找到符合条件的单词。</p>}
+    {open && <WordSheet key={open.id} word={open} onClose={() => setOpenId(null)} onFavorite={onFavorite} />}
   </section>
 }
 
-function WordSheet({ word, onClose }: { word: PhonicsAtlasWordDto; onClose: () => void }) {
+export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWordDto; onClose: () => void; onFavorite: (id: string, favorite: boolean) => Promise<void> }) {
   const [ready, setReady] = useState(false)
   const [playing, setPlaying] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [shareMessage, setShareMessage] = useState('')
+  const [cardImage, setCardImage] = useState<{ blob: Blob; url: string } | null>(null)
+  const [generating, setGenerating] = useState(false)
   const player = useRef<PhonicsAudio | null>(null)
-  const greeted = useRef(false)
+  const mounted = useRef(true)
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false } }, [])
+  useEffect(() => () => { if (cardImage) URL.revokeObjectURL(cardImage.url) }, [cardImage])
   useEffect(() => {
     const engine = new PhonicsAudio()
     player.current = engine
     let live = true
-    setReady(false); setError('')
-    engine.prepare(word.audios.map(a => ({ ...a, url: a.url ? absolute(a.url) : null })))
-      .then(() => {
-        if (!live) return
-        setReady(true)
-        // 词光式「点开就能听」：打开自动读一次整词，之后由孩子自己点
-        const whole = word.audios.find(a => a.purpose === 'word')
-        if (!greeted.current && whole?.url) {
-          greeted.current = true
-          setPlaying('word')
-          engine.play([whole.id]).catch(() => undefined).finally(() => { if (live) setPlaying(null) })
-        }
-      })
-      .catch(e => { if (live) setError(e instanceof Error ? e.message : '声音还没准备好，请重试') })
+    const lexiconAudio = word.lexicon?.example.audio
+    const audios = [...word.audios, ...word.examples.flatMap(example => example.audio ? [example.audio] : []), ...(lexiconAudio ? [lexiconAudio] : [])]
+    engine.prepare(audios.map(audio => ({ ...audio, url: audio.url ? absolute(audio.url) : null })))
+      .then(() => { if (live) setReady(true) })
+      .catch(e => { if (live) setError(e instanceof Error ? e.message : '声音还没准备好') })
     return () => { live = false; engine.dispose(); player.current = null }
   }, [word])
-  async function play(purpose: string) {
-    const audio = word.audios.find(a => a.purpose === purpose)
-    const engine = player.current
-    if (!audio?.url || !engine || playing) return
-    setPlaying(purpose); setError('')
-    try { await engine.play([audio.id]) } catch (e) { setError(e instanceof Error ? e.message : '声音没有播出来，请再点一次') } finally { setPlaying(null) }
+  async function play(audio: PhonicsAssetDto | null | undefined) {
+    if (!audio?.url || !player.current || playing) return
+    setPlaying(audio.id); setError('')
+    try { await player.current.play([audio.id]) } catch { setError('声音没有播出来，请再试一次') } finally { setPlaying(null) }
   }
-  return <div className="phonics-word-sheet" role="dialog" aria-modal="true" aria-label={`${word.text ?? ''} 词卡`} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-    <section className="phonics-sheet phonics-word-card">
-      <div className="phonics-top"><h2 lang="en-GB">{word.text}</h2><button className="sticker-btn min-h-[44px]" onClick={onClose}>收起来</button></div>
-      {word.image?.url && <img className="phonics-word-image" src={absolute(word.image.url)} alt={`${word.text} 的意思配图`} />}
-      <div className="phonics-choices" role="group" aria-label="三种读法">
-        {(['segment', 'blend', 'word'] as const).map(purpose => {
+  async function favorite() {
+    if (saving) return
+    setSaving(true); setError('')
+    try { await onFavorite(word.id, !word.favorite) } catch { setError('收藏没有保存，请再试一次') } finally { setSaving(false) }
+  }
+  async function share() {
+    const text = `${word.text ?? ''} · ${word.meaningZh ?? ''}`
+    setShareMessage('')
+    try {
+      if (navigator.share) await navigator.share({ title: '桃阅读单词卡', text })
+      else { await navigator.clipboard.writeText(text); setShareMessage('已复制单词和词义') }
+    } catch (error) { if (!(error instanceof DOMException && error.name === 'AbortError')) setShareMessage('分享暂不可用') }
+  }
+  async function generateCard() {
+    if (generating) return
+    setGenerating(true); setShareMessage('')
+    try { const blob = await createWordCardImage(word); if (mounted.current) setCardImage({ blob, url: URL.createObjectURL(blob) }) }
+    catch (error) { if (mounted.current) setShareMessage(error instanceof Error ? error.message : '图片生成失败') } finally { if (mounted.current) setGenerating(false) }
+  }
+  async function shareCard() {
+    if (!cardImage) return
+    const file = new File([cardImage.blob], `taoread-${word.id}.png`, { type: 'image/png' })
+    try {
+      if (navigator.canShare?.({ files: [file] }) && navigator.share) await navigator.share({ files: [file], title: '桃阅读单词卡' })
+      else { const link = document.createElement('a'); link.href = cardImage.url; link.download = file.name; link.click(); setShareMessage('已下载图片') }
+    } catch (error) { if (!(error instanceof DOMException && error.name === 'AbortError')) setShareMessage('图片分享暂不可用') }
+  }
+  return <Dialog label={`${word.text ?? ''} 词卡`} onClose={onClose} className="ph-word-dialog">
+    {word.image?.url && <img className="ph-word-image" src={absolute(word.image.url)} alt={`${word.text} 的意思配图`} />}
+    <div className="ph-word-detail"><div className="ph-word-tools"><span className="ph-word-status">{word.studyState === 'familiar' ? '较熟悉' : word.studyState === 'learning' ? '学习中' : word.unlocked ? '未学' : '未开放'}</span>
+      <button className="ph-icon-button min-h-[44px] min-w-[44px]" aria-label={word.favorite ? '取消收藏' : '收藏单词'} title={word.favorite ? '取消收藏' : '收藏单词'} aria-pressed={word.favorite} disabled={saving} onClick={() => void favorite()}>{word.favorite ? <IconHeartFilled size={22} /> : <IconHeart size={22} />}</button>
+      <button className="ph-ghost-btn min-h-[44px]" onClick={() => void share()}>分享</button></div>
+      <h3 lang="en-GB">{word.text}</h3><p>{word.meaningZh}</p>
+      <button className="ph-ghost-btn min-h-[44px]" disabled={generating} onClick={() => void generateCard()}>{generating ? '正在生成图片' : '生成词卡图片'}</button>
+      {cardImage && <div className="ph-card-image-preview"><img src={cardImage.url} alt={`${word.text} 单词卡图片`} /><button className="ph-ghost-btn min-h-[44px]" onClick={() => void shareCard()}>分享或下载图片</button></div>}
+      <div className="ph-reading-controls" role="group" aria-label="单词发音">
+        {(['word', 'segment', 'blend'] as const).map(purpose => {
           const audio = word.audios.find(a => a.purpose === purpose)
-          return <button key={purpose} className="phonics-tile min-h-[64px]" disabled={!ready || !audio?.url || Boolean(playing)}
-            aria-label={READING_LABELS[purpose]} onClick={() => void play(purpose)}>
-            {playing === purpose ? '…' : `🔊 ${READING_LABELS[purpose]}`}
+          return <button key={purpose} disabled={!ready || !audio?.url || Boolean(playing)} onClick={() => void play(audio)}>
+            <IconVolume size={20} />{playing === audio?.id ? '播放中' : READING_LABELS[purpose]}{purpose === 'word' && word.wordAudioAccent === 'US' && <small className="ph-accent-tag">美</small>}
           </button>
         })}
       </div>
-      <p className="phonics-hint">{word.meaningZh}</p>
+      {word.examples.length > 0 && <div className="ph-examples"><h4>在句子里</h4>{word.examples.map(example =>
+        <div key={example.text} className="ph-example"><p lang="en-GB">{example.text}</p>
+          {example.audio && <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="播放句子" aria-label="播放句子" disabled={!ready || Boolean(playing)} onClick={() => void play(example.audio)}><IconVolume size={22} /></button>}
+        </div>)}</div>}
+      {word.lexicon && <div className="ph-lexicon">
+        <h4>词典里说</h4>
+        <p className="ph-ipa" lang="en-GB"><span className="ph-ipa-tag">英</span>{word.lexicon.ukIpa}<span className="ph-ipa-tag">美</span>{word.lexicon.usIpa}</p>
+        {word.lexicon.senses.map((sense, index) => <p key={index} className="ph-lex-sense"><i lang="en-GB">{sense.pos}</i>{sense.zh}<span lang="en-GB">{sense.en}</span></p>)}
+        <div className="ph-example"><p lang="en-GB">{word.lexicon.example.en}</p><span>{word.lexicon.example.zh}</span>
+          {word.lexicon.example.audio && <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="播放词典例句" aria-label="播放词典例句" disabled={!ready || Boolean(playing)} onClick={() => void play(word.lexicon?.example.audio)}><IconVolume size={22} /></button>}
+        </div>
+        {word.lexicon.tip && <p className="ph-lex-tip">💡 {word.lexicon.tip}</p>}
+        {(word.lexicon.collocations.length > 0 || word.lexicon.family.length > 0) && <details className="ph-lex-more">
+          <summary className="min-h-[44px]">更多词典信息</summary>
+          {word.lexicon.collocations.length > 0 && <p className="ph-lex-col"><b>常用搭配</b>{word.lexicon.collocations.join(' · ')}</p>}
+          {word.lexicon.family.length > 0 && <p className="ph-lex-col"><b>词语家族</b>{word.lexicon.family.join(' · ')}</p>}
+        </details>}
+      </div>}
       {!ready && !error && <p role="status">正在准备声音…</p>}
-      {error && <div className="phonics-notice" role="alert">{error}</div>}
-    </section>
-  </div>
+      {error && <p role="alert">{error}</p>}
+      {shareMessage && <p role="status">{shareMessage}</p>}
+    </div>
+  </Dialog>
 }

@@ -82,7 +82,8 @@ for (const width of [390, 768]) test(`完整课堂、失败重试、续页与重
   await expect(page.getByText('今天试过了，也练过了')).toBeVisible()
   // 词光式五 Tab（docs/92）：小书在书房，进书房再读
   await page.getByRole('button', { name: '书房' }).click()
-  await page.getByRole('button', { name: '再读一遍' }).click()
+  await page.getByRole('button', { name: /打开小书/ }).click()
+  await page.getByRole('button', { name: '课堂重读' }).click()
   await expect(page.getByText('第 1 / 2 页')).toBeVisible()
   expect(errors).toEqual([])
   const summary = await (await request.get(`${root}/children/${s.childId}/summary`, { headers: { authorization: `Bearer ${s.token}` } })).json()
@@ -117,6 +118,13 @@ test('家长查看全量摘要、补记更正和暂停开启', async ({ page, re
   expect((await request.post(`${root}/attempts/${attempt.id}/finish`, { headers, data: { clientEventId: randomUUID(), expectedRevision: attempt.revision } })).status()).toBe(200)
   await login(page, s, true); await page.goto('/parent?tab=内容')
   await expect(page.getByTestId(`phonics-v2-summary-${s.childId}`)).toContainText('开始过 1 段')
+  await page.getByText('单词与阅读位置备份', { exact: true }).click()
+  const downloading = page.waitForEvent('download')
+  await page.getByRole('button', { name: '导出备份' }).click()
+  const backup = await downloading
+  await page.getByLabel('声音小课堂的单词备份文件').setInputFiles((await backup.path())!)
+  await page.getByRole('button', { name: '导入缺失记录' }).click()
+  await expect(page.getByText(/已补入 0 条词条进度/)).toBeVisible()
   await page.getByText('练习记录与口头观察', { exact: true }).click()
   const row = page.locator('.phonics-observation').first()
   await row.scrollIntoViewIfNeeded()

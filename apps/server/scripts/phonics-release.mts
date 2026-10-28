@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { createDb } from '../src/lib/db'
 import { candidateDirectory, courseHash, loadCourse, selfUseReady, validateCourse } from '../src/modules/phonics/v2/courseRegistry'
 import { validateReleaseAcceptance } from '../src/modules/phonics/v2/releasePolicy'
+import { loadSidecars } from '../src/modules/phonics/v2/sidecars'
 
 const { values, positionals } = parseArgs({ allowPositionals: true, options: {
   version: { type: 'string', default: 'taoread-phonics-gb-v1' }, database: { type: 'string' },
@@ -19,11 +20,12 @@ const db = database ? createDb(database) : null
 try {
   const course = await loadCourse(candidateDirectory)
   const contentHash = courseHash(course)
-  const report = await validateCourse(course, { mode: 'release', mediaRoot: values['media-root'] ? path.resolve(values['media-root']) : undefined })
+  const sidecars = await loadSidecars(candidateDirectory.replace(/[\\/]+$/, ''), course.manifest.versionId, contentHash)
+  const report = await validateCourse(course, { mode: 'release', mediaRoot: values['media-root'] ? path.resolve(values['media-root']) : undefined, sidecars })
   const release = db ? await db.phonicsCourseRelease.findUnique({ where: { versionId: values.version } }) : null
   if (action === 'inspect') {
     const published = db ? await db.phonicsCourseRelease.findMany({ where: { courseId: course.manifest.courseId, status: 'published' }, select: { versionId: true, contentHash: true, defaultForCourse: true } }) : []
-    console.log(JSON.stringify({ action, complete: report.complete, versionId: values.version, contentHash, releaseReady: report.releaseReady, counts: report.counts, blockers: report.issues.filter(i => i.severity === 'error'), databaseInspected: Boolean(db), release, rollbackCandidates: published.filter(v => v.versionId !== values.version), rolloutNote: 'Runtime rollout and family enrollment are separate gates; inspect does not change either.' }, null, 2))
+    console.log(JSON.stringify({ action, complete: report.complete, versionId: values.version, contentHash, releaseReady: report.releaseReady, counts: report.counts, sidecars: report.sidecars, blockers: report.issues.filter(i => i.severity === 'error'), databaseInspected: Boolean(db), release, rollbackCandidates: published.filter(v => v.versionId !== values.version), rolloutNote: 'Runtime rollout and family enrollment are separate gates; inspect does not change either.' }, null, 2))
   } else {
     const expectedHash = action === 'withdraw' ? release?.contentHash : contentHash
     if (!db || !expectedHash || values['expect-hash'] !== expectedHash) throw new Error('Mutations require --database and a matching --expect-hash')

@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { PhonicsTaskDto } from '@taoread/shared'
 import { courseSchema, type PhonicsCourse, type PhonicsLesson, type PhonicsTask } from './contracts'
+import type { CourseSidecars } from './sidecars'
 
 export function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`
@@ -53,17 +54,20 @@ export interface ContentValidation {
   versionId: string | null
   contentHash: string | null
   counts: { lessons: number; words: number; tasks: number; readers: number; assets: number; verifiedAssets: number }
+  /** 旁挂内容（词典/美音包）计数；null = 未安装。 */
+  sidecars?: { lexiconEntries: number | null; usAudioAssets: number | null; problems: string[] }
   issues: ContentIssue[]
 }
 
 /** Private inspection permits outstanding human reviews, never invalid or missing content. */
 export function selfUseReady(report: ContentValidation): boolean {
-  const pendingReviews = new Set(['NOT_REVIEWED', 'TEACHING_REVIEW', 'ASSET_PENDING', 'RIGHTS_REVIEW', 'SPEECH_REVIEW'])
+  const pendingReviews = new Set(['NOT_REVIEWED', 'TEACHING_REVIEW', 'ASSET_PENDING', 'RIGHTS_REVIEW', 'SPEECH_REVIEW',
+    'LEXICON_REVIEW', 'LEXICON_SPEECH_REVIEW', 'LEXICON_RIGHTS_REVIEW', 'US_SPEECH_REVIEW', 'US_RIGHTS_REVIEW'])
   return report.complete && report.counts.assets > 0 && report.counts.verifiedAssets === report.counts.assets
     && report.issues.every(issue => pendingReviews.has(issue.code))
 }
 
-export async function validateCourse(input: unknown, options: { mode: 'development' | 'release'; mediaRoot?: string }): Promise<ContentValidation> {
+export async function validateCourse(input: unknown, options: { mode: 'development' | 'release'; mediaRoot?: string; sidecars?: CourseSidecars }): Promise<ContentValidation> {
   const report: ContentValidation = {
     complete: true, ok: false, releaseReady: false, mode: options.mode, versionId: null, contentHash: null,
     counts: { lessons: 0, words: 0, tasks: 0, readers: 0, assets: 0, verifiedAssets: 0 }, issues: [],
@@ -289,6 +293,31 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
       }
     } catch { issue('ASSET_MISSING', asset.id, 'Physical asset could not be read', true) }
   }
+  // 旁挂内容（词典/美音包）：缺失只记警告（属可选增强）；存在但损坏/哈希不符按普通
+  // error 处理（不在 pendingReviews 白名单里，自用也不放行）；待人工审校科目与课程
+  // 资产同一纪律——release 模式逐条列出，自用模式允许携带待审继续。
+  if (options.sidecars) {
+    const sidecars = options.sidecars
+    report.sidecars = { lexiconEntries: sidecars.lexicon?.entries.length ?? null, usAudioAssets: sidecars.usAudio?.assets.length ?? null, problems: sidecars.problems }
+    for (const problem of sidecars.problems) {
+      if (problem.includes('缺失')) issue('SIDECAR_MISSING', 'sidecars', problem)
+      else issue('SIDECAR_INVALID', 'sidecars', problem)
+    }
+    if (sidecars.lexicon) {
+      for (const entry of sidecars.lexicon.entries) {
+        issue('LEXICON_REVIEW', `lexicon.${entry.word}`, '词条内容需要人工教学审校', true)
+        if (entry.source === 'word-atlas') issue('LEXICON_RIGHTS_REVIEW', `lexicon.${entry.word}`, '导入词条的署名与授权需要人工确认', true)
+        if (entry.example.audio) issue('LEXICON_SPEECH_REVIEW', `lexicon.${entry.word}`, '例句朗读需要人工听审', true)
+      }
+    }
+    if (sidecars.usAudio) {
+      for (const asset of sidecars.usAudio.assets) {
+        issue('US_SPEECH_REVIEW', `usAudio.${asset.word}`, '美音整词需要人工听审（含实际口音确认）', true)
+        issue('US_RIGHTS_REVIEW', `usAudio.${asset.word}`, '美音候选的权利确认未完成', true)
+      }
+    }
+  }
+
   report.ok = !report.issues.some(i => i.severity === 'error')
   report.releaseReady = report.ok && !releaseBlocked
   return report

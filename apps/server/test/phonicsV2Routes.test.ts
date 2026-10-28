@@ -63,6 +63,13 @@ beforeEach(async () => {
   rolloutOptions.rollout = 'all'; rolloutOptions.pilotFamilyIds = []
   rolloutOptions.selfUseFamilyId = ''; rolloutOptions.selfUseHash = ''
   await h.db.phonicsAttempt.deleteMany({ where: { childId } })
+  await h.db.phonicsPracticeAnswer.deleteMany({ where: { childId } })
+  await h.db.phonicsWordFavorite.deleteMany({ where: { childId } })
+  await h.db.phonicsWordSchedule.deleteMany({ where: { childId } })
+  await h.db.phonicsTypingResult.deleteMany({ where: { childId } })
+  await h.db.phonicsReadingProgress.deleteMany({ where: { childId } })
+  await h.db.phonicsWordSessionMutation.deleteMany({ where: { childId } })
+  await h.db.phonicsWordSession.deleteMany({ where: { childId } })
   await h.db.phonicsEnrollment.deleteMany({ where: { childId } })
   await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'published' } })
 })
@@ -76,6 +83,200 @@ afterAll(async () => {
 })
 
 describe('phonics v2 persistence and authorization', () => {
+  it('lets an enrolled child browse the atlas without changing lesson progress or exposing it to another family', async () => {
+    await enroll()
+    const response = await call('GET', childPath('atlas'), childToken)
+    expect(response.statusCode).toBe(200)
+    const atlas = response.json().atlas
+    expect(atlas.words).toHaveLength(4)
+    expect(atlas.words.every((word: { unlocked: boolean; text: string; audios: unknown[]; examples: unknown[] }) =>
+      !word.unlocked && Boolean(word.text) && word.audios.length === 3 && Array.isArray(word.examples))).toBe(true)
+    expect(atlas.lessons[0].completed).toBe(false)
+    expect((await call('GET', childPath('atlas'), other.token)).statusCode).toBe(404)
+    expect((await call('GET', atlas.words[0].audios[0].url, childToken)).statusCode).toBe(200)
+  })
+  it('only uses examples from readers the child has unlocked', async () => {
+    await enroll()
+    const before = (await call('GET', childPath('atlas'), childToken)).json().atlas
+    expect(before.words.every((word: { examples: unknown[] }) => word.examples.length === 0)).toBe(true)
+    await finishAll((await start()).attempt)
+    const after = (await call('GET', childPath('atlas'), childToken)).json().atlas
+    expect(after.words.find((word: { id: string }) => word.id === 'w-sam').examples).toEqual([expect.objectContaining({ text: 'Sam sat.' })])
+  })
+  it('grades independent practice on the server, preserves first answers and isolates households', async () => {
+    await enroll()
+    const questionId = randomUUID(), clientEventId = randomUUID()
+    const answer = { questionId, clientEventId, versionId, wordId: 'w-map', mode: 'picture', track: 'practice', answer: 'w-mat' }
+    expect((await call('POST', childPath('practice'), childToken, answer)).statusCode).toBe(409)
+    await finishAll((await start()).attempt)
+    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 1 })])
+    const wrong = await call('POST', childPath('practice'), childToken, answer)
+    expect(wrong.json()).toMatchObject({ correct: false, firstAttempt: true, repeated: false })
+    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 2 })])
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 1, correct: 0, wrongWordIds: ['w-map'] })
+    expect((await call('POST', childPath('practice'), childToken, answer)).json().repeated).toBe(true)
+    expect((await call('POST', childPath('practice'), childToken, { ...answer, answer: 'w-map' })).statusCode).toBe(409)
+    const fixed = { ...answer, clientEventId: randomUUID(), answer: 'w-map' }
+    expect((await call('POST', childPath('practice'), childToken, fixed)).json()).toMatchObject({ correct: true, firstAttempt: false })
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 1, correct: 0, wrongWordIds: [] })
+    expect((await call('POST', childPath('practice'), childToken, { ...fixed, clientEventId: randomUUID(), wordId: 'w-mat' })).statusCode).toBe(409)
+    expect((await call('GET', childPath('practice'), other.token)).statusCode).toBe(404)
+    const contrast = { ...answer, questionId: randomUUID(), clientEventId: randomUUID(), mode: 'contrast', answer: 'w-map' }
+    expect((await call('POST', childPath('practice'), childToken, contrast)).json()).toMatchObject({ correct: true, firstAttempt: true })
+    expect(await h.db.phonicsWordSchedule.count({ where: { childId } })).toBe(0)
+    expect(await h.db.phonicsAttempt.count({ where: { childId } })).toBe(1)
+  })
+  it('persists favorites for the enrolled child without granting another family access', async () => {
+    await enroll()
+    const url = childPath('words/w-map/favorite')
+    expect((await call('PUT', url, other.token, { versionId, favorite: true })).statusCode).toBe(404)
+    expect((await call('PUT', url, childToken, { versionId, favorite: true })).json()).toEqual({ favorite: true })
+    expect((await call('PUT', url, childToken, { versionId, favorite: true })).statusCode).toBe(200)
+    expect((await call('GET', childPath('atlas'), childToken)).json().atlas.words.find((w: { id: string }) => w.id === 'w-map').favorite).toBe(true)
+    expect(await h.db.phonicsWordFavorite.count({ where: { childId } })).toBe(1)
+    expect((await call('PUT', url, childToken, { versionId, favorite: false })).statusCode).toBe(200)
+    expect(await h.db.phonicsWordFavorite.count({ where: { childId } })).toBe(0)
+  })
+  it('schedules only the first study answer with FSRS and keeps practice separate', async () => {
+    await enroll()
+    await finishAll((await start()).attempt)
+    const schedule = (await call('GET', childPath('study-schedule'), childToken)).json()
+    expect(schedule.newWordIds).toHaveLength(4)
+    const body = { questionId: randomUUID(), clientEventId: randomUUID(), versionId, wordId: 'w-map', mode: 'meaning', track: 'study', answer: 'w-mat' }
+    expect((await call('POST', childPath('practice'), childToken, body)).json()).toMatchObject({ correct: false, firstAttempt: true })
+    const row = await h.db.phonicsWordSchedule.findFirstOrThrow({ where: { childId, wordId: 'w-map' } })
+    expect(row.algorithm).toBe('ts-fsrs-5.4.2-short-v2')
+    expect((await call('GET', childPath('atlas'), childToken)).json().atlas.words.find((word: { id: string }) => word.id === 'w-map').studyState).toBe('learning')
+    expect(row.dueAt.getTime()).toBeGreaterThan(Date.now())
+    expect(JSON.parse(row.cardJson).reps).toBe(1)
+    expect((await call('POST', childPath('practice'), childToken, body)).json().repeated).toBe(true)
+    expect((await call('POST', childPath('practice'), childToken, { ...body, clientEventId: randomUUID(), mode: 'listen', answer: 'w-map' })).json()).toMatchObject({ correct: true, firstAttempt: false })
+    expect(JSON.parse((await h.db.phonicsWordSchedule.findUniqueOrThrow({ where: { id: row.id } })).cardJson).reps).toBe(1)
+    expect((await call('POST', childPath('practice'), childToken, { ...body, clientEventId: randomUUID(), questionId: randomUUID(), answer: 'w-map' })).statusCode).toBe(409)
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 0, correct: 0 })
+    expect((await call('GET', childPath('study-schedule'), childToken)).json().newWordIds).toHaveLength(3)
+    expect((await call('GET', childPath('study-schedule'), other.token)).statusCode).toBe(404)
+  })
+  it('persists bounded study settings, detects stale updates and enforces the daily new-word limit', async () => {
+    await enroll()
+    await finishAll((await start()).attempt)
+    const url = childPath('word-settings')
+    const defaults = (await call('GET', url, childToken)).json()
+    expect(defaults).toMatchObject({ dailyNew: 5, retention: 0.9, autoplay: false, spelling: true, revision: 0 })
+    const body = { dailyNew: 1, retention: 0.94, autoplay: true, spelling: false, expectedRevision: 0 }
+    expect((await call('PUT', url, other.token, body)).statusCode).toBe(404)
+    expect((await call('PUT', url, childToken, { ...body, retention: 1 })).statusCode).toBe(400)
+    expect((await call('PUT', url, childToken, body)).json()).toEqual({ dailyNew: 1, retention: 0.94, autoplay: true, spelling: false, revision: 1 })
+    expect((await call('PUT', url, childToken, body)).statusCode).toBe(409)
+    expect((await call('GET', url, parent.token)).json()).toMatchObject({ dailyNew: 1, retention: 0.94, revision: 1 })
+    expect((await call('GET', childPath('study-schedule'), childToken)).json().newWordIds).toHaveLength(1)
+    const answer = { questionId: randomUUID(), clientEventId: randomUUID(), versionId, wordId: 'w-map', mode: 'meaning', track: 'study', answer: 'w-map', elapsedMs: 11000, hinted: false }
+    expect((await call('POST', childPath('practice'), childToken, answer)).statusCode).toBe(200)
+    const row = await h.db.phonicsWordSchedule.findFirstOrThrow({ where: { childId, wordId: 'w-map' } })
+    expect(JSON.parse((await h.db.phonicsPracticeAnswer.findFirstOrThrow({ where: { childId, questionId: answer.questionId } })).reviewLogJson!).log.rating).toBe(2)
+    expect((await call('GET', childPath('study-schedule'), childToken)).json()).toMatchObject({ newToday: 1, newWordIds: [] })
+    expect((await call('POST', childPath('practice'), childToken, { ...answer, questionId: randomUUID(), clientEventId: randomUUID(), wordId: 'w-mat', answer: 'w-mat' })).statusCode).toBe(409)
+    const card = JSON.parse(row.cardJson); card.due = new Date(Date.now() - 60000).toISOString()
+    await h.db.phonicsWordSchedule.update({ where: { id: row.id }, data: { algorithm: 'ts-fsrs-5.4.2-daily-v1', cardJson: JSON.stringify(card), dueAt: new Date(Date.now() - 60000) } })
+    expect((await call('POST', childPath('practice'), childToken, { ...answer, questionId: randomUUID(), clientEventId: randomUUID() })).statusCode).toBe(200)
+    expect((await h.db.phonicsWordSchedule.findUniqueOrThrow({ where: { id: row.id } })).algorithm).toBe('ts-fsrs-5.4.2-short-v2')
+  })
+  it('does not exceed the new-word limit when two devices submit concurrently', async () => {
+    await enroll()
+    await finishAll((await start()).attempt)
+    expect((await call('PUT', childPath('word-settings'), childToken, { dailyNew: 1, retention: 0.9, autoplay: false, spelling: true, expectedRevision: 0 })).statusCode).toBe(200)
+    const makeAnswer = (wordId: string) => ({ questionId: randomUUID(), clientEventId: randomUUID(), versionId, wordId, mode: 'meaning', track: 'study', answer: wordId })
+    const results = await Promise.all([call('POST', childPath('practice'), childToken, makeAnswer('w-map')), call('POST', childPath('practice'), childToken, makeAnswer('w-mat'))])
+    expect(results.map(result => result.statusCode).sort()).toEqual([200, 409])
+    expect(await h.db.phonicsWordSchedule.count({ where: { childId } })).toBe(1)
+  })
+  it('synchronizes a word session with idempotent writes, conflict detection and family isolation', async () => {
+    await enroll()
+    const url = childPath('word-session')
+    const questionId = randomUUID()
+    const session = { id: randomUUID(), versionId, track: 'study', questions: [{ id: questionId, wordId: 'w-map', mode: 'meaning', choices: ['w-map', 'w-mat'], isNew: true }], index: 0, showIntro: false, firstCorrect: 0, feedback: null, pending: null }
+    const first = { clientEventId: randomUUID(), expectedRevision: 0, versionId, session }
+    expect((await call('GET', url, other.token)).statusCode).toBe(404)
+    expect((await call('GET', url, childToken)).json()).toEqual({ session: null, revision: 0 })
+    expect((await call('PUT', url, other.token, first)).statusCode).toBe(404)
+    expect((await call('PUT', url, childToken, { ...first, session: { ...session, questions: [{ ...session.questions[0], wordId: 'w-unknown' }] } })).statusCode).toBe(400)
+    expect((await call('PUT', url, childToken, first)).json()).toMatchObject({ revision: 1, appliedRevision: 1, repeated: false, session })
+    expect((await call('PUT', url, childToken, first)).json()).toMatchObject({ revision: 1, appliedRevision: 1, repeated: true })
+    expect((await call('PUT', url, childToken, { ...first, session: null })).statusCode).toBe(409)
+    const next = { clientEventId: randomUUID(), expectedRevision: 1, versionId, session: { ...session, index: 1 } }
+    const concurrent = await Promise.all([call('PUT', url, childToken, next), call('PUT', url, childToken, { ...next, clientEventId: randomUUID(), session: null })])
+    expect(concurrent.map(item => item.statusCode).sort()).toEqual([200, 409])
+    const current = (await call('GET', url, childToken)).json()
+    expect(current.revision).toBe(2)
+    expect((await call('PUT', url, childToken, first)).json()).toMatchObject({ revision: 2, appliedRevision: 1, repeated: true, session: current.session })
+    const pending = { clientEventId: randomUUID(), questionId: randomUUID(), versionId, wordId: 'w-map', mode: 'meaning', track: 'study', answer: 'w-map' }
+    expect((await call('PUT', url, childToken, { clientEventId: randomUUID(), expectedRevision: 2, versionId, session: { ...session, pending } })).statusCode).toBe(400)
+    expect((await call('PUT', url, childToken, { clientEventId: randomUUID(), expectedRevision: 2, versionId, session: null })).json()).toMatchObject({ revision: 3, session: null })
+  })
+  it('stores idempotent typing results without changing spaced-repetition cards', async () => {
+    await enroll()
+    const url = childPath('typing')
+    const body = { clientSessionId: randomUUID(), versionId, mode: 'sentence', source: 'path', items: 2, correctCharacters: 25, attemptedCharacters: 30, acceptedCharacters: 25, elapsedMs: 60000 }
+    expect((await call('POST', url, other.token, body)).statusCode).toBe(404)
+    expect((await call('POST', url, childToken, { ...body, correctCharacters: 31 })).statusCode).toBe(400)
+    expect((await call('POST', url, childToken, body)).json()).toEqual({ repeated: false })
+    expect((await call('POST', url, childToken, body)).json()).toEqual({ repeated: true })
+    expect((await call('POST', url, childToken, { ...body, items: 3 })).statusCode).toBe(409)
+    expect((await call('GET', url, childToken)).json().results).toEqual([expect.objectContaining({ mode: 'sentence', items: 2, wpm: 5, accuracy: 83 })])
+    expect((await call('GET', url, other.token)).statusCode).toBe(404)
+    expect(await h.db.phonicsWordSchedule.count({ where: { childId } })).toBe(0)
+  })
+  it('opens only unlocked readers and preserves family-isolated reading position with revision checks', async () => {
+    await enroll()
+    const url = childPath('readers/r-l07')
+    expect((await call('GET', url, childToken)).statusCode).toBe(409)
+    await finishAll((await start()).attempt)
+    const response = await call('GET', url, childToken)
+    expect(response.statusCode).toBe(200)
+    const reader = response.json().reader
+    expect(reader.pages).toHaveLength(2)
+    expect(reader.progress).toEqual({ page: 0, fontSize: 24, revision: 0 })
+    expect((await call('GET', url, other.token)).statusCode).toBe(404)
+    expect((await call('GET', reader.pages[0].audio.url, childToken)).statusCode).toBe(200)
+    const update = { versionId, page: 1, fontSize: 28, expectedRevision: 0 }
+    expect((await call('PUT', `${url}/progress`, other.token, update)).statusCode).toBe(404)
+    expect((await call('PUT', `${url}/progress`, childToken, { ...update, page: 2 })).statusCode).toBe(409)
+    expect((await call('PUT', `${url}/progress`, childToken, update)).json()).toEqual({ page: 1, fontSize: 28, revision: 1 })
+    expect((await call('PUT', `${url}/progress`, childToken, update)).statusCode).toBe(409)
+    expect((await call('GET', url, childToken)).json().reader.progress).toEqual({ page: 1, fontSize: 28, revision: 1 })
+  })
+  it('exports parent-only word backups and restores missing records without overwriting current data', async () => {
+    await enroll()
+    await finishAll((await start()).attempt)
+    await call('PUT', childPath('words/w-map/favorite'), childToken, { versionId, favorite: true })
+    const answer = { questionId: randomUUID(), clientEventId: randomUUID(), versionId, wordId: 'w-map', mode: 'meaning', track: 'study', answer: 'w-map', elapsedMs: 1500 }
+    expect((await call('POST', childPath('practice'), childToken, answer)).statusCode).toBe(200)
+    const typing = { clientSessionId: randomUUID(), versionId, mode: 'word', source: 'path', items: 1, correctCharacters: 3, attemptedCharacters: 3, acceptedCharacters: 3, elapsedMs: 3000 }
+    expect((await call('POST', childPath('typing'), childToken, typing)).statusCode).toBe(200)
+    expect((await call('PUT', childPath('readers/r-l07/progress'), childToken, { versionId, page: 1, fontSize: 26, expectedRevision: 0 })).statusCode).toBe(200)
+    const url = childPath('word-backup')
+    expect((await call('GET', url, childToken)).statusCode).toBe(403)
+    expect((await call('GET', url, other.token)).statusCode).toBe(404)
+    const exported = await call('GET', url, parent.token)
+    expect(exported.statusCode, exported.body).toBe(200)
+    const backup = exported.json().backup
+    expect(backup).toMatchObject({ app: 'taoread-phonics-word-backup', childId, courseVersionId: versionId })
+    await h.db.phonicsWordSchedule.deleteMany({ where: { childId } })
+    await h.db.phonicsPracticeAnswer.deleteMany({ where: { childId } })
+    await h.db.phonicsTypingResult.deleteMany({ where: { childId } })
+    await h.db.phonicsReadingProgress.deleteMany({ where: { childId } })
+    expect((await call('PUT', childPath('word-settings'), childToken, { dailyNew: 2, retention: 0.9, autoplay: false, spelling: true, expectedRevision: 0 })).statusCode).toBe(200)
+    expect((await call('POST', url, childToken, backup)).statusCode).toBe(403)
+    expect((await call('POST', url, parent.token, { ...backup, contentHash: 'a'.repeat(64) })).statusCode).toBe(409)
+    expect((await call('POST', url, parent.token, { ...backup, exportedAt: '2999-01-01T00:00:00.000Z' })).statusCode).toBe(400)
+    expect((await call('POST', url, parent.token, { ...backup, schedules: [{ ...backup.schedules[0], card: { ...backup.schedules[0].card, stability: -1 } }] })).statusCode).toBe(400)
+    expect((await call('POST', url, parent.token, { ...backup, favorites: ['w-map', 'w-map'] })).statusCode).toBe(400)
+    expect((await call('POST', url, parent.token, backup)).json()).toEqual({ schedules: 1, favorites: 0, answers: 1, typing: 1, reading: 1 })
+    expect((await call('POST', url, parent.token, backup)).json()).toEqual({ schedules: 0, favorites: 0, answers: 0, typing: 0, reading: 0 })
+    expect((await call('GET', childPath('word-settings'), childToken)).json().dailyNew).toBe(2)
+    expect((await call('GET', childPath('readers/r-l07'), childToken)).json().reader.progress).toMatchObject({ page: 1, fontSize: 26 })
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ answerDurationSeconds: 2, typingDurationSeconds: 3 })
+  })
   it('isolates self-use catalog, enrollment, learning and signed media and revokes immediately', async () => {
     const row = await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'self_use' } })
     rolloutOptions.rollout = 'off'
@@ -296,5 +497,81 @@ describe('phonics v2 persistence and authorization', () => {
     expect((await call('GET', `/api/media/phonics/${versionId}/${'0'.repeat(64)}.wav`, parent.token)).statusCode).toBe(404)
     await h.db.phonicsCourseRelease.update({ where: { versionId }, data: { status: 'withdrawn' } })
     expect((await h.app.inject({ method: 'GET', url })).statusCode).toBe(409)
+  })
+})
+
+describe('phonics v2 sidecar lexicon and US audio pack', () => {
+  const runtimeOf = () => (h.app as unknown as { phonicsRuntime: { sidecars: Map<string, unknown> } }).phonicsRuntime
+  const fixturePcm = async () => {
+    // 与 phonicsFixture 相同参数的短 PCM 容器，哈希一致即可复用已写入 media 的物理文件
+    const { createHash } = await import('node:crypto')
+    const pcmLength = 1600, wav = Buffer.alloc(44 + pcmLength * 2)
+    wav.write('RIFF', 0); wav.writeUInt32LE(wav.length - 8, 4); wav.write('WAVEfmt ', 8)
+    wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22)
+    wav.writeUInt32LE(16000, 24); wav.writeUInt32LE(32000, 28); wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34)
+    wav.write('data', 36); wav.writeUInt32LE(pcmLength * 2, 40)
+    for (let i = 0; i < pcmLength; i++) wav.writeInt16LE(Math.round(300 * Math.sin(2 * Math.PI * 220 * i / 16000)), 44 + i * 2)
+    return { wav, sha: createHash('sha256').update(wav).digest('hex') }
+  }
+  it('serves lexicon entries and US whole-word audio for the self-use family only', async () => {
+    const { writeFile } = await import('node:fs/promises')
+    const { wav, sha: wavSha } = await fixturePcm()
+    const mp3 = Buffer.from('ID3 Synthetic test tone - not speech')
+    await writeFile(path.join(root, 'phonics', versionId, `${wavSha}.wav`), wav).catch(() => undefined)
+    const mp3Sha = (await import('node:crypto')).createHash('sha256').update(mp3).digest('hex')
+    await writeFile(path.join(root, 'phonics', versionId, `${mp3Sha}.mp3`), mp3)
+    runtimeOf().sidecars.set(versionId, {
+      lexicon: {
+        schemaVersion: 1, courseVersionId: versionId, courseContentHash: versionId, humanReviewed: false, reviewStatus: 'pending', generatedAt: new Date().toISOString(),
+        sources: {}, counts: { entries: 1, wordAtlas: 1, taoreadOriginal: 0, exampleAudio: 1 },
+        entries: [{ wordId: 'w-map', word: 'map', source: 'word-atlas', reviewStatus: 'pending', ukIpa: '/mæp/', usIpa: '/mæp/', senses: [{ pos: 'n.', zh: '地图', en: 'A drawing of places.' }], example: { en: 'The map fell on the mat.', zh: '地图掉到了垫子上。', audio: { sha256: mp3Sha, durationMs: 100, bytes: mp3.length, voice: 'Synthetic test tone' } }, collocations: [], family: [], tip: '测试用', cefr: null }],
+      },
+      usAudio: {
+        schemaVersion: 1, courseVersionId: versionId, courseHash: versionId, requestedAccent: 'US', actualAccent: null,
+        provider: 'test', model: 'test', voice: 'test', humanReviewed: false, rightsReviewed: false, publicationApproved: false, source: 'test',
+        counts: { assets: 1 }, assets: [{ wordId: 'w-map', word: 'map', sha256: wavSha, durationMs: 100, bytes: wav.length }],
+      },
+      problems: [],
+    })
+    // 旁挂媒体按政策仅自用家庭可用：打开自用开关（哈希用已安装课程的真实内容哈希）
+    const runtime = runtimeOf() as { courses: Map<string, { manifest: { contentHash: string } }> }
+    rolloutOptions.selfUseFamilyId = parent.familyId
+    rolloutOptions.selfUseHash = runtime.courses.get(versionId)!.manifest.contentHash
+    await enroll()
+    // 注意：sidecar 的哈希锁定字段填的是 versionId 占位；真实清单在 loadSidecars 里校验 courseHash。
+    expect((await call('PUT', childPath('word-settings'), parent.token, { dailyNew: 3, retention: 0.9, autoplay: false, spelling: true, accent: 'US', expectedRevision: 0 })).statusCode).toBe(200)
+    const atlas = (await call('GET', childPath('atlas'), childToken)).json<{ atlas: { words: Array<{ id: string; lexicon: unknown; wordAudioAccent?: string; audios: Array<{ id: string; purpose: string; url: string | null }> }> } }>().atlas
+    const map = atlas.words.find(w => w.id === 'w-map')!
+    expect(map.wordAudioAccent).toBe('US')
+    expect(map.audios.find(a => a.purpose === 'word')?.id).toBe(`us-word:w-map`)
+    expect((map.lexicon as { example: { en: string; audio: { url: string } | null } }).example.en).toContain('map')
+    expect((map.lexicon as { example: { audio: { url: string } | null } }).example.audio?.url).toContain(`${mp3Sha}.mp3`)
+    const mat = atlas.words.find(w => w.id === 'w-mat')!
+    expect(mat.wordAudioAccent).toBe('GB')
+    // 旁挂媒体对自用家庭放行：用 DTO 下发的带票 URL 直接取流
+    const lexUrl = (map.lexicon as { example: { audio: { url: string } | null } }).example.audio!.url!
+    const usUrl = map.audios.find(a => a.purpose === 'word')!.url!
+    const lexRes = await h.app.inject({ method: 'GET', url: lexUrl, headers: authHeaders(childToken) })
+    expect(lexRes.statusCode, lexRes.body).toBe(200)
+    const usRes = await h.app.inject({ method: 'GET', url: usUrl, headers: authHeaders(childToken) })
+    expect(usRes.statusCode, usRes.body).toBe(200)
+    const otherChild = await createChild(h.app, other.token, other.familyId, '邻家孩子', '6-8')
+    await call('PUT', `${base}/children/${otherChild}/enrollment`, other.token, { enabled: true, versionId, entryMode: 'lesson', entryLessonKey: 'L07', expectedRevision: 0 })
+    // 非自用家庭拿不到旁挂媒体：404 不暴露存在性（与「媒体不存在」同一口径）
+    expect((await h.app.inject({ method: 'GET', url: lexUrl, headers: authHeaders(other.token) })).statusCode).toBe(404)
+    // 词卡列表按进度开放：走完 L07 后再取，整词音频同样按口音下发
+    const { attempt } = await start()
+    await finishAll(attempt)
+    const cards = (await call('GET', childPath('words'), childToken)).json<{ words: Array<{ id: string; wordAudioAccent?: string; audios: Array<{ purpose: string; id: string }> }> }>().words
+    const cardMap = cards.find(w => w.id === 'w-map')!
+    expect(cardMap.wordAudioAccent).toBe('US')
+    expect(cardMap.audios.find(a => a.purpose === 'word')?.id).toBe('us-word:w-map')
+    // 换回英音：回落 GB 资产
+    await call('PUT', childPath('word-settings'), parent.token, { dailyNew: 3, retention: 0.9, autoplay: false, spelling: true, accent: 'GB', expectedRevision: 1 })
+    const atlasGb = (await call('GET', childPath('atlas'), childToken)).json<{ atlas: { words: Array<{ id: string; wordAudioAccent?: string }> } }>().atlas
+    expect(atlasGb.words.find(w => w.id === 'w-map')?.wordAudioAccent).toBe('GB')
+    runtimeOf().sidecars.delete(versionId)
+    // 口音非法值被拒绝
+    expect((await call('PUT', childPath('word-settings'), parent.token, { dailyNew: 3, retention: 0.9, autoplay: false, spelling: true, accent: 'XX', expectedRevision: 2 })).statusCode).toBe(400)
   })
 })

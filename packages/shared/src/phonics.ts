@@ -91,6 +91,18 @@ export interface PhonicsNextDto {
   resourceKey?: string
 }
 
+/** 词典旁挂条目（词光 CC BY 4.0 导入 + 桃阅读自备），全部待人工审校后才会进入公开发布。 */
+export interface PhonicsLexiconDto {
+  source: 'word-atlas' | 'taoread-original'
+  ukIpa: string
+  usIpa: string
+  senses: Array<{ pos: string; zh: string; en: string }>
+  example: { en: string; zh: string; audio: PhonicsAssetDto | null }
+  collocations: string[]
+  family: string[]
+  tip: string
+}
+
 /** 词卡：一词一图、三种读法（分音/拼读/整词）与中文释义。音频仅在资产可取时给 url。 */
 export interface PhonicsWordCardDto {
   id: string
@@ -98,17 +110,24 @@ export interface PhonicsWordCardDto {
   meaningZh: string
   image: { url: string } | null
   audios: PhonicsAssetDto[]
+  /** 整词音频实际下发的口音；美音包未安装或未选美音时为 GB。 */
+  wordAudioAccent?: 'GB' | 'US'
 }
 
-/** 图鉴词位：未解锁的词不给文本/媒体（防提前偷看），只给占位。 */
+/** 图鉴词条：所有词可浏览，unlocked 表示已开放练习而非熟练掌握。 */
 export interface PhonicsAtlasWordDto {
   id: string
   unlocked: boolean
+  favorite: boolean
+  studyState?: 'unseen' | 'learning' | 'familiar'
   text?: string
   meaningZh?: string
   lessonKey?: string
   image: { url: string } | null
   audios: PhonicsAssetDto[]
+  examples: Array<{ text: string; audio: PhonicsAssetDto | null }>
+  lexicon?: PhonicsLexiconDto | null
+  wordAudioAccent?: 'GB' | 'US'
 }
 
 export interface PhonicsAtlasReaderDto {
@@ -131,6 +150,7 @@ export interface PhonicsAtlasLessonDto {
 
 /** 图鉴全量：词（含锁定占位）/ 小书架 / 课次路线，一次性供孩子端图鉴、书房与学习路线渲染。 */
 export interface PhonicsAtlasDto {
+  versionId: string | null
   words: PhonicsAtlasWordDto[]
   readers: PhonicsAtlasReaderDto[]
   lessons: PhonicsAtlasLessonDto[]

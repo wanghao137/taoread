@@ -104,6 +104,13 @@ model ChildProfile {
   bookHighlights BookHighlight[]
   phonicsEnrollment PhonicsEnrollment?
   phonicsAttempts PhonicsAttempt[]
+  phonicsPracticeAnswers PhonicsPracticeAnswer[]
+  phonicsWordFavorites PhonicsWordFavorite[]
+  phonicsWordSchedules PhonicsWordSchedule[]
+  phonicsTypingResults PhonicsTypingResult[]
+  phonicsReadingProgress PhonicsReadingProgress[]
+  phonicsWordSession PhonicsWordSession?
+  phonicsWordSessionMutations PhonicsWordSessionMutation[]
   importedReadingProgress ImportedReadingProgress[]
   bookmarks ReadingBookmark[]
   readingPlan ReadingPlan?
@@ -356,7 +363,116 @@ model PhonicsEnrollment {
   entryMode String @default("lesson")
   entryLessonKey String?
   revision Int @default(0)
+  wordSettingsJson String @default("{}")
+  wordSettingsRevision Int @default(0)
   updatedAt DateTime     @updatedAt
+}
+
+model PhonicsPracticeAnswer {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  clientEventId String
+  questionId String
+  wordId String
+  mode String
+  track String @default("practice")
+  requestHash String
+  correct Boolean
+  firstAttempt Boolean
+  elapsedMs Int?
+  reviewLogJson String?
+  createdAt DateTime @default(now())
+
+  @@unique([childId, clientEventId])
+  @@index([childId, courseVersionId, createdAt])
+  @@index([childId, questionId])
+}
+
+model PhonicsWordFavorite {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  wordId String
+  createdAt DateTime @default(now())
+
+  @@unique([childId, courseVersionId, wordId])
+  @@index([childId, courseVersionId])
+}
+
+model PhonicsWordSchedule {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  wordId String
+  algorithm String
+  cardJson String
+  dueAt DateTime
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, courseVersionId, wordId])
+  @@index([childId, courseVersionId, dueAt])
+}
+
+model PhonicsTypingResult {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  clientSessionId String
+  requestHash String
+  mode String
+  source String
+  items Int
+  correctCharacters Int
+  attemptedCharacters Int
+  acceptedCharacters Int
+  elapsedMs Int
+  createdAt DateTime @default(now())
+
+  @@unique([childId, clientSessionId])
+  @@index([childId, courseVersionId, createdAt])
+}
+
+model PhonicsReadingProgress {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  readerId String
+  page Int @default(0)
+  fontSize Int @default(24)
+  revision Int @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, courseVersionId, readerId])
+  @@index([childId, courseVersionId])
+}
+
+model PhonicsWordSession {
+  id String @id @default(cuid())
+  childId String @unique
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  courseVersionId String
+  stateJson String?
+  revision Int @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model PhonicsWordSessionMutation {
+  id String @id @default(cuid())
+  childId String
+  child ChildProfile @relation(fields: [childId], references: [id], onDelete: Cascade)
+  clientEventId String
+  requestHash String
+  revision Int
+  createdAt DateTime @default(now())
+
+  @@unique([childId, clientEventId])
+  @@index([childId, createdAt])
 }
 
 /// Original chapter snapshots permit an operator to recover a failed revision.

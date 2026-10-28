@@ -76,6 +76,65 @@ export type PhonicsTask = z.infer<typeof taskSchema>
 export type PhonicsLesson = z.infer<typeof lessonSchema>
 
 const command = { clientEventId: z.string().uuid(), expectedRevision: z.number().int().nonnegative() }
+export const practiceAnswerSchema = z.object({
+  clientEventId: z.string().uuid(), questionId: z.string().uuid(), versionId: id, wordId: id,
+  mode: z.enum(['picture', 'meaning', 'listen', 'spelling', 'contrast']), track: z.enum(['practice', 'study']), answer: z.string().trim().min(1).max(100),
+  elapsedMs: z.number().int().min(0).max(90000).optional(), hinted: z.boolean().optional(),
+}).strict()
+const wordQuestionSchema = z.object({
+  id: z.string().uuid(), wordId: id, mode: z.enum(['picture', 'meaning', 'listen', 'spelling', 'contrast']),
+  choices: z.array(id).max(4), isNew: z.boolean(), intro: z.boolean().optional(), retry: z.boolean().optional(),
+}).strict()
+export const wordSessionStateSchema = z.object({
+  id: z.string().uuid(), versionId: id, track: z.enum(['practice', 'study']),
+  questions: z.array(wordQuestionSchema).min(1).max(800), index: z.number().int().nonnegative(), showIntro: z.boolean(),
+  firstCorrect: z.number().int().nonnegative().max(220), feedback: z.enum(['correct', 'incorrect']).nullable(), pending: practiceAnswerSchema.nullable(),
+}).strict().superRefine((session, ctx) => {
+  if (session.index > session.questions.length) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid index' })
+  const seen = new Map<string, { wordId: string; mode: string }>()
+  for (const question of session.questions) {
+    const previous = seen.get(question.id)
+    if (previous && (previous.wordId !== question.wordId || (session.track === 'practice' && previous.mode !== question.mode))) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Question changed' })
+    seen.set(question.id, { wordId: question.wordId, mode: question.mode })
+    if (new Set(question.choices).size !== question.choices.length || (question.mode !== 'spelling' && (question.choices.length < 2 || !question.choices.includes(question.wordId)))) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid choices' })
+    if ((question.intro || question.retry) && session.track !== 'study') ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid study step' })
+    if ((question.intro && !question.isNew) || (question.intro && question.retry)) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid introduction' })
+  }
+  const current = session.questions[session.index]
+  if (session.pending && (!current || current.intro || session.feedback || session.pending.questionId !== current.id || session.pending.wordId !== current.wordId || session.pending.mode !== current.mode || session.pending.track !== session.track || session.pending.versionId !== session.versionId || (current.mode !== 'spelling' && !current.choices.includes(session.pending.answer)))) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Pending answer does not match question' })
+})
+export const wordSessionUpdateSchema = z.object({ clientEventId: z.string().uuid(), expectedRevision: z.number().int().nonnegative(), versionId: id, session: wordSessionStateSchema.nullable() }).strict().refine(input => !input.session || input.session.versionId === input.versionId)
+export const wordSettingsSchema = z.object({
+  dailyNew: z.number().int().min(0).max(100), retention: z.number().min(0.7).max(0.97),
+  autoplay: z.boolean(), spelling: z.boolean(),
+  /** 整词发音口音；美音包待审，仅自用家庭开放。缺省按 GB 兼容旧存档与旧备份。 */
+  accent: z.enum(['GB', 'US']).optional(),
+}).strict()
+export const wordSettingsUpdateSchema = wordSettingsSchema.extend({ expectedRevision: z.number().int().nonnegative() }).strict()
+export const typingResultSchema = z.object({
+  clientSessionId: z.string().uuid(), versionId: id, mode: z.enum(['word', 'sentence', 'dictation']),
+  source: z.enum(['recent', 'wrong', 'favorite', 'path']), items: z.number().int().min(1).max(100),
+  correctCharacters: z.number().int().nonnegative().max(100000), attemptedCharacters: z.number().int().positive().max(100000),
+  acceptedCharacters: z.number().int().positive().max(100000), elapsedMs: z.number().int().positive().max(9000000),
+}).strict().refine(value => value.correctCharacters <= value.attemptedCharacters && value.acceptedCharacters <= value.attemptedCharacters && value.elapsedMs <= value.items * 90000)
+export const readingProgressSchema = z.object({ versionId: id, page: z.number().int().nonnegative(), fontSize: z.number().int().min(18).max(36), expectedRevision: z.number().int().nonnegative() }).strict()
+const isoDate = z.string().datetime()
+const cardSchema = z.object({
+  due: isoDate, stability: z.number().finite().nonnegative().max(365000), difficulty: z.number().finite().min(0).max(10),
+  elapsed_days: z.number().int().nonnegative().max(365000), scheduled_days: z.number().int().nonnegative().max(365000),
+  learning_steps: z.number().int().nonnegative().max(100), reps: z.number().int().nonnegative().max(100000),
+  lapses: z.number().int().nonnegative().max(100000), state: z.number().int().min(1).max(3), last_review: isoDate,
+}).strict().refine(card => card.reps > 0 && card.lapses <= card.reps && card.stability > 0 && card.difficulty >= 1 && Date.parse(card.due) >= Date.parse(card.last_review))
+export const wordBackupSchema = z.object({
+  app: z.literal('taoread-phonics-word-backup'), version: z.literal(1), childId: z.string().min(1).max(100), courseVersionId: id, contentHash: hash, exportedAt: isoDate,
+  settings: wordSettingsSchema,
+  schedules: z.array(z.object({ wordId: id, algorithm: z.enum(['ts-fsrs-5.4.2-daily-v1', 'ts-fsrs-5.4.2-short-v2']), card: cardSchema, updatedAt: isoDate }).strict()).max(5000),
+  favorites: z.array(id).max(5000),
+  answers: z.array(z.object({ clientEventId: z.string().uuid(), questionId: z.string().uuid(), wordId: id, mode: z.enum(['picture', 'meaning', 'listen', 'spelling', 'contrast']), track: z.enum(['practice', 'study']), requestHash: hash, correct: z.boolean(), firstAttempt: z.boolean(), elapsedMs: z.number().int().min(0).max(90000).nullable(), reviewLogJson: z.string().max(20000).nullable(), createdAt: isoDate }).strict()).max(10000),
+  typing: z.array(z.object({ clientSessionId: z.string().uuid(), requestHash: hash, mode: z.enum(['word', 'sentence', 'dictation']), source: z.enum(['recent', 'wrong', 'favorite', 'path']), items: z.number().int().min(1).max(100), correctCharacters: z.number().int().nonnegative().max(100000), attemptedCharacters: z.number().int().positive().max(100000), acceptedCharacters: z.number().int().positive().max(100000), elapsedMs: z.number().int().positive().max(9000000), createdAt: isoDate }).strict().refine(value => value.correctCharacters <= value.attemptedCharacters && value.acceptedCharacters <= value.attemptedCharacters && value.elapsedMs <= value.items * 90000)).max(10000),
+  reading: z.array(z.object({ readerId: id, page: z.number().int().nonnegative(), fontSize: z.number().int().min(18).max(36), updatedAt: isoDate }).strict()).max(5000),
+}).strict()
+export const favoriteSchema = z.object({ versionId: id, favorite: z.boolean() }).strict()
 const empty = z.object({}).strict()
 const eventBase = { ...command, taskInstanceId: z.string().min(1).max(160) }
 export const learningEventSchema = z.discriminatedUnion('kind', [

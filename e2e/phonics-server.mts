@@ -20,7 +20,7 @@ execFileSync(process.execPath, [path.join(repo, 'node_modules/prisma/build/index
 const db = createDb(database)
 const course = await phonicsFixture(root)
 const key = 'isolated-phonics-browser-0123456789'
-const app = await buildApp({ db, masterKey: key, tokenSecret: tokenSecretFrom(key), mediaDir: root, staticDir: path.join(repo, 'apps/web/dist'),
+const app = await buildApp({ db, masterKey: key, tokenSecret: tokenSecretFrom(key), mediaDir: root, staticDir: process.env.TAO_E2E_WEB_DIR ? path.resolve(process.env.TAO_E2E_WEB_DIR) : path.join(repo, 'apps/web/dist'),
   phonicsV2: { rollout: 'all', courses: [course] }, ttsDeps: null, imageDeps: null, videoDeps: null,
   probeKey: async () => 'active', wereadCall: () => createDemoGateway(), bedTimeMin: null,
   ipLimiter: new IpRateLimiter({ capacity: 10000, refillPerMinute: 10000 }),

@@ -32,6 +32,8 @@ function ChildPhonics({ token, child, catalog }: { token: string; child: ChildDt
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState('')
   const [reset, setReset] = useState<{ input: PhonicsEnrollmentInput; attempt: PhonicsAttemptDto } | null>(null)
+  const [backupFile, setBackupFile] = useState<File | null>(null)
+  const backupInput = useRef<HTMLInputElement>(null)
   const live = useRef(true)
   const lock = useRef(false)
   const pendingObservation = useRef<Parameters<typeof phonicsApi.observe> | null>(null)
@@ -98,6 +100,28 @@ function ChildPhonics({ token, child, catalog }: { token: string; child: ChildDt
     } catch (e) { if (live.current) setNotice(e instanceof Error ? e.message : '当前记录获取失败') }
     finally { if (live.current) setBusy(false) }
   }
+  async function exportWords() {
+    if (busy) return
+    setBusy(true); setNotice('')
+    try {
+      const { backup } = await phonicsApi.wordBackup(token, child.id)
+      const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }))
+      const link = document.createElement('a'); link.href = url; link.download = `taoread-phonics-${new Date().toISOString().slice(0, 10)}.json`; link.click()
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+      setNotice('单词与阅读位置备份已导出')
+    } catch (e) { setNotice(e instanceof Error ? e.message : '备份导出失败') } finally { setBusy(false) }
+  }
+  async function importWords() {
+    if (!backupFile || busy) return
+    setBusy(true); setNotice('')
+    try {
+      if (backupFile.size > 10 * 1024 * 1024) throw new Error('备份文件超过 10 MB')
+      const backup: unknown = JSON.parse(await backupFile.text())
+      const result = await phonicsApi.restoreWordBackup(token, child.id, backup)
+      setBackupFile(null); if (backupInput.current) backupInput.current.value = ''
+      setNotice(`已补入 ${result.schedules} 条词条进度、${result.favorites} 条收藏、${result.answers} 条答题、${result.typing} 条打字和 ${result.reading} 条阅读位置`)
+    } catch (e) { setNotice(e instanceof Error ? e.message : '备份导入失败') } finally { setBusy(false) }
+  }
   const version = catalog.versions.find(v => v.versionId === versionId)
   return <fieldset disabled={busy}><legend>{child.nickname}的英语练习</legend>
     {enrollment && <p>当前：{enrollment.enabled && enrollment.versionId ? '已开启' : '未开启正式课程'}</p>}
@@ -109,6 +133,12 @@ function ChildPhonics({ token, child, catalog }: { token: string; child: ChildDt
       <button type="button" className="sticker-btn hot" disabled={!version || !enrollment || !!reset} onClick={() => void prepareSave(true)}>保存并开启</button>
     </>}
     {enrollment?.enabled && enrollment.versionId && <button type="button" className="sticker-btn" onClick={() => void prepareSave(false)}>暂停开启，保留记录</button>}
+    {enrollment?.enabled && enrollment.versionId && <details><summary>单词与阅读位置备份</summary>
+      <p>备份含单词学习、练习、收藏、打字和小书位置，不含课堂记录或家长观察。导入只补缺失记录，不覆盖已有数据；请妥善保管备份文件。</p>
+      <div className="phonics-actions"><button type="button" className="sticker-btn" onClick={() => void exportWords()}>导出备份</button>
+        <label>选择备份文件 <input ref={backupInput} type="file" accept="application/json,.json" aria-label={`${child.nickname}的单词备份文件`} onChange={event => setBackupFile(event.target.files?.[0] ?? null)} /></label>
+        <button type="button" className="sticker-btn" disabled={!backupFile} onClick={() => void importWords()}>导入缺失记录</button></div>
+    </details>}
     {reset && <div className="phonics-notice"><p>调整起点会结束当前这一段练习，已保存的记录保留。之后从新起点开始。</p><div className="phonics-actions"><button type="button" className="sticker-btn hot" onClick={() => void save({ ...reset.input, closeActive: { attemptId: reset.attempt.id, expectedRevision: reset.attempt.revision, clientEventId: uid() } })}>结束原进度并保存</button><button type="button" className="sticker-btn" onClick={() => setReset(null)}>保留原进度</button></div></div>}
     {notice && <p role="status">{notice}</p>}
     {summary && <>
