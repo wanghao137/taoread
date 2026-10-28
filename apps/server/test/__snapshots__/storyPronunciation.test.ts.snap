@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`story pronunciation corrections > covers exactly the story poems under audit; no drift without a lexicon review 1`] = `
+[
+  "sanzi-jing·人之初，性本善，性相近，",
+  "tangshi-300·少陵野老吞声哭，春日潜行",
+  "tangshi-300·汉家烟尘在东北，汉将辞家",
+  "songci-rivers·兰芷满芳洲，游思横路。
+",
+  "songci-rivers·照野旌旗，朝天车马，平沙",
+  "songci-rivers·月华收，云淡霜天曙。
+西",
+  "songci-rivers·更能消、几番风雨。
+匆匆",
+  "songci-rivers·晚晴风歇。
+一夜春折威。",
+  "myth-shanhaijing·羿请不死之药于西王母，姮",
+  "myth-shanhaijing·神农尝百草之滋味，水泉之",
+  "myth-shanhaijing·昔者仓颉作书而天雨粟，鬼",
+  "myth-shanhaijing·洪水滔天，鲧窃帝之息壤以",
+  "folktale-mulan·其实木兰心里装着一件大事",
+  "folktale-mulan·昨夜见军帖，可汗大点兵，",
+  "folktale-mulan·天刚亮，木兰就出了门。东",
+  "folktale-mulan·旦辞爷娘去，暮宿黄河边，",
+  "folktale-mulan·归来见天子，天子坐明堂。",
+  "folktale-mulan·大军回到京城，可汗亲自在",
+  "folktale-mulan·可汗说：「花将军，你立了",
+  "folktale-mulan·爷娘闻女来，出郭相扶将；",
+  "folktale-mulan·木兰笑弯了腰：「对呀，和",
+  "folktale-cowherd·迢迢牵牛星，皎皎河汉女。",
+]
+`;

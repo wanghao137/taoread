@@ -8,6 +8,7 @@
 import type { VoicePreset } from './voices'
 import { clampSpeed } from './voices'
 import { poetryPronunciation } from './poetryPronunciation'
+import { storyPronunciation } from './storyPronunciation'
 import { surnameInstruction, surnameSpeech } from './surnamePronunciation'
 
 export interface SynthesizeInput {
@@ -105,7 +106,7 @@ export function chunkText(text: string, maxLen = MAX_SEGMENT_CHARS): string[] {
  * Brackets otherwise get interpreted as unspoken stage directions by StepAudio.
  * Cache keys and displayed text still use the original segment. */
 export function narrationInput(text: string): string {
-  return surnameSpeech(poetryPronunciation(text)).split(/\r?\n/).filter(line => /[\p{L}\p{N}]/u.test(line))
+  return surnameSpeech(storyPronunciation(poetryPronunciation(text))).split(/\r?\n/).filter(line => /[\p{L}\p{N}]/u.test(line))
     .join(' ').replace(/[()（）[\]]/g, '，')
     // Providers can mistake this rare bird name for the English letters PT.
     // These common homophones retain the exact Mandarin pì tī pronunciation.

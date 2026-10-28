@@ -116,7 +116,7 @@ export const shanhaiJing: PackBook = {
         {
           kind: 'poem',
           text: '神农尝百草之滋味，水泉之甘苦，令民知所辟就。当此之时，一日而遇七十毒。',
-          pinyin: 'shén nóng cháng bǎi cǎo zhī zī wèi, shuǐ quán zhī gān kǔ, lìng mín zhī suǒ pì jiù. dāng cǐ zhī shí, yī rì ér yù qī shí dú.',
+          pinyin: 'shén nóng cháng bǎi cǎo zhī zī wèi, shuǐ quán zhī gān kǔ, lìng mín zhī suǒ bì jiù. dāng cǐ zhī shí, yī rì ér yù qī shí dú.',
           translation: '神农亲口品尝各种草药的滋味，尝遍泉水是甜是苦，好让百姓知道哪种能吃、哪种要躲开。那个时候，他一天之内就会遇到七十种毒。',
         },
         {

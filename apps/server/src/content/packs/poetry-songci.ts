@@ -1340,7 +1340,7 @@ export const songCi: PackBook = {
       {
         kind: 'poem',
         text: "脸霞红印枕。\n睡觉来、冠儿还是不整。\n屏间麝煤冷。\n但眉峰压翠，泪珠弹粉。\n堂深昼永。\n燕交飞、风帘露井。\n恨无人，与说相思，近日带围宽尽。\n重省。\n残灯朱幌，淡月纱窗，那时风景。\n阳台路迥。\n云雨梦，便无准。\n待归来，先指花梢教看，却把心期细问。\n问因循、过了青春，怎生意稳。",
-        pinyin: "liǎn xiá hóng yìn zhěn。\nshuì jiào lái、 guān ér hái shì bù zhěng。\npíng jiān shè méi lěng。\ndàn méi fēng yā cuì， lèi zhū tán fěn。\ntáng shēn zhòu yǒng。\nyàn jiāo fēi、 fēng lián lù jǐng。\nhèn wú rén， yǔ shuō xiāng sī， jìn rì dài wéi kuān jìn。\nzhòng shěng。\ncán dēng zhū huǎng， dàn yuè shā chuāng， nà shí fēng jǐng。\nyáng tái lù jiǒng。\nyún yǔ mèng， biàn wú zhǔn。\ndài guī lái， xiān zhǐ huā shāo jiào kàn， què bǎ xīn qī xì wèn。\nwèn yīn xún、 guò le qīng chūn， zěn shēng yì wěn。",
+        pinyin: "liǎn xiá hóng yìn zhěn。\nshuì jué lái、 guān ér hái shì bù zhěng。\npíng jiān shè méi lěng。\ndàn méi fēng yā cuì， lèi zhū tán fěn。\ntáng shēn zhòu yǒng。\nyàn jiāo fēi、 fēng lián lù jǐng。\nhèn wú rén， yǔ shuō xiāng sī， jìn rì dài wéi kuān jìn。\nzhòng shěng。\ncán dēng zhū huǎng， dàn yuè shā chuāng， nà shí fēng jǐng。\nyáng tái lù jiǒng。\nyún yǔ mèng， biàn wú zhǔn。\ndài guī lái， xiān zhǐ huā shāo jiào kàn， què bǎ xīn qī xì wèn。\nwèn yīn xún、 guò le qīng chūn， zěn shēng yì wěn。",
         translation: "脸霞般的红印还留在枕上，一觉醒来，冠儿还没整理；屏风后的香冷冷的，只见她眉头压着翠黛，泪珠弹落了脂粉。厅堂深深，白天长长的，燕子在风帘露井间双双飞舞；恨没有人可以说说相思，近日腰间的衣带都宽松到了头。又想起残灯、红帐、淡月、纱窗那时的情景，可相会的路那么远，云雨的梦也没个准；等他回来，要先指着花梢让他看，再把心事细细问他——问他一拖再拖，把青春都错过了，怎么还能心安呢。",
       }
       ],
@@ -2588,7 +2588,7 @@ export const songCi: PackBook = {
       {
         kind: 'poem',
         text: "盘丝系腕，巧篆垂簪，玉隐绀纱睡觉。\n银瓶露井，彩云窗，往事少年依约。\n为当时、曾写榴裙，伤心红绡褪萼。\n黍梦光阴渐老，汀洲烟箬。\n莫唱江南古调，怨抑难招，楚江沈魄。\n薰风燕乳，暗雨梅黄，午镜澡兰帘幕。\n念秦楼、也拟人归，应翦菖浦自酌。\n但怅望、一屡新蟾，随人天角。",
-        pinyin: "pán sī xì wàn， qiǎo zhuàn chuí zān， yù yǐn gàn shā shuì jiào。\nyín píng lù jǐng， cǎi yún chuāng， wǎng shì shào nián yī yuē。\nwèi dāng shí、 céng xiě liú qún， shāng xīn hóng xiāo tuì è。\nshǔ mèng guāng yīn jiàn lǎo， tīng zhōu yān ruò。\nmò chàng jiāng nán gǔ tiáo， yuàn yì nán zhāo， chǔ jiāng shěn pò。\nxūn fēng yàn rǔ， àn yǔ méi huáng， wǔ jìng zǎo lán lián mù。\nniàn qín lóu、 yě nǐ rén guī， yìng jiǎn chāng pǔ zì zhuó。\ndàn chàng wàng、 yī lǚ xīn chán， suí rén tiān jiǎo。",
+        pinyin: "pán sī xì wàn， qiǎo zhuàn chuí zān， yù yǐn gàn shā shuì jué。\nyín píng lù jǐng， cǎi yún chuāng， wǎng shì shào nián yī yuē。\nwèi dāng shí、 céng xiě liú qún， shāng xīn hóng xiāo tuì è。\nshǔ mèng guāng yīn jiàn lǎo， tīng zhōu yān ruò。\nmò chàng jiāng nán gǔ tiáo， yuàn yì nán zhāo， chǔ jiāng shěn pò。\nxūn fēng yàn rǔ， àn yǔ méi huáng， wǔ jìng zǎo lán lián mù。\nniàn qín lóu、 yě nǐ rén guī， yìng jiǎn chāng pǔ zì zhuó。\ndàn chàng wàng、 yī lǚ xīn chán， suí rén tiān jiǎo。",
         translation: "五彩丝系上手腕，巧巧的符篆垂在簪头，玉人在深色纱帐里睡醒，庭院井边、彩窗之前，少年往事依稀在目，为当年写在石榴裙上的诗句，如今红裙褪色让人伤心。不要唱江南的古调了，哀怨难把远去的魂魄招回，暖风里燕子育雏，梅雨昏沉，午间用兰汤沐浴，想她也剪着菖蒲独自饮酒盼我归去，只剩一弯新月，随人来到天边。",
       }
       ],

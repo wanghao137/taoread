@@ -63,7 +63,7 @@ export const huaMulan: PackBook = {
         {
           kind: 'poem',
           text: '昨夜见军帖，可汗大点兵，军书十二卷，卷卷有爷名。\n阿爷无大儿，木兰无长兄，愿为市鞍马，从此替爷征。\n东市买骏马，西市买鞍鞯，南市买辔头，北市买长鞭。',
-          pinyin: 'zuó yè jiàn jūn tiě, kè hán dà diǎn bīng, jūn shū shí èr juǎn, juǎn juǎn yǒu yé míng.\nā yé wú dà ér, mù lán wú zhǎng xiōng, yuàn wéi shì ān mǎ, cóng cǐ tì yé zhēng.\ndōng shì mǎi jùn mǎ, xī shì mǎi ān jiān, nán shì mǎi pèi tóu, běi shì mǎi cháng biān.',
+          pinyin: 'zuó yè jiàn jūn tiē, kè hán dà diǎn bīng, jūn shū shí èr juàn, juàn juàn yǒu yé míng.\nā yé wú dà ér, mù lán wú zhǎng xiōng, yuàn wèi shì ān mǎ, cóng cǐ tì yé zhēng.\ndōng shì mǎi jùn mǎ, xī shì mǎi ān jiān, nán shì mǎi pèi tóu, běi shì mǎi cháng biān.',
           translation: '昨晚看到征兵的文书，可汗正在大点兵，征兵名册十二卷，卷卷都有父亲的名字。父亲没有大儿子，木兰没有哥哥，她愿意去买马买鞍，从此替父亲去从军。东市买了骏马，西市买了鞍垫，南市买了马嚼子和缰绳，北市买了长马鞭。',
         },
         {
@@ -102,7 +102,7 @@ export const huaMulan: PackBook = {
         {
           kind: 'poem',
           text: '旦辞爷娘去，暮宿黄河边，不闻爷娘唤女声，但闻黄河流水鸣溅溅。\n旦辞黄河去，暮至黑山头，不闻爷娘唤女声，但闻燕山胡骑鸣啾啾。\n万里赴戎机，关山度若飞。朔气传金柝，寒光照铁衣。将军百战死，壮士十年归。',
-          pinyin: 'dàn cí yé niáng qù, mù sù huáng hé biān, bù wén yé niáng huàn nǚ shēng, dàn wén huáng hé liú shuǐ míng jiān jiān.\ndàn cí huáng hé qù, mù zhì hēi shān tóu, bù wén yé niáng huàn nǚ shēng, dàn wén yān shān hú qí míng jiū jiū.\nwàn lǐ fù róng jī, guān shān dù ruò fēi. shuò qì chuán jīn tuò, hán guāng zhào tiě yī. jiāng jūn bǎi zhàn sǐ, zhuàng shì shí nián guī.',
+          pinyin: 'dàn cí yé niáng qù, mù sù huáng hé biān, bù wén yé niáng huàn nǚ shēng, dàn wén huáng hé liú shuǐ míng jiān jiān.\ndàn cí huáng hé qù, mù zhì hēi shān tóu, bù wén yé niáng huàn nǚ shēng, dàn wén yān shān hú jì míng jiū jiū.\nwàn lǐ fù róng jī, guān shān dù ruò fēi. shuò qì chuán jīn tuò, hán guāng zhào tiě yī. jiāng jūn bǎi zhàn sǐ, zhuàng shì shí nián guī.',
           translation: '早上辞别父母走，晚上宿在黄河边，听不见父母喊女儿的声音，只听见黄河水哗哗地流。早上辞别黄河走，晚上到了黑山头，听不见父母喊女儿的声音，只听见燕山外胡人的战马嘶鸣。跋涉万里奔赴战场，穿过关隘山岭快如飞。北方的寒气里传来打更的木柝声，清冷的月光照在铁甲上。将军百战死在沙场，壮士们十年后才得归。',
         },
         {
@@ -128,7 +128,7 @@ export const huaMulan: PackBook = {
         },
         {
           kind: 'note',
-          text: '「戎机」指军机、战事。「朔气」是北方的寒气。「金柝」（jīn tuò）是军队里巡夜敲的木梆子。「胡骑」（hú qí）指胡人的骑兵。读「不闻爷娘唤女声」那几句，是不是能听见木兰心里的想家？诗里不说「她想家」，只写水声、马鸣，这就是厉害的写法。',
+          text: '「戎机」指军机、战事。「朔气」是北方的寒气。「金柝」（jīn tuò）是军队里巡夜敲的木梆子。「胡骑」（hú jì）指胡人的骑兵，「骑」在这里是名词，读第四声。读「不闻爷娘唤女声」那几句，是不是能听见木兰心里的想家？诗里不说「她想家」，只写水声、马鸣，这就是厉害的写法。',
           art: 'lamp-hint',
         },
       ],
