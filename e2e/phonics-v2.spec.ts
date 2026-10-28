@@ -79,7 +79,7 @@ for (const width of [390, 768]) test(`完整课堂、失败重试、续页与重
   await expect(page.getByRole('button', { name: '继续', exact: true })).toBeEnabled()
   await page.getByRole('button', { name: '继续', exact: true }).click()
   await page.getByRole('button', { name: '完成这一段' }).click()
-  await expect(page.getByText('今天试过了，也练过了')).toBeVisible()
+  await expect(page.getByText('这节课上完了，可以再读一遍')).toBeVisible()
   // 词光式五 Tab（docs/92）：小书在书房，进书房再读
   await page.getByRole('button', { name: '书房' }).click()
   await page.getByRole('button', { name: /打开小书/ }).click()

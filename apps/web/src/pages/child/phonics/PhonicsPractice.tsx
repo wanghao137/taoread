@@ -52,7 +52,8 @@ export function PracticeTab({ token, childId, atlas, blocked, autoStudy, onAutoS
   const lastAuto = useRef('')
   const audio = useRef<PhonicsAudio | null>(null)
   const words = atlas?.words ?? []
-  const eligible = words.filter(word => word.unlocked && word.text)
+  // 词光式：全部课程词按学习路线可学（服务端排程已按课序给出每日新词）
+  const eligible = words.filter(word => word.text)
   const targets = scope === 'wrong' ? eligible.filter(word => summary?.wrongWordIds.includes(word.id)) : scope === 'favorite' ? eligible.filter(word => word.favorite) : eligible
   const question = session?.questions[session.index]
   const word = words.find(item => item.id === question?.wordId)

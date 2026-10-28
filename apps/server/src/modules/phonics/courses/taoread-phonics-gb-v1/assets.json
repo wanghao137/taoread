@@ -761,7 +761,7 @@
     "extension": "webp",
     "durationMs": null,
     "speakerId": null,
-    "revision": 2,
+    "revision": 3,
     "sourceLicense": "AI-generated via agnes-image-2.5-flash for taoread phonics; teaching and rights review pending",
     "reviewStatus": "pending",
     "fixture": false
@@ -1277,11 +1277,11 @@
     "id": "w-at-meaning-image",
     "purpose": "image",
     "accent": "GB",
-    "sha256": "355a16dd886627ef72b95a1955c1c486b08c78d2a7807fbb3f414d67dcfcc64f",
+    "sha256": "984a9ce0a7cd389401742aad934774e0e58bb964db123200a94062cffd293f2b",
     "extension": "webp",
     "durationMs": null,
     "speakerId": null,
-    "revision": 2,
+    "revision": 5,
     "sourceLicense": "AI-generated via agnes-image-2.5-flash for taoread phonics; teaching and rights review pending",
     "reviewStatus": "pending",
     "fixture": false

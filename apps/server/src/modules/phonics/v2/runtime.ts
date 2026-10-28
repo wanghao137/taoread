@@ -80,7 +80,8 @@ export class PhonicsRuntime {
       const sidecar = this.sidecars.get(versionId!)
       const inSidecar = Boolean(sidecar && (
         (sidecar.usAudio?.assets ?? []).some(a => a.sha256 === hash) ||
-        (sidecar.lexicon?.entries ?? []).some(entry => entry.example.audio?.sha256 === hash)))
+        (sidecar.lexicon?.entries ?? []).some(entry => entry.example.audio?.sha256 === hash ||
+          entry.wordAudio?.uk?.sha256 === hash || entry.wordAudio?.us?.sha256 === hash)))
       if (!inSidecar || !this.selfUse(familyId, courseHash(course))) throw new AppError('媒体不存在', 'NOT_FOUND', 404)
     }
     const enrollment = await this.db.phonicsEnrollment.findFirst({ where: { courseVersionId: match[1], v2Enabled: true, child: { familyId } } })

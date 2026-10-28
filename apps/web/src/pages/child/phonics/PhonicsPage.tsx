@@ -2,14 +2,15 @@ import { uid } from '../../../lib/uid'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { IconArrowLeft, IconBookOpen, IconStar, IconSun, IconType, IconUser, IconVolume } from '../../../components/ui/icons'
-import type { PhonicsAttemptDto, PhonicsEventRequest, PhonicsLearningInput, PhonicsNextDto } from '@taoread/shared'
+import type { PhonicsAssetDto, PhonicsAttemptDto, PhonicsEventRequest, PhonicsLearningInput, PhonicsNextDto } from '@taoread/shared'
 import type { PhonicsAtlasDto, PhonicsAtlasWordDto } from '@taoread/shared'
+import { Dialog } from '../../../components/ui/Dialog'
 import { useSession } from '../../../stores/session'
 import { ApiError, API_BASE } from '../../../lib/api'
 import { audioPlayer } from '../../../lib/audioPlayer'
 import { tts } from '../../../lib/tts'
 import { phonicsApi } from './api'
-import type { PhonicsSummary } from './api'
+import type { PhonicsSummary, StudySchedule } from './api'
 import { PhonicsAudio } from './phonicsAudio'
 import { phonicsSfx } from './phonicsSfx'
 import { AtlasTab } from './PhonicsAtlas'
@@ -166,7 +167,7 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
           <button className="ph-ghost-btn min-h-[44px] min-w-[44px]" onClick={() => { engine.current?.stop(); navigate('/child/today') }}><IconArrowLeft size={20} />回到今天</button>
         </header>
         <main className="ph-body">
-          {tab === 'today' && <TodayTab next={next} atlas={atlas} summary={summary} busy={busy} failed={failed} attemptStatus={attempt?.status} onStart={() => void openNext()} onStudy={() => { setAutoStudy(true); switchTab('practice') }} onReload={() => { setError(''); void refresh().catch(e => setError(message(e))) }} showReload={Boolean(error) && !failed} />}
+          {tab === 'today' && <TodayTab token={token} childId={childId} next={next} atlas={atlas} summary={summary} busy={busy} failed={failed} attemptStatus={attempt?.status} onStart={() => void openNext()} onStudy={() => { setAutoStudy(true); switchTab('practice') }} onReload={() => { setError(''); void refresh().catch(e => setError(message(e))) }} showReload={Boolean(error) && !failed} />}
           {tab === 'atlas' && <AtlasTab atlas={atlas} blocked={busy || failed} onFavorite={setFavorite} />}
           {tab === 'shelf' && <ShelfTab token={token} childId={childId} atlas={atlas} versionOf={id => readerVersions[id]} blocked={busy || failed} nextBusy={next?.reason === 'continue'} onReread={startReader} onGoShelfStudy={() => switchTab('today')} onFavorite={setFavorite} />}
           {tab === 'practice' && <PracticeTab token={token} childId={childId} atlas={atlas} blocked={busy || failed} autoStudy={autoStudy} onAutoStudyHandled={() => setAutoStudy(false)} />}
@@ -190,38 +191,51 @@ const dateLine = () => {
   const week = ['日', '一', '二', '三', '四', '五', '六'][d.getDay()]
   return `${d.getMonth() + 1}月${d.getDate()}日 · 星期${week}`
 }
-function TodayTab({ next, atlas, summary, busy, failed, attemptStatus, onStart, onStudy, onReload, showReload }: {
+function TodayTab({ token, childId, next, atlas, summary, busy, failed, attemptStatus, onStart, onStudy, onReload, showReload }: {
+  token: string; childId: string
   next: PhonicsNextDto | null; atlas: PhonicsAtlasDto | null; summary: PhonicsSummary | null
   busy: boolean; failed: boolean; attemptStatus?: string
   onStart: () => void; onStudy: () => void; onReload: () => void; showReload: boolean
 }) {
-  const words = useMemo(() => atlas?.words.filter(w => w.unlocked) ?? [], [atlas])
+  const words = useMemo(() => atlas?.words.filter(w => w.text) ?? [], [atlas])
   const lessons = atlas?.lessons ?? []
   const completedLessons = lessons.filter(l => l.completed).length
-  const entryOrder = lessons.find(l => !l.completed && l.order >= Math.min(...(lessons.length ? lessons.map(x => x.order) : [0])))?.order ?? 0
-  const current = lessons.find(l => !l.completed && (l.order >= entryOrder || entryOrder === 0)) ?? null
+  const learned = words.filter(w => w.studyState === 'learning' || w.studyState === 'familiar').length
   const dailyWords = words.length ? words : (atlas?.words ?? []).slice(0, 5)
   const wordOfDay = dailyWords.length ? dailyWords[Math.floor(Date.now() / 86400000) % dailyWords.length] : null
   const week = weekStrip(summary?.practiceCalendar ?? [])
   const streak = streakOf(summary?.practiceCalendar ?? [])
+  const [schedule, setSchedule] = useState<StudySchedule | null>(null)
+  const [openLesson, setOpenLesson] = useState<string | null>(null)
+  useEffect(() => {
+    let live = true
+    void phonicsApi.studySchedule(token, childId).then(s => { if (live) setSchedule(s) }).catch(() => undefined)
+    return () => { live = false }
+  }, [token, childId])
+  const due = schedule?.dueWordIds.length ?? 0
+  const fresh = schedule?.newWordIds.length ?? 0
+  const lessonWords = useMemo(() => openLesson ? words.filter(w => w.lessonKey === openLesson) : [], [openLesson, words])
+  const openLessonDef = lessons.find(l => l.id === openLesson)
+  const stateLabel = (w: { studyState?: string }) => w.studyState === 'familiar' ? '较熟悉' : w.studyState === 'learning' ? '学习中' : '未学'
   return <>
     <p className="ph-date">{dateLine()}</p>
     <h2 className="ph-greeting">{greeting()}，今天也听听英语吧</h2>
-    <section className="ph-hero" aria-label="今日拼读">
-      <p className="phonics-kicker">今日学习</p>
-      <h3 className="ph-hero-title">{attemptStatus === 'completed' ? '今天试过了，也练过了' : next?.label ?? '正在找上次的进度…'}</h3>
-      <p className="ph-hero-hint">{next?.reason === 'continue' ? '上次的进度还留着，接着玩就行。' : next?.reason === 'spaced_review' ? '先复习学过的，再开新的。' : '预计几分钟，先听一听，再跟着做。'}</p>
+    <section className="ph-hero" aria-label="今日单词">
+      <p className="phonics-kicker">今日单词</p>
+      <h3 className="ph-hero-title">复习 {due} 个 · 新学 {fresh} 个</h3>
+      <p className="ph-hero-hint">看图片、听发音、记单词。每天几个，越学越多。</p>
       <div className="phonics-actions">
-        {next?.versionId && <button className="ph-cta min-h-[52px]" disabled={busy || failed} onClick={onStart}>{busy ? '正在准备…' : next.label}</button>}
+        <button className="ph-cta min-h-[52px]" disabled={busy || failed || (!due && !fresh)} onClick={onStudy}>{busy ? '正在准备…' : due ? '开始复习单词' : '开始学新单词'}</button>
         {showReload && <button className="ph-ghost-btn min-h-[44px]" disabled={busy} onClick={onReload}>重新加载</button>}
       </div>
     </section>
     <section className="ph-row" aria-label="学习进度">
-      <div className="ph-stat"><b>{words.length}</b><span>词已开放</span></div>
+      <div className="ph-stat"><b>{learned}</b><span>词在学</span></div>
       <div className="ph-stat"><b>{completedLessons}<i>/{lessons.length}</i></b><span>课上完</span></div>
       <div className="ph-stat"><b>{streak}</b><span>天连续</span></div>
     </section>
-    <section className="ph-today-study"><div><p className="phonics-kicker">单词学习</p><h3>看看图，认识单词</h3></div><button className="ph-ghost-btn min-h-[44px]" disabled={busy || failed || !words.length} onClick={onStudy}>开始单词学习</button></section>
+    <section className="ph-today-study" aria-label="拼读课堂"><div><p className="phonics-kicker">拼读课堂</p><h3>{attemptStatus === 'completed' ? '这节课上完了，可以再读一遍' : next?.label ?? '跟老师学拼读'}</h3></div>
+      <button className="ph-ghost-btn min-h-[44px]" disabled={busy || failed || !next?.versionId} onClick={onStart}>{attemptStatus === 'completed' ? `再上「${next?.label ?? ''}」` : next?.label ?? '去上课'}</button></section>
     <section className="ph-week" aria-label="这一周">
       <h3>这一周</h3>
       <div className="ph-week-strip">
@@ -230,19 +244,61 @@ function TodayTab({ next, atlas, summary, busy, failed, attemptStatus, onStart, 
     </section>
     {wordOfDay && <WordOfDayCard word={wordOfDay} />}
     <details className="ph-ladder-wrap">
-      <summary className="ph-ladder-toggle min-h-[44px]">学习路线 · {completedLessons}/{lessons.length} 课</summary>
+      <summary className="ph-ladder-toggle min-h-[44px]">学习路线 · {completedLessons}/{lessons.length} 课 · 点一课看单词</summary>
       <ol className="ph-ladder">
-        {lessons.map(l => {
-          const isCurrent = current?.id === l.id
-          return <li key={l.id} className={`ph-ladder-row${l.completed ? ' done' : ''}${isCurrent ? ' now' : ''}`}>
-            <span className="ph-ladder-mark" aria-hidden="true">{l.completed ? '✓' : isCurrent ? '▶' : '·'}</span>
-            <span className="ph-ladder-title">{l.titleZh}</span>
-            <span className="ph-ladder-meta">{l.wordCount} 词{l.readerCount ? ` · ${l.readerCount} 本小书` : ''}</span>
+        {lessons.map((l, i) => {
+          const prev = lessons[i - 1]
+          const isCurrent = !l.completed && (!prev || prev.completed)
+          return <li key={l.id}>
+            <button className={`ph-ladder-row min-h-[44px]${l.completed ? ' done' : ''}${isCurrent ? ' now' : ''}`} onClick={() => setOpenLesson(l.id)}>
+              <span className="ph-ladder-mark" aria-hidden="true">{l.completed ? '✓' : isCurrent ? '▶' : '·'}</span>
+              <span className="ph-ladder-title">{l.titleZh}</span>
+              <span className="ph-ladder-meta">{l.wordCount} 词{l.readerCount ? ` · ${l.readerCount} 本书` : ''}</span>
+            </button>
           </li>
         })}
       </ol>
     </details>
+    {openLesson && <Dialog label={`${openLessonDef?.titleZh ?? '课次'}的单词`} onClose={() => setOpenLesson(null)}>
+      <div className="phonics-sheet"><div className="phonics-top"><h2 className="phonics-heading">{openLessonDef?.titleZh}</h2><button className="sticker-btn" onClick={() => setOpenLesson(null)}>收起来</button></div>
+        <p className="phonics-hint">点单词听发音。这些词都会出现在每天的学习里。</p>
+        <div className="ph-atlas-grid list">
+          {lessonWords.map(w => <WordListRow key={w.id} word={w} />)}
+        </div>
+      </div>
+    </Dialog>}
   </>
+}
+
+function WordListRow({ word }: { word: PhonicsAtlasWordDto }) {
+  const [playing, setPlaying] = useState<string | null>(null)
+  const [error, setError] = useState('')
+  const engine = useRef<PhonicsAudio | null>(null)
+  useEffect(() => {
+    const e = new PhonicsAudio()
+    engine.current = e
+    let live = true
+    const audios = [word.audios.find(a => a.purpose === 'word' && a.accent === 'GB'), word.audios.find(a => a.purpose === 'word' && a.accent === 'US'), word.audios.find(a => a.purpose === 'word' && !a.accent)].filter((a): a is PhonicsAssetDto => Boolean(a?.url))
+    e.prepare(audios.map(a => ({ ...a, url: a.url ? absolute(a.url) : null }))).catch(err => { if (live) setError(err instanceof Error ? err.message : '声音没准备好') })
+    return () => { live = false; e.dispose(); engine.current = null }
+  }, [word])
+  async function play(audio: PhonicsAssetDto | undefined, accent: 'GB' | 'US') {
+    if (!audio?.url || !engine.current || playing) return
+    setPlaying(accent); setError('')
+    try { await engine.current.play([audio.id]) } catch { setError('再点一次试试') } finally { setPlaying(null) }
+  }
+  const uk = word.audios.find(a => a.purpose === 'word' && a.accent === 'GB')
+  const us = word.audios.find(a => a.purpose === 'word' && a.accent === 'US')
+  const mimo = word.audios.find(a => a.purpose === 'word' && !a.accent)
+  return <div className="ph-star-card list-row">
+    {word.image?.url ? <img src={absolute(word.image.url)} alt="" loading="lazy" /> : <span className="ph-star-placeholder" aria-hidden="true">Aa</span>}
+    <span className="ph-card-copy"><b lang="en-GB">{word.text}</b><span>{word.meaningZh}</span><small>{word.studyState === 'familiar' ? '较熟悉' : word.studyState === 'learning' ? '学习中' : '未学'}</small></span>
+    <span className="ph-row-play">
+      <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="英式发音" aria-label={`${word.text} 英式发音`} disabled={Boolean(playing) || !(uk ?? mimo)?.url} onClick={() => void play(uk ?? mimo, 'GB')}><IconVolume size={20} /><i className="ph-accent-tag">英</i></button>
+      {us && <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="美式发音" aria-label={`${word.text} 美式发音`} disabled={playing === 'US'} onClick={() => void play(us, 'US')}><IconVolume size={20} /><i className="ph-accent-tag">美</i></button>}
+    </span>
+    {error && <small role="alert">{error}</small>}
+  </div>
 }
 
 /** 今日一词：每天从已解锁词里固定挑一个，点图听音。 */

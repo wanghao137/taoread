@@ -1,10 +1,10 @@
 {
  "schemaVersion": 1,
  "courseVersionId": "taoread-phonics-gb-v1",
- "courseContentHash": "ace3e04309c7a398474f4621bc4b06b3573856902ca3ba6bc34e9822623d1597",
+ "courseContentHash": "8724e4e5d9bc462d06766caae80b494c071639effafde86d4572762a8ec9298c",
  "humanReviewed": false,
  "reviewStatus": "pending",
- "generatedAt": "2026-10-28T07:38:47.375Z",
+ "generatedAt": "2026-10-28T10:04:26.529Z",
  "sources": {
   "word-atlas": {
    "attribution": "Word Atlas contributors",
@@ -23,7 +23,7 @@
   "entries": 137,
   "wordAtlas": 116,
   "taoreadOriginal": 21,
-  "exampleAudio": 116
+  "exampleAudio": 348
  },
  "entries": [
   {
@@ -111,6 +111,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "5a05eaba4e2bb2ee35732a775c763bff6f1c770899a97bed63c1bd712c6e0025",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c3cd00fb0562586446ceb689a7819ed12b99eef3543711b8d4188396d9c7cc07",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "pat someone on the back｜轻拍某人的背",
     "give someone a pat｜轻拍某人"
@@ -146,6 +160,20 @@
      "durationMs": 2795,
      "bytes": 22403,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "f5edb1efe95ac74d8498b59c54814a04ef18dc2bb14fabc3ba43c826ab44978b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "44e55ba1850e9022dc8142c5c5a5725a0697e7aa542fa85aebc5e7d22749c481",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -185,6 +213,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "f7586a900ee8a27298de8a6d7637596426f6b6bd0c78e5dfd6abaec2265b117d",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "de1ffe893c8fb02b8050ddcf43f0317775989c2b41b92932e2f53672f230032e",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "it depends｜视情况而定",
     "it seems that｜似乎"
@@ -220,6 +262,20 @@
      "durationMs": 2534,
      "bytes": 20314,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "119fa5a198f4c14b177f74b00ce706782cca4c9b6d625341e704fb02a2d5a961",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9c745daa86274231719b514704959f4e3bf09e65f5190b9cce028b36c45a572f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -293,6 +349,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "7f08e4f7aa7f874dc89d23a06eb2dfca1fe022c18bc078122a5df836f39380c1",
+     "durationMs": 627,
+     "bytes": 5058,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "82f6e3b152250a6d1f4d9d39c67f261deb47b2ff78208116d00bc81d670248fc",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a useful tip｜实用建议",
     "the tip of the tongue｜舌尖"
@@ -330,6 +400,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "1ace4737f4126c8a2f92b6afb85314b9ea76d2beb71c80266515c079d142c067",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9022b20d0ec1eac9dc314d3fdbf45a526f7d90b80cbdfd5563193a159c8f7255",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "in advance｜提前",
     "in the morning｜在早上"
@@ -365,6 +449,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "6feeeed83983d665b3c070db4c9184ed3989c41b18ca0a1f78d27d7b44ddc6ce",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c16d3e381d913d1509c3ce8b67a44f7c254a6645b55855f2da34d3e91f0c420b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -406,6 +504,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "394c8f6aa282006d833bc28a6dd19ddcb6ca3e0fd6f425dc0f0be3426f6eac0e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "deceb62d1f696f543eaef137a5e9da11d9514ed28715fff96fb49f497dae58af",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "take a nap｜小睡一下",
     "an afternoon nap｜午后小睡"
@@ -445,6 +557,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "03a1623d69abcf72f53da9d3d4e4f574ee710b7059d91ab9c408101af0367003",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "5b726cea2cb12ddead9dba50666ee77fb3cd2700e402cc2dc4b6809dd8a51933",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "frying pan｜煎锅",
     "baking pan｜烤盘"
@@ -480,6 +606,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "76a6fbafb36c1b7a9cd182c9d54f371c66f75379a0c0d3e1f3a6af595edb861b",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "a17ef89f2d0a5b37c452a5ca15d7b27ec0cb1e934c1b8b2b0fd0f9bcae79af6b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -522,6 +662,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "016f84518c6dfa5bc905177489761f29fad927f407f3f1061f2377f7409c36ee",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2417b0331bce61dd4bfe503b61cdea9ec6219a0d8d34e99fdea3a4da0da99fd3",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "read a map｜看地图",
     "street map｜街道地图"
@@ -559,6 +713,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "fc3214c26cdb6dc9c1207329cd45cae3f3fe89f1fd04e5200e36bd619580cd83",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "3a0d984285e8cfac7cba6a397bb1eb7bb30006d181552096aac163bf09d4f3a9",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -680,6 +848,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "fd8d066f9cde7a349cd6050bb0a59ce665b2ffe3f4a71236c059c64e98f3a8dd",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "11d7745ffe2d0772d4396d953e71d6cbb7663418e2a8fc55235313f865b9b43a",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "dip into water｜浸入水中",
     "a dip in sales｜销量的短暂下降"
@@ -717,6 +899,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "29828299dd213fbe0d047567df7d411360ec8c7e5b06662dc0af7fbdacab620f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d2a4b83aaf31d32e1e1f975bc39dc4f65c2b95ca7aad9790c924e5cbc34dc909",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "dig a hole｜挖坑",
     "dig up｜挖出"
@@ -749,6 +945,20 @@
      "durationMs": 3422,
      "bytes": 27419,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "1f180c0be0d962b664217d607fef5b1daa7760926c2cbc2d7d22ff660c66e0e1",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "8b8db2cfffc55e5588c0bc80b31726a7d66b2a22a0a631613948b21c7fcabf3e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -790,6 +1000,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "31c78137871560aa74c0bfad15ee616534124dd8ca66356a73a141d7f5dbed7b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6155ee6d3569bc80ec64e325dda36d17f9a4241662351fbb9bf9d2d75b7f2f5d",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a gap in the fence｜篱笆上的缺口",
     "narrow the gap｜缩小差距"
@@ -829,6 +1053,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e01db2b8c1d01f8ded694a5585cdd470bc4d97fde2839779868955506dd44dbc",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "e5f5ec1ab98574cf238c063eac3f526bc4f25bd47189c9255eda2b2cf1f67932",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "walk the dog｜遛狗",
     "a guide dog｜导盲犬"
@@ -864,6 +1102,20 @@
      "durationMs": 3265,
      "bytes": 26165,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e94b67855a6e404c259cc614fc569aa3a0f1f6de47a0b1cd4ef3ed3c9faf9b23",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "5b67094878bc234f65879246114199bb170740cc0fe50bc853a25ca6f58d40d4",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -905,6 +1157,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "b4139ebfa4e40d699b52bd5c43ec3f843ab8b7956148560eac7e36fbf8eb5b3e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "a1d2df5bb3a32e78ef74de315293764cf55f7d0e8dbffc8e31810bef47337c20",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a pot of soup｜一锅汤",
     "a plant pot｜花盆"
@@ -940,6 +1206,20 @@
      "durationMs": 2717,
      "bytes": 21776,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "6a6c49ce66e1c8b35c925a1ef0a1a75437983d27e9a8b76f9a0884c7a644d9a7",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d38e8cf60d192c3e2fab6a693a22056653df9c553ac9b73b13079c287a20094e",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -979,6 +1259,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "ef2fc60af2eed8a1dc6ae009bf48cb984bc7c0515a57fb5ef85d7111b9103085",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c6d6c6b2f59b5236299b938e0d0301282bf9e0868af858304fa1f64fda257511",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a pet cat｜宠物猫",
     "a stray cat｜流浪猫"
@@ -1014,6 +1308,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "4d769ec70bd5b6430877a766de7a872ee4f3dc852eae42225d2c37a51c5de0ec",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "3e8d19f16fff26dfac8ab5593d0285f4fd4ad419ba178e0f10e2986f261969dd",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1053,6 +1361,20 @@
      "durationMs": 2795,
      "bytes": 22403,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "7e9f1177066d63ffcb2a7618933fc7f54151ac8be3ecedafebf957cd5c976d86",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "971ab4b553becc1a886c367661e754f5dee88750bfb4ae3f58a4db85a3707a95",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1095,6 +1417,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "fae172876782d30bd05b670e6acbeb90c9b78ba58b998d8ad2d904b5b6b54ff5",
+     "durationMs": 705,
+     "bytes": 5685,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "ac9c09f5c46c4d2f861271a91116bae6e187103d65a0dc489db07aba7f59d4f4",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "young kids｜年幼的孩子",
     "just kidding｜只是开玩笑"
@@ -1134,6 +1470,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "9e955b030f50651dfb841d324a5dadbc684ad1d17f81ae8eb426971ff3f1d906",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "1ff4e6f49b985593eb21e56ae84bff2f448b2bda623c292d4500d11da19cdc55",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "first aid kit｜急救包",
     "tool kit｜成套工具"
@@ -1171,6 +1521,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "7a8bba1ac189fd1391db6adf7ce25378367ad008dbf5954b4b3f84767fae7247",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "3582cd047708e9ce15058344a8ddecfa811e9a0ee8aee893039e4903e419b389",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "ballpoint pen｜圆珠笔",
     "fountain pen｜钢笔"
@@ -1206,6 +1570,20 @@
      "durationMs": 3500,
      "bytes": 28046,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "b3385422455740624fe416f7265fface709a95e2e37640bf4c6f8e8ec21173e3",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "060314658921ed31eaafb016832ec3bf354b4793bf4db73682837474f75def68",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1247,6 +1625,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d1ef4fc8966d7f41da86dac8aaaf92575f799183bf003cf91db6d1189b65c3cc",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "0a121061a79391e9fd21864fcf5d61b6684b95566f63ed301751b4bdc13ec699",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "fishing net｜渔网",
     "net profit｜净利润"
@@ -1284,6 +1676,20 @@
      "durationMs": 2873,
      "bytes": 23030,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "4624787428377e8ce1df3d162d0a1b3e30f98d57411ccb72571dedc2e583ce6e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "b749d8e42e4b4fb0bd65cb3ef74afb3e0d07c42a44889910484158a228a810e4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1327,6 +1733,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d430ab720d5fdb7f6f9472ca8ac20468e8b51c9ed9bdbfac3772a485f3fbba7d",
+     "durationMs": 705,
+     "bytes": 5685,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "863dd27565b1efe87e741d12a76bf1b3f6b322ddd0091a0fa5625c99dfafb8f3",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a cup of tea｜一杯茶",
     "a reusable cup｜可重复使用的杯子"
@@ -1359,6 +1779,20 @@
      "durationMs": 3187,
      "bytes": 25538,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "93fe443d52081cab9c4b6e41fa330ee6457b30787fb53f06a141eecc2c63361a",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "082306c3fc32bc0afaa28a37e94d28c0c1c1eaa4ebf5db282f15445c166cb4d2",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1428,6 +1862,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "44d708841578f096df2ff3e94b264dc12c398c6655211f60463e4b8a3be43ca9",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "97de206b891b23c8e2eb444b6576071ac9a434d621fd82438df5479b8b7cd1b0",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "run a business｜经营企业",
     "run a programme｜开展项目"
@@ -1461,6 +1909,20 @@
      "durationMs": 3344,
      "bytes": 26792,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "8173c6becd97c5e8ed33417d541655b518cd2d876f59c3f52468c659cf76d389",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "54e5083029c34e0aa437004ce318e59b000793f209dbb72b08dfce39a900ef58",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1500,6 +1962,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "34ffffd1e309d14151bea32a3fe07209a0be363ab01da1037a1d89ae1bde2cbc",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "7debee3ec335114a227bb8bc4c73580cba7d3699d020170b2bb6129941d224f2",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "bright red｜鲜红色",
     "turn red｜变红；脸红"
@@ -1534,6 +2010,20 @@
      "durationMs": 3108,
      "bytes": 24911,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "848b1cc3897f74f48ce62ecc67e2a5c540a57c82b0fe823da55b8dc8a73a4189",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "46ce7db79845599587253097dc70d4b7c54d200ae8648c2850a6bb46c9a9b6a7",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1603,6 +2093,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "5714ff508cb7cfab994f38613146438dbcf3f8133e9bf5b873a8094f5f14d19f",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "56f693b5735342e8a51eccc4efb227c896d58b19d1e33aa2989a6d12c78b5b96",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "hop on one foot｜单脚跳",
     "hop on a bus｜迅速上公交车"
@@ -1668,6 +2172,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "26e97a71bf9195d3a7e7a891412dda5cde119322637b27fd2b14b680da255e4a",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6751111bc161b3d87683080651591a39291bc097184e5a821735a78265b3f626",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a shopping bag｜购物袋",
     "a reusable bag｜可重复使用的袋子"
@@ -1705,6 +2223,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c1f7f54a49264220500cfd06944963749c6cb06de3bb61f1f99ca5571a52d7a3",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "a64db66fcb76c0b0e5e9cefd315fa27278e5b4d7933ae7f967b4cadc02a56ada",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1748,6 +2280,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "2530df9844b762e12f3b608bbf961d8b06b9f0974709b1f8baa51b969cfb52c9",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "70cf870189c4c5b2701e9facfeaa9e9230f51420b6d8f339bbf29959c4200988",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "catch a bus｜赶上公交车",
     "bus stop｜公交车站"
@@ -1785,6 +2331,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "fa2ee40a065fc3fb943063f3e9252f7a589666fb408af2ac135ae636c77fe351",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "726f10fe79a2eca1a7f18146dc166dd4327a08848e505121ef6e2b3547b31f66",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a fan of｜……的爱好者",
     "football fan｜足球迷"
@@ -1820,6 +2380,20 @@
      "durationMs": 3108,
      "bytes": 24911,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "cad7113c96041b5f31949af76f148704547347733de7f47e9d77c47ab45c4931",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "f9fdf9e5b118c85b9c89f46cd753f80516f9d08188f7d76b68cd3e77cce73b32",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1861,6 +2435,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e8f990364065b095e67ed9179cef5d5ad1019ba870fdf34f70d1a0c53ff16f34",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "fd1ff6109e1cecdb656e462f2c66bbdc26d3a9f27f89990ceb371c06fa288e41",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "have fun｜玩得开心",
     "for fun｜为了好玩"
@@ -1896,6 +2484,20 @@
      "durationMs": 3500,
      "bytes": 28046,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "cbc389bd93f4822f76a395d3d2d9ced188dff8d4b4346dc415ee879bed2ea31c",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "7526ad76cf07ed2cbe68701fba446430385d4491199a679257f2a34c09034fa3",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -1938,6 +2540,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "20a8d70dd52e032cc7f351149c1753fd6309e2c2e70534728f9241423e574097",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9699242babe397caa38f0168f6e0bf2e54e072e38a1b64926b45df94fc2263ff",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "upper lip｜上嘴唇",
     "dry lips｜干燥的嘴唇"
@@ -1976,6 +2592,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "1d5be65b685f4bb3f4ea1e00223e63bf9cb999be4da65bef6404a34ef13ff38a",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d89b6a80ed90e06cae56dad67f917ad9ea797c23854f81784bf52816978224c4",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2018,6 +2648,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "3488bcb6b22bff44ee76964cf2564ad7dfd2e6ee928b8a3a517d306f9366f1b5",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2bb90afe34a8be3322f06ae9da082c556b6fb14430b0faa1b1f0506de99cdd05",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "strawberry jam｜草莓酱",
     "traffic jam｜交通堵塞"
@@ -2057,6 +2701,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c1d552596326c9b4cecc90f61d7459a6486639be32f32e327953fa338d42cecb",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2fb6a5dcd656ba2e5929d0e5a13ad701d53493a88c87800638a3dde8ea7cf697",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "passenger jet｜喷气式客机",
     "jet engine｜喷气发动机"
@@ -2094,6 +2752,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "565b3840fbfc89b6de71c99b091030b1b05c8dac96168a29402418793800c332",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d7e8b025d3e6a9aa44287f8f6f88d5d26b76b084ee0cef81ad9dd8a17ec86533",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "go for a jog｜去慢跑",
     "jog along｜沿着……慢跑"
@@ -2127,6 +2799,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "f4a673fe24362b2193a031407db885d839595a7813ffd8a54e276630cfa993b6",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "7e4cab2b719cfe3dae2b34a9f8171395be722a7ac95e01075b0f6b27edd65290",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2164,6 +2850,20 @@
      "durationMs": 3579,
      "bytes": 28673,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "efc08a56cd1d50d39ed4ec1ffcdf60cc3bbc10c7001f85077d79677e3bf956e3",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "7c9d286a2ea113232db289870f8699f35ffa6abfd6adfa0ca216396d6bbe2929",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2207,6 +2907,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "905874602dca4b516d77acb08b9518be6cb98e522215f4720117cc90bb210caa",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "f8dd5ed0cb0404564769fc1fbfb9dbc1e4ba89dcd22365bf8c0c16a9807741cc",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "get wet｜变湿",
     "wet weather｜阴雨天气"
@@ -2244,6 +2958,20 @@
      "durationMs": 2717,
      "bytes": 21776,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "2df44170d449831b9d6bd42e323b010d684ca49afc7bd7a954bf78340c5ca67b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c65592541f9c5a1e319f4e8d5c8d9b0575577857bd3ea0732555f66795c18b16",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2417,6 +3145,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "152ed6ee5e3249ba25295703fd034b88bafba7a15bac4b7d45b08d841385a0e7",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6fcbecb043c00548fad66d2edb649cc24bc48ea1854661f3662d7ae857ad053a",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "cardboard box｜纸箱",
     "a box of chocolates｜一盒巧克力"
@@ -2456,6 +3198,20 @@
      "durationMs": 3265,
      "bytes": 26165,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "1df048d486f4c1e9993fae725b445650acb5e11c99b5173408166b9f902a4203",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "0d72a85c9be8c35eb5e60e97e829c4d386b64b435584ad8fb082e4acdd95a603",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2517,6 +3273,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "70459c9636bae37c6142c2db138cb3407ae47fd571d4e1bf2e44e38fca64d8c1",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "b6118808e378f322757e75cb47fcabc855b6dbc776744d2c9f6475a30b83d25f",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2582,6 +3352,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "1d7939124667e6aa55f3a8a05f8d5e780e1800da3d92d439eeca02eb7b7365e5",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d5c244029005a01cc1064c271bcc40ec900603031a02a6f933ffcc92ba624b1b",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "turn off｜关掉",
     "take off｜起飞；脱下"
@@ -2619,6 +3403,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d33ff739db35968ce9544d4ae1d35315e49cc2996497aeb365e1342db1252672",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2eea4764cd9d855a1f2d927dd21de752d87c74a66fb7f469f8fc5fab19112bd6",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "ring a bell｜摇铃；敲钟",
     "door bell｜门铃"
@@ -2651,6 +3449,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "44884881849ef822cbc43573f46c2b2ff35dadaab0346bc86a05d8f185530718",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "07f3555ca071ba9672db66dcfd7891ddb31bf6767bdd36be28a1e0b65cac4fff",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a rag doll｜布娃娃",
     "play with dolls｜玩玩偶"
@@ -2681,6 +3493,20 @@
      "durationMs": 2873,
      "bytes": 23030,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "740001d5a6fb208501213b137ee9280e5f6fdab25af4cb879e68f9d51b6e0a93",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "079f3917043359b8d93dc3a8900b835d217e8e38fc9f137e053cc17477517c96",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2718,6 +3544,20 @@
      "durationMs": 3814,
      "bytes": 30554,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "b5f28a45b8f4bc42ca7488672e0e9a7250ddb5226607a2610142708173ef5f40",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "752cd534584dd447479aa48f354f997e57e4a3ad8024bbe68c93341ea1f57c7b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2759,6 +3599,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e7dca14c8ce76fae216e5fb5fa24dcc20dae071b0c2bbd521babf767417ab410",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "030b34c84d956273ef6845f7f8787efe917e2a76c480fc19796ea6f3e70d21f5",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "kick a ball｜踢球",
     "kick a habit｜戒掉习惯"
@@ -2796,6 +3650,20 @@
      "durationMs": 3422,
      "bytes": 27419,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "a6b23a602e1a668daf0c2a86f5854fd49a89ee9afeb1ec75ad82d86a5eba039e",
+     "durationMs": 705,
+     "bytes": 5685,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "bd06144707d9316a1e97fac57f0dd69fb71e87d4136aef40a713cc57c51a5459",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2839,6 +3707,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c27f40f31ff42684c89911f006566d25dfeec2d202221243e795d3a04486ea17",
+     "durationMs": 705,
+     "bytes": 5685,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "414c7033a1e669069ead702a3efcba9bbb3852a9abbdea93d61d0234743ed559",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "local shop｜本地商店",
     "shop window｜商店橱窗"
@@ -2878,6 +3760,20 @@
      "durationMs": 3579,
      "bytes": 28673,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "2e0ec08014c414fe197ccd04d45a50fabee03b639a67e5d9f5d3d45acd8f1d6f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c6e6346e9b43ff4acc2cb3ec8dea9f944b236eafc06258f0049a510413ceadf7",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2920,6 +3816,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "b14751e2c8160d30cd0ded0b3a2ed39edd85698427d6208a1dfdc9f5e4eaf62d",
+     "durationMs": 627,
+     "bytes": 5058,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6244ce91e925eb5c3fc75d184ea613967d9f558ff1c740e87f5c68f465c527cb",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "computer chip｜计算机芯片",
     "silicon chip｜硅芯片"
@@ -2952,6 +3862,20 @@
      "durationMs": 3265,
      "bytes": 26165,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "907864e23508cc09d87b8cb694b44e00471c8a5116657fd8f902c810df22231d",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "df639bca31cb6f3607bad1d49338209fc6941f88427a44c5221e288040586b73",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -2991,6 +3915,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "5b4ecdd9abb5ee2fb4f710d4e1b185c05e73c94cacbeedb4ba59859b6a85f1ec",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "e17d9f68df94f3cc1208710c162807f6dfb24a7f6d064cfaeded0e50772ebfb3",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "chat with friends｜和朋友聊天",
     "chat about work｜聊工作"
@@ -3028,6 +3966,20 @@
      "durationMs": 3500,
      "bytes": 28046,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c8455e89c040b16eb00f3730fdd4295b6afe6f6c73e4f48f4989fc4888fa5623",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "86754e9ee9520781b2113daa76d3ef04bababe2e974b45049b0ac6962004a6ae",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3096,6 +4048,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "7eb7a544898e2bb4c53aa25302a09cb8f209741828984be4ce3dca34b67164ce",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "fad7053351b930f7d99213611643c728461e99c8baff0bdcacda8de648b598ba",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "have a bath｜洗澡",
     "take a bath｜洗澡"
@@ -3134,6 +4100,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "2d77af93884f6150bd0d419ffdc95f225fc456cdc3cbf0f9fbf6dd644f37ceb0",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "eed79f47a88a7d6ceb7dfe466fa413b6fb46c2e9d9aa957b8948011faf65b8df",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3175,6 +4155,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "480f85f7aff9d1e11abec1038fd540832806065c47163fa3b2da6cefa85e4b78",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "dc0138df610630533d19524ea4ec804996e495c04a80b484ee63411ccff05372",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "spread your wings｜展开翅膀；拓展自我",
     "aircraft wing｜飞机机翼"
@@ -3212,6 +4206,20 @@
      "durationMs": 3344,
      "bytes": 26792,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "13e21f7e1e223c66509553d1a947b899e80d512b2170a98dec3e0792a965dc56",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "b5c65a3b9ddcb0afa81c4f8a727163da69d48f04bf7c10b1b88ef0566b3aa6e8",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3254,6 +4262,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "55c5ed866e19805c3f0031455d799c1e9f52a0c119fe9b6de99c23e0563f5449",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2da7836f87c81435550b91ca9b90d53a8403cc2b5aba1db66e3128ce8ba3799b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a slice of cake｜一片蛋糕",
     "bake a cake｜烤蛋糕"
@@ -3289,6 +4311,20 @@
      "durationMs": 2534,
      "bytes": 20314,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d52fa3dbc41e544d2de1e956cf215649bcaa7c53e4c7c6404595da9d1d53e1cb",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "47764e780542fc2126656640b0592ffcfeaeae3b29a521677f832c42e0bd95f3",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3331,6 +4367,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "05964c5975c36e6bf0418d6b3a4c728647f7279fd7421f8555d4ceb4b3b406d0",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "82b6d58b2011f950173a883d85a6e7a38314732829e792200cff6556c1bc5ef4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "board game｜桌游",
     "team game｜团队运动"
@@ -3371,6 +4421,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "a841e38ebd1b642a2d8348c03d704578e54c1ed3a32820be48581826301d8423",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "ef28324768dfa5a3dee64b501af9a303d451b59a0c3b1f0f065135b6f2ce7759",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "ride a bike｜骑自行车",
     "by bike｜骑自行车"
@@ -3409,6 +4473,20 @@
      "durationMs": 3265,
      "bytes": 26165,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "689f413aacdcfcaf544632ba658bd31f2593e6b11f34511a222fa61b1584fe9f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "03faf3436d36757e1ec5e17ae05130fa74d4e52691d5b59184f2ae9cb7cc351f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3474,6 +4552,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "33c1e14a2a8bc9e76c5dd871d37ee43e6685faf414ac3ef46c9f9d80c0a04ba8",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "40d9e9623608c5d79781eda2143b92f8de38e5c15248f6bc8c3535e0e8bea905",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "feel at home｜感到自在",
     "return home｜回家"
@@ -3515,6 +4607,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "cab6547e14aa79d3761930fd0f67607d1692a2115f6fbaffac0840aba53d8a9a",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "8908132140ff01a617f95ae84ac5251c1face1d719db7a002985fc0611228e1b",
+     "durationMs": 1097,
+     "bytes": 8820,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "blow your nose｜擤鼻涕",
     "a runny nose｜流鼻涕"
@@ -3554,6 +4660,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "058f2e44240a1446a226915fe24b1ef879f8b839f8e8e67f4a39e173e55e1051",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6ea696caa8b2529d9a339309f275bd3c99381e346d56ba6390d67f48ca444c21",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "use public transport｜使用公共交通",
     "make use of｜利用"
@@ -3588,6 +4708,20 @@
      "durationMs": 3344,
      "bytes": 26792,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "84e1cbd927df1a5a154230fc9b98497e62d845cade1bc910b775bc80ef2166ca",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c256d6f5daf8dc95c6137fed51f7b7b8cfd31edb583f42513fa14384e3b85727",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3630,6 +4764,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "58c3548135067ad27e5d7de49b0a369759d3d4cf946b7a488517dbc3458cbde8",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "993458f0f99bc9248f8b828ddde801dacc6f1ba97c34eafc42e2eeea7b131084",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "heavy rain｜大雨",
     "pouring rain｜倾盆大雨"
@@ -3668,6 +4816,20 @@
      "durationMs": 2873,
      "bytes": 23030,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c38c2f5a2f43c42d1fd1ff3ce5f77ddbcf848572e9f8777ad8bc080cf9474041",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c8801bb1fb2bd8f47b5ee195554133672a90eee689022c0c0ed43dd74bf9524f",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3709,6 +4871,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "21238e37f121d8c27d7b8ec4c4e6cfa1fb68201f0b72a9e451644da0a73cb48e",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "fd99f4187a599cabab3988b86a0aff4ea5b0a797327694c9cd5f5927d12f6294",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "wait for someone｜等某人",
     "wait patiently｜耐心等待"
@@ -3746,6 +4922,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "ad29e52d5d901fc417e0b273397b6dca73e3f9c9238d218286950804eefff511",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "1ba0a8c866ffcdd03bf95707a7f9f67d4f580c754a5c1e59ae1e481bfbf42672",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3789,6 +4979,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c67a3fb0e801ce7d7072409cc1eaf17de9d2125834699435d932583ebda658b3",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2e0f97f4bd09ef51b9c058ca04c7a9a2d6e2c45c17ea9f9c70a8b67e09d482a1",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "every day｜每天",
     "during the day｜在白天"
@@ -3823,6 +5027,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "68c4255c7a4c5e9dcc66cf4627db423c181f75678f29495a66caca4555253bc8",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9952f90f6fb69010adfd5961278727376817acca04f91f2241ae9f083d19dd2e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3860,6 +5078,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d1eba3725cb95e1ba0030a49ac34a7cb52398f8cb40f066d22f1aed74308bc71",
+     "durationMs": 1097,
+     "bytes": 8820,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d0f6aa7f722dbbd17f91099c58d26372339260d753c47d04110db78e5ccfdf31",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -3929,6 +5161,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "ebe38cc11bcd58066e3b491412c5b7ddc372df975d51ea16db6e211a246c77e4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "803872199e5af837ca0a8aeb614839d52a2f62e2a9ce656f0621ed67019e6138",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "by the sea｜在海边",
     "at sea｜在海上"
@@ -3970,6 +5216,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "f22f8cef95a405890a193aa2c7c13aa3f724271433caa12a9f6c943db35a64a4",
+     "durationMs": 705,
+     "bytes": 5685,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6e36f891c3862f32154a154377092e5bf0759a28cfb3ec24473847a59b03f96b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a cup of tea｜一杯茶",
     "make tea｜泡茶"
@@ -4000,6 +5260,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "466b0a0f6b41adfddcc57f01ed3ff5b7d319dc30c49a1f6a03609b9f0e52cf3a",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d628252102dfd5e7f4d4cacbdb6fa821e9c6932786adf1a4ad6f9a1896d58621",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4041,6 +5315,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "7b75a9f39fcf06a05ce4f0e39875e0790e098277b0125559d74a59f08ff10642",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "f815aec7aaf922873f300f4f9403f7dd2de832d1ad988c9aa01d5c8e7bb164a4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "winter coat｜冬季外套",
     "a coat of paint｜一层油漆"
@@ -4078,6 +5366,20 @@
      "durationMs": 2795,
      "bytes": 22403,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "a86f1379dce9886b3fbd0b92fd1c56c652a1c3acd05711d925bf007279276eb9",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c031567afef2f8e870078efea24ecd1169307a80b4ada1a3a87212d203d873b7",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4120,6 +5422,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d817f508afb2f250dc5e2586558f766d3812b79d40d0b8ece7c279c7280c565a",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "2d066e4c8f674925728734f31fb4868858a48194087bfe6a2538c3b8c0d35c48",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "heavy snow｜大雪",
     "fresh snow｜新下的雪"
@@ -4160,6 +5476,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e9a8a4cd67c57082a714c4b01f58935e6f9ecc2130d9e30570229d79c52c316a",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "f5741caab1f5b3f74e268bec98acafc102617c4af9fbb9fa33c829034040c884",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "full moon｜满月",
     "crescent moon｜新月；月牙"
@@ -4193,6 +5523,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "5c183531064e3550d376bc41b4533dacc8a51532fe572833fdfa42dad2976929",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "97031eb9e1b4427560ec235b4af2dd48cfb52ff48520519cede8c6989776e1b9",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4258,6 +5602,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "0bafdbc4b28024127245f08afaeb6431894d78e1e5cda1f46cb41716aa51056c",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "c615922534a2ad55f55a6ea86f216f84827ac1197ee96d4a417beff4a354a7cb",
+     "durationMs": 1097,
+     "bytes": 8820,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "primary school｜小学",
     "secondary school｜中学"
@@ -4296,6 +5654,20 @@
      "durationMs": 2455,
      "bytes": 19687,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "bee8f814de49574165d706a61b41059e65dc28d6c0c83bbfefc37301c770b515",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "250e22133904c963122ae3851dbbcc025aeb551b5d1bbefdfc9ae3acd403ac8c",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4338,6 +5710,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c7eca2e9133cd47c62616a11f88df18dc2c341555a6b609cc156aeb3eb9a24a3",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "be3d9f3ea6067124cf29c8fafe040a5ead3e8b908939d424314ca08ca5e4d239",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "look at｜看",
     "look forward to｜期待"
@@ -4373,6 +5759,20 @@
      "durationMs": 3735,
      "bytes": 29927,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "c36c60ccf7b167eeb997625aaaa28073c3a82c141926c8831b4feda3878be06a",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "d3021a19eab7c495e476ece8c09248e6cd06efad515a14f226b9649fcb42e9e7",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4412,6 +5812,20 @@
      "durationMs": 3344,
      "bytes": 26792,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "80283407d61b939ef718af8b531165fff36244233d481cd6250bf8c41f3897d4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "eb23cafb02fe257f2346a8d6b745a3be798aac0a2c9e56bbd3fbe1b34a100357",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4455,6 +5869,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "4711a4d20aa42f9cf5bf68d35068ba88f9733daa211ba15eb8c59eacef2eceb8",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "060054fa1915890c9448acb0ea3f7003dc2e49d5864cb2679df9ca1ccfa5e32c",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "by car｜乘汽车",
     "electric car｜电动汽车"
@@ -4490,6 +5918,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e7df458e3013aeb4b9b9249e3639948d21f82d7f3c89961988f6651c7c32dc97",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "74b2ee0904bc778fbe8af3ced77fd918f257d764b28f8792343f425be22ebbf1",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4529,6 +5971,20 @@
      "durationMs": 2717,
      "bytes": 21776,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "d7b6b9dc2884c1bc0399216be33e1b41120f08e884fd39ec16a1209647a55a92",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "1e3183ed95f212ad3689d96a7b9bb8aa1a4f0983b4e54bdbdd80488d43d716c6",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4572,6 +6028,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "78d336210ece61c5bd6df551ceeda25785d6f04dc498c741346586896d094af4",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6328e976564ac2050ef6fb9f367795881da57e0a5b901790b5d15a9ee794957e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "fold your arms｜双臂交叉",
     "a chair arm｜椅子扶手"
@@ -4612,6 +6082,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "4616286ab76a434053af629a014d72686b87fe9ef9a9459310f1c3733fbc8b53",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "b097e47adee7c8ac25b96c05c567fc38f0c2f23433148f9e46a32d2200ea38d3",
+     "durationMs": 784,
+     "bytes": 6312,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a credit card｜信用卡",
     "an identity card｜身份证件"
@@ -4649,6 +6133,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "a7a42404fa64f10ace7097516c8c2c1c143acb87a685a04c6d012e259af2f220",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6c557006114b64a99e14b36fbb661259138d9a81651e39449bd63ba2c11d573c",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a knife and fork｜一副刀叉",
     "a fork in the road｜道路岔口"
@@ -4684,6 +6182,20 @@
      "durationMs": 2612,
      "bytes": 20940,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "9479e95c7771c80a960dc8992bb75b14b1d14a3bf7f249828e6bf212ff265060",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "eb777d1583302e1c04c7248cd619b71a42bbb135dead78898c48febc749c5f48",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4727,6 +6239,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "ca60469b1614c711f2d08375a2e655bf66994d4af4a2927403701ad00140448f",
+     "durationMs": 1097,
+     "bytes": 8820,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "a55d9c4020c81630060ff198cd6f0fd95b8817158e923e6595174e362a562d8b",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "take part in sport｜参加体育运动",
     "competitive sport｜竞技体育"
@@ -4767,6 +6293,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "e209a9c33ec10d54c1b741982341ca4d3a528a1aa7f7c37508544fe405aee761",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "6fa4aa82f053726ce34e1c50b9284010b4dbc81009f59ff5a8b71e3c76579a9b",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "with her｜和她一起",
     "for her｜为她"
@@ -4801,6 +6341,20 @@
      "durationMs": 3344,
      "bytes": 26792,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "2cfdb0af2987b1fcfe478fa01a650ac5a4fb1b0bc9741cb7590cff13ece8ca08",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9f2d2ba2b6c5536bc5ca9bafb0ed91edee4c742f6cd52a53ffd94e898ea997fa",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4838,6 +6392,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "fa16e6b56817541a0eb3916ed0faa889d3ca1970050a9a3a1502505f2125a8b0",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "890d484fcb9f6b2820eb058a91dc3e1fbd175408ff079fcd641f081212735c0c",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "a flock of birds｜一群鸟",
     "a migratory bird｜候鸟"
@@ -4871,6 +6439,20 @@
      "durationMs": 2873,
      "bytes": 23030,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "99d0bf14d3ae2a20a0ab073b41554f30b6c260b411ac80f5afbb46a356c93729",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "9d2f1ea3d97fd13d07b9c27af7daf3dfabe2fdcaecb562bed3eaf1b223ce3816",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -4944,6 +6526,20 @@
      "voice": "ElevenLabs Alice (UK)"
     }
    },
+   "wordAudio": {
+    "uk": {
+     "sha256": "07db76abdb34f470960a0a64eff7d17281030a713ea60cd7ce284370ce74fd4e",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "59a892f549f890fe73a55483f0cc92e70913601ce969c0b136eed3db1b3c9172",
+     "durationMs": 940,
+     "bytes": 7566,
+     "voice": "ElevenLabs Sarah (US)"
+    }
+   },
    "collocations": [
     "when necessary｜必要时",
     "when possible｜尽可能"
@@ -4981,6 +6577,20 @@
      "durationMs": 2952,
      "bytes": 23657,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "f0624074105f489f712d80003fe1f29a9b1632b2452eea42d13f038fd8bf6e8a",
+     "durationMs": 862,
+     "bytes": 6939,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "7702c578728d62b24bc03d796558646416ff72d4b145790d62e270c27803c18e",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [
@@ -5022,6 +6632,20 @@
      "durationMs": 3030,
      "bytes": 24284,
      "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "wordAudio": {
+    "uk": {
+     "sha256": "8175845ea2671199e3653080c9009b0ddbc1aa636991891b71ebc22db4b0ba61",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Alice (UK)"
+    },
+    "us": {
+     "sha256": "a54278ecbdc5cd4fc86120bb302c8a56f22ec5c69d741ac3af4aed818fb0a7c5",
+     "durationMs": 1019,
+     "bytes": 8193,
+     "voice": "ElevenLabs Sarah (US)"
     }
    },
    "collocations": [

@@ -319,8 +319,8 @@ export class PhonicsService {
     const assetOf = (id?: string) => (id ? course.assets.find(a => a.id === id) : undefined)
     const signed = (asset: { sha256: string | null; extension: string }) =>
       asset.sha256 ? mediaUrl(`/api/media/phonics/${versionId}/${asset.sha256}.${asset.extension}`, claims, this.tokenSecret) : null
-    const signedHash = (sha256: string, extension: string, durationMs: number | null, purpose: PhonicsAssetDto['purpose'], id: string): PhonicsAssetDto =>
-      ({ id, purpose, durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${sha256}.${extension}`, claims, this.tokenSecret) })
+    const signedHash = (sha256: string, extension: string, durationMs: number | null, purpose: PhonicsAssetDto['purpose'], id: string, accent?: 'GB' | 'US'): PhonicsAssetDto =>
+      ({ id, purpose, durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${sha256}.${extension}`, claims, this.tokenSecret), ...(accent ? { accent } : {}) })
 
     const words = course.words
       .filter(w => Boolean(w.meaningIntroducedAt))
@@ -330,10 +330,14 @@ export class PhonicsService {
         const us = usAssets.get(w.id)
         const useUs = settings.accent === 'US' && Boolean(us)
         const audios = (['segment', 'blend', 'word'] as const).flatMap(kind => {
-          if (kind === 'word' && useUs && us) return [{ id: `us-word:${w.id}`, purpose: 'word' as const, durationMs: us.durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${us.sha256}.wav`, claims, this.tokenSecret) }]
+          if (kind === 'word' && useUs && us) return [{ id: `us-word:${w.id}`, purpose: 'word' as const, durationMs: us.durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${us.sha256}.wav`, claims, this.tokenSecret), accent: 'US' as const }]
           const asset = assetOf(w.audioIds?.[kind])
           return asset?.sha256 ? [{ id: asset.id, purpose: asset.purpose, durationMs: asset.durationMs, url: signed(asset) }] : []
         })
+        // 词光专业录音（英 Alice/美 Sarah）：英美双按钮，MiMo 只作缺省兜底
+        const lexEntry = lexiconByWord.get(w.id)
+        if (lexEntry?.wordAudio?.uk) audios.push(signedHash(lexEntry.wordAudio.uk.sha256, 'mp3', lexEntry.wordAudio.uk.durationMs, 'word', `lex-uk:${w.id}`, 'GB'))
+        if (lexEntry?.wordAudio?.us) audios.push(signedHash(lexEntry.wordAudio.us.sha256, 'mp3', lexEntry.wordAudio.us.durationMs, 'word', `lex-us:${w.id}`, 'US'))
         const taskImage = course.tasks.find(t => t.wordId === w.id && assetOf(t.imageAssetId)?.sha256)?.imageAssetId
         const readerImage = course.readers.flatMap(r => r.pages).find(p => p.wordIds.includes(w.id) && assetOf(p.imageAssetId)?.sha256)?.imageAssetId
         const imageAsset = assetOf(taskImage ?? readerImage)
@@ -474,7 +478,8 @@ export class PhonicsService {
   async studySchedule(claims: TokenClaims, childId: string) {
     const atlas = await this.atlas(claims, childId)
     if (!atlas.versionId) return { dueWordIds: [], newWordIds: [], upcoming: [] }
-    const words = atlas.words.filter(word => word.unlocked)
+    // 学习路线 = 全部课程词按课序（atlas 已按 meaningIntroducedAt 课序排序），不再按解锁过滤
+    const words = atlas.words.filter(word => word.text)
     const eligible = new Set(words.map(word => word.id))
     const rows = (await this.db.phonicsWordSchedule.findMany({ where: { childId, courseVersionId: atlas.versionId }, orderBy: [{ dueAt: 'asc' }, { wordId: 'asc' }] })).filter(row => eligible.has(row.wordId))
     const scheduled = new Set(rows.map(row => row.wordId))
@@ -670,11 +675,9 @@ export class PhonicsService {
       }
       const prior = await tx.phonicsPracticeAnswer.findFirst({ where: { childId, questionId: input.questionId } })
       if (prior && (prior.wordId !== input.wordId || prior.track !== input.track || prior.courseVersionId !== versionId || (input.track !== 'study' && prior.mode !== input.mode))) throw new AppError('题目编号已用于其他题目', 'IDEMPOTENCY_CONFLICT', 409)
+      // 词光式学习模型：词汇的认记与复习从入学第一天就按学习路线开放，
+      // 不再被拼读课次完成度锁死（课次教的是「拼读解码」，与词卡记忆并行）。
       const current = await tx.phonicsEnrollment.findUniqueOrThrow({ where: { childId } })
-      const entryOrder = course.lessons.find(lesson => lesson.id === current.entryLessonKey)?.order ?? 1
-      const introduced = course.lessons.find(lesson => lesson.id === word.meaningIntroducedAt)
-      const completed = await tx.phonicsAttempt.findFirst({ where: { childId, protocolVersion: 2, courseVersionId: versionId, planKind: 'lesson', lessonKey: word.meaningIntroducedAt, status: 'completed' }, select: { id: true } })
-      if (!introduced || (!completed && introduced.order >= entryOrder)) throw new AppError('先完成这节课，再练习这个词', 'WORD_NOT_READY', 409)
       const correct = input.mode === 'spelling' ? input.answer.toLocaleLowerCase('en') === word.text.toLocaleLowerCase('en') : input.answer === word.id
       let reviewLogJson: string | null = null
       if (input.track === 'study' && !prior) {

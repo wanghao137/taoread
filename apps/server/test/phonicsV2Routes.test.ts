@@ -107,18 +107,20 @@ describe('phonics v2 persistence and authorization', () => {
     await enroll()
     const questionId = randomUUID(), clientEventId = randomUUID()
     const answer = { questionId, clientEventId, versionId, wordId: 'w-map', mode: 'picture', track: 'practice', answer: 'w-mat' }
-    expect((await call('POST', childPath('practice'), childToken, answer)).statusCode).toBe(409)
+    // 词光式模型：词的认记与练习从入学即开放（不再被课次完成度锁死）——未上课的词也能作答
+    const openAnswer = { ...answer, questionId: randomUUID(), clientEventId: randomUUID() }
+    expect((await call('POST', childPath('practice'), childToken, openAnswer)).json()).toMatchObject({ correct: false, firstAttempt: true })
     await finishAll((await start()).attempt)
-    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 1 })])
+    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 2 })])
     const wrong = await call('POST', childPath('practice'), childToken, answer)
     expect(wrong.json()).toMatchObject({ correct: false, firstAttempt: true, repeated: false })
-    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 2 })])
-    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 1, correct: 0, wrongWordIds: ['w-map'] })
+    expect((await call('GET', childPath('summary'), childToken)).json().practiceCalendar).toEqual([expect.objectContaining({ count: 3 })])
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 2, correct: 0, wrongWordIds: ['w-map'] })
     expect((await call('POST', childPath('practice'), childToken, answer)).json().repeated).toBe(true)
     expect((await call('POST', childPath('practice'), childToken, { ...answer, answer: 'w-map' })).statusCode).toBe(409)
     const fixed = { ...answer, clientEventId: randomUUID(), answer: 'w-map' }
     expect((await call('POST', childPath('practice'), childToken, fixed)).json()).toMatchObject({ correct: true, firstAttempt: false })
-    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 1, correct: 0, wrongWordIds: [] })
+    expect((await call('GET', childPath('practice'), childToken)).json()).toMatchObject({ total: 2, correct: 0, wrongWordIds: [] })
     expect((await call('POST', childPath('practice'), childToken, { ...fixed, clientEventId: randomUUID(), wordId: 'w-mat' })).statusCode).toBe(409)
     expect((await call('GET', childPath('practice'), other.token)).statusCode).toBe(404)
     const contrast = { ...answer, questionId: randomUUID(), clientEventId: randomUUID(), mode: 'contrast', answer: 'w-map' }

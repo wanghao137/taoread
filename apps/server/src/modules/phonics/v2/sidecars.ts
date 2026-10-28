@@ -17,6 +17,8 @@ export const lexiconEntrySchema = z.object({
   ukIpa: z.string().min(1), usIpa: z.string().min(1),
   senses: z.array(z.object({ pos: z.string(), zh: z.string().min(1), en: z.string().min(1) }).strict()).min(1).max(2),
   example: z.object({ en: z.string().min(1), zh: z.string().min(1), audio: sidecarAudioSchema.nullable() }).strict(),
+  /** 词光整词专业录音（英 Alice/美 Sarah）；自备条目无此项 */
+  wordAudio: z.object({ uk: sidecarAudioSchema.nullable().optional(), us: sidecarAudioSchema.nullable().optional() }).strict().optional(),
   collocations: z.array(z.string()).max(3), family: z.array(z.string()).max(4),
   tip: z.string(), cefr: z.string().nullable(),
 }).strict()

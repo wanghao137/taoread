@@ -10,6 +10,8 @@ export interface PhonicsAssetDto {
   purpose: 'instruction_zh' | 'phoneme' | 'segment' | 'blend' | 'word' | 'passage' | 'image'
   url: string | null
   durationMs: number | null
+  /** 发音口音标记：词卡英美双按钮按此渲染（缺省跟随课程口音） */
+  accent?: 'GB' | 'US'
 }
 
 export interface PhonicsTaskDto {

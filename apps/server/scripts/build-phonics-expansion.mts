@@ -21,7 +21,7 @@ const GUIDE = '跟随中文指令即可。先确认词义；孩子可以暂停�
 const HELP = 'shared-help-zh'
 
 // ── 新增 GPC：长元音（GB 体系）。split: true = 词尾不发音 e 与元音共用一个映射 ──
-const NEW_MAPPINGS: Array<{ id?: string; spelling: string; display?: string; ipa: string; kind: 'vowel' | 'consonant'; position?: 'any' | 'final'; split?: boolean }> = [
+const NEW_MAPPINGS: Array<{ id?: string; spelling: string; display?: string; ipa: string; kind: 'vowel' | 'consonant'; position?: 'any' | 'initial' | 'final'; split?: boolean }> = [
   { spelling: 'ae', display: 'a_e', ipa: 'eɪ', position: 'final', split: true, kind: 'vowel' },
   { spelling: 'ie', display: 'i_e', ipa: 'aɪ', position: 'final', split: true, kind: 'vowel' },
   { spelling: 'oe', display: 'o_e', ipa: 'əʊ', position: 'final', split: true, kind: 'vowel' },
@@ -191,7 +191,7 @@ for (const def of LESSONS) {
 }
 
 const outLessons = [...lessons]
-const orderBase = Math.max(...(lessons as Array<{ order: number }>).map(l => l.order))
+const orderBase = Math.max(...(lessons as unknown as Array<{ order: number }>).map(l => l.order))
 for (const [i, def] of LESSONS.entries()) {
   const order = orderBase + 1 + i
   const taskIds: string[] = []

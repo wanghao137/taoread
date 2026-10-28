@@ -104,10 +104,22 @@ async function main() {
           exampleAudio.push({ word: lower, file: audioFile, sha256: sha256(bytes), bytes: bytes.length })
         }
       }
+      // 词光整词发音（ElevenLabs 专业录音）：英音 Alice、美音 Sarah，英美双按钮的数据源
+      const wordAudio: Record<string, unknown> = {}
+      for (const accent of ['uk', 'us'] as const) {
+        const file = path.join(atlasDir, 'public', 'atlas', 'audio', accent, `${lower}.mp3`)
+        if (!existsSync(file)) continue
+        const bytes = readFileSync(file)
+        const durationMs = mp3DurationMs(bytes)
+        if (!durationMs) continue
+        wordAudio[accent] = { sha256: sha256(bytes), durationMs, bytes: bytes.length, voice: accent === 'uk' ? 'ElevenLabs Alice (UK)' : 'ElevenLabs Sarah (US)' }
+        exampleAudio.push({ word: `${lower}-${accent}`, file, sha256: sha256(bytes), bytes: bytes.length })
+      }
       lex = {
         wordId: word.id, word: word.text, source: 'word-atlas', reviewStatus: 'pending',
         ukIpa: source.uk, usIpa: source.us, senses,
         example: { en: example.en, zh: example.zh, audio },
+        wordAudio,
         collocations: (source.col as string[]).slice(0, 2), family: (source.fam as string[]).slice(0, 3),
         tip: source.tip, cefr: source.cefr ?? null,
       }

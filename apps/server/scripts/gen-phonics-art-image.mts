@@ -19,7 +19,7 @@ import { compressPngToWebP } from '../src/modules/media/compress'
 import { loadConfig, imageGenAvailable } from '../src/config'
 import { candidateDirectory, courseHash, loadCourse } from '../src/modules/phonics/v2/courseRegistry'
 
-const { values } = parseArgs({ options: { 'media-root': { type: 'string' }, force: { type: 'boolean', default: false } } })
+const { values } = parseArgs({ options: { 'media-root': { type: 'string' }, force: { type: 'boolean', default: false }, ids: { type: 'string' } } })
 if (!values['media-root']) throw Error('Explicit --media-root is required')
 const mediaRoot = path.resolve(values['media-root'])
 const config = loadConfig()
@@ -27,7 +27,7 @@ if (!imageGenAvailable(config)) throw Error('TAO_IMAGE_BASE/KEY 未配置')
 
 // ── 80 词场景表：画「词义明确的一个瞬间」，具体实物/动作，可一眼看懂 ───────────
 const SCENES: Record<string, string> = {
-  at: '一只小猫安静地坐在圆形小垫子上', sat: '一个小男孩刚刚坐到木台阶上', pat: '一只大手温柔地轻拍小狗的头',
+  at: '一个小孩站在红房子的大门口敲门，门牌很显眼', sat: '一个小男孩刚刚坐到木台阶上', pat: '一只大手温柔地轻拍小狗的头',
   tap: '一根手指轻轻敲桌上的水杯', it: '一个小孩伸手指着面前的玩具箱', sit: '两个小朋友肩并肩坐好看书',
   sip: '一个小女孩用吸管小口喝橙汁', in: '一只玩具熊坐在打开的纸箱里面', pin: '一枚扣好的别针别着一块小布片',
   nap: '一个小宝宝盖着毯子在小床上午睡', pan: '平底锅里煎着一颗煎蛋', mat: '门口铺着一块条纹进门垫',
@@ -103,7 +103,16 @@ for (const asset of course.assets.filter(a => a.purpose === 'image')) {
   const word = page?.wordIds[0]?.replace(/^w-/, '')
   if (word) slotWord.set(asset.id, canon(word))
 }
-const targets = course.assets.filter(a => a.purpose === 'image' && (values.force || !a.sha256) && (slotWord.has(a.id) || CAPTION_SCENES[a.id]))
+const onlyIds = values.ids ? new Set(values.ids.split(',')) : null
+const targets = course.assets.filter(a => {
+  if (a.purpose !== 'image') return false
+  if (onlyIds) {
+    // 指定词重做：只动 w-<word>-meaning-image 词义槽（reader 页图槽按首词派生，避免误伤）
+    const word = slotWord.get(a.id)
+    return Boolean(word && onlyIds.has(word) && /^w-.+-meaning-image$/.test(a.id))
+  }
+  return (values.force || !a.sha256) && (slotWord.has(a.id) || Boolean(CAPTION_SCENES[a.id]))
+})
 const missingScenes = [...new Set(targets.map(a => slotWord.get(a.id) ?? a.id))].filter(k => !SCENES[k] && !CAPTION_SCENES[k])
 if (missingScenes.length) throw Error(`Missing scene for: ${missingScenes.join(', ')}`)
 
@@ -154,7 +163,10 @@ async function worker() {
     // 断点续传：已生成的图直接复用（重启不重花钱）
     const genPath = path.join(genDir, 'art', 'mascots', `${scene}.webp`)
     let raw: Buffer
-    try { raw = await readFile(genPath) } catch {
+    const cached = values.force ? null : await readFile(genPath).catch(() => null)
+    if (cached) {
+      raw = cached
+    } else {
       const art = await gen.generate({ kind: 'mascot', scene, description: descriptionOf(key), label: `自然拼读配图 ${key}`, lang: 'zh' })
       if (!art) { failed.push(key); console.error(JSON.stringify({ key, failed: true })); continue }
       raw = await readFile(genPath)
