@@ -148,8 +148,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "山中相送罢，日暮掩柴扉。\n春草明年绿，王孙归不归？(明年 一作：年年)",
-        pinyin: "shān zhōng xiāng sòng bà， rì mù yǎn chái fēi。\nchūn cǎo míng nián lǜ， wáng sūn guī bù guī？( míng nián yī zuò： nián nián)",
+        text: "山中相送罢，日暮掩柴扉。\n春草明年绿，王孙归不归？",
+        pinyin: "shān zhōng xiāng sòng bà， rì mù yǎn chái fēi。\nchūn cǎo míng nián lǜ， wáng sūn guī bù guī？",
         translation: "在山里送走了朋友，天黑了，我就关上柴门。明年春天青草再变绿的时候，你到底回不回来呢？",
       }
       ],
@@ -187,8 +187,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "美人卷珠帘，深坐颦蛾眉。(颦 一作：蹙)\n但见泪痕湿，不知心恨谁。",
-        pinyin: "měi rén juàn zhū lián， shēn zuò pín é méi。( pín yī zuò： cù)\ndàn jiàn lèi hén shī， bù zhī xīn hèn shuí。",
+        text: "美人卷珠帘，深坐颦蛾眉。\n但见泪痕湿，不知心恨谁。",
+        pinyin: "měi rén juàn zhū lián， shēn zuò pín é méi。\ndàn jiàn lèi hén shī， bù zhī xīn hèn shuí。",
         translation: "美人卷起珠帘，一个人久久地坐着，皱着弯弯的眉头。只看见她脸上沾着湿湿的泪痕，不知道她心里在恨谁。",
       }
       ],
@@ -239,8 +239,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "功盖三分国，名成八阵图。（名成 一作：名高）\n江流石不转，遗恨失吞吴。",
-        pinyin: "gōng gài sān fēn guó， míng chéng bā zhèn tú。（ míng chéng yī zuò： míng gāo）\njiāng liú shí bù zhuǎn， yí hèn shī tūn wú。",
+        text: "功盖三分国，名成八阵图。\n江流石不转，遗恨失吞吴。",
+        pinyin: "gōng gài sān fēn guó， míng chéng bā zhèn tú。\njiāng liú shí bù zhuǎn， yí hèn shī tūn wú。",
         translation: "诸葛亮帮着建立三分天下的国家，功劳最大，摆八阵图的名声也传了开来。江水日日夜夜冲刷，石头的阵图却一动不动，只留下没能灭掉吴国的遗憾。",
       }
       ],
@@ -356,8 +356,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "苍苍竹林寺，杳杳钟声晚。\n荷笠带斜阳，青山独归远。(斜阳 一作：夕阳)",
-        pinyin: "cāng cāng zhú lín sì， yǎo yǎo zhōng shēng wǎn。\nhé lì dài xié yáng， qīng shān dú guī yuǎn。( xié yáng yī zuò： xī yáng)",
+        text: "苍苍竹林寺，杳杳钟声晚。\n荷笠带斜阳，青山独归远。",
+        pinyin: "cāng cāng zhú lín sì， yǎo yǎo zhōng shēng wǎn。\nhé lì dài xié yáng， qīng shān dú guī yuǎn。",
         translation: "青翠的竹林深处有一座寺，远远传来傍晚的钟声。他背着斗笠，披着斜阳，独自朝青山那边越走越远了。",
       }
       ],
@@ -369,8 +369,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "泠泠七弦上，静听松风寒。(七弦 一作：七丝)\n古调虽自爱，今人多不弹。",
-        pinyin: "líng líng qī xián shàng， jìng tīng sōng fēng hán。( qī xián yī zuò： qī sī)\ngǔ tiáo suī zì ài， jīn rén duō bù tán。",
+        text: "泠泠七弦上，静听松风寒。\n古调虽自爱，今人多不弹。",
+        pinyin: "líng líng qī xián shàng， jìng tīng sōng fēng hán。\ngǔ tiáo suī zì ài， jīn rén duō bù tán。",
         translation: "七弦琴发出清清脆脆的声音，静静听着，就像寒风吹过松林。这样古老的曲调我自己虽然喜爱，可如今的人大多不爱弹了。",
       }
       ],
@@ -525,8 +525,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "故人西辞黄鹤楼，烟花三月下扬州。\n孤帆远影碧空尽，唯见长江天际流。 (唯 通：惟)",
-        pinyin: "gù rén xī cí huáng hè lóu， yān huā sān yuè xià yáng zhōu。\ngū fān yuǎn yǐng bì kōng jìn， wéi jiàn cháng jiāng tiān jì liú。 ( wéi tōng： wéi)",
+        text: "故人西辞黄鹤楼，烟花三月下扬州。\n孤帆远影碧空尽，唯见长江天际流。",
+        pinyin: "gù rén xī cí huáng hè lóu， yān huā sān yuè xià yáng zhōu。\ngū fān yuǎn yǐng bì kōng jìn， wéi jiàn cháng jiāng tiān jì liú。",
         translation: "老朋友告别了黄鹤楼，在这柳絮如烟、繁花似锦的三月，坐船下扬州去。那只孤船的帆影越走越远，最后消失在蓝天的尽头，只看见长江水浩浩荡荡向天边流去。",
       }
       ],
@@ -551,8 +551,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "回乐烽前沙似雪，受降城外月如霜。(回乐\n一作：回乐\n）\n不知何处吹芦管，一夜征人尽望乡。",
-        pinyin: "huí lè fēng qián shā sì xuě， shòu xiáng chéng wài yuè rú shuāng。( huí lè\nyī zuò： huí lè\n\nbù zhī hé chù chuī lú guǎn， yī yè zhēng rén jìn wàng xiāng。",
+        text: "回乐烽前沙似雪，受降城外月如霜。\n不知何处吹芦管，一夜征人尽望乡。",
+        pinyin: "huí lè fēng qián shā sì xuě， shòu xiáng chéng wài yuè rú shuāng。\nbù zhī hé chù chuī lú guǎn， yī yè zhēng rén jìn wàng xiāng。",
         translation: "回乐烽前的沙地在月光下白得像雪，受降城外的月色冷得像霜。不知道哪里吹起了芦笛声，一夜之间，出门打仗的将士们都在思念故乡。",
       }
       ],
@@ -720,8 +720,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "落魄江南载酒行，楚腰纤细掌中轻。(江南 一作：江湖；纤细 一作：肠断)\n十年一觉扬州梦，赢得青楼薄幸名。",
-        pinyin: "luò pò jiāng nán zǎi jiǔ xíng， chǔ yāo xiān xì zhǎng zhōng qīng。( jiāng nán yī zuò： jiāng hú； xiān xì yī zuò： cháng duàn)\nshí nián yī jiào yáng zhōu mèng， yíng dé qīng lóu bó xìng míng。",
+        text: "落魄江南载酒行，楚腰纤细掌中轻。\n十年一觉扬州梦，赢得青楼薄幸名。",
+        pinyin: "luò pò jiāng nán zǎi jiǔ xíng， chǔ yāo xiān xì zhǎng zhōng qīng。\nshí nián yī jiào yáng zhōu mèng， yíng dé qīng lóu bó xìng míng。",
         translation: "我失意地带着酒在江南四处漂泊，身边都是腰肢纤细、舞姿轻盈的歌女。扬州十年的日子像一场大梦，醒来只落下一个薄情的名声。",
       }
       ],
@@ -915,8 +915,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "誓扫匈奴不顾身，五千貂锦丧胡尘。\n可怜无定河边骨，犹是春闺梦里人！(春闺 一作：深闺)",
-        pinyin: "shì sǎo xiōng nú bù gù shēn， wǔ qiān diāo jǐn sàng hú chén。\nkě lián wú dìng hé biān gǔ， yóu shì chūn guī mèng lǐ rén！( chūn guī yī zuò： shēn guī)",
+        text: "誓扫匈奴不顾身，五千貂锦丧胡尘。\n可怜无定河边骨，犹是春闺梦里人！",
+        pinyin: "shì sǎo xiōng nú bù gù shēn， wǔ qiān diāo jǐn sàng hú chén。\nkě lián wú dìng hé biān gǔ， yóu shì chūn guī mèng lǐ rén！",
         translation: "将士们发誓要扫平敌人、不顾自己的性命，五千精兵都战死在了边地的风沙里。可怜无定河边战死者的白骨，还是家中的妻子日夜梦见的那个人啊。",
       }
       ],
@@ -1201,8 +1201,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "客路青山外，行舟绿水前。(青山外 一作：青山下)\n潮平两岸阔，风正一帆悬。\n海日生残夜，江春入旧年。\n乡书何处达？归雁洛阳边。",
-        pinyin: "kè lù qīng shān wài， xíng zhōu lǜ shuǐ qián。( qīng shān wài yī zuò： qīng shān xià)\ncháo píng liǎng àn kuò， fēng zhèng yī fān xuán。\nhǎi rì shēng cán yè， jiāng chūn rù jiù nián。\nxiāng shū hé chù dá？ guī yàn luò yáng biān。",
+        text: "客路青山外，行舟绿水前。\n潮平两岸阔，风正一帆悬。\n海日生残夜，江春入旧年。\n乡书何处达？归雁洛阳边。",
+        pinyin: "kè lù qīng shān wài， xíng zhōu lǜ shuǐ qián。\ncháo píng liǎng àn kuò， fēng zhèng yī fān xuán。\nhǎi rì shēng cán yè， jiāng chūn rù jiù nián。\nxiāng shū hé chù dá？ guī yàn luò yáng biān。",
         translation: "旅客的路伸到青山之外，船儿在绿水上游行。潮水上涨，两岸显得开阔，顺风正好，一面帆高高悬挂；太阳从残夜中升起，江上的春天闯进了旧年。家书要寄到哪里呢？希望北归的大雁把它带到洛阳。",
       }
       ],
@@ -1305,8 +1305,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "牛渚西江夜，青天无片云。\n登舟望秋月，空忆谢将军。\n余亦能高咏，斯人不可闻。\n明朝挂帆席，枫叶落纷纷。(挂帆\n一作：去)",
-        pinyin: "niú zhǔ xī jiāng yè， qīng tiān wú piàn yún。\ndēng zhōu wàng qiū yuè， kōng yì xiè jiāng jūn。\nyú yì néng gāo yǒng， sī rén bù kě wén。\nmíng cháo guà fān xí， fēng yè luò fēn fēn。( guà fān\nyī zuò： qù)",
+        text: "牛渚西江夜，青天无片云。\n登舟望秋月，空忆谢将军。\n余亦能高咏，斯人不可闻。\n明朝挂帆席，枫叶落纷纷。",
+        pinyin: "niú zhǔ xī jiāng yè， qīng tiān wú piàn yún。\ndēng zhōu wàng qiū yuè， kōng yì xiè jiāng jūn。\nyú yì néng gāo yǒng， sī rén bù kě wén。\nmíng cháo guà fān xí， fēng yè luò fēn fēn。",
         translation: "夜晚船停在牛渚山旁的西江上，青天上没有一丝云。登上船仰望秋天的明月，空自想起那位爱惜人才的谢将军；我也会放声吟咏，可惜再遇不到那样听得懂的人。明天一早挂起船帆离开，枫叶正纷纷飘落。",
       }
       ],
@@ -1500,8 +1500,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "戍鼓断人行，边秋一雁声。(边秋 一作:秋边)\n露从今夜白，月是故乡明。\n有弟皆分散，无家问死生。\n寄书长不达，况乃未休兵。",
-        pinyin: "shù gǔ duàn rén xíng， biān qiū yī yàn shēng。( biān qiū yī zuò: qiū biān)\nlù cóng jīn yè bái， yuè shì gù xiāng míng。\nyǒu dì jiē fēn sàn， wú jiā wèn sǐ shēng。\njì shū cháng bù dá， kuàng nǎi wèi xiū bīng。",
+        text: "戍鼓断人行，边秋一雁声。\n露从今夜白，月是故乡明。\n有弟皆分散，无家问死生。\n寄书长不达，况乃未休兵。",
+        pinyin: "shù gǔ duàn rén xíng， biān qiū yī yàn shēng。\nlù cóng jīn yè bái， yuè shì gù xiāng míng。\nyǒu dì jiē fēn sàn， wú jiā wèn sǐ shēng。\njì shū cháng bù dá， kuàng nǎi wèi xiū bīng。",
         translation: "戍楼的鼓声一响，路上就断了行人，边塞的秋天传来一声孤雁叫。露水从今夜起变得更白，月亮还是故乡的最亮。兄弟们各自离散，连家都没有了，上哪儿去打听他们是死是活呢？寄出的信常常到不了，何况战火还没有停息。",
       }
       ],
@@ -1617,8 +1617,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "山暝闻猿愁，沧江急夜流。(闻 一作：听)\n风鸣两岸叶，月照一孤舟。\n建德非吾土，维扬忆旧游。\n还将两行泪，遥寄海西头。",
-        pinyin: "shān míng wén yuán chóu， cāng jiāng jí yè liú。( wén yī zuò： tīng)\nfēng míng liǎng àn yè， yuè zhào yī gū zhōu。\njiàn dé fēi wú tǔ， wéi yáng yì jiù yóu。\nhái jiāng liǎng háng lèi， yáo jì hǎi xī tóu。",
+        text: "山暝闻猿愁，沧江急夜流。\n风鸣两岸叶，月照一孤舟。\n建德非吾土，维扬忆旧游。\n还将两行泪，遥寄海西头。",
+        pinyin: "shān míng wén yuán chóu， cāng jiāng jí yè liú。\nfēng míng liǎng àn yè， yuè zhào yī gū zhōu。\njiàn dé fēi wú tǔ， wéi yáng yì jiù yóu。\nhái jiāng liǎng háng lèi， yáo jì hǎi xī tóu。",
         translation: "山色昏暗，听见猿猴愁切的叫声，江水在夜里急急地流。风吹得两岸树叶沙沙响，月光照着一条孤零零的小船。建德不是我的家乡，我想念扬州的老朋友；就把这两行眼泪，远远地寄到海的那一头吧。",
       }
       ],
@@ -1643,8 +1643,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "木落雁南度，北风江上寒。\n我家襄水曲，遥隔楚云端。\n乡泪客中尽，孤帆天际看。(孤帆 一作：归帆)\n迷津欲有问，平海夕漫漫。",
-        pinyin: "mù luò yàn nán dù， běi fēng jiāng shàng hán。\nwǒ jiā xiāng shuǐ qǔ， yáo gé chǔ yún duān。\nxiāng lèi kè zhōng jìn， gū fān tiān jì kàn。( gū fān yī zuò： guī fān)\nmí jīn yù yǒu wèn， píng hǎi xī màn màn。",
+        text: "木落雁南度，北风江上寒。\n我家襄水曲，遥隔楚云端。\n乡泪客中尽，孤帆天际看。\n迷津欲有问，平海夕漫漫。",
+        pinyin: "mù luò yàn nán dù， běi fēng jiāng shàng hán。\nwǒ jiā xiāng shuǐ qǔ， yáo gé chǔ yún duān。\nxiāng lèi kè zhōng jìn， gū fān tiān jì kàn。\nmí jīn yù yǒu wèn， píng hǎi xī màn màn。",
         translation: "树叶落了，大雁向南飞去，北风吹过江面，寒气阵阵。我的家在襄水弯弯的地方，远得像隔在天边的云端。作客的眼泪已经流干，只望着天边那一片孤帆。想找人问问渡口在哪里，只见傍晚的水面白茫茫漫漫无边。",
       }
       ],
@@ -1708,8 +1708,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "人事有代谢，往来成古今。\n江山留胜迹，我辈复登临。\n水落鱼梁浅，天寒梦泽深。\n羊公碑尚在，读罢泪沾襟。(尚在 一作：字在)",
-        pinyin: "rén shì yǒu dài xiè， wǎng lái chéng gǔ jīn。\njiāng shān liú shèng jì， wǒ bèi fù dēng lín。\nshuǐ luò yú liáng qiǎn， tiān hán mèng zé shēn。\nyáng gōng bēi shàng zài， dú bà lèi zhān jīn。( shàng zài yī zuò： zì zài)",
+        text: "人事有代谢，往来成古今。\n江山留胜迹，我辈复登临。\n水落鱼梁浅，天寒梦泽深。\n羊公碑尚在，读罢泪沾襟。",
+        pinyin: "rén shì yǒu dài xiè， wǎng lái chéng gǔ jīn。\njiāng shān liú shèng jì， wǒ bèi fù dēng lín。\nshuǐ luò yú liáng qiǎn， tiān hán mèng zé shēn。\nyáng gōng bēi shàng zài， dú bà lèi zhān jīn。",
         translation: "人间的事总在更换交替，来来往往就成了古往今来。江山留下许多名胜古迹，我们这一辈人又来登临。水落下去，鱼梁洲露出浅浅的滩；天气冷了，云梦泽显得又深又远。羊公的碑还立在那里，读完了碑文，泪水沾湿了衣襟。",
       }
       ],
@@ -2072,8 +2072,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "西陆蝉声唱，南冠客思深。(客思深 一作：客思侵)\n不堪玄鬓影，来对白头吟。(不堪 一作：那堪)\n露重飞难进，风多响易沉。\n无人信高洁，谁为表予心？",
-        pinyin: "xī lù chán shēng chàng， nán guān kè sī shēn。( kè sī shēn yī zuò： kè sī qīn)\nbù kān xuán bìn yǐng， lái duì bái tóu yín。( bù kān yī zuò： nà kān)\nlù zhòng fēi nán jìn， fēng duō xiǎng yì chén。\nwú rén xìn gāo jié， shuí wèi biǎo yǔ xīn？",
+        text: "西陆蝉声唱，南冠客思深。\n不堪玄鬓影，来对白头吟。\n露重飞难进，风多响易沉。\n无人信高洁，谁为表予心？",
+        pinyin: "xī lù chán shēng chàng， nán guān kè sī shēn。\nbù kān xuán bìn yǐng， lái duì bái tóu yín。\nlù zhòng fēi nán jìn， fēng duō xiǎng yì chén。\nwú rén xìn gāo jié， shuí wèi biǎo yǔ xīn？",
         translation: "秋天里蝉儿声声叫，我在牢里更加想念家乡。露水太重，蝉想飞也飞不动；风声太响，它的叫声也被淹没了。没有人相信蝉和我一样清白高洁，谁能替我说出这颗心呢？",
       }
       ],
@@ -2111,8 +2111,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "谢公最小偏怜女，自嫁黔娄百事乖。\n顾我无衣搜荩箧，泥他沽酒拔金钗。(荩箧 一作：画箧)\n野蔬充膳甘长藿，落叶添薪仰古槐。\n今日俸钱过十万，与君营奠复营斋。",
-        pinyin: "xiè gōng zuì xiǎo piān lián nǚ， zì jià qián lóu bǎi shì guāi。\ngù wǒ wú yī sōu jìn qiè， ní tā gū jiǔ bá jīn chāi。( jìn qiè yī zuò： huà qiè)\nyě shū chōng shàn gān cháng huò， luò yè tiān xīn yǎng gǔ huái。\njīn rì fèng qián guò shí wàn， yǔ jūn yíng diàn fù yíng zhāi。",
+        text: "谢公最小偏怜女，自嫁黔娄百事乖。\n顾我无衣搜荩箧，泥他沽酒拔金钗。\n野蔬充膳甘长藿，落叶添薪仰古槐。\n今日俸钱过十万，与君营奠复营斋。",
+        pinyin: "xiè gōng zuì xiǎo piān lián nǚ， zì jià qián lóu bǎi shì guāi。\ngù wǒ wú yī sōu jìn qiè， ní tā gū jiǔ bá jīn chāi。\nyě shū chōng shàn gān cháng huò， luò yè tiān xīn yǎng gǔ huái。\njīn rì fèng qián guò shí wàn， yǔ jūn yíng diàn fù yíng zhāi。",
         translation: "你是家里最受疼爱的小女儿，却嫁给了我这样的穷书生，样样都跟着受苦。见我没有衣裳就翻遍箱子去找，想请客打酒你就拔下金钗去换；你吃着野菜也觉得香甜，捡落叶当柴烧。如今我的俸钱多了，却只能拿它来祭奠你，为你做法事，你再也看不到了。",
       }
       ],
@@ -2176,8 +2176,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "渭水自萦秦塞曲，黄山旧绕汉宫斜。\n銮舆迥出千门柳，阁道回看上苑花。\n云里帝城双凤阙，雨中春树万人家。\n为乘阳气行时令，不是宸游玩物华。(玩 一作：重)",
-        pinyin: "wèi shuǐ zì yíng qín sāi qǔ， huáng shān jiù rào hàn gōng xié。\nluán yú jiǒng chū qiān mén liǔ， gé dào huí kàn shàng yuàn huā。\nyún lǐ dì chéng shuāng fèng quē， yǔ zhōng chūn shù wàn rén jiā。\nwèi chéng yáng qì xíng shí lìng， bù shì chén yóu wán wù huá。( wán yī zuò： zhòng)",
+        text: "渭水自萦秦塞曲，黄山旧绕汉宫斜。\n銮舆迥出千门柳，阁道回看上苑花。\n云里帝城双凤阙，雨中春树万人家。\n为乘阳气行时令，不是宸游玩物华。",
+        pinyin: "wèi shuǐ zì yíng qín sāi qǔ， huáng shān jiù rào hàn gōng xié。\nluán yú jiǒng chū qiān mén liǔ， gé dào huí kàn shàng yuàn huā。\nyún lǐ dì chéng shuāng fèng quē， yǔ zhōng chūn shù wàn rén jiā。\nwèi chéng yáng qì xíng shí lìng， bù shì chén yóu wán wù huá。",
         translation: "渭水弯弯曲曲绕着秦地的边塞，山岭斜斜地环抱着汉代的宫殿。皇帝的车驾走过千门万户的柳树，在高高的阁道上回头就能看见御花园里的花。云里是京城对峙的凤阙，春雨中绿树围着千家万户。皇帝是趁着春光出巡、宣布农时的政令，可不是为了出来游玩赏景呀。",
       }
       ],
@@ -2228,8 +2228,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "凤凰台上凤凰游，凤去台空江自流。\n吴宫花草埋幽径，晋代衣冠成古丘。\n三山半落青天外，二水中分白鹭洲。(二水 一作：一水)\n总为浮云能蔽日，长安不见使人愁。",
-        pinyin: "fèng huáng tái shàng fèng huáng yóu， fèng qù tái kōng jiāng zì liú。\nwú gōng huā cǎo mái yōu jìng， jìn dài yī guān chéng gǔ qiū。\nsān shān bàn luò qīng tiān wài， èr shuǐ zhōng fēn bái lù zhōu。( èr shuǐ yī zuò： yī shuǐ)\nzǒng wèi fú yún néng bì rì， cháng ān bù jiàn shǐ rén chóu。",
+        text: "凤凰台上凤凰游，凤去台空江自流。\n吴宫花草埋幽径，晋代衣冠成古丘。\n三山半落青天外，二水中分白鹭洲。\n总为浮云能蔽日，长安不见使人愁。",
+        pinyin: "fèng huáng tái shàng fèng huáng yóu， fèng qù tái kōng jiāng zì liú。\nwú gōng huā cǎo mái yōu jìng， jìn dài yī guān chéng gǔ qiū。\nsān shān bàn luò qīng tiān wài， èr shuǐ zhōng fēn bái lù zhōu。\nzǒng wèi fú yún néng bì rì， cháng ān bù jiàn shǐ rén chóu。",
         translation: "凤凰台上曾经有凤凰来游玩，凤凰飞走了，台子空着，江水照样流。吴国宫殿的花草埋没了幽静的小路，东晋的达官贵人也都变成了古坟。三山有一半落在青天外，江水被白鹭洲分成两道。只因为浮云能遮住太阳，望不见长安，真让人发愁。",
       }
       ],
@@ -2254,8 +2254,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "凤尾香罗薄几重，碧文圆顶夜深缝。\n扇裁月魄羞难掩，车走雷声语未通。\n曾是寂寥金烬暗，断无消息石榴红。\n斑骓只系垂杨岸，何处西南任好风。(任 一作：待)",
-        pinyin: "fèng wěi xiāng luó báo jǐ chóng， bì wén yuán dǐng yè shēn fèng。\nshàn cái yuè pò xiū nán yǎn， chē zǒu léi shēng yǔ wèi tōng。\ncéng shì jì liáo jīn jìn àn， duàn wú xiāo xī shí liú hóng。\nbān zhuī zhī xì chuí yáng àn， hé chù xī nán rèn hǎo fēng。( rèn yī zuò： dài)",
+        text: "凤尾香罗薄几重，碧文圆顶夜深缝。\n扇裁月魄羞难掩，车走雷声语未通。\n曾是寂寥金烬暗，断无消息石榴红。\n斑骓只系垂杨岸，何处西南任好风。",
+        pinyin: "fèng wěi xiāng luó báo jǐ chóng， bì wén yuán dǐng yè shēn fèng。\nshàn cái yuè pò xiū nán yǎn， chē zǒu léi shēng yǔ wèi tōng。\ncéng shì jì liáo jīn jìn àn， duàn wú xiāo xī shí liú hóng。\nbān zhuī zhī xì chuí yáng àn， hé chù xī nán rèn hǎo fēng。",
         translation: "深夜里她还在缝着薄薄的香罗帐子。那次她用圆扇半遮着脸，害羞也遮不住，对方的车像雷声一样匆匆驶过，连一句话都没说上。多少个寂寞的夜晚蜡烛烧暗了，石榴花又开了，还是没有一点消息。心上人的马就拴在长着垂杨的岸边，什么时候西南方吹来好风，能送到他身边呢？",
       }
       ],
@@ -2267,8 +2267,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "相见时难别亦难，东风无力百花残。\n春蚕到死丝方尽，蜡炬成灰泪始干。\n晓镜但愁云鬓改，夜吟应觉月光寒。\n蓬山此去无多路，青鸟殷勤为探看。(蓬山 一作：蓬莱)",
-        pinyin: "xiāng jiàn shí nán bié yì nán， dōng fēng wú lì bǎi huā cán。\nchūn cán dào sǐ sī fāng jìn， là jù chéng huī lèi shǐ gān。\nxiǎo jìng dàn chóu yún bìn gǎi， yè yín yìng jué yuè guāng hán。\npéng shān cǐ qù wú duō lù， qīng niǎo yīn qín wèi tàn kàn。( péng shān yī zuò： péng lái)",
+        text: "相见时难别亦难，东风无力百花残。\n春蚕到死丝方尽，蜡炬成灰泪始干。\n晓镜但愁云鬓改，夜吟应觉月光寒。\n蓬山此去无多路，青鸟殷勤为探看。",
+        pinyin: "xiāng jiàn shí nán bié yì nán， dōng fēng wú lì bǎi huā cán。\nchūn cán dào sǐ sī fāng jìn， là jù chéng huī lèi shǐ gān。\nxiǎo jìng dàn chóu yún bìn gǎi， yè yín yìng jué yuè guāng hán。\npéng shān cǐ qù wú duō lù， qīng niǎo yīn qín wèi tàn kàn。",
         translation: "见面本来就难，分别时更舍不得，东风无力吹着，百花都凋谢了。春蚕直到死去才把丝吐完，蜡烛烧成灰烛泪才流干。早上照镜子只担心头发变白，夜里吟诗会觉得月光寒冷。好在从这里到对方住的地方不算太远，希望青鸟替我去探望。",
       }
       ],
@@ -2371,8 +2371,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "朝闻游子唱离歌，昨夜微霜初渡河。\n鸿雁不堪愁里听，云山况是客中过。\n关城树色催寒近，御苑砧声向晚多。(\n色 一作：曙)\n莫见长安行乐处，空令岁月易蹉跎。",
-        pinyin: "cháo wén yóu zǐ chàng lí gē， zuó yè wēi shuāng chū dù hé。\nhóng yàn bù kān chóu lǐ tīng， yún shān kuàng shì kè zhōng guò。\nguān chéng shù sè cuī hán jìn， yù yuàn zhēn shēng xiàng wǎn duō。(\nsè yī zuò： shǔ)\nmò jiàn cháng ān xíng lè chù， kōng lìng suì yuè yì cuō tuó。",
+        text: "朝闻游子唱离歌，昨夜微霜初渡河。\n鸿雁不堪愁里听，云山况是客中过。\n关城树色催寒近，御苑砧声向晚多。\n莫见长安行乐处，空令岁月易蹉跎。",
+        pinyin: "cháo wén yóu zǐ chàng lí gē， zuó yè wēi shuāng chū dù hé。\nhóng yàn bù kān chóu lǐ tīng， yún shān kuàng shì kè zhōng guò。\nguān chéng shù sè cuī hán jìn， yù yuàn zhēn shēng xiàng wǎn duō。\nmò jiàn cháng ān xíng lè chù， kōng lìng suì yuè yì cuō tuó。",
         translation: "早晨听到你唱着离别的歌，昨夜你刚踏着微微的霜渡过河去。心里发愁的时候，最不忍听鸿雁的叫声；何况你还要一个人经过云雾里的山。关城的树色催着寒气越来越近，京城傍晚捣衣的声音也多起来。千万别把长安当成享乐的地方，白白让美好的岁月虚度了。",
       }
       ],
@@ -2410,8 +2410,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "群山万壑赴荆门，生长明妃尚有村。\n一去紫台连朔漠，独留青冢向黄昏。\n画图省识春风面，环佩空归夜月魂。(夜月 一作：月夜 环\n一作：环\n)\n千载琵琶作胡语，分明怨恨曲中论。",
-        pinyin: "qún shān wàn hè fù jīng mén， shēng zhǎng míng fēi shàng yǒu cūn。\nyī qù zǐ tái lián shuò mò， dú liú qīng zhǒng xiàng huáng hūn。\nhuà tú shěng shí chūn fēng miàn， huán pèi kōng guī yè yuè hún。( yè yuè yī zuò： yuè yè huán\nyī zuò： huán\n\nqiān zǎi pí pa zuò hú yǔ， fēn míng yuàn hèn qǔ zhōng lùn。",
+        text: "群山万壑赴荆门，生长明妃尚有村。\n一去紫台连朔漠，独留青冢向黄昏。\n画图省识春风面，环佩空归夜月魂。\n千载琵琶作胡语，分明怨恨曲中论。",
+        pinyin: "qún shān wàn hè fù jīng mén， shēng zhǎng míng fēi shàng yǒu cūn。\nyī qù zǐ tái lián shuò mò， dú liú qīng zhǒng xiàng huáng hūn。\nhuà tú shěng shí chūn fēng miàn， huán pèi kōng guī yè yuè hún。\nqiān zǎi pí pa zuò hú yǔ， fēn míng yuàn hèn qǔ zhōng lùn。",
         translation: "千山万谷一路奔向荆门，那里还有王昭君生长过的小村庄。她一离开汉宫就去了北方的大沙漠，最后只留下一座青色的坟，孤零零地对着黄昏。皇帝只凭画像认人，没能认出她美丽的模样；月亮夜里，她的魂魄空空地回到家乡。千年来琵琶弹着胡地的曲子，那里面分明在诉说她的怨恨啊。",
       }
       ],
@@ -2501,8 +2501,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "花近高楼伤客心，万方多难此登临。\n锦江春色来天地，玉垒浮云变古今。\n北极朝廷终不改，西山寇盗莫相侵。\n可怜后主还祠庙，日暮聊为梁甫吟。(梁甫 一作：梁父)",
-        pinyin: "huā jìn gāo lóu shāng kè xīn， wàn fāng duō nán cǐ dēng lín。\njǐn jiāng chūn sè lái tiān dì， yù lěi fú yún biàn gǔ jīn。\nběi jí cháo tíng zhōng bù gǎi， xī shān kòu dào mò xiāng qīn。\nkě lián hòu zhǔ hái cí miào， rì mù liáo wèi liáng fǔ yín。( liáng fǔ yī zuò： liáng fù)",
+        text: "花近高楼伤客心，万方多难此登临。\n锦江春色来天地，玉垒浮云变古今。\n北极朝廷终不改，西山寇盗莫相侵。\n可怜后主还祠庙，日暮聊为梁甫吟。",
+        pinyin: "huā jìn gāo lóu shāng kè xīn， wàn fāng duō nán cǐ dēng lín。\njǐn jiāng chūn sè lái tiān dì， yù lěi fú yún biàn gǔ jīn。\nběi jí cháo tíng zhōng bù gǎi， xī shān kòu dào mò xiāng qīn。\nkě lián hòu zhǔ hái cí miào， rì mù liáo wèi liáng fǔ yín。",
         translation: "高楼边开满了花，却让在外的我更加伤心；天下这么多灾难，我偏偏在这时候登上楼来。锦江的春色铺满天地，玉垒山上的浮云从古到今变幻不停。朝廷像北极星一样永远不会改变，西山的强盗们不要再来侵犯。可怜亡国的后主居然还有祠庙，太阳落山了，我姑且学着他的样子吟一首诗吧。",
       }
       ],
@@ -2514,8 +2514,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "丞相祠堂何处寻，锦官城外柏森森。\n映阶碧草自春色，隔叶黄鹂空好音。\n三顾频烦天下计，两朝开济老臣心。(频烦 一作：频繁)\n出师未捷身先死，长使英雄泪满襟。",
-        pinyin: "chéng xiàng cí táng hé chù xún， jǐn guān chéng wài bǎi sēn sēn。\nyìng jiē bì cǎo zì chūn sè， gé yè huáng lí kōng hǎo yīn。\nsān gù pín fán tiān xià jì， liǎng cháo kāi jì lǎo chén xīn。( pín fán yī zuò： pín fán)\nchū shī wèi jié shēn xiān sǐ， cháng shǐ yīng xióng lèi mǎn jīn。",
+        text: "丞相祠堂何处寻，锦官城外柏森森。\n映阶碧草自春色，隔叶黄鹂空好音。\n三顾频烦天下计，两朝开济老臣心。\n出师未捷身先死，长使英雄泪满襟。",
+        pinyin: "chéng xiàng cí táng hé chù xún， jǐn guān chéng wài bǎi sēn sēn。\nyìng jiē bì cǎo zì chūn sè， gé yè huáng lí kōng hǎo yīn。\nsān gù pín fán tiān xià jì， liǎng cháo kāi jì lǎo chén xīn。\nchū shī wèi jié shēn xiān sǐ， cháng shǐ yīng xióng lèi mǎn jīn。",
         translation: "到哪里去寻找诸葛丞相的祠堂呢？就在锦官城外那片苍翠的柏树林里。碧绿的草映着台阶，白白地展现着春色；树叶深处的黄鹂，白白地唱着好听的歌。先主三次登门拜访，请您出山共商天下大计；您辅佐两代君王，一片老臣的忠心。可惜出师还没打胜仗，您就先去世了，千百年来总让英雄们泪水湿透衣襟。",
       }
       ],
@@ -2527,8 +2527,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "舍南舍北皆春水，但见群鸥日日来。\n花径不曾缘客扫，蓬门今始为君开。\n盘飧市远无兼味，樽酒家贫只旧醅。\n肯与邻翁相对饮，隔篱呼取尽余杯。(余 通：余)",
-        pinyin: "shè nán shè běi jiē chūn shuǐ， dàn jiàn qún ōu rì rì lái。\nhuā jìng bù céng yuán kè sǎo， péng mén jīn shǐ wèi jūn kāi。\npán sūn shì yuǎn wú jiān wèi， zūn jiǔ jiā pín zhī jiù pēi。\nkěn yǔ lín wēng xiāng duì yǐn， gé lí hū qǔ jìn yú bēi。( yú tōng： yú)",
+        text: "舍南舍北皆春水，但见群鸥日日来。\n花径不曾缘客扫，蓬门今始为君开。\n盘飧市远无兼味，樽酒家贫只旧醅。\n肯与邻翁相对饮，隔篱呼取尽余杯。",
+        pinyin: "shè nán shè běi jiē chūn shuǐ， dàn jiàn qún ōu rì rì lái。\nhuā jìng bù céng yuán kè sǎo， péng mén jīn shǐ wèi jūn kāi。\npán sūn shì yuǎn wú jiān wèi， zūn jiǔ jiā pín zhī jiù pēi。\nkěn yǔ lín wēng xiāng duì yǐn， gé lí hū qǔ jìn yú bēi。",
         translation: "我的屋子南边北边都是春天的水，只看见一群群鸥鸟天天飞来。长满花草的小路，从来没有为客人扫过；今天这扇柴门，第一次为你打开。集市太远，盘子里的菜没有几样；家里穷，酒也只是没过滤的陈酒。要是你不嫌弃，我就隔着篱笆喊邻家的老翁过来，把剩下的酒一起喝干。",
       }
       ],
@@ -2540,8 +2540,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "西山白雪三城戍，南浦清江万里桥。\n海内风尘诸弟隔，天涯涕泪一身遥。\n惟将迟暮供多病，未有涓埃答圣朝。(惟 通：唯)\n跨马出郊时极目，不堪人事日萧条。",
-        pinyin: "xī shān bái xuě sān chéng shù， nán pǔ qīng jiāng wàn lǐ qiáo。\nhǎi nèi fēng chén zhū dì gé， tiān yá tì lèi yī shēn yáo。\nwéi jiāng chí mù gòng duō bìng， wèi yǒu juān āi dá shèng cháo。( wéi tōng： wéi)\nkuà mǎ chū jiāo shí jí mù， bù kān rén shì rì xiāo tiáo。",
+        text: "西山白雪三城戍，南浦清江万里桥。\n海内风尘诸弟隔，天涯涕泪一身遥。\n惟将迟暮供多病，未有涓埃答圣朝。\n跨马出郊时极目，不堪人事日萧条。",
+        pinyin: "xī shān bái xuě sān chéng shù， nán pǔ qīng jiāng wàn lǐ qiáo。\nhǎi nèi fēng chén zhū dì gé， tiān yá tì lèi yī shēn yáo。\nwéi jiāng chí mù gòng duō bìng， wèi yǒu juān āi dá shèng cháo。\nkuà mǎ chū jiāo shí jí mù， bù kān rén shì rì xiāo tiáo。",
         translation: "西山顶上白雪覆盖，那里有三座城在驻守；南边水边是清澈的江水，江上有万里桥。战乱让弟弟们隔在天各一方，我在遥远的天边独自流泪。我只能把晚年交给一身疾病，没有一点点功劳来报答朝廷。骑马出到郊外，常常放眼远望；世间的事一天天萧条，真叫人看不下去啊。",
       }
       ],
@@ -2566,8 +2566,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "莺啼燕语报新年，马邑龙堆路几千。\n家住层城临汉苑，心随明月到胡天。(层城 一作：秦城)\n机中锦字论长恨，楼上花枝笑独眠。\n为问元戎窦车骑，何时返旆勒燕然。",
-        pinyin: "yīng tí yàn yǔ bào xīn nián， mǎ yì lóng duī lù jǐ qiān。\njiā zhù céng chéng lín hàn yuàn， xīn suí míng yuè dào hú tiān。( céng chéng yī zuò： qín chéng)\njī zhōng jǐn zì lùn cháng hèn， lóu shàng huā zhī xiào dú mián。\nwèi wèn yuán róng dòu chē qí， hé shí fǎn pèi lè yàn rán。",
+        text: "莺啼燕语报新年，马邑龙堆路几千。\n家住层城临汉苑，心随明月到胡天。\n机中锦字论长恨，楼上花枝笑独眠。\n为问元戎窦车骑，何时返旆勒燕然。",
+        pinyin: "yīng tí yàn yǔ bào xīn nián， mǎ yì lóng duī lù jǐ qiān。\njiā zhù céng chéng lín hàn yuàn， xīn suí míng yuè dào hú tiān。\njī zhōng jǐn zì lùn cháng hèn， lóu shàng huā zhī xiào dú mián。\nwèi wèn yuán róng dòu chē qí， hé shí fǎn pèi lè yàn rán。",
         translation: "黄莺啼、燕子叫，报告新年的来到；可丈夫远在边地，路有几千里的远。她的家住在京城，靠着皇家的园林，心却跟着明月飞到了丈夫所在的北方。织机上织出的锦字回文，写尽了长长的怨恨；楼上的花枝，好像在笑话她一个人睡觉。请问领兵的将军，你们什么时候打了胜仗，把旗帜插上燕然山回来呢？",
       }
       ],
@@ -2592,8 +2592,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "燕台一望客心惊，笳鼓喧喧汉将营。(笳鼓 一作：箫鼓)\n万里寒光生积雪，三边曙色动危旌。\n沙场烽火侵胡月，海畔云山拥蓟城。\n少小虽非投笔吏，论功还欲请长缨。",
-        pinyin: "yàn tái yī wàng kè xīn jīng， jiā gǔ xuān xuān hàn jiāng yíng。( jiā gǔ yī zuò： xiāo gǔ)\nwàn lǐ hán guāng shēng jī xuě， sān biān shǔ sè dòng wēi jīng。\nshā chǎng fēng huǒ qīn hú yuè， hǎi pàn yún shān yōng jì chéng。\nshǎo xiǎo suī fēi tóu bǐ lì， lùn gōng hái yù qǐng cháng yīng。",
+        text: "燕台一望客心惊，笳鼓喧喧汉将营。\n万里寒光生积雪，三边曙色动危旌。\n沙场烽火侵胡月，海畔云山拥蓟城。\n少小虽非投笔吏，论功还欲请长缨。",
+        pinyin: "yàn tái yī wàng kè xīn jīng， jiā gǔ xuān xuān hàn jiāng yíng。\nwàn lǐ hán guāng shēng jī xuě， sān biān shǔ sè dòng wēi jīng。\nshā chǎng fēng huǒ qīn hú yuè， hǎi pàn yún shān yōng jì chéng。\nshǎo xiǎo suī fēi tóu bǐ lì， lùn gōng hái yù qǐng cháng yīng。",
         translation: "登上燕台一望，游子心里不禁震动，军营里胡笳战鼓响成一片。万里雪地闪着寒光，边关的曙色中高高的军旗在飘动。战场上的烽火连月亮都像被熏暗了，海边的云山簇拥着蓟城。我小时候虽然不是投笔从戎的人，可论到立功，也想请求一根长缨，为国家出力。",
       }
       ],
@@ -2722,8 +2722,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "汀洲无浪复无烟，楚客相思益渺然。\n汉口夕阳斜渡鸟，洞庭秋水远连天。\n孤城背岭寒吹角，独树临江夜泊船。(独树 一作：独戍)\n贾谊上书忧汉室，长沙谪去古今怜。",
-        pinyin: "tīng zhōu wú làng fù wú yān， chǔ kè xiāng sī yì miǎo rán。\nhàn kǒu xī yáng xié dù niǎo， dòng tíng qiū shuǐ yuǎn lián tiān。\ngū chéng bèi lǐng hán chuī jiǎo， dú shù lín jiāng yè bó chuán。( dú shù yī zuò： dú shù)\njiǎ yì shàng shū yōu hàn shì， cháng shā zhé qù gǔ jīn lián。",
+        text: "汀洲无浪复无烟，楚客相思益渺然。\n汉口夕阳斜渡鸟，洞庭秋水远连天。\n孤城背岭寒吹角，独树临江夜泊船。\n贾谊上书忧汉室，长沙谪去古今怜。",
+        pinyin: "tīng zhōu wú làng fù wú yān， chǔ kè xiāng sī yì miǎo rán。\nhàn kǒu xī yáng xié dù niǎo， dòng tíng qiū shuǐ yuǎn lián tiān。\ngū chéng bèi lǐng hán chuī jiǎo， dú shù lín jiāng yè bó chuán。\njiǎ yì shàng shū yōu hàn shì， cháng shā zhé qù gǔ jīn lián。",
         translation: "水中的小洲没有波浪也没有烟雾，漂泊的人思念得更远了。汉口的夕阳里，鸟儿斜斜地飞过江去；洞庭湖的秋水远远连着天。孤城背靠山岭，寒风中吹响号角；一棵树临着江，夜里泊下船。贾谊上书忧心汉室，被贬到长沙，古往今来都让人怜惜。",
       }
       ],
@@ -2826,8 +2826,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "斜阳照墟落，穷巷牛羊归。(斜阳 一作：斜光)\n野老念牧童，倚杖候荆扉。\n雉雊麦苗秀，蚕眠桑叶稀。\n田夫荷锄至，相见语依依。\n即此羡闲逸，怅然吟式微。",
-        pinyin: "xié yáng zhào xū luò， qióng xiàng niú yáng guī。( xié yáng yī zuò： xié guāng)\nyě lǎo niàn mù tóng， yǐ zhàng hòu jīng fēi。\nzhì gòu mài miáo xiù， cán mián sāng yè xī。\ntián fū hé chú zhì， xiāng jiàn yǔ yī yī。\njí cǐ xiàn xián yì， chàng rán yín shì wēi。",
+        text: "斜阳照墟落，穷巷牛羊归。\n野老念牧童，倚杖候荆扉。\n雉雊麦苗秀，蚕眠桑叶稀。\n田夫荷锄至，相见语依依。\n即此羡闲逸，怅然吟式微。",
+        pinyin: "xié yáng zhào xū luò， qióng xiàng niú yáng guī。\nyě lǎo niàn mù tóng， yǐ zhàng hòu jīng fēi。\nzhì gòu mài miáo xiù， cán mián sāng yè xī。\ntián fū hé chú zhì， xiāng jiàn yǔ yī yī。\njí cǐ xiàn xián yì， chàng rán yín shì wēi。",
         translation: "夕阳照着村庄，深巷里牛羊都回来了。老人惦记着放牛的孩子，拄着拐杖在柴门口等。野鸡咕咕叫，麦苗正吐穗；蚕儿睡了，桑叶稀疏。农夫扛着锄头回来，见面后亲亲热热地说着话。这样的安闲真让人羡慕，我惆怅地吟起想回家的歌。",
       }
       ],
@@ -2878,8 +2878,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "言入黄花川，每逐清溪水。\n随山将万转，趣途无百里。\n声喧乱石中，色静深松里。\n漾漾泛菱荇，澄澄映葭苇。\n我心素已闲，清川澹如此。\n请留磐石上，垂钓将已矣。(磐石 一作：盘石)",
-        pinyin: "yán rù huáng huā chuān， měi zhú qīng xī shuǐ。\nsuí shān jiāng wàn zhuǎn， qù tú wú bǎi lǐ。\nshēng xuān luàn shí zhōng， sè jìng shēn sōng lǐ。\nyàng yàng fàn líng xìng， chéng chéng yìng jiā wěi。\nwǒ xīn sù yǐ xián， qīng chuān dàn rú cǐ。\nqǐng liú pán shí shàng， chuí diào jiāng yǐ yǐ。( pán shí yī zuò： pán shí)",
+        text: "言入黄花川，每逐清溪水。\n随山将万转，趣途无百里。\n声喧乱石中，色静深松里。\n漾漾泛菱荇，澄澄映葭苇。\n我心素已闲，清川澹如此。\n请留磐石上，垂钓将已矣。",
+        pinyin: "yán rù huáng huā chuān， měi zhú qīng xī shuǐ。\nsuí shān jiāng wàn zhuǎn， qù tú wú bǎi lǐ。\nshēng xuān luàn shí zhōng， sè jìng shēn sōng lǐ。\nyàng yàng fàn líng xìng， chéng chéng yìng jiā wěi。\nwǒ xīn sù yǐ xián， qīng chuān dàn rú cǐ。\nqǐng liú pán shí shàng， chuí diào jiāng yǐ yǐ。",
         translation: "一走进黄花川，我总是沿着那清清的溪水走。溪水随着山势千回百转，走过的路却不到百里。水声在乱石间喧闹，水色在深松里安静。水波荡漾着菱叶荇菜，澄澈的水面映出芦苇。我的心本来已经安闲，清清的溪水也这样恬淡。我想留在大石头上，垂着钓竿度过一生。",
       }
       ],
@@ -2891,8 +2891,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "塔势如涌出，孤高耸天宫。\n登临出世界，磴道盘虚空。\n突兀压神州，峥嵘如鬼工。\n四角碍白日，七层摩苍穹。\n下窥指高鸟，俯听闻惊风。\n连山若波涛，奔凑似朝东。(凑 一作：走；似 一作：如)\n青槐夹驰道，宫馆何玲珑。(馆 一作：观)\n秋色从西来，苍然满关中。\n五陵北原上，万古青蒙蒙。\n净理了可悟，胜因夙所宗。\n誓将挂冠去，觉道资无穷。",
-        pinyin: "tǎ shì rú yǒng chū， gū gāo sǒng tiān gōng。\ndēng lín chū shì jiè， dèng dào pán xū kōng。\ntū wù yā shén zhōu， zhēng róng rú guǐ gōng。\nsì jiǎo ài bái rì， qī céng mó cāng qióng。\nxià kuī zhǐ gāo niǎo， fǔ tīng wén jīng fēng。\nlián shān ruò bō tāo， bēn còu sì cháo dōng。( còu yī zuò： zǒu； sì yī zuò： rú)\nqīng huái jiá chí dào， gōng guǎn hé líng lóng。( guǎn yī zuò： guān)\nqiū sè cóng xī lái， cāng rán mǎn guān zhōng。\nwǔ líng běi yuán shàng， wàn gǔ qīng méng méng。\njìng lǐ le kě wù， shèng yīn sù suǒ zōng。\nshì jiāng guà guān qù， jué dào zī wú qióng。",
+        text: "塔势如涌出，孤高耸天宫。\n登临出世界，磴道盘虚空。\n突兀压神州，峥嵘如鬼工。\n四角碍白日，七层摩苍穹。\n下窥指高鸟，俯听闻惊风。\n连山若波涛，奔凑似朝东。\n青槐夹驰道，宫馆何玲珑。\n秋色从西来，苍然满关中。\n五陵北原上，万古青蒙蒙。\n净理了可悟，胜因夙所宗。\n誓将挂冠去，觉道资无穷。",
+        pinyin: "tǎ shì rú yǒng chū， gū gāo sǒng tiān gōng。\ndēng lín chū shì jiè， dèng dào pán xū kōng。\ntū wù yā shén zhōu， zhēng róng rú guǐ gōng。\nsì jiǎo ài bái rì， qī céng mó cāng qióng。\nxià kuī zhǐ gāo niǎo， fǔ tīng wén jīng fēng。\nlián shān ruò bō tāo， bēn còu sì cháo dōng。\nqīng huái jiá chí dào， gōng guǎn hé líng lóng。\nqiū sè cóng xī lái， cāng rán mǎn guān zhōng。\nwǔ líng běi yuán shàng， wàn gǔ qīng méng méng。\njìng lǐ le kě wù， shèng yīn sù suǒ zōng。\nshì jiāng guà guān qù， jué dào zī wú qióng。",
         translation: "宝塔像从地里涌出来一样，孤零零高高地耸向天空。登上塔顶就像走出了人世，石阶盘旋在半空里。它高高地立在神州大地上，雄伟得像鬼斧神工。四角挡住了白天的太阳，七层塔一直摸到青天。往下看能指点高飞的鸟，俯下身能听到吓人的风声。连绵的群山像波涛，奔涌着好像朝东流去。青槐夹着大路，宫殿楼台多么精巧。秋色从西边来了，苍苍茫茫铺满关中。北边原上的五座陵墓，千秋万代一片青蒙蒙。清净的道理可以领悟，美好的因缘我早就信奉。我发誓要挂起官帽离开，觉悟的大道给我无穷的滋养。",
       }
       ],
@@ -2917,8 +2917,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "花间一壶酒，独酌无相亲。\n举杯邀明月，对影成三人。\n月既不解饮，影徒随我身。\n暂伴月将影，行乐须及春。\n我歌月徘徊，我舞影零乱。\n醒时同交欢，醉后各分散。(同交欢 一作：相交欢)\n永结无情游，相期邈云汉。",
-        pinyin: "huā jiān yī hú jiǔ， dú zhuó wú xiāng qīn。\njǔ bēi yāo míng yuè， duì yǐng chéng sān rén。\nyuè jì bù jiě yǐn， yǐng tú suí wǒ shēn。\nzàn bàn yuè jiāng yǐng， xíng lè xū jí chūn。\nwǒ gē yuè pái huái， wǒ wǔ yǐng líng luàn。\nxǐng shí tóng jiāo huān， zuì hòu gè fēn sàn。( tóng jiāo huān yī zuò： xiāng jiāo huān)\nyǒng jié wú qíng yóu， xiāng qī miǎo yún hàn。",
+        text: "花间一壶酒，独酌无相亲。\n举杯邀明月，对影成三人。\n月既不解饮，影徒随我身。\n暂伴月将影，行乐须及春。\n我歌月徘徊，我舞影零乱。\n醒时同交欢，醉后各分散。\n永结无情游，相期邈云汉。",
+        pinyin: "huā jiān yī hú jiǔ， dú zhuó wú xiāng qīn。\njǔ bēi yāo míng yuè， duì yǐng chéng sān rén。\nyuè jì bù jiě yǐn， yǐng tú suí wǒ shēn。\nzàn bàn yuè jiāng yǐng， xíng lè xū jí chūn。\nwǒ gē yuè pái huái， wǒ wǔ yǐng líng luàn。\nxǐng shí tóng jiāo huān， zuì hòu gè fēn sàn。\nyǒng jié wú qíng yóu， xiāng qī miǎo yún hàn。",
         translation: "花丛间摆着一壶酒，独自喝，没有亲近的人。举起杯邀请明月，加上影子就成了三个人。月亮不懂得喝酒，影子也只白白跟着我。暂且和月亮、影子做伴，行乐要趁着春光正好。我唱歌，月亮在空中徘徊；我跳舞，影子摇摇晃晃。清醒的时候一起欢乐，醉了以后就各自散开。愿意永远结成不带世情的游乐，约定在遥远的天河再相见。",
       }
       ],
@@ -2969,8 +2969,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "岱宗夫如何？齐鲁青未了。\n造化钟神秀，阴阳割昏晓。\n荡胸生曾云，决眦入归鸟。( 曾 通：层)\n会当凌绝顶，一览众山小。",
-        pinyin: "dài zōng fū rú hé？ qí lǔ qīng wèi liǎo。\nzào huà zhōng shén xiù， yīn yáng gē hūn xiǎo。\ndàng xiōng shēng céng yún， jué zì rù guī niǎo。( céng tōng： céng)\nhuì dāng líng jué dǐng， yī lǎn zhòng shān xiǎo。",
+        text: "岱宗夫如何？齐鲁青未了。\n造化钟神秀，阴阳割昏晓。\n荡胸生曾云，决眦入归鸟。\n会当凌绝顶，一览众山小。",
+        pinyin: "dài zōng fū rú hé？ qí lǔ qīng wèi liǎo。\nzào huà zhōng shén xiù， yīn yáng gē hūn xiǎo。\ndàng xiōng shēng céng yún， jué zì rù guī niǎo。\nhuì dāng líng jué dǐng， yī lǎn zhòng shān xiǎo。",
         translation: "泰山到底怎么样呢？齐鲁大地上它青翠的山色望不到尽头。大自然把神奇和秀美都给了它，山南山北，一明一暗像分了黄昏和清晨。层层云气在心中激荡，睁大眼睛远望归巢的飞鸟。我一定要登上最高的山顶，到那时看群山，都会显得矮小。",
       }
       ],
@@ -3008,8 +3008,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "北山白云里，隐者自怡悦。\n相望试登高，心随雁飞灭。(试 一作 始)\n愁因薄暮起，兴是清秋发。\n时见归村人，沙行渡头歇。\n天边树若荠，江畔洲如月。\n何当载酒来，共醉重阳节。",
-        pinyin: "běi shān bái yún lǐ， yǐn zhě zì yí yuè。\nxiāng wàng shì dēng gāo， xīn suí yàn fēi miè。( shì yī zuò shǐ)\nchóu yīn bó mù qǐ， xīng shì qīng qiū fā。\nshí jiàn guī cūn rén， shā xíng dù tóu xiē。\ntiān biān shù ruò qí， jiāng pàn zhōu rú yuè。\nhé dāng zǎi jiǔ lái， gòng zuì chóng yáng jié。",
+        text: "北山白云里，隐者自怡悦。\n相望试登高，心随雁飞灭。\n愁因薄暮起，兴是清秋发。\n时见归村人，沙行渡头歇。\n天边树若荠，江畔洲如月。\n何当载酒来，共醉重阳节。",
+        pinyin: "běi shān bái yún lǐ， yǐn zhě zì yí yuè。\nxiāng wàng shì dēng gāo， xīn suí yàn fēi miè。\nchóu yīn bó mù qǐ， xīng shì qīng qiū fā。\nshí jiàn guī cūn rén， shā xíng dù tóu xiē。\ntiān biān shù ruò qí， jiāng pàn zhōu rú yuè。\nhé dāng zǎi jiǔ lái， gòng zuì chóng yáng jié。",
         translation: "北山上白云缭绕，隐居的人自己觉得快乐。为了望见你，我试着登上高处，心随着大雁飞远消失。忧愁在傍晚时升起，兴致因清秋而高涨。时时看见回村的人，沿着沙滩在渡口歇脚。天边的树小得像荠菜，江边的沙洲像一弯月亮。你什么时候带着酒来，我们在重阳节一起畅饮大醉。",
       }
       ],
@@ -3021,8 +3021,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "山光忽西落，池月渐东上。\n散发乘夕凉，开轩卧闲敞。\n荷风送香气，竹露滴清响。\n欲取鸣琴弹，恨无知音赏。\n感此怀故人，中宵劳梦想。(\n宵 一作：终)",
-        pinyin: "shān guāng hū xī luò， chí yuè jiàn dōng shàng。\nsàn fā chéng xī liáng， kāi xuān wò xián chǎng。\nhé fēng sòng xiāng qì， zhú lù dī qīng xiǎng。\nyù qǔ míng qín tán， hèn wú zhī yīn shǎng。\ngǎn cǐ huái gù rén， zhōng xiāo láo mèng xiǎng。(\nxiāo yī zuò： zhōng)",
+        text: "山光忽西落，池月渐东上。\n散发乘夕凉，开轩卧闲敞。\n荷风送香气，竹露滴清响。\n欲取鸣琴弹，恨无知音赏。\n感此怀故人，中宵劳梦想。",
+        pinyin: "shān guāng hū xī luò， chí yuè jiàn dōng shàng。\nsàn fā chéng xī liáng， kāi xuān wò xián chǎng。\nhé fēng sòng xiāng qì， zhú lù dī qīng xiǎng。\nyù qǔ míng qín tán， hèn wú zhī yīn shǎng。\ngǎn cǐ huái gù rén， zhōng xiāo láo mèng xiǎng。",
         translation: "山上的太阳忽然落向西边，池上的月亮慢慢从东边升起来。我散开头发乘着晚上的凉风，推开窗子躺在宽敞的地方。荷花的风送来香气，竹叶上的露水滴出清脆的响声。想拿来鸣琴弹一曲，只可惜没有知音欣赏。想到这些就怀念老朋友，半夜里还在梦中苦苦想念。",
       }
       ],
@@ -3268,8 +3268,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "汉皇重色思倾国，御宇多年求不得。杨家有女初长成，养在深闺人未识。\n天生丽质难自弃，一朝选在君王侧。回眸一笑百媚生，六宫粉黛无颜色。\n春寒赐浴华清池，温泉水滑洗凝脂。侍儿扶起娇无力，始是新承恩泽时。\n云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。\n承欢侍宴无闲暇，春从春游夜专夜。后宫佳丽三千人，三千宠爱在一身。\n金屋妆成娇侍夜，玉楼宴罢醉和春。姊妹弟兄皆列土，可怜光彩生门户。\n遂令天下父母心，不重生男重生女。骊宫高处入青云，仙乐风飘处处闻。\n缓歌慢舞凝丝竹，尽日君王看不足。渔阳鼙鼓动地来，惊破霓裳羽衣曲。\n九重城阙烟尘生，千乘万骑西南行。翠华摇摇行复止，西出都门百余里。\n六军不发无奈何，宛转蛾眉马前死。花钿委地无人收，翠翘金雀玉搔头。\n君王掩面救不得，回看血泪相和流。黄埃散漫风萧索，云栈萦纡登剑阁。\n峨嵋山下少人行，旌旗无光日色薄。蜀江水碧蜀山青，圣主朝朝暮暮情。\n行宫见月伤心色，夜雨闻铃肠断声。天旋地转回龙驭，到此踌躇不能去。\n马嵬坡下泥土中，不见玉颜空死处。君臣相顾尽沾衣，东望都门信马归。\n归来池苑皆依旧，太液芙蓉未央柳。芙蓉如面柳如眉，对此如何不泪垂。\n春风桃李花开日，秋雨梧桐叶落时。西宫南内多秋草，落叶满阶红不扫。(花开日 一作：花开夜；南内 一作：南苑)\n梨园弟子白发新，椒房阿监青娥老。夕殿萤飞思悄然，孤灯挑尽未成眠。\n迟迟钟鼓初长夜，耿耿星河欲曙天。鸳鸯瓦冷霜华重，翡翠衾寒谁与共。\n悠悠生死别经年，魂魄不曾来入梦。临邛道士鸿都客，能以精诚致魂魄。\n为感君王辗转思，遂教方士殷勤觅。排空驭气奔如电，升天入地求之遍。\n上穷碧落下黄泉，两处茫茫皆不见。忽闻海上有仙山，山在虚无缥渺间。\n楼阁玲珑五云起，其中绰约多仙子。中有一人字太真，雪肤花貌参差是。\n金阙西厢叩玉扃，转教小玉报双成。闻道汉家天子使，九华帐里梦魂惊。\n揽衣推枕起徘徊，珠箔银屏迤逦开。云鬓半偏新睡觉，花冠不整下堂来。\n风吹仙袂飘飘举，犹似霓裳羽衣舞。玉容寂寞泪阑干，梨花一枝春带雨。(阑 通：栏；飘飘 一作：飘飖)\n含情凝睇谢君王，一别音容两渺茫。昭阳殿里恩爱绝，蓬莱宫中日月长。\n回头下望人寰处，不见长安见尘雾。惟将旧物表深情，钿合金钗寄将去。\n钗留一股合一扇，钗擘黄金合分钿。但教心似金钿坚，天上人间会相见。\n临别殷勤重寄词，词中有誓两心知。七月七日长生殿，夜半无人私语时。\n在天愿作比翼鸟，在地愿为连理枝。天长地久有时尽，此恨绵绵无绝期。",
-        pinyin: "hàn huáng zhòng sè sī qīng guó， yù yǔ duō nián qiú bù dé。 yáng jiā yǒu nǚ chū cháng chéng， yǎng zài shēn guī rén wèi shí。\ntiān shēng lì zhì nán zì qì， yī cháo xuǎn zài jūn wáng cè。 huí móu yī xiào bǎi mèi shēng， liù gōng fěn dài wú yán sè。\nchūn hán cì yù huá qīng chí， wēn quán shuǐ huá xǐ níng zhī。 shì ér fú qǐ jiāo wú lì， shǐ shì xīn chéng ēn zé shí。\nyún bìn huā yán jīn bù yáo， fú róng zhàng nuǎn dù chūn xiāo。 chūn xiāo kǔ duǎn rì gāo qǐ， cóng cǐ jūn wáng bù zǎo cháo。\nchéng huān shì yàn wú xián xiá， chūn cóng chūn yóu yè zhuān yè。 hòu gōng jiā lì sān qiān rén， sān qiān chǒng ài zài yī shēn。\njīn wū zhuāng chéng jiāo shì yè， yù lóu yàn bà zuì hé chūn。 zǐ mèi dì xiong jiē liè tǔ， kě lián guāng cǎi shēng mén hù。\nsuì lìng tiān xià fù mǔ xīn， bù chóng shēng nán chóng shēng nǚ。 lí gōng gāo chù rù qīng yún， xiān lè fēng piāo chù chù wén。\nhuǎn gē màn wǔ níng sī zhú， jìn rì jūn wáng kàn bù zú。 yú yáng pí gǔ dòng dì lái， jīng pò ní cháng yǔ yī qǔ。\njiǔ chóng chéng quē yān chén shēng， qiān chéng wàn qí xī nán xíng。 cuì huá yáo yáo xíng fù zhǐ， xī chū dōu mén bǎi yú lǐ。\nliù jūn bù fā wú nài hé， wǎn zhuǎn é méi mǎ qián sǐ。 huā diàn wěi dì wú rén shōu， cuì qiào jīn què yù sāo tóu。\njūn wáng yǎn miàn jiù bù dé， huí kàn xuè lèi xiāng hé liú。 huáng āi sǎn màn fēng xiāo suǒ， yún zhàn yíng yū dēng jiàn gé。\né méi shān xià shǎo rén xíng， jīng qí wú guāng rì sè báo。 shǔ jiāng shuǐ bì shǔ shān qīng， shèng zhǔ zhāo zhāo mù mù qíng。\nxíng gōng jiàn yuè shāng xīn sè， yè yǔ wén líng cháng duàn shēng。 tiān xuán dì zhuàn huí lóng yù， dào cǐ chóu chú bù néng qù。\nmǎ wéi pō xià ní tǔ zhōng， bù jiàn yù yán kōng sǐ chù。 jūn chén xiāng gù jìn zhān yī， dōng wàng dōu mén xìn mǎ guī。\nguī lái chí yuàn jiē yī jiù， tài yè fú róng wèi yāng liǔ。 fú róng rú miàn liǔ rú méi， duì cǐ rú hé bù lèi chuí。\nchūn fēng táo lǐ huā kāi rì， qiū yǔ wú tóng yè luò shí。 xī gōng nán nèi duō qiū cǎo， luò yè mǎn jiē hóng bù sǎo。( huā kāi rì yī zuò： huā kāi yè； nán nèi yī zuò： nán yuàn)\nlí yuán dì zǐ bái fà xīn， jiāo fáng ā jiān qīng é lǎo。 xī diàn yíng fēi sī qiǎo rán， gū dēng tiāo jìn wèi chéng mián。\nchí chí zhōng gǔ chū cháng yè， gěng gěng xīng hé yù shǔ tiān。 yuān yāng wǎ lěng shuāng huá zhòng， fěi cuì qīn hán shuí yǔ gòng。\nyōu yōu shēng sǐ bié jīng nián， hún pò bù céng lái rù mèng。 lín qióng dào shì hóng dōu kè， néng yǐ jīng chéng zhì hún pò。\nwèi gǎn jūn wáng niǎn zhuǎn sī， suì jiào fāng shì yīn qín mì。 pái kōng yù qì bēn rú diàn， shēng tiān rù dì qiú zhī biàn。\nshàng qióng bì luò xià huáng quán， liǎng chù máng máng jiē bù jiàn。 hū wén hǎi shàng yǒu xiān shān， shān zài xū wú piǎo miǎo jiān。\nlóu gé líng lóng wǔ yún qǐ， qí zhōng chuò yuē duō xiān zǐ。 zhōng yǒu yī rén zì tài zhēn， xuě fū huā mào cēn cī shì。\njīn quē xī xiāng kòu yù jiōng， zhuǎn jiào xiǎo yù bào shuāng chéng。 wén dào hàn jiā tiān zǐ shǐ， jiǔ huá zhàng lǐ mèng hún jīng。\nlǎn yī tuī zhěn qǐ pái huái， zhū bó yín píng yǐ lǐ kāi。 yún bìn bàn piān xīn shuì jué， huā guān bù zhěng xià táng lái。\nfēng chuī xiān mèi piāo piāo jǔ， yóu sì ní cháng yǔ yī wǔ。 yù róng jì mò lèi lán gān， lí huā yī zhī chūn dài yǔ。( lán tōng： lán； piāo piāo yī zuò： piāo yáo)\nhán qíng níng dì xiè jūn wáng， yī bié yīn róng liǎng miǎo máng。 zhāo yáng diàn lǐ ēn ài jué， péng lái gōng zhōng rì yuè cháng。\nhuí tóu xià wàng rén huán chù， bù jiàn cháng ān jiàn chén wù。 wéi jiāng jiù wù biǎo shēn qíng， diàn hé jīn chāi jì jiāng qù。\nchāi liú yī gǔ hé yī shàn， chāi bò huáng jīn hé fēn diàn。 dàn jiào xīn sì jīn diàn jiān， tiān shàng rén jiān huì xiāng jiàn。\nlín bié yīn qín zhòng jì cí， cí zhōng yǒu shì liǎng xīn zhī。 qī yuè qī rì cháng shēng diàn， yè bàn wú rén sī yǔ shí。\nzài tiān yuàn zuò bǐ yì niǎo， zài dì yuàn wèi lián lǐ zhī。 tiān cháng dì jiǔ yǒu shí jìn， cǐ hèn mián mián wú jué qī。",
+        text: "汉皇重色思倾国，御宇多年求不得。杨家有女初长成，养在深闺人未识。\n天生丽质难自弃，一朝选在君王侧。回眸一笑百媚生，六宫粉黛无颜色。\n春寒赐浴华清池，温泉水滑洗凝脂。侍儿扶起娇无力，始是新承恩泽时。\n云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。\n承欢侍宴无闲暇，春从春游夜专夜。后宫佳丽三千人，三千宠爱在一身。\n金屋妆成娇侍夜，玉楼宴罢醉和春。姊妹弟兄皆列土，可怜光彩生门户。\n遂令天下父母心，不重生男重生女。骊宫高处入青云，仙乐风飘处处闻。\n缓歌慢舞凝丝竹，尽日君王看不足。渔阳鼙鼓动地来，惊破霓裳羽衣曲。\n九重城阙烟尘生，千乘万骑西南行。翠华摇摇行复止，西出都门百余里。\n六军不发无奈何，宛转蛾眉马前死。花钿委地无人收，翠翘金雀玉搔头。\n君王掩面救不得，回看血泪相和流。黄埃散漫风萧索，云栈萦纡登剑阁。\n峨嵋山下少人行，旌旗无光日色薄。蜀江水碧蜀山青，圣主朝朝暮暮情。\n行宫见月伤心色，夜雨闻铃肠断声。天旋地转回龙驭，到此踌躇不能去。\n马嵬坡下泥土中，不见玉颜空死处。君臣相顾尽沾衣，东望都门信马归。\n归来池苑皆依旧，太液芙蓉未央柳。芙蓉如面柳如眉，对此如何不泪垂。\n春风桃李花开日，秋雨梧桐叶落时。西宫南内多秋草，落叶满阶红不扫。\n梨园弟子白发新，椒房阿监青娥老。夕殿萤飞思悄然，孤灯挑尽未成眠。\n迟迟钟鼓初长夜，耿耿星河欲曙天。鸳鸯瓦冷霜华重，翡翠衾寒谁与共。\n悠悠生死别经年，魂魄不曾来入梦。临邛道士鸿都客，能以精诚致魂魄。\n为感君王辗转思，遂教方士殷勤觅。排空驭气奔如电，升天入地求之遍。\n上穷碧落下黄泉，两处茫茫皆不见。忽闻海上有仙山，山在虚无缥渺间。\n楼阁玲珑五云起，其中绰约多仙子。中有一人字太真，雪肤花貌参差是。\n金阙西厢叩玉扃，转教小玉报双成。闻道汉家天子使，九华帐里梦魂惊。\n揽衣推枕起徘徊，珠箔银屏迤逦开。云鬓半偏新睡觉，花冠不整下堂来。\n风吹仙袂飘飘举，犹似霓裳羽衣舞。玉容寂寞泪阑干，梨花一枝春带雨。\n含情凝睇谢君王，一别音容两渺茫。昭阳殿里恩爱绝，蓬莱宫中日月长。\n回头下望人寰处，不见长安见尘雾。惟将旧物表深情，钿合金钗寄将去。\n钗留一股合一扇，钗擘黄金合分钿。但教心似金钿坚，天上人间会相见。\n临别殷勤重寄词，词中有誓两心知。七月七日长生殿，夜半无人私语时。\n在天愿作比翼鸟，在地愿为连理枝。天长地久有时尽，此恨绵绵无绝期。",
+        pinyin: "hàn huáng zhòng sè sī qīng guó， yù yǔ duō nián qiú bù dé。 yáng jiā yǒu nǚ chū cháng chéng， yǎng zài shēn guī rén wèi shí。\ntiān shēng lì zhì nán zì qì， yī cháo xuǎn zài jūn wáng cè。 huí móu yī xiào bǎi mèi shēng， liù gōng fěn dài wú yán sè。\nchūn hán cì yù huá qīng chí， wēn quán shuǐ huá xǐ níng zhī。 shì ér fú qǐ jiāo wú lì， shǐ shì xīn chéng ēn zé shí。\nyún bìn huā yán jīn bù yáo， fú róng zhàng nuǎn dù chūn xiāo。 chūn xiāo kǔ duǎn rì gāo qǐ， cóng cǐ jūn wáng bù zǎo cháo。\nchéng huān shì yàn wú xián xiá， chūn cóng chūn yóu yè zhuān yè。 hòu gōng jiā lì sān qiān rén， sān qiān chǒng ài zài yī shēn。\njīn wū zhuāng chéng jiāo shì yè， yù lóu yàn bà zuì hé chūn。 zǐ mèi dì xiong jiē liè tǔ， kě lián guāng cǎi shēng mén hù。\nsuì lìng tiān xià fù mǔ xīn， bù chóng shēng nán chóng shēng nǚ。 lí gōng gāo chù rù qīng yún， xiān lè fēng piāo chù chù wén。\nhuǎn gē màn wǔ níng sī zhú， jìn rì jūn wáng kàn bù zú。 yú yáng pí gǔ dòng dì lái， jīng pò ní cháng yǔ yī qǔ。\njiǔ chóng chéng quē yān chén shēng， qiān chéng wàn qí xī nán xíng。 cuì huá yáo yáo xíng fù zhǐ， xī chū dōu mén bǎi yú lǐ。\nliù jūn bù fā wú nài hé， wǎn zhuǎn é méi mǎ qián sǐ。 huā diàn wěi dì wú rén shōu， cuì qiào jīn què yù sāo tóu。\njūn wáng yǎn miàn jiù bù dé， huí kàn xuè lèi xiāng hé liú。 huáng āi sǎn màn fēng xiāo suǒ， yún zhàn yíng yū dēng jiàn gé。\né méi shān xià shǎo rén xíng， jīng qí wú guāng rì sè báo。 shǔ jiāng shuǐ bì shǔ shān qīng， shèng zhǔ zhāo zhāo mù mù qíng。\nxíng gōng jiàn yuè shāng xīn sè， yè yǔ wén líng cháng duàn shēng。 tiān xuán dì zhuàn huí lóng yù， dào cǐ chóu chú bù néng qù。\nmǎ wéi pō xià ní tǔ zhōng， bù jiàn yù yán kōng sǐ chù。 jūn chén xiāng gù jìn zhān yī， dōng wàng dōu mén xìn mǎ guī。\nguī lái chí yuàn jiē yī jiù， tài yè fú róng wèi yāng liǔ。 fú róng rú miàn liǔ rú méi， duì cǐ rú hé bù lèi chuí。\nchūn fēng táo lǐ huā kāi rì， qiū yǔ wú tóng yè luò shí。 xī gōng nán nèi duō qiū cǎo， luò yè mǎn jiē hóng bù sǎo。\nlí yuán dì zǐ bái fà xīn， jiāo fáng ā jiān qīng é lǎo。 xī diàn yíng fēi sī qiǎo rán， gū dēng tiāo jìn wèi chéng mián。\nchí chí zhōng gǔ chū cháng yè， gěng gěng xīng hé yù shǔ tiān。 yuān yāng wǎ lěng shuāng huá zhòng， fěi cuì qīn hán shuí yǔ gòng。\nyōu yōu shēng sǐ bié jīng nián， hún pò bù céng lái rù mèng。 lín qióng dào shì hóng dōu kè， néng yǐ jīng chéng zhì hún pò。\nwèi gǎn jūn wáng niǎn zhuǎn sī， suì jiào fāng shì yīn qín mì。 pái kōng yù qì bēn rú diàn， shēng tiān rù dì qiú zhī biàn。\nshàng qióng bì luò xià huáng quán， liǎng chù máng máng jiē bù jiàn。 hū wén hǎi shàng yǒu xiān shān， shān zài xū wú piǎo miǎo jiān。\nlóu gé líng lóng wǔ yún qǐ， qí zhōng chuò yuē duō xiān zǐ。 zhōng yǒu yī rén zì tài zhēn， xuě fū huā mào cēn cī shì。\njīn quē xī xiāng kòu yù jiōng， zhuǎn jiào xiǎo yù bào shuāng chéng。 wén dào hàn jiā tiān zǐ shǐ， jiǔ huá zhàng lǐ mèng hún jīng。\nlǎn yī tuī zhěn qǐ pái huái， zhū bó yín píng yǐ lǐ kāi。 yún bìn bàn piān xīn shuì jué， huā guān bù zhěng xià táng lái。\nfēng chuī xiān mèi piāo piāo jǔ， yóu sì ní cháng yǔ yī wǔ。 yù róng jì mò lèi lán gān， lí huā yī zhī chūn dài yǔ。\nhán qíng níng dì xiè jūn wáng， yī bié yīn róng liǎng miǎo máng。 zhāo yáng diàn lǐ ēn ài jué， péng lái gōng zhōng rì yuè cháng。\nhuí tóu xià wàng rén huán chù， bù jiàn cháng ān jiàn chén wù。 wéi jiāng jiù wù biǎo shēn qíng， diàn hé jīn chāi jì jiāng qù。\nchāi liú yī gǔ hé yī shàn， chāi bò huáng jīn hé fēn diàn。 dàn jiào xīn sì jīn diàn jiān， tiān shàng rén jiān huì xiāng jiàn。\nlín bié yīn qín zhòng jì cí， cí zhōng yǒu shì liǎng xīn zhī。 qī yuè qī rì cháng shēng diàn， yè bàn wú rén sī yǔ shí。\nzài tiān yuàn zuò bǐ yì niǎo， zài dì yuàn wèi lián lǐ zhī。 tiān cháng dì jiǔ yǒu shí jìn， cǐ hèn mián mián wú jué qī。",
         translation: "汉家的皇帝看重美色，一心想找一位绝代佳人，可统治多年也没有找到。杨家有个女儿刚刚长大，养在深闺里，被选到了君王身边，她回头一笑千娇百媚，宫里所有的美女都显得没有颜色。从此君王天天宠爱她，连早朝都不上了，她的姐妹兄弟也都封了高官。后来渔阳的战鼓忽然打响，惊破了宫中的歌舞，皇帝带着千军万马向西南逃去，走到半路将士不肯前行，她被处死在马前，皇帝掩着脸救不了她。战乱平定后皇帝回到京城，池水园子还是老样子，看见芙蓉想起她的脸，看见柳叶想起她的眉，从此日日夜夜想念，孤灯不眠。后来有一位道士说她成了仙，在海上虚无缥缈的仙山找到了她。她托道士把金钗钿盒分成两半带去作信物，还说起当年七夕夜里无人时的誓言：在天上愿做比翼双飞的鸟，在地上愿做枝干相连的树。天长地久总有个尽头，这悔恨却绵绵不断，永远没有结束的一天。",
       }
       ],
@@ -3281,8 +3281,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "浔阳江头夜送客，枫叶荻花秋瑟瑟。\n主人下马客在船，举酒欲饮无管弦。\n醉不成欢惨将别，别时茫茫江浸月。\n忽闻水上琵琶声，主人忘归客不发。\n寻声暗问弹者谁？琵琶声停欲语迟。\n移船相近邀相见，添酒回灯重开宴。\n千呼万唤始出来，犹抱琵琶半遮面。\n转轴拨弦三两声，未成曲调先有情。\n弦弦掩抑声声思，似诉平生不得志。（不得志 一作：意）\n低眉信手续续弹，说尽心中无限事。\n轻拢慢捻抹复挑，初为《霓裳》后《六幺》（六幺 一作：绿腰）。\n大弦嘈嘈如急雨，小弦切切如私语。\n嘈嘈切切错杂弹，大珠小珠落玉盘。\n间关莺语花底滑，幽咽泉流冰下难。\n冰泉冷涩弦凝绝，凝绝不通声暂歇。(暂歇 一作：渐歇)\n别有幽愁暗恨生，此时无声胜有声。\n银瓶乍破水浆迸，铁骑突出刀枪鸣。\n曲终收拨当心画，四弦一声如裂帛。\n东船西舫悄无言，唯见江心秋月白。\n沉吟放拨插弦中，整顿衣裳起敛容。\n自言本是京城女，家在虾蟆陵下住。\n十三学得琵琶成，名属教坊第一部。\n曲罢曾教善才服，妆成每被秋娘妒。\n五陵年少争缠头，一曲红绡不知数。\n钿头银篦击节碎，血色罗裙翻酒污。(银篦 一作：云)\n今年欢笑复明年，秋月春风等闲度。\n弟走从军阿姨死，暮去朝来颜色故。\n门前冷落鞍马稀，老大嫁作商人妇。\n商人重利轻别离，前月浮梁买茶去。\n去来江口守空船，绕船月明江水寒。\n夜深忽梦少年事，梦啼妆泪红阑干。\n我闻琵琶已叹息，又闻此语重唧唧。\n同是天涯沦落人，相逢何必曾相识！\n我从去年辞帝京，谪居卧病浔阳城。\n浔阳地僻无音乐，终岁不闻丝竹声。\n住近湓江地低湿，黄芦苦竹绕宅生。\n其间旦暮闻何物？杜鹃啼血猿哀鸣。\n春江花朝秋月夜，往往取酒还独倾。\n岂无山歌与村笛？呕哑嘲哳难为听。\n今夜闻君琵琶语，如听仙乐耳暂明。\n莫辞更坐弹一曲，为君翻作《琵琶行》。\n感我此言良久立，却坐促弦弦转急。\n凄凄不似向前声，满座重闻皆掩泣。\n座中泣下谁最多？江州司马青衫湿。",
-        pinyin: "xún yáng jiāng tóu yè sòng kè， fēng yè dí huā qiū sè sè。\nzhǔ rén xià mǎ kè zài chuán， jǔ jiǔ yù yǐn wú guǎn xián。\nzuì bù chéng huān cǎn jiāng bié， bié shí máng máng jiāng jìn yuè。\nhū wén shuǐ shàng pí pa shēng， zhǔ rén wàng guī kè bù fā。\nxún shēng àn wèn tán zhě shuí？ pí pa shēng tíng yù yǔ chí。\nyí chuán xiāng jìn yāo xiāng jiàn， tiān jiǔ huí dēng zhòng kāi yàn。\nqiān hū wàn huàn shǐ chū lái， yóu bào pí pa bàn zhē miàn。\nzhuǎn zhóu bō xián sān liǎng shēng， wèi chéng qǔ diào xiān yǒu qíng。\nxián xián yǎn yì shēng shēng sī， sì sù píng shēng bù dé zhì。（ bù dé zhì yī zuò： yì）\ndī méi xìn shǒu xù xù tán， shuō jìn xīn zhōng wú xiàn shì。\nqīng lǒng màn niǎn mǒ fù tiāo， chū wèi《 ní cháng》 hòu《 liù yāo》（ liù yāo yī zuò： lǜ yāo）。\ndà xián cáo cáo rú jí yǔ， xiǎo xián qiè qiè rú sī yǔ。\ncáo cáo qiè qiè cuò zá tán， dà zhū xiǎo zhū luò yù pán。\njiān guān yīng yǔ huā dǐ huá， yōu yàn quán liú bīng xià nán。\nbīng quán lěng sè xián níng jué， níng jué bù tōng shēng zàn xiē。( zàn xiē yī zuò： jiàn xiē)\nbié yǒu yōu chóu àn hèn shēng， cǐ shí wú shēng shèng yǒu shēng。\nyín píng zhà pò shuǐ jiāng bèng， tiě qí tū chū dāo qiāng míng。\nqǔ zhōng shōu bō dāng xīn huà， sì xián yī shēng rú liè bó。\ndōng chuán xī fǎng qiāo wú yán， wéi jiàn jiāng xīn qiū yuè bái。\nchén yín fàng bō chā xián zhōng， zhěng dùn yī shang qǐ liǎn róng。\nzì yán běn shì jīng chéng nǚ， jiā zài há má líng xià zhù。\nshí sān xué dé pí pa chéng， míng shǔ jiào fāng dì yī bù。\nqǔ bà céng jiào shàn cái fú， zhuāng chéng měi bèi qiū niáng dù。\nwǔ líng nián shào zhēng chán tóu， yī qǔ hóng xiāo bù zhī shù。\ndiàn tóu yín bì jī jié suì， xuè sè luó qún fān jiǔ wū。( yín bì yī zuò： yún)\njīn nián huān xiào fù míng nián， qiū yuè chūn fēng děng xián dù。\ndì zǒu cóng jūn ā yí sǐ， mù qù cháo lái yán sè gù。\nmén qián lěng luò ān mǎ xī， lǎo dà jià zuò shāng rén fù。\nshāng rén zhòng lì qīng bié lí， qián yuè fú liáng mǎi chá qù。\nqù lái jiāng kǒu shǒu kōng chuán， rào chuán yuè míng jiāng shuǐ hán。\nyè shēn hū mèng shào nián shì， mèng tí zhuāng lèi hóng lán gān。\nwǒ wén pí pa yǐ tàn xī， yòu wén cǐ yǔ zhòng jī jī。\ntóng shì tiān yá lún luò rén， xiāng féng hé bì céng xiāng shí！\nwǒ cóng qù nián cí dì jīng， zhé jū wò bìng xún yáng chéng。\nxún yáng dì pì wú yīn yuè， zhōng suì bù wén sī zhú shēng。\nzhù jìn pén jiāng dì dī shī， huáng lú kǔ zhú rào zhái shēng。\nqí jiān dàn mù wén hé wù？ dù juān tí xuè yuán āi míng。\nchūn jiāng huā cháo qiū yuè yè， wǎng wǎng qǔ jiǔ hái dú qīng。\nqǐ wú shān gē yǔ cūn dí？ ǒu yǎ cháo zhā nán wéi tīng。\njīn yè wén jūn pí pa yǔ， rú tīng xiān lè ěr zàn míng。\nmò cí gèng zuò tán yī qǔ， wèi jūn fān zuò《 pí pa xíng》。\ngǎn wǒ cǐ yán liáng jiǔ lì， què zuò cù xián xián zhuǎn jí。\nqī qī bù sì xiàng qián shēng， mǎn zuò zhòng wén jiē yǎn qì。\nzuò zhōng qì xià shuí zuì duō？ jiāng zhōu sī mǎ qīng shān shī。",
+        text: "浔阳江头夜送客，枫叶荻花秋瑟瑟。\n主人下马客在船，举酒欲饮无管弦。\n醉不成欢惨将别，别时茫茫江浸月。\n忽闻水上琵琶声，主人忘归客不发。\n寻声暗问弹者谁？琵琶声停欲语迟。\n移船相近邀相见，添酒回灯重开宴。\n千呼万唤始出来，犹抱琵琶半遮面。\n转轴拨弦三两声，未成曲调先有情。\n弦弦掩抑声声思，似诉平生不得志。\n低眉信手续续弹，说尽心中无限事。\n轻拢慢捻抹复挑，初为《霓裳》后《六幺》。\n大弦嘈嘈如急雨，小弦切切如私语。\n嘈嘈切切错杂弹，大珠小珠落玉盘。\n间关莺语花底滑，幽咽泉流冰下难。\n冰泉冷涩弦凝绝，凝绝不通声暂歇。\n别有幽愁暗恨生，此时无声胜有声。\n银瓶乍破水浆迸，铁骑突出刀枪鸣。\n曲终收拨当心画，四弦一声如裂帛。\n东船西舫悄无言，唯见江心秋月白。\n沉吟放拨插弦中，整顿衣裳起敛容。\n自言本是京城女，家在虾蟆陵下住。\n十三学得琵琶成，名属教坊第一部。\n曲罢曾教善才服，妆成每被秋娘妒。\n五陵年少争缠头，一曲红绡不知数。\n钿头银篦击节碎，血色罗裙翻酒污。\n今年欢笑复明年，秋月春风等闲度。\n弟走从军阿姨死，暮去朝来颜色故。\n门前冷落鞍马稀，老大嫁作商人妇。\n商人重利轻别离，前月浮梁买茶去。\n去来江口守空船，绕船月明江水寒。\n夜深忽梦少年事，梦啼妆泪红阑干。\n我闻琵琶已叹息，又闻此语重唧唧。\n同是天涯沦落人，相逢何必曾相识！\n我从去年辞帝京，谪居卧病浔阳城。\n浔阳地僻无音乐，终岁不闻丝竹声。\n住近湓江地低湿，黄芦苦竹绕宅生。\n其间旦暮闻何物？杜鹃啼血猿哀鸣。\n春江花朝秋月夜，往往取酒还独倾。\n岂无山歌与村笛？呕哑嘲哳难为听。\n今夜闻君琵琶语，如听仙乐耳暂明。\n莫辞更坐弹一曲，为君翻作《琵琶行》。\n感我此言良久立，却坐促弦弦转急。\n凄凄不似向前声，满座重闻皆掩泣。\n座中泣下谁最多？江州司马青衫湿。",
+        pinyin: "xún yáng jiāng tóu yè sòng kè， fēng yè dí huā qiū sè sè。\nzhǔ rén xià mǎ kè zài chuán， jǔ jiǔ yù yǐn wú guǎn xián。\nzuì bù chéng huān cǎn jiāng bié， bié shí máng máng jiāng jìn yuè。\nhū wén shuǐ shàng pí pa shēng， zhǔ rén wàng guī kè bù fā。\nxún shēng àn wèn tán zhě shuí？ pí pa shēng tíng yù yǔ chí。\nyí chuán xiāng jìn yāo xiāng jiàn， tiān jiǔ huí dēng zhòng kāi yàn。\nqiān hū wàn huàn shǐ chū lái， yóu bào pí pa bàn zhē miàn。\nzhuǎn zhóu bō xián sān liǎng shēng， wèi chéng qǔ diào xiān yǒu qíng。\nxián xián yǎn yì shēng shēng sī， sì sù píng shēng bù dé zhì。\ndī méi xìn shǒu xù xù tán， shuō jìn xīn zhōng wú xiàn shì。\nqīng lǒng màn niǎn mǒ fù tiāo， chū wèi《 ní cháng》 hòu《 liù yāo》。\ndà xián cáo cáo rú jí yǔ， xiǎo xián qiè qiè rú sī yǔ。\ncáo cáo qiè qiè cuò zá tán， dà zhū xiǎo zhū luò yù pán。\njiān guān yīng yǔ huā dǐ huá， yōu yàn quán liú bīng xià nán。\nbīng quán lěng sè xián níng jué， níng jué bù tōng shēng zàn xiē。\nbié yǒu yōu chóu àn hèn shēng， cǐ shí wú shēng shèng yǒu shēng。\nyín píng zhà pò shuǐ jiāng bèng， tiě qí tū chū dāo qiāng míng。\nqǔ zhōng shōu bō dāng xīn huà， sì xián yī shēng rú liè bó。\ndōng chuán xī fǎng qiāo wú yán， wéi jiàn jiāng xīn qiū yuè bái。\nchén yín fàng bō chā xián zhōng， zhěng dùn yī shang qǐ liǎn róng。\nzì yán běn shì jīng chéng nǚ， jiā zài há má líng xià zhù。\nshí sān xué dé pí pa chéng， míng shǔ jiào fāng dì yī bù。\nqǔ bà céng jiào shàn cái fú， zhuāng chéng měi bèi qiū niáng dù。\nwǔ líng nián shào zhēng chán tóu， yī qǔ hóng xiāo bù zhī shù。\ndiàn tóu yín bì jī jié suì， xuè sè luó qún fān jiǔ wū。\njīn nián huān xiào fù míng nián， qiū yuè chūn fēng děng xián dù。\ndì zǒu cóng jūn ā yí sǐ， mù qù cháo lái yán sè gù。\nmén qián lěng luò ān mǎ xī， lǎo dà jià zuò shāng rén fù。\nshāng rén zhòng lì qīng bié lí， qián yuè fú liáng mǎi chá qù。\nqù lái jiāng kǒu shǒu kōng chuán， rào chuán yuè míng jiāng shuǐ hán。\nyè shēn hū mèng shào nián shì， mèng tí zhuāng lèi hóng lán gān。\nwǒ wén pí pa yǐ tàn xī， yòu wén cǐ yǔ zhòng jī jī。\ntóng shì tiān yá lún luò rén， xiāng féng hé bì céng xiāng shí！\nwǒ cóng qù nián cí dì jīng， zhé jū wò bìng xún yáng chéng。\nxún yáng dì pì wú yīn yuè， zhōng suì bù wén sī zhú shēng。\nzhù jìn pén jiāng dì dī shī， huáng lú kǔ zhú rào zhái shēng。\nqí jiān dàn mù wén hé wù？ dù juān tí xuè yuán āi míng。\nchūn jiāng huā cháo qiū yuè yè， wǎng wǎng qǔ jiǔ hái dú qīng。\nqǐ wú shān gē yǔ cūn dí？ ǒu yǎ cháo zhā nán wéi tīng。\njīn yè wén jūn pí pa yǔ， rú tīng xiān lè ěr zàn míng。\nmò cí gèng zuò tán yī qǔ， wèi jūn fān zuò《 pí pa xíng》。\ngǎn wǒ cǐ yán liáng jiǔ lì， què zuò cù xián xián zhuǎn jí。\nqī qī bù sì xiàng qián shēng， mǎn zuò zhòng wén jiē yǎn qì。\nzuò zhōng qì xià shuí zuì duō？ jiāng zhōu sī mǎ qīng shān shī。",
         translation: "夜里在浔阳江边送客，秋风吹得枫叶和荻花沙沙响，忽然听见水上传来琵琶声，主人和客人都忘了走。弹琵琶的原来是一位商人妇，她说自己年轻时在京城是弹琵琶的名手，公子哥儿们争着送她礼物；后来年华老去，嫁给了商人，丈夫买茶去了，她一个人守着空船，望着明月，常常梦见从前的日子。诗人听了连连叹气，说同是流落天涯的人，见面何必曾经相识，他自己也被贬到这偏僻的江城，一年到头听不见音乐，如今听到这琵琶声，就像听到仙乐一样。请她再弹一曲，声音变得凄凄切切，满座的人听了都掩面哭泣，谁的泪水最多？江州司马的青衫都被打湿了。",
       }
       ],
@@ -3307,8 +3307,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "轮台城头夜吹角，轮台城北旄头落。\n羽书昨夜过渠黎，单于已在金山西。\n戍楼西望烟尘黑，汉军屯在轮台北。\n上将拥旄西出征，平明吹笛大军行。\n四边伐鼓雪海涌，三军大呼阴山动。\n虏塞兵气连云屯，战场白骨缠草根。\n剑河风急雪片阔，沙口石冻马蹄脱。(雪片阔 一作：云片阔)\n亚相勤王甘苦辛，誓将报主静边尘。\n古来青史谁不见，今见功名胜古人。",
-        pinyin: "lún tái chéng tóu yè chuī jiǎo， lún tái chéng běi máo tóu luò。\nyǔ shū zuó yè guò qú lí， chán yú yǐ zài jīn shān xī。\nshù lóu xī wàng yān chén hēi， hàn jūn tún zài lún tái běi。\nshàng jiàng yōng máo xī chū zhēng， píng míng chuī dí dà jūn xíng。\nsì biān fá gǔ xuě hǎi yǒng， sān jūn dà hū yīn shān dòng。\nlǔ sāi bīng qì lián yún tún， zhàn chǎng bái gǔ chán cǎo gēn。\njiàn hé fēng jí xuě piàn kuò， shā kǒu shí dòng mǎ tí tuō。( xuě piàn kuò yī zuò： yún piàn kuò)\nyà xiāng qín wáng gān kǔ xīn， shì jiāng bào zhǔ jìng biān chén。\ngǔ lái qīng shǐ shuí bù jiàn， jīn jiàn gōng míng shèng gǔ rén。",
+        text: "轮台城头夜吹角，轮台城北旄头落。\n羽书昨夜过渠黎，单于已在金山西。\n戍楼西望烟尘黑，汉军屯在轮台北。\n上将拥旄西出征，平明吹笛大军行。\n四边伐鼓雪海涌，三军大呼阴山动。\n虏塞兵气连云屯，战场白骨缠草根。\n剑河风急雪片阔，沙口石冻马蹄脱。\n亚相勤王甘苦辛，誓将报主静边尘。\n古来青史谁不见，今见功名胜古人。",
+        pinyin: "lún tái chéng tóu yè chuī jiǎo， lún tái chéng běi máo tóu luò。\nyǔ shū zuó yè guò qú lí， chán yú yǐ zài jīn shān xī。\nshù lóu xī wàng yān chén hēi， hàn jūn tún zài lún tái běi。\nshàng jiàng yōng máo xī chū zhēng， píng míng chuī dí dà jūn xíng。\nsì biān fá gǔ xuě hǎi yǒng， sān jūn dà hū yīn shān dòng。\nlǔ sāi bīng qì lián yún tún， zhàn chǎng bái gǔ chán cǎo gēn。\njiàn hé fēng jí xuě piàn kuò， shā kǒu shí dòng mǎ tí tuō。\nyà xiāng qín wáng gān kǔ xīn， shì jiāng bào zhǔ jìng biān chén。\ngǔ lái qīng shǐ shuí bù jiàn， jīn jiàn gōng míng shèng gǔ rén。",
         translation: "轮台城头夜里吹起号角，轮台城北的将星坠落了。昨夜紧急军书经过渠黎，敌军已在金山西边。从戍楼上向西望，烟尘一片黑，汉军驻扎在轮台北边。主将举着旌旗向西出征，天刚亮吹着笛子大军出发。四面战鼓擂动，像雪海翻涌，三军齐声大喊，震得阴山摇动。敌营的杀气连着云聚起来，战场上白骨缠着草根。剑河风急雪片又大又宽，沙口的石头冻得梆硬，马蹄都会脱落。主帅勤劳王事不怕辛苦，发誓报答君王，平定边地的战尘。青史留名的事古来谁没见过，今天的功名胜过古人。",
       }
       ],
@@ -3320,8 +3320,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "北风卷地白草折，胡天八月即飞雪。\n忽如一夜春风来，千树万树梨花开。\n散入珠帘湿罗幕，狐裘不暖锦衾薄。\n将军角弓不得控，都护铁衣冷难着。(难着 一作：犹著)\n瀚海阑干百丈冰，愁云惨淡万里凝。\n中军置酒饮归客，胡琴琵琶与羌笛。\n纷纷暮雪下辕门，风掣红旗冻不翻。\n轮台东门送君去，去时雪满天山路。\n山回路转不见君，雪上空留马行处。",
-        pinyin: "běi fēng juàn dì bái cǎo zhé， hú tiān bā yuè jí fēi xuě。\nhū rú yī yè chūn fēng lái， qiān shù wàn shù lí huā kāi。\nsàn rù zhū lián shī luó mù， hú qiú bù nuǎn jǐn qīn báo。\njiāng jūn jiǎo gōng bù dé kòng， dū hù tiě yī lěng nán zhe。( nán zhe yī zuò： yóu zhù)\nhàn hǎi lán gān bǎi zhàng bīng， chóu yún cǎn dàn wàn lǐ níng。\nzhōng jūn zhì jiǔ yǐn guī kè， hú qín pí pa yǔ qiāng dí。\nfēn fēn mù xuě xià yuán mén， fēng chè hóng qí dòng bù fān。\nlún tái dōng mén sòng jūn qù， qù shí xuě mǎn tiān shān lù。\nshān huí lù zhuǎn bù jiàn jūn， xuě shàng kōng liú mǎ xíng chù。",
+        text: "北风卷地白草折，胡天八月即飞雪。\n忽如一夜春风来，千树万树梨花开。\n散入珠帘湿罗幕，狐裘不暖锦衾薄。\n将军角弓不得控，都护铁衣冷难着。\n瀚海阑干百丈冰，愁云惨淡万里凝。\n中军置酒饮归客，胡琴琵琶与羌笛。\n纷纷暮雪下辕门，风掣红旗冻不翻。\n轮台东门送君去，去时雪满天山路。\n山回路转不见君，雪上空留马行处。",
+        pinyin: "běi fēng juàn dì bái cǎo zhé， hú tiān bā yuè jí fēi xuě。\nhū rú yī yè chūn fēng lái， qiān shù wàn shù lí huā kāi。\nsàn rù zhū lián shī luó mù， hú qiú bù nuǎn jǐn qīn báo。\njiāng jūn jiǎo gōng bù dé kòng， dū hù tiě yī lěng nán zhe。\nhàn hǎi lán gān bǎi zhàng bīng， chóu yún cǎn dàn wàn lǐ níng。\nzhōng jūn zhì jiǔ yǐn guī kè， hú qín pí pa yǔ qiāng dí。\nfēn fēn mù xuě xià yuán mén， fēng chè hóng qí dòng bù fān。\nlún tái dōng mén sòng jūn qù， qù shí xuě mǎn tiān shān lù。\nshān huí lù zhuǎn bù jiàn jūn， xuě shàng kōng liú mǎ xíng chù。",
         translation: "北风卷过大地，把白草都吹折了，塞外的八月就纷纷扬扬下起了大雪，就像一夜之间春风吹来，千万棵树上开满了梨花似的雪。雪落在珠帘罗幕上，狐皮袍子也不暖了，将军的角弓冻得拉不开，红旗冻在风里翻也不翻。诗人在轮台东门送朋友远行，山路弯弯转转，再也望不见朋友了，雪地上只剩下马走过的蹄印。",
       }
       ],
@@ -3333,8 +3333,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "弃我去者，昨日之日不可留；\n乱我心者，今日之日多烦忧。\n长风万里送秋雁，对此可以酣高楼。\n蓬莱文章建安骨，中间小谢又清发。\n俱怀逸兴壮思飞，欲上青天揽明月。(览 通：揽；明月 一作：日月)\n抽刀断水水更流，举杯消愁愁更愁。\n人生在世不称意，明朝散发弄扁舟。",
-        pinyin: "qì wǒ qù zhě， zuó rì zhī rì bù kě liú；\nluàn wǒ xīn zhě， jīn rì zhī rì duō fán yōu。\ncháng fēng wàn lǐ sòng qiū yàn， duì cǐ kě yǐ hān gāo lóu。\npéng lái wén zhāng jiàn ān gǔ， zhōng jiān xiǎo xiè yòu qīng fā。\njù huái yì xīng zhuàng sī fēi， yù shàng qīng tiān lǎn míng yuè。( lǎn tōng： lǎn； míng yuè yī zuò： rì yuè)\nchōu dāo duàn shuǐ shuǐ gèng liú， jǔ bēi xiāo chóu chóu gèng chóu。\nrén shēng zài shì bù chēng yì， míng cháo sàn fā nòng piān zhōu。",
+        text: "弃我去者，昨日之日不可留；\n乱我心者，今日之日多烦忧。\n长风万里送秋雁，对此可以酣高楼。\n蓬莱文章建安骨，中间小谢又清发。\n俱怀逸兴壮思飞，欲上青天揽明月。\n抽刀断水水更流，举杯消愁愁更愁。\n人生在世不称意，明朝散发弄扁舟。",
+        pinyin: "qì wǒ qù zhě， zuó rì zhī rì bù kě liú；\nluàn wǒ xīn zhě， jīn rì zhī rì duō fán yōu。\ncháng fēng wàn lǐ sòng qiū yàn， duì cǐ kě yǐ hān gāo lóu。\npéng lái wén zhāng jiàn ān gǔ， zhōng jiān xiǎo xiè yòu qīng fā。\njù huái yì xīng zhuàng sī fēi， yù shàng qīng tiān lǎn míng yuè。\nchōu dāo duàn shuǐ shuǐ gèng liú， jǔ bēi xiāo chóu chóu gèng chóu。\nrén shēng zài shì bù chēng yì， míng cháo sàn fā nòng piān zhōu。",
         translation: "昨天抛弃我而去的日子再也留不住，今天扰乱我心的日子又有许多烦忧。万里长风送来南飞的秋雁，对着这景色正好在高楼上痛痛快快喝酒写诗，大家都豪情满怀，想飞上青天摘明月。愁绪就像流水，抽出刀来砍不断，举起酒杯解愁反而更愁，人生在世不如意，不如明天披散头发，坐上一叶小船自由自在地去漂游。",
       }
       ],
@@ -3359,8 +3359,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "海客谈瀛洲，烟涛微茫信难求；\n越人语天姥，云霞明灭或可睹。\n天姥连天向天横，势拔五岳掩赤城。\n天台四万八千丈，对此欲倒东南倾。(四万 一作：一万)\n我欲因之梦吴越，一夜飞度镜湖月。(度 通：渡)\n湖月照我影，送我至剡溪。\n谢公宿处今尚在，渌水荡漾清猿啼。\n脚著谢公屐，身登青云梯。\n半壁见海日，空中闻天鸡。\n千岩万转路不定，迷花倚石忽已暝。\n熊咆龙吟殷岩泉，栗深林兮惊层巅。\n云青青兮欲雨，水澹澹兮生烟。\n列缺霹雳，丘峦崩摧。\n洞天石扉，訇然中开。\n青冥浩荡不见底，日月照耀金银台。\n霓为衣兮风为马，云之君兮纷纷而来下。\n虎鼓瑟兮鸾回车，仙之人兮列如麻。\n忽魂悸以魄动，恍惊起而长嗟。\n惟觉时之枕席，失向来之烟霞。\n世间行乐亦如此，古来万事东流水。\n别君去兮何时还？且放白鹿青崖间，须行即骑访名山。\n安能摧眉折腰事权贵，使我不得开心颜!",
-        pinyin: "hǎi kè tán yíng zhōu， yān tāo wēi máng xìn nán qiú；\nyuè rén yǔ tiān lǎo， yún xiá míng miè huò kě dǔ。\ntiān lǎo lián tiān xiàng tiān héng， shì bá wǔ yuè yǎn chì chéng。\ntiān tái sì wàn bā qiān zhàng， duì cǐ yù dǎo dōng nán qīng。( sì wàn yī zuò： yī wàn)\nwǒ yù yīn zhī mèng wú yuè， yī yè fēi dù jìng hú yuè。( dù tōng： dù)\nhú yuè zhào wǒ yǐng， sòng wǒ zhì yǎn xī。\nxiè gōng sù chù jīn shàng zài， lù shuǐ dàng yàng qīng yuán tí。\njiǎo zhù xiè gōng jī， shēn dēng qīng yún tī。\nbàn bì jiàn hǎi rì， kōng zhōng wén tiān jī。\nqiān yán wàn zhuǎn lù bù dìng， mí huā yǐ shí hū yǐ míng。\nxióng páo lóng yín yīn yán quán， lì shēn lín xī jīng céng diān。\nyún qīng qīng xī yù yǔ， shuǐ dàn dàn xī shēng yān。\nliè quē pī lì， qiū luán bēng cuī。\ndòng tiān shí fēi， hōng rán zhōng kāi。\nqīng míng hào dàng bù jiàn dǐ， rì yuè zhào yào jīn yín tái。\nní wèi yī xī fēng wèi mǎ， yún zhī jūn xī fēn fēn ér lái xià。\nhǔ gǔ sè xī luán huí chē， xiān zhī rén xī liè rú má。\nhū hún jì yǐ pò dòng， huǎng jīng qǐ ér cháng jiē。\nwéi jué shí zhī zhěn xí， shī xiàng lái zhī yān xiá。\nshì jiān xíng lè yì rú cǐ， gǔ lái wàn shì dōng liú shuǐ。\nbié jūn qù xī hé shí hái？ qiě fàng bái lù qīng yá jiān， xū xíng jí qí fǎng míng shān。\nān néng cuī méi zhé yāo shì quán guì， shǐ wǒ bù dé kāi xīn yán!",
+        text: "海客谈瀛洲，烟涛微茫信难求；\n越人语天姥，云霞明灭或可睹。\n天姥连天向天横，势拔五岳掩赤城。\n天台四万八千丈，对此欲倒东南倾。\n我欲因之梦吴越，一夜飞度镜湖月。\n湖月照我影，送我至剡溪。\n谢公宿处今尚在，渌水荡漾清猿啼。\n脚著谢公屐，身登青云梯。\n半壁见海日，空中闻天鸡。\n千岩万转路不定，迷花倚石忽已暝。\n熊咆龙吟殷岩泉，栗深林兮惊层巅。\n云青青兮欲雨，水澹澹兮生烟。\n列缺霹雳，丘峦崩摧。\n洞天石扉，訇然中开。\n青冥浩荡不见底，日月照耀金银台。\n霓为衣兮风为马，云之君兮纷纷而来下。\n虎鼓瑟兮鸾回车，仙之人兮列如麻。\n忽魂悸以魄动，恍惊起而长嗟。\n惟觉时之枕席，失向来之烟霞。\n世间行乐亦如此，古来万事东流水。\n别君去兮何时还？且放白鹿青崖间，须行即骑访名山。\n安能摧眉折腰事权贵，使我不得开心颜!",
+        pinyin: "hǎi kè tán yíng zhōu， yān tāo wēi máng xìn nán qiú；\nyuè rén yǔ tiān lǎo， yún xiá míng miè huò kě dǔ。\ntiān lǎo lián tiān xiàng tiān héng， shì bá wǔ yuè yǎn chì chéng。\ntiān tái sì wàn bā qiān zhàng， duì cǐ yù dǎo dōng nán qīng。\nwǒ yù yīn zhī mèng wú yuè， yī yè fēi dù jìng hú yuè。\nhú yuè zhào wǒ yǐng， sòng wǒ zhì yǎn xī。\nxiè gōng sù chù jīn shàng zài， lù shuǐ dàng yàng qīng yuán tí。\njiǎo zhù xiè gōng jī， shēn dēng qīng yún tī。\nbàn bì jiàn hǎi rì， kōng zhōng wén tiān jī。\nqiān yán wàn zhuǎn lù bù dìng， mí huā yǐ shí hū yǐ míng。\nxióng páo lóng yín yīn yán quán， lì shēn lín xī jīng céng diān。\nyún qīng qīng xī yù yǔ， shuǐ dàn dàn xī shēng yān。\nliè quē pī lì， qiū luán bēng cuī。\ndòng tiān shí fēi， hōng rán zhōng kāi。\nqīng míng hào dàng bù jiàn dǐ， rì yuè zhào yào jīn yín tái。\nní wèi yī xī fēng wèi mǎ， yún zhī jūn xī fēn fēn ér lái xià。\nhǔ gǔ sè xī luán huí chē， xiān zhī rén xī liè rú má。\nhū hún jì yǐ pò dòng， huǎng jīng qǐ ér cháng jiē。\nwéi jué shí zhī zhěn xí， shī xiàng lái zhī yān xiá。\nshì jiān xíng lè yì rú cǐ， gǔ lái wàn shì dōng liú shuǐ。\nbié jūn qù xī hé shí hái？ qiě fàng bái lù qīng yá jiān， xū xíng jí qí fǎng míng shān。\nān néng cuī méi zhé yāo shì quán guì， shǐ wǒ bù dé kāi xīn yán!",
         translation: "海上回来的人说仙山瀛洲隔着烟雾波涛，实在难找；越人说天姥山高得连着天，云霞忽明忽暗，有时还能望见。诗人夜里做了个梦，一夜飞过月光下的镜湖，穿着木屐登上青云梯，看见海上日出、听见天上雄鸡啼叫；忽然电闪雷鸣，山石大门訇然打开，仙人穿着彩虹衣裳、驾着风马纷纷下来，猛地一惊，梦醒了，枕席还在，满山的烟霞都不见了。诗人说：怎么能低眉弯腰去伺候有权有势的人，让自己不开心不快活呢！",
       }
       ],
@@ -3372,8 +3372,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "风吹柳花满店香，吴姬压酒唤客尝。(劝客 一作：唤客)\n金陵子弟来相送，欲行不行各尽觞。\n请君试问东流水，别意与之谁短长。",
-        pinyin: "fēng chuī liǔ huā mǎn diàn xiāng， wú jī yā jiǔ huàn kè cháng。( quàn kè yī zuò： huàn kè)\njīn líng zǐ dì lái xiāng sòng， yù xíng bù xíng gè jìn shāng。\nqǐng jūn shì wèn dōng liú shuǐ， bié yì yǔ zhī shuí duǎn cháng。",
+        text: "风吹柳花满店香，吴姬压酒唤客尝。\n金陵子弟来相送，欲行不行各尽觞。\n请君试问东流水，别意与之谁短长。",
+        pinyin: "fēng chuī liǔ huā mǎn diàn xiāng， wú jī yā jiǔ huàn kè cháng。\njīn líng zǐ dì lái xiāng sòng， yù xíng bù xíng gè jìn shāng。\nqǐng jūn shì wèn dōng liú shuǐ， bié yì yǔ zhī shuí duǎn cháng。",
         translation: "风吹着柳絮，满店里都是香气，酒店的姑娘压好新酒，请客人尝一尝。金陵的年轻人来给我送行，要走的不走的都干尽了杯中的酒。请你们问问向东奔流的江水，离别的情意和它比一比，到底谁短谁长呢？",
       }
       ],
@@ -3450,8 +3450,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "主人有酒欢今夕，请奏鸣琴广陵客。\n月照城头乌半飞，霜凄万树风入衣。(万树 一作：万木)\n铜炉华烛烛增辉，初弹渌水后楚妃。\n一声已动物皆静，四座无言星欲稀。\n清淮奉使千余里，敢告云山从此始。",
-        pinyin: "zhǔ rén yǒu jiǔ huān jīn xī， qǐng zòu míng qín guǎng líng kè。\nyuè zhào chéng tóu wū bàn fēi， shuāng qī wàn shù fēng rù yī。( wàn shù yī zuò： wàn mù)\ntóng lú huá zhú zhú zēng huī， chū tán lù shuǐ hòu chǔ fēi。\nyī shēng yǐ dòng wù jiē jìng， sì zuò wú yán xīng yù xī。\nqīng huái fèng shǐ qiān yú lǐ， gǎn gào yún shān cóng cǐ shǐ。",
+        text: "主人有酒欢今夕，请奏鸣琴广陵客。\n月照城头乌半飞，霜凄万树风入衣。\n铜炉华烛烛增辉，初弹渌水后楚妃。\n一声已动物皆静，四座无言星欲稀。\n清淮奉使千余里，敢告云山从此始。",
+        pinyin: "zhǔ rén yǒu jiǔ huān jīn xī， qǐng zòu míng qín guǎng líng kè。\nyuè zhào chéng tóu wū bàn fēi， shuāng qī wàn shù fēng rù yī。\ntóng lú huá zhú zhú zēng huī， chū tán lù shuǐ hòu chǔ fēi。\nyī shēng yǐ dòng wù jiē jìng， sì zuò wú yán xīng yù xī。\nqīng huái fèng shǐ qiān yú lǐ， gǎn gào yún shān cóng cǐ shǐ。",
         translation: "主人今晚备下美酒请大家欢聚，请来善弹琴的客人奏琴。月光照着城头，乌鸦惊飞起来，霜气凄凄，风吹进衣裳；铜炉和花烛添了光亮，先弹一曲《渌水》，再弹一曲《楚妃》。琴声一响，万物都安静下来，满座的人不说话，星星也渐渐稀疏；我这远行千里的人说：从此要归隐云山了。",
       }
       ],
@@ -3580,8 +3580,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "山石荦确行径微，黄昏到寺蝙蝠飞。\n升堂坐阶新雨足，芭蕉叶大栀子肥。\n僧言古壁佛画好，以火来照所见稀。\n铺床拂席置羹饭，疏粝亦足饱我饥。\n夜深静卧百虫绝，清月出岭光入扉。\n天明独去无道路，出入高下穷烟霏。\n山红涧碧纷烂漫，时见松枥皆十围。\n当流赤足踏涧石，水声激激风吹衣。\n人生如此自可乐，岂必局束为人鞿？(鞿 一作：靰)\n嗟哉吾党二三子，安得至老不更归。",
-        pinyin: "shān shí luò què xíng jìng wēi， huáng hūn dào sì biān fú fēi。\nshēng táng zuò jiē xīn yǔ zú， bā jiāo yè dà zhī zǐ féi。\nsēng yán gǔ bì fó huà hǎo， yǐ huǒ lái zhào suǒ jiàn xī。\npū chuáng fú xí zhì gēng fàn， shū lì yì zú bǎo wǒ jī。\nyè shēn jìng wò bǎi chóng jué， qīng yuè chū lǐng guāng rù fēi。\ntiān míng dú qù wú dào lù， chū rù gāo xià qióng yān fēi。\nshān hóng jiàn bì fēn làn màn， shí jiàn sōng lì jiē shí wéi。\ndāng liú chì zú tà jiàn shí， shuǐ shēng jī jī fēng chuī yī。\nrén shēng rú cǐ zì kě lè， qǐ bì jú shù wèi rén jī？( jī yī zuò： wù)\njiē zāi wú dǎng èr sān zǐ， ān dé zhì lǎo bù gèng guī。",
+        text: "山石荦确行径微，黄昏到寺蝙蝠飞。\n升堂坐阶新雨足，芭蕉叶大栀子肥。\n僧言古壁佛画好，以火来照所见稀。\n铺床拂席置羹饭，疏粝亦足饱我饥。\n夜深静卧百虫绝，清月出岭光入扉。\n天明独去无道路，出入高下穷烟霏。\n山红涧碧纷烂漫，时见松枥皆十围。\n当流赤足踏涧石，水声激激风吹衣。\n人生如此自可乐，岂必局束为人鞿？\n嗟哉吾党二三子，安得至老不更归。",
+        pinyin: "shān shí luò què xíng jìng wēi， huáng hūn dào sì biān fú fēi。\nshēng táng zuò jiē xīn yǔ zú， bā jiāo yè dà zhī zǐ féi。\nsēng yán gǔ bì fó huà hǎo， yǐ huǒ lái zhào suǒ jiàn xī。\npū chuáng fú xí zhì gēng fàn， shū lì yì zú bǎo wǒ jī。\nyè shēn jìng wò bǎi chóng jué， qīng yuè chū lǐng guāng rù fēi。\ntiān míng dú qù wú dào lù， chū rù gāo xià qióng yān fēi。\nshān hóng jiàn bì fēn làn màn， shí jiàn sōng lì jiē shí wéi。\ndāng liú chì zú tà jiàn shí， shuǐ shēng jī jī fēng chuī yī。\nrén shēng rú cǐ zì kě lè， qǐ bì jú shù wèi rén jī？\njiē zāi wú dǎng èr sān zǐ， ān dé zhì lǎo bù gèng guī。",
         translation: "山石乱杂高低不平，小路细细的，黄昏时走到寺里，蝙蝠飞来飞去；新雨之后坐在台阶上，芭蕉叶子大大的，栀子花开得肥美，僧人说古壁上的佛画好，点起火把来看，果然稀罕。夜里静静躺着，百虫都停了声，清清的月亮出了山岭，光照进门来；天亮独自上路，山花红艳、涧水碧绿，光着脚踩着涧里的石头过水，水声激激，风吹动衣裳。人生这样自有无穷快乐，何必受拘束、被人拴住呢？",
       }
       ],
@@ -3684,8 +3684,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "渭城朝雨浥轻尘，客舍青青柳色新。(一作：客舍依依杨柳春)\n劝君更尽一杯酒，西出阳关无故人。",
-        pinyin: "wèi chéng cháo yǔ yì qīng chén， kè shè qīng qīng liǔ sè xīn。( yī zuò： kè shè yī yī yáng liǔ chūn)\nquàn jūn gèng jìn yī bēi jiǔ， xī chū yáng guān wú gù rén。",
+        text: "渭城朝雨浥轻尘，客舍青青柳色新。\n劝君更尽一杯酒，西出阳关无故人。",
+        pinyin: "wèi chéng cháo yǔ yì qīng chén， kè shè qīng qīng liǔ sè xīn。\nquàn jūn gèng jìn yī bēi jiǔ， xī chū yáng guān wú gù rén。",
         translation: "渭城早晨的细雨打湿了路上的尘土，客舍旁的柳枝被洗得青青的、格外新鲜。请你再喝尽这一杯酒吧，向西出了阳关，就再也见不到老朋友了。",
       }
       ],
@@ -3788,8 +3788,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "金樽清酒斗十千，玉盘珍羞直万钱。(羞 通：馐；直 通 值)\n停杯投箸不能食，拔剑四顾心茫然。\n欲渡黄河冰塞川，将登太行雪满山。(雪满山 一作：雪暗天)\n闲来垂钓碧溪上，忽复乘舟梦日边。\n行路难！行路难！多歧路，今安在？\n长风破浪会有时，直挂云帆济沧海。",
-        pinyin: "jīn zūn qīng jiǔ dòu shí qiān， yù pán zhēn xiū zhí wàn qián。( xiū tōng： xiū； zhí tōng zhí)\ntíng bēi tóu zhù bù néng shí， bá jiàn sì gù xīn máng rán。\nyù dù huáng hé bīng sāi chuān， jiāng dēng tài háng xuě mǎn shān。( xuě mǎn shān yī zuò： xuě àn tiān)\nxián lái chuí diào bì xī shàng， hū fù chéng zhōu mèng rì biān。\nxíng lù nán！ xíng lù nán！ duō qí lù， jīn ān zài？\ncháng fēng pò làng huì yǒu shí， zhí guà yún fān jì cāng hǎi。",
+        text: "金樽清酒斗十千，玉盘珍羞直万钱。\n停杯投箸不能食，拔剑四顾心茫然。\n欲渡黄河冰塞川，将登太行雪满山。\n闲来垂钓碧溪上，忽复乘舟梦日边。\n行路难！行路难！多歧路，今安在？\n长风破浪会有时，直挂云帆济沧海。",
+        pinyin: "jīn zūn qīng jiǔ dòu shí qiān， yù pán zhēn xiū zhí wàn qián。\ntíng bēi tóu zhù bù néng shí， bá jiàn sì gù xīn máng rán。\nyù dù huáng hé bīng sāi chuān， jiāng dēng tài háng xuě mǎn shān。\nxián lái chuí diào bì xī shàng， hū fù chéng zhōu mèng rì biān。\nxíng lù nán！ xíng lù nán！ duō qí lù， jīn ān zài？\ncháng fēng pò làng huì yǒu shí， zhí guà yún fān jì cāng hǎi。",
         translation: "金杯里的清酒一斗值十千钱，玉盘里的美味值一万钱，可我停下杯子、放下筷子吃不下去，拔出剑来四下张望，心里一片茫然。想渡黄河，冰雪堵住了河道；想登太行山，大雪铺满了山路。行路难啊，行路难！岔路这么多，我如今在哪里？总有一天要乘长风破万里浪，高高挂起云帆，横渡沧海。",
       }
       ],
@@ -3827,8 +3827,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "君不见，黄河之水天上来，奔流到海不复回。\n君不见，高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。(倾耳听 一作：侧耳听)\n钟鼓馔玉不足贵，但愿长醉不复醒。(不足贵 一作：何足贵；不复醒 一作：不愿醒/不用醒)\n古来圣贤皆寂寞，惟有饮者留其名。(古来 一作：自古；惟 通：唯)\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。",
-        pinyin: "jūn bù jiàn， huáng hé zhī shuǐ tiān shàng lái， bēn liú dào hǎi bù fù huí。\njūn bù jiàn， gāo táng míng jìng bēi bái fà， cháo rú qīng sī mù chéng xuě。\nrén shēng dé yì xū jìn huān， mò shǐ jīn zūn kōng duì yuè。\ntiān shēng wǒ cái bì yǒu yòng， qiān jīn sàn jìn hái fù lái。\npēng yáng zǎi niú qiě wèi lè， huì xū yī yǐn sān bǎi bēi。\ncén fū zǐ， dān qiū shēng， jiāng jìn jiǔ， bēi mò tíng。\nyǔ jūn gē yī qǔ， qǐng jūn wèi wǒ qīng ěr tīng。( qīng ěr tīng yī zuò： cè ěr tīng)\nzhōng gǔ zhuàn yù bù zú guì， dàn yuàn cháng zuì bù fù xǐng。( bù zú guì yī zuò： hé zú guì； bù fù xǐng yī zuò： bù yuàn xǐng/ bù yòng xǐng)\ngǔ lái shèng xián jiē jì mò， wéi yǒu yǐn zhě liú qí míng。( gǔ lái yī zuò： zì gǔ； wéi tōng： wéi)\nchén wáng xī shí yàn píng lè， dòu jiǔ shí qiān zì huān xuè。\nzhǔ rén hé wèi yán shǎo qián， jìng xū gū qǔ duì jūn zhuó。\nwǔ huā mǎ， qiān jīn qiú， hū ér jiāng chū huàn měi jiǔ， yǔ ěr tóng xiāo wàn gǔ chóu。",
+        text: "君不见，黄河之水天上来，奔流到海不复回。\n君不见，高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。\n钟鼓馔玉不足贵，但愿长醉不复醒。\n古来圣贤皆寂寞，惟有饮者留其名。\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马，千金裘，呼儿将出换美酒，与尔同销万古愁。",
+        pinyin: "jūn bù jiàn， huáng hé zhī shuǐ tiān shàng lái， bēn liú dào hǎi bù fù huí。\njūn bù jiàn， gāo táng míng jìng bēi bái fà， cháo rú qīng sī mù chéng xuě。\nrén shēng dé yì xū jìn huān， mò shǐ jīn zūn kōng duì yuè。\ntiān shēng wǒ cái bì yǒu yòng， qiān jīn sàn jìn hái fù lái。\npēng yáng zǎi niú qiě wèi lè， huì xū yī yǐn sān bǎi bēi。\ncén fū zǐ， dān qiū shēng， jiāng jìn jiǔ， bēi mò tíng。\nyǔ jūn gē yī qǔ， qǐng jūn wèi wǒ qīng ěr tīng。\nzhōng gǔ zhuàn yù bù zú guì， dàn yuàn cháng zuì bù fù xǐng。\ngǔ lái shèng xián jiē jì mò， wéi yǒu yǐn zhě liú qí míng。\nchén wáng xī shí yàn píng lè， dòu jiǔ shí qiān zì huān xuè。\nzhǔ rén hé wèi yán shǎo qián， jìng xū gū qǔ duì jūn zhuó。\nwǔ huā mǎ， qiān jīn qiú， hū ér jiāng chū huàn měi jiǔ， yǔ ěr tóng xiāo wàn gǔ chóu。",
         translation: "你没看见黄河的水从天上来，奔流到大海就再也不回头吗？你没看见高堂上的人对着明镜悲叹白发，早晨还黑如青丝，傍晚已白得像雪——人生得意就要尽情欢乐，莫让金杯空对着月亮，天生我这样的人才必定有用处，千金散尽了还会再回来。来来来，喝酒吧，杯子不要停！我为你们唱一曲：自古以来圣贤都寂寞无闻，只有会喝酒的人留下名声；主人说钱不够？只管买酒来对饮，叫孩子牵出五花马、拿出千金裘去换美酒，让我们一起消掉这万古的忧愁。",
       }
       ],
@@ -3840,8 +3840,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "玉阶生白露，夜久侵罗袜。\n却下水晶帘，玲珑望秋月。(水晶 一作 水精)",
-        pinyin: "yù jiē shēng bái lù， yè jiǔ qīn luó wà。\nquè xià shuǐ jīng lián， líng lóng wàng qiū yuè。( shuǐ jīng yī zuò shuǐ jīng)",
+        text: "玉阶生白露，夜久侵罗袜。\n却下水晶帘，玲珑望秋月。",
+        pinyin: "yù jiē shēng bái lù， yè jiǔ qīn luó wà。\nquè xià shuǐ jīng lián， líng lóng wàng qiū yuè。",
         translation: "玉石台阶上生起了白露，夜深了，露水把罗袜都浸湿了。回到屋里放下水晶帘子，还隔着帘子呆呆地望着秋天的明月。",
       }
       ],
@@ -3866,8 +3866,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "日色欲尽花含烟，月明欲素愁不眠。(欲素 一作：如素)\n赵瑟初停凤凰柱，蜀琴欲奏鸳鸯弦。\n此曲有意无人传，愿随春风寄燕然。\n忆君迢迢隔青天，昔日横波目，今作流泪泉。\n不信妾断肠，归来看取明镜前。(断肠 一作：肠断)",
-        pinyin: "rì sè yù jìn huā hán yān， yuè míng yù sù chóu bù mián。( yù sù yī zuò： rú sù)\nzhào sè chū tíng fèng huáng zhù， shǔ qín yù zòu yuān yāng xián。\ncǐ qǔ yǒu yì wú rén chuán， yuàn suí chūn fēng jì yàn rán。\nyì jūn tiáo tiáo gé qīng tiān， xī rì héng bō mù， jīn zuò liú lèi quán。\nbù xìn qiè duàn cháng， guī lái kàn qǔ míng jìng qián。( duàn cháng yī zuò： cháng duàn)",
+        text: "日色欲尽花含烟，月明欲素愁不眠。\n赵瑟初停凤凰柱，蜀琴欲奏鸳鸯弦。\n此曲有意无人传，愿随春风寄燕然。\n忆君迢迢隔青天，昔日横波目，今作流泪泉。\n不信妾断肠，归来看取明镜前。",
+        pinyin: "rì sè yù jìn huā hán yān， yuè míng yù sù chóu bù mián。\nzhào sè chū tíng fèng huáng zhù， shǔ qín yù zòu yuān yāng xián。\ncǐ qǔ yǒu yì wú rén chuán， yuàn suí chūn fēng jì yàn rán。\nyì jūn tiáo tiáo gé qīng tiān， xī rì héng bō mù， jīn zuò liú lèi quán。\nbù xìn qiè duàn cháng， guī lái kàn qǔ míng jìng qián。",
         translation: "太阳快要落了，花色朦胧像含着烟霭；明月皎洁，人却愁得睡不着觉。她刚弹完瑟，又想奏琴，可这一曲里的情意没有人传送，只愿它随着春风寄到遥远的燕然山。想念的人遥遥地隔在青天外，从前顾盼生辉的眼睛，如今变成了流不尽的泪水泉。若不信她想得肝肠寸断，等你回来，到明镜前看看她的脸就知道了。",
       }
       ],
@@ -3879,8 +3879,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "妾发初覆额，折花门前剧。\n郎骑竹马来，绕床弄青梅。\n同居长干里，两小无嫌猜，\n十四为君妇，羞颜未尝开。\n低头向暗壁，千唤不一回。\n十五始展眉，愿同尘与灰。\n常存抱柱信，岂上望夫台。\n十六君远行，瞿塘滟滪堆。\n五月不可触，猿声天上哀。(猿\n一作：鸣)\n门前迟行迹，一一生绿苔。\n苔深不能扫，落叶秋风早。\n八月蝴蝶来，双飞西园草。\n感此伤妾心，坐愁红颜老。\n早晚下三巴，预将书报家。\n相迎不道远，直至长风沙。",
-        pinyin: "qiè fā chū fù é， zhé huā mén qián jù。\nláng qí zhú mǎ lái， rào chuáng nòng qīng méi。\ntóng jū cháng gān lǐ， liǎng xiǎo wú xián cāi，\nshí sì wèi jūn fù， xiū yán wèi cháng kāi。\ndī tóu xiàng àn bì， qiān huàn bù yī huí。\nshí wǔ shǐ zhǎn méi， yuàn tóng chén yǔ huī。\ncháng cún bào zhù xìn， qǐ shàng wàng fū tái。\nshí liù jūn yuǎn xíng， qú táng yàn yù duī。\nwǔ yuè bù kě chù， yuán shēng tiān shàng āi。( yuán\nyī zuò： míng)\nmén qián chí xíng jì， yī yī shēng lǜ tái。\ntái shēn bù néng sǎo， luò yè qiū fēng zǎo。\nbā yuè hú dié lái， shuāng fēi xī yuán cǎo。\ngǎn cǐ shāng qiè xīn， zuò chóu hóng yán lǎo。\nzǎo wǎn xià sān bā， yù jiāng shū bào jiā。\nxiāng yíng bù dào yuǎn， zhí zhì cháng fēng shā。",
+        text: "妾发初覆额，折花门前剧。\n郎骑竹马来，绕床弄青梅。\n同居长干里，两小无嫌猜，\n十四为君妇，羞颜未尝开。\n低头向暗壁，千唤不一回。\n十五始展眉，愿同尘与灰。\n常存抱柱信，岂上望夫台。\n十六君远行，瞿塘滟滪堆。\n五月不可触，猿声天上哀。\n门前迟行迹，一一生绿苔。\n苔深不能扫，落叶秋风早。\n八月蝴蝶来，双飞西园草。\n感此伤妾心，坐愁红颜老。\n早晚下三巴，预将书报家。\n相迎不道远，直至长风沙。",
+        pinyin: "qiè fā chū fù é， zhé huā mén qián jù。\nláng qí zhú mǎ lái， rào chuáng nòng qīng méi。\ntóng jū cháng gān lǐ， liǎng xiǎo wú xián cāi，\nshí sì wèi jūn fù， xiū yán wèi cháng kāi。\ndī tóu xiàng àn bì， qiān huàn bù yī huí。\nshí wǔ shǐ zhǎn méi， yuàn tóng chén yǔ huī。\ncháng cún bào zhù xìn， qǐ shàng wàng fū tái。\nshí liù jūn yuǎn xíng， qú táng yàn yù duī。\nwǔ yuè bù kě chù， yuán shēng tiān shàng āi。\nmén qián chí xíng jì， yī yī shēng lǜ tái。\ntái shēn bù néng sǎo， luò yè qiū fēng zǎo。\nbā yuè hú dié lái， shuāng fēi xī yuán cǎo。\ngǎn cǐ shāng qiè xīn， zuò chóu hóng yán lǎo。\nzǎo wǎn xià sān bā， yù jiāng shū bào jiā。\nxiāng yíng bù dào yuǎn， zhí zhì cháng fēng shā。",
         translation: "我的头发刚盖住额头的时候，常在门前折花玩耍，你骑着竹马过来，绕着井栏和我一起玩青梅，我们同住长干里，两小无猜。十四岁嫁给你做妻子，害羞得低下头朝着暗墙，千呼万唤也不肯回一次头；十五岁才舒展眉头，愿意和你同尘共灰，十六岁你出远门，要过瞿塘峡凶险的滟滪堆，五月里那地方碰不得，两岸猿声悲哀。你走后，门前留下的脚印一一生了青苔，苔深得扫不掉，秋风里叶子早早落了；八月蝴蝶双飞西园草地，看得我心里难过，只怕红颜就这样白白老去——你早晚会回家，请预先捎信来，不管多远我都去接你，一直接到长风沙。",
       }
       ],
@@ -3892,8 +3892,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "噫吁嚱，危乎高哉！\n蜀道之难，难于上青天！\n蚕丛及鱼凫，开国何茫然！\n尔来四万八千岁，不与秦塞通人烟。\n西当太白有鸟道，可以横绝峨眉巅。\n地崩山摧壮士死，然后天梯石栈相钩连。\n上有六龙回日之高标，下有冲波逆折之回川。\n黄鹤之飞尚不得过，猿猱欲度愁攀援。(攀援 一作：攀缘)\n青泥何盘盘，百步九折萦岩峦。\n扪参历井仰胁息，以手抚膺坐长叹。\n问君西游何时还？畏途巉岩不可攀。\n但见悲鸟号古木，雄飞雌从绕林间。\n又闻子规啼夜月，愁空山。\n蜀道之难,难于上青天，使人听此凋朱颜！\n连峰去天不盈尺，枯松倒挂倚绝壁。\n飞湍瀑流争喧豗，砯崖转石万壑雷。\n其险也如此，嗟尔远道之人胡为乎来哉！(也如此 一作：也若此)\n剑阁峥嵘而崔嵬，一夫当关，万夫莫开。\n所守或匪亲，化为狼与豺。\n朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。\n锦城虽云乐，不如早还家。\n蜀道之难,难于上青天，侧身西望长咨嗟！",
-        pinyin: "yī xū xī， wēi hū gāo zāi！\nshǔ dào zhī nán， nán yú shàng qīng tiān！\ncán cóng jí yú fú， kāi guó hé máng rán！\něr lái sì wàn bā qiān suì， bù yǔ qín sāi tōng rén yān。\nxī dāng tài bái yǒu niǎo dào， kě yǐ héng jué é méi diān。\ndì bēng shān cuī zhuàng shì sǐ， rán hòu tiān tī shí zhàn xiāng gōu lián。\nshàng yǒu liù lóng huí rì zhī gāo biāo， xià yǒu chōng bō nì zhé zhī huí chuān。\nhuáng hè zhī fēi shàng bù dé guò， yuán náo yù dù chóu pān yuán。( pān yuán yī zuò： pān yuán)\nqīng ní hé pán pán， bǎi bù jiǔ zhé yíng yán luán。\nmén shēn lì jǐng yǎng xié xī， yǐ shǒu fǔ yīng zuò cháng tàn。\nwèn jūn xī yóu hé shí hái？ wèi tú chán yán bù kě pān。\ndàn jiàn bēi niǎo hào gǔ mù， xióng fēi cí cóng rào lín jiān。\nyòu wén zǐ guī tí yè yuè， chóu kōng shān。\nshǔ dào zhī nán, nán yú shàng qīng tiān， shǐ rén tīng cǐ diāo zhū yán！\nlián fēng qù tiān bù yíng chǐ， kū sōng dǎo guà yǐ jué bì。\nfēi tuān pù liú zhēng xuān huī， pīng yá zhuǎn shí wàn hè léi。\nqí xiǎn yě rú cǐ， jiē ěr yuǎn dào zhī rén hú wèi hū lái zāi！( yě rú cǐ yī zuò： yě ruò cǐ)\njiàn gé zhēng róng ér cuī wéi， yī fū dāng guān， wàn fū mò kāi。\nsuǒ shǒu huò fěi qīn， huà wéi láng yǔ chái。\ncháo bì měng hǔ， xī bì cháng shé； mó yá shǔn xuè， shā rén rú má。\njǐn chéng suī yún lè， bù rú zǎo hái jiā。\nshǔ dào zhī nán, nán yú shàng qīng tiān， cè shēn xī wàng cháng zī jiē！",
+        text: "噫吁嚱，危乎高哉！\n蜀道之难，难于上青天！\n蚕丛及鱼凫，开国何茫然！\n尔来四万八千岁，不与秦塞通人烟。\n西当太白有鸟道，可以横绝峨眉巅。\n地崩山摧壮士死，然后天梯石栈相钩连。\n上有六龙回日之高标，下有冲波逆折之回川。\n黄鹤之飞尚不得过，猿猱欲度愁攀援。\n青泥何盘盘，百步九折萦岩峦。\n扪参历井仰胁息，以手抚膺坐长叹。\n问君西游何时还？畏途巉岩不可攀。\n但见悲鸟号古木，雄飞雌从绕林间。\n又闻子规啼夜月，愁空山。\n蜀道之难,难于上青天，使人听此凋朱颜！\n连峰去天不盈尺，枯松倒挂倚绝壁。\n飞湍瀑流争喧豗，砯崖转石万壑雷。\n其险也如此，嗟尔远道之人胡为乎来哉！\n剑阁峥嵘而崔嵬，一夫当关，万夫莫开。\n所守或匪亲，化为狼与豺。\n朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。\n锦城虽云乐，不如早还家。\n蜀道之难,难于上青天，侧身西望长咨嗟！",
+        pinyin: "yī xū xī， wēi hū gāo zāi！\nshǔ dào zhī nán， nán yú shàng qīng tiān！\ncán cóng jí yú fú， kāi guó hé máng rán！\něr lái sì wàn bā qiān suì， bù yǔ qín sāi tōng rén yān。\nxī dāng tài bái yǒu niǎo dào， kě yǐ héng jué é méi diān。\ndì bēng shān cuī zhuàng shì sǐ， rán hòu tiān tī shí zhàn xiāng gōu lián。\nshàng yǒu liù lóng huí rì zhī gāo biāo， xià yǒu chōng bō nì zhé zhī huí chuān。\nhuáng hè zhī fēi shàng bù dé guò， yuán náo yù dù chóu pān yuán。\nqīng ní hé pán pán， bǎi bù jiǔ zhé yíng yán luán。\nmén shēn lì jǐng yǎng xié xī， yǐ shǒu fǔ yīng zuò cháng tàn。\nwèn jūn xī yóu hé shí hái？ wèi tú chán yán bù kě pān。\ndàn jiàn bēi niǎo hào gǔ mù， xióng fēi cí cóng rào lín jiān。\nyòu wén zǐ guī tí yè yuè， chóu kōng shān。\nshǔ dào zhī nán, nán yú shàng qīng tiān， shǐ rén tīng cǐ diāo zhū yán！\nlián fēng qù tiān bù yíng chǐ， kū sōng dǎo guà yǐ jué bì。\nfēi tuān pù liú zhēng xuān huī， pīng yá zhuǎn shí wàn hè léi。\nqí xiǎn yě rú cǐ， jiē ěr yuǎn dào zhī rén hú wèi hū lái zāi！\njiàn gé zhēng róng ér cuī wéi， yī fū dāng guān， wàn fū mò kāi。\nsuǒ shǒu huò fěi qīn， huà wéi láng yǔ chái。\ncháo bì měng hǔ， xī bì cháng shé； mó yá shǔn xuè， shā rén rú má。\njǐn chéng suī yún lè， bù rú zǎo hái jiā。\nshǔ dào zhī nán, nán yú shàng qīng tiān， cè shēn xī wàng cháng zī jiē！",
         translation: "哎呀呀，多么高峻、多么险啊！蜀道难走，比上青天还难！山路上黄鹤飞不过去，猿猴想攀也发愁，悲鸟在古树间哀号，杜鹃在夜月下啼鸣，听得人脸色都变了；连绵的山峰离天不到一尺，枯松倒挂在绝壁上，飞泻的瀑布轰隆隆响，山石滚动像万壑雷鸣。剑阁高峻险要，一个人把守关口，一万个人也打不开；锦官城虽说快乐，也不如早早回家——我侧身向西遥望，忍不住长长叹息。",
       }
       ],
@@ -3957,8 +3957,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "明月出天山，苍茫云海间。\n长风几万里，吹度玉门关。\n汉下白登道，胡窥青海湾。\n由来征战地，不见有人还。\n戍客望边邑，思归多苦颜。(望边邑 一作：望边色)\n高楼当此夜，叹息未应闲。",
-        pinyin: "míng yuè chū tiān shān， cāng máng yún hǎi jiān。\ncháng fēng jǐ wàn lǐ， chuī dù yù mén guān。\nhàn xià bái dēng dào， hú kuī qīng hǎi wān。\nyóu lái zhēng zhàn dì， bù jiàn yǒu rén hái。\nshù kè wàng biān yì， sī guī duō kǔ yán。( wàng biān yì yī zuò： wàng biān sè)\ngāo lóu dāng cǐ yè， tàn xī wèi yìng xián。",
+        text: "明月出天山，苍茫云海间。\n长风几万里，吹度玉门关。\n汉下白登道，胡窥青海湾。\n由来征战地，不见有人还。\n戍客望边邑，思归多苦颜。\n高楼当此夜，叹息未应闲。",
+        pinyin: "míng yuè chū tiān shān， cāng máng yún hǎi jiān。\ncháng fēng jǐ wàn lǐ， chuī dù yù mén guān。\nhàn xià bái dēng dào， hú kuī qīng hǎi wān。\nyóu lái zhēng zhàn dì， bù jiàn yǒu rén hái。\nshù kè wàng biān yì， sī guī duō kǔ yán。\ngāo lóu dāng cǐ yè， tàn xī wèi yìng xián。",
         translation: "明月从天山上升起来，出没在苍茫的云海之间；长风从几万里外吹来，吹过了玉门关。这些征战的地方，从来很少有人能活着回家。守边的将士望着边城，个个愁容满面思念家乡；今夜家中高楼上的妻子，叹息也一定不会停歇。",
       }
       ],
@@ -4009,8 +4009,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "车辚辚，马萧萧，行人弓箭各在腰。\n耶娘妻子走相送，尘埃不见咸阳桥。(\n娘 一作：“爷”)\n牵衣顿足拦道哭，哭声直上干云霄。\n道旁过者问行人，行人但云点行频。\n或从十五北防河，便至四十西营田。\n去时里正与裹头，归来头白还戍边。\n边庭流血成海水，武皇开边意未已。\n君不闻，汉家山东二百州，千村万落生荆杞。\n纵有健妇把锄犁，禾生陇亩无东西。\n况复秦兵耐苦战，被驱不异犬与鸡。\n长者虽有问，役夫敢申恨？\n且如今年冬，未休关西卒。\n县官急索租，租税从何出？\n信知生男恶，反是生女好。\n生女犹得嫁比邻，生男埋没随百草。\n君不见，青海头，古来白骨无人收。\n新鬼烦冤旧鬼哭，天阴雨湿声啾啾！",
-        pinyin: "chē lín lín， mǎ xiāo xiāo， xíng rén gōng jiàn gè zài yāo。\nyē niáng qī zǐ zǒu xiāng sòng， chén āi bù jiàn xián yáng qiáo。(\nniáng yī zuò：“ yé”)\nqiān yī dùn zú lán dào kū， kū shēng zhí shàng gān yún xiāo。\ndào páng guò zhě wèn xíng rén， xíng rén dàn yún diǎn xíng pín。\nhuò cóng shí wǔ běi fáng hé， biàn zhì sì shí xī yíng tián。\nqù shí lǐ zhèng yǔ guǒ tóu， guī lái tou bái hái shù biān。\nbiān tíng liú xuè chéng hǎi shuǐ， wǔ huáng kāi biān yì wèi yǐ。\njūn bù wén， hàn jiā shān dōng èr bǎi zhōu， qiān cūn wàn luò shēng jīng qǐ。\nzòng yǒu jiàn fù bǎ chú lí， hé shēng lǒng mǔ wú dōng xī。\nkuàng fù qín bīng nài kǔ zhàn， bèi qū bù yì quǎn yǔ jī。\nzhǎng zhě suī yǒu wèn， yì fū gǎn shēn hèn？\nqiě rú jīn nián dōng， wèi xiū guān xī zú。\nxiàn guān jí suǒ zū， zū shuì cóng hé chū？\nxìn zhī shēng nán è， fǎn shì shēng nǚ hǎo。\nshēng nǚ yóu dé jià bǐ lín， shēng nán mái mò suí bǎi cǎo。\njūn bù jiàn， qīng hǎi tóu， gǔ lái bái gǔ wú rén shōu。\nxīn guǐ fán yuān jiù guǐ kū， tiān yīn yǔ shī shēng jiū jiū！",
+        text: "车辚辚，马萧萧，行人弓箭各在腰。\n耶娘妻子走相送，尘埃不见咸阳桥。\n牵衣顿足拦道哭，哭声直上干云霄。\n道旁过者问行人，行人但云点行频。\n或从十五北防河，便至四十西营田。\n去时里正与裹头，归来头白还戍边。\n边庭流血成海水，武皇开边意未已。\n君不闻，汉家山东二百州，千村万落生荆杞。\n纵有健妇把锄犁，禾生陇亩无东西。\n况复秦兵耐苦战，被驱不异犬与鸡。\n长者虽有问，役夫敢申恨？\n且如今年冬，未休关西卒。\n县官急索租，租税从何出？\n信知生男恶，反是生女好。\n生女犹得嫁比邻，生男埋没随百草。\n君不见，青海头，古来白骨无人收。\n新鬼烦冤旧鬼哭，天阴雨湿声啾啾！",
+        pinyin: "chē lín lín， mǎ xiāo xiāo， xíng rén gōng jiàn gè zài yāo。\nyē niáng qī zǐ zǒu xiāng sòng， chén āi bù jiàn xián yáng qiáo。\nqiān yī dùn zú lán dào kū， kū shēng zhí shàng gān yún xiāo。\ndào páng guò zhě wèn xíng rén， xíng rén dàn yún diǎn xíng pín。\nhuò cóng shí wǔ běi fáng hé， biàn zhì sì shí xī yíng tián。\nqù shí lǐ zhèng yǔ guǒ tóu， guī lái tou bái hái shù biān。\nbiān tíng liú xuè chéng hǎi shuǐ， wǔ huáng kāi biān yì wèi yǐ。\njūn bù wén， hàn jiā shān dōng èr bǎi zhōu， qiān cūn wàn luò shēng jīng qǐ。\nzòng yǒu jiàn fù bǎ chú lí， hé shēng lǒng mǔ wú dōng xī。\nkuàng fù qín bīng nài kǔ zhàn， bèi qū bù yì quǎn yǔ jī。\nzhǎng zhě suī yǒu wèn， yì fū gǎn shēn hèn？\nqiě rú jīn nián dōng， wèi xiū guān xī zú。\nxiàn guān jí suǒ zū， zū shuì cóng hé chū？\nxìn zhī shēng nán è， fǎn shì shēng nǚ hǎo。\nshēng nǚ yóu dé jià bǐ lín， shēng nán mái mò suí bǎi cǎo。\njūn bù jiàn， qīng hǎi tóu， gǔ lái bái gǔ wú rén shōu。\nxīn guǐ fán yuān jiù guǐ kū， tiān yīn yǔ shī shēng jiū jiū！",
         translation: "战车隆隆响，战马萧萧叫，出征的人把弓箭挂在腰上，爹娘妻子儿女跑来送行，扬起的灰尘遮住了咸阳桥；拉住衣服、跺着脚拦在道上痛哭，哭声直冲云霄。征人诉说被一次次点名出征：有人十五岁就去北方驻防，四十岁还在西边屯田，边关流血像海水一样多，可皇上开拓边疆的心思还不停止；家乡千村万落长满荆棘，官府又急着催租，租税从哪里出呢？人们这才觉得生男不如生女好，男孩大多战死埋进荒草；青海头上自古白骨没人收，天阴下雨时新鬼旧鬼哭声啾啾。",
       }
       ],
@@ -4048,8 +4048,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "劝君莫惜金缕衣，劝君惜取少年时。(惜取 一作：须取)\n花开堪折直须折，莫待无花空折枝。(花开 一作：有花)",
-        pinyin: "quàn jūn mò xī jīn lǚ yī， quàn jūn xī qǔ shào nián shí。( xī qǔ yī zuò： xū qǔ)\nhuā kāi kān zhé zhí xū zhé， mò dài wú huā kōng zhé zhī。( huā kāi yī zuò： yǒu huā)",
+        text: "劝君莫惜金缕衣，劝君惜取少年时。\n花开堪折直须折，莫待无花空折枝。",
+        pinyin: "quàn jūn mò xī jīn lǚ yī， quàn jūn xī qǔ shào nián shí。\nhuā kāi kān zhé zhí xū zhé， mò dài wú huā kōng zhé zhī。",
         translation: "我劝你不要可惜那金线织的衣裳，要爱惜少年时的光阴。花开正好该摘就去摘，不要等到花谢了，只对着空空的枝条。",
       }
       ],
@@ -4074,8 +4074,8 @@ export const tangShi: PackBook = {
       blocks: [
       {
         kind: 'poem',
-        text: "梧桐相待老，鸳鸯会双死。\n贞女贵殉夫，舍生亦如此。\n波澜誓不起，妾心古井水。(古井水 一作：井中水)",
-        pinyin: "wú tóng xiāng dài lǎo， yuān yāng huì shuāng sǐ。\nzhēn nǚ guì xùn fū， shè shēng yì rú cǐ。\nbō lán shì bù qǐ， qiè xīn gǔ jǐng shuǐ。( gǔ jǐng shuǐ yī zuò： jǐng zhōng shuǐ)",
+        text: "梧桐相待老，鸳鸯会双死。\n贞女贵殉夫，舍生亦如此。\n波澜誓不起，妾心古井水。",
+        pinyin: "wú tóng xiāng dài lǎo， yuān yāng huì shuāng sǐ。\nzhēn nǚ guì xùn fū， shè shēng yì rú cǐ。\nbō lán shì bù qǐ， qiè xīn gǔ jǐng shuǐ。",
         translation: "梧桐树相伴着一起到老，鸳鸯鸟总会成双成对地死去。贞烈的女子看重以死随夫，连舍弃生命也心甘情愿。心里发誓再不起波澜，就像古井里的水一样平静。",
       }
       ],
