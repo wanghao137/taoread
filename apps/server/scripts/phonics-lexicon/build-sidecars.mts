@@ -63,6 +63,11 @@ const TAOREAD_ORIGINALS: Record<string, {
   six: { uk: '/sɪks/', us: '/sɪks/', senses: [{ pos: 'num.', zh: '六', en: 'The number after five.' }], ex: { en: 'I can see six ducks.', zh: '我能看见六只鸭子。' }, col: [], fam: [], tip: 'six 结尾的 x 发 /ks/ 音。' },
   quit: { uk: '/kwɪt/', us: '/kwɪt/', senses: [{ pos: 'v.', zh: '停止；退出', en: 'To stop doing something.' }], ex: { en: 'We quit the game to eat lunch.', zh: '我们停下游去吃午饭。' }, col: ['quit a game｜退出游戏'], fam: [], tip: 'quit 的过去式还是 quit。' },
   moth: { uk: '/mɒθ/', us: '/mɔːθ/', senses: [{ pos: 'n.', zh: '飞蛾', en: 'An insect like a butterfly that flies at night.' }], ex: { en: 'A moth flew to the lamp.', zh: '一只飞蛾朝台灯飞去。' }, col: [], fam: ['butterfly (n.)'], tip: 'moth 长得像蝴蝶，但大多在夜里活动。' },
+  // ── 阶段四扩充词（词光无匹配的自备条目，2026-10-28）──
+  five: { uk: '/faɪv/', us: '/faɪv/', senses: [{ pos: 'num.', zh: '五', en: 'The number after four.' }], ex: { en: 'I have five red apples.', zh: '我有五个红苹果。' }, col: ['five ducks｜五只鸭子'], fam: [], tip: 'five 里 i 发长音 /aɪ/，结尾 e 不发音。' },
+  three: { uk: '/θriː/', us: '/θriː/', senses: [{ pos: 'num.', zh: '三', en: 'The number after two.' }], ex: { en: 'Three ducks swim in the pond.', zh: '三只鸭子在池塘里游泳。' }, col: ['three trees｜三棵树'], fam: [], tip: 'three 开头的 th 要咬住舌尖发音。' },
+  zoo: { uk: '/zuː/', us: '/zuː/', senses: [{ pos: 'n.', zh: '动物园', en: 'A place where many animals live.' }], ex: { en: 'We saw a panda at the zoo.', zh: '我们在动物园看到了熊猫。' }, col: ['at the zoo｜在动物园'], fam: [], tip: 'zoo 里 oo 发长长的 /uː/ 音。' },
+  what: { uk: '/wɒt/', us: '/wɑːt/', senses: [{ pos: 'det.', zh: '什么', en: 'Used to ask about things.' }, { pos: 'pron.', zh: '什么', en: 'The thing that.' }], ex: { en: 'What is in your bag?', zh: '你的书包里有什么？' }, col: ['what time｜几点', 'what colour｜什么颜色'], fam: [], tip: 'what 里 wh 发 /w/，a 发短音 /ɒ/。' },
 }
 
 async function main() {

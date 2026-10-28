@@ -1,10 +1,10 @@
 {
  "schemaVersion": 1,
  "courseVersionId": "taoread-phonics-gb-v1",
- "courseContentHash": "2bf6e111d484a80d98d2079ca8e1cdf2c60f9147e729e7507d7db9c154c8795e",
+ "courseContentHash": "ace3e04309c7a398474f4621bc4b06b3573856902ca3ba6bc34e9822623d1597",
  "humanReviewed": false,
  "reviewStatus": "pending",
- "generatedAt": "2026-10-28T03:05:47.903Z",
+ "generatedAt": "2026-10-28T07:38:47.375Z",
  "sources": {
   "word-atlas": {
    "attribution": "Word Atlas contributors",
@@ -20,10 +20,10 @@
   }
  },
  "counts": {
-  "entries": 89,
-  "wordAtlas": 72,
-  "taoreadOriginal": 17,
-  "exampleAudio": 72
+  "entries": 137,
+  "wordAtlas": 116,
+  "taoreadOriginal": 21,
+  "exampleAudio": 116
  },
  "entries": [
   {
@@ -3224,6 +3224,1816 @@
    ],
    "tip": "不规则变化：sing—sang—sung。",
    "cefr": "A1"
+  },
+  {
+   "wordId": "w-cake",
+   "word": "cake",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/keɪk/",
+   "usIpa": "/keɪk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "蛋糕",
+     "en": "A sweet food baked from flour, eggs, sugar, and fat."
+    },
+    {
+     "pos": "v.",
+     "zh": "厚厚覆盖；结块",
+     "en": "To cover with a thick layer or form hard lumps."
+    }
+   ],
+   "example": {
+    "en": "We shared a slice of lemon cake after lunch.",
+    "zh": "午饭后，我们分着吃了一片柠檬蛋糕。",
+    "audio": {
+     "sha256": "4e7b04e8c70ed7b926c1ee75017083c1bf16b8cf8d74afe490eef06ebc15aec2",
+     "durationMs": 2873,
+     "bytes": 23030,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a slice of cake｜一片蛋糕",
+    "bake a cake｜烤蛋糕"
+   ],
+   "family": [],
+   "tip": "整个蛋糕可数；泛指蛋糕这种食物时常不可数。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-name",
+   "word": "name",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/neɪm/",
+   "usIpa": "/neɪm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "名字；名称",
+     "en": "a word or words used to identify someone or something"
+    },
+    {
+     "pos": "v.",
+     "zh": "命名；说出名称",
+     "en": "to give a name or say what someone is called"
+    }
+   ],
+   "example": {
+    "en": "What name did you choose for your new kitten?",
+    "zh": "你给新来的小猫取了什么名字？",
+    "audio": {
+     "sha256": "c2ded800ae750cbb2173cc4f831a1c464bfe3cb9b966c5dcff7ecf255a30c6a2",
+     "durationMs": 2534,
+     "bytes": 20314,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "full name｜全名",
+    "brand name｜品牌名称"
+   ],
+   "family": [
+    "nameless (adj.)",
+    "rename (v.)"
+   ],
+   "tip": "英式name A after B表示以B的名字命名A。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-game",
+   "word": "game",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡeɪm/",
+   "usIpa": "/ɡeɪm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "游戏；比赛",
+     "en": "an activity or contest played according to rules"
+    },
+    {
+     "pos": "n.",
+     "zh": "猎物；野味",
+     "en": "wild animals hunted for food or sport, or their meat"
+    }
+   ],
+   "example": {
+    "en": "We played a board game after dinner yesterday.",
+    "zh": "昨天晚饭后我们玩了一个桌游。",
+    "audio": {
+     "sha256": "d0994677d1170c56cbbd4c0f64023c82d70167dd4c0c075507067e1d577e6ce0",
+     "durationMs": 2717,
+     "bytes": 21776,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "board game｜桌游",
+    "team game｜团队运动"
+   ],
+   "family": [
+    "gaming (n.)",
+    "gamer (n.)"
+   ],
+   "tip": "猎物义不可数；be game for表示愿意尝试。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-bike",
+   "word": "bike",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/baɪk/",
+   "usIpa": "/baɪk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "自行车；摩托车",
+     "en": "a bicycle or, informally, a motorcycle"
+    },
+    {
+     "pos": "v.",
+     "zh": "骑自行车",
+     "en": "to travel somewhere by bicycle"
+    }
+   ],
+   "example": {
+    "en": "I locked my bike outside the corner shop.",
+    "zh": "我把自行车锁在街角商店外面。",
+    "audio": {
+     "sha256": "69210a7e43317889475c98a0f3ec2cd669280141ceb4d7f026a03603fc1599b7",
+     "durationMs": 2534,
+     "bytes": 20314,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "ride a bike｜骑自行车",
+    "by bike｜骑自行车"
+   ],
+   "family": [
+    "biker (n.)",
+    "biking (n.)"
+   ],
+   "tip": "by bike不加冠词；ride a bike中的a不能省。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-kite",
+   "word": "kite",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/kaɪt/",
+   "usIpa": "/kaɪt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "风筝",
+     "en": "A lightweight frame flown in the wind on a string"
+    },
+    {
+     "pos": "n.",
+     "zh": "鸢",
+     "en": "A bird of prey with long wings and often a forked tail"
+    }
+   ],
+   "example": {
+    "en": "We flew a bright kite on the windy beach.",
+    "zh": "我们在风大的海滩上放了一只色彩鲜艳的风筝。",
+    "audio": {
+     "sha256": "ba8850862684e47507e603c61aea579f39e941340c3b626859afddc79ac3072d",
+     "durationMs": 3265,
+     "bytes": 26165,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "fly a kite｜放风筝",
+    "kite string｜风筝线"
+   ],
+   "family": [],
+   "tip": "“放风筝”用 fly a kite，不用 play a kite。",
+   "cefr": "A2"
+  },
+  {
+   "wordId": "w-five",
+   "word": "five",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/faɪv/",
+   "usIpa": "/faɪv/",
+   "senses": [
+    {
+     "pos": "num.",
+     "zh": "五",
+     "en": "The number after four."
+    }
+   ],
+   "example": {
+    "en": "I have five red apples.",
+    "zh": "我有五个红苹果。",
+    "audio": null
+   },
+   "collocations": [
+    "five ducks｜五只鸭子"
+   ],
+   "family": [],
+   "tip": "five 里 i 发长音 /aɪ/，结尾 e 不发音。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-home",
+   "word": "home",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/həʊm/",
+   "usIpa": "/hoʊm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "家；住所；家乡",
+     "en": "The place where someone lives or feels they belong."
+    },
+    {
+     "pos": "adv.",
+     "zh": "在家；回家",
+     "en": "At or towards the place where you live."
+    }
+   ],
+   "example": {
+    "en": "We walked home together after dinner at the café.",
+    "zh": "在咖啡馆吃过晚饭后，我们一起走回家。",
+    "audio": {
+     "sha256": "adcd2d08095d60d3259188bb9e3ced13e4f594dd17313779e982bc658e63a032",
+     "durationMs": 2952,
+     "bytes": 23657,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "feel at home｜感到自在",
+    "return home｜回家"
+   ],
+   "family": [
+    "homeless (adj.)",
+    "homely (adj.)",
+    "homeward (adv.)"
+   ],
+   "tip": "home作副词时前面不加to：go home。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-nose",
+   "word": "nose",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/nəʊz/",
+   "usIpa": "/noʊz/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "鼻子",
+     "en": "The part of your face used for smelling and breathing."
+    },
+    {
+     "pos": "n.",
+     "zh": "飞机等的前端",
+     "en": "The front part of an aircraft or similar vehicle."
+    }
+   ],
+   "example": {
+    "en": "My nose turned red in the cold wind.",
+    "zh": "我的鼻子在冷风中冻红了。",
+    "audio": {
+     "sha256": "93e033ee9b0339618edddff1c5454dc80c6e36f63a7a6a4a7c16e3f460671248",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "blow your nose｜擤鼻涕",
+    "a runny nose｜流鼻涕"
+   ],
+   "family": [
+    "nosy (adj.)"
+   ],
+   "tip": "擤鼻涕用blow your nose，不用clean。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-use",
+   "word": "use",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/juːz/, /juːs/",
+   "usIpa": "/juːz/, /juːs/",
+   "senses": [
+    {
+     "pos": "v.",
+     "zh": "使用；运用",
+     "en": "To do something with a tool, resource, or method."
+    },
+    {
+     "pos": "n.",
+     "zh": "使用；利用",
+     "en": "The act of employing something for a purpose."
+    }
+   ],
+   "example": {
+    "en": "Can I use your scissors to open this package?",
+    "zh": "我可以用你的剪刀打开这个包裹吗？",
+    "audio": {
+     "sha256": "829aaf25f37c7b91c4a73cb45e99e131d02f794b7f8271b207a0102f7e7e70ce",
+     "durationMs": 2717,
+     "bytes": 21776,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "use public transport｜使用公共交通",
+    "make use of｜利用"
+   ],
+   "family": [
+    "user (n.)",
+    "useful (adj.)",
+    "useless (adj.)"
+   ],
+   "tip": "动词读/juːz/，名词读/juːs/。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-cute",
+   "word": "cute",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/kjuːt/",
+   "usIpa": "/kjuːt/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "可爱的；讨人喜欢的",
+     "en": "Attractive in a sweet or charming way."
+    }
+   ],
+   "example": {
+    "en": "That cute kitten is sleeping inside my slipper.",
+    "zh": "那只可爱的小猫正睡在我的拖鞋里。",
+    "audio": {
+     "sha256": "688095f975eee9968868d3e4571616f23ea2209f71b72ec3c0ae754cc2df95be",
+     "durationMs": 3344,
+     "bytes": 26792,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a cute baby｜可爱的婴儿",
+    "a cute smile｜可爱的笑容"
+   ],
+   "family": [
+    "cuteness (n.)",
+    "cutely (adv.)"
+   ],
+   "tip": "偏口语，常形容婴儿、小动物或讨喜的外表。",
+   "cefr": "A2"
+  },
+  {
+   "wordId": "w-rain",
+   "word": "rain",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/reɪn/",
+   "usIpa": "/reɪn/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "雨；雨水",
+     "en": "Water that falls from clouds in drops"
+    },
+    {
+     "pos": "v.",
+     "zh": "下雨",
+     "en": "For water drops to fall from clouds"
+    }
+   ],
+   "example": {
+    "en": "Heavy rain kept us inside for the whole afternoon.",
+    "zh": "大雨让我们整个下午都待在屋里。",
+    "audio": {
+     "sha256": "4c39388fbef40cdc7876b50e77a850a74e945f5ed7ea8db88c522025e40c35af",
+     "durationMs": 3579,
+     "bytes": 28673,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "heavy rain｜大雨",
+    "pouring rain｜倾盆大雨"
+   ],
+   "family": [
+    "rainy (adj.)",
+    "rainfall (n.)"
+   ],
+   "tip": "rain作名词通常不可数；说下雨用It rains。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-tail",
+   "word": "tail",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/teɪl/",
+   "usIpa": "/teɪl/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "尾巴；尾部",
+     "en": "the rear part of an animal or an aircraft"
+    },
+    {
+     "pos": "v.",
+     "zh": "尾随；跟踪",
+     "en": "to follow someone closely and watch where they go"
+    }
+   ],
+   "example": {
+    "en": "The dog wagged its tail when I came home.",
+    "zh": "我回家时，那只狗摇起了尾巴。",
+    "audio": {
+     "sha256": "c146eced041a7edd95fa0d2a137e87b2991c969beb466e69fcd55ebf8f347faa",
+     "durationMs": 2873,
+     "bytes": 23030,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "wag its tail｜摇尾巴",
+    "a bushy tail｜蓬松的尾巴"
+   ],
+   "family": [
+    "tailless (adj.)"
+   ],
+   "tip": "tail指尾巴；tale指故事，两词同音。",
+   "cefr": "A2"
+  },
+  {
+   "wordId": "w-wait",
+   "word": "wait",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/weɪt/",
+   "usIpa": "/weɪt/",
+   "senses": [
+    {
+     "pos": "v.",
+     "zh": "等待；等候",
+     "en": "To let time pass until something happens or someone arrives."
+    },
+    {
+     "pos": "v.",
+     "zh": "暂缓；推迟",
+     "en": "To be left until a later time."
+    }
+   ],
+   "example": {
+    "en": "Please wait here while I find my keys.",
+    "zh": "请在这里等一下，我去找钥匙。",
+    "audio": {
+     "sha256": "ef9849cc5369d2212f45cc8bcbba339ac505a062ab6bea2c7d5ea058c63f7978",
+     "durationMs": 2534,
+     "bytes": 20314,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "wait for someone｜等某人",
+    "wait patiently｜耐心等待"
+   ],
+   "family": [
+    "waiting (n.)"
+   ],
+   "tip": "等人用wait for someone；等着做用wait to do。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-play",
+   "word": "play",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/pleɪ/",
+   "usIpa": "/pleɪ/",
+   "senses": [
+    {
+     "pos": "v.",
+     "zh": "玩耍；参加游戏或运动",
+     "en": "Enjoy an activity or take part in a game"
+    },
+    {
+     "pos": "v.",
+     "zh": "演奏；播放；扮演",
+     "en": "Perform music or a role, or make a recording run"
+    }
+   ],
+   "example": {
+    "en": "The children played with wooden blocks on the floor.",
+    "zh": "孩子们在地板上玩木制积木。",
+    "audio": {
+     "sha256": "c15bfc91a3a327e7c106ed0cfb3564a057d54f73307420c6a9f92ccfdabb3277",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "play football｜踢足球",
+    "play the piano｜弹钢琴"
+   ],
+   "family": [
+    "player (n.)",
+    "playful (adj.)",
+    "playfully (adv.)"
+   ],
+   "tip": "球类前通常不加冠词；乐器前通常用the。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-day",
+   "word": "day",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/deɪ/",
+   "usIpa": "/deɪ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "一天；一日",
+     "en": "a period of twenty-four hours"
+    },
+    {
+     "pos": "n.",
+     "zh": "白天；白昼",
+     "en": "the part of each day when there is natural light"
+    }
+   ],
+   "example": {
+    "en": "We spent the whole day building sandcastles on the beach.",
+    "zh": "我们一整天都在海滩上堆沙堡。",
+    "audio": {
+     "sha256": "1d0792f6da049c20ce680ba800e3e90d0731d34113c7894d333ad50cd0947ad7",
+     "durationMs": 3814,
+     "bytes": 30554,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "every day｜每天",
+    "during the day｜在白天"
+   ],
+   "family": [
+    "daily (adj.)",
+    "daytime (n.)",
+    "daylight (n.)"
+   ],
+   "tip": "every day意为每天；everyday是形容词，意为日常的。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-tree",
+   "word": "tree",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/triː/",
+   "usIpa": "/triː/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "树；树木",
+     "en": "A tall plant with a wooden trunk and branches."
+    }
+   ],
+   "example": {
+    "en": "A small bird built its nest in our tree.",
+    "zh": "一只小鸟在我们家的树上筑了巢。",
+    "audio": {
+     "sha256": "ff7a47ea4fcce74d90ed1403ffc3683cfe6789bc43515c5868756b6f823b1f96",
+     "durationMs": 2952,
+     "bytes": 23657,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "plant a tree｜种树",
+    "climb a tree｜爬树"
+   ],
+   "family": [],
+   "tip": "tree是树；wood可指木材，woods通常指树林。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-green",
+   "word": "green",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡriːn/",
+   "usIpa": "/ɡriːn/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "绿色的",
+     "en": "Having the colour of grass and most leaves."
+    },
+    {
+     "pos": "adj.",
+     "zh": "环保的",
+     "en": "Causing little harm to the environment."
+    }
+   ],
+   "example": {
+    "en": "She wore a green jacket to match her shoes.",
+    "zh": "她穿了一件绿色夹克来搭配鞋子。",
+    "audio": {
+     "sha256": "52c056af93e581d82de3404a577812a7c9d13eeaa4f4e0dab20d933de89c8a52",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "green vegetables｜绿色蔬菜",
+    "green energy｜绿色能源"
+   ],
+   "family": [
+    "greenish (adj.)",
+    "greenness (n.)",
+    "greenery (n.)"
+   ],
+   "tip": "除颜色外，green常表示环保；形容人还可指缺乏经验。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-three",
+   "word": "three",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/θriː/",
+   "usIpa": "/θriː/",
+   "senses": [
+    {
+     "pos": "num.",
+     "zh": "三",
+     "en": "The number after two."
+    }
+   ],
+   "example": {
+    "en": "Three ducks swim in the pond.",
+    "zh": "三只鸭子在池塘里游泳。",
+    "audio": null
+   },
+   "collocations": [
+    "three trees｜三棵树"
+   ],
+   "family": [],
+   "tip": "three 开头的 th 要咬住舌尖发音。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-sea",
+   "word": "sea",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/siː/",
+   "usIpa": "/siː/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "海；海洋",
+     "en": "the large area of salt water covering much of Earth"
+    },
+    {
+     "pos": "n.",
+     "zh": "大量；一大片",
+     "en": "a large mass of similar things seen together"
+    }
+   ],
+   "example": {
+    "en": "The children watched small boats sailing across the sea.",
+    "zh": "孩子们看着小船在海上航行。",
+    "audio": {
+     "sha256": "e6f306a29405c0fcd7c657a0f777e74f1c385d0aba7ea0468f2cc814692a7a34",
+     "durationMs": 3579,
+     "bytes": 28673,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "by the sea｜在海边",
+    "at sea｜在海上"
+   ],
+   "family": [
+    "seaside (n.)",
+    "seawater (n.)",
+    "seagoing (adj.)"
+   ],
+   "tip": "at sea指在海上；by the sea指在海边。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-tea",
+   "word": "tea",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/tiː/",
+   "usIpa": "/tiː/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "茶；茶水",
+     "en": "a drink made by putting tea leaves in hot water"
+    },
+    {
+     "pos": "n.",
+     "zh": "茶叶",
+     "en": "dried leaves used to make tea"
+    }
+   ],
+   "example": {
+    "en": "I made a pot of tea while you rested.",
+    "zh": "你休息的时候，我泡了一壶茶。",
+    "audio": {
+     "sha256": "b42965c2ba58a43170b002a33713f05778604650175ee59fb3eb09d0229be59c",
+     "durationMs": 2377,
+     "bytes": 19060,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a cup of tea｜一杯茶",
+    "make tea｜泡茶"
+   ],
+   "family": [],
+   "tip": "茶水通常不可数；点单时two teas指两杯茶。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-boat",
+   "word": "boat",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/bəʊt/",
+   "usIpa": "/boʊt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "船；小船",
+     "en": "a vessel for travelling on water, usually smaller than a ship"
+    }
+   ],
+   "example": {
+    "en": "We hired a small boat and explored the lake.",
+    "zh": "我们租了一条小船，游览了湖面。",
+    "audio": {
+     "sha256": "4f58b665942d9ece833f4c1b94a130c437e904090d4fd0246e44209e92ec9ce6",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "fishing boat｜渔船",
+    "rowing boat｜划艇"
+   ],
+   "family": [
+    "boating (n.)"
+   ],
+   "tip": "by boat不加冠词；on a boat表示在船上。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-coat",
+   "word": "coat",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/kəʊt/",
+   "usIpa": "/koʊt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "外套；大衣",
+     "en": "an outer garment worn for warmth or protection"
+    },
+    {
+     "pos": "n.",
+     "zh": "覆盖层；涂层",
+     "en": "a layer of paint or another covering substance"
+    }
+   ],
+   "example": {
+    "en": "Hang your wet coat by the kitchen door.",
+    "zh": "把你的湿外套挂在厨房门边。",
+    "audio": {
+     "sha256": "2b2059052d8e0d468a563c0b4a82865216d07a58f4f06c4e239ef5dcd3fcd889",
+     "durationMs": 2612,
+     "bytes": 20940,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "winter coat｜冬季外套",
+    "a coat of paint｜一层油漆"
+   ],
+   "family": [
+    "coating (n.)"
+   ],
+   "tip": "动词常用coat A with B，意为给A涂上B。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-road",
+   "word": "road",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/rəʊd/",
+   "usIpa": "/roʊd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "道路；公路",
+     "en": "a hard surface built for vehicles to travel along"
+    },
+    {
+     "pos": "n.",
+     "zh": "途径；进程",
+     "en": "a way of reaching a particular result or situation"
+    }
+   ],
+   "example": {
+    "en": "Look both ways before you cross the road.",
+    "zh": "过马路前要向两边看。",
+    "audio": {
+     "sha256": "81bf1c29402d810755d0e676cd7cccd7a0623a9a6cfc2d5a9c1fe31159fed00c",
+     "durationMs": 2795,
+     "bytes": 22403,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "road safety｜道路安全",
+    "a main road｜主干道"
+   ],
+   "family": [
+    "roadside (n.)",
+    "roadway (n.)"
+   ],
+   "tip": "on the road常指在旅途中；road to可比喻通往某结果的途径。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-snow",
+   "word": "snow",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/snəʊ/",
+   "usIpa": "/snoʊ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "雪；积雪",
+     "en": "Soft white frozen flakes falling from clouds or covering the ground."
+    },
+    {
+     "pos": "v.",
+     "zh": "下雪",
+     "en": "For snow to fall from the sky."
+    }
+   ],
+   "example": {
+    "en": "Fresh snow covered the garden when we woke up.",
+    "zh": "我们醒来时，新下的雪覆盖了花园。",
+    "audio": {
+     "sha256": "42f89c5c7ebc967783ed46473cc21f7dd5b2c8ce08e087d7e1bbf9fc05b9c83a",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "heavy snow｜大雪",
+    "fresh snow｜新下的雪"
+   ],
+   "family": [
+    "snowy (adj.)",
+    "snowfall (n.)"
+   ],
+   "tip": "snow作名词通常不可数；下雪用it snows。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-moon",
+   "word": "moon",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/muːn/",
+   "usIpa": "/muːn/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "月亮；月球",
+     "en": "the natural object that moves around Earth"
+    },
+    {
+     "pos": "n.",
+     "zh": "天然卫星",
+     "en": "a natural object that moves around a planet"
+    }
+   ],
+   "example": {
+    "en": "The moon rose slowly above the trees behind our house.",
+    "zh": "月亮在我们屋后的树梢上缓缓升起。",
+    "audio": {
+     "sha256": "a1610068f688ef0f9e262afda88c5476109748fd3cca97256896e4b5099f48df",
+     "durationMs": 3814,
+     "bytes": 30554,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "full moon｜满月",
+    "crescent moon｜新月；月牙"
+   ],
+   "family": [
+    "moonlight (n.)",
+    "moonlit (adj.)"
+   ],
+   "tip": "指地球的月亮通常用the moon；其他行星的卫星可数。",
+   "cefr": "A2"
+  },
+  {
+   "wordId": "w-food",
+   "word": "food",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/fuːd/",
+   "usIpa": "/fuːd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "食物；食品",
+     "en": "Things people or animals eat to live and grow."
+    }
+   ],
+   "example": {
+    "en": "We packed enough food for a picnic by the lake.",
+    "zh": "我们带了足够的食物，准备在湖边野餐。",
+    "audio": {
+     "sha256": "d9c86aafbc6265c6c6f5336549951fda67562280aec4244c812ff38c77724407",
+     "durationMs": 2952,
+     "bytes": 23657,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "fresh food｜新鲜食物",
+    "food waste｜食物浪费"
+   ],
+   "family": [],
+   "tip": "泛指食物时不可数；foods表示不同种类的食物。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-zoo",
+   "word": "zoo",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/zuː/",
+   "usIpa": "/zuː/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "动物园",
+     "en": "A place where many animals live."
+    }
+   ],
+   "example": {
+    "en": "We saw a panda at the zoo.",
+    "zh": "我们在动物园看到了熊猫。",
+    "audio": null
+   },
+   "collocations": [
+    "at the zoo｜在动物园"
+   ],
+   "family": [],
+   "tip": "zoo 里 oo 发长长的 /uː/ 音。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-school",
+   "word": "school",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/skuːl/",
+   "usIpa": "/skuːl/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "学校；上学",
+     "en": "A place where children learn, or the time spent learning there."
+    },
+    {
+     "pos": "n.",
+     "zh": "学派；流派",
+     "en": "A group sharing particular ideas, methods, or styles."
+    }
+   ],
+   "example": {
+    "en": "We walk to school together along the river.",
+    "zh": "我们一起沿着河边步行上学。",
+    "audio": {
+     "sha256": "8d3b1312bf3775eadc84ae89e7126e76030d476ca4ac700f1b0eb6947c319659",
+     "durationMs": 2534,
+     "bytes": 20314,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "primary school｜小学",
+    "secondary school｜中学"
+   ],
+   "family": [
+    "schooling (n.)",
+    "schoolchild (n.)"
+   ],
+   "tip": "go to school指上学；go to the school指去校址。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-book",
+   "word": "book",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/bʊk/",
+   "usIpa": "/bʊk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "书；书籍",
+     "en": "A set of pages joined together for reading"
+    },
+    {
+     "pos": "v.",
+     "zh": "预订；预约",
+     "en": "To arrange in advance to use a service or attend something"
+    }
+   ],
+   "example": {
+    "en": "I left my book on the kitchen table.",
+    "zh": "我把书落在厨房的桌子上了。",
+    "audio": {
+     "sha256": "4e8db6fa4e102e9bd86c4f21a62723d997737caa564fcde298ecf5949ece6428",
+     "durationMs": 2455,
+     "bytes": 19687,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "read a book｜读书",
+    "borrow a book｜借书"
+   ],
+   "family": [
+    "booking (n.)",
+    "booklet (n.)"
+   ],
+   "tip": "book 作动词表示预订，可直接接房间、机票等。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-look",
+   "word": "look",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/lʊk/",
+   "usIpa": "/lʊk/",
+   "senses": [
+    {
+     "pos": "v.",
+     "zh": "看；注视",
+     "en": "direct your eyes towards someone or something"
+    },
+    {
+     "pos": "v.",
+     "zh": "看起来；显得",
+     "en": "appear to have a particular quality or condition"
+    }
+   ],
+   "example": {
+    "en": "Look at the tiny bird beside the window.",
+    "zh": "看窗边那只小鸟。",
+    "audio": {
+     "sha256": "29c329aac8a14bb1e4a16e3876c4c71df724f8b10dd0db7698024b893d54f851",
+     "durationMs": 2795,
+     "bytes": 22403,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "look at｜看",
+    "look forward to｜期待"
+   ],
+   "family": [],
+   "tip": "look at后接看的对象；look作系动词后接形容词。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-good",
+   "word": "good",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡʊd/",
+   "usIpa": "/ɡʊd/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "好的；优质的",
+     "en": "Of a high or satisfactory standard."
+    },
+    {
+     "pos": "adj.",
+     "zh": "有益的；有好处的",
+     "en": "Having a helpful or healthy effect."
+    }
+   ],
+   "example": {
+    "en": "This bakery makes good bread with a crisp crust.",
+    "zh": "这家面包店做的面包很好，外皮酥脆。",
+    "audio": {
+     "sha256": "5c0ee0209a3d79d09e39c4b90084aa4c6a8209a00b70fba00c9970fffd252064",
+     "durationMs": 3735,
+     "bytes": 29927,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "good quality｜优良品质",
+    "good at｜擅长"
+   ],
+   "family": [
+    "goodness (n.)"
+   ],
+   "tip": "good是形容词；修饰动作通常用well。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-foot",
+   "word": "foot",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/fʊt/",
+   "usIpa": "/fʊt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "脚；足",
+     "en": "the body part below the ankle used for standing and walking"
+    },
+    {
+     "pos": "n.",
+     "zh": "英尺",
+     "en": "a unit of length equal to twelve inches"
+    }
+   ],
+   "example": {
+    "en": "A tiny stone in my shoe hurt my foot.",
+    "zh": "鞋里的一颗小石子硌疼了我的脚。",
+    "audio": {
+     "sha256": "f7ca7ab7f2cd5faa731f7262e731f0d8bf4eed6cb485a6e100f3d5e70a851cbc",
+     "durationMs": 3344,
+     "bytes": 26792,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "on foot｜步行",
+    "at the foot of｜在……底部"
+   ],
+   "family": [
+    "footwear (n.)",
+    "footprint (n.)",
+    "footstep (n.)"
+   ],
+   "tip": "脚和英尺的复数均为feet；步行用on foot。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-car",
+   "word": "car",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/kɑː/",
+   "usIpa": "/kɑːr/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "汽车；轿车",
+     "en": "a road vehicle with wheels, usually carrying a few people"
+    },
+    {
+     "pos": "n.",
+     "zh": "火车车厢",
+     "en": "one of the separate sections of a train"
+    }
+   ],
+   "example": {
+    "en": "Our car is parked under the tree outside.",
+    "zh": "我们的汽车停在外面的树下。",
+    "audio": {
+     "sha256": "265d71f4541360dca56913d5f848592163931e08b45ffe6c813677b6a8431194",
+     "durationMs": 2873,
+     "bytes": 23030,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "by car｜乘汽车",
+    "electric car｜电动汽车"
+   ],
+   "family": [],
+   "tip": "by car不加冠词；in a car需要冠词。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-park",
+   "word": "park",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/pɑːk/",
+   "usIpa": "/pɑrk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "公园",
+     "en": "An open area with grass and trees for public enjoyment."
+    },
+    {
+     "pos": "v.",
+     "zh": "停车；泊车",
+     "en": "To stop a vehicle somewhere and leave it there."
+    }
+   ],
+   "example": {
+    "en": "We shared a picnic under the trees in the park.",
+    "zh": "我们在公园的树下共进了野餐。",
+    "audio": {
+     "sha256": "ac74a65e0a8b3f15f2854b939a71458a96ab9d10c67311afdb2678844a62e483",
+     "durationMs": 2952,
+     "bytes": 23657,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "public park｜公共公园",
+    "park a car｜停车"
+   ],
+   "family": [
+    "parking (n.)"
+   ],
+   "tip": "公园用park；英式英语中停车场用car park。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-farm",
+   "word": "farm",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/fɑːm/",
+   "usIpa": "/fɑːrm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "农场",
+     "en": "land and buildings used for growing crops or raising animals"
+    },
+    {
+     "pos": "v.",
+     "zh": "务农；耕种；养殖",
+     "en": "to grow crops or raise animals for food or other products"
+    }
+   ],
+   "example": {
+    "en": "We bought fresh eggs from a nearby farm.",
+    "zh": "我们从附近的农场买了新鲜鸡蛋。",
+    "audio": {
+     "sha256": "bce4b9149723f071c1c0ac117d2721e4010c5edc05b25c6e68e8f47d8bdd4c6b",
+     "durationMs": 2717,
+     "bytes": 21776,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a dairy farm｜奶牛场",
+    "work on a farm｜在农场工作"
+   ],
+   "family": [
+    "farmer (n.)",
+    "farming (n.)",
+    "farmland (n.)"
+   ],
+   "tip": "表示在农场通常用on a farm，不用in。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-arm",
+   "word": "arm",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɑːm/",
+   "usIpa": "/ɑːrm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "手臂",
+     "en": "The body part connecting your shoulder to your hand."
+    },
+    {
+     "pos": "n.",
+     "zh": "扶手；臂状部件",
+     "en": "A projecting part of an object, especially a chair."
+    }
+   ],
+   "example": {
+    "en": "She carried the sleeping baby gently in her arms.",
+    "zh": "她轻轻地把熟睡的宝宝抱在怀里。",
+    "audio": {
+     "sha256": "ea14de9922f385be2ec2d82acc1f7ad26f83c18e4c47d166402a094856b71f87",
+     "durationMs": 3735,
+     "bytes": 29927,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "fold your arms｜双臂交叉",
+    "a chair arm｜椅子扶手"
+   ],
+   "family": [
+    "armed (adj.)",
+    "unarmed (adj.)"
+   ],
+   "tip": "表“武器”用复数arms；arm还可作动词。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-card",
+   "word": "card",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/kɑːd/",
+   "usIpa": "/kɑːrd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "卡；卡片；证件",
+     "en": "A small stiff rectangle used for payment, identification, or information."
+    },
+    {
+     "pos": "n.",
+     "zh": "贺卡；明信片",
+     "en": "A decorated card sent with a greeting or personal message."
+    }
+   ],
+   "example": {
+    "en": "I tapped my card to pay for the groceries.",
+    "zh": "我刷卡支付了买食品杂货的钱。",
+    "audio": {
+     "sha256": "e6549c54874aae5eb9fb247228270f575c8bea0dd17fc8d21d8ab133a6785642",
+     "durationMs": 2612,
+     "bytes": 20940,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a credit card｜信用卡",
+    "an identity card｜身份证件"
+   ],
+   "family": [],
+   "tip": "play cards指打牌，cards用复数，前面不加冠词。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-fork",
+   "word": "fork",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/fɔːk/",
+   "usIpa": "/fɔːrk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "餐叉；叉子",
+     "en": "A tool with pointed prongs for picking up food"
+    },
+    {
+     "pos": "n.",
+     "zh": "岔路口；分叉处",
+     "en": "A place where a road or path divides"
+    }
+   ],
+   "example": {
+    "en": "She picked up a carrot with her fork.",
+    "zh": "她用餐叉叉起了一块胡萝卜。",
+    "audio": {
+     "sha256": "66c5380a2f54542d2e5a1f9f0208d98150eeb7b8bef7c6cf3f8728eebb14bc89",
+     "durationMs": 2455,
+     "bytes": 19687,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a knife and fork｜一副刀叉",
+    "a fork in the road｜道路岔口"
+   ],
+   "family": [],
+   "tip": "道路forks表示分叉；a fork in the road指岔路口。",
+   "cefr": "A2"
+  },
+  {
+   "wordId": "w-short",
+   "word": "short",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ʃɔːt/",
+   "usIpa": "/ʃɔːrt/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "短的；短暂的；矮的",
+     "en": "Having little length, height, or duration."
+    },
+    {
+     "pos": "adj.",
+     "zh": "不足的；短缺的",
+     "en": "Not having as much of something as is needed."
+    }
+   ],
+   "example": {
+    "en": "We took a short walk before dinner tonight.",
+    "zh": "今晚晚饭前，我们散了一小会儿步。",
+    "audio": {
+     "sha256": "d593f95f95d82832223a7fbb2b1ba3604f2ec0f6f384beeddd5720c921d213d9",
+     "durationMs": 2612,
+     "bytes": 20940,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a short distance｜一小段距离",
+    "short of time｜时间不足"
+   ],
+   "family": [
+    "shorten (v.)",
+    "shortness (n.)",
+    "shortage (n.)"
+   ],
+   "tip": "short of表示缺少；shortly通常意为“不久”。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-sport",
+   "word": "sport",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/spɔːt/",
+   "usIpa": "/spɔːrt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "体育运动",
+     "en": "Physical activities involving skill, effort, and often competition"
+    },
+    {
+     "pos": "v.",
+     "zh": "显眼地穿戴；展示",
+     "en": "To wear or display something in a noticeable way"
+    }
+   ],
+   "example": {
+    "en": "Swimming is the only sport my sister really enjoys.",
+    "zh": "游泳是我姐姐唯一真正喜欢的运动。",
+    "audio": {
+     "sha256": "d1d09f8d6ec3aea9be7644378ab6237387218dfde9041fb191bc5c8f99016230",
+     "durationMs": 3657,
+     "bytes": 29300,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "take part in sport｜参加体育运动",
+    "competitive sport｜竞技体育"
+   ],
+   "family": [
+    "sporting (adj.)",
+    "sporty (adj.)"
+   ],
+   "tip": "泛指体育时英式常用sport，美式常用sports。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-her",
+   "word": "her",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/hə(r)/",
+   "usIpa": "/hɚ/",
+   "senses": [
+    {
+     "pos": "pron.",
+     "zh": "她（宾格）",
+     "en": "the female person or animal receiving an action"
+    },
+    {
+     "pos": "det.",
+     "zh": "她的",
+     "en": "belonging to or connected with a female person or animal"
+    }
+   ],
+   "example": {
+    "en": "I called her after lunch to arrange a walk.",
+    "zh": "午饭后我给她打了电话，约好一起散步。",
+    "audio": {
+     "sha256": "2cd0495495c84bb7d43a6e28b9e926fee8800512555b7cc3b8d2a0f8e61780b0",
+     "durationMs": 2717,
+     "bytes": 21776,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "with her｜和她一起",
+    "for her｜为她"
+   ],
+   "family": [
+    "she (pron.)",
+    "hers (pron.)",
+    "herself (pron.)"
+   ],
+   "tip": "her可作宾语或接名词表所属；hers独立使用。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-girl",
+   "word": "girl",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡɜːl/",
+   "usIpa": "/ɡɝːl/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "女孩；姑娘",
+     "en": "A female child or young woman"
+    }
+   ],
+   "example": {
+    "en": "The girl carefully carried her kitten into the house.",
+    "zh": "那个女孩小心翼翼地把小猫抱进屋里。",
+    "audio": {
+     "sha256": "6ed3fdf740e70333f7368c1009efd73309834d6041d52d92c643af1c2f299f74",
+     "durationMs": 3344,
+     "bytes": 26792,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "young girl｜小女孩",
+    "teenage girl｜十几岁的女孩"
+   ],
+   "family": [
+    "girlhood (n.)",
+    "girlish (adj.)"
+   ],
+   "tip": "成年女性正式称woman；girl不直接表示女朋友。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-bird",
+   "word": "bird",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/bɜːd/",
+   "usIpa": "/bɝːd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "鸟",
+     "en": "an animal with feathers, wings, and a beak that lays eggs"
+    }
+   ],
+   "example": {
+    "en": "A small bird built a nest above our window.",
+    "zh": "一只小鸟在我们窗户上方筑了巢。",
+    "audio": {
+     "sha256": "9b40db4bcef14aa07fc5e511e59034ca8fcd186390a33d88b2334056e9ab03f4",
+     "durationMs": 3187,
+     "bytes": 25538,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a flock of birds｜一群鸟",
+    "a migratory bird｜候鸟"
+   ],
+   "family": [
+    "birdwatcher (n.)",
+    "birdwatching (n.)"
+   ],
+   "tip": "鸟群用a flock of birds；bird本身是可数名词。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-shirt",
+   "word": "shirt",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/ʃɜːt/",
+   "usIpa": "/ʃɝːt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "衬衫",
+     "en": "an upper-body garment, usually with sleeves, a collar, and front buttons"
+    }
+   ],
+   "example": {
+    "en": "He ironed his blue shirt before the interview.",
+    "zh": "他在面试前熨好了自己的蓝衬衫。",
+    "audio": {
+     "sha256": "b6ed5cd12349f2453af093068150af74d7c06e06b44c1303ad1666dfe1dd8c27",
+     "durationMs": 2873,
+     "bytes": 23030,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "a cotton shirt｜棉质衬衫",
+    "a short-sleeved shirt｜短袖衬衫"
+   ],
+   "family": [
+    "shirtless (adj.)"
+   ],
+   "tip": "shirt通常指衬衫；T-shirt才是T恤。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-what",
+   "word": "what",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/wɒt/",
+   "usIpa": "/wɑːt/",
+   "senses": [
+    {
+     "pos": "det.",
+     "zh": "什么",
+     "en": "Used to ask about things."
+    },
+    {
+     "pos": "pron.",
+     "zh": "什么",
+     "en": "The thing that."
+    }
+   ],
+   "example": {
+    "en": "What is in your bag?",
+    "zh": "你的书包里有什么？",
+    "audio": null
+   },
+   "collocations": [
+    "what time｜几点",
+    "what colour｜什么颜色"
+   ],
+   "family": [],
+   "tip": "what 里 wh 发 /w/，a 发短音 /ɒ/。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-when",
+   "word": "when",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/wen/",
+   "usIpa": "/wen/",
+   "senses": [
+    {
+     "pos": "adv.",
+     "zh": "什么时候",
+     "en": "At what time."
+    },
+    {
+     "pos": "conj.",
+     "zh": "当……时；一……就",
+     "en": "At the time that something happens."
+    }
+   ],
+   "example": {
+    "en": "When does the next bus leave for town?",
+    "zh": "下一班去镇上的公交车什么时候发车？",
+    "audio": {
+     "sha256": "5c8b57c12cb0e29439b4cd030e077a65a5721cecdc6e45ea96c139de7ac5365b",
+     "durationMs": 2377,
+     "bytes": 19060,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "when necessary｜必要时",
+    "when possible｜尽可能"
+   ],
+   "family": [
+    "whenever (conj.)"
+   ],
+   "tip": "表将来的时间从句中，when后通常用一般现在时。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-white",
+   "word": "white",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/waɪt/",
+   "usIpa": "/waɪt/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "白色的",
+     "en": "having the colour of fresh snow or milk"
+    },
+    {
+     "pos": "n.",
+     "zh": "白色",
+     "en": "the colour of fresh snow or milk"
+    }
+   ],
+   "example": {
+    "en": "She wore a white cotton shirt to the picnic.",
+    "zh": "她穿着一件白色棉衬衫去野餐。",
+    "audio": {
+     "sha256": "b425b7764f4adc6ee2b9aa3ab8cac21136832ca44b0642b3e132984026e4ae18",
+     "durationMs": 2952,
+     "bytes": 23657,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "white paint｜白色油漆",
+    "egg white｜蛋清"
+   ],
+   "family": [
+    "whiten (v.)",
+    "whiteness (n.)",
+    "whitish (adj.)"
+   ],
+   "tip": "egg white指蛋清；蛋黄是yolk。",
+   "cefr": "A1"
+  },
+  {
+   "wordId": "w-wheel",
+   "word": "wheel",
+   "source": "word-atlas",
+   "reviewStatus": "pending",
+   "ukIpa": "/wiːl/",
+   "usIpa": "/wiːl/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "轮子；车轮",
+     "en": "A round object that turns to move a vehicle."
+    },
+    {
+     "pos": "n.",
+     "zh": "方向盘",
+     "en": "The circular control used to steer a vehicle."
+    }
+   ],
+   "example": {
+    "en": "The front wheel of my bicycle needs replacing.",
+    "zh": "我的自行车前轮需要更换。",
+    "audio": {
+     "sha256": "7f867bd4891578ad6e716df17ad2f86f89e72ac048b6250d76aa0b7da1e19a40",
+     "durationMs": 3030,
+     "bytes": 24284,
+     "voice": "ElevenLabs Alice (UK)"
+    }
+   },
+   "collocations": [
+    "front wheel｜前轮",
+    "steering wheel｜方向盘"
+   ],
+   "family": [
+    "wheeled (adj.)",
+    "wheelchair (n.)"
+   ],
+   "tip": "at或behind the wheel常表示正在开车。",
+   "cefr": "A2"
   }
  ]
 }

@@ -448,5 +448,226 @@
     ],
     "accent": "GB",
     "positionCondition": "final"
+  },
+  {
+    "id": "g-ae",
+    "spelling": "ae",
+    "display": "a_e",
+    "phonemes": [
+      {
+        "ipa": "eɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-ie",
+    "spelling": "ie",
+    "display": "i_e",
+    "phonemes": [
+      {
+        "ipa": "aɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-oe",
+    "spelling": "oe",
+    "display": "o_e",
+    "phonemes": [
+      {
+        "ipa": "əʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-ue",
+    "spelling": "ue",
+    "display": "u_e",
+    "phonemes": [
+      {
+        "ipa": "juː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-ai",
+    "spelling": "ai",
+    "display": "ai",
+    "phonemes": [
+      {
+        "ipa": "eɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ay",
+    "spelling": "ay",
+    "display": "ay",
+    "phonemes": [
+      {
+        "ipa": "eɪ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-ee",
+    "spelling": "ee",
+    "display": "ee",
+    "phonemes": [
+      {
+        "ipa": "iː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ea",
+    "spelling": "ea",
+    "display": "ea",
+    "phonemes": [
+      {
+        "ipa": "iː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-oa",
+    "spelling": "oa",
+    "display": "oa",
+    "phonemes": [
+      {
+        "ipa": "əʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ow",
+    "spelling": "ow",
+    "display": "ow",
+    "phonemes": [
+      {
+        "ipa": "əʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
+  },
+  {
+    "id": "g-oo",
+    "spelling": "oo",
+    "display": "oo",
+    "phonemes": [
+      {
+        "ipa": "uː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-oo2",
+    "spelling": "oo",
+    "display": "oo",
+    "phonemes": [
+      {
+        "ipa": "ʊ",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ar",
+    "spelling": "ar",
+    "display": "ar",
+    "phonemes": [
+      {
+        "ipa": "ɑː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-or",
+    "spelling": "or",
+    "display": "or",
+    "phonemes": [
+      {
+        "ipa": "ɔː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-er",
+    "spelling": "er",
+    "display": "er",
+    "phonemes": [
+      {
+        "ipa": "ɜː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ir",
+    "spelling": "ir",
+    "display": "ir",
+    "phonemes": [
+      {
+        "ipa": "ɜː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-wh",
+    "spelling": "wh",
+    "display": "wh",
+    "phonemes": [
+      {
+        "ipa": "w",
+        "kind": "consonant"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "initial"
   }
 ]

@@ -1236,5 +1236,477 @@
         "imageAssetId": "r-l41-image-3"
       }
     ]
+  },
+  {
+    "id": "r-l42",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L42",
+    "pages": [
+      {
+        "text": "cake",
+        "wordIds": [
+          "w-cake"
+        ],
+        "audioAssetId": "w-cake-word",
+        "imageAssetId": "w-cake-meaning-image"
+      },
+      {
+        "text": "name",
+        "wordIds": [
+          "w-name"
+        ],
+        "audioAssetId": "w-name-word",
+        "imageAssetId": "w-name-meaning-image"
+      },
+      {
+        "text": "game",
+        "wordIds": [
+          "w-game"
+        ],
+        "audioAssetId": "w-game-word",
+        "imageAssetId": "w-game-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l43",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L43",
+    "pages": [
+      {
+        "text": "bike",
+        "wordIds": [
+          "w-bike"
+        ],
+        "audioAssetId": "w-bike-word",
+        "imageAssetId": "w-bike-meaning-image"
+      },
+      {
+        "text": "kite",
+        "wordIds": [
+          "w-kite"
+        ],
+        "audioAssetId": "w-kite-word",
+        "imageAssetId": "w-kite-meaning-image"
+      },
+      {
+        "text": "five",
+        "wordIds": [
+          "w-five"
+        ],
+        "audioAssetId": "w-five-word",
+        "imageAssetId": "w-five-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l44",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L44",
+    "pages": [
+      {
+        "text": "home",
+        "wordIds": [
+          "w-home"
+        ],
+        "audioAssetId": "w-home-word",
+        "imageAssetId": "w-home-meaning-image"
+      },
+      {
+        "text": "nose",
+        "wordIds": [
+          "w-nose"
+        ],
+        "audioAssetId": "w-nose-word",
+        "imageAssetId": "w-nose-meaning-image"
+      },
+      {
+        "text": "use",
+        "wordIds": [
+          "w-use"
+        ],
+        "audioAssetId": "w-use-word",
+        "imageAssetId": "w-use-meaning-image"
+      },
+      {
+        "text": "cute",
+        "wordIds": [
+          "w-cute"
+        ],
+        "audioAssetId": "w-cute-word",
+        "imageAssetId": "w-cute-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l45",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L45",
+    "pages": [
+      {
+        "text": "rain",
+        "wordIds": [
+          "w-rain"
+        ],
+        "audioAssetId": "w-rain-word",
+        "imageAssetId": "w-rain-meaning-image"
+      },
+      {
+        "text": "tail",
+        "wordIds": [
+          "w-tail"
+        ],
+        "audioAssetId": "w-tail-word",
+        "imageAssetId": "w-tail-meaning-image"
+      },
+      {
+        "text": "wait",
+        "wordIds": [
+          "w-wait"
+        ],
+        "audioAssetId": "w-wait-word",
+        "imageAssetId": "w-wait-meaning-image"
+      },
+      {
+        "text": "play",
+        "wordIds": [
+          "w-play"
+        ],
+        "audioAssetId": "w-play-word",
+        "imageAssetId": "w-play-meaning-image"
+      },
+      {
+        "text": "day",
+        "wordIds": [
+          "w-day"
+        ],
+        "audioAssetId": "w-day-word",
+        "imageAssetId": "w-day-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l46",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L46",
+    "pages": [
+      {
+        "text": "tree",
+        "wordIds": [
+          "w-tree"
+        ],
+        "audioAssetId": "w-tree-word",
+        "imageAssetId": "w-tree-meaning-image"
+      },
+      {
+        "text": "green",
+        "wordIds": [
+          "w-green"
+        ],
+        "audioAssetId": "w-green-word",
+        "imageAssetId": "w-green-meaning-image"
+      },
+      {
+        "text": "three",
+        "wordIds": [
+          "w-three"
+        ],
+        "audioAssetId": "w-three-word",
+        "imageAssetId": "w-three-meaning-image"
+      },
+      {
+        "text": "sea",
+        "wordIds": [
+          "w-sea"
+        ],
+        "audioAssetId": "w-sea-word",
+        "imageAssetId": "w-sea-meaning-image"
+      },
+      {
+        "text": "tea",
+        "wordIds": [
+          "w-tea"
+        ],
+        "audioAssetId": "w-tea-word",
+        "imageAssetId": "w-tea-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l47",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L47",
+    "pages": [
+      {
+        "text": "boat",
+        "wordIds": [
+          "w-boat"
+        ],
+        "audioAssetId": "w-boat-word",
+        "imageAssetId": "w-boat-meaning-image"
+      },
+      {
+        "text": "coat",
+        "wordIds": [
+          "w-coat"
+        ],
+        "audioAssetId": "w-coat-word",
+        "imageAssetId": "w-coat-meaning-image"
+      },
+      {
+        "text": "road",
+        "wordIds": [
+          "w-road"
+        ],
+        "audioAssetId": "w-road-word",
+        "imageAssetId": "w-road-meaning-image"
+      },
+      {
+        "text": "snow",
+        "wordIds": [
+          "w-snow"
+        ],
+        "audioAssetId": "w-snow-word",
+        "imageAssetId": "w-snow-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l48",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L48",
+    "pages": [
+      {
+        "text": "moon",
+        "wordIds": [
+          "w-moon"
+        ],
+        "audioAssetId": "w-moon-word",
+        "imageAssetId": "w-moon-meaning-image"
+      },
+      {
+        "text": "food",
+        "wordIds": [
+          "w-food"
+        ],
+        "audioAssetId": "w-food-word",
+        "imageAssetId": "w-food-meaning-image"
+      },
+      {
+        "text": "zoo",
+        "wordIds": [
+          "w-zoo"
+        ],
+        "audioAssetId": "w-zoo-word",
+        "imageAssetId": "w-zoo-meaning-image"
+      },
+      {
+        "text": "school",
+        "wordIds": [
+          "w-school"
+        ],
+        "audioAssetId": "w-school-word",
+        "imageAssetId": "w-school-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l49",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L49",
+    "pages": [
+      {
+        "text": "book",
+        "wordIds": [
+          "w-book"
+        ],
+        "audioAssetId": "w-book-word",
+        "imageAssetId": "w-book-meaning-image"
+      },
+      {
+        "text": "look",
+        "wordIds": [
+          "w-look"
+        ],
+        "audioAssetId": "w-look-word",
+        "imageAssetId": "w-look-meaning-image"
+      },
+      {
+        "text": "good",
+        "wordIds": [
+          "w-good"
+        ],
+        "audioAssetId": "w-good-word",
+        "imageAssetId": "w-good-meaning-image"
+      },
+      {
+        "text": "foot",
+        "wordIds": [
+          "w-foot"
+        ],
+        "audioAssetId": "w-foot-word",
+        "imageAssetId": "w-foot-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l50",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L50",
+    "pages": [
+      {
+        "text": "car",
+        "wordIds": [
+          "w-car"
+        ],
+        "audioAssetId": "w-car-word",
+        "imageAssetId": "w-car-meaning-image"
+      },
+      {
+        "text": "park",
+        "wordIds": [
+          "w-park"
+        ],
+        "audioAssetId": "w-park-word",
+        "imageAssetId": "w-park-meaning-image"
+      },
+      {
+        "text": "farm",
+        "wordIds": [
+          "w-farm"
+        ],
+        "audioAssetId": "w-farm-word",
+        "imageAssetId": "w-farm-meaning-image"
+      },
+      {
+        "text": "arm",
+        "wordIds": [
+          "w-arm"
+        ],
+        "audioAssetId": "w-arm-word",
+        "imageAssetId": "w-arm-meaning-image"
+      },
+      {
+        "text": "card",
+        "wordIds": [
+          "w-card"
+        ],
+        "audioAssetId": "w-card-word",
+        "imageAssetId": "w-card-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l51",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L51",
+    "pages": [
+      {
+        "text": "fork",
+        "wordIds": [
+          "w-fork"
+        ],
+        "audioAssetId": "w-fork-word",
+        "imageAssetId": "w-fork-meaning-image"
+      },
+      {
+        "text": "short",
+        "wordIds": [
+          "w-short"
+        ],
+        "audioAssetId": "w-short-word",
+        "imageAssetId": "w-short-meaning-image"
+      },
+      {
+        "text": "sport",
+        "wordIds": [
+          "w-sport"
+        ],
+        "audioAssetId": "w-sport-word",
+        "imageAssetId": "w-sport-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l52",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L52",
+    "pages": [
+      {
+        "text": "her",
+        "wordIds": [
+          "w-her"
+        ],
+        "audioAssetId": "w-her-word",
+        "imageAssetId": "w-her-meaning-image"
+      },
+      {
+        "text": "girl",
+        "wordIds": [
+          "w-girl"
+        ],
+        "audioAssetId": "w-girl-word",
+        "imageAssetId": "w-girl-meaning-image"
+      },
+      {
+        "text": "bird",
+        "wordIds": [
+          "w-bird"
+        ],
+        "audioAssetId": "w-bird-word",
+        "imageAssetId": "w-bird-meaning-image"
+      },
+      {
+        "text": "shirt",
+        "wordIds": [
+          "w-shirt"
+        ],
+        "audioAssetId": "w-shirt-word",
+        "imageAssetId": "w-shirt-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l53",
+    "kind": "caption",
+    "titleZh": "长音小故事",
+    "introducedAt": "L53",
+    "pages": [
+      {
+        "text": "white cake.",
+        "wordIds": [
+          "w-white",
+          "w-cake"
+        ],
+        "audioAssetId": "r-l53-page-1"
+      },
+      {
+        "text": "green bike.",
+        "wordIds": [
+          "w-green",
+          "w-bike"
+        ],
+        "audioAssetId": "r-l53-page-2"
+      },
+      {
+        "text": "what when.",
+        "wordIds": [
+          "w-what",
+          "w-when"
+        ],
+        "audioAssetId": "r-l53-page-3"
+      }
+    ]
   }
 ]
