@@ -534,7 +534,7 @@ describe('phonics v2 sidecar lexicon and US audio pack', () => {
       problems: [],
     })
     // 旁挂媒体按政策仅自用家庭可用：打开自用开关（哈希用已安装课程的真实内容哈希）
-    const runtime = runtimeOf() as { courses: Map<string, { manifest: { contentHash: string } }> }
+    const runtime = runtimeOf() as unknown as { courses: Map<string, { manifest: { contentHash: string } }> }
     rolloutOptions.selfUseFamilyId = parent.familyId
     rolloutOptions.selfUseHash = runtime.courses.get(versionId)!.manifest.contentHash
     await enroll()

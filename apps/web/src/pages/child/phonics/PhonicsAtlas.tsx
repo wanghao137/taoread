@@ -67,21 +67,26 @@ export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWor
   const [shareMessage, setShareMessage] = useState('')
   const [cardImage, setCardImage] = useState<{ blob: Blob; url: string } | null>(null)
   const [generating, setGenerating] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const player = useRef<PhonicsAudio | null>(null)
   const mounted = useRef(true)
   useEffect(() => { mounted.current = true; return () => { mounted.current = false } }, [])
   useEffect(() => () => { if (cardImage) URL.revokeObjectURL(cardImage.url) }, [cardImage])
+  // 音频清单签名：收藏切换会换 word 对象但音频不动，按签名避免整包引擎重建与重复下载
+  const audioKey = [word.audios.map(a => `${a.id}:${a.url ?? ''}`).join('|'), word.examples.map(e => e.audio?.id ?? '').join('|'), word.lexicon?.example.audio?.id ?? ''].join('#')
   useEffect(() => {
     const engine = new PhonicsAudio()
     player.current = engine
     let live = true
     const lexiconAudio = word.lexicon?.example.audio
-    const audios = [...word.audios, ...word.examples.flatMap(example => example.audio ? [example.audio] : []), ...(lexiconAudio ? [lexiconAudio] : [])]
-    engine.prepare(audios.map(audio => ({ ...audio, url: audio.url ? absolute(audio.url) : null })))
+    const audios = [...word.audios, ...word.examples.flatMap(example => example.audio ? [example.audio] : []), ...(lexiconAudio ? [lexiconAudio] : [])].filter(a => a.url)
+    setReady(false); setError('')
+    engine.prepare(audios.map(audio => ({ ...audio, url: absolute(audio.url!) })))
       .then(() => { if (live) setReady(true) })
       .catch(e => { if (live) setError(e instanceof Error ? e.message : '声音还没准备好') })
     return () => { live = false; engine.dispose(); player.current = null }
-  }, [word])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- 音频签名不变则不重建引擎；attempt 供「再试一次」手动重备
+  }, [word.id, audioKey, attempt])
   async function play(audio: PhonicsAssetDto | null | undefined) {
     if (!audio?.url || !player.current || playing) return
     setPlaying(audio.id); setError('')
@@ -149,7 +154,7 @@ export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWor
         </details>}
       </div>}
       {!ready && !error && <p role="status">正在准备声音…</p>}
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{error} <button className="ph-ghost-btn min-h-[44px]" onClick={() => setAttempt(n => n + 1)}>再试一次</button></p>}
       {shareMessage && <p role="status">{shareMessage}</p>}
     </div>
   </Dialog>

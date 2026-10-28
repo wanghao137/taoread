@@ -65,8 +65,13 @@ export function useWordSession(token: string, childId: string, versionId: string
       if (!live.current) return false
       if (result.revision !== result.appliedRevision) { setIssue('conflict'); return false }
       const restoreKey = `${key}:restoring:${mutation.clientEventId}`
-      const restoredDraft = localStorage.getItem(restoreKey)
+      const restoredRaw = localStorage.getItem(restoreKey)
+      // 兼容两种标记：旧版是纯 draftKey 字符串，新版是 { draftKey, backupKey }
+      let restoredDraft: string | null = null, backupKey: string | null = null
+      if (restoredRaw?.startsWith('{')) { try { const parsed = JSON.parse(restoredRaw) as { draftKey?: string; backupKey?: string | null }; restoredDraft = parsed.draftKey ?? null; backupKey = parsed.backupKey ?? null } catch { restoredDraft = null } }
+      else restoredDraft = restoredRaw
       if (restoredDraft?.startsWith(draftPrefix)) localStorage.removeItem(restoredDraft)
+      if (backupKey?.startsWith(draftPrefix)) localStorage.removeItem(backupKey)
       localStorage.removeItem(restoreKey)
       if (readMutation(pendingKey.current)?.clientEventId === mutation.clientEventId) localStorage.removeItem(pendingKey.current)
       pending.current = null
@@ -182,12 +187,15 @@ export function useWordSession(token: string, childId: string, versionId: string
       catch { setIssue('network'); return false }
       const mutation: WordSessionMutation = { clientEventId: uid(), expectedRevision: remote.revision, versionId, session: draft.session }
       try {
+        // 恢复标记带上自动备份键：恢复成功后一并清掉，避免「本机保留的进度」堆积陈旧条目
+        let backupKey: string | null = null
         if (remote.session && JSON.stringify(remote.session) !== JSON.stringify(draft.session)) {
           const backup: WordSessionMutation = { clientEventId: uid(), expectedRevision: remote.revision, versionId, session: remote.session }
-          localStorage.setItem(`${draftPrefix}${backup.clientEventId}`, JSON.stringify(backup))
+          backupKey = `${draftPrefix}${backup.clientEventId}`
+          localStorage.setItem(backupKey, JSON.stringify(backup))
         }
         pendingKey.current = mutationKey
-        localStorage.setItem(`${key}:restoring:${mutation.clientEventId}`, draftKey)
+        localStorage.setItem(`${key}:restoring:${mutation.clientEventId}`, JSON.stringify({ draftKey, backupKey }))
         localStorage.setItem(mutationKey, JSON.stringify(mutation))
       } catch { setIssue('storage'); return false }
       pending.current = mutation; current.current = mutation.session; setSession(mutation.session)

@@ -20,7 +20,12 @@ await writeFile(path.join(temporary, 'isolated.db'), '')
 execFileSync(process.execPath, [path.join(repo, 'node_modules/prisma/build/index.js'), 'migrate', 'deploy', '--schema', path.join(repo, 'apps/server/prisma/schema.prisma')], { cwd: path.join(repo, 'apps/server'), env: { ...process.env, TAO_DATABASE_URL: database }, stdio: 'pipe' })
 const db = createDb(database)
 const course = await loadCourse(candidateDirectory)
-const options: PhonicsV2Options = { rollout: 'off', courses: [course] }
+// 旁挂词典/美音包与生产同源加载（app.ts 同款），保证浏览器走查覆盖新能力
+const { loadSidecars } = await import('../apps/server/src/modules/phonics/v2/sidecars')
+const { courseHash } = await import('../apps/server/src/modules/phonics/v2/courseRegistry')
+const sidecars = await loadSidecars(candidateDirectory.replace(/[\\/]+$/, ''), course.manifest.versionId, courseHash(course))
+if (sidecars.problems.length) throw new Error(`Sidecar problems: ${sidecars.problems.join('; ')}`)
+const options: PhonicsV2Options = { rollout: 'off', courses: [course], sidecars: [sidecars] }
 const key = 'isolated-phonics-real-media-0123456789'
 const app = await buildApp({ db, masterKey: key, tokenSecret: tokenSecretFrom(key), mediaDir: path.resolve(process.env.TAO_E2E_REAL_MEDIA), staticDir: path.resolve(process.env.TAO_E2E_WEB_DIR),
   phonicsV2: options, ttsDeps: null, imageDeps: null, videoDeps: null, probeKey: async () => 'active', wereadCall: () => createDemoGateway(), bedTimeMin: null,

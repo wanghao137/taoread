@@ -494,7 +494,9 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
               <picture><source srcSet="/brand/logo-256.webp" type="image/webp" /><img src="/brand/logo-256.png" alt="桃阅读" /></picture>
             </div>
             <div className="brand"><h1>桃阅读</h1><p>一起读书 · 慢慢长大</p></div>
-            <nav className="desktop-nav" aria-label="孩子端导航">
+            {/* 拼读是沉浸子应用：壳导航三项（首页/发现/我的）与五 Tab 重复且会把孩子带离课堂；
+                切换小读者与家长入口保留（家长仍需入口）。 */}
+            {!inPhonics && <nav className="desktop-nav" aria-label="孩子端导航">
               {([
                 ['/child/today', LABELS.navHome],
                 ['/child/discover', LABELS.discover],
@@ -502,7 +504,7 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
               ] as Array<[string, string]>).map(([to, label]) => (
                 <button key={to} aria-current={location.pathname === to || (to === '/child/today' && location.pathname === '/child') ? 'page' : undefined} onClick={() => navigate(to)}>{label}</button>
               ))}
-            </nav>
+            </nav>}
             <div className="mast-actions">
               <button className="child-profile min-h-[44px]" aria-label={`${childName}，切换小读者`} onClick={onSwitchChild}>
                 <img src="/art/reading-desk/child-avatar-reference.webp" width="64" height="64" alt="" />

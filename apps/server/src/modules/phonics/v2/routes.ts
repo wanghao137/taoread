@@ -96,9 +96,9 @@ export function registerPhonicsV2Routes(app: FastifyInstance, deps: { db: Prisma
       db.phonicsAttempt.findMany({ where, orderBy: [{ startedAt: 'desc' }, { id: 'desc' }], take: 20, skip: page * 20, select: { id: true, courseVersionId: true, planKind: true, lessonKey: true, status: true, startedAt: true, finishedAt: true, _count: { select: { learningEvents: { where: { kind: { in: ['step_ack', 'response_submitted', 'self_read_reported'] } } } } } } }),
       db.phonicsAttempt.count({ where: { childId, protocolVersion: 1 } }),
       db.phonicsAttempt.findMany({ where: { ...where, planKind: 'lesson', status: 'completed' }, distinct: ['courseVersionId', 'lessonKey'], select: { courseVersionId: true, lessonKey: true } }),
-      db.phonicsLearningEvent.findMany({ where: { attempt: where, kind: { in: ['self_read_reported', 'caregiver_observation'] } }, include: { attempt: { select: { planJson: true, courseVersionId: true } } }, orderBy: [{ receivedAt: 'desc' }, { serverSequence: 'desc' }] }),
-      page === 0 ? db.phonicsAttempt.findMany({ where: { ...where, status: 'completed', learningEvents: { some: { kind: { in: ['step_ack', 'response_submitted', 'self_read_reported'] } } } }, select: { startedAt: true } }) : Promise.resolve([]),
-      page === 0 ? db.phonicsPracticeAnswer.findMany({ where: { childId }, select: { createdAt: true } }) : Promise.resolve([]),
+      db.phonicsLearningEvent.findMany({ where: { attempt: where, kind: { in: ['self_read_reported', 'caregiver_observation'] }, receivedAt: { gte: new Date(Date.now() - 90 * 86400_000) } }, include: { attempt: { select: { planJson: true, courseVersionId: true } } }, orderBy: [{ receivedAt: 'desc' }, { serverSequence: 'desc' }], take: 200 }),
+      page === 0 ? db.phonicsAttempt.findMany({ where: { ...where, status: 'completed', learningEvents: { some: { kind: { in: ['step_ack', 'response_submitted', 'self_read_reported'] } } }, startedAt: { gte: new Date(Date.now() - 366 * 86400_000) } }, select: { startedAt: true } }) : Promise.resolve([]),
+      page === 0 ? db.phonicsPracticeAnswer.findMany({ where: { childId, createdAt: { gte: new Date(Date.now() - 366 * 86400_000) } }, select: { createdAt: true }, take: 20000 }) : Promise.resolve([]),
     ])
     const count = (status?: string) => groups.filter(g => !status || g.status === status).reduce((sum, g) => sum + g._count.id, 0)
     const superseded = new Set(oralEvents.flatMap(e => e.supersedesEventId ? [e.supersedesEventId] : []))

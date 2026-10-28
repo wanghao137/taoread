@@ -59,6 +59,7 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
   const [failed, setFailed] = useState(Boolean(pending.current))
   const live = useRef(true)
   const lock = useRef(false)
+  const refreshSeq = useRef(0)
   const engine = useRef<PhonicsAudio | null>(null)
   useEffect(() => {
     phonicsSfx.init()
@@ -66,18 +67,20 @@ function PhonicsApp({ token, childId }: { token: string; childId: string }) {
   }, [])
   useEffect(() => { phonicsSfx.setCalmMode(calmMode) }, [calmMode])
   const refresh = useCallback(async () => {
+    // 时序守卫：并行 refresh 后完成者覆盖先完成者是会回滚乐观更新的（如收藏），只认最新一轮
+    const seq = ++refreshSeq.current
     const [n, r, a, s0] = await Promise.allSettled([
       phonicsApi.next(token, childId), phonicsApi.readers(token, childId),
       phonicsApi.atlas(token, childId), phonicsApi.summary(token, childId, 0),
     ])
     if (n.status === 'rejected') throw n.reason
-    if (live.current) {
-      setNext(n.value.next)
-      if (r.status === 'fulfilled') setReaderVersions(Object.fromEntries(r.value.readers.map(reader => [reader.id, reader.versionId])))
-      setSummary(s0.status === 'fulfilled' ? s0.value : null)
-      if (a.status === 'fulfilled') setAtlas(a.value.atlas)
-      if (r.status === 'rejected' && !['disabled', 'unavailable'].includes(n.value.next.reason)) setError('阅读材料暂时没有取到，可以重新加载')
-    }
+    if (!live.current || seq !== refreshSeq.current) return
+    setNext(n.value.next)
+    if (r.status === 'fulfilled') setReaderVersions(Object.fromEntries(r.value.readers.map(reader => [reader.id, reader.versionId])))
+    setSummary(s0.status === 'fulfilled' ? s0.value : null)
+    if (a.status === 'fulfilled') setAtlas(a.value.atlas)
+    else if (!['disabled', 'unavailable'].includes(n.value.next.reason)) setError('图鉴暂时没有取到，可以重新加载')
+    if (r.status === 'rejected' && !['disabled', 'unavailable'].includes(n.value.next.reason)) setError('阅读材料暂时没有取到，可以重新加载')
   }, [token, childId])
   useEffect(() => {
     live.current = true

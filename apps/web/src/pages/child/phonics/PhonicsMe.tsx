@@ -46,8 +46,12 @@ export function MeTab({ token, childId, atlas, summary }: { token: string; child
       const { revision, ...value } = settings
       void phonicsApi.setWordSettings(token, childId, { ...value, expectedRevision: revision }).then(saved => {
         setSettings(saved); setSettingsMessage('设置已保存')
-      }).catch(() => setSettingsMessage('设置没有保存，请重新打开页面后再试')).finally(() => setSaving(false))
+      }).catch(() => {
+        setSettingsMessage('没有保存上，重新取一次设置')
+        void phonicsApi.wordSettings(token, childId).then(fresh => { if (fresh) setSettings(fresh) }).catch(() => undefined)
+      }).finally(() => setSaving(false))
     }}>
+      <fieldset disabled={saving} style={{ border: 'none', margin: 0, padding: 0 }}>
       <h3>单词学习设置</h3>
       <label>每天新词 <input aria-label="每天新词数量" type="number" min="0" max="100" required value={settings.dailyNew} onChange={event => setSettings({ ...settings, dailyNew: Number(event.target.value) })} /></label>
       <label>复习目标 <input aria-label="目标记忆率" type="range" min="70" max="97" value={Math.round(settings.retention * 100)} onChange={event => setSettings({ ...settings, retention: Number(event.target.value) / 100 })} /><span>{Math.round(settings.retention * 100)}%</span></label>
@@ -62,6 +66,7 @@ export function MeTab({ token, childId, atlas, summary }: { token: string; child
       <label><input type="checkbox" checked={settings.spelling} onChange={event => setSettings({ ...settings, spelling: event.target.checked })} /> 复习时练习拼写</label>
       <button className="ph-cta min-h-[44px]" disabled={saving}>保存设置</button>
       {settingsMessage && <p role="status">{settingsMessage}</p>}
+      </fieldset>
     </form>}
     <div className="ph-me-block">
       <h3>声音设置</h3>

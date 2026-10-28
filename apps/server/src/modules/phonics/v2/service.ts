@@ -256,7 +256,10 @@ export class PhonicsService {
       asset.sha256 ? mediaUrl(`/api/media/phonics/${versionId}/${asset.sha256}.${asset.extension}`, claims, this.tokenSecret) : null
     const row = await this.db.phonicsEnrollment.findUniqueOrThrow({ where: { childId }, select: { wordSettingsJson: true } })
     const settings = readWordSettings(row.wordSettingsJson)
-    const usAssets = new Map((this.runtime.sidecars.get(versionId)?.usAudio?.assets ?? []).map(a => [a.wordId, a]))
+    // 旁挂媒体（美音整词/词典例句）只对自用家庭签发 URL——发布审校通过前，
+    // 授权媒体层对其他家庭一律 404，DTO 不能先发一个必然失败的地址。
+    const selfUseMedia = this.runtime.selfUse(claims.fid, courseHash(course))
+    const usAssets = new Map((selfUseMedia ? this.runtime.sidecars.get(versionId)?.usAudio?.assets ?? [] : []).map(a => [a.wordId, a]))
     const opened = course.words
       .filter(w => Boolean(w.meaningIntroducedAt) && eligible.has(w.meaningIntroducedAt!))
       .sort((a, b) => (lessonOrder.get(a.meaningIntroducedAt!) ?? 99) - (lessonOrder.get(b.meaningIntroducedAt!) ?? 99))
@@ -302,7 +305,10 @@ export class PhonicsService {
     }))
     const row = await this.db.phonicsEnrollment.findUniqueOrThrow({ where: { childId }, select: { wordSettingsJson: true } })
     const settings = readWordSettings(row.wordSettingsJson)
-    const sidecar = this.runtime.sidecars.get(versionId) ?? null
+    // 旁挂内容与自用门绑定（与 authorizeMedia 同一政策）：非自用家庭不签发必然 404 的旁挂媒体，
+    // 词典文本也仅自用展示（审校通过随发布一起放开）。
+    const selfUseMedia = this.runtime.selfUse(claims.fid, courseHash(course))
+    const sidecar = selfUseMedia ? this.runtime.sidecars.get(versionId) ?? null : null
     const lexiconByWord = new Map((sidecar?.lexicon?.entries ?? []).map(entry => [entry.wordId, entry]))
     const usAssets = new Map((sidecar?.usAudio?.assets ?? []).map(a => [a.wordId, a]))
     const completed = new Set(history.filter(h => h.kind === 'lesson' && h.status === 'completed').map(h => h.lessonKey!))
@@ -452,6 +458,11 @@ export class PhonicsService {
     const current = await this.enrollment(claims, childId)
     if (!current.enabled || !current.versionId) throw new AppError('请先让家长开启这套英语练习', 'PHONICS_DISABLED', 403)
     const { expectedRevision, ...settings } = input
+    // 美音包待审：仅自用家庭可切美音；其他家庭静默归位 GB（与媒体门同一政策）
+    if (settings.accent === 'US') {
+      const course = await this.runtime.requireCourse(claims.fid, current.versionId!)
+      if (!this.runtime.selfUse(claims.fid, courseHash(course))) settings.accent = 'GB'
+    }
     await this.transaction(async tx => {
       await this.enabled(claims, childId, current.versionId!, tx)
       const updated = await tx.phonicsEnrollment.updateMany({ where: { childId, wordSettingsRevision: expectedRevision }, data: { wordSettingsJson: JSON.stringify(settings), wordSettingsRevision: { increment: 1 } } })
@@ -618,7 +629,14 @@ export class PhonicsService {
       ])
       const scheduled = new Set(existingSchedules.map(item => item.wordId)), saved = new Set(existingFavorites.map(item => item.wordId))
       const answered = new Set(existingAnswers.map(item => item.questionId)), typed = new Set(existingTyping.map(item => item.clientSessionId)), read = new Set(existingReading.map(item => item.readerId))
-      const schedules = backup.schedules.filter(item => !scheduled.has(item.wordId)).map(item => ({ ...where, wordId: item.wordId, algorithm: item.algorithm, cardJson: JSON.stringify(item.card), dueAt: new Date(item.card.due), updatedAt: new Date(item.updatedAt) }))
+      // 恢复钳制：备份里的 FSRS 卡片不整单照收——到期时间夹进 [现在-30 天, 现在+60 天]，
+      // 稳定度封顶 365 天，防止手改备份伪造「已掌握」或把词砖死在遥远的未来。
+      const nowMs = Date.now(), dueFloor = nowMs - 30 * 86400_000, dueCeil = nowMs + 60 * 86400_000
+      const schedules = backup.schedules.filter(item => !scheduled.has(item.wordId)).map(item => {
+        const card = { ...item.card, stability: Math.min(item.card.stability, 365), scheduled_days: Math.min(item.card.scheduled_days, 365), elapsed_days: Math.min(item.card.elapsed_days, 3650) }
+        const due = Math.min(Math.max(Date.parse(card.due), dueFloor), dueCeil)
+        return { ...where, wordId: item.wordId, algorithm: item.algorithm, cardJson: JSON.stringify({ ...card, due: new Date(due).toISOString() }), dueAt: new Date(due), updatedAt: new Date(item.updatedAt) }
+      })
       const favorites = backup.favorites.filter(item => !saved.has(item)).map(wordId => ({ ...where, wordId }))
       const answers = backup.answers.filter(item => !answered.has(item.questionId)).map(item => ({ ...item, ...where, createdAt: new Date(item.createdAt) }))
       const typing = backup.typing.filter(item => !typed.has(item.clientSessionId)).map(item => ({ ...item, ...where, createdAt: new Date(item.createdAt) }))

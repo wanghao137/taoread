@@ -61,5 +61,6 @@ export function ShelfTab({ token, childId, atlas, versionOf, blocked, nextBusy, 
       </div>
     </div>)}
     {atlas && openCount === 0 && <div className="phonics-notice"><p>第一本小书在等着你。先去「今日」把课上完。</p><button className="sticker-btn hot min-h-[44px]" onClick={onGoShelfStudy}>去上课</button></div>}
+    {atlas && openCount > 0 && nextBusy && <div className="phonics-notice"><p>刚才的课还没收尾。先回「今日」接着上完，再来读小书。</p><button className="sticker-btn hot min-h-[44px]" onClick={onGoShelfStudy}>回今日</button></div>}
   </section>
 }
