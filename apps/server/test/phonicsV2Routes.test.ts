@@ -228,10 +228,11 @@ describe('phonics v2 persistence and authorization', () => {
     expect((await call('GET', url, other.token)).statusCode).toBe(404)
     expect(await h.db.phonicsWordSchedule.count({ where: { childId } })).toBe(0)
   })
-  it('opens only unlocked readers and preserves family-isolated reading position with revision checks', async () => {
+  it('opens all readers once enrolled and preserves family-isolated reading position with revision checks', async () => {
     await enroll()
     const url = childPath('readers/r-l07')
-    expect((await call('GET', url, childToken)).statusCode).toBe(409)
+    // 书房全开：注册即可读（词学习已按学习路线开放，小书为配套解码材料）
+    expect((await call('GET', url, childToken)).statusCode).toBe(200)
     await finishAll((await start()).attempt)
     const response = await call('GET', url, childToken)
     expect(response.statusCode).toBe(200)
@@ -491,7 +492,7 @@ describe('phonics v2 persistence and authorization', () => {
     const url = a.assets.find(x => x.purpose === 'instruction_zh')!.url!
     const audio = await h.app.inject({ method: 'GET', url, headers: { range: 'bytes=0-9' } })
     expect(audio.statusCode, audio.body).toBe(206)
-    expect(audio.headers['cache-control']).toBe('private, no-store')
+    expect(audio.headers['cache-control']).toBe('private, max-age=14400')
     expect(audio.headers['content-type']).toContain('audio/wav')
     expect(audio.rawPayload.length).toBe(10)
     expect((await h.app.inject({ method: 'GET', url: url.split('?')[0]! })).statusCode).toBe(401)

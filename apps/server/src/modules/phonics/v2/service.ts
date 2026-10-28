@@ -370,7 +370,8 @@ export class PhonicsService {
       const coverUrl = cover?.sha256 ? signed(cover) : null
       return {
         id: r.id, titleZh: r.titleZh, lessonKey,
-        unlocked: unlockedLesson(lessonKey ?? undefined),
+        // 书房全开：注册即可读（词学习已按学习路线开放，小书为配套解码练习材料）
+        unlocked: true,
         pages: r.pages.length,
         cover: coverUrl ? { url: coverUrl } : null,
       }
@@ -532,7 +533,7 @@ export class PhonicsService {
 
   async reader(claims: TokenClaims, childId: string, readerId: string) {
     const atlas = await this.atlas(claims, childId)
-    if (!atlas.versionId || !atlas.readers.some(item => item.id === readerId && item.unlocked)) throw new AppError('这本小书还没有开放', 'READER_NOT_READY', 409)
+    if (!atlas.versionId || !atlas.readers.some(item => item.id === readerId)) throw new AppError('这本小书不存在', 'READER_NOT_FOUND', 404)
     const course = await this.runtime.requireCourse(claims.fid, atlas.versionId)
     const reader = course.readers.find(item => item.id === readerId)!
     const progress = await this.db.phonicsReadingProgress.findUnique({ where: { childId_courseVersionId_readerId: { childId, courseVersionId: atlas.versionId, readerId } } })
@@ -556,10 +557,6 @@ export class PhonicsService {
     await this.transaction(async tx => {
       await this.enabled(claims, childId, input.versionId, tx)
       const enrollment = await tx.phonicsEnrollment.findUniqueOrThrow({ where: { childId } })
-      const introduced = course.lessons.find(item => item.id === source.introducedAt)
-      const entryOrder = course.lessons.find(item => item.id === enrollment.entryLessonKey)?.order ?? 1
-      const completed = await tx.phonicsAttempt.findFirst({ where: { childId, protocolVersion: 2, courseVersionId: input.versionId, planKind: 'lesson', lessonKey: source.introducedAt, status: 'completed' }, select: { id: true } })
-      if (!introduced || (!completed && introduced.order >= entryOrder)) throw new AppError('这本小书还没有开放', 'READER_NOT_READY', 409)
       const key = { childId_courseVersionId_readerId: { childId, courseVersionId: input.versionId, readerId } }
       const existing = await tx.phonicsReadingProgress.findUnique({ where: key })
       if ((existing?.revision ?? 0) !== input.expectedRevision) throw conflict()

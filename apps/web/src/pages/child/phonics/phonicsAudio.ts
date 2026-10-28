@@ -34,7 +34,8 @@ export class PhonicsAudio {
     await Promise.all(assets.filter(a => a.purpose !== 'image').map(async asset => {
       if (this.urls.has(asset.id)) return
       if (!asset.url) throw new Error('声音还没准备好，请重试')
-      const response = await fetch(asset.url.startsWith('/') ? `${API_BASE}${asset.url}` : asset.url, { signal: this.abort.signal, cache: 'no-store' })
+      // 缓存交给 HTTP 头（phonics 媒体 4h 桶）：强制 no-store 会让每次进图鉴全量重拉
+      const response = await fetch(asset.url.startsWith('/') ? `${API_BASE}${asset.url}` : asset.url, { signal: this.abort.signal })
       if (!response.ok) throw new Error('声音暂时没有取到，请重试')
       const blob = await response.blob()
       if (this.abort.signal.aborted) return

@@ -15,7 +15,7 @@ const codes = async (c: unknown) => (await inspect(c)).issues.filter(i => i.seve
 describe('phonics v2 content gates', () => {
   it('has the full foundation candidate course while truthfully refusing release', async () => {
     const report = await inspect(original)
-    expect(report).toMatchObject({ complete: true, ok: true, releaseReady: false, counts: { lessons: 53, words: 137, tasks: 488, verifiedAssets: 0 } })
+    expect(report).toMatchObject({ complete: true, ok: true, releaseReady: false, counts: { lessons: 61, words: 166, tasks: 588, verifiedAssets: 0 } })
     const release = await validateCourse(original, { mode: 'release' })
     expect(release.ok).toBe(false)
     expect(release.issues.map(i => i.code)).toEqual(expect.arrayContaining(['NOT_REVIEWED', 'TEACHING_REVIEW', 'ASSET_PENDING', 'ASSET_NOT_VERIFIED']))

@@ -319,3 +319,22 @@
 .phonics-app .ph-shelf-group-title { color: var(--ink); }
 .phonics-app .ph-shelf-group-title span { color: var(--ink2); }
 .phonics-app .ph-settings input[type="number"], .phonics-app .ph-settings input[type="range"] { accent-color: var(--accent); }
+
+/* ===== 去绿改暖（docs/95 续）：消除红配绿，统一暖纸色系 ===== */
+.phonics-app .ph-listen { background: var(--sun); border-color: var(--ink); color: var(--ink); }
+.phonics-app .ph-week-dot.lit { background: var(--sun); color: var(--ink); }
+.phonics-app .ph-calendar span { background: #efe7d6; }
+.phonics-app .ph-calendar span.active { background: var(--accent); }
+.phonics-app .ph-feedback { background: var(--rose); border-color: var(--ink); }
+.phonics-app .ph-feedback b { color: var(--ink); }
+.phonics-app .ph-reader-word { border-bottom-color: var(--accent); }
+.phonics-app .ph-galaxy-area { background: transparent; }
+.phonics-app .ph-galaxy { background: var(--sun); border-radius: 12px; }
+.phonics-app .ph-star-placeholder { background: var(--sun); }
+.phonics-app .ph-mode-icon { background: var(--sun); }
+.phonics-app .ph-book-cover-fallback { background: var(--sun); }
+.phonics-app .ph-upcoming div { background: var(--sun); }
+.phonics-app .ph-book img, .phonics-app .ph-book-cover-fallback { aspect-ratio: 1; }
+.phonics-app .ph-shelf-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+.phonics-app .ph-book { border: 2px solid var(--border); }
+.phonics-app .ph-book:not(:disabled):hover { border-color: var(--ink); box-shadow: 3px 3px 0 rgba(52, 45, 39, 0.55); }

@@ -36,6 +36,7 @@ const IMAGE_TICKET_BUCKET_SEC = 14400
 
 function bucketFor(pathInMedia: string): number {
   return pathInMedia.startsWith('art/') || pathInMedia.startsWith('fam-import/') || pathInMedia.startsWith('videos/')
+    || pathInMedia.startsWith('phonics/')
     ? IMAGE_TICKET_BUCKET_SEC
     : TICKET_BUCKET_SEC
 }

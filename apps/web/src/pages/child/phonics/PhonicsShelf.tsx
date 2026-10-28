@@ -40,27 +40,21 @@ export function ShelfTab({ token, childId, atlas, versionOf, blocked, nextBusy, 
   if (openId && atlas) return <PhonicsReader token={token} childId={childId} readerId={openId} words={atlas.words} onFavorite={onFavorite} onClose={() => setOpenId(null)} onClassroom={() => { const versionId = versionOf(openId); if (versionId) onReread(openId, versionId) }} />
   return <section aria-label="小书架">
     <h2 className="ph-tab-title">书房 <span className="ph-tab-sub">能读 {openCount} / {readers.length} 本</span></h2>
-    <p className="phonics-hint">上完课，书就归你。点一本，再读一遍。</p>
+    <p className="phonics-hint">60 本小书都已打开。点一本，读给孩子听。
     {!atlas && <p role="status">正在摆书架…</p>}
     {groups.map(group => <div key={group.key} className="ph-shelf-group">
       <h3 className="ph-shelf-group-title">{group.title} <span>{group.open} / {group.items.length} 本</span></h3>
       <div className="ph-shelf-grid">
-        {group.items.map(r => r.unlocked
-          ? <button key={r.id} className="ph-book min-h-[44px]" disabled={blocked || nextBusy || !versionOf(r.id)}
+        {group.items.map(r =>
+          <button key={r.id} className="ph-book min-h-[44px]" disabled={blocked || nextBusy || !versionOf(r.id)}
               onClick={() => setOpenId(r.id)}>
               {r.cover?.url ? <img src={absolute(r.cover.url)} alt="" loading="lazy" /> : <span className="ph-book-cover-fallback" aria-hidden="true">📖</span>}
               <b>{r.titleZh}</b>
               <span className="ph-book-meta">{r.pages} 页</span>
               <span className="ph-book-action">打开小书</span>
-            </button>
-          : <span key={r.id} className="ph-book locked" aria-label="还没解锁">
-              <span className="ph-book-lock" aria-hidden="true">🔒</span>
-              <b>{r.titleZh}</b>
-              <span className="ph-book-meta">上完这节课解锁</span>
-            </span>)}
+            </button>)}
       </div>
     </div>)}
-    {atlas && openCount === 0 && <div className="phonics-notice"><p>第一本小书在等着你。先去「今日」把课上完。</p><button className="sticker-btn hot min-h-[44px]" onClick={onGoShelfStudy}>去上课</button></div>}
     {atlas && openCount > 0 && nextBusy && <div className="phonics-notice"><p>刚才的课还没收尾。先回「今日」接着上完，再来读小书。</p><button className="sticker-btn hot min-h-[44px]" onClick={onGoShelfStudy}>回今日</button></div>}
   </section>
 }

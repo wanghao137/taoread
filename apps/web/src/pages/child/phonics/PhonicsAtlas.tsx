@@ -17,6 +17,7 @@ export function AtlasTab({ atlas, blocked, onFavorite }: { atlas: PhonicsAtlasDt
   const [lesson, setLesson] = useState('all')
   const [topic, setTopic] = useState<PhonicsTopicId | 'all'>('all')
   const [openId, setOpenId] = useState<string | null>(null)
+  const [renderLimit, setRenderLimit] = useState(60)
   const words = useMemo(() => atlas?.words ?? [], [atlas])
   const open = words.find(word => word.id === openId)
   const shown = useMemo(() => words.filter(word => {
@@ -46,13 +47,14 @@ export function AtlasTab({ atlas, blocked, onFavorite }: { atlas: PhonicsAtlasDt
     <div className="ph-filters" role="group" aria-label="图鉴视图">
       {([['grid', '图片'], ['list', '列表'], ['galaxy', '星图']] as const).map(([value, label]) => <button key={value} className={`ph-chip min-h-[44px]${view === value ? ' on' : ''}`} aria-pressed={view === value} onClick={() => setView(value)}>{label}</button>)}
     </div>
-    {!atlas ? <p role="status">正在打开图鉴…</p> : <p className="ph-result-count">{shown.length} 个词</p>}
+    {!atlas ? <p role="status">正在打开图鉴…</p> : <p className="ph-result-count">{Math.min(renderLimit, shown.length)} / {shown.length} 个词</p>}
     {view === 'galaxy' ? <Suspense fallback={<p role="status">正在准备星图…</p>}><PhonicsGalaxy words={shown} onOpen={id => { if (!blocked) setOpenId(id) }} onTopic={setTopic} /></Suspense> : <div className={`ph-atlas-grid${view === 'list' ? ' list' : ''}`}>
-      {shown.map(word => <button key={word.id} className="ph-star-card min-h-[44px]" disabled={blocked} onClick={() => setOpenId(word.id)}>
+      {shown.slice(0, renderLimit).map(word => <button key={word.id} className="ph-star-card min-h-[44px]" disabled={blocked} onClick={() => setOpenId(word.id)}>
         {word.image?.url ? <img src={absolute(word.image.url)} alt="" loading="lazy" /> : <span className="ph-star-placeholder" aria-hidden="true">Aa</span>}
         <span className="ph-card-copy"><b lang="en-GB">{word.text}</b><span>{word.meaningZh}</span><small>{word.studyState === 'familiar' ? '较熟悉' : word.studyState === 'learning' ? '学习中' : '未学'}</small></span>
       </button>)}
     </div>}
+    {atlas && shown.length > renderLimit && <button className="ph-ghost-btn min-h-[44px]" onClick={() => setRenderLimit(n => n + 60)}>显示更多（还有 {shown.length - renderLimit} 个词）</button>}
     {atlas && !shown.length && <p className="phonics-hint">没有找到符合条件的单词。</p>}
     {open && <WordSheet key={open.id} word={open} onClose={() => setOpenId(null)} onFavorite={onFavorite} />}
   </section>

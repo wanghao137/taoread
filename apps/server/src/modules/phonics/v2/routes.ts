@@ -65,10 +65,8 @@ export function registerPhonicsV2Routes(app: FastifyInstance, deps: { db: Prisma
     const enrollment = await service.enrollment(claims(request), request.params.childId)
     if (!enrollment.enabled || !enrollment.versionId) return { readers: [] }
     const course = await runtime.requireCourse(claims(request).fid, enrollment.versionId)
-    const { history } = await service.practiceHistory(request.params.childId, enrollment.versionId)
-    const entryOrder = course.lessons.find(l => l.id === enrollment.entryLessonKey)?.order ?? 1
-    const eligible = new Set([...history.filter(h => h.kind === 'lesson' && h.status === 'completed').map(h => h.lessonKey), ...course.lessons.filter(l => l.order < entryOrder).map(l => l.id)])
-    return { readers: course.readers.filter(r => eligible.has(r.introducedAt)).map(r => ({ id: r.id, titleZh: r.titleZh, kind: r.kind, versionId: enrollment.versionId })) }
+    // 书房全开：注册即可读全部小书（词学习已按学习路线开放）
+    return { readers: course.readers.map(r => ({ id: r.id, titleZh: r.titleZh, kind: r.kind, versionId: enrollment.versionId })) }
   })
   app.get<{ Params: { childId: string; readerId: string } }>(`${prefix}/children/:childId/readers/:readerId`, { preHandler: auth }, async request => ({ reader: await service.reader(claims(request), request.params.childId, request.params.readerId) }))
   app.put<{ Params: { childId: string; readerId: string } }>(`${prefix}/children/:childId/readers/:readerId/progress`, { preHandler: auth }, async request => service.setReadingProgress(claims(request), request.params.childId, request.params.readerId, parse(readingProgressSchema, request.body)))

@@ -147,9 +147,10 @@ export function registerMediaRoutes(app: FastifyInstance, deps: MediaRoutesDeps)
       reply.header('Content-Type', mime)
       // 公共素材可长期缓存；家庭图片类（art/fam-import/videos）按 4h 票据桶缓存——
       // 票据请求时逐次过会话校验（注销即失效），拉长缓存只影响「已取回的同一浏览器」，
-      // 家庭上行是全站瓶颈，no-store 会让每次进书架全量重拉；TTS/phonics 保持禁缓存
+      // 家庭上行是全站瓶颈，no-store 会让每次进书架全量重拉；phonics 文件内容寻址
+      // （sha 即文件名）不可变，与 art 类同样走 4h 缓存——票据只管首取，缓存命中不过服务器；仅 TTS 禁缓存
       reply.header('Referrer-Policy', 'no-referrer')
-      const noStore = path.startsWith('tts/') || path.startsWith('phonics/')
+      const noStore = path.startsWith('tts/')
       reply.header('Cache-Control', deps.db && rowIsPrivate ? (noStore ? 'private, no-store' : 'private, max-age=14400') : 'public, max-age=31536000, immutable')
       reply.header('Accept-Ranges', 'bytes')
 
