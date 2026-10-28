@@ -3,7 +3,7 @@
  *
  * 只追加：不改动既有 L01–L08 的任何对象；重复运行先剥离上一轮生成的对象再重建（幂等）。
  * 新音频槽 sha256 留空，由 produce-phonics-audio → apply-phonics-audio-candidates 填充；
- * 新图槽 sha256 留空，由 build-phonics-art 填充。manifest 索引与 contentHash 在此重算。
+ * 新图槽 sha256 留空，由 gen-phonics-art-image.mts 填充（docs/91 起 SVG 贴纸风脚本已退役删除，生图统一走 AI 服务）。manifest 索引与 contentHash 在此重算。
  *
  * 用法：npx tsx scripts/build-phonics-foundation.mts
  */
