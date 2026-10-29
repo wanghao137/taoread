@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { withR2Capacity } from './r2-capacity.mjs'
+import { withR2Capacity, R2_STOP_BYTES, R2_WARNING_BYTES } from './r2-capacity.mjs'
 import { setTimeout as delay } from 'node:timers/promises'
 
 export const R2_AUDIO_ACCOUNT = 'b39a61b902f00682c734676cbe147934'
@@ -64,7 +64,10 @@ export async function gatewayPut(settings, key, bytes, { knownAbsent = false } =
       return current
     } catch (error) { if (error.status !== 404) throw error }
   }
-  return withR2Capacity({ accountId: settings.accountId, bytes: bytes.length, stopBytes: 5_400_000_000,
+  // 用户指令 2026-10-29：网关容量线对齐 R2 免费额度护栏（8GB 警/9GB 停，与账号级一致）。
+  // 旧 5.4GB 线是早期保守值，当前账号真实用量以 withR2Capacity 的清单账本为准。
+  return withR2Capacity({ accountId: settings.accountId, bytes: bytes.length, stopBytes: R2_STOP_BYTES,
+    warn: (info) => console.warn(JSON.stringify({ ...info, channel: 'audio-gateway', warningBytes: R2_WARNING_BYTES })),
     inventory: async () => ({ bytes: (await gatewayList(settings)).reduce((sum, obj) => sum + obj.bytes, 0) }),
     upload: async () => {
   const res = await request(settings, '/' + key, { method: 'PUT',
