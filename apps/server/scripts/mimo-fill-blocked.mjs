@@ -36,7 +36,10 @@ const KEY = process.env.MIMO_KEY
 if (!KEY) { console.error('缺少 MIMO_KEY（写入 apps/server/.env.mimo：MIMO_KEY=sk-...）'); process.exit(1) }
 
 const bookArg = (process.argv.find(a => a.startsWith('--book=')) ?? '').slice(7)
-if (!bookArg) { console.error('用法：--book=slug1,slug2'); process.exit(1) }
+if (!bookArg) { console.error('用法：--book=slug1,slug2 [--missing-only]'); process.exit(1) }
+// --missing-only：只填 manifest 中完全不存在的键（451 拦截类）；不带标志时维持原行为
+// （连 uploaded=false 的段也重生成——用于整体换供应商口径）
+const missingOnly = process.argv.includes('--missing-only')
 const db = new PrismaClient({ datasources: { db: { url: process.env.TAO_DATABASE_URL ?? 'file:./prod.db' } } })
 
 const statePath = join(__dirname, '..', 'media', '.tts-public-state.json')
@@ -108,7 +111,7 @@ for (const bookId of bookArg.split(',')) {
   for (const ch of book.chapters) {
     for (const text of chunkText(chapterSpeakText(ch.blocks))) {
       const key = cacheKey(text, voice.id, DEFAULT_SPEED, 'mp3', lang, '__public__', model)
-      if (manifest[key] && manifest[key].uploaded !== false && existsSync(join(outDir, `${key}.mp3`))) continue
+      if (missingOnly ? manifest[key] : (manifest[key] && manifest[key].uploaded !== false && existsSync(join(outDir, `${key}.mp3`)))) continue
       process.stdout.write(`合成 ${bookId} ch${ch.order} ${text.slice(0, 24)}… `)
       try {
         const wav = await mimoSynth(text, lang)
