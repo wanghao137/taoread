@@ -2,7 +2,7 @@
  * MiMo TTS 补生成被 StepAudio 451 拦截的段（用户指令 2026-10-25）。
  *
  * 用法：cd apps/server && node --import tsx scripts/mimo-fill-blocked.mjs --book=slug1,slug2
- * 密钥：apps/server/.env.mimo 里 MIMO_KEY=sk-...（不入 git）
+ * 密钥：apps/server/.env.mimo 里 MIMO_API_KEY=sk-...（不入 git）
  *
  * 与 pregen-tts.mjs 完全一致的落盘/清单/上传约定：
  *   文件 media/tts-public/<key>.mp3，清单键=cacheKey，记录 {durationMs,bytes,uploaded,store}，
@@ -32,8 +32,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const MIMO_BASE = 'https://api.xiaomimimo.com/v1/chat/completions'
 dotenv.config()
 dotenv.config({ path: join(__dirname, '..', '.env.mimo'), override: true })
-const KEY = process.env.MIMO_KEY
-if (!KEY) { console.error('缺少 MIMO_KEY（写入 apps/server/.env.mimo：MIMO_KEY=sk-...）'); process.exit(1) }
+const KEY = process.env.MIMO_API_KEY ?? process.env.MIMO_KEY
+if (!KEY) { console.error('缺少 MIMO_API_KEY（写入 apps/server/.env.mimo：MIMO_API_KEY=sk-...）'); process.exit(1) }
 
 const bookArg = (process.argv.find(a => a.startsWith('--book=')) ?? '').slice(7)
 if (!bookArg) { console.error('用法：--book=slug1,slug2 [--missing-only]'); process.exit(1) }
