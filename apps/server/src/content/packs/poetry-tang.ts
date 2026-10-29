@@ -2645,7 +2645,7 @@ export const tangShi: PackBook = {
       {
         kind: 'poem',
         text: "昔人已乘黄鹤去，此地空余黄鹤楼。\n黄鹤一去不复返，白云千载空悠悠。\n晴川历历汉阳树，芳草萋萋鹦鹉洲。\n日暮乡关何处是？烟波江上使人愁。",
-        pinyin: "xī rén yǐ chéng huáng hè qù， cǐ dì kòng yú huáng hè lóu。\nhuáng hè yī qù bù fù fǎn， bái yún qiān zǎi kōng yōu yōu。\nqíng chuān lì lì hàn yáng shù， fāng cǎo qī qī yīng wǔ zhōu。\nrì mù xiāng guān hé chù shì？ yān bō jiāng shàng shǐ rén chóu。",
+        pinyin: "xī rén yǐ chéng huáng hè qù， cǐ dì kōng yú huáng hè lóu。\nhuáng hè yī qù bù fù fǎn， bái yún qiān zǎi kōng yōu yōu。\nqíng chuān lì lì hàn yáng shù， fāng cǎo qī qī yīng wǔ zhōu。\nrì mù xiāng guān hé chù shì？ yān bō jiāng shàng shǐ rén chóu。",
         translation: "从前的人已经骑着黄鹤飞走了，这里只剩下空空的黄鹤楼。黄鹤一去再也不回来，千百年来只有白云在空中飘啊飘。晴天里汉阳的树木看得清清楚楚，鹦鹉洲上长满了茂盛的芳草。太阳落山了，我的家乡在哪儿呢？江上烟波茫茫，真叫人发愁。",
       }
       ],
@@ -3490,7 +3490,7 @@ export const tangShi: PackBook = {
       {
         kind: 'poem',
         text: "国初已来画鞍马，神妙独数江都王。\n将军得名三十载，人间又见真乘黄。\n曾貌先帝照夜白，龙池十日飞霹雳。\n内府殷红玛瑙盘，婕妤传诏才人索。\n盘赐将军拜舞归，轻纨细绮相追飞。\n贵戚权门得笔迹，始觉屏障生光辉。\n昔日太宗拳毛䯄，近时郭家狮子花。\n今之新图有二马，复令识者久叹嗟。\n此皆骑战一敌万，缟素漠漠开风沙。\n其余七匹亦殊绝，迥若寒空动烟雪。\n霜蹄蹴踏长楸间，马官厮养森成列。\n可怜九马争神骏，顾视清高气深稳。\n借问苦心爱者谁，后有韦讽前支遁。\n忆昔巡幸新丰宫，翠华拂天来向东。\n腾骧磊落三万匹，皆与此图筋骨同。\n自从献宝朝河宗，无复射蛟江水中。\n君不见金粟堆前松柏里，龙媒去尽鸟呼风。",
-        pinyin: "guó chū yǐ lái huà ān mǎ， shén miào dú shù jiāng dōu wáng。\njiāng jūn dé míng sān shí zǎi， rén jiān yòu jiàn zhēn chéng huáng。\ncéng mào xiān dì zhào yè bái， lóng chí shí rì fēi pī lì。\nnèi fǔ yān hóng mǎ nǎo pán， jié yú chuán zhào cái rén suǒ。\npán cì jiāng jūn bài wǔ guī， qīng wán xì qǐ xiāng zhuī fēi。\nguì qī quán mén dé bǐ jì， shǐ jué píng zhàng shēng guāng huī。\nxī rì tài zōng quán máo 䯄， jìn shí guō jiā shī zi huā。\njīn zhī xīn tú yǒu èr mǎ， fù lìng shí zhě jiǔ tàn jiē。\ncǐ jiē qí zhàn yī dí wàn， gǎo sù mò mò kāi fēng shā。\nqí yú qī pǐ yì shū jué， jiǒng ruò hán kōng dòng yān xuě。\nshuāng tí cù tà cháng qiū jiān， mǎ guān sī yǎng sēn chéng liè。\nkě lián jiǔ mǎ zhēng shén jùn， gù shì qīng gāo qì shēn wěn。\njiè wèn kǔ xīn ài zhě shuí， hòu yǒu wéi fěng qián zhī dùn。\nyì xī xún xìng xīn fēng gōng， cuì huá fú tiān lái xiàng dōng。\nténg xiāng lěi luò sān wàn pǐ， jiē yǔ cǐ tú jīn gǔ tóng。\nzì cóng xiàn bǎo cháo hé zōng， wú fù shè jiāo jiāng shuǐ zhōng。\njūn bù jiàn jīn sù duī qián sōng bǎi lǐ， lóng méi qù jìn niǎo hū fēng。",
+        pinyin: "guó chū yǐ lái huà ān mǎ， shén miào dú shù jiāng dōu wáng。\njiāng jūn dé míng sān shí zǎi， rén jiān yòu jiàn zhēn chéng huáng。\ncéng mào xiān dì zhào yè bái， lóng chí shí rì fēi pī lì。\nnèi fǔ yān hóng mǎ nǎo pán， jié yú chuán zhào cái rén suǒ。\npán cì jiāng jūn bài wǔ guī， qīng wán xì qǐ xiāng zhuī fēi。\nguì qī quán mén dé bǐ jì， shǐ jué píng zhàng shēng guāng huī。\nxī rì tài zōng quán máo guā， jìn shí guō jiā shī zi huā。\njīn zhī xīn tú yǒu èr mǎ， fù lìng shí zhě jiǔ tàn jiē。\ncǐ jiē qí zhàn yī dí wàn， gǎo sù mò mò kāi fēng shā。\nqí yú qī pǐ yì shū jué， jiǒng ruò hán kōng dòng yān xuě。\nshuāng tí cù tà cháng qiū jiān， mǎ guān sī yǎng sēn chéng liè。\nkě lián jiǔ mǎ zhēng shén jùn， gù shì qīng gāo qì shēn wěn。\njiè wèn kǔ xīn ài zhě shuí， hòu yǒu wéi fěng qián zhī dùn。\nyì xī xún xìng xīn fēng gōng， cuì huá fú tiān lái xiàng dōng。\nténg xiāng lěi luò sān wàn pǐ， jiē yǔ cǐ tú jīn gǔ tóng。\nzì cóng xiàn bǎo cháo hé zōng， wú fù shè jiāo jiāng shuǐ zhōng。\njūn bù jiàn jīn sù duī qián sōng bǎi lǐ， lóng méi qù jìn niǎo hū fēng。",
         translation: "开国以来画鞍马的高手里，最神妙的是曹将军，他画先帝的宝马照夜白，好像龙池上十日飞起霹雳，皇帝把玛瑙盘赏赐给他。如今这幅新画上九匹骏马个个神异，像寒空中翻动的烟雪，霜白的蹄子踏过长楸大道，养马的官员整齐排列。回想当年皇帝出行，三万匹骏马奔腾，都和这画上的一样雄壮；如今宝马去尽了，金粟堆前的松柏里，只有鸟儿叫着风。",
       }
       ],

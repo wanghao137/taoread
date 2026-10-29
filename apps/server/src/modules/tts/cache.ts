@@ -10,6 +10,7 @@ import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { poetryPronunciation } from './poetryPronunciation'
 import { storyPronunciation } from './storyPronunciation'
+import { rubyInstruction, rubyPronunciation } from './rubyPronunciation'
 import { surnameInstruction, surnameSpeech } from './surnamePronunciation'
 
 export interface CacheEntry {
@@ -32,11 +33,14 @@ export function cacheKey(
   familyId = '',
   model = '',
 ): string {
-  const spoken = lang === 'zh' ? surnameSpeech(storyPronunciation(poetryPronunciation(text))) : text
+  const spoken = lang === 'zh' ? surnameSpeech(storyPronunciation(poetryPronunciation(rubyPronunciation(text)))) : text
   const surname = lang === 'zh' ? surnameInstruction(text) : ''
+  const rubyHint = lang === 'zh' ? rubyInstruction(text) : ''
   // A corrected narration gets a fresh immutable URL. All other legacy keys stay stable.
-  const revision = (spoken === text ? '' : `\u0000poetry-pronunciation-v1\u0000${spoken}`)
+  // v2：注音驱动全量层上线（docs/97），强制轮换全部修正段——旧键下存在键-内容脱节的历史音频。
+  const revision = (spoken === text ? '' : `\u0000pron-v2\u0000${spoken}`)
     + (surname ? `\u0000surname-pronunciation-v1\u0000${surname}` : '')
+    + (rubyHint ? `\u0000ruby-hint-v1\u0000${rubyHint}` : '')
   return createHash('sha256')
     .update(`${text}\u0000${voiceId}\u0000${speed.toFixed(2)}\u0000${format}\u0000${lang}\u0000${familyId}\u0000${model}${revision}`)
     .digest('hex')

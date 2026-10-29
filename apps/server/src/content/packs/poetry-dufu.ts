@@ -339,7 +339,7 @@ export const duFu: PackBook = {
       {
         kind: 'poem',
         text: "士卒何草草，筑城潼关道。\n大城铁不如，小城万丈余。\n借问潼关吏，修关还备胡。\n要我下马行，为我指山隅。\n连云列战格，飞鸟不能逾。\n胡来但自守，岂复忧西都。\n丈人视要处，窄狭容单车。\n艰难奋长戟，万古用一夫。\n哀哉桃林战，百万化为鱼。\n请嘱防关将，慎勿学哥舒。",
-        pinyin: "shì zú hé cǎo cǎo， zhù chéng tóng guān dào。\ndài chéng tiě bù rú， xiǎo chéng wàn zhàng yú。\njiè wèn tóng guān lì， xiū guān hái bèi hú。\nyào wǒ xià mǎ xíng， wèi wǒ zhǐ shān yú。\nlián yún liè zhàn gé， fēi niǎo bù néng yú。\nhú lái dàn zì shǒu， qǐ fù yōu xī dōu。\nzhàng rén shì yào chù， zhǎi xiá róng dān chē。\njiān nán fèn cháng jǐ， wàn gǔ yòng yī fū。\nāi zāi táo lín zhàn， bǎi wàn huà wéi yú。\nqǐng zhǔ fáng guān jiāng， shèn wù xué gē shū。",
+        pinyin: "shì zú hé cǎo cǎo， zhù chéng tóng guān dào。\ndà chéng tiě bù rú， xiǎo chéng wàn zhàng yú。\njiè wèn tóng guān lì， xiū guān hái bèi hú。\nyào wǒ xià mǎ xíng， wèi wǒ zhǐ shān yú。\nlián yún liè zhàn gé， fēi niǎo bù néng yú。\nhú lái dàn zì shǒu， qǐ fù yōu xī dōu。\nzhàng rén shì yào chù， zhǎi xiá róng dān chē。\njiān nán fèn cháng jǐ， wàn gǔ yòng yī fū。\nāi zāi táo lín zhàn， bǎi wàn huà wéi yú。\nqǐng zhǔ fáng guān jiāng， shèn wù xué gē shū。",
         translation: "士兵们多么辛苦啊，在潼关道上修筑城墙。大城修得比铁还结实，小城高得有万丈。我问守潼关的官吏，他说修关是为了防备胡人再来。他请我下马走一走，指给我看山边的险要地方：栏栅一层层排到云里，连飞鸟都飞不过去。只要牢牢守住，胡人来也不用怕，更不必担忧长安。老人家你看这要害的地方，窄得只能过一辆车，危急时一个人拿长戟把守，就能挡住千军万马。可叹当年桃林那一场败仗，百万将士都葬身在乱军里。请告诉守关的将军，千万要小心，别再学哥舒翰啊。",
       }
       ],

@@ -118,7 +118,7 @@ export const songCi: PackBook = {
       {
         kind: 'poem',
         text: "听风听雨过清明。\n愁草瘗花铭。\n楼前绿暗分携路，一丝柳、一寸柔情。\n料峭春寒中酒，交加晓梦啼莺。\n西园日日扫林亭。\n依旧赏新晴。\n黄蜂频扑秋千索，有当时、纤手香凝。\n惆怅双鸳不到，幽阶一夜苔生。",
-        pinyin: "tīng fēng tīng yǔ guò qīng míng。\nchóu cǎo yì huā míng。\nlóu qián lǜ àn fēn xié lù， yī sī liǔ、 yī cùn róu qíng。\nliào qiào chūn hán zhōng jiǔ， jiāo jiā xiǎo mèng tí yīng。\nxī yuán rì rì sǎo lín tíng。\nyī jiù shǎng xīn qíng。\nhuáng fēng pín pū qiū qiān suǒ， yǒu dāng shí、 qiàn shǒu xiāng níng。\nchóu chàng shuāng yuān bù dào， yōu jiē yī yè tái shēng。",
+        pinyin: "tīng fēng tīng yǔ guò qīng míng。\nchóu cǎo yì huā míng。\nlóu qián lǜ àn fēn xié lù， yī sī liǔ、 yī cùn róu qíng。\nliào qiào chūn hán zhōng jiǔ， jiāo jiā xiǎo mèng tí yīng。\nxī yuán rì rì sǎo lín tíng。\nyī jiù shǎng xīn qíng。\nhuáng fēng pín pū qiū qiān suǒ， yǒu dāng shí、 xiān shǒu xiāng níng。\nchóu chàng shuāng yuān bù dào， yōu jiē yī yè tái shēng。",
         translation: "听着风声雨声，熬过了清明。愁里写下葬花的铭文；楼前绿荫深处，是我们分别的路，一丝柳条就是一寸柔情。春寒里借酒消愁，清晨的梦被啼莺搅醒。西园的林亭天天打扫，还是照旧盼着雨后新晴；黄蜂频频扑向秋千的绳索，因为那儿还留着她当年纤手的香气。惆怅啊，她的脚步再也到不了这里，幽静的台阶一夜之间长满了青苔。",
       }
       ],

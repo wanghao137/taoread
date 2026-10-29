@@ -9,6 +9,7 @@ import type { VoicePreset } from './voices'
 import { clampSpeed } from './voices'
 import { poetryPronunciation } from './poetryPronunciation'
 import { storyPronunciation } from './storyPronunciation'
+import { rubyInstruction, rubyPronunciation } from './rubyPronunciation'
 import { surnameInstruction, surnameSpeech } from './surnamePronunciation'
 
 export interface SynthesizeInput {
@@ -106,7 +107,7 @@ export function chunkText(text: string, maxLen = MAX_SEGMENT_CHARS): string[] {
  * Brackets otherwise get interpreted as unspoken stage directions by StepAudio.
  * Cache keys and displayed text still use the original segment. */
 export function narrationInput(text: string): string {
-  return surnameSpeech(storyPronunciation(poetryPronunciation(text))).split(/\r?\n/).filter(line => /[\p{L}\p{N}]/u.test(line))
+  return surnameSpeech(storyPronunciation(poetryPronunciation(rubyPronunciation(text)))).split(/\r?\n/).filter(line => /[\p{L}\p{N}]/u.test(line))
     .join(' ').replace(/[()（）[\]]/g, '，')
     // Providers can mistake this rare bird name for the English letters PT.
     // These common homophones retain the exact Mandarin pì tī pronunciation.
@@ -146,7 +147,7 @@ export async function synthesizeSegment(
   const instruction = [
     input.voice.instruction,
     input.lang === 'en' ? 'Speak clearly in natural English suitable for children.' : '',
-    input.lang === 'zh' ? surnameInstruction(input.text) : '',
+    input.lang === 'zh' ? [surnameInstruction(input.text), rubyInstruction(input.text)].filter(Boolean).join(' ') : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -207,7 +208,7 @@ export async function synthesizeStream(
   const instruction = [
     input.voice.instruction,
     input.lang === 'en' ? 'Speak clearly in natural English suitable for children.' : '',
-    input.lang === 'zh' ? surnameInstruction(input.text) : '',
+    input.lang === 'zh' ? [surnameInstruction(input.text), rubyInstruction(input.text)].filter(Boolean).join(' ') : '',
   ]
     .filter(Boolean)
     .join(' ')

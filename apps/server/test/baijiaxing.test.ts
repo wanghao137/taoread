@@ -72,7 +72,8 @@ describe('reviewed Baijiaxing edition', () => {
     expect(bodies).toHaveLength(2)
     expect(bodies[0]!.instruction).toBe(bodies[1]!.instruction)
     for (const body of bodies) {
-      expect(body.scripts[0]!.text).toBe('莫其司马，上官欧阳。')
+      // 注音层（docs/97）先于姓氏层做声调精确同音替换：默骑=莫其同音（mò qí）
+      expect(body.scripts[0]!.text).toBe('默骑司马，上官欧阳。')
       expect(body.instruction).toContain('万俟（mò qí）')
     }
   })

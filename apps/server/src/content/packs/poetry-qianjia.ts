@@ -963,7 +963,7 @@ export const qianJiaShi: PackBook = {
       {
         kind: 'poem',
         text: "雨来沾席上，风急打船头。\n越女红裙湿，燕姬翠黛愁。\n缆侵堤柳系，幔卷浪花浮。\n归路翻萧飒，陂塘五月秋。",
-        pinyin: "yǔ lái zhān xí shàng， fēng jí dǎ chuán tóu。\nyuè nǚ gōng qún shī， yàn jī cuì dài chóu。\nlǎn qīn dī liǔ xì， màn juàn làng huā fú。\nguī lù fān xiāo sà， bēi táng wǔ yuè qiū。",
+        pinyin: "yǔ lái zhān xí shàng， fēng jí dǎ chuán tóu。\nyuè nǚ hóng qún shī， yàn jī cuì dài chóu。\nlǎn qīn dī liǔ xì， màn juàn làng huā fú。\nguī lù fān xiāo sà， bēi táng wǔ yuè qiū。",
         translation: "雨点落下来打湿了席子，急风呼呼地吹着船头。姑娘们的红裙子被淋湿了，皱着眉头发起愁来；船缆拴在堤边的柳树上，帘幔卷起，浪花在船边漂动。回家的路上风雨一片萧瑟，五月的池塘竟变得像秋天一样凉。",
       }
       ],
@@ -2562,7 +2562,7 @@ export const qianJiaShi: PackBook = {
       {
         kind: 'poem',
         text: "昔人已乘黄鹤去，此地空余黄鹤楼。\n黄鹤一去不复返，白云千载空悠悠。\n晴川历历汉阳树，芳草萋萋鹦鹉州。\n日暮乡关何处是，烟波江上使人愁。",
-        pinyin: "xī rén yǐ chéng huáng hè qù， cǐ dì kòng yú huáng hè lóu。\nhuáng hè yī qù bù fù fǎn， bái yún qiān zǎi kōng yōu yōu。\nqíng chuān lì lì hàn yáng shù， fāng cǎo qī qī yīng wǔ zhōu。\nrì mù xiāng guān hé chù shì， yān bō jiāng shàng shǐ rén chóu。",
+        pinyin: "xī rén yǐ chéng huáng hè qù， cǐ dì kōng yú huáng hè lóu。\nhuáng hè yī qù bù fù fǎn， bái yún qiān zǎi kōng yōu yōu。\nqíng chuān lì lì hàn yáng shù， fāng cǎo qī qī yīng wǔ zhōu。\nrì mù xiāng guān hé chù shì， yān bō jiāng shàng shǐ rén chóu。",
         translation: "从前那位仙人已经骑着黄鹤飞走了，这里只留下一座黄鹤楼。黄鹤一去再也不回来，只有白云千百年空自在天上飘着。天气晴朗，汉阳的树木看得清清楚楚，鹦鹉洲上长满茂盛的芳草。傍晚了，我的家乡在哪里呢？江上烟雾茫茫，让人发愁。",
       }
       ],

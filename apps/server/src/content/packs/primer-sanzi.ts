@@ -53,7 +53,7 @@ export const sanziJing: PackBook = {
       {
         kind: 'poem',
         text: "曰水火，木金土，此五行，本乎数。\n十干者，甲至癸，十二支，子至亥。\n曰黄道，日所躔，曰赤道，当中权。\n赤道下，温暖极，我中华，在东北。\n寒燠均，霜露改，右高原，左大海。\n曰江河，曰淮济，此四渎，水之纪。\n曰岱华，嵩恒衡，此五岳，山之名。\n古九州，今改制，称行省，三十五。",
-        pinyin: "yuē shuǐ huǒ， mù jīn tǔ， cǐ wǔ háng， běn hū shù。\nshí gān zhě， jiǎ zhì guǐ， shí èr zhī， zǐ zhì hài。\nyuē huáng dào， rì suǒ chán， yuē chì dào， dāng zhōng quán。\nchì dào xià， wēn nuǎn jí， wǒ zhōng huá， zài dōng běi。\nhán yù jūn， shuāng lù gǎi， yòu gāo yuán， zuǒ dà hǎi。\nyuē jiāng hé， yuē huái jì， cǐ sì dú， shuǐ zhī jì。\nyuē dài huá， sōng héng héng， cǐ wǔ yuè， shān zhī míng。\ngǔ jiǔ zhōu， jīn gǎi zhì， chēng xíng shěng， sān shí wǔ。",
+        pinyin: "yuē shuǐ huǒ， mù jīn tǔ， cǐ wǔ xíng， běn hū shù。\nshí gān zhě， jiǎ zhì guǐ， shí èr zhī， zǐ zhì hài。\nyuē huáng dào， rì suǒ chán， yuē chì dào， dāng zhōng quán。\nchì dào xià， wēn nuǎn jí， wǒ zhōng huá， zài dōng běi。\nhán yù jūn， shuāng lù gǎi， yòu gāo yuán， zuǒ dà hǎi。\nyuē jiāng hé， yuē huái jì， cǐ sì dú， shuǐ zhī jì。\nyuē dài huá， sōng héng héng， cǐ wǔ yuè， shān zhī míng。\ngǔ jiǔ zhōu， jīn gǎi zhì， chēng xíng shěng， sān shí wǔ。",
         translation: "水、火、木、金、土，合称“五行”，它们来自大自然的规律。天干有十个，从甲到癸；地支有十二个，从子到亥。黄道是太阳走的轨道，赤道在地球的正中间。赤道附近最温暖，我们中国位于它的东北方。这里冷热均匀，霜露随季节变换，右边是高原，左边是大海。长江、黄河、淮河、济水合称“四渎”，是水流的代表。泰山、华山、嵩山、恒山、衡山合称“五岳”，是五座大山的名字。古时候天下分为九州，如今改成行省，一共有三十五个。",
       }
       ],
@@ -105,7 +105,7 @@ export const sanziJing: PackBook = {
       {
         kind: 'poem',
         text: "论语者，二十篇，群弟子，记善言。\n孟子者，七篇止，辨王载，说仁义。\n中庸者，子思笔，中不偏，庸不易。\n大学者，乃曾子，自修齐，至治平。\n此二篇，在礼记，今单行，至治平。\n四书通，孝经熟，如六经，始可读。\n六经者，统儒术，文作周，孔子述。\n易诗书，礼春秋，乐经亡，余可求。",
-        pinyin: "lún yǔ zhě， èr shí piān， qún dì zǐ， jì shàn yán。\nmèng zǐ zhě， qī piān zhǐ， biàn wáng zǎi， shuō rén yì。\nzhōng yōng zhě， zǐ sī bǐ， zhōng bù piān， yōng bù yì。\ndà xué zhě， nǎi céng zǐ， zì xiū qí， zhì zhì píng。\ncǐ èr piān， zài lǐ jì， jīn dān háng， zhì zhì píng。\nsì shū tōng， xiào jīng shú， rú liù jīng， shǐ kě dú。\nliù jīng zhě， tǒng rú shù， wén zuò zhōu， kǒng zǐ shù。\nyì shī shū， lǐ chūn qiū， lè jīng wáng， yú kě qiú。",
+        pinyin: "lún yǔ zhě， èr shí piān， qún dì zǐ， jì shàn yán。\nmèng zǐ zhě， qī piān zhǐ， biàn wáng zǎi， shuō rén yì。\nzhōng yōng zhě， zǐ sī bǐ， zhōng bù piān， yōng bù yì。\ndà xué zhě， nǎi céng zǐ， zì xiū qí， zhì zhì píng。\ncǐ èr piān， zài lǐ jì， jīn dān xíng， zhì zhì píng。\nsì shū tōng， xiào jīng shú， rú liù jīng， shǐ kě dú。\nliù jīng zhě， tǒng rú shù， wén zuò zhōu， kǒng zǐ shù。\nyì shī shū， lǐ chūn qiū， lè jīng wáng， yú kě qiú。",
         translation: "《论语》这部书共有二十篇，是孔子的学生们记下的好言论。《孟子》这部书共有七篇，讲的是仁义和王道。《中庸》是子思写的，“中”是不偏不倚，“庸”是永远不变。《大学》是曾子写的，讲从修养自己、管理家庭，一直讲到治理国家、平定天下。中庸、大学这两篇原来收在《礼记》里，现在单独流行。把四书读通了，把《孝经》读熟了，才可以去读六经那样深的大书。六经总括儒家的学问，文章创自周公，由孔子传述。《易》《诗》《书》《礼》《春秋》还在，《乐经》失传了，其余的都可以求得。",
       }
       ],
