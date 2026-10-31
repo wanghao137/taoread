@@ -8,6 +8,7 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { guardedR2Upload } from '../../../scripts/lib/r2-capacity.mjs'
 
 let client: S3Client | null | undefined
@@ -35,6 +36,10 @@ function getClient(): S3Client | null {
       region: 'auto',
       endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
       credentials: { accessKeyId: accessKey, secretAccessKey: secretKey },
+      // 2026-10-31 根修：晚间网络黑洞下 SDK 默认无有效超时，一次挂死即把共享容量锁
+      // 持有数小时（19:48-21:48 事故），堵死一切批量上传——显式限时+限次（audioClient 同款）。
+      maxAttempts: 2,
+      requestHandler: new NodeHttpHandler({ connectionTimeout: 15000, requestTimeout: 45000 }),
     })
   } catch {
     client = null

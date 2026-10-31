@@ -58,6 +58,7 @@ await withR2Capacity({
   bytes: totalBytes,
   stopBytes: R2_STOP_BYTES,
   waitMs: 600_000, // 慢路由/其它持锁者并存时多等（默认 120s 不够）
+  maxAgeMs: 900_000, // 慢路由下全量清单分钟级；账本 15 分钟内视为新鲜，避免每轮重盘（2026-10-31 深夜轮）
   inventory: async () => {
     log('inventory: listing audio bucket…')
     const objects = await listAudio(client, store.bucket)
