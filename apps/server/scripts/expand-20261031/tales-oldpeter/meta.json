@@ -1,0 +1,34 @@
+{
+  "id": "tales-oldpeter",
+  "packFile": "tales-oldpeter.ts",
+  "target": 12,
+  "parts": ["1-12"],
+  "book": {
+    "title": "Old Peter's Russian Tales",
+    "author": "Arthur Ransome",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "6-8",
+    "intro": "In a hut deep in the snowy Russian forest, Old Peter tells his grandchildren the old tales: Baba Yaga's hut on chicken legs, a flying ship, a golden fish, and a little daughter made of snow.",
+    "coverArt": "oldpeter-winter-hut",
+    "coverArtPrompt": "雪夜俄罗斯木屋里，白胡子老爷爷在炉火边讲故事，男孩女孩偎坐倾听，窗外雪林与月光，暖黄炉光，童话插画",
+    "coverFrom": "#00838F",
+    "coverTo": "#B2EBF2",
+    "source": "Old Peter's Russian Tales by Arthur Ransome (1916), Project Gutenberg #16981, US public domain; retold in simple English, 12 of the original 21 tales selected for children",
+    "rights": { "workTitle": "Old Peter's Russian Tales", "author": "Arthur Ransome", "authorDeathYear": 1967, "jurisdiction": "US", "basis": "pd-us", "note": "本书 1916 年首版，已入美国公版；文本取自古登堡计划 #16981，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Silver Saucer and the Transparent Apple", "beats": ["姐妹们转动银碟看透亮的苹果，看见天下城镇与盛宴", "小妹妹只看见爹娘操劳变老的模样，被姐姐们笑痴心", "坟头的芦苇做成哨子唱出真相，善良的小女儿活了下来"], "sourceRef": "从底本 21 则选 12 则 · 原书第 2 则（温和化改写）" },
+    { "title": "Chapter 2 · Frost", "beats": ["继母嫌前妻的女儿碍眼，寒冬把她丢在林中雪地", "霜魔踏着雪而来，姑娘柔声问好，不喊冷也不叫苦", "霜魔感动赠下皮袍珠宝，狠心的继母一家自食恶果"], "sourceRef": "从底本 21 则选 12 则 · 原书第 4 则" },
+    { "title": "Chapter 3 · The Fool of the World and the Flying Ship", "beats": ["傻子善待过路讨饭的老翁，得了建造飞船的指引", "老翁教他把木头推成飞船，一路收齐顺风耳长腿等奇人", "沙皇出难题刁难，傻子靠伙伴们一一化解，娶了公主"], "sourceRef": "从底本 21 则选 12 则 · 原书第 5 则" },
+    { "title": "Chapter 4 · Baba Yaga", "beats": ["继母打发小姑娘去黑森林借针线，其实是送她给巴巴雅嘎", "小姑娘先到姨妈家学礼数，又得善良的小猫指点迷津", "巴巴雅嘎追来，她扔下毛巾毛巾成河，扔下梳子梳子成林"], "sourceRef": "从底本 21 则选 12 则 · 原书第 6 则（Baba Yaga 主场）" },
+    { "title": "Chapter 5 · The Cat Who Became Head-Forester", "beats": ["猎人在林中迷路，遇到从巴巴雅嘎家逃出来的大花猫", "花猫自称林务官，领他认路教他林中生存的规矩", "从此猎人打猎样样顺遂，逢凶化吉全凭猫朋友指点"], "sourceRef": "从底本 21 则选 12 则 · 原书第 7 则（Baba Yaga 相关）" },
+    { "title": "Chapter 6 · The Little Daughter of the Snow", "beats": ["老夫妻望着别人家孩子玩雪，把雪捏成了小雪人", "雪人竟变成雪姑娘，冬天陪他们玩耍，春天随溪水而去", "来年冬天她又踏雪归来，家家户户讲起雪姑娘的故事"], "sourceRef": "从底本 21 则选 12 则 · 原书第 9 则" },
+    { "title": "Chapter 7 · Prince Ivan, the Witch Baby, and the Little Sister of the Sun", "beats": ["巴巴雅嘎偷走了小伊凡，在鸡脚魔屋里把他养大", "妹妹被送去陪伴太阳，小伊凡决心逃出魔林寻亲", "伊凡带着妹妹逃回人间，太阳照拂，巫婆再也追不上"], "sourceRef": "从底本 21 则选 12 则 · 原书第 10 则（Baba Yaga 相关）" },
+    { "title": "Chapter 8 · The Stolen Turnips and the Magic Tablecloth", "beats": ["老头种的芜菁连年被偷，他夜里蹲守捉住了小贼", "失而复得的宝贝一件件来：魔桌布、喷嚏山羊、木哨子", "一支小曲唱出真相，宝物物归原主，全家笑作一团"], "sourceRef": "从底本 21 则选 12 则 · 原书第 11 则" },
+    { "title": "Chapter 9 · The Golden Fish", "beats": ["老爷爷网到一尾会说话的金鱼，好心放生不取分文", "金鱼许诺报恩，贪婪的老太婆一次次逼老头去索要", "从木盆木屋要到宫殿还要做海上的女皇，金鱼收走一切"], "sourceRef": "从底本 21 则选 12 则 · 原书第 14 则" },
+    { "title": "Chapter 10 · Alenoushka and Her Brother", "beats": ["阿廖努什卡带着弟弟进城，弟弟喝下蹄印里的水变成小羊", "女巫把阿廖努什卡推入池塘，冒名顶替住进家门", "小羊开口说出真相，爹爹救起姐姐，女巫被赶出村"], "sourceRef": "从底本 21 则选 12 则 · 原书第 16 则" },
+    { "title": "Chapter 11 · The Fire-Bird, the Horse of Power, and the Princess Vasilissa", "beats": ["年轻的弓箭手伊凡和大力马，接下取火鸟的难题", "大力马献计献力，火鸟到手，沙皇又盯上了公主瓦西莉莎", "大力马再施妙计，沙皇自食恶果，伊凡与公主成婚"], "sourceRef": "从底本 21 则选 12 则 · 原书第 17 则" },
+    { "title": "Chapter 12 · Salt", "beats": ["小王子伊凡出海贩盐，白盐在异乡换来满船金银", "两个兄长嫉妒使坏，大鲸吞下货船把他困在鱼腹", "他巧施妙计脱险回到家乡，善良的人终究有好报"], "sourceRef": "从底本 21 则选 12 则 · 原书第 20 则" }
+  ]
+}

@@ -23,7 +23,9 @@ const inDir = args.find(a => a.startsWith('--in='))?.slice(5)
 const apply = args.includes('--apply')
 const db = new PrismaClient({ datasources: { db: { url: process.env.TAO_DATABASE_URL ?? 'file:./dev.db' } } })
 
-const specPath = join(__dirname, 'completion', 'spec.tsv')
+// --list=<文件> 可覆盖书单（如 scripts/expand-20261031/round.tsv）；默认仍是补全轮 spec.tsv
+const listArg = process.argv.find(a => a.startsWith('--list='))?.slice('--list='.length)
+const specPath = listArg ?? join(__dirname, 'completion', 'spec.tsv')
 const bookIds = new Set(readFileSync(specPath, 'utf8').trim().split('\n').slice(1).map(l => l.split('\t')[0]))
 const mediaDir = process.env.TAO_MEDIA_DIR ?? join(__dirname, '..', 'media')
 

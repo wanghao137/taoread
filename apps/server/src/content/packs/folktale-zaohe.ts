@@ -1,0 +1,175 @@
+/**
+ * 《枣核》——找故事内容扩充第四轮（2026-10-31）。
+ * 底本：中国民间故事经典类型（枣核娃），口传无单一作者，按流传最广版本温和化改写
+ */
+import type { PackBook } from '../types'
+
+export const folktaleZaohe: PackBook = {
+  "id": "folktale-zaohe",
+  "title": "枣核",
+  "author": "中国民间故事 · 桃阅读 改写",
+  "lang": "zh",
+  "category": "story",
+  "ageStage": "3-5",
+  "intro": "有个孩子只有枣核那么大，却又机灵又能干。县官抢走乡亲们的牲口，枣核蹦进驴耳朵里，把牲口全赶了回来。",
+  "coverArt": "zaohe-jump",
+  "coverArtPrompt": "枣核大的小人骑在毛驴耳朵边，身后一队牛驴跟着走出县城大门，夜色月光，衙役们睡倒在路边，诙谐童话插画",
+  "coverFrom": "#33691E",
+  "coverTo": "#C5E1A5",
+  "source": "中国民间故事经典类型（枣核娃），口传无单一作者，按流传最广版本温和化改写",
+  "rights": {
+    "workTitle": "枣核",
+    "jurisdiction": "CN",
+    "basis": "adapted",
+    "note": "枣核为跨地域民间口传故事类型，无单一作者；本包按流传最广版本温和化改写"
+  },
+  "chapters": [
+    {
+      "title": "第一章 · 枣核娃娃",
+      "art": "zaohe-tiny-boy",
+      "artPrompt": "a tiny boy the size of a jujube pit jumping high beside a little donkey turning a stone mill at night, warm lamplight from a farmhouse window, cozy storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "从前，村里住着一对老夫妻。两口子勤勤恳恳，就是没有娃娃。天天盼，夜夜念，盼了半辈子。老太婆果然生下一个小娃娃。老两口喜得夜里都笑醒。"
+        },
+        {
+          "kind": "note",
+          "text": "枣核——枣里头又小又硬的核，两头尖尖的。它比指甲盖还要小呢，娃娃只有它那么大，你说稀奇不稀奇？",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "说来稀奇，这娃娃只有枣核那么大。老两口不嫌他小，给他取名枣核。枣核一年年长，个头还是那么大。"
+        },
+        {
+          "kind": "text",
+          "text": "枣核人小，心眼儿可多了。别看他个小，力气可不小。他一蹦蹦得老高，跑起来像阵风。别人干不动的活儿，他都干得麻利。"
+        },
+        {
+          "kind": "image",
+          "art": "zaohe-tiny-boy",
+          "text": "枣核娃赶着毛驴拉磨，个头只有一颗枣核那么大。"
+        },
+        {
+          "kind": "text",
+          "text": "白天，他帮爹娘下地干活。拔草、拾穗、赶麻雀，样样都行。夜里，他赶着毛驴拉磨。磨盘转呀转，磨出白花花的面粉。爹娘乐得合不拢嘴。"
+        },
+        {
+          "kind": "note",
+          "text": "拉磨——毛驴拉着石磨转圈，把粮食磨成面粉。石磨沉甸甸的，毛驴一圈一圈，慢慢走呀走。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 衙役牵牲口",
+      "art": "zaohe-officers-seize",
+      "artPrompt": "a row of government runners leading away oxen and donkeys from a village, a tiny boy hiding by a donkey's ear in the line, dusty road leading to the county town, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "这年，县官派衙役闯进村子。衙役们把牛和驴统统牵走了。没了牲口，地可怎么种哟。牛一牵走，犁耙都闲了下来。家家户户急得直跺脚。"
+        },
+        {
+          "kind": "note",
+          "text": "衙役——旧时候县衙门里当差跑腿的人。县官一吆喝，他们就拿着棍棒去办差，老百姓见了都躲着走。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "爹娘坐在门槛上愁叹。「牲口没了，日子怎么办哟。」枣核一蹦，蹦到爹娘膝盖上。「爹，娘，放心，有我呢！」「我去把牲口赶回来。」"
+        },
+        {
+          "kind": "text",
+          "text": "爹娘又喜又忧，担心他个小。枣核把胸脯一拍：「我小，主意多！」他一蹦，蹦进牵牲口的队伍。又钻到一头毛驴的耳朵边。"
+        },
+        {
+          "kind": "image",
+          "art": "zaohe-officers-seize",
+          "text": "枣核藏在毛驴耳朵边，跟着牵牲口的队伍进了县城。"
+        },
+        {
+          "kind": "text",
+          "text": "衙役们牵着一长串牛驴进城。谁也没发现队伍里藏着小不点儿。牛驴关进了大圈，天黑了下来。枣核打定主意，先歇一歇再说。他摸摸驴耳朵，悄悄笑了。"
+        },
+        {
+          "kind": "note",
+          "text": "牲口——牛、驴、马这些帮人干活的动物。耕田、拉磨、驮东西都靠它们，是庄稼人家的宝贝呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 夜赶牲口",
+      "art": "zaohe-night-drive",
+      "artPrompt": "night in a county town stable yard, a tiny boy perched on a fence imitating a rooster while sleepy guards stumble with lanterns, oxen and donkeys slipping out the city gate under the moon, humorous storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "半夜三更，衙役们睡得正香。枣核学着大公鸡，喔喔喔叫起来。衙役们一骨碌爬起：「天亮了！」点灯一看，外头黑洞洞的。"
+        },
+        {
+          "kind": "note",
+          "text": "半夜三更——夜里顶深顶深的时候，家家户户都睡了。这时候学起鸡叫来，可真够淘气的呀。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "衙役们骂骂咧咧，躺回被窝。刚睡踏实，枣核又叫：「喔喔喔！」折腾了三四回，谁也睡不成觉。灯芯都熬干了，眼皮直打架。后来衙役们乏极了，倒头睡得死沉。"
+        },
+        {
+          "kind": "text",
+          "text": "枣核瞅准时机，打开圈门。他把牛驴一匹一匹赶出圈。牲口排成串，蹄子踏得轻轻的。悄悄绕出城门，上了回村的小路。"
+        },
+        {
+          "kind": "image",
+          "art": "zaohe-night-drive",
+          "text": "月光下，枣核赶着一长串牛驴，悄悄出了县城城门。"
+        },
+        {
+          "kind": "text",
+          "text": "枣核蹦进驴耳朵里，藏得严严实实。牛哞哞叫，好像在说悄悄话。村里的狗叫声，越来越近了。天蒙蒙亮，牲口全进了村。一匹不少，乡亲们乐坏了。"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 大闹县衙",
+      "art": "zaohe-yamen-tumble",
+      "artPrompt": "a tiny boy leaping onto a fat county official's black hat inside a grand yamen hall, a guard swinging a big stick that lands on the official's head, the official clutching his cheek, comical storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "第二天，县官点数牲口，一匹不剩。他气得胡子直翘，直拍桌子。「定是枣核搞的鬼！去把他抓来！」衙役们拿着绳子进了村。乡亲们一听，都替枣核捏把汗。"
+        },
+        {
+          "kind": "text",
+          "text": "枣核一点儿不躲，大摇大摆走进衙门。「我就是枣核，不用抓，自己来了。」县官一拍惊堂木：「好个大胆的东西！」「来人，给我打！」"
+        },
+        {
+          "kind": "note",
+          "text": "惊堂木——县官审案时往桌上啪地一拍的小木块。它一响，堂上堂下的人都得安安静静的。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "衙役抡起大棍，没头没脑地打。枣核轻轻一蹦，蹦上县官的官帽。大棍呼地砸下，正落在县官头上。咔哒，打掉了他两颗牙。县官捂着腮帮子，疼得直哼哼。"
+        },
+        {
+          "kind": "image",
+          "art": "zaohe-yamen-tumble",
+          "text": "枣核蹦上县官的官帽顶，衙役的大棍打掉了县官的牙。"
+        },
+        {
+          "kind": "text",
+          "text": "衙役们还要来抓，枣核一蹦出了大门。几个起落，就没了影儿。他回到家，把衙门里的趣事一说。爹娘把他捧在手心里听。乡亲们笑得直不起腰。牛驴各回各家，日子又稳当了。"
+        },
+        {
+          "kind": "note",
+          "text": "官帽——旧时候当官的人戴的帽子。县官的官帽圆圆的，顶上还有个小红疙瘩，神气得很呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 1 · Connla and the Fairy Maiden",
+      "art": "celtic-connla-crystal-boat",
+      "artPrompt": "a young prince with hair like flame stepping into a small glowing crystal boat on a golden evening sea, a fairy maiden in a green cloak holding out her hand, a king and a druid watching from a grassy cliff, warm sunset light, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago in Ireland, a young prince stood beside his father on a high green hill. His father was Conn the king, called Conn of the Hundred Fights. The young prince was named Connla, and his hair shone like fire. One soft evening a maiden came toward them over the grass, dressed in strange and beautiful clothes. Her face was fair as the dawn, and her voice was low and sweet. But the king and all his men saw nothing at all. Only Connla could see the maiden, and only Connla could hear her gentle words."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New words: fairy mound — a round green hill in old Ireland. People said the gentle Hill Folk lived inside such hills, in bright palaces where nobody ever grew old. In their country there was no death, no sickness, and no sorrow, and the holiday never came to an end."
+        },
+        {
+          "kind": "text",
+          "text": "\"I come from the Plains of the Ever Living,\" said the maiden softly. \"It is a land where there is no death and no quarrel. We keep holiday there for ever, and our joy never fades.\" The king grew afraid. He heard a voice, and saw no one at all. \"Coran, my Druid,\" the king cried aloud. \"Sing your strong spell, and drive her away.\" The old Druid chanted till the air hummed. Then no one heard the maiden's voice again. But as she faded from sight, she threw Connla one red apple."
+        },
+        {
+          "kind": "text",
+          "text": "From that day Connla would eat nothing but his apple. Yet it never grew small, for it filled itself again with every bite. All the same, a deep longing for the maiden grew inside him, day after day. When the month was ended, she came again across the plain, more beautiful than ever. \"The ocean is not so strong as your longing,\" she said. \"Come with me in my curragh,\" said she. \"It is a little boat of shining crystal.\" Then Connla kissed his father. He sprang into the boat, and away it glided toward the setting sun."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-connla-crystal-boat",
+          "text": "Prince Connla leaps into the crystal boat and sails away with the fairy maiden."
+        },
+        {
+          "kind": "text",
+          "text": "The king and all his court stood watching until the boat passed from sight. They were glad for Connla and sorry too, and tears fell on the grass. Sailors on that coast soon gave the sea a new name. They called it Connla's Sea, for the young prince who had sailed away. So Connla went to the land of everlasting joy with the fairy maiden. And no one in Ireland ever saw him again."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: Druid — a wise priest of the old Celtic people. A Druid knew the names of herbs and stars, settled hard quarrels, and sang mighty spells. Long ago people believed that only another Druid's spell could be stronger than a Druid's."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2 · Guleesh",
+      "art": "celtic-guleesh-fairy-rath",
+      "artPrompt": "a barefoot farm boy hiding at the grassy bank of a round ring fort under a full autumn moon, tiny folk on small horses whirling past in a wind of golden leaves, a thatched cottage and old stones behind, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In County Mayo there lived a boy named Guleesh, young and strong but lonely. Near his father's house was an old rath, a round fort ringed with grassy banks. One November night Guleesh stood against the gable of the house, watching the white moon. \"I wish I could go away with you,\" said he to the moon. At that very moment a whirlwind came roaring past him and swept into the rath. Inside it he heard laughter, music, and a hundred strange little voices talking together. He followed the sound, and his heart thumped as he climbed the bank."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: rath — a round fort of earth banks, built long, long ago in Ireland. Old folk said the fairies met and danced inside a rath at night. Wise people walked around it, never through it, and left it in peace after dark."
+        },
+        {
+          "kind": "text",
+          "text": "Inside the rath the little folk were crying their strange cry. \"My horse, and bridle, and saddle!\" Guleesh cried the very same words after them. At once a fine horse stood before him, with a bridle of gold and a saddle of silver. Away they all rode like the wind, over land and over sea. They came to a great palace in France, where the king's daughter was to be married that night. Guleesh saw her weeping at her own wedding feast, for she did not love the man she must marry. \"She shall not be carried off,\" thought Guleesh, \"if I can help it.\""
+        },
+        {
+          "kind": "text",
+          "text": "When the wedding began, the fairies made themselves unseen and threw a spell over the princess. They lifted her up behind Guleesh on his horse and rode away over the sea. As they came to his own rath, Guleesh caught the girl in his arms. \"I call you to myself, in the name of God!\" he cried. At that word every fairy horse fell down and turned into an old plough beam. The fairies howled with rage, and one of them struck the princess so that she could not speak. Then they all vanished into the rath, and Guleesh was left alone with her."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-guleesh-fairy-rath",
+          "text": "The fairy host rides like the wind, with the rescued princess behind Guleesh."
+        },
+        {
+          "kind": "text",
+          "text": "Guleesh brought the silent princess to the priest, who cared for her kindly like a niece. She could not speak, but she and Guleesh talked with their eyes and their fingers. A whole year went by, and on the next November night Guleesh stood at the rath again. He heard a fairy boasting. \"There is an herb growing up by his own door. It would give her back her talk.\" In the morning Guleesh found a strange herb by the gable. It had seven little branches, and a milky white juice. He boiled the juice, and the princess drank it and fell into a deep sleep. When she woke, her voice had come back to her, clear and glad. Before long she and Guleesh were married, and there was no sorrow in their house again."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Long ago, on the last night of autumn, people in Ireland said the fairy host rode abroad. The wind that whirled the dry leaves was called the fairy wind, and children were taught to come indoors early. On that night, they said, a brave and honest heart could break even a fairy's spell."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3 · The Field of Boliauns",
+      "art": "celtic-lepracaun-boliaun-field",
+      "artPrompt": "a tiny old cobbler fairy with a cocked hat and a leather apron mending a small shoe beside a brown jug at a sunny hedge, a young man leaning close with a sly smile, a wide field of tall ragged weeds beyond, harvest time, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One fine day at harvest, Tom Fitzpatrick was walking along the sunny side of a hedge. All at once he heard a clacking noise in the bushes, like tiny hammers tapping. He walked on his toes and peeped through, and there in a nook sat a wee little old man. He wore a little cocked hat and a leather apron, and he was mending a tiny shoe. Beside him stood a brown pitcher nearly as big as himself. Tom remembered the old stories of the Lepracauns, the little fairy cobblers who hide crocks of gold."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: Lepracaun — a little fairy of Ireland, about as tall as a child's chair. He mends shoes for the fairies and keeps a crock of gold hidden away. Old stories say you must never take your eyes off him, or he will vanish in a wink."
+        },
+        {
+          "kind": "text",
+          "text": "Tom greeted him, and the little man answered kindly enough. He even said his beer was brewed from heath, as the old Danes had taught his family. Then the sly little fellow cried out that Tom's cows had broken into the oats. Tom almost turned his head, but he caught himself just in time. He grabbed the Lepracaun in his hand and would not let go. \"Show me where your gold is hidden,\" said Tom. \"Or you shall not go free.\" So the little man led him over hedges and ditches. At last they came to a great field of boliauns."
+        },
+        {
+          "kind": "text",
+          "text": "\"Dig under that big boliaun,\" said the Lepracaun. \"You will find a crock full of guineas.\" Tom had no spade with him. So he tied his red garter round the boliaun, and ran home for a spade. The little man swore he would not touch it, and Tom let him go. When Tom came back with his spade, every boliaun in the field wore a red garter just like his. There were forty good acres of boliauns, and no telling which one hid the gold. Tom went home with his spade on his shoulder, laughing half in spite and half in wonder."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-lepracaun-boliaun-field",
+          "text": "The Lepracaun points to a boliaun while Tom ties his red garter around it."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: boliauns — a tall weed with ragged yellow flowers that grows in Irish fields. Its Irish name sounds merry and grand, but the weed itself is only common ragweed. To a boy hunting gold, though, every single weed looked exactly like every other one."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 4 · The Horned Women",
+      "art": "celtic-horned-women-sieve",
+      "artPrompt": "twelve tall shadowy women with small horns sitting round a peat fire spinning and carding wool in a stone cottage at night, a brave girl standing at the dark doorway, a glowing well outside under the stars, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One night a rich woman sat up late carding wool while all her house slept. Suddenly came a knock at the door and a voice crying, \"Open! open!\" In walked a woman with one horn on her forehead. She sat down and began to card the wool with terrible haste. Then came the Witch of two Horns with a spinning wheel, then another, and another. At last twelve witches sat round the fire, spinning and weaving and singing a strange old rhyme. They cast a spell on the mistress, so that she could neither move nor cry out."
+        },
+        {
+          "kind": "text",
+          "text": "\"Rise, woman,\" they said at last. \"Make us a cake.\" She had no vessel to carry water in. So the witches told her to fetch water in a sieve. Of course the water ran straight through, and she sat down by the well and wept. Then a gentle voice spoke at her side. \"Take yellow clay and moss, and plaster the sieve.\" She did so at once. And the sieve held the water like a bowl. \"Now go home,\" said the voice. \"At the north corner of the house, cry three times aloud. Cry that the mountain of the Fenian women is all on fire, and the sky over it.\""
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "The Fenian women — the Fianna were famous bands of warriors in the old stories of Ireland. Many hills and caves were said to be their homes. The witches in this tale sang of their mountain, far away and burning, and that cry broke their power."
+        },
+        {
+          "kind": "text",
+          "text": "When the witches inside heard that cry, they shrieked aloud and fled away to their mountain home. Then the Spirit of the Well taught the woman how to guard her house. She sprinkled the feet-water outside on the threshold. She broke the wicked cake the witches had left. She put a bit in the mouth of each sleeper, and they woke well and strong. She laid the woven cloth half in and half out of a locked chest. Last of all, she made the door fast with a great crossbeam."
+        },
+        {
+          "kind": "text",
+          "text": "Soon the twelve witches came back raging and called to the feet-water. \"I cannot open,\" said the feet-water. \"I am scattered on the ground.\" They called to the door. \"I cannot,\" said the door. \"The beam is fixed fast.\" They called to their cake. \"I cannot,\" said the cake. \"I am broken and spent.\" Then the witches rushed away with wild cries and never came again. A mantle one of them dropped in her flight hung in that family for five hundred years."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-horned-women-sieve",
+          "text": "The mistress stands by her fastened door while the horned witches rage outside."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: Slievenamon — a real mountain in the south of Ireland. Its old Irish name means the mountain of the fairy women. In this tale it is the far home the horned witches fly back to."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 5 · Hudden and Dudden and Donald O'Neary",
+      "art": "celtic-donald-magic-hide",
+      "artPrompt": "a cheerful poor farmer in a shabby coat striking an old cow hide hung on an inn wall while bright coins hop out of it, a stunned fat landlord watching open mouthed, warm tavern light, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Hudden and Dudden were two rich farmers, with sheep on the hills and cattle in the meadows. Between their farms lived poor Donald O'Neary, in a little hut, with one thin cow named Daisy. For all their riches, the two farmers were not happy. They lay awake at night wishing they could drive Donald away and take his strip of grass. One wicked day they killed poor Daisy, thinking that would make him go. Donald was heartbroken, but he was a shrewd fellow too."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: hide — the skin of a cow, taken after the animal has died. Long ago, hides were soaked and scraped and made into strong leather for shoes, drums, and shields. A good hide was worth good money on a market day."
+        },
+        {
+          "kind": "text",
+          "text": "He carried Daisy's hide to the fair, with pennies hidden in little slits cut in it. At the inn he struck the hide, and out hopped a penny. \"A hide that gives me money!\" cried Donald. The landlord stared, and paid thirty gold pieces for it on the spot. Then Donald borrowed Hudden's best scales and weighed his gold at home. A bit of gold stuck fast to the scales, and soon Hudden and Dudden came peeping in. \"Hides are worth their weight in gold,\" said Donald slyly, \"just now in the market.\""
+        },
+        {
+          "kind": "text",
+          "text": "The very next day the two farmers drove their cart to the fair with all their own hides. \"Hides to sell!\" \"Their weight in gold!\" they bawled at the fair. But the cobbler and the tanner only laughed. The crowd gave them kicks and cuffs instead of coin. Home they limped, black and blue, and all their anger fell on Donald. They popped him into a meal sack and carried him off. They meant to throw him into the Brown Lake of the Bog."
+        },
+        {
+          "kind": "text",
+          "text": "They stopped to drink at an inn by the road. Inside the sack, Donald cried out loud. \"I won't have her, I tell you!\" \"Have whom?\" asked a farmer driving cattle by. \"The king's daughter,\" sighed Donald. \"They are troubling my life to make me marry her.\" The farmer begged to change places with him. He gave Donald all his cattle for the chance. When the two farmers reached the lake they slung the sack in, and hurried home. There stood Donald with a fine herd of new cows! \"The Brown Lake leads to the Land of Promise,\" he said. Hudden and Dudden raced to the lake, saw little clouds floating on it, cried \"There they are!\" and leaped in. They never came back. And Donald O'Neary had cattle and sheep to his heart's content all his days."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-donald-magic-hide",
+          "text": "Donald strikes the old hide at the inn while bright pennies hop out before the staring landlord."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "The Land of Promise — an old Irish name for a happy magic country, far off beyond the western sea. In the old stories its grass was always sweet, and its cattle were always fat. Only good luck or a true friend could show you the way there."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Shepherd of Myddvai",
+      "art": "celtic-myddvai-lake-maiden",
+      "artPrompt": "a shepherd offering a small loaf to a lake maiden with wet shining hair stepping from a mountain lake, two sister maidens behind her in the mist, lambs grazing on green slopes, black mountains of Wales in the distance, celtic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "High in the Black Mountains of Wales lies a lonely lake with dark still water. A shepherd of Myddvai led his lambs there one day and lay watching them on the grass. Suddenly three maidens rose out of the lake, shaking the bright drops from their hair. They were more beautiful than any earthly girls, and the shepherd loved the one who came nearest. He offered her his bread, but she only sang, \"Hard-baked is thy bread,\" and ran laughing back to the water. Next day he brought softer bread, and she sang, \"Unbaked is thy bread,\" and vanished again."
+        },
+        {
+          "kind": "text",
+          "text": "The third time he brought bread found floating near the shore, and that pleased her well. She promised to be his wife if he could pick her out from her sisters on the morrow. He knew her by the strap of her sandal, and she smiled. She promised to be his wife on one condition. \"Strike me three times without cause,\" she said. \"Then I must leave you for ever.\" So she called her dowry out of the lake. There were three cows, two oxen, and a bull. With them she went home with him as his bride."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: dowry — the goods and cattle a bride brought with her in old times. A good dowry meant the new household could start rich in herds and gold. The lake maiden's dowry came straight out of the deep water, which few brides could match."
+        },
+        {
+          "kind": "text",
+          "text": "For years they were happy, and three children came to their house. But one day, hurrying to a christening, the shepherd tapped her lightly with her gloves. \"Go, go,\" said he. \"That is one,\" said she quietly. Another day, at a wedding, she wept while all around laughed, and he touched her shoulder. \"That is the second,\" she warned. \"The third is the last.\" At a funeral, long after, she suddenly laughed aloud. The shepherd forgot, and touched her rather roughly on the shoulder. \"Is this a time for laughter?\" he asked. \"The last blow is struck,\" she said. \"Our marriage is ended, and so farewell.\""
+        },
+        {
+          "kind": "text",
+          "text": "Then she called her cattle in a sweet strange song, and they came to her. The black calf sprang alive from the hook, and the oxen left the plough and followed her. They trailed the plough across the mountains to the lake, and plunged into the dark water. To this day, people say, the long furrow can be seen on the hillside. The lake was ever after called the fairy lake. Her sons grew up wise and kind, and became famous healers, the physicians of Myddvai."
+        },
+        {
+          "kind": "image",
+          "art": "celtic-myddvai-lake-maiden",
+          "text": "The lake maiden calls her cattle and leads them back into the dark water."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "The lake of this tale lies in Wales, and its old name is Lyn y Van Vach. People said the name meant the lake of the fair maidens who lived below the water. Long after, her sons were remembered all over the country as wise healers."
+        }
+      ]
+    }
+  ]
+}

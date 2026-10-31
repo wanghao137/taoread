@@ -1,0 +1,322 @@
+/**
+ * 《The Heroes》——找故事内容扩充第四轮（2026-10-31）。
+ * 底本：The Heroes, or Greek Fairy Tales for My Children by Charles Kingsley (1856), Project Gutenberg #677, US public domain; retold in simple English in 8 chapters across the three stories
+ */
+import type { PackBook } from '../types'
+
+export const heroesKingsley: PackBook = {
+  "id": "heroes-kingsley",
+  "title": "The Heroes",
+  "author": "Charles Kingsley",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "9-12",
+  "intro": "Three great adventures of the Greek heroes, retold for young readers: Perseus and the Gorgon's head, Jason and the Golden Fleece, and Theseus and the Minotaur.",
+  "coverArt": "heroes-gorgon",
+  "coverArtPrompt": "古希腊神庙柱影下，少年英雄背身持盾照影挥剑，云端智慧女神垂目护佑，远处帆船驶向爱琴海，希腊陶绘风童话插画",
+  "coverFrom": "#006064",
+  "coverTo": "#80DEEA",
+  "source": "The Heroes, or Greek Fairy Tales for My Children by Charles Kingsley (1856), Project Gutenberg #677, US public domain; retold in simple English in 8 chapters across the three stories",
+  "rights": {
+    "workTitle": "The Heroes",
+    "author": "Charles Kingsley",
+    "authorDeathYear": 1875,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "金斯利卒于 1875 年，本书 1856 年首版已入公版；文本取自古登堡计划 #677，平台以简易英文改写"
+  },
+  "chapters": [
+    {
+      "title": "Chapter 1 · Perseus Comes to Seriphos",
+      "art": "heroes-danae-chest",
+      "artPrompt": "a wooden chest floating on a calm moonlit sea, a mother holding her baby inside, red cliffs of a small island ahead, a tall fisherman on the rocks casting a net, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago, in the sunny vale of Argos, there reigned a king named Acrisius. An oracle had warned him of a dreadful thing. The son born to his daughter Danae would one day cause his death. So the king shut Danae in a dark room lined with brass, to keep every man away. But in secret she had a little son, more beautiful than the morning star. When Acrisius heard of the babe, he would not spare him. He put Danae and her child into a great wooden chest, and cast it out to sea."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: oracle — a holy message from the gods, given at a temple by a priestess. People of old Greece sailed far to ask the oracle at Delphi what they should do. King Acrisius heard one, and trembled all his days."
+        },
+        {
+          "kind": "text",
+          "text": "All night and all day the chest floated upon the gentle summer sea. Danae sang softly to her sleeping babe, and wept as she sang. At last the chest grated upon rocks, and a tall fisherman looked down from the cliffs. He was Dictys, the brother of the island king. With his casting-net he drew mother and child safe to the ledge. \"Come and live in my house,\" he said kindly, \"for I fear the gods, and love all strangers.\" So Danae found a new home in Seriphos."
+        },
+        {
+          "kind": "text",
+          "text": "Perseus grew up tall and strong, and the best runner, swimmer, and harper in all the island. But King Polydectes was wicked and greedy, and he wanted Danae for his wife. She loved no one but her boy, and said no. Then the cruel king made her a slave in his palace. When Perseus came home he strode through the halls, lifted his mother up, and led her away. He took her to the temple of Athena, where not even a king dared drag her out."
+        },
+        {
+          "kind": "text",
+          "text": "Then Polydectes made a cunning plan. He proclaimed a feast, and every guest had to bring the king a present. Perseus owned nothing in the world but his boat and his oar. The rich men laughed, and asked what a poor foundling had to give. Perseus grew hot with shame, and cried out that he would bring a nobler gift than all of theirs together. \"Then bring me the head of the Gorgon,\" said the king, laughing loudest of all. \"Never appear again in this island without it.\" So the rash vow was spoken, and the trap was shut. Perseus went down to the cliffs, alone with the wide blue sea."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-danae-chest",
+          "text": "Danae and her baby drift over the sea in the wooden chest, toward the red cliffs of Seriphos."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who are the Gorgons? Three monstrous sisters with brazen claws and wings like an eagle's. Instead of hair, live snakes writhed about their heads. One look from a Gorgon's eye turned living people into cold grey stone. Their names were Stheino, Euryte, and Medusa."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2 · The Slaying of the Gorgon",
+      "art": "heroes-medusa-shield",
+      "artPrompt": "a young hero in winged sandals holding up a round bronze mirror-shield above three sleeping winged monsters with snake hair, watching only the reflection, dark otherworldly isle under strange stars, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On the cliff Perseus called on Athena by name. Then a small white cloud came over the sea, and parted, and two bright figures stood before him. One was Athena, the grey-eyed queen of wisdom; the other was Hermes, the swift messenger of the gods. Hermes lent him his own winged sandals and a sword of diamond. Athena hung on his arm a shield of brass, polished like a mirror. \"Never look at the Gorgon herself,\" she said. \"Watch her only in the shining shield, and strike while she sleeps.\" Then Perseus leaped from the cliff, and the sandals bore him northward like a bird."
+        },
+        {
+          "kind": "text",
+          "text": "He flew over hills and rivers for seven days and seven nights, till Greece lay far behind. The air grew bitter cold, and the sea was full of drifting ice. There sat the three Gray Sisters by the freezing shore, nodding on a log of driftwood. They had one eye and one tooth between them, and passed them from hand to hand. While they fumbled, Perseus caught the eye gently in his own. \"Tell me the way to the Gorgon,\" he said, \"or you shall never see again.\" Grumbling, the old sisters told him to seek the giant Atlas in the south."
+        },
+        {
+          "kind": "text",
+          "text": "So Perseus flew south over the sunny sea, till a mighty mountain rose red in the sunset. On its slope was a garden where three fair Nymphs danced round a golden tree. Below the tree a sleepless dragon lay coiled. They were the daughters of the Evening Star, and they welcomed him kindly. \"Ask our uncle Atlas,\" they said. \"He sits high on the peak, and sees far across the sea.\" The old giant pointed to a far island and spoke gravely. \"You cannot come near the Gorgons unless you wear the hat of darkness, which makes its bearer unseen.\" So the Nymphs fetched the magic hat from a deep cave, and Perseus promised Atlas one thing before he went."
+        },
+        {
+          "kind": "text",
+          "text": "Perseus put on the hat and vanished, and flew on over strange seas. He came to the isle where the three Gorgons lay asleep like great eagles. In his mirror-shield he saw them clearly, and he was not seen. Two were foul as swine, but Medusa lay fair and sad, with vipers for hair. As he looked, the snakes awoke and hissed. Then he stepped close, looked steadfastly in the shield, and struck once with the sword. The head was off, and he wrapped it away from his eyes in a goat-skin bag. The two sisters woke and chased him howling over the sea, but the brave sandals were swifter still. Passing Atlas again, Perseus held up the head for one moment. The weary giant turned into a mountain of stone, and rested at last."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-medusa-shield",
+          "text": "Perseus looks only into the bright shield and strikes the sleeping Medusa a single blow."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who were the Gray Sisters? Three old women who lived at the edge of the world, beside the freezing sea. They had but one eye and one tooth between them, and passed them from hand to hand. So none of them could see or eat alone."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who are the Nymphs of the West? Fair maidens, daughters of the Evening Star, who dance around a golden tree on an island far over the sea. A sleepless dragon watched their garden, and they guarded the tree's golden fruit."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3 · Perseus Comes Home",
+      "art": "heroes-andromeda-rock",
+      "artPrompt": "a princess in white chained to a sea rock with spray around her, a hero sweeping down from the sky holding a glowing goat-skin bag, a huge dark sea monster turning to grey stone in the waves, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "With the head safe in its bag, Perseus flew eastward over the burning sands of Libya. A mighty wind drove him to a far shore, where he found a marvel. A maiden was chained to a rock by the sea, waiting for a monster from the deep. She was Andromeda, daughter of King Cepheus. Her mother had boasted that her child was fairer than the sea maidens. For that vain boast the sea god sent floods and a beast from the deep. \"Only her blood can save the land,\" the priests had said. Perseus cut her brazen chains with his sword, and she promised to be his wife."
+        },
+        {
+          "kind": "text",
+          "text": "Soon the great sea-monster came coasting along like a huge black ship. Andromeda hid her face and trembled. Down from the sky fell Perseus like a shooting star. He lifted the Gorgon's head, and the beast stiffened into a long black rock in the waves. Then all the people shouted with joy, and the king gave rich feasts for a week. When the wedding was over, Perseus built a ship and sailed for Greece. With him went Andromeda his bride, and Danae his mother."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Poseidon? The god of the sea, brother of Zeus. When people angered him, he sent storms and floods, and dreadful beasts rose out of the deep. That is why Andromeda was chained to the rock."
+        },
+        {
+          "kind": "text",
+          "text": "At last he stood again on Seriphos, after seven long years. He embraced his mother and old Dictys, and they wept for joy. Then he went straight up to the hall of the king. Polydectes sat feasting with his nobles, and scorned the traveler in worn sea-clothes. \"Have you brought the Gorgon's head?\" he mocked. \"Behold it,\" said Perseus, and held the head on high. Pale grew the king and all his guests. Each man stiffened where he sat, into a ring of cold grey stones. Then Perseus gave the island to good Dictys, and hung the dreadful head in the temple of Athena. On starry nights you may still find Perseus and Andromeda shining in the sky, a beacon for sailors."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-andromeda-rock",
+          "text": "Perseus sweeps down from the sky to Andromeda on the rock, as the sea monster turns to stone."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Andromeda's boastful mother was Cassiopeia, a queen of the East. On clear starry nights you may find her still, seated in her ivory chair of stars. She sits beside Perseus and the brave maiden he set free."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 4 · The Heroes of Pelion",
+      "art": "heroes-jason-river",
+      "artPrompt": "a strong young man wading through a roaring mountain river carrying a small old woman on his back, one sandal missing, green poplars and a snow-crowned mountain behind, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On the great mountain of Pelion lived Cheiron the wise centaur. Down to the waist he was a man; below he was a noble horse. In his cave he taught the sons of heroes to sing, to heal, and to be brave. There, hidden from a cruel uncle, grew a boy named Jason. His father Aeson had lost his kingdom to the fierce king Pelias. For ten years Jason learned of the stars, the herbs, and the harp. He wrestled and hunted till he grew strong and wise."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Cheiron? A wise centaur, half man and half horse, who lived in a cave on Mount Pelion. He taught the sons of heroes music, healing, and every manly art. He made them strong, brave, and just."
+        },
+        {
+          "kind": "text",
+          "text": "At last Cheiron said, \"The eaglet must leave the nest.\" \"Promise me two things,\" the old teacher added. \"Speak harshly to no soul you meet, and stand by the word you give.\" Jason went down the mountain with a light heart. But the river Anauros came roaring down in a summer flood. On the bank sat a wrinkled old woman, who begged to be carried over. The water was up to his waist, and the stones rolled under his feet. The old dame scolded him for wetting her cloak, but Jason only answered, \"Patience, mother.\""
+        },
+        {
+          "kind": "text",
+          "text": "On the far bank the old woman grew tall and fair, and a light filled the glen. \"I am Hera, the queen of Olympus,\" she said. \"As you have done to me, so will I do to you. Call on me in the hour of need.\" Then she rose like a pillar of white cloud and floated away toward Olympus. When Jason looked at his feet, he found that one sandal was gone, lost in the flood."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-jason-river",
+          "text": "Jason staggers through the roaring flood with the old woman on his back."
+        },
+        {
+          "kind": "text",
+          "text": "In the streets of Iolcos the people stared at the tall stranger with one sandal. An old man trembled as he warned him. \"The oracle at Delphi has said that a man wearing one sandal shall take the kingdom from Pelias. Beware how you go up to his palace.\" Then Jason laughed like a war-horse in his pride. \"Good news, good father, both for you and me,\" he said. \"For that very end I came into the town.\" So the strange prophecy came true, step by step, upon the doorstep of the stolen kingdom."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Hera? The queen of the gods, wife of Zeus, on the high mountain of Olympus. She loved people who were kind to strangers, and she never forgot a good deed done in her name."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 5 · The Ship Argo Sails",
+      "art": "heroes-argo-launch",
+      "artPrompt": "a great wooden ship with fifty oars and a painted red prow leaping from a sandy beach into the blue sea, a row of heroes pushing pine rollers, a minstrel singing with a golden harp, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When Pelias heard the oracle he grew afraid, for he had stolen his throne from Jason's father. \"Go and fetch the Golden Fleece from Colchis,\" he said with a smooth face. \"Bring it home, and the kingdom is yours.\" The fleece hung far away at the world's edge, in the land of Colchis, where King Aietes reigned. Jason swore a great oath to bring it, if only his father were safe. So the wicked king thought he had sent his rival to his death."
+        },
+        {
+          "kind": "text",
+          "text": "Heralds went out to every valley, and the heroes came down to the sea. Heracles came with his lion skin and club, and Orpheus with his magic harp. Castor and Polydeuces came, and the two winged sons of the north wind, and Tiphys the steersman. They felled tall pines on Pelion and built the first long ship the world had seen. Argus the builder fitted her with fifty oars, one for each hero. From the sacred oak of Zeus they cut a speaking bough, and set it on her prow. They named the ship Argo, and painted her cheeks with red."
+        },
+        {
+          "kind": "text",
+          "text": "When she was finished, the great ship was too heavy to launch, and her keel stuck fast in the sand. Then Jason bade Orpheus play, and the minstrel sang of the joy of sailing. The Argo heard him, and stirred in every timber. She leaped from the rollers like a gallant horse, and rushed into the whispering sea. Eastward the heroes rowed, past shores they had never seen. Before them rose the Clashing Rocks, blue crags that crashed together over the waves. But Hera sent a heron to show the gap, and they shot through between the blows. On and on they rowed, till the dark coast of Colchis rose before them. At night they watched the peaks of Caucasus glitter white above the clouds."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-argo-launch",
+          "text": "Orpheus sings, and the great ship Argo leaps from the sand into the sea."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "What was the Golden Fleece? The shining fleece of a wondrous golden ram. Long ago that ram carried a boy named Phrixus safe over the sea to Colchis. There King Aietes nailed the fleece to a tree in the wood of Ares, the god of war."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Orpheus? The prince of singers and players of the harp. His music could charm wild beasts and stones and rivers. When he sang, the leaves hung still, and the forest creatures crept out to listen."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Golden Fleece",
+      "art": "heroes-golden-fleece",
+      "artPrompt": "a glowing golden fleece hanging on a great beech tree, an enormous coiled dragon sleeping below, a hero reaching for the fleece while a minstrel plays a harp beside a princess, dark enchanted grove, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Up the river Phasis the Argo rowed, to where the golden roofs of King Aietes shone among the trees. Aietes listened to Jason with flashing eyes, and set him a deadly task. \"Yoke my two fire-breathing bulls,\" he said. \"Plough the field of the war god, and sow it with serpents' teeth.\" From every tooth an armed man would spring up, and Jason must overcome them all. The heroes sat silent, for no mortal man could face those bulls. But the king's daughter Medea pitied the bold stranger. By night she brought him a magic ointment, made from a flower that grew on Prometheus' cold mountain."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Prometheus? A kindly Titan who stole fire from heaven to give it to men. As a punishment he was chained to a high mountain peak. A magic ice-flower sprang from his wound, and from it Medea made her ointment."
+        },
+        {
+          "kind": "text",
+          "text": "At sunrise Jason anointed his body, his shield, and his helmet from head to foot. The gates were opened, and the bulls rushed out, breathing sheets of flame. The fire swept round him, but it singed not a hair of his head. He seized the bulls by the horns and yoked them, and drove them round and round the sacred field. Then he sowed the serpents' teeth, and every furrow heaved. Out of the earth rose thousands of armed men, brandishing their swords. Jason snatched off his helmet and hurled it into the thickest of the throng. Blind with fury, the earth-born warriors turned on one another, till not one was left alive."
+        },
+        {
+          "kind": "text",
+          "text": "But Aietes only frowned, and put off the fleece till another day. That night Medea came trembling to the heroes. \"My father knows that I have helped you,\" she wept. \"Show us the way to the fleece,\" said Jason, \"and come with us, and be my queen.\" So at midnight she led Jason and Orpheus into the dark grove. There the Golden Fleece hung on a great beech tree, and a dragon like a mountain pine lay coiled below. Orpheus took his harp and sang his gentlest song. The monster's head sank, his coils grew limp, and he slept. Then Jason stepped over the mighty snake and tore down the fleece, and it shone like a harvest moon. The Argo sped down the river and out-ran the pursuing ships. After many strange adventures she came home to Greece at last."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-golden-fleece",
+          "text": "Orpheus sings the great dragon to sleep while Jason lifts down the Golden Fleece."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Medea? A princess of Colchis and a priestess of magic. She knew the herbs of the mountains and the spells of the night. In her people's songs she is a wonder and a warning at once."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · Theseus Lifts the Stone",
+      "art": "heroes-theseus-stone",
+      "artPrompt": "a young man rolling aside a huge flat stone overgrown with ivy under a plane tree, a bronze sword and a pair of golden sandals lying beneath it, his mother watching joyfully, a small temple on a hill behind, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Far away in the little town of Troezen lived Princess Aithra and her son Theseus. His father was Aegeus, the king of Athens, but the boy had never seen him. Before Theseus was born, his father had hidden a sword and golden sandals. He buried them under a great flat stone. \"When my son is strong enough to lift it,\" he said, \"let him come to me.\" Every year the lad tried the stone, and every year it would not stir. On his eighteenth birthday he set his feet, and tugged, and rolled it over with a shout."
+        },
+        {
+          "kind": "text",
+          "text": "\"Take the sword and the sandals,\" said his mother, \"and go to Athens, to your father.\" Now the safe road was the sea, but Theseus chose the mountain paths by land. \"Heracles cleared the world of robbers,\" he said. \"Why should not I do the like?\" The shepherds warned him of evil men who haunted the way. \"Go armed, and travel only in companies,\" they cried. But Theseus shook his head, and went alone down the dangerous road."
+        },
+        {
+          "kind": "text",
+          "text": "First he met Periphetes the club-bearer, who pounded travelers with a club of bronze. Theseus wrapped his mantle round his arm, guarded the blows, and slew him. He took the bronze club for his own. Next came Sinis the pine-bender, who tied men to two bent fir-trees and let them spring apart. \"As you have done to others, so shall it be done to you,\" said Theseus. He served the pine-bender the same way. Then came the cliffs of Sciron. That robber made travelers wash his feet, then kicked them to the tortoise below. Theseus seized the robber by the throat, and sent him over his own cliff. So the roads grew safe, and the fame of the young hero ran before him."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-theseus-stone",
+          "text": "Theseus rolls the great stone aside and takes the sword and sandals of his father."
+        },
+        {
+          "kind": "text",
+          "text": "At last he walked into Athens, dust-covered and tall, and went straight up to the palace. At the king's table sat the witch Medea, who had come to Aegeus in his age. She saw at once that the stranger would be master there, and filled a golden cup with poison. \"Drink, noble hero,\" she said sweetly. But Theseus, wishing to cut his meat, drew the bronze sword from his bosom. Old Aegeus knew the sword he had laid under the stone, and sprang up crying, \"My son! My son!\" So father and son found each other at last, and all Athens rejoiced."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: heir — the child of a king who will rule after him. Theseus was heir to the throne of Athens, though he grew up far away, in rocky Troezen."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was Heracles? The strongest hero of Greece, who cleared the land of monsters and robbers to help the people. Theseus had heard his tales from childhood, and longed to do such deeds himself."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Minotaur",
+      "art": "heroes-minotaur-labyrinth",
+      "artPrompt": "inside a vast stone labyrinth of winding walls, a young hero with a drawn sword facing a great bull-headed monster, a thin thread trailing back along the stone floor behind him, torchlight and long shadows, storybook illustration in ancient Greek style",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Every spring a sad silence fell upon the city of Athens. A herald came from Crete to fetch the yearly tribute. It was seven youths and seven maidens, sailing in a ship with black sails. King Minos of Crete ruled the sea with a hundred cities, and Athens dared not refuse. The youths and maidens were thrown into the Labyrinth, a vast maze of winding ways. In its heart lived the Minotaur, a monster with a man's body and a bull's head, who fed upon them. \"I will go myself,\" said Theseus, \"and slay the beast.\" Old Aegeus wept, but could not hold him back. \"If you return safe, hoist a white sail,\" he begged, \"and I shall watch for it every day.\""
+        },
+        {
+          "kind": "text",
+          "text": "On the black-sailed ship Theseus stood at the head of the doomed fourteen. In Crete, Princess Ariadne saw him, and loved him for his courage. By night she came down to the prison with a lamp. \"Take this sword,\" she whispered, \"and this ball of thread. Fasten one end at the door, and unwind it as you go, and follow it home again.\" \"And take me with you when it is done,\" she said, \"for my father will kill me if he knows.\" Theseus swore to bring her safely to Greece."
+        },
+        {
+          "kind": "text",
+          "text": "When evening came, the guards led Theseus down into the labyrinth. He fastened the thread to a stone at the door, and walked in unwinding it. The ways turned and crossed, and led up and down, till his head grew dizzy. But the thread never broke, and it brought him at last to a narrow chasm between black cliffs. There the Minotaur rushed at him with lowered horns. Theseus stepped aside, and wounded the monster in the knee, and chased it howling through the caves. At last he caught it by the horns, and drove the sword through its throat. Then he followed the thread back through all the winding ways, and found Ariadne waiting at the door. They freed the prisoners, ran to the ship, and fled over the sea with the princess. On the isle of Naxos Ariadne became his wife."
+        },
+        {
+          "kind": "image",
+          "art": "heroes-minotaur-labyrinth",
+          "text": "Following Ariadne's thread, Theseus meets the Minotaur deep in the winding labyrinth."
+        },
+        {
+          "kind": "text",
+          "text": "But in his haste or his grief, Theseus forgot to hoist the white sail. Old Aegeus sat watching on the cliffs, day after day. When he saw the black sail far out, he thought his son was dead, and fell into the sea. The sea is called the Aegean to this day. Theseus ruled Athens long and well, and his people loved him. But late in life he grew proud and self-willed. He went into strange wars, and came to a sad end far from home. Yet the Athenians remembered him for ever, as the father of their freedom and their laws."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "What was the Labyrinth? A vast maze of winding paths, built for King Minos by the cunning craftsman Daidalos. People who entered wandered among the turns and galleries till they could never find their way out again."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who was King Minos? The wisest and mightiest of mortal kings, who ruled the island of Crete with a hundred cities. His ships covered the sea like gulls, and Zeus himself was said to have taught him his laws."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,406 @@
+/**
+ * 《Jataka Tales》——找故事内容扩充第四轮（2026-10-31）。
+ * 底本：Jataka Tales retold by Ellen C. Babbitt (1912), Project Gutenberg #62514, US public domain; retold in simple English, 10 tales selected from the original 18
+ */
+import type { PackBook } from '../types'
+
+export const talesJataka: PackBook = {
+  "id": "tales-jataka",
+  "title": "Jataka Tales",
+  "author": "Ellen C. Babbitt (retold)",
+  "lang": "en",
+  "category": "tale",
+  "ageStage": "6-8",
+  "intro": "Long ago in India, stories were told about the Buddha's earlier lives — as a clever monkey, a patient turtle, a brave little quail. Each tale ends with a simple wisdom that still holds true.",
+  "coverArt": "jataka-pond",
+  "coverArtPrompt": "古代印度的池塘边，猴子骑在鳄鱼背上渡河，远处菩提树与金黄色稻田，印度细密画风格的温暖童话插画",
+  "coverFrom": "#6A1B9A",
+  "coverTo": "#D1C4E9",
+  "source": "Jataka Tales retold by Ellen C. Babbitt (1912), Project Gutenberg #62514, US public domain; retold in simple English, 10 tales selected from the original 18",
+  "rights": {
+    "workTitle": "Jataka Tales",
+    "author": "Ellen C. Babbitt",
+    "authorDeathYear": 1934,
+    "jurisdiction": "US",
+    "basis": "pd-us",
+    "note": "巴比特卒于 1934 年，本书 1912 年首版已入美国公版；文本取自古登堡计划 #62514，平台以简易英文改写"
+  },
+  "chapters": [
+    {
+      "title": "Chapter 1 · The Monkey and the Crocodile",
+      "art": "jataka-monkey-crocodile",
+      "artPrompt": "a small brown monkey riding on the back of a long gray crocodile across a wide river in old India, a tall fig tree on the bank and a fruit island with palm trees ahead, warm afternoon light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A monkey lived in a great tree on the bank of a wide river. Across the water lay a little island where the fruit grew ripe and sweet. The monkey looked at it every day and wished he could go. But monkeys cannot swim, and the river ran deep and strong. Now a crocodile lived in that same river. One morning he swam close to the tree and spoke in a friendly way. \"Come with me to the island,\" he said. \"You shall ride on my back.\" The monkey was glad, for he loved ripe fruit above all things. He jumped down at once, and off they went across the water."
+        },
+        {
+          "kind": "note",
+          "text": "New word: river bank — the land along the edge of a river. Our monkey lives in a tall tree on the bank, with a fruit island out in the water.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "When they were far out in the middle of the river, the crocodile stopped swimming. Then he slid slowly down under the water, and the monkey was dipped in too. He held on tight, sputtering and afraid. \"Why did you take me under the water?\" he cried. \"Because my mother wants a monkey heart to eat,\" said the crocodile. \"I am carrying yours to her.\" The poor monkey shook with fear, but he kept his clever head. \"Dear friend,\" he said, \"why did you not tell me before? We monkeys hang our hearts in the trees for safe keeping. If you want mine, we must go back and get it.\""
+        },
+        {
+          "kind": "image",
+          "art": "jataka-monkey-crocodile",
+          "text": "The monkey rides on the crocodile's back in the middle of the wide river."
+        },
+        {
+          "kind": "text",
+          "text": "The crocodile believed every word, for he was a stupid fellow. \"Then let us hurry back,\" he said, and he swam fast to the bank. The very moment he stopped, the monkey leaped off his back. Whisk! Up he ran to the topmost branch of his tall tree. From there he looked down at the crocodile and laughed. \"My heart is way up here!\" he called. \"It has been beating in my chest all along. If you want it, come up and get it.\" The crocodile knew then that he had been fooled. He sank quietly into the river and swam away."
+        },
+        {
+          "kind": "text",
+          "text": "After that day the monkey never rode with the crocodile again. When he wished to visit the island, he went by another way. He kept a sharp eye on the water as he went. He ate the ripe fruit in peace, high up in his tree. The crocodile might watch and wait, but the monkey was too wise to be caught twice. So the little trickster lived happily by the river, and the crocodile stayed hungry. And that was the end of their friendship."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: A cool head is worth more than sharp teeth. When danger finds you, think first, and a way out will come.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2 · How the Turtle Saved His Own Life",
+      "art": "jataka-turtle-palace",
+      "artPrompt": "a smiling old turtle sliding down a rocky spillway from a royal garden lake into a broad river, palace towers and young princes watching from far behind, golden morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A king once had a lake made in his courtyard for the young princes to play in. The boys swam in it and sailed their little boats and rafts on it. One day the king had his men put some fishes into the lake. Off ran the boys to see them. Now, along with the fishes, a Turtle had come swimming into the lake. The boys were delighted with the fishes, but they had never seen a Turtle before. They were afraid of it, and they cried, \"There is a demon on the bank of the lake!\""
+        },
+        {
+          "kind": "text",
+          "text": "The king ordered his men to catch the demon and bring it to the palace. When the Turtle was brought in, the boys cried and ran away. The king loved his sons very much, so he ordered the men to kill the Turtle. \"How shall we kill it?\" the men asked. \"Pound it to powder,\" said one. \"Bake it in hot coals,\" said another. Then an old man who had always feared the water spoke up. \"Throw the thing into the lake where it flows out over the rocks,\" he said. \"Then it will surely be killed.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: palace — the grand house where a king and his family live. This turtle was carried there as a strange and frightening prize.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "When the Turtle heard this, he thrust out his head and spoke. \"Friend, what have I done that you should do this?\" \"The other plans were bad enough. But do not speak of throwing me into the lake! That would be too cruel.\" When the king heard the Turtle talking, he called out at once. \"Take it to the lake and throw it in.\" So the men carried the Turtle to the lake. They tossed it into the water with all their might."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-turtle-palace",
+          "text": "The happy turtle slides over the rocks into the river and swims away to his old home."
+        },
+        {
+          "kind": "text",
+          "text": "The Turtle laughed to himself as he slid away down the river to his old home. \"Good!\" he said. \"Those people do not know how safe I am in the water. They meant to kill me, but they have set me free.\" Then he swam away down the cool river. No prince or king ever saw him again."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Know where you are strong. What some people call the worst danger may be the very place that keeps you safe.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3 · The Merchant of Seri",
+      "art": "jataka-golden-bowl",
+      "artPrompt": "an honest merchant in a simple turban holding up a shining golden bowl at the door of a small clay house, an old woman and a little girl watching, baskets of pots and pans at his feet, warm Indian street, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a merchant of Seri who sold brass and tinware. He went from town to town with another man who sold the same things. The first merchant was fair and honest in all his dealings. The second was greedy, and he gave as little as he could. In one poor house there lived an old woman and her little granddaughter. Their family had once been rich. Now only one thing was left, an old bowl that stood on a shelf. The grandmother did not know that it was made of pure gold."
+        },
+        {
+          "kind": "text",
+          "text": "The greedy merchant came to their door, calling, \"Pans for sale! Water-jars for sale!\" The little girl begged her grandmother to show him the old bowl. The merchant took it in his hands and scratched it with his needle. At once he saw that it was gold. But he wanted it for nothing, so he said, \"What is this worth? Not even a halfpenny.\" He threw the bowl on the ground and walked away. By and by the honest merchant came down the same street, calling his wares. The little girl heard him and begged again. \"Ask this one, Grandmother. Perhaps he will give us a little dish for it.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: merchant — a person who buys and sells goods, going from town to town with pots and pans.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "As soon as the honest merchant took the bowl in his hands, he knew it was gold. \"All that I carry is not worth so much as this bowl,\" he said. \"I am not rich enough to buy it.\" But the old woman told him what the other merchant had said. The honest man would not cheat them. He gave them all the money he had and all his wares besides. \"Give me but eight pennies for my boat passage,\" he said, and he hurried away to the river. The greedy merchant came back soon after, crying for the bowl. \"You said it was worthless,\" the grandmother answered, \"but another man has taken it away.\""
+        },
+        {
+          "kind": "image",
+          "art": "jataka-golden-bowl",
+          "text": "The honest merchant holds the golden bowl while the old woman and the little girl look on."
+        },
+        {
+          "kind": "text",
+          "text": "Then the greedy merchant was very angry. \"I have lost a small fortune through that man!\" he cried. He ran down to the riverside and saw the honest merchant far out on the water. \"Boatman, stop your boat!\" he shouted. But the boatman did not stop. And the good merchant reached the city across the river. There he sold the golden bowl and lived well for a long time."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Fairness brings its own reward. Greed that tries to snatch a bargain often goes home empty-handed.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 4 · The Turtle Who Couldn't Stop Talking",
+      "art": "jataka-turtle-flight",
+      "artPrompt": "two white geese flying high above a village holding a stick between their beaks, a small turtle clinging to the middle of the stick with his mouth, village children pointing up from below, blue sky with soft clouds, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "A Turtle lived in a pond at the foot of a hill. Two young wild Geese came to the pond looking for food, and they talked with the Turtle. Day after day they came again, and soon the three were great friends. \"Friend Turtle,\" the Geese said one day. \"We have a beautiful home far away. We are going back to it to-morrow. Will you come with us?\" \"How could I go?\" asked the Turtle. \"I have no wings.\" The Turtle was sad. \"We will carry you,\" said the Geese, \"if only you can keep still on the way.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"I can do that,\" said the Turtle. So the next day the Geese brought a strong stick. One Goose took one end in her beak, and the other took the other end. The Turtle took the middle of the stick in his mouth and held it fast. Then the two Geese sprang into the air, and up went the Turtle between them. Over fields and villages they flew, and all was still."
+        },
+        {
+          "kind": "note",
+          "text": "New word: geese — large wild birds with long necks that fly in flocks. One of them is called a goose, and two are called geese.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "At last they flew over a village, and the children there looked up and saw them. \"Oh, see the Turtle up in the air!\" they cried. \"Look at the Geese carrying a Turtle by a stick! Did you ever see anything so funny?\" The Turtle heard every word. Anger rose up in him, and he could not hold his tongue. He opened his mouth to answer. Down he fell, far, far to the ground below. The two Geese flew sadly on and never looked back."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-turtle-flight",
+          "text": "The two geese fly high over a village carrying the turtle between them on a stick."
+        },
+        {
+          "kind": "text",
+          "text": "The people came to look at the poor Turtle. \"He could not keep his mouth shut,\" they said. \"He had to talk, and so he lost his life.\""
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Know when to keep still. A quiet tongue is often the safest thing you carry.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 5 · The Sandy Road",
+      "art": "jataka-desert-well",
+      "artPrompt": "a line of ox-carts camped on moonlit desert sand, a merchant and his men digging a deep hole beside a small tuft of green grass, a boy raising a heavy hammer over a flat rock, stars overhead, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once upon a time a merchant set out for a far country with his goods packed in many carts. Between him and that country lay a great desert. In the daytime the sun made the sand as hot as a stove. No man could walk upon it. So the merchant waited for dark, and then the long line of carts moved out. With them went jars of water, bags of rice, and firewood for cooking. One man rode first, for he knew the stars. By them he guided the drivers through the night."
+        },
+        {
+          "kind": "text",
+          "text": "All night long they traveled, and at daybreak they stopped and rested under a great awning. Night after night they went on this way. At last one morning the pilot spoke. \"In one more night we shall get out of the sand.\" The men were glad, for they were very tired. After supper that night the merchant said, \"Throw away nearly all the water and the firewood. By to-morrow we shall be in the city.\" So the jars were emptied, and the carts went lightly on. But the pilot lay down on the cushions and fell fast asleep. He had not slept for many nights."
+        },
+        {
+          "kind": "note",
+          "text": "New word: pilot — the guide who rides first and leads the way. This pilot could find the road at night by reading the stars.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "Near daybreak the pilot woke and looked at the fading stars. \"Halt!\" he called. \"We are in the same place as yesterday. The oxen turned about while I slept.\" There was no water to drink, for it had all been thrown away. The men lay down and said, \"The wood and the water are gone. We are lost.\" But the merchant walked along, watching the ground with sharp eyes. At last he saw a tuft of green grass. \"There must be water somewhere below, or that grass would not be there,\" he said. \"Bring the spade and the hammer!\""
+        },
+        {
+          "kind": "image",
+          "art": "jataka-desert-well",
+          "text": "The merchant and his men dig for water beside a small tuft of grass in the desert."
+        },
+        {
+          "kind": "text",
+          "text": "They dug and dug until they struck a great rock. Then the merchant jumped into the hole and laid his ear against it. \"I hear water running under this rock!\" he cried. \"We must not give up!\" A young lad took the hammer and stood up straight. Down came the hammer with all his might, and the rock broke. Before the boy could climb out, the well was full of cool water. The men drank as if they could never get enough, and the oxen drank too. Then they cooked their rice and rested. The next morning they reached the city in safety."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Never give up too soon. Keep watching and trying, and help may be hiding just under the sand.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Quarrel of the Quails",
+      "art": "jataka-quail-net",
+      "artPrompt": "a flock of small brown quails rising together under a woven net, flying toward a thorn-bush at the edge of a forest, a fowler with a net bag on his shoulder watching in surprise, morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once upon a time many Quails lived together in a great forest. The wisest of them all was their leader. Near the forest lived a fowler who caught Quails and sold them in the town. He had listened so long to the call of their leader that he could copy it himself. The Quails came running to it, thinking it was their friend. When they were all crowded together, the fowler threw his great net over them. He carried them off to town and sold them."
+        },
+        {
+          "kind": "text",
+          "text": "The wise leader watched the fowler, and he thought of a plan. \"The next time the net falls over you,\" he said, \"put your head through a little hole. Then all together, lift the net and fly to the nearest thorn-bush. Leave it on the thorns, and you will be free.\" The next day the fowler came again. He threw his net over them. Up flew all the Quails together, lifting the net with them. They left it on the thorn-bush. The fowler worked till evening to get it off the thorns. He went home with empty hands."
+        },
+        {
+          "kind": "note",
+          "text": "New word: fowler — a man who catches wild birds to sell. This fowler could even copy the call that gathered the quails.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "\"Those Quails are working together now,\" said the fowler to his angry wife. \"But when they quarrel, I shall catch them.\" One day a Quail trod on another's head. She had come down to feed. \"Who trod on my head?\" cried the second, and mean words flew both ways. Soon all the flock had taken sides in the quarrel. The next day the fowler threw his net. One side cried, \"You lift it!\" The other cried, \"No, you!\" While they quarreled, the net came down. The fowler caught every bird and carried them away to town."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-quail-net",
+          "text": "The quails rise together under the fowler's net and fly with it toward a thorn-bush."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: When friends stand together, no net can hold them. When they quarrel, they are caught one by one.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Foolish, Timid Rabbit",
+      "art": "jataka-rabbit-run",
+      "artPrompt": "a lion standing calmly at the foot of a green hill while a frightened crowd of rabbits, deer, a fox and an elephant stop before him, a palm tree and a fallen cocoanut on the ground nearby, bright day, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once upon a time a Rabbit was asleep under a palm-tree. All at once he woke up and thought, \"What if the world should break up? What would become of me?\" At that very moment some Monkeys dropped a cocoanut from the tree. It fell on the ground just behind him. The Rabbit heard the loud thud and jumped up. \"The earth is all breaking up!\" he cried. And away he ran as fast as he could go. He never once looked back."
+        },
+        {
+          "kind": "text",
+          "text": "Another Rabbit ran after him. \"Why do you run so fast?\" he called. \"The earth is all breaking up!\" cried the first. Then the second Rabbit ran too. One Rabbit after another joined them. Till hundreds of Rabbits were fleeing down the road. They passed a Deer and told him the news, and the Deer ran with them. The Deer called to a Fox, and the Fox told an Elephant. Soon a great crowd of beasts was running and crying that the earth was breaking up."
+        },
+        {
+          "kind": "text",
+          "text": "At last the Lion, the King of Beasts, saw them coming. He thought there must be some mistake. So he ran to the foot of a hill in front of them and roared three times. The beasts stopped, for they knew his voice and feared him. \"Why are you running?\" asked the Lion. \"The earth is all breaking up!\" they cried. \"Who saw it break?\" he asked. No one had seen it. Each beast said, \"Another told me.\" At last the Lion came to the first Rabbit. \"I heard it myself!\" said the Rabbit. \"I was asleep under a palm-tree. I heard the earth break with a great noise.\""
+        },
+        {
+          "kind": "image",
+          "art": "jataka-rabbit-run",
+          "text": "The lion carries the little rabbit back to the palm-tree where the fallen cocoanut lies."
+        },
+        {
+          "kind": "text",
+          "text": "\"Then you and I will go and see,\" said the Lion. He set the little Rabbit on his back, and away they went like the wind. Soon the Lion saw the palm-tree and the cocoanut lying on the ground close by. \"There is your breaking earth, you foolish Rabbit!\" he said. \"That was only a cocoanut falling.\" Then he ran back to the other beasts. And they went home in peace. If it had not been for the wise King of Beasts, they might be running still."
+        },
+        {
+          "kind": "note",
+          "text": "New word: cocoanut — the large brown nut of the palm-tree. When it falls from a tall tree, it strikes the ground with a loud bang.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Ask before you believe a cry. What sounds terrible may turn out to be very small.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 8 · The Banyan Deer",
+      "art": "jataka-banyan-deer",
+      "artPrompt": "a golden deer king lying calmly with his head on a wooden chopping block inside a fenced royal deer park, a cook and a richly dressed king standing near in wonder, other deer watching from far meadow, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "There was once a Deer the color of gold. He was king of a great herd of five hundred Banyan Deer. Near by lived another herd called the Monkey Deer, with a king of its own. The king of that country loved to hunt the Deer. He called his people out day after day to help him. The people grew tired of it, for their own work was left undone. So they made a park with grass and water and drove all the Deer inside. A strong fence was built around it. Then the king hunted there. And the Deer shook with fear whenever any one came near."
+        },
+        {
+          "kind": "text",
+          "text": "The King of the Banyan Deer sent for the King of the Monkey Deer. \"Friend,\" he said, \"too many of us are dying. Let us take turns. One day a Deer from my herd shall go up to be killed, and the next day one from yours. Fewer Deer will be lost this way.\" The other king agreed. From then on, each day the Deer whose turn it was went and lay down. It laid its head on the block, and the cook carried it away."
+        },
+        {
+          "kind": "note",
+          "text": "New word: herd — a great family of animals that feed and travel together. Each herd of Deer had its own king to lead it.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "One day the lot fell to a mother Deer who had a young baby. She went to the Monkey Deer and asked for help. \"Let my turn pass until my baby can live without me,\" she said. But he would not help her. \"If the lot fell to you, you must die,\" he said. Then she went to the King of the Banyan Deer. \"Go back to your herd,\" he said gently. \"I will go in your place.\" The next day the cook came. He found the golden king with his head on the block. He ran at once to tell the king of the country."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-banyan-deer",
+          "text": "The golden king of the Banyan Deer lies calmly with his head on the wooden block."
+        },
+        {
+          "kind": "text",
+          "text": "The king came in haste. \"King of the Banyan Deer!\" he cried. \"Did I not grant you your life? Why are you lying here?\" \"A mother came with her young baby,\" said the Deer. \"The lot had fallen to her. I could not ask any one else to take her place.\" The king was silent. \"So I came myself,\" said the Deer. Then he said, \"I never saw such kindness and mercy. Rise up. I grant your life and hers. Never again will I hunt the Deer in park or forest.\""
+        },
+        {
+          "kind": "note",
+          "text": "Moral: A kind heart is a brave heart. The greatest leader is the one who carries the heaviest burden for others.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · The Wise and the Foolish Merchant",
+      "art": "jataka-desert-demon",
+      "artPrompt": "a demon disguised as a fine gentleman in a carriage drawn by milk-white oxen stopping a line of merchant carts on golden desert sand, wet grasses and water-lilies hung on the carriage, his clothes dripping, dusk light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Once upon a time a thrifty merchant bought a great load of goods in a city. He set out to sell them through the country. A foolish young merchant was buying goods in the same city. The two started out at the same time. \"We cannot travel together,\" thought the wise merchant. \"There would not be enough water and grass for all our oxen.\" So the wise merchant spoke to him. \"You go on first,\" he said. And the foolish one was pleased to go. Soon the foolish merchant came to a great desert. He filled big jars with water for the crossing."
+        },
+        {
+          "kind": "text",
+          "text": "Now a wicked demon lived on the sands of that desert. He saw the caravan coming. \"If I can make him empty those water-jars,\" he thought. \"He will soon be in my power.\" So the demon made himself look like a fine gentleman. He rode in a carriage drawn by milk-white oxen. Ten more demons followed, dressed as men. He put mud on the wheels. He hung water-lilies and wet grasses on the carriage. Their hair and clothes all dripped, as if they had come through a river. \"Where are you going?\" he asked pleasantly. \"Across the desert,\" said the merchant. \"There is rain ahead,\" said the demon. \"Empty out all that heavy water and go on easily.\""
+        },
+        {
+          "kind": "note",
+          "text": "New word: demon — a wicked, tricky being of the old stories who can change its shape.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The foolish merchant did as he was told and emptied every jar. He saved not even a cupful. On and on they went, but the dark streak in the sky faded with the sunset. There was no forest and no rain, only sand. The men went thirsty and supperless to bed. At night the demons fell upon them and carried every man away. A month and a half later the wise merchant came along the same road. The demon met him in the very same guise. But the wise man saw that this fine gentleman cast no shadow. So he knew him for a demon."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-desert-demon",
+          "text": "The demon, dressed as a fine gentleman, stops the merchant's carts on the desert sand, his clothes dripping with water."
+        },
+        {
+          "kind": "text",
+          "text": "\"We do not throw away the water we have,\" he said. \"We keep it until we see there is more.\" Then he asked his men a question. \"Did you ever hear of a pond in this desert? Do you feel any damp wind? Do you see one rain cloud?\" \"No, no, no,\" they said. \"Those fellows were demons!\" cried the merchant. \"Drive on! Waste not one half-pint of water.\" Before night they found the empty wagons of the foolish merchant. The wise man drew his wagons into a circle and stood on guard all night. In the morning he went on safely to the city across the desert."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: Smooth words are not always true words. Hold fast to what you have until you are sure of better.",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Crab and the Crane",
+      "art": "jataka-crab-crane",
+      "artPrompt": "a tall gray crane bending his long neck low to the ground while a red crab grips the neck with strong claws, a pile of white fish bones lying on dry leaves in dark woods, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "In the Long Ago there came a summer when very little rain fell. All the animals suffered for want of water, but the Fishes suffered most of all. In one pond the water sank lower and lower. A Crane stood on the bank, watching the Fishes. \"I am thinking about you,\" he said to a little Fish. \"The pond is nearly dry. But I know of another pond in the deep woods. It is full of cool water and food and shade. I could carry you there on my back, one by one.\""
+        },
+        {
+          "kind": "text",
+          "text": "\"I do not believe you,\" said the little Fish. \"You only wish to eat us.\" \"Send one Fish whom you can trust,\" said the Crane. \"I will show him the pond and bring him back.\" So a big Fish went with the Crane. He saw the fine pond with his own eyes. When he came back and told the others, every Fish wanted to go. Then the Crane carried a Fish away, not to the pond, but into the woods. There he ate it. Fish after Fish he carried off, until not one was left in the pond."
+        },
+        {
+          "kind": "note",
+          "text": "New word: crane — a tall water bird with long legs, a long neck, and a sharp beak. It stands in shallow water, watching for fish.",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "The next day the Crane found only a Crab on the sand. \"Little Crab,\" he said. \"Shall I carry you to the fine pond in the deep woods?\" The hungry Crane licked his beak. \"But how could you carry me?\" asked the Crab. \"On my back,\" said the Crane. \"No, I thank you,\" said the Crab. \"I am afraid you might drop me. If I may take hold of your neck with my claws, I will go. We Crabs have a tight grip, you know.\" The Crane did not like it, but he wanted a meal. \"Very well,\" he said. \"Hold tight.\" And off went the Crane with the Crab."
+        },
+        {
+          "kind": "image",
+          "art": "jataka-crab-crane",
+          "text": "The crab grips the crane's neck with his strong claws among the fish bones in the woods."
+        },
+        {
+          "kind": "text",
+          "text": "When they came to the place where the Fishes had been eaten, the Crane spoke. \"You may walk the rest of the way. Let go of my neck.\" \"I see no pond,\" said the Crab. \"All I can see is a pile of fish bones. Is that all that is left of the Fishes?\" \"Yes,\" said the Crane. \"Your shell will be all that is left of you.\" Then the Crab pinched the crane's neck. And that was the end of the wicked Crane. \"Your bones, not my shell, will dry with the bones of the Fishes,\" said the Crab."
+        },
+        {
+          "kind": "note",
+          "text": "Moral: A trickster's own trick comes back to him. And never trust a helper who offers something for nothing.",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

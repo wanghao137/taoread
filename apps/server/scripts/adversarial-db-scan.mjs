@@ -13,7 +13,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 dotenv.config()
 const db = new PrismaClient({ datasources: { db: { url: process.env.TAO_DATABASE_URL ?? 'file:./prod.db' } } })
 
-const bookIds = readFileSync(join(__dirname, 'completion', 'spec.tsv'), 'utf8').trim().split('\n').slice(1).map(l => l.split('\t')[0])
+// --list=<文件> 可覆盖书单（如本轮 expand-20261031/round.tsv）；默认仍是补全轮 spec.tsv
+const listArg = process.argv.find(a => a.startsWith('--list='))?.slice('--list='.length)
+const bookIds = readFileSync(listArg ?? join(__dirname, 'completion', 'spec.tsv'), 'utf8').trim().split('\n').slice(1).map(l => l.split('\t')[0])
 const { ALL_PACKS } = await import(pathToFileURL(join(__dirname, '..', 'src', 'content', 'packs', 'index.ts')).href)
 const { packContentVersion, countWords } = await import(pathToFileURL(join(__dirname, '..', 'src', 'content', 'seed.ts')).href)
 const packs = new Map(ALL_PACKS.filter(p => bookIds.includes(p.id)).map(p => [p.id, p]))

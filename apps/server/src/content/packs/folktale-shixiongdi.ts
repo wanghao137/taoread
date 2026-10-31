@@ -1,0 +1,208 @@
+/**
+ * 《十兄弟》——找故事内容扩充第四轮（2026-10-31）。
+ * 底本：中国民间故事经典类型（十兄弟），口传无单一作者，按流传最广版本温和化改写
+ */
+import type { PackBook } from '../types'
+
+export const folktaleShixiongdi: PackBook = {
+  "id": "folktale-shixiongdi",
+  "title": "十兄弟",
+  "author": "中国民间故事 · 桃阅读 改写",
+  "lang": "zh",
+  "category": "story",
+  "ageStage": "6-8",
+  "intro": "十个儿子十个本领：千里眼、顺风耳、长腿、铁骨、钢头、大脚、大嘴、大肚……爹爹被抓走了，十兄弟齐心去救。",
+  "coverArt": "shixiongdi-brothers",
+  "coverArtPrompt": "十个身形各异的兄弟合力撞开城门，有的肩扛巨石有的迈开长腿，尘土飞扬气势十足，热闹的连环画式童话插画",
+  "coverFrom": "#0D47A1",
+  "coverTo": "#90CAF9",
+  "source": "中国民间故事经典类型（十兄弟），口传无单一作者，按流传最广版本温和化改写",
+  "rights": {
+    "workTitle": "十兄弟",
+    "jurisdiction": "CN",
+    "basis": "adapted",
+    "note": "十兄弟为跨地域民间口传故事类型，无单一作者；本包按流传最广版本温和化改写"
+  },
+  "chapters": [
+    {
+      "title": "第一章 · 十个奇兄弟",
+      "art": "shixiongdi-ten-gifts",
+      "artPrompt": "ten brothers standing in a row outside a seaside fishing village, one shading his eyes to see far away, one cupping a huge ear, one with very long legs, one flexing iron-strong arms, one stomping the ground, lively storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "从前，海边渔村有一户人家。这户人家一口气生了十个儿子。十个儿子，一个比一个出奇。个个身怀奇技，谁也比不了。爹爹给每人取了响亮的名字。村里人都管他们叫十兄弟。"
+        },
+        {
+          "kind": "note",
+          "text": "神通——特别厉害的大本事。夸人各有神通，就是夸他有一手拿手的本领，谁都比不上呢。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "老大叫千里眼，站在屋顶朝远处一望。百里外的帆船，他看得清清楚楚。老二叫顺风耳，把耳朵一竖。山那边的说话声，他听得真真切切。"
+        },
+        {
+          "kind": "text",
+          "text": "老三有一双长腿，日行千里。老四浑身铁骨，摔打不坏。人家打他一拳，他一点儿不疼。老五顶着钢头，磕碰不怕。撞上石壁，也毫发无伤。"
+        },
+        {
+          "kind": "image",
+          "art": "shixiongdi-ten-gifts",
+          "text": "十个兄弟在村口站成一排，各有各的神通模样。"
+        },
+        {
+          "kind": "text",
+          "text": "老六是双大脚，一跺地皮直颤。老七生着大嘴，一口气能吞半船鱼。老八挺着大肚，装得下十箩米饭。还有老九老十，也各有各的本事。谁见了十兄弟，都要竖起大拇指。"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 爹爹被抓",
+      "art": "shixiongdi-father-jailed",
+      "artPrompt": "a worried family cottage at night, ten brothers gathered around an oil lamp making a plan, a glimpse of a walled county town with a jail tower under the moon in the background, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "这一年，村里来了个贪心的县官。他见谁家有东西，就变着法儿讹诈。乡亲们背地里，都骂他贪心。爹爹为人正直，顶了他几句。县官怀恨在心，胡乱诬陷好人。爹爹被抓进大牢，还要治罪。"
+        },
+        {
+          "kind": "note",
+          "text": "诬陷——本来没有的事，硬说成是别人干的。贪心的县官诬陷好人，就是想治人家的罪呢。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "消息传回家，十兄弟气得攥紧拳头。夜里，十人围坐在一起商量。「爹爹是冤枉的，不能眼看着。」「对，一起进城救爹爹！」"
+        },
+        {
+          "kind": "text",
+          "text": "千里眼爬上屋脊，手搭凉棚一望。「看见了，爹爹在第三排牢房。」顺风耳竖起耳朵，听了半晌。「守牢的兵半夜换班，口令我记下了。」"
+        },
+        {
+          "kind": "image",
+          "art": "shixiongdi-father-jailed",
+          "text": "夜里，十兄弟围着油灯商量，要一起进城救出爹爹。"
+        },
+        {
+          "kind": "text",
+          "text": "十兄弟把门道一桩桩对清楚。谁探路，谁撞门，谁背爹爹。商量好了，个个磨拳擦掌。月亮升到头顶，十颗心拧成一股绳。"
+        },
+        {
+          "kind": "note",
+          "text": "口令——夜里守卫查问的暗号，一句话顶一张路条。答对口令，才放你过去；答不对，可过不去呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 齐心赶路",
+      "art": "shixiongdi-city-gate",
+      "artPrompt": "a tall strong brother carrying nine others on his back sprinting toward a walled county city, another crashing into the great city gate with his steel-hard head, dust flying, guards tumbling on the wall, dynamic storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "天蒙蒙亮，长腿蹲下身子。九个兄弟爬上背，他绑得稳稳的。长腿迈开大步，呼呼地跑起来。跑起来风一样，尘土冒老高。一程跑过去，县城就在眼前了。"
+        },
+        {
+          "kind": "text",
+          "text": "城门紧闭，城头站满了官兵。铁骨退后几步，使足劲儿朝城门撞。城门纹丝不动，他只晃了晃。钢头说：「看我的！」他低下头，猛地朝城门一顶。"
+        },
+        {
+          "kind": "image",
+          "art": "shixiongdi-city-gate",
+          "text": "钢头猛地把城门撞开，官兵们摔得东倒西歪。"
+        },
+        {
+          "kind": "text",
+          "text": "咚的一声，城门撞开个大豁口。十兄弟一拥而进。官兵们敲着锣，从四面围上来。大脚跨前一步，猛地一跺。地面抖了三抖，官兵东倒西歪。"
+        },
+        {
+          "kind": "note",
+          "text": "护城河——围着城墙挖的一条大河。敌人来了，河水一拦，想进城可就难了，得有船才行。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "城墙外还有护城河，拦着出入的路。大嘴凑到河边，张开大口。咕咚咕咚，一河的水喝了个精光。河水见了底，鱼虾蹦了一地。官兵们看得目瞪口呆，扔了刀枪就跑。"
+        },
+        {
+          "kind": "note",
+          "text": "目瞪口呆——眼睛瞪得圆圆的，嘴张着说不出话来。官兵们一个个看傻了眼，就是这个样子呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 大闹县衙",
+      "art": "shixiongdi-jail-breakout",
+      "artPrompt": "brothers breaking open an iron jail door, one shouldering an old father with a broken cangue, a big-bellied brother sweeping a crowd of running soldiers toward his huge mouth, chaos inside a county yamen courtyard, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "十兄弟一路找到大牢。牢门包着铁皮，又厚又沉。钢头的脑门，比石头还硬。他退后几步，猛冲上去。咔嚓一声，铁门凹了个大坑。锁链崩断了，牢门敞开。"
+        },
+        {
+          "kind": "note",
+          "text": "枷锁——旧时候套在人脖子上的木头刑具，是治罪用的。它又重又沉，人一戴上，连头都抬不起来呢。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "牢里的爹爹又惊又喜。铁骨攥住枷锁，咔吧掰成两截。他弯下腰，背起爹爹。爹爹搂着他的脖子，眼泪直打转。「爹，咱们回家！」"
+        },
+        {
+          "kind": "text",
+          "text": "县衙的兵丁举着刀追出来，越聚越多。大肚张开大口，呼地一阵大风。追上来的兵丁，一个一个全装进肚子。肚子里黑咕隆咚，兵丁们挤成一团。他们在里头喊，外头谁也听不清。"
+        },
+        {
+          "kind": "image",
+          "art": "shixiongdi-jail-breakout",
+          "text": "大肚张开大口，把追来的兵丁一个一个都装进肚子里。"
+        },
+        {
+          "kind": "text",
+          "text": "县官爬上大堂，吓得浑身发抖。他扑通跪在地上，连连磕头。「好汉饶命！再也不敢欺压百姓了！」十兄弟挺起胸膛，理也不理。"
+        },
+        {
+          "kind": "note",
+          "text": "求饶——认了错讨饶，求人家千万别再罚自己。县官当堂跪地连连求饶，是真吓破了胆呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 齐心赢公道",
+      "art": "shixiongdi-homecoming",
+      "artPrompt": "the brothers walking home happily at sunset, a big-bellied brother letting soldiers climb out of his mouth, villagers welcoming them at the village gate by the sea, warm storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "出了县城，大肚才张开大口。「都出来吧！」兵丁们一个接一个爬出来。他们揉揉眼睛，丢下刀枪，一溜烟跑了。"
+        },
+        {
+          "kind": "text",
+          "text": "长腿背起爹爹和兄弟们，迈开大步。天还没黑，一家人就到了渔村。乡亲们涌到村口，欢欢喜喜来迎接。爹爹摸摸这个，又看看那个。他搂着十个儿子，笑出了眼泪。"
+        },
+        {
+          "kind": "image",
+          "art": "shixiongdi-homecoming",
+          "text": "十兄弟背着爹爹回到渔村，乡亲们在村口欢欢喜喜迎接。"
+        },
+        {
+          "kind": "text",
+          "text": "县官吃了大亏，再不敢来渔村骚扰。乡亲们下海的下海，种地的种地。海里鱼虾多，田里稻谷香。日子过得安安稳稳。"
+        },
+        {
+          "kind": "note",
+          "text": "齐心——大家一条心，劲儿往一处使。十兄弟齐心合力，再大的难关，也都能闯得过去呢。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "打那以后，渔村传开一句话。「一根筷子容易折，一把筷子折不断。」「十兄弟齐心，力量大过天。」谁家有难，大家都帮衬着。娃娃们听着，个个盼着做心齐的好汉。"
+        }
+      ]
+    }
+  ]
+}

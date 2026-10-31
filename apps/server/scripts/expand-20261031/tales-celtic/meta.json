@@ -1,0 +1,34 @@
+{
+  "id": "tales-celtic",
+  "packFile": "tales-celtic.ts",
+  "target": 12,
+  "parts": ["1-12"],
+  "book": {
+    "title": "Celtic Fairy Tales",
+    "author": "Joseph Jacobs (ed.)",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "6-8",
+    "intro": "Fairies, a brave tailor, a goose that could fly again, and a pot of gold hidden in a field of bolts — twelve tales from Ireland, Scotland and Wales, gathered long ago by Joseph Jacobs.",
+    "coverArt": "celtic-fairy-hill",
+    "coverArtPrompt": "绿色山丘上一圈仙环蘑菇发着微光，穿斗篷的仙女引着少年走向开满金花的原野，竖琴与月色，凯尔特风格童话插画",
+    "coverFrom": "#4E342E",
+    "coverTo": "#BCAAA4",
+    "source": "Celtic Fairy Tales collected by Joseph Jacobs (1892), Project Gutenberg #7885, US public domain; retold in simple English, 12 tales selected from the collection",
+    "rights": { "workTitle": "Celtic Fairy Tales", "author": "Joseph Jacobs", "authorDeathYear": 1916, "jurisdiction": "US", "basis": "pd-us", "note": "编者雅各布斯卒于 1916 年，本书 1892 年首版已入公版；文本取自古登堡计划 #7885，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · Connla and the Fairy Maiden", "beats": ["少年康拉遇见仙女来使，听她讲无生无死的平原之国", "父王请德鲁伊施法对抗，康拉却日夜思念着仙乡", "他跃上玻璃小船随仙女远去，人们把那片海叫作康拉之海"], "sourceRef": "从底本选 12 则 · 原书第 1 则" },
+    { "title": "Chapter 2 · Guleesh", "beats": ["妖精们在古堡废土上集合，少年古利希偷听到他们的行踪", "妖精抢来远方的公主，古利希救下她带回自己家中", "一年后妖精再聚，古利希挺身再战，公主开口与他成婚"], "sourceRef": "从底本选 12 则 · 原书第 2 则" },
+    { "title": "Chapter 3 · The Field of Boliauns", "beats": ["少年遇到小矮妖，逼他说出藏在鲍利亚恩草丛的金罐", "他夺下小妖的魔帽抓在手里，逼他引路去挖金子", "回家取铁锹再折返，草丛里已长满鲍利亚恩无处可寻"], "sourceRef": "从底本选 12 则 · 原书第 3 则" },
+    { "title": "Chapter 4 · The Horned Women", "beats": ["十二位长角女巫半夜闯进来纺线，念咒困住织布的姑娘", "井之精灵教她妙法：灰筛打水，一声呼喊破了巫咒", "姑娘牢牢守住家门，女巫仓皇逃走，从此再不敢来犯"], "sourceRef": "从底本选 12 则 · 原书第 4 则" },
+    { "title": "Chapter 5 · Hudden and Dudden and Donald O'Neary", "beats": ["两个富邻居嫉妒穷汉唐纳德，轮番设下圈套坑害他", "唐纳德靠一张牛皮的妙计，一路赚回了大把金子", "富邻居学他做生意全砸了锅，唐纳德成了村里最富的人"], "sourceRef": "从底本选 12 则 · 原书第 6 则" },
+    { "title": "Chapter 6 · The Shepherd of Myddvai", "beats": ["湖中仙女看中诚实的牧羊人，答应嫁他但有约在先", "她带来丰厚的嫁妆，只求丈夫不可连着三次怠慢她", "牧羊人失约，仙女携儿女回湖，后人把湖水叫作仙女湖"], "sourceRef": "从底本选 12 则 · 原书第 7 则" },
+    { "title": "Chapter 7 · The Sprightly Tailor", "beats": ["快活裁缝听说教堂闹鬼，夜里独自去缝巨人长裤", "缝一针巨人就低吼一声，他手不停针口里唱着歌", "天亮裤子缝好，巨人的金子归了他，胆大的人不怕鬼"], "sourceRef": "从底本选 12 则 · 原书第 8 则" },
+    { "title": "Chapter 8 · Munachar and Manachar", "beats": ["曼纳查偷偷爬上穆纳查的树丛，大嚼起他的浆果", "穆纳查要讨回公道，却得先凑齐一连串帮手才行", "猫、牛、屠夫、绳子一环扣一环，绕口令式的民间趣谈"], "sourceRef": "从底本选 12 则 · 原书第 10 则" },
+    { "title": "Chapter 9 · King O'Toole and His Goose", "beats": ["老国王奥图尔见心爱的老鹅日渐衰弱，愁得吃不下饭", "神秘客人带来圣水，一泼老鹅拍翅高飞精神百倍", "客人原是圣凯文化身，奥图尔献地相谢，老鹅重获新生"], "sourceRef": "从底本选 12 则 · 原书第 12 则" },
+    { "title": "Chapter 10 · Jack and His Comrades", "beats": ["贫苦少年杰克出门闯荡，路上结识狗猫鹅三位伙伴", "夜宿强盗屋，伙伴们各显身手吓得强盗四散奔逃", "杰克背回了强盗的金子，同伙伴们过上了好日子"], "sourceRef": "从底本选 12 则 · 原书第 14 则" },
+    { "title": "Chapter 11 · The Sea-Maiden", "beats": ["渔夫网到了海中的小人鱼，放她换来了家业和孩子", "海中人鱼按约前来讨走孩子，渔夫一家追悔莫及", "长大的孩子凭智勇挣脱束缚回到人间，一家人再不分离"], "sourceRef": "从底本选 12 则 · 原书第 17 则" },
+    { "title": "Chapter 12 · Fair, Brown, and Trembling", "beats": ["姐姐们把小妹妹特雷姆布林关在家里，不让她去教堂", "仙教母变出华服与骏马，小妹妹美得惊动了全城", "王子凭一只小鞋寻遍全国，终于娶走了善良的小妹妹"], "sourceRef": "从底本选 12 则 · 原书第 19 则" }
+  ]
+}

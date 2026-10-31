@@ -1,0 +1,232 @@
+{
+  "chapters": [
+    {
+      "title": "第一章 · 饺子 · 娇耳汤",
+      "art": "food-jiaoer-soup",
+      "artPrompt": "an old kind doctor in han dynasty robes ladling hot ear-shaped dumpling soup from a big steaming pot under a medical shed, villagers in thick winter clothes holding warm bowls, snow falling softly, a red lantern hanging by the shed, warm hearted ancient Chinese storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "传说东汉末年，有位名医叫张仲景。他医术高明，心地又好，人们尊称他「医圣」。一年冬天，他回乡探望，正赶上冬至。那年大寒，风像刀子一样刮。乡亲们衣裳单薄，好多人的耳朵都冻烂了。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "医圣——民间对东汉名医张仲景的尊称。传说他医术极高，还写下了有名的医书《伤寒杂病论》。"
+        },
+        {
+          "kind": "text",
+          "text": "张仲景心里难受：「耳朵冻烂了，可怎么过冬啊？」他叫人在南阳东关搭起医棚，支起大锅。锅里放上羊肉和驱寒的药材，咕嘟咕嘟地煮。煮好捞出来剁碎，用面皮包成耳朵的样子。这药取名「娇耳」，一碗汤里放两只。"
+        },
+        {
+          "kind": "text",
+          "text": "乡亲们端着热汤，连汤带娇耳吃下去。浑身暖烘烘的，耳朵也不那么疼了。张仲景一直施药到大年三十。乡亲们的耳朵，慢慢都养好了。大家捧着碗，一个劲地感谢这位好心的医圣。"
+        },
+        {
+          "kind": "image",
+          "art": "food-jiaoer-soup",
+          "text": "医棚下大锅热气腾腾，张仲景把一碗碗娇耳汤递给冻坏了耳朵的乡亲。"
+        },
+        {
+          "kind": "text",
+          "text": "后来人们学着样子包面食，过节煮上一锅。这食物慢慢传遍各地，名字也变成了「饺子」。至今老话还说：「冬至不端饺子碗，冻掉耳朵没人管。」这只是口口相传的民间传说。可那份暖心的善意，一直传到了今天。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "娇耳——传说里最早的饺子。面皮里包上驱寒的药材和羊肉，捏成耳朵的形状，连汤带药吃下去。"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 汤圆 · 元宵姑娘",
+      "art": "food-yuanxiao-girl",
+      "artPrompt": "a palace maid in han dynasty dress carrying a lantern and trays of round white glutinous rice balls on a lantern festival night, streets full of glowing red and gold lanterns, a smiling elderly couple reaching for her hand in the crowd, warm festive ancient Chinese storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "传说汉武帝的时候，宫里有位宫女叫元宵。她做的汤圆又香又糯，人见人夸。可她进宫多年，再也见不着爹娘。想念起来，就躲在角落里偷偷抹眼泪。眼看要愁出病来了。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "东方朔——汉武帝身边的大臣。民间传说里，他风趣又机灵，最爱替人出主意、解开难题。"
+        },
+        {
+          "kind": "text",
+          "text": "大臣东方朔知道了，决定帮她一把。他在长安城里摆起卦摊，一连算了好多天。怪的是，人人都得到同一句话：「正月十六火焚身。」满城人都慌了神，跑来问他怎么办。东方朔掐指一算：「火神君最爱吃汤圆。正月十五这天，家家做汤圆敬火神。再挂上灯笼、放了烟火，就糊弄过去了。」"
+        },
+        {
+          "kind": "text",
+          "text": "正月十五到了，满城灯火通明。宫女元宵提着汤圆出来叫卖，喊着自己的名字。她爹娘进城看灯，闻声抬头，正是自家闺女。灯下相认，一家人抱头团圆。"
+        },
+        {
+          "kind": "image",
+          "art": "food-yuanxiao-girl",
+          "text": "正月十五长安城灯火如昼，元宵姑娘与爹娘在人海中相认，抱头团圆。"
+        },
+        {
+          "kind": "text",
+          "text": "汉武帝看满城平安无事，心里欢喜。传下旨意：年年正月十五，都做汤圆敬火神。元宵姑娘的汤圆做得最好。这圆圆的甜团子，从此就叫「元宵」。南方人也爱叫它「汤圆」。白白圆圆，甜在嘴里，暖在心里。元宵节的灯，就这样一年年亮到了今天。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "正月十五——元宵节，新年头一个月圆之夜。这个传说是民间口口相传的，古书里并没有记载。"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 粽子 · 端午祭屈原",
+      "art": "food-zongzi-quyuan",
+      "artPrompt": "dragon boats with painted dragon heads racing on a misty river, people on the banks throwing small leaf-wrapped rice bundles into the water, banners and drums along the shore, warring states era clothing, solemn and warm storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "传说战国时候，楚国有位大夫叫屈原。他一心为国，写诗劝谏君王，句句都是真心。可楚王听信坏话，反倒把屈原放逐远方。屈原眼见国家一天天衰弱，难过极了。五月初五这天，他抱石跳进了汨罗江。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "大夫——古时候的官名，是朝中的重要官职。屈原做的这个「大夫」，可不是如今看病的医生呢。"
+        },
+        {
+          "kind": "text",
+          "text": "消息传开，百姓们伤心极了。大家撑起船，在江面上划来划去打捞。可是江水又深又急，捞了半天也没捞着。有人心疼地喊：「别让鱼虾咬屈大夫啊！」于是人们把米团裹进叶子，投进江里喂鱼虾。鱼虾吃饱了，就不去咬屈原了。"
+        },
+        {
+          "kind": "text",
+          "text": "从那以后，每年五月初五，人们都到江边纪念他。划船打捞，慢慢变成了热闹的赛龙舟。裹着叶子的米团，慢慢变成了好吃的粽子。碧绿的箬叶，雪白的糯米。包上红枣、豆沙，捆上彩线，香喷喷的。"
+        },
+        {
+          "kind": "image",
+          "art": "food-zongzi-quyuan",
+          "text": "江面上龙舟飞桨，岸边百姓把裹着竹叶的米团投进水里，喂饱鱼虾。"
+        },
+        {
+          "kind": "text",
+          "text": "屈原不光是忠臣，还是大诗人。他写下的《离骚》，流传了两千多年。端午这天，家家包粽子，处处赛龙舟。传说这是为了纪念那位爱国的诗人。一口香粽下肚，他的名字谁也忘不了。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "汨罗江——在今天湖南省，最后流进洞庭湖。传说屈原就是在这条江里，抱着石头投的江。"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 月饼 · 中秋团圆",
+      "art": "food-mooncake-reunion",
+      "artPrompt": "a family in a courtyard at night around a small table with round mooncakes pomelos and fruits, a big bright full moon over the roof tiles, osmanthus tree shadow on the wall, a grandpa cutting a mooncake into pieces, warm lantern light, gentle storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "农历八月十五，是中秋节。这晚的月亮，一年里最圆最亮。老辈人说，月圆是天上的团圆。家家在院里摆上小桌，供上瓜果。对月亮拜一拜，盼个团圆。大人赏月，小孩儿追着灯影跑。满院子都是甜甜的香味。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "祭月——中秋夜在院里摆上瓜果，向着月亮行礼的老风俗。既感谢一年的收成，也盼着家人团圆。"
+        },
+        {
+          "kind": "text",
+          "text": "供桌上的点心，做得圆圆的，像天上的满月。馅儿是甜甜的豆沙、枣泥，皮上还压着花纹。人们给它起了个好名字，就叫「月饼」。月儿圆，饼儿圆，正好应了团圆的好彩头。分月饼的时候，全家人的心都贴得紧紧的。"
+        },
+        {
+          "kind": "text",
+          "text": "分月饼也有老讲究。一块大月饼，要按人头切开，一人一块。出门在外的人，也给他留上一份，等他回家再吃。老人说，吃了这块饼，人走再远，心也拴在家里。"
+        },
+        {
+          "kind": "image",
+          "art": "food-mooncake-reunion",
+          "text": "中秋夜小院里供着瓜果和圆月饼，一家人围着桌子赏月，分食一块大月饼。"
+        },
+        {
+          "kind": "text",
+          "text": "天上一轮月，照着南来北往的人。一家人分食一块圆圆的月饼。这就是中秋最大的甜。要是亲人远在他乡，也别难过。抬头看看，天上还是同一轮月亮。古人说得好：「但愿人长久，千里共婵娟。」"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "但愿人长久，千里共婵娟——古人苏轼的名句。意思是：亲人隔得再远，也能共赏同一轮明月。"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 年糕 · 糯米城墙",
+      "art": "food-niangao-city-wall",
+      "artPrompt": "an ancient walled city in winter, people digging at the base of a big city gate revealing pale bricks made of glutinous rice, surprised faces, steam rising from cooked rice bricks, a solemn ancient general portrait hanging on the wall, warring states era storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "传说春秋时候，吴国有个大将叫伍子胥。他又能打仗，又会治国，百姓都很敬他。吴王命他督造都城，城墙要修得又高又厚。伍子胥修城的时候，心里却藏着一件事。他暗暗地想：「万一被围城断了粮，百姓吃什么？」"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "督造——负责主持和监工修建。传说伍子胥督造的吴国都城，就是后来的苏州城，城墙又高又厚。"
+        },
+        {
+          "kind": "text",
+          "text": "城修好了。伍子胥悄悄嘱咐随从：「我死后若被围城，断了粮。到城门底下挖，能挖出救命的粮。」后来伍子胥蒙冤死了。果然，敌军很快围了城。城里粮食一天天少下去。到了年关，锅都揭不开了。"
+        },
+        {
+          "kind": "text",
+          "text": "人们忽然想起伍子胥的话，赶到城门下挖。挖着挖着，挖出一块块「城砖」。这砖白白的，不是石头做的。掰开一煮，竟是又香又糯的糯米粉砖！原来伍子胥修城时，早有安排。他把糯米粉蒸成砖，悄悄砌进城墙根。全城人靠这些粮砖，熬过了围城的日子。"
+        },
+        {
+          "kind": "image",
+          "art": "food-niangao-city-wall",
+          "text": "百姓按伍子胥生前的嘱咐，在城门下挖开墙根，挖出一块块糯米粉做的城砖。"
+        },
+        {
+          "kind": "text",
+          "text": "为了记着这件事，人们每到年关蒸糕。糕做成砖头的样子，用糯米粉做的。这糕又软又糯，越煮越香，渐渐叫成了「年糕」。年糕年糕，年年高，还带着步步登高的好彩头。传说归传说，年糕却是真好吃。嚼着嚼着，满是过年的甜。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "年糕——用糯米粉蒸成的糕，软糯又有嚼劲。「糕」与「高」同音，吃了年糕，盼着年年高升。"
+        }
+      ]
+    },
+    {
+      "title": "第六章 · 腊八粥 · 五谷暖心",
+      "art": "food-laba-porridge",
+      "artPrompt": "a big clay pot of steaming multigrain porridge on a rustic stove, an old grandmother ladling bowls for children, grains beans red dates and peanuts scattered on the wooden table, red paper window decorations, snowy morning light through the window, warm storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "农历十二月，老辈人叫它腊月。腊月初八这天，家家要熬一锅腊八粥。锅里东西可多了：大米、小米、红豆、绿豆。还有红枣、花生、莲子，样样都是宝。小火咕嘟咕嘟，熬得又稠又香。一人一大碗，喝得肚里暖乎乎。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "腊八粥——用七八样米、豆、干果熬成的甜粥。老话说「过了腊八就是年」，喝了粥，年就近了。"
+        },
+        {
+          "kind": "text",
+          "text": "这碗粥，还有个教人的传说。从前有对小夫妻，好吃懒做。爹娘留下的粮食，吃光卖光。爹娘劝也劝不住：「粮是命根子，得省着攒着啊！」两口子只是笑，照旧大手大脚。"
+        },
+        {
+          "kind": "text",
+          "text": "到了腊月初八，天寒地冻，米缸见了底。两口子冻得发抖，饿得发慌。左邻右舍听说了，你家抓把米，他家舀把豆。凑出七八样杂粮，送到他家。小两口熬成一锅杂粮粥。你一碗我一碗，吃得直掉眼泪。打这天起，他们改了懒病，勤勤俭俭过日子。"
+        },
+        {
+          "kind": "image",
+          "art": "food-laba-porridge",
+          "text": "左邻右舍端来米豆红枣，小两口围着热粥落泪，从此改掉懒病勤俭持家。"
+        },
+        {
+          "kind": "text",
+          "text": "从此，腊月初八熬杂粮粥，成了一方风俗。人们一边喝粥，一边念叨：粮食来得不容易。省下的要存好，冬天的粮要备足。粥里的红枣甜，米豆香，喝下肚，浑身上下都舒坦。老话说：「过了腊八就是年。」粥一喝，年的脚步就近了。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "腊月——农历十二月，一年的最后一个月。老话「寒冬腊月」，说的就是这一年里最冷的时候。"
+        }
+      ]
+    }
+  ]
+}

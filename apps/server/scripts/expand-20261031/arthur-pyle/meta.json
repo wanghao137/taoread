@@ -1,0 +1,36 @@
+{
+  "id": "arthur-pyle",
+  "packFile": "arthur-pyle.ts",
+  "target": 14,
+  "parts": ["1-14"],
+  "book": {
+    "title": "The Story of King Arthur and His Knights",
+    "author": "Howard Pyle",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "9-12",
+    "intro": "How a boy called Arthur pulled a sword from a stone and became King of Britain: the Lady of the Lake, the sorcerer Merlin, Queen Guinevere, the Round Table, and the first knights of Camelot.",
+    "coverArt": "arthur-round-table",
+    "coverArtPrompt": "圆桌大厅里少年国王高举神剑，骑士们披甲肃立，彩窗透进圣光，湖中仙女的手臂托剑浮现，史诗感童话插画",
+    "coverFrom": "#01579B",
+    "coverTo": "#81D4FA",
+    "source": "The Story of King Arthur and His Knights by Howard Pyle (1903), Project Gutenberg #60184, US public domain; retold in simple English, 14 chapters condensed from the original two books in six parts",
+    "rights": { "workTitle": "The Story of King Arthur and His Knights", "author": "Howard Pyle", "authorDeathYear": 1911, "jurisdiction": "US", "basis": "pd-us", "note": "派尔卒于 1911 年，本书 1903 年首版已入美国公版；文本取自古登堡计划 #60184，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Sword in the Anvil", "beats": ["伦敦大比武开场，骑士凯的宝剑在比试中折断了", "少年亚瑟替兄长寻剑，轻易拔出了石砧上的神剑", "在埃克特与梅林的见证下，亚瑟的真实身世揭开"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Kinghood 第 1-2 章" },
+    { "title": "Chapter 2 · Arthur Proved King", "beats": ["各路君王与贵族轮番上前拔剑，却全都无功而返", "少年亚瑟上前信手一抽，神剑应手而出满场皆惊", "反对的君王们不肯服气，亚瑟当众三度拔剑服众"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Kinghood 第 3 章" },
+    { "title": "Chapter 3 · The Wounded Knight", "beats": ["重伤的骑士闯进宫廷诉冤，年轻骑士替他战失利", "亚瑟王亲自接下这场较量，只身骑马赴泉边应战", "泉边的黑骑士武艺惊人，把国王逼得连连向后退"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Sword 第 1 章" },
+    { "title": "Chapter 4 · The Sable Knight", "beats": ["亚瑟身负重伤仍不肯退，战马又被黑骑士活活杀死", "危急关头梅林及时现身，施法护着重伤的国王脱险", "山林养伤的日子里，梅林细细说起黑骑士的来历"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Sword 第 2 章" },
+    { "title": "Chapter 5 · Excalibur", "beats": ["梅林引亚瑟来到湖边，湖中伸出一手持剑的手臂", "湖中仙女愿赠出神剑，亚瑟登船受剑并立下信诺", "亚瑟重返泉边的战场，持神剑力战大胜了黑骑士"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Sword 第 3 章" },
+    { "title": "Chapter 6 · The Winning of Guinevere", "beats": ["亚瑟对桂妮薇儿一见倾心，随梅林乔装入她家宫廷", "暴君赖恩斯兴兵来犯，扬言要收各国君王的胡子", "亚瑟力战北安伯公爵解了围，威名传遍凯利尔城"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Queen 第 1-2 章" },
+    { "title": "Chapter 7 · The Four Knights", "beats": ["林中四骑士遇见桂妮薇儿的游春队伍，起了歹意", "桂妮薇儿不卑不亢，命四骑士执仪护送春游队伍", "四骑士心悦诚服，反倒成了王后座前忠实的侍卫"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Queen 第 3-4 章" },
+    { "title": "Chapter 8 · The Round Table", "beats": ["亚瑟率军击退里奥德格恩斯国王的强敌，声威大振", "各地首领齐聚一堂共同拥立，亚瑟王位名正言顺", "盛大的王婚之日圆桌落成，骑士们围坐共誓公义"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Winning of a Queen 第 5-6 章" },
+    { "title": "Chapter 9 · Morgana's Plot", "beats": ["王妃摩根娜暗中蓄谋已久，一心要害倒弟弟亚瑟王", "她派少女薇薇安入宫，假意拜师接近大法师梅林", "薇薇安百般软语缠磨，老法师渐渐卸下所有心防"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Merlin 第 1 章" },
+    { "title": "Chapter 10 · The Enchanter's Downfall", "beats": ["梅林带薇薇安进欢乐谷，为她建起一座魔法城堡", "薇薇安学得魔法精要，把沉沉睡去的梅林困在谷中", "摩根娜再施毒计窃走了宝剑，亚瑟比剑险些丧命"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Merlin 第 2-4 章" },
+    { "title": "Chapter 11 · Sir Pellias and the Red Knight", "beats": ["王后游春的队伍途中遇险，骑士佩利亚斯主动请命", "他单枪匹马讨伐红骑士阿德萨克，一路连闯险关", "他攻破魔堡，救出二十二名被囚禁的骑士与侍女"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Sir Pellias 第 1-2 章" },
+    { "title": "Chapter 12 · The Lady Ettard", "beats": ["佩利亚斯大战绿袖骑士，牵出了湖中仙女的项链", "贵妇人爱塔德负心背约，令忠勇的骑士黯然神伤", "好友高文赶来相助，湖中仙女收回项链护佑忠义"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Sir Pellias 第 3-6 章" },
+    { "title": "Chapter 13 · The White Hart", "beats": ["宫廷里忽然跑进一头白鹿，高文兄弟俩纵马追猎", "亚瑟王在密林中迷了路，误入一座离奇古怪的城堡", "城堡中的遭遇步步惊心，真正的考验才刚刚开始"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Sir Gawaine 第 1-2 章" },
+    { "title": "Chapter 14 · The Knight-Enchanter Overcome", "beats": ["妖术骑士设下重重迷局，亚瑟一步一步走入险境", "高文率援兵及时赶到并肩作战，君臣同心破妖阵", "邪术破除尘埃落定，高文以宽仁显出骑士的高贵"], "sourceRef": "从底本两部六部分 25 章选并 14 章 · 原 Story of Sir Gawaine 第 3 章" }
+  ]
+}

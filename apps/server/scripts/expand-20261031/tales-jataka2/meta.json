@@ -1,0 +1,32 @@
+{
+  "id": "tales-jataka2",
+  "packFile": "tales-jataka2.ts",
+  "target": 10,
+  "parts": ["1-10"],
+  "book": {
+    "title": "More Jataka Tales",
+    "author": "Ellen C. Babbitt (retold)",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "6-8",
+    "intro": "More tales from the old Indian story-tellers: three fish in a pond, a golden goose, a brave little bowman, and a monkey king who saved his whole troop. Every tale carries a gentle lesson.",
+    "coverArt": "jataka2-forest",
+    "coverArtPrompt": "金色大雁立在莲池边，树下小鹿与乌龟啄木鸟相互守望，佛陀时代印度的森林清晨，柔和的寓言绘本插画",
+    "coverFrom": "#283593",
+    "coverTo": "#C5CAE9",
+    "source": "More Jataka Tales retold by Ellen C. Babbitt (1922), Project Gutenberg #7518, US public domain; retold in simple English, 10 tales selected from the original 21",
+    "rights": { "workTitle": "More Jataka Tales", "author": "Ellen C. Babbitt", "authorDeathYear": 1934, "jurisdiction": "US", "basis": "pd-us", "note": "巴比特卒于 1934 年，本书 1922 年首版已入美国公版（pre-1930）；文本取自古登堡计划 #7518，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Three Fishes", "beats": ["池塘里住着三条鱼，一条远见一条机灵一条愚笨", "渔夫撒下大网，远见的鱼早走水道，机灵的装死脱身", "愚笨的鱼说什么也不肯早走，落进了渔夫的鱼篓"], "sourceRef": "从底本 21 则选 10 则 · 原书第 2 则" },
+    { "title": "Chapter 2 · The Tricky Wolf and the Rats", "beats": ["狡猾的狼守在鼠洞前，装出一副虔诚可怜的样子", "老鼠们接连上当出洞，鼠王却起了疑心迟迟不动", "狼等得不耐烦露出马脚，狡猾的计谋落了一场空"], "sourceRef": "从底本 21 则选 10 则 · 原书第 3 则" },
+    { "title": "Chapter 3 · The Woodpecker, Turtle, and Deer", "beats": ["狩猎的大网扣住了小鹿，啄木鸟和乌龟赶来救友", "啄木鸟装作受伤引开猎人，乌龟咬断绳网放出小鹿", "猎人回头扣住了乌龟，伙伴们再施巧计把它救出"], "sourceRef": "从底本 21 则选 10 则 · 原书第 4 则" },
+    { "title": "Chapter 4 · The Golden Goose", "beats": ["金鹅同情贫苦的母女，忍痛拔下自己的金羽相赠", "母亲起了贪心，一把将金鹅全身的羽毛拔个精光", "金羽毛变回了普通的白羽，金鹅飞走再也不回来"], "sourceRef": "从底本 21 则选 10 则 · 原书第 5 则" },
+    { "title": "Chapter 5 · The Stupid Monkeys", "beats": ["园丁出门请猴群帮忙照看树苗，猴子们干劲十足", "猴王想出一条「妙计」：拔出树苗看根，好浇更多的水", "树苗全枯死了，好心办坏事的猴子们全都傻了眼"], "sourceRef": "从底本 21 则选 10 则 · 原书第 6 则" },
+    { "title": "Chapter 6 · The Otters and the Wolf", "beats": ["两只水獭合力捕到一条大鱼，为分鱼头鱼尾吵起来", "请老狼评理，老狼自封裁判把鱼身最好的部分吃掉", "水獭们两手空空才明白：吵架只会让别人占了便宜"], "sourceRef": "从底本 21 则选 10 则 · 原书第 11 则" },
+    { "title": "Chapter 7 · How the Monkey Saved His Troop", "beats": ["猴群被困在海岛上，四面都是等着吃猴的鳄鱼群", "猴王量好了海面的宽窄，指挥群猴用竹竿搭起桥", "猴群踏着竹桥渡过了大海，平安回到大陆的树林"], "sourceRef": "从底本 21 则选 10 则 · 原书第 12 则" },
+    { "title": "Chapter 8 · The Hawks and Their Friends", "beats": ["老鹰在树上筑巢孵出雏鹰，猎人爬树想捉走小鹰", "老鹰向好友们呼救，鱼鹰、狮子、乌龟依次出手相护", "朋友们合力赶走了猎人，鹰的一家从此平安无恙"], "sourceRef": "从底本 21 则选 10 则 · 原书第 13 则" },
+    { "title": "Chapter 9 · The Brave Little Bowman", "beats": ["矮小的弓箭手箭无虚发，雇了个大个子充当门面", "上阵时大个子吓破了胆，小弓箭手钻出车帷射退敌军", "国王查明真相，封小弓箭手做大官，大个子也领了赏"], "sourceRef": "从底本 21 则选 10 则 · 原书第 14 则" },
+    { "title": "Chapter 10 · The Wise Goat and the Wolf", "beats": ["老狼悄悄埋伏在山羊家里，等母羊带着孩子回家", "母羊听声音就识破了诡计，假装唤狗伙伴来跳舞", "老狼吓得夺门而逃，机智的母羊保住了一家老小"], "sourceRef": "从底本 21 则选 10 则 · 原书第 18 则" }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "heroes-kingsley",
+  "packFile": "heroes-kingsley.ts",
+  "target": 8,
+  "parts": ["1-8"],
+  "book": {
+    "title": "The Heroes",
+    "author": "Charles Kingsley",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "9-12",
+    "intro": "Three great adventures of the Greek heroes, retold for young readers: Perseus and the Gorgon's head, Jason and the Golden Fleece, and Theseus and the Minotaur.",
+    "coverArt": "heroes-gorgon",
+    "coverArtPrompt": "古希腊神庙柱影下，少年英雄背身持盾照影挥剑，云端智慧女神垂目护佑，远处帆船驶向爱琴海，希腊陶绘风童话插画",
+    "coverFrom": "#006064",
+    "coverTo": "#80DEEA",
+    "source": "The Heroes, or Greek Fairy Tales for My Children by Charles Kingsley (1856), Project Gutenberg #677, US public domain; retold in simple English in 8 chapters across the three stories",
+    "rights": { "workTitle": "The Heroes", "author": "Charles Kingsley", "authorDeathYear": 1875, "jurisdiction": "US", "basis": "pd-us", "note": "金斯利卒于 1875 年，本书 1856 年首版已入公版；文本取自古登堡计划 #677，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · Perseus Comes to Seriphos", "beats": ["国王听信神谕，把达那厄母子装进木箱抛进大海", "善良的渔夫救起母子，珀尔修斯在岛上长大成人", "岛王存心刁难少年，怂恿他去取蛇发女妖的头颅"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Perseus 第 1-2 节" },
+    { "title": "Chapter 2 · The Slaying of the Gorgon", "beats": ["珀尔修斯从共一只眼的灰姐妹处问出女妖的住处", "仙女赠他飞鞋和隐身帽，雅典娜递上锃亮的铜盾", "他照着盾牌里的影子挥剑，一举斩下美杜莎的头"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Perseus 第 3 节" },
+    { "title": "Chapter 3 · Perseus Comes Home", "beats": ["归途中他救下被锁在海岩上的公主安德洛墨达", "他斗败海怪赢得了公主，二人完婚一同凯旋返乡", "回到岛上他惩治了暴君，让善良的渔夫一家得福"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Perseus 第 4-5 节" },
+    { "title": "Chapter 4 · The Heroes of Pelion", "beats": ["半人半马的智者喀戎，在珀利翁山上训练着群英", "少年杰森学成下山，背起路上遇到的老妪渡大河", "谁知一只凉鞋陷进了沙里，奇怪的预言就此应验"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Argonauts 第 1-2 节" },
+    { "title": "Chapter 5 · The Ship Argo Sails", "beats": ["篡位的国王派杰森远征科尔基斯，去取金羊毛皮", "雅典娜赐下神木，群英合力建成了阿尔戈号大船", "众英雄扬帆起航，一路闯过惊涛风浪奔黑海之滨"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Argonauts 第 3 节" },
+    { "title": "Chapter 6 · The Golden Fleece", "beats": ["科尔基斯国王设下火牛怪兽与龙牙武士的死关", "公主美狄亚施法相助，杰森降牛播种夺得金羊毛", "大船载着金羊毛冲出追兵，历尽奇险踏上了归途"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Argonauts 第 4-6 节" },
+    { "title": "Chapter 7 · Theseus Lifts the Stone", "beats": ["雅典王把剑和鞋压在大石之下，留给将来的儿子", "忒修斯掀开巨石取出信物，决心徒步走去雅典城", "一路上他除掉了数个拦路害人的恶徒，名声大震"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Theseus 第 1-2 节" },
+    { "title": "Chapter 8 · The Minotaur", "beats": ["雅典被迫年年进贡童男童女，喂迷宫里的牛头怪", "公主阿里阿德涅送来线团，忒修斯循线深入迷宫", "他斩杀牛头怪救出了众人，晚年的骄傲令人长叹"], "sourceRef": "从底本三故事十五节选并 8 章 · 原 Theseus 第 3-4 节" }
+  ]
+}

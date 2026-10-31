@@ -1,0 +1,262 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 8 · The Round Table",
+      "art": "arthur-round-table",
+      "artPrompt": "a shining round table of dark carved wood inside a painted pavilion, knights in armor standing with hands on their sword hilts, golden letters glowing on the carved seats, colored light from tall arched windows, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On the day of the great challenge, the Duke of North Umber rode before Cameliard with six knights. Seven heralds blew trumpets before them. King Leodegrance hid himself for sorrow, but his daughter cheered him through the closed door. Then five champions came in a cloud of dust, the White Knight and the four famous knights. Gawaine mocked the duke until he blushed for shame, and then both sides charged. Arthur's spear struck the Duke so mightily that he died where he fell. The rest fled through the tents of King Ryence, pursued by the four knights. From the walls, all Cameliard shouted."
+        },
+        {
+          "kind": "text",
+          "text": "Ryence sent a herald to demand the White Knight and the border lands. Leodegrance answered that he would not yield one blade of grass. Arthur took off his cap before the old king. The king kneeled in amaze to find that the gardener's boy was the King of Britain. Then Arthur asked the Lady Guinevere for her goodwill, and plighted his troth with a kiss. Sir Kay and Sir Ulfius soon routed Ryence's army and chased him into his mountains. For a dowry Merlin begged one thing only, the Round Table of Uther-Pendragon. It had fifty seats, and the name of each worthy knight appeared upon his seat in letters of gold. King Leodegrance gave it gladly."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-round-table",
+          "text": "Knights of the Round Table stand with raised swords while golden names shine upon their seats."
+        },
+        {
+          "kind": "text",
+          "text": "In the early fall the Lady Guinevere came to Camelot. The two were wedded in the cathedral with all the bells ringing. That same afternoon the Round Table was set up in a painted pavilion, where music sounded of a sudden. Merlin led Arthur to a high seat, and golden letters shone there, ARTHUR, KING. Opposite stood the Seat Perilous, which no man yet born might safely fill. Merlin chose two and thirty knights, and King Pellinore was the first. Pellinore was gentle to the poor and terrible in battle. Then every knight swore upon the cross of his sword hilt. They vowed to be gentle to the weak, courageous to the strong, and merciful to all men. One seat on the King's right hand stood empty, waiting for the greatest knight of all."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "What was the Round Table? It was a great round table with fifty seats. No knight could claim the head place above his fellows."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: perilous — full of danger. The Seat Perilous could be filled only by the purest knight in the world."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 9 · Morgana's Plot",
+      "art": "arthur-morgana-plot",
+      "artPrompt": "a beautiful young girl in flame-red satin kneeling with a golden ring before an old white-bearded wizard in a torchlit feast hall, kings and ladies watching from the high table, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "After a great war against five hostile kings, eight seats of the Round Table stood empty. King Arthur filled them with the worthiest men. He chose Sir Tor, a young knight of famous deeds, and passed by his own nephew, Sir Baudemagus. Then Queen Morgana le Fay, the King's half sister, grew angry past all bearing. \"Is kinship of no account with him?\" she cried, and she left the court in anger. She sailed away to Avalon, a floating island of gardens and white towers. That island drifts upon the sea as she wills. There she brooded day and night upon revenge against her brother the King."
+        },
+        {
+          "kind": "text",
+          "text": "But Arthur was safe so long as Merlin's foresight watched over him, and Morgana knew it well. \"If I would destroy the King, I must first destroy Merlin,\" she said. At her court was a damsel named Vivien, daughter of the King of Northumberland. She was fifteen, and so beautiful that men wondered at her. But she had no heart at all, and she was cunning beyond her years. Morgana taught her many secrets of magic and gave her two rings of gold. \"Wear the ring with the white stone,\" she said. \"Whoever wears the red stone shall love thee beyond measure. Thou mayst then do with him what thou wilt.\""
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who is Morgana le Fay? She is King Arthur's half sister, a learned enchantress who dwells on the fairy island of Avalon."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-morgana-plot",
+          "text": "Vivien in flame-colored satin kneels before Merlin and offers the ring that has grown fast to his finger."
+        },
+        {
+          "kind": "text",
+          "text": "At the next feast of Pentecost, Vivien came into King Arthur's hall in flame-colored satin. A dwarf followed her, bearing a cushion. On it lay a ring set with a red stone. She said that only the wisest and worthiest man present could wear it. Arthur tried it, and it shrank upon his finger. All the lords and ladies tried it in vain. Last of all she knelt before Merlin, who loved beauty above all things. The ring fitted him exactly, and then it would not come off again. A strange magic took hold of the old enchanter, and from that day he followed the damsel everywhere. \"Teach me thy wisdom,\" she begged him in the garden, \"and then I could love thee.\" Merlin sighed, for his heart misgave him, yet he promised."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: foresight — the power to see what is going to happen before it happens."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 10 · The Enchanter's Downfall",
+      "art": "arthur-merlin-downfall",
+      "artPrompt": "an old wizard in gray robes lying asleep inside a stone coffer beneath a massive slab, silver mist curling through a quiet valley with a small lake, pale moonlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Merlin led Vivien for three days through a dark forest. At last they came to a quiet valley with a lake like polished silver. There he raised his hands and spoke words of power. The earth shook and red dust arose. A castle of blue and vermilion walls stood up before them. For more than a year he taught her all his magic. Then at a feast she gave him a golden chalice of wine, with a sleeping potion hidden in it. \"Woe! Woe! I am betrayed!\" he cried, and sank into a sleep like death. She wound a spell about him like a silver web. Then she laid him in a stone coffer and pressed a great slab above it. She made the castle vanish and hid the valley in mist."
+        },
+        {
+          "kind": "text",
+          "text": "But first Merlin had begged one last favor of her. His foresight had returned, and King Arthur stood in deadly peril. \"Go and save him,\" he said, \"and so make thy sin less.\" While Merlin slept under the stone, Queen Morgana came back to Camelot, bowed low, and asked her brother's pardon. Arthur forgave her with all his heart. Soon after, she asked to see Excalibur, and the King lent it to her gladly. She had a false sword made exactly like it, so that no eye could tell them apart. Both she kept."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: enchantment — magic that binds a person so that he cannot move or help himself."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-merlin-downfall",
+          "text": "Merlin lies asleep beneath the great stone slab in the misty valley where his castle has vanished."
+        },
+        {
+          "kind": "text",
+          "text": "On a hunting day, the gift of a black horse carried Arthur far and fast. At last only Sir Accalon of Gaul kept up with him. Lost in the forest, they came at evening to a strange painted ship. Twelve fair damsels fed them there and sang them to sleep. Arthur woke in a dark dungeon with two and twenty captive knights. The castle belonged to the coward Sir Domas le Noir, who kept every prisoner until one would fight his battles. Arthur agreed to fight, but sent to Morgana for Excalibur. She sent the false sword, and gave the true one to Sir Accalon, to fight for Sir Ontzlake. Neither champion knew the other."
+        },
+        {
+          "kind": "text",
+          "text": "In the field the false sword would not bite. Excalibur cut Arthur at every stroke, till the grass was wet with his blood. His own sword snapped at the hilt, and Sir Accalon raised the magic blade above him. Arthur would not yield, for a king may never yield. Then Vivien came to the barriers, saw the King near death, and cast a spell that numbed Sir Accalon's arm. Excalibur fell, and Arthur caught it up and won the battle at last. Queen Morgana found the King sleeping and softly stole away, not with the sword but with its sheath. From her horse she threw the sheath far into a lake. An arm clad in white caught it and drew it down forever. When Arthur learned all, he forgave his sister yet again. He mourned bitterly for Merlin, whom the world would see no more."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: sheath — the covering of a sword. The sheath of Excalibur kept its wearer from losing blood in battle."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 11 · Sir Pellias and the Red Knight",
+      "art": "arthur-pellias-quest",
+      "artPrompt": "a strong unarmed knight in crimson holiday clothes lifting a massive stone from a narrow stone bridge, facing a knight in full red armor with a red spear, a castle with seven towers beyond a rushing river, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One day in spring, Queen Guinevere went a-Maying with her court among the flowers. A damsel named Parcenet rode up, sent by her mistress, the Lady Ettard of Grantmesnle. She came to see whether the Queen were truly as fair as men said. With her came a page bearing a picture of the Lady Ettard, painted on ivory. Then Sir Pellias, one of the gentlest knights of the Round Table, knelt to the Queen. \"Let me maintain that thou art the fairest lady in the world,\" he said. \"I will meet this Sir Engamore, who fights for the Lady Ettard.\" So he rode away unarmed, in his holiday clothes, with Parcenet for company."
+        },
+        {
+          "kind": "text",
+          "text": "In the Forest of Adventure they found an old woman, withered and weeping, sitting beside a rushing stream. Parcenet would have rebuked her, but Sir Pellias said, \"A true knight must help all who ask him.\" He lifted her upon his saddle and bore her over the ford. On the far bank she sprang down lightly. Lo, she was a lady of wonderful beauty, dressed all in green. \"I am Nymue, chief of the Ladies of the Lake,\" she said. \"I took that shape to test thy knightliness.\" She hung about his neck her collar of opals and emeralds set in gold, and vanished from sight."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: quest — a knight's long journey to right a wrong or to win honor."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-pellias-quest",
+          "text": "Sir Pellias, unarmed in his holiday clothes, hurls a huge stone from the bridge at the Red Knight."
+        },
+        {
+          "kind": "text",
+          "text": "Soon they met a sorrowful lady. Her husband, Sir Brandemere, had been smitten down by the Red Knight at his bridge of seven towers. Sir Pellias rode straight to the bridge, though he had neither armor nor spear. \"Surrender, or I will compel thee,\" called the Red Knight. Then Pellias wrenched a great stone from the bridge coping. Five men could hardly have lifted it, yet he flung it with both hands. It struck the knight from his saddle, and he lay as one dead. When he came to himself he begged mercy. Sir Pellias spared him, but only on condition that he confess his faults before King Arthur and Queen Guinevere. Then Pellias took the red armor for himself. He freed Sir Brandemere and eighteen knights and three ladies. He shared the castle's treasure among them all, keeping not one coin for his own."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: ford — a shallow place in a river where a horse and rider can cross."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 12 · The Lady Ettard",
+      "art": "arthur-lady-ettard",
+      "artPrompt": "a fairy lady in green robes leaning over a wounded knight lying on a pallet in a small forest chapel, drawing a broken spearhead from his side, soft light, birds at the open door, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At Grantmesnle, Sir Pellias rode forth in his red armor. He proclaimed that Queen Guinevere was the fairest lady in the world. Sir Engamore, the Knight of the Green Sleeves, came out to deny it. His spear burst into thirty pieces, while Pellias held his seat. Then the Lady Ettard welcomed the victor, for the magic collar drew every heart to him. That night she begged him to lend her the beautiful collar of opals and emeralds. He could not refuse her. But when it hung on her neck, its virtue left him and passed into her. She looked at him now with cold eyes. She gave him a sleeping draught in a golden chalice. Then he was laid shamefully in the meadow. Only the damsel Parcenet wept for him and brought him a mantle."
+        },
+        {
+          "kind": "text",
+          "text": "Now Sir Pellias loved the Lady Ettard more madly than ever, as if under a spell. He yielded himself to two of her knights, and they bound him and drove him back to his friends. Meanwhile Sir Gawaine had quarreled with Queen Guinevere over a hound he had struck. In anger he had left the court, with Sir Ewaine for companion. In the Forest of Adventure the Lady of the Lake met them and led their way. From a hill they saw a red knight fighting ten men alone. Suddenly he yielded to two of them."
+        },
+        {
+          "kind": "text",
+          "text": "Sir Gawaine learned that the beaten knight was his old friend Sir Pellias, and he rebuked him sternly. Yet he promised to help him. The two changed armor, so that Gawaine went to the castle wearing the red mail. But the enchanted necklace drew Gawaine's own heart to the Lady Ettard. Over her golden cups he forgot his promise. At night Sir Pellias crept in, disguised as a black friar. He saw them feasting together and snatched the necklace from her neck, breaking its clasp. Then he struck Sir Gawaine across the face before them all. In the morning the two friends fought. Pellias cast Gawaine down, though Gawaine's spear point had broken in his side."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-lady-ettard",
+          "text": "The Lady of the Lake bends over Sir Pellias in the hermit's cell and draws the spearhead from his wound."
+        },
+        {
+          "kind": "text",
+          "text": "None knew how sorely he was hurt. He rode alone into the forest. There Parcenet and a kind dwarf found him groaning, and bore him to a hermit's cell. The hermit could do nothing, and made ready for the last sacrament. Then the Lady of the Lake herself came softly in. She took back her collar and drew the iron from the wound with a loadstone. Then she gave him a draught of elixir. \"Half of thee is mortal and half is fay,\" she said. Sir Gawaine followed a pale blue light through the dark wood, and found them beside the lake. \"Forgive me!\" he cried, and Sir Pellias forgave him freely. Then knight and lady rode into the water together, and were seen no more by mortal men."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: bewitch — to charm someone with magic so that he cannot think or act for himself."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: loadstone — a stone with the strange power to draw iron toward it."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 13 · The White Hart",
+      "art": "arthur-white-hart",
+      "artPrompt": "a pure white stag with a golden collar leaping past a long feast table in a forest clearing, a white hound close behind, startled lords and ladies rising from their benches, dappled sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One warm day King Arthur and Queen Guinevere feasted in pavilions at the forest edge. Suddenly a white hart, wearing a collar of gold, burst from the trees. A white hound chased it three times around the feast tables. Hard after them came a knight in black armor. He struck down a half-armed knight with one blow and carried the knight's beautiful lady away, though she screamed. \"Who will follow this adventure?\" asked the King. Sir Gawaine took it gladly and led his young brother Gaheris with him. In the forest they found two brothers. They had fought a fierce battle over which of them should ride on this quest. Sir Gawaine made them ashamed of their wounds, and they were friends again."
+        },
+        {
+          "kind": "text",
+          "text": "Soon they found the white hound lying dead by the road, pierced through with three arrows. At a castle of five towers the white hart fed upon the lawn. Gawaine chased it into the courtyard and slew it with one swift blow. Then the lady of the castle shrieked to see her beloved hart dead. Her lord struck Gawaine suddenly and sorely. Gawaine, mad with the pain of his wound, raised his sword to slay the fallen man. The lady threw herself between them. The flat of the blade struck her neck, so that the blood ran down upon her kerchief. Gawaine stood stricken with shame at what he had done."
+        },
+        {
+          "kind": "text",
+          "text": "The lord of the castle was Sir Ablamor of the Marise. He told how a lady in crimson, with hair like red gold, had brought two gifts. The white hart she gave to his wife, and the white hound to his wife's sister. From that day the two houses had lived in bitter quarrel. \"That was the sorceress Vivien,\" said Sir Gawaine. So he made the brothers friends again and set the captive lady free. But Queen Guinevere was displeased when she heard the tale. She said that a sword which had struck a lady was dishonored forever. Sir Gawaine heard her words in anger, and broke his own sword across his knee."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: hart — a grown male deer. A white hart was thought to be a magical and lucky beast."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-white-hart",
+          "text": "The white hart with its golden collar dashes past the king's feast table with the white hound behind."
+        },
+        {
+          "kind": "text",
+          "text": "Some time after this, King Arthur rode out gaily from Tintagalon with only his esquire Boisenard. In the forest the two lost their way. At night they saw a light, and came to a grim castle, where a feast was spread. At its head sat a stern old knight in black. About his throat hung a chain of gold and a locket. \"Let us prove our courage,\" said the knight. \"Thou shalt strike off my head, and if I do not die, I shall strike off thine.\" Arthur took Excalibur and smote, and the head flew far. But the body rose, took up the head, and set it back upon the neck, and all the castle laughed. Then the cold blade was laid upon Arthur's own neck, and lifted again and again."
+        },
+        {
+          "kind": "text",
+          "text": "The knight promised to spare Arthur's life for a year and a day. In return, Arthur must pledge his knightly word to come back. He set the King a riddle too. \"What is it that a woman desires most of all in the world?\" If Arthur answered it rightly when he returned, his life would be spared. So the King rode home with a heavy heart and charged Boisenard to keep silence. All that year he asked everyone he met for the answer. One said riches, one said beauty, one said fine raiment, but no answer seemed good to him."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: riddle — a hard question whose answer is hidden in clever words."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 14 · The Knight-Enchanter Overcome",
+      "art": "arthur-enchanter-overcome",
+      "artPrompt": "a handsome knight kneeling with two lit golden candlesticks before a beautiful dark-haired lady in a richly furnished chamber, warm candlelight, tapestries on the walls, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "The day before his covenant fell due, Arthur wandered sorrowing beside the forest. In a hut under a great oak he found an old woman. So wrinkled and ugly was she that he had never seen her like. Yet she knew him at once, and she knew the answer to the riddle. \"I will tell it thee,\" she said. \"But thou must promise that I shall choose one of thy knights to be my husband.\" Arthur thought long. \"What will my kingdom do if I die?\" he said. \"I have no right to die.\" So he promised. \"That which a woman most desires is to have her own will,\" said the old woman. Then she told him the knight's secret. His life did not live in his body, but in a crystal ball within the locket at his throat."
+        },
+        {
+          "kind": "text",
+          "text": "At the castle the old knight listened to the answer and could not speak. Then Arthur turned the game upon him. \"Now it is my turn to name a sport,\" he said. \"Give me that chain and locket, and I will give thee my collar.\" The enchanter turned pale as ashes. Arthur caught the locket from his neck and threw the crystal ball down upon the stone floor. It broke with a loud noise, and the knight-enchanter fell dead where he stood. None dared stay the King as he rode out. He kept his pledge like an honorable man. He set the old woman upon his horse and bore her to the court. There he honored her as if she had been a queen."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-enchanter-overcome",
+          "text": "Sir Gawaine kneels with two golden candlesticks before the beautiful lady who stood in place of the old woman."
+        },
+        {
+          "kind": "text",
+          "text": "Then Arthur told the court all his danger, and the old woman pointed her long finger at Sir Gawaine. \"I would marry that lord,\" she said, \"for I see he is the son of a king.\" Sir Gawaine came and took her hand and set it to his lips, and no man smiled. She was clad in rich robes, and wedded to him in the chapel with great pomp. All the court grieved as for a death. That night Gawaine was ashamed and hid himself. Then he remembered his knighthood. \"She is my true wedded wife,\" he said, \"and I must treat her with regard.\" He brought two waxen tapers, and behold, before him stood a lady young and beautiful beyond all words."
+        },
+        {
+          "kind": "text",
+          "text": "\"Because thou hast taken me with courtesy,\" she said, \"part of my enchantment is gone. Yet for one half of every day I must again be old and ugly.\" Gawaine gave her the choice. She chose to be fair before the world and old at home. \"So be it,\" he said. \"Thou shalt have thy will in all things.\" Then the lady laughed for joy, for that was the last trial. She was fair forever now. She was one of the Ladies of the Lake, who had become mortal for his sake. There was feasting and singing in the house that night, and all the court wondered and rejoiced. So Gawaine's gentleness won him honor and happiness together."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: locket — a small case on a chain, worn about the neck to hold a treasure or a picture."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: will — the thing a person chooses for herself. To have her own will was what the lady most desired."
+        }
+      ]
+    }
+  ]
+}

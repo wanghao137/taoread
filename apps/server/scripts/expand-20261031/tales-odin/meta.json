@@ -1,0 +1,36 @@
+{
+  "id": "tales-odin",
+  "packFile": "tales-odin.ts",
+  "target": 14,
+  "parts": ["1-14"],
+  "book": {
+    "title": "The Children of Odin",
+    "author": "Padraic Colum",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "9-12",
+    "intro": "Before the world was old, the gods of the north lived in their shining city: Odin the All-Father, Thor with his mighty hammer, Loki the trickster, gentle Balder the beautiful. Here are their greatest stories — and the tale of how that world ended.",
+    "coverArt": "odin-world-tree",
+    "coverArtPrompt": "巨大的世界树下独眼奥丁披风猎猎骑八足神马，肩头落着两只乌鸦，远处彩虹桥与诸神宫殿，北欧神话风格插画",
+    "coverFrom": "#1A237E",
+    "coverTo": "#9FA8DA",
+    "source": "The Children of Odin by Padraic Colum (1920), Project Gutenberg #24737, US public domain; retold in simple English, 14 chapters selected across the original four parts",
+    "rights": { "workTitle": "The Children of Odin", "author": "Padraic Colum", "authorDeathYear": 1972, "jurisdiction": "US", "basis": "pd-us", "note": "本书 1920 年首版，已入美国公版（pre-1930）；文本取自古登堡计划 #24737，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Building of the Wall", "beats": ["众神建起阿斯加德，来了一名要包建城墙的巨人", "巨人索要太阳月亮和女神芙蕾雅作工钱，洛基出主意拖延工期", "洛基变成母马引走神马，雷神归来挥锤赶走巨人，众神保住了芙蕾雅"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 2 章" },
+    { "title": "Chapter 2 · Iduna and Her Apples", "beats": ["伊登娜的金苹果让众神永葆青春，一天她被怪鹰掠走", "洛基借来鹰羽衣飞进风暴巨人的家，把伊登娜变成核桃带回", "巨人化作风暴追赶被烧落，金苹果回到阿斯加德，众神重现青春"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 3 章" },
+    { "title": "Chapter 3 · Sif's Golden Hair", "beats": ["洛基偷偷剪掉了西芙的金发，雷神举锤要教训他", "洛基求矮人打造会生长的金发，还赢来神锤妙尔尼尔", "矮人兄弟打赌争胜，锤子短小却百发百中，落回雷神手中"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 4-5 章并编" },
+    { "title": "Chapter 4 · Freya's Necklace", "beats": ["芙蕾雅用一夜的手工换来矮人打造的绝美项链", "奥丁命洛基盗走项链，守门神海姆达尔追回宝物", "她走遍世界寻找所爱而不得，泪珠落地化作黄金"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 6 章" },
+    { "title": "Chapter 5 · Frey and Gerda", "beats": ["弗雷坐上奥丁的宝座，望见巨人国少女歌尔达一见倾心", "他献出神剑派侍从去求婚，歌尔达终于答应相会", "失去神剑埋下隐患，预言说末日之战时弗雷将无助"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 7 章" },
+    { "title": "Chapter 6 · Heimdall and All Things", "beats": ["海姆达尔生于九位波浪姊妹，耳听万物眼观千里", "众神之父教他分辨万物的声音，他成为最忠诚的守门人", "他走过人间三户人家，留下三个孩子的歌谣与祝福"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part I 第 8 章" },
+    { "title": "Chapter 7 · Odin's Sacrifice", "beats": ["奥丁渴望智慧，来到智慧之泉求密米尔卖他一口水", "一口水要一只眼睛作价，奥丁挖出眼睛掷入泉中", "从此独眼的奥丁看得比谁都远，被尊为众神之父"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part II 第 1 章" },
+    { "title": "Chapter 8 · The Magic Mead", "beats": ["巨人藏起会赋诗才的蜜酒，众神与诗人都想得到", "奥丁化名进城做工，用钻头钻透山岩寻到藏酒处", "他一口饮尽蜜酒变鹰飞回，诗才从此来到人间了"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part II 第 3 章" },
+    { "title": "Chapter 9 · Thor in the Giants' City", "beats": ["雷神与洛基来到巨人国，国王乌特加洛基设下比试", "洛基比吃力，随从比跑步比力气，样样看起来都输了", "国王揭开谜底：全是幻术，巨人国的力量深不可测"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part II 第 5 章" },
+    { "title": "Chapter 10 · Thor and Thrym", "beats": ["巨人斯利姆偷走神锤，索要芙蕾雅作新娘才肯归还", "众神让雷神男扮女装冒充新娘，洛基扮侍女随行", "婚礼上神锤放到膝头，雷神夺锤痛击巨人，夺回宝锤"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part II 第 6 章" },
+    { "title": "Chapter 11 · The Children of Loki", "beats": ["洛基与巨人国女子生下巨狼、巨蟒与半生半死的女儿", "奥丁把巨蟒抛入深海，又把女儿海尔贬去了冥界", "小狼芬里尔被魔法锁链缚住，咬断了战神的一只手"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part III 第 5 章" },
+    { "title": "Chapter 12 · Baldur's Doom", "beats": ["光明神巴德尔夜夜做不祥的噩梦，众神忧心忡忡", "弗丽嘉命万物发誓不伤巴德尔，独漏了小小的槲寄生", "洛基哄盲神掷出槲寄生，巴德尔中招死去，全境举哀"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part III 第 6 章" },
+    { "title": "Chapter 13 · Loki's Punishment", "beats": ["巴德尔去了冥界，海拉说万物为他哭泣才能放行", "众神擒住害人的洛基，把他绑在滴毒液的岩石上", "妻子西格恩捧着碗接毒，毒滴落时大地随他颤抖"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part III 第 7 章" },
+    { "title": "Chapter 14 · The Twilight of the Gods", "beats": ["预言之日到来，恶狼吞下太阳，巨魔挣脱，末日之战爆发", "雷神与巨蟒同归于尽，奥丁战死恶狼，火焰吞没世界", "大地重焕青绿，幸存的神与人在新世界里重建家园"], "sourceRef": "从底本四部 35 章选 14 章 · 原 Part IV 第 11 章" }
+  ]
+}

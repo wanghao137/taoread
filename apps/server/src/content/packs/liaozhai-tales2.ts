@@ -1,0 +1,258 @@
+/**
+ * 《聊斋故事·机灵篇》——找故事内容扩充第四轮（2026-10-31）。
+ * 底本：《聊斋志异》原著公版（蒲松龄 1715 年卒），选取适合儿童的篇目改写，忠于原篇情节
+ */
+import type { PackBook } from '../types'
+
+export const liaozhaiTales2: PackBook = {
+  "id": "liaozhai-tales2",
+  "title": "聊斋故事·机灵篇",
+  "author": "清·蒲松龄 · 桃阅读 改写",
+  "lang": "zh",
+  "category": "story",
+  "ageStage": "6-8",
+  "intro": "会穿墙的道士学到家了吗？小狮猫怎么斗赢大老鼠？偷来的鸭子怎么变成一身的鸭毛？六个机灵的聊斋故事，笑着让人明白道理。",
+  "coverArt": "liaozhai2-wallwalk",
+  "coverArtPrompt": "月夜道观外，一个书生闭眼撞向院墙，墙上只有淡淡月影，道童捂嘴偷笑，水墨童话风",
+  "coverFrom": "#1A237E",
+  "coverTo": "#C5CAE9",
+  "source": "《聊斋志异》原著公版（蒲松龄 1715 年卒），选取适合儿童的篇目改写，忠于原篇情节",
+  "rights": {
+    "workTitle": "聊斋志异·机灵篇",
+    "author": "蒲松龄",
+    "authorDeathYear": 1715,
+    "jurisdiction": "CN",
+    "basis": "adapted",
+    "note": "《聊斋志异》作者卒于 1715 年，远超保护期；本包选取儿童适宜篇目按原文情节改写"
+  },
+  "chapters": [
+    {
+      "title": "第一章 · 崂山道士",
+      "art": "liaozhai2-wall-spell",
+      "artPrompt": "a young scholar with closed eyes rushing headlong toward a courtyard wall at night while his startled wife watches, a big bump rising on his forehead, moonlight over a small farmhouse, humorous Chinese ink-wash storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "从前有个姓王的书生，家境宽裕，人却闲得发慌。他最爱听神仙的故事，一听就入了迷。听说崂山上住着位老道士，道行深得很。王生便收拾行囊，一路寻上了崂山。山上果然有座道观，清幽雅静。老道士鹤发童颜，一望便知是高人。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "崂山——在山东青岛，一边是山，一边是海，云雾绕着山顶。传说山上住过许多修炼的高人，老故事里常提到它。"
+        },
+        {
+          "kind": "text",
+          "text": "王生磕头拜师，老道士收下了他。递给他一把斧头：「先跟大伙儿砍柴去。」从此天不亮就上山，砍柴砍到日头落山。手上磨出了茧，肩头压出了印。苦熬了一个多月，王生吃不消了。他动了回家的心思，只想收拾包袱下山。"
+        },
+        {
+          "kind": "text",
+          "text": "一天傍晚，客人来访，师生围着桌子喝酒。老道士剪了张圆纸片，往墙上一贴。纸片竟成了一轮明月，满屋亮堂堂。王生看呆了，回家的事再没提起。又苦熬了一个月，柴照旧砍。他终于鼓起勇气：「我想学真本事。」老道士点点头，教了他一道穿墙的咒语。「心要诚，念完咒朝墙冲。心里存了不敬，法术就不灵了。」"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-wall-spell",
+          "text": "王生闭眼念咒，一头朝院墙冲去，妻子在旁边又惊又笑。"
+        },
+        {
+          "kind": "text",
+          "text": "王生欢欢喜喜下了山。到家就跟妻子夸口：「我遇上神仙，学会了穿墙！」妻子直摇头，说什么也不信。王生站到院墙前，念起咒语。他退开几步，猛地朝墙冲去。「咚」的一声，结结实实撞在墙上。额头顿时鼓起一个大包，像扣了半个鸡蛋。妻子又心疼又好笑，扶他坐了好半天。王生又气又臊，直骂老道士不讲情面。额头的大包，过了好些天才消下去。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "咒语——道士念的一种口诀。故事里说，念对了咒语，人能从墙里穿过去；可心里存了不敬，咒语就不灵了。"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 牧童与狼",
+      "art": "liaozhai2-wolves-haystack",
+      "artPrompt": "a butcher with a shoulder pole standing back against a huge haystack on a moonlit threshing ground, gripping a long knife while two wolves with glowing eyes watch from the dark, tense storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "天擦黑，一个屠户挑着担子往家赶。担子里的肉卖光了，只剩几根骨头。半路上，两只狼悄悄跟了上来。狼眼睛幽幽发亮，不远不近，一直缀在身后。屠户心里发毛，脚步越走越快。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "屠户——靠杀猪卖肉过日子的人。旧时他们天不亮就起身干活，挑着担子走村串镇，风里来雨里去。"
+        },
+        {
+          "kind": "text",
+          "text": "他扔出一根骨头，一只狼停下来啃。另一只狼不理会，仍旧跟着。他又扔一根，后面的狼停了，前头的却又追上来。骨头扔完了，两只狼一齐逼上来。屠户急出一身汗，四下里张望。好在前面有个麦场，场边堆着高高的柴垛。"
+        },
+        {
+          "kind": "text",
+          "text": "屠户一口气跑过去，背靠柴垛，放下担子。他抄起杀猪刀，摆开架势。两只狼不敢上前，远远地瞪着他。对峙了好一会儿，一只狼径自走开了。另一只像狗似的蹲在屠户面前。蹲着蹲着，眼睛慢慢闭上，一副悠闲模样。屠户突然跳起，一刀劈了过去。那只狼当场倒下。他刚要挑担子走，回头一瞧，柴垛后头沙沙作响。"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-wolves-haystack",
+          "text": "月光下的麦场，屠户背靠柴垛持刀对峙，暗处两狼眼睛发亮。"
+        },
+        {
+          "kind": "text",
+          "text": "原来另一只狼钻进了柴垛，身子进去了一半。它只露着尾巴和后腿，正想打通一个洞。打算从背后扑上来咬人。先前那只装睡，全是为了稳住屠户。好一个一明一暗的主意！屠户看破了两狼的算计。他从后面下手，也把这只狼放倒了。挑起担子往家赶，月亮升得老高。路上再没有那对发亮的狼眼睛。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "麦场——打麦子用的空场子。场主常把柴草堆在场上，堆得又高又厚，远远看去像座小山丘。"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 大鼠斗狮猫",
+      "art": "liaozhai2-cat-rat-duel",
+      "artPrompt": "a fluffy white lion cat crouching calm on a table while a huge exhausted rat pants on the floor of a palace room, people peeking through the door crack, humorous Chinese storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "皇宫里闹起了鼠患。有只大鼠，个头跟猫差不多大。它咬坏衣裳，啃破箱笼，横行无忌。宫里从各地找来好几只好猫。可一放进屋，连猫都吃了亏。大家急得团团转，没了主意。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "狮猫——毛长而蓬松的一种猫，脑袋圆圆的，模样像小狮子。故事里这一只，浑身白得像一团雪。"
+        },
+        {
+          "kind": "text",
+          "text": "后来有人进贡来一只外国狮猫。它浑身雪白，胖乎乎的。人们把它抱进大鼠常出没的屋子，关上门。门外的人扒着门缝，大气不敢出。狮猫蹲在地上，一动也不动。过了好半天，大鼠从洞里探出头。它一见猫，噌地蹿出来，恶狠狠扑上去。"
+        },
+        {
+          "kind": "text",
+          "text": "狮猫轻轻一跳，躲开了。大鼠追上桌，狮猫跳下地。大鼠跳下地，狮猫又上了桌。上上下下，不知扑了多少回。门外的人直嘀咕：「这猫八成是怕了。」可狮猫不恼也不急。它不慌不忙，就这么稳稳地耗着。"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-cat-rat-duel",
+          "text": "宫室里白狮猫安稳蹲着，大鼠气喘吁吁伏在地上，门外人影贴着门缝张望。"
+        },
+        {
+          "kind": "text",
+          "text": "大鼠折腾了半天，渐渐没了力气。它肚皮一起一伏，蹲在地上直喘气。就在这时，狮猫猛地扑下去。它一把按住大鼠，狠狠咬住不放。大鼠连挣都没挣脱。门外的人开门一瞧，大鼠已经没气了。原来猫躲不是害怕，是等它力气用完。个头小的狮猫凭沉住气，赢下了这场恶斗。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "以静制动——先稳稳沉住气，再瞅准时机出手。遇事不慌不乱，往往比瞎扑腾管用得多呢。"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 骂鸭",
+      "art": "liaozhai2-duck-feathers",
+      "artPrompt": "a frightened man covered in soft duck feathers holding his aching arm by lamplight, an old kind neighbor laughing and scolding gently at the doorway of a village house, humorous storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "白家庄有个白某，嘴馋手懒。一天夜里，他翻墙钻进邻家院子。他偷了老头的鸭子，煮着美美吃了一顿。半夜睡下，皮肤忽然痒得钻心。天亮一瞧，他吓了一大跳。浑身上下，长出一层细茸茸的鸭毛！一碰就疼，怎么也褪不掉。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "失主——丢失东西的主人。白某的故事里，失主肯不肯开口骂，竟然这么要紧，你说怪不怪？"
+        },
+        {
+          "kind": "text",
+          "text": "他偷偷去请大夫，药吃了，汤药敷了。鸭毛照样长，一点不见好。夜里他做了个梦。梦里有人对他说：「你偷了人家的鸭子，这是天罚。要让失主开口骂你一顿，毛才会脱落。」白某醒来，急急忙忙去找邻家老头。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "鸭绒——鸭子身上细软的绒毛，冬天絮被子又轻又暖。白某长了一身，却痒得钻心，一点也不好玩。"
+        },
+        {
+          "kind": "text",
+          "text": "邻家老头心善，丢了东西从不骂人。白某绕着弯子说：「老伯，有人偷了您的鸭子。您骂他一顿吧。」老头摆摆手，笑道：「一把年纪了，犯不着跟贼置气。」白某急得满脸通红，只得把偷鸭的事照实说了。老头见他把话说透了，倒也不恼。他笑着数落起来：「馋嘴偷鸭，羞不羞哟！往后手脚放干净些！」"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-duck-feathers",
+          "text": "灯下白某捂着长满鸭毛的胳膊，白胡子老头笑着数落他。"
+        },
+        {
+          "kind": "text",
+          "text": "这一顿善意的骂，骂得白某无地自容。说也奇怪，骂声刚落，他浑身一痒。鸭毛簌簌往下掉，不多时就落了个干净。白某摸摸胳膊，长长出了一口气。从此他再不敢拿别人一针一线。馋嘴的毛病，也从此改掉了。"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 雨钱",
+      "art": "liaozhai2-money-rain",
+      "artPrompt": "copper coins raining down from dark wooden beams inside a small room, a delighted young scholar reaching up while an old fox spirit strokes his beard beside him, warm storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "从前有个秀才，天天在书斋里用功。一天，来了位白胡子老翁。老翁衣裳古旧，谈吐却文雅极了。两人谈诗论文，越谈越投缘。秀才后来才知道，老翁原是修炼多年的狐仙。他心里一动，悄悄央求：「老丈有仙术，教教我发财的门路吧。」"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "书斋——读书人读书写字的屋子。屋里摆着笔墨纸砚，窗明几净，秀才天天在这里用功念书。"
+        },
+        {
+          "kind": "text",
+          "text": "老翁沉吟半晌，点头应了。他要来十几枚铜钱作本钱，领秀才进了密屋。只见老翁迈着方步，口中念念有词。忽听梁上叮叮当当，铜钱雨点似的往下落。转眼钱堆过了膝盖。抬抬脚，又淹过脚踝。满屋哗啦作响，秀才乐得合不拢嘴。"
+        },
+        {
+          "kind": "text",
+          "text": "老翁问：「够了吗？」秀才连连摆手：「不够不够，再下再下！」老翁叹了口气：「这就够你家三代人吃用了。人心不知足，可不行哟。」秀才贪心不足，还想再讨。老翁把手一挥，钱雨戛然而止。叮叮当当，满屋的钱往回收。转眼飞得一枚不剩，只剩原来的十几枚。"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-money-rain",
+          "text": "密屋里铜钱从梁上哗哗落下，秀才张着两手接钱，老翁在旁摇头叹气。"
+        },
+        {
+          "kind": "text",
+          "text": "秀才急了，埋怨老翁戏弄他。老翁正色道：「我看重你的读书功夫，才来与你相交。你要的是不劳而获的钱财，这个忙，我帮不得。」说完，拂袖而去。秀才站在空荡荡的屋子里，半天说不出话。天上不会掉钱雨。日子，还得靠自己一双手。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "铜钱——古时候的钱，圆圆的铜片，中间开着方孔。用绳子串成一大串，揣在怀里沉甸甸的。"
+        }
+      ]
+    },
+    {
+      "title": "第六章 · 偷桃",
+      "art": "liaozhai2-rope-peach",
+      "artPrompt": "a bustling festival market where a rope rises straight into the clouds and a tiny boy climbs it high above, a crowd tilting their heads back in amazement, an old performer holding the rope below, Chinese New Year storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "过年赶集，集市上人山人海。锣声一响，人群围拢过来。一位老艺人挑着竹箱走来，身后跟着小儿子。爷俩当街撂地卖艺。老艺人拱手作揖，朗声道：「大过年的，玩个新鲜的。我去王母娘娘的园子里，偷几个蟠桃来。给各位老爷尝尝鲜！」人群哄地笑开了，都等着瞧。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "蟠桃——神话里的仙桃，传说吃了能添寿。王母娘娘的蟠桃园，三千年才开一回花、结一回果。"
+        },
+        {
+          "kind": "text",
+          "text": "老艺人从箱里取出一团绳子。他抓起绳头，往天上用力一抛。说也奇怪，绳子直直立起来。它越升越高，一头钻进云彩里去了。他把绳子递给小儿子：「顺着往上爬！」小儿子抱着绳子，手脚并用，像只小猴儿。爬着爬着，变成云里一个小黑点儿，一晃就不见了。"
+        },
+        {
+          "kind": "text",
+          "text": "满街的人仰着脖子，大气不敢出。忽然，一个碗口大的桃子掉了下来。它骨碌碌滚到人脚边。接着又一个、两个，桃子纷纷落了满地。老艺人笑呵呵地捡起来，捧给众人。「王母园里的仙桃，熟透啦！」喝彩声还没落，那根绳子忽然从天上滑了下来。地上的竹箱，咣当响了一声。"
+        },
+        {
+          "kind": "image",
+          "art": "liaozhai2-rope-peach",
+          "text": "集市上绳子笔直挂进云里，小人儿攀绳而上，满街的人仰头张望。"
+        },
+        {
+          "kind": "text",
+          "text": "箱盖一掀，小儿子从箱子里钻了出来！他笑嘻嘻拍拍身上的土，朝众人作了个揖。人群愣了一下，随即炸开了锅。叫好声响成一片，铜钱雨点似的丢进场子。老艺人挑起箱子，牵着儿子挤出人群。好一场戏法，到今天也没人说得清是怎么变的。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "幻术——古人对戏法的叫法。靠巧妙的手法变出奇景，看得人目瞪口呆，却说不清门道在哪。"
+        }
+      ]
+    }
+  ]
+}

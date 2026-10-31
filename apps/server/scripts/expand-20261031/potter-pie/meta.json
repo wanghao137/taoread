@@ -1,0 +1,27 @@
+{
+  "id": "potter-pie",
+  "packFile": "potter-pie.ts",
+  "target": 5,
+  "parts": ["1-5"],
+  "book": {
+    "title": "The Tale of the Pie and the Patty-Pan",
+    "author": "Beatrix Potter",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "3-5",
+    "intro": "Ribby the cat invites Duchess the little dog to tea. Duchess brings her own pie — just in case — and the two ovens in Ribby's kitchen make the most puzzling lunch in the village.",
+    "coverArt": "pie-pan-oven",
+    "coverArtPrompt": "乡村小屋里猫小姐端着茶壶发愁，狗小姐捂着肚子坐在餐桌旁，两只烤炉冒着热气，温馨诙谐的英式童话插画",
+    "coverFrom": "#795548",
+    "coverTo": "#EFEBE9",
+    "source": "The Tale of the Pie and the Patty-Pan by Beatrix Potter (1905), Project Gutenberg #15234, US public domain; retold in simple English in 5 chapters following the original storyline",
+    "rights": { "workTitle": "The Tale of the Pie and the Patty-Pan", "author": "Beatrix Potter", "authorDeathYear": 1943, "jurisdiction": "US", "basis": "pd-us", "note": "波特卒于 1943 年，本书 1905 年首版已入美国公版；文本取自古登堡计划 #15234，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Invitation", "beats": ["猫小姐丽比请狗小姐杜莎来家喝茶，主菜是一只烤饼", "杜莎一听烤饼就发愁：万一是老鼠馅的可怎么好", "她决定带上自己做的牛肉火腿饼去赴这场茶会"], "sourceRef": "从底本连续故事按情节自然分 5 章 · 本章 1/5" },
+    { "title": "Chapter 2 · Duchess's Little Plan", "beats": ["杜莎的饼上插着一张锡纸馅饼托，好让蒸汽冒出来", "她打定了主意：把自家的饼悄悄换进丽比的烤炉里", "这样不管丽比烤的是什么，吃到嘴里的都很放心"], "sourceRef": "从底本连续故事按情节自然分 5 章 · 本章 2/5" },
+    { "title": "Chapter 3 · The Two Ovens", "beats": ["丽比把老鼠培根饼放进下层烤炉，免得烤得太快", "杜莎左找右找没看见饼，就把自家饼放进上层烤炉", "两只烤炉里各烤着各的饼，一场误会悄悄酿成了"], "sourceRef": "从底本连续故事按情节自然分 5 章 · 本章 3/5" },
+    { "title": "Chapter 4 · Tea with a Worry", "beats": ["茶会上杜莎一连吃了四份饼，还当是自己的牛肉馅", "她在盘子里翻找那只锡纸小馅饼托，越找越心慌", "丽比请来喜鹊大夫，一粒面包药丸安住杜莎的心"], "sourceRef": "从底本连续故事按情节自然分 5 章 · 本章 4/5" },
+    { "title": "Chapter 5 · The Pie in the Garden", "beats": ["杜莎打开上层烤炉，自家的饼原封没动托也还在", "她把饼藏进后院，却被喜鹊和寒鸦们发现吃光了", "丽比捡回碎掉的饼盘，笑着说下回得另请客人了"], "sourceRef": "从底本连续故事按情节自然分 5 章 · 本章 5/5" }
+  ]
+}

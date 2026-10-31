@@ -1,0 +1,194 @@
+{
+  "chapters": [
+    {
+      "title": "第一章 · 缺水的山寨",
+      "art": "longfamei-dry-village",
+      "artPrompt": "a mountain village of wooden stilt houses among green hills, a girl with very long black hair carrying firewood up a dry mountain path, faraway villagers carrying water buckets over a ridge, warm morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "很久以前，大山深处有个侗家山寨。寨里什么都好，就是缺水。乡亲们翻山越岭，去很远的地方挑水。一挑水来回走半天，肩膀磨得又红又肿。日子一年年过，寨子里最怕天旱。"
+        },
+        {
+          "kind": "note",
+          "text": "乌黑——就是黑得发亮的意思。长发妹一头乌黑的长发，一直垂到脚后跟，寨子里人人都夸她好看。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "寨里有个姑娘，人人叫她长发妹。她有一头乌黑的长发，垂到脚后跟。长发妹心眼好，手脚也勤快。她天天上山砍柴，还帮着老人挑水。寨里人人夸她，夸她勤劳又善良。"
+        },
+        {
+          "kind": "image",
+          "art": "longfamei-dry-village",
+          "text": "长发妹背着柴刀走在山路上，乌黑的长发在山风里轻轻飘起来。"
+        },
+        {
+          "kind": "text",
+          "text": "这天清早，长发妹又背上柴刀上山。她一边走，一边想心事。爹娘年纪大了，喝口水都要翻山。乡亲们挑水挑弯了腰，秧苗渴得打了卷。要是寨门口有眼清泉，那该多好啊。"
+        },
+        {
+          "kind": "text",
+          "text": "山风轻轻吹来，吹起她的长发。长发妹坐在路边石头上发愁。娃娃们渴得嘴唇发白，老人只舍得上半碗水。她心里像压了一块大石头，闷得说不出话来。"
+        },
+        {
+          "kind": "note",
+          "text": "挑水——用扁担挑着两只水桶运水。寨里没有井，乡亲们只好天不亮就起身，翻过山梁去挑水。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 石壁泉眼",
+      "art": "longfamei-cliff-spring",
+      "artPrompt": "a tall steep gray cliff with a hidden spring bubbling from mossy rocks at its base, a girl kneeling to drink from cupped hands, a bundle of firewood beside her, dappled golden sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "长发妹越走越深，来到一面大石壁下。她砍了满满一捆柴，日头火辣辣的。喉咙干得直冒烟，她四下找水喝。忽然，石壁脚下传来叮咚叮咚的响声。"
+        },
+        {
+          "kind": "note",
+          "text": "叮咚——是泉水滴落在石头上的声音。它清清脆脆的，像一只小小的铃铛在山里响着，好听极了。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "她轻手轻脚凑过去一看，愣住了。石壁脚下藏着一眼清泉！泉水咕嘟咕嘟往外冒，清亮亮的。它顺着石缝悄悄流走，怪不得谁也没发现。"
+        },
+        {
+          "kind": "image",
+          "art": "longfamei-cliff-spring",
+          "text": "长发妹捧起石壁下的清泉，泉水清亮亮的，在阳光里闪闪发亮。"
+        },
+        {
+          "kind": "text",
+          "text": "长发妹放下柴捆，捧起一捧泉水。她一喝，凉丝丝、甜津津，甜到了心里。她高兴得直想大声喊，让全村人都来挑水！可话到了嘴边，山风忽然停了。"
+        },
+        {
+          "kind": "text",
+          "text": "泉水在日头下闪闪发亮，像一面小镜子。长发妹围着泉眼，看了又看。她心里盘算开了：得赶紧回寨报信。让乡亲们带上水桶扁担，把这眼泉水接回家。"
+        },
+        {
+          "kind": "note",
+          "text": "泉眼——泉水的出口。地下水从石缝里冒出来，就成了泉。泉眼在哪儿，水就从哪儿流出来。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 山神的警告",
+      "art": "longfamei-mountain-god",
+      "artPrompt": "a stern mountain spirit with wild hair and a leaf robe stepping out from behind a dark cliff, swirling cold wind, a startled girl with long black hair holding a bundle of firewood, dramatic dusk light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "忽然，石壁后头卷起一阵阴风。一个凶巴巴的山神，拦住她的去路。他瞪着长发妹说：「这是山里的神泉。谁敢说出去，谁就要受罚！」"
+        },
+        {
+          "kind": "note",
+          "text": "山神——民间故事里看守一座大山的神仙。他法力大，脾气也大，山里人都又敬他又怕他。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "长发妹吓了一跳，柴刀当啷落了地。山神说完，一转身钻回石壁里。她抱着柴捆，一步一步挪回寨子。心里扑通扑通，直跳个不停。"
+        },
+        {
+          "kind": "image",
+          "art": "longfamei-mountain-god",
+          "text": "山神从石壁后走出来，恶狠狠地瞪着长发妹，阴风卷起她的长发。"
+        },
+        {
+          "kind": "text",
+          "text": "打那天起，长发妹把秘密藏在心里。乡亲们翻山挑水，肩膀压得又红又肿。田里的秧苗晒得打了卷，她心里像针扎。这秘密说也不是，不说也不是。她天天熬煎，愁得吃不下饭。"
+        },
+        {
+          "kind": "text",
+          "text": "夜里，长发妹翻来覆去睡不着。泉水叮咚叮咚，老在她耳边响。她摸着乌黑的长发，暗暗下了决心。就算山神要罚，也要救乡亲们！"
+        },
+        {
+          "kind": "note",
+          "text": "熬煎——就是又愁又苦、日子难熬的意思。心里揣着难事说不得，天天熬煎，觉也睡不安稳。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 长发变白",
+      "art": "longfamei-white-hair",
+      "artPrompt": "a girl with long flowing white hair standing beside a spring bursting from a broken cliff, villagers cheering with wooden buckets and bamboo spouts, warm lantern light at dusk, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "第二天一早，长发妹敲响寨里的铜鼓。铜鼓声传出寨门，乡亲们都赶来了。她带着乡亲们，扛着铁锤钢钎上山。「这儿有一眼神泉，咱们把它凿开！」叮叮当当的凿石声，响遍了山谷。"
+        },
+        {
+          "kind": "text",
+          "text": "石壁凿开了，泉水哗啦啦涌出来。清亮的泉水流进木枧，流进寨子里。乡亲们又蹦又跳，捧起泉水笑出了泪。长发妹站在人群里，笑得比谁都欢。"
+        },
+        {
+          "kind": "image",
+          "art": "longfamei-white-hair",
+          "text": "长发妹带着乡亲们凿开石壁，清亮的泉水哗啦啦流进山寨。"
+        },
+        {
+          "kind": "text",
+          "text": "可就在这天夜里，怪事发生了。长发妹的乌黑长发，一夜全变白了。白发像雪一样，披在她肩头。她对着水缸照了照，一点儿也不后悔。她想着甜甜的泉水，心里还是甜的。"
+        },
+        {
+          "kind": "note",
+          "text": "铜鼓——侗家、壮家祖辈传下的宝贝鼓。逢大事就敲响它，鼓声沉甸甸的，能传得很远很远。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "山神呼呼地卷来，要抓她上山受罚。长发妹不哭也不躲，笑着同乡亲们告别。「泉水是大家的，我不后悔。」她理了理白发，一步一步进了深山。"
+        },
+        {
+          "kind": "note",
+          "text": "木枧——引水用的木头槽子。把木枧一架，泉水就能顺着槽子流进寨子，流进各家的水缸。",
+          "art": "lamp-hint"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 榕树赠发",
+      "art": "longfamei-banyan-gift",
+      "artPrompt": "an ancient giant banyan tree at a village gate letting down thousands of long black aerial roots over a girl's shoulders like flowing hair, villagers gathered around a clear flowing stream, bright morning light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "长发妹走到寨口，老榕树沙沙响起来。「好心的姑娘，等等！」老榕树开了口，垂下千万条榕须。榕须一条一条，飘得又轻又软。它们轻轻披到她头上，像一场黑黑的雨。"
+        },
+        {
+          "kind": "text",
+          "text": "说也奇怪，榕须一碰头皮就贴住了。它乌黑发亮，又长又密。比原来的头发还好看，白发又变黑了。山神叹了口气，悄悄退回了深山。"
+        },
+        {
+          "kind": "image",
+          "art": "longfamei-banyan-gift",
+          "text": "老榕树垂下千万条榕须，披在长发妹头上，她的头发又变得乌黑发亮了。"
+        },
+        {
+          "kind": "text",
+          "text": "长发妹摸着新头发，眼泪吧嗒吧嗒掉。乡亲们围上来，拉着她的手道谢。打那以后，清泉日夜流进山寨。泉水哗哗地流，庄稼喝得饱饱的。家家户户的水缸，都装得满满的。"
+        },
+        {
+          "kind": "note",
+          "text": "榕须——榕树上垂下来的气根。一条一条，像老人的胡子。老榕树的榕须又多又长，风一吹就飘起来。",
+          "art": "lamp-hint"
+        },
+        {
+          "kind": "text",
+          "text": "田里禾苗绿油油，娃娃们脸上有笑。老人们喝水，再不用翻山越岭了。寨口的老榕树垂着榕须，就像她的长发。一代又一代，寨里都在念她的好。"
+        },
+        {
+          "kind": "note",
+          "text": "水缸——家家户户存水的大瓦缸。挑回来的泉水倒进缸里，一家人吃水用水，全靠它装着呢。",
+          "art": "lamp-hint"
+        }
+      ]
+    }
+  ]
+}

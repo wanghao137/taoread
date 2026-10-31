@@ -1,0 +1,242 @@
+{
+  "chapters": [
+    {
+      "title": "Chapter 1 · The Sword in the Anvil",
+      "art": "arthur-sword-anvil",
+      "artPrompt": "a golden-haired boy pulling a gleaming sword out of a black iron anvil set upon a marble block before a great stone cathedral, far-off crowds and pavilions, crisp winter sunlight, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Long ago in Britain the good King Uther-Pendragon died, and no one knew who should wear his crown. The wise enchanter Merlin caused a sword to be set fast in a great iron anvil. The anvil stood upon a block of marble before the cathedral in London. Letters of gold said that only the true king could draw the blade out. So on Christmas Day the Archbishop of Canterbury called all the lords of the land to make the trial. Before that day he held a grand tournament on a meadow near the cathedral. Sir Ector of Bonmaison came there with his two sons. Sir Kay was a young knight of great fame. His brother Arthur was only eighteen, and served him as esquire and carried his spear."
+        },
+        {
+          "kind": "text",
+          "text": "In the tournament Sir Kay fought right well, and the people shouted his name. Then he struck so fierce a blow that his sword snapped short at the hilt. He called to Arthur, \"Brother, ride quickly and fetch me another sword!\" Arthur ran to their father's pavilion, but no sword was there, for all the servants were watching the fight. Then he bethought himself of the sword in the anvil by the cathedral. No guard stood there, for every man had gone to the lists. Arthur leaped upon the marble block and laid his hand upon the hilt. The blade came out as smoothly as a knife from soft butter, and it was his."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: anvil — a heavy block of iron on which smiths hammer metal into shape. This one held a magic sword."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-sword-anvil",
+          "text": "Arthur draws the shining sword easily from the iron anvil upon the marble block."
+        },
+        {
+          "kind": "text",
+          "text": "Sir Kay claimed the sword for his own, but their father Sir Ector would not believe him. He bade Kay thrust the blade back into the anvil, and Kay could not stir it one hair's breadth. Then Arthur set it back himself and drew it out again before their eyes. Sir Ector kneeled down upon the grass. \"I am not thy father,\" he said. \"Merlin brought thee to me, a baby in a scarlet mantle, eighteen years ago.\" Arthur wept to hear it. \"I would rather have my father than be a King!\" he cried. Then Merlin came with Sir Ulfius and foretold that Arthur should be the greatest king that Britain ever had. Sir Ector asked one gift only, that Kay might be steward of the realm. Arthur granted it with a kiss."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who is Merlin? He is a wise enchanter who can see things to come, and he watches over Britain and her kings."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2 · Arthur Proved King",
+      "art": "arthur-king-proved",
+      "artPrompt": "a young king in flame-colored robes swinging a bright sword over his head before a marble block and anvil, astonished kings and dukes stepping back, a huge crowd before a cathedral, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "On Christmas morning a great crowd gathered before the cathedral. The Archbishop sat on a high throne to watch the trial. Nineteen kings and dukes came, each hoping to prove himself the rightful overlord of Britain. King Lot of Orkney tried first and pulled until his face grew red. King Urien, King Mark, King Ryence, King Pellinore, and King Leodegrance all tried after him. Not one of them could move the sword even the breadth of a hair. The angry lords said that Merlin had set a mock upon them all. They begged the Archbishop to choose a king himself. But the Archbishop had faith in Merlin, and he waited a while longer."
+        },
+        {
+          "kind": "text",
+          "text": "Then Merlin came through the crowd, leading a youth clad in flame-colored raiment sewn with silver. \"This is the true son of Uther-Pendragon and of Queen Igraine,\" he said. Sir Ulfius and Sir Ector vouched for the words. Arthur went up to the marble block and drew the sword out with ease. He swung it thrice about his head, so that it flashed like lightning. Then he drove it back into the anvil. Again he drew it, and again he drove it home. So all the people saw the miracle three times over. The crowd shouted like thunder. Some kings turned away in anger, saying, \"Shall a beardless boy rule over us?\" But King Leodegrance of Cameliard came and greeted him kindly."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: overlord — a great king to whom lesser kings and lords promise obedience."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-king-proved",
+          "text": "The young king lifts the sword high while astonished kings and dukes fall back."
+        },
+        {
+          "kind": "text",
+          "text": "Still the angry lords would not be satisfied, so further trials were held at Candlemas, at Easter, and at Pentecost. At every trial the great lords failed, and at every trial Arthur drew the sword out easily. At last the people cried that enough was enough, and Arthur was crowned king in the great cathedral. Two fierce wars followed, but Arthur won them both and brought peace to the land. Then he made Sir Kay his Seneschal, the steward of all the realm. Sir Ulfius became his Chamberlain, and Merlin his counsellor. And Sir Ector remained his dear father to the end of his days."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: seneschal — the chief steward of a king's house, who manages all his court for him."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3 · The Wounded Knight",
+      "art": "arthur-wounded-knight",
+      "artPrompt": "a pale wounded knight in white and blue slumped on his horse, led by a weeping young page, arriving at a royal camp of green pavilions in a sunlit spring forest, knights rising to help, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "One bright morning in spring, King Arthur and his knights rested in the Forest of Usk. Suddenly a sorry sight came riding out of the trees. A knight, sorely wounded, hung upon his horse, and a golden-haired page held him in the saddle. The King's own doctor dressed the knight's wounds, and the page told the tale. His master, Sir Myles of the White Fountain, had found a stone bridge in the forest. An apple tree near it hung full of shields won from beaten knights. On the bridge hung a single black shield, with a hammer beside it. Red letters warned, \"Whoso smiteth this shield doeth so at his peril.\" Sir Myles had struck the shield with the hammer."
+        },
+        {
+          "kind": "text",
+          "text": "Then a knight in armor all of black rode out of the castle. He overthrew Sir Myles at the first crash of spears. He took Sir Myles's shield and left him lying in the road. A young esquire named Griflet knelt before the King. \"Grant me a boon,\" he cried. \"Make me a knight, and let me punish this discourteous champion!\" Arthur sadly granted it. Griflet kept watch of his armor all night and was knighted at morning. That evening Griflet came home as sorely wounded as Sir Myles. The Sable Knight had carried him back to his horse with courtesy, but he had kept the shield."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: boon — a favor that a person begs a king or a great lord to grant."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-wounded-knight",
+          "text": "The wounded knight in white and blue is helped down from his horse in the King's camp."
+        },
+        {
+          "kind": "text",
+          "text": "Then Arthur's anger rose hot within him. \"It is great shame that strangers are so misused in my kingdom,\" he said. He would hear no counsel against going alone. At daybreak he rode into the green forest. He came to a smiling valley, where three fair damsels played with a ball of gold. They warned him of the black knight and fed him at a silver table, for they knew that champion well. Farther on, Arthur found three charcoal burners chasing an old white-bearded man with long knives. He thundered down upon them and drove them all away. The old man was Merlin himself. \"A greater peril than this lies before thee,\" said the enchanter, and he rode on with the King."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: peril — great danger that may cost a person dearly."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 4 · The Sable Knight",
+      "art": "arthur-sable-knight",
+      "artPrompt": "two knights fighting with swords on foot on a green lawn beside a stone bridge, one in all-black armor, a broken shield on the grass, an old wizard raising his staff, a dark castle on the rocks behind, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Arthur and Merlin came at last to the dark glen and the stone bridge. Beyond it stood a grim castle built upon the rocks, and an apple tree hung with a hundred shields. Arthur smote the black shield so hard that the blow rang like thunder. The Sable Knight rode out slowly, proud and terrible in his black armor. Twice they broke their spears fairly, each against the middle of the other's shield. At the third crash Arthur's saddle girth burst, and he was hurled backward, though he kept his feet. Mad with anger, he caught the black horse's bridle and dragged the rider down. \"Come down and fight me on foot!\" he cried."
+        },
+        {
+          "kind": "text",
+          "text": "So they fought on foot like two wild bulls, and whole pieces of armor were cut away. Then Arthur's own sword broke into three pieces. Before he could guard, the Sable Knight's blade cut through helmet and shield. It bit even to the bone of his head. Arthur reeled and sank to his knees, yet still he would not yield. He caught his enemy by the sword belt and cast him heavily to the earth. When he unlaced the black helmet, he saw the face of King Pellinore. Arthur had driven that king into the forest long before. Pellinore soon shook off his fall and would have slain the fainting King. But Merlin came running and struck Pellinore with his staff, and the strong knight fell into a deep sleep."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-sable-knight",
+          "text": "King Arthur and the Sable Knight fight on foot beside the bridge while Merlin watches in fear."
+        },
+        {
+          "kind": "text",
+          "text": "Merlin led the wounded King across the bridge to the cell of a holy hermit. The good man's gentle hands had healed many hurt men. For two days Arthur lay near death. Then the Lady Guinevere of Cameliard came to the hermitage on a pilgrimage, with all her court. The fame of the saintly man had spread far. She saw the noble wounded knight and sent her own skilled doctor to him with a precious box of balsam. Soon Arthur was whole and strong again, and from that day he thought always of the beautiful lady. Merlin told him more of Pellinore. Once a great king, he now lived in the gloomy castle and warred upon all passing knights."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "Who is Guinevere? She is the fair daughter of King Leodegrance of Cameliard, and one day she will be Queen."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: hermit — a holy man who lives alone and quietly, far away from towns and courts."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 5 · Excalibur",
+      "art": "arthur-excalibur-lake",
+      "artPrompt": "a young king standing in an ornate brass boat on a flower-ringed lake, reaching up toward a jeweled sword held aloft by a slender arm in flowing white cloth, fairy-tale golden light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "When Arthur was healed he longed to fight King Pellinore again, but he had lost his sword and his spear. Merlin told him of a strange enchanted land hard by, where a lake lay among the flowers. In the middle of the lake an arm, clad in white samite, held a sword aloft. It was the fairest sword the world had ever seen. Its name was Excalibur. Many knights had tried to win it and had lost their lives. So Arthur and Merlin rode into the forest called Arroy. They followed a white doe with a collar of gold. It led them to a flowery plain where the very air shone like gold."
+        },
+        {
+          "kind": "text",
+          "text": "Beside the silver lake they saw the wonder with their own eyes, the beautiful arm rising motionless from the water. Then a lady came through the tall flowers, dressed all in green. Her black hair reached to the ground, and she wore opals and emeralds. \"I am Nymue, chiefest of the Ladies of the Lake,\" she said. \"The lake hides my castle of white marble.\" She blew upon a little whistle carved from an emerald. At once a boat of shining brass slid swiftly over the water. Arthur stepped into it, crossed the lake, and took the sword and the scabbard into his hands. Then the arm sank beneath the water and was seen no more."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-excalibur-lake",
+          "text": "Arthur in the brass boat reaches toward the sword held by the arm in white samite."
+        },
+        {
+          "kind": "text",
+          "text": "Two days later Arthur stood again before the bridge and forbade Merlin to use any magic to help him. The spears splintered as before, and then the swords rang out. But now Excalibur bit deep at every stroke, and Pellinore could not touch the King at all. Soon the great knight sank upon his knees and begged for his life. Arthur spared him freely and gave him back his lands. Only he asked that his two eldest sons be sent to court as pledges of peace. As they rode home, Merlin asked, \"Which would you rather have, Excalibur or his sheath?\" \"The sword, ten thousand times!\" said Arthur. \"Then you are wrong,\" said Merlin, \"for the sheath keeps its wearer from all wounds and loss of blood.\" So Arthur kept both, for the sake of his people."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "What is Excalibur? It is King Arthur's magic sword, so bright and strong that no other blade in the world is like it."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: scabbard or sheath — the cover in which a sword is kept when it is not being used."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 6 · The Winning of Guinevere",
+      "art": "arthur-wins-guinevere",
+      "artPrompt": "a knight in gleaming white armor with a pearl necklace tied about his arm, riding a white horse out of a red stone castle gate toward a waiting meadow, crowds watching from the walls, golden evening light, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "At a great feast in Carleon a herald came from King Leodegrance of Cameliard with sorry news. King Ryence of North Wales was threatening war. He demanded border lands. He demanded too the hand of the Lady Guinevere. It was sought for his kinsman, Duke Mordaunt of North Umber, a man ugly and violent. This was the same Ryence who once bade Arthur send him his beard to trim a mantle. At the news Arthur's face flamed with anger, and he strode alone into an inner room. Then he sent Merlin to make ready for a journey, and bade Sir Kay and Sir Ulfius gather an army. With four young knights he rode toward Tintagalon, close to the borders of Cameliard."
+        },
+        {
+          "kind": "text",
+          "text": "Merlin gave the King a little cap of magic. When Arthur set it on his head he looked like a plain country fellow, and no man could know him. Thus disguised, he walked to Cameliard and took service as a gardener's boy. He worked in the castle garden, where Guinevere walked every day among the flowers. One morning a damsel saw a strange knight with hair like red gold bathing at the marble fountain. She ran down quickly, but found only the gardener's boy. Another morning the Lady Guinevere saw the knight too, and beside the fountain lay a beautiful collar of gold. But when she reached the garden, again there was only the boy, and she went away wondering very much."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: disguise — clothing or magic that hides who a person really is."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-wins-guinevere",
+          "text": "A knight in snow-white armor rides out of the gate toward the meadow where the black-armored Duke waits."
+        },
+        {
+          "kind": "text",
+          "text": "Soon King Ryence and Duke Mordaunt came with a proud court and pitched their tents before Cameliard. The Duke rode up and down the meadow. He dared any knight of the city to fight him for the Lady Guinevere. Not one dared, for the duke was famous in arms. Then the gardener's boy slipped away and found a rich merchant named Ralph of Cardiff. To him he showed the ring of the King of Britain. He was bathed, feasted, and armed in white armor without any device. From a gallery above, Guinevere dropped down her necklace of pearls to be his token. The white champion rode out like the harvest moon, and his spear lifted the Duke out of the saddle. Arthur rode quietly away and told no man his name."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: champion — a brave knight who fights in the place of a lady or a king."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 7 · The Four Knights",
+      "art": "arthur-four-knights",
+      "artPrompt": "four armored knights at a postern gate at dawn, one holding the stirrup of a palfrey while a country lad in a frieze jerkin and worn cap climbs into the saddle, quiet forest road beyond, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "Afterward Arthur rode abroad in his white armor, wearing no crest, and met four proud knights upon the road. First came Sir Geraint, playing a lute beneath a tower where three ladies listened. He held that his ladies were fairer than Arthur's unknown lady, and they agreed to joust. The wager was this, that the loser should serve the winner for seven days. Arthur's spear held and Geraint's spear burst, and the famous knight was flung to the earth. \"Go to the Lady Guinevere and serve her seven days,\" said the victor. Then Sir Gawaine and Sir Ewaine stopped his way by the windmills. One after the other, they too were overthrown."
+        },
+        {
+          "kind": "text",
+          "text": "Last of all, Sir Pellias kept a shield on a gnarled oak by the forest. Words of warning were written beneath it. He too agreed to the seven days' wager, and he too came down from his saddle with a mighty fall. So the four famous knights came to Cameliard, red with shame, to serve the Lady Guinevere. She heard that one unknown knight had overthrown them all in a single day. Her heart was lifted with pride. She wondered greatly who her white champion might be. Sir Gawaine, the son of King Lot, bore his disgrace the most sulkily of the four."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: joust — to ride at another knight with a long spear, trying to throw him from his horse."
+        },
+        {
+          "kind": "image",
+          "art": "arthur-four-knights",
+          "text": "The four knights in armor hold the stirrup and the palfrey while the plain gardener's boy mounts."
+        },
+        {
+          "kind": "text",
+          "text": "Then the Lady Guinevere sent for the four knights. She asked them to fight the Duke of North Umber for her father's sake. Sir Gawaine refused, for their vows bound them to King Arthur only, and hot words passed between them. The next day the gardener's boy sent her the pearl necklace back, with a strange command. She must give him food from her own table, and the four knights must serve him and obey him. Laughing and weeping for joy, for now she knew who he was, the Lady Guinevere commanded it so. The angry Gawaine swore to slay the saucy boy, but they served him, and held his stirrup while he mounted. In the wood he took off his cap, and there sat King Arthur. All four knights sprang down and kneeled in the dust of the road."
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "New word: vow — a solemn promise that a true knight must never break."
+        }
+      ]
+    }
+  ]
+}

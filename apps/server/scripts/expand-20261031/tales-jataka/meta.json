@@ -1,0 +1,32 @@
+{
+  "id": "tales-jataka",
+  "packFile": "tales-jataka.ts",
+  "target": 10,
+  "parts": ["1-10"],
+  "book": {
+    "title": "Jataka Tales",
+    "author": "Ellen C. Babbitt (retold)",
+    "lang": "en",
+    "category": "tale",
+    "ageStage": "6-8",
+    "intro": "Long ago in India, stories were told about the Buddha's earlier lives — as a clever monkey, a patient turtle, a brave little quail. Each tale ends with a simple wisdom that still holds true.",
+    "coverArt": "jataka-pond",
+    "coverArtPrompt": "古代印度的池塘边，猴子骑在鳄鱼背上渡河，远处菩提树与金黄色稻田，印度细密画风格的温暖童话插画",
+    "coverFrom": "#6A1B9A",
+    "coverTo": "#D1C4E9",
+    "source": "Jataka Tales retold by Ellen C. Babbitt (1912), Project Gutenberg #62514, US public domain; retold in simple English, 10 tales selected from the original 18",
+    "rights": { "workTitle": "Jataka Tales", "author": "Ellen C. Babbitt", "authorDeathYear": 1934, "jurisdiction": "US", "basis": "pd-us", "note": "巴比特卒于 1934 年，本书 1912 年首版已入美国公版；文本取自古登堡计划 #62514，平台以简易英文改写" }
+  },
+  "plan": [
+    { "title": "Chapter 1 · The Monkey and the Crocodile", "beats": ["鳄鱼天天驮猴子过河吃果子，两家交情越来越深", "鳄鱼妻子馋猴子心，鳄鱼驮猴到河中央才说实话", "猴子机智称心留在树上，脱险后再不同鳄鱼来往"], "sourceRef": "从底本 18 则选 10 则 · 原书第 1 则" },
+    { "title": "Chapter 2 · How the Turtle Saved His Own Life", "beats": ["老龟一不小心游进鱼网，被渔夫捉住卖进了王宫", "国王下令烹煮老龟，老龟请求把它放在干沙上处死", "王命执行的一瞬间，老龟猛地跳回河里保住性命"], "sourceRef": "从底本 18 则选 10 则 · 原书第 2 则" },
+    { "title": "Chapter 3 · The Merchant of Seri", "beats": ["两位商人结伴出门行商，路过一个卖旧食器的小村", "贪心商人想占便宜碰了钉子，诚实商人公平交易", "不起眼的旧钵原是黄金，公道待人的人得了好报"], "sourceRef": "从底本 18 则选 10 则 · 原书第 3 则" },
+    { "title": "Chapter 4 · The Turtle Who Couldn't Stop Talking", "beats": ["旱季来临池塘干涸，两只大鹅衔着棍子带老龟搬家", "老龟答应一路绝不开口说话，用嘴死死咬住树枝", "人们见了纷纷喝彩叫好，老龟一开口摔落在了地上"], "sourceRef": "从底本 18 则选 10 则 · 原书第 4 则" },
+    { "title": "Chapter 5 · The Sandy Road", "beats": ["年轻商人带领商队连夜穿越沙漠，水一天天见底", "连拉车的牛都渴坏了，人人心慌，他却不慌也不乱", "他捧出最后一瓢水诚意祈求，清泉涌出救了全队"], "sourceRef": "从底本 18 则选 10 则 · 原书第 6 则" },
+    { "title": "Chapter 6 · The Quarrel of the Quails", "beats": ["撒网人天天来捉鹌鹑，聪明的鹌鹑王教大家齐力顶网", "网一落下，群鹌齐力展翅起飞，连网带到远处脱身", "后来鹌鹑们起了争吵，齐力顶网的约定被忘光，全被网住"], "sourceRef": "从底本 18 则选 10 则 · 原书第 7 则" },
+    { "title": "Chapter 7 · The Foolish, Timid Rabbit", "beats": ["睡梦中的兔子听见果子落地的响声，喊大地裂开了", "野兽们跟着一路狂奔，队伍越滚越大，直奔大河去", "狮王查明真相拦住了兽群，胆小的兔子红透了脸"], "sourceRef": "从底本 18 则选 10 则 · 原书第 9 则" },
+    { "title": "Chapter 8 · The Banyan Deer", "beats": ["国王日日围猎，两位鹿王约定抽签轮流替鹿群赴死", "轮到一头怀着小鹿的母鹿，菩提鹿王挺身代她赴死", "猎人把这件奇事上奏，国王深受感动，从此永不猎鹿"], "sourceRef": "从底本 18 则选 10 则 · 原书第 12 则" },
+    { "title": "Chapter 9 · The Wise and the Foolish Merchant", "beats": ["两支商队先后穿行茫茫大沙漠，干渴是最大的敌人", "水魔变成好心人，骗笨商队倒掉储水轻装快赶路", "精明的商队守着水粮走出沙漠，贪快的商队困在沙海"], "sourceRef": "从底本 18 则选 10 则 · 原书第 10 则" },
+    { "title": "Chapter 10 · The Crab and the Crane", "beats": ["老鹤骗池塘里的鱼儿，说要带它们去更好的水池", "鱼儿一条条上了当，池子里最后只剩下一只螃蟹", "识破真相的螃蟹用大钳夹住鹤脖，让恶鹤得了报应"], "sourceRef": "从底本 18 则选 10 则 · 原书第 17 则" }
+  ]
+}

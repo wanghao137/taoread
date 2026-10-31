@@ -1,0 +1,270 @@
+{
+  "chapters": [
+    {
+      "title": "第一章 · 女娲造人",
+      "art": "myth-nuwa-creates-humans",
+      "artPrompt": "a gentle goddess with a serpent tail kneeling by a winding yellow river, shaping small clay figures from golden mud with her hands, little clay people coming to life and dancing on the riverbank, a willow branch flicking swirling dots of mud into the air, vast primordial landscape in soft morning light, ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "天地刚刚分开的时候，世上有了高山大河。草木发芽，鸟兽奔跑，样样都齐了。可是四下里静悄悄的，没有一个人的脚印。女娲走在空旷的大地上，总觉得少了点什么。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "女娲——传说里人类共同的母亲，人首蛇身，神通广大。她一心疼爱人类，后来还炼五彩石为人类补天。"
+        },
+        {
+          "kind": "text",
+          "text": "女娲走到一条清亮的大河边。水里映出她自己的影子。她灵机一动：「不如照我的样子，捏些小东西吧。」她捧起河边的黄泥，照着水里的影子捏起来。捏出个小娃娃，圆脑袋，小身子，怪可爱的。"
+        },
+        {
+          "kind": "text",
+          "text": "奇怪的事发生了。小娃娃一放到地上，就活了过来。他睁开眼睛，围着女娲又蹦又跳，咯咯地笑。女娲高兴极了，给他取名叫「人」。她捏一个，活一个，捏两个，活一双。小人们喊她「妈妈」，满河滩都是笑声。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-nuwa-creates-humans",
+          "text": "女娲跪在河边捏黄泥小人，小人们一落地就活了，围着她又蹦又跳。"
+        },
+        {
+          "kind": "text",
+          "text": "女娲想让人间到处都有人。可是大地那么大，一个一个捏，何时捏得完呢？她想了想，找来一根长藤条。藤条蘸满黄泥，朝地上用力一甩。泥点子洒了一地，落下就变成一个个活人。大地上从此有了人类，山野处处都是笑声。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "黄泥——河边的黄色黏土，湿了软，捏啥像啥。老辈人说，人身上搓下来的泥，就是当年女娲捏人留下的呢。"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 燧人取火",
+      "art": "myth-suiren-fire-drill",
+      "artPrompt": "a wise ancient man in animal skins kneeling beside a fallen dry tree, spinning a pointed wooden stick between his palms onto a wood board, tiny glowing sparks and a wisp of smoke rising into a small flame, amazed people gathered round at dusk in warm firelight, ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "很久很久以前，人们还不会用火。他们茹毛饮血，吃的是生的兽肉和野果。生东西又腥又冷，吃了常常闹肚子。冬天寒风呼呼地刮，人们冻得直发抖。黑夜又长又冷，日子真难熬。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "茹毛饮血——意思是连毛带血地生吃野物野果。远古的人还不会用火，冬天又冷，又容易生病，就过着这样的苦日子。"
+        },
+        {
+          "kind": "text",
+          "text": "有一位叫燧人氏的智者，看在眼里，急在心里。他走遍山野，到处寻找办法。有一天，他看见一只大鸟啄燧木树。鸟嘴每啄一下，树干上就迸出一点火星。燧人氏眼睛一亮：「鸟啄得出火星，人也能试吗？」"
+        },
+        {
+          "kind": "text",
+          "text": "他折下干树枝，削出尖尖的头。一根竖着抵在燧木上，一根横着，两手搓着转。转呀转，转呀转，手心磨红了，起泡了，木头上只冒烟。他不灰心，换根木头接着钻。不知钻了多少下，青烟终于冒了起来。扑的一下，窜出一朵小火苗！"
+        },
+        {
+          "kind": "image",
+          "art": "myth-suiren-fire-drill",
+          "text": "燧人氏跪在燧木前钻木，木屑间青烟升起，迸出一朵小小的火苗。"
+        },
+        {
+          "kind": "text",
+          "text": "燧人氏小心捧回火种，教大家钻木取火。人们把兽肉架在火上烤，烤得香喷喷的。吃了熟食，肚子不疼了，人也少生病了。夜里升起一堆堆篝火，又亮堂又暖和。野兽也不敢靠近了。火种一代传一代，人间从此有了火。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "燧木——传说里一啄一钻就冒火星的树。燧人氏看鸟啄树得了启发，发明了钻木取火的法子。"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 有巢筑巢",
+      "art": "myth-youcao-tree-nest",
+      "artPrompt": "ancient people building a wooden nest house high on the branches of a big old tree, ladders of branches and bundles of twigs and leaves, birds flying to their own round nests nearby under a dusk sky, gentle ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "最早的先民，晚上就睡在荒野里。天当被子地当床，蜷在石缝里、草窝里。下雨了，浑身淋得透湿。刮风了，冻得瑟瑟发抖。猛兽夜里出来找吃的，人跑得慢了就没命。天天提心吊胆，谁也睡不安稳。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "有巢氏——远古的圣人，教人像鸟儿一样在大树上搭屋安家。「巢」就是鸟窝，他的名字就是这么来的。"
+        },
+        {
+          "kind": "text",
+          "text": "有个聪明人，大家叫他有巢氏。他蹲在树下，看鸟儿做窝。小鸟衔来树枝草叶，在大树杈上搭窝。刮风下雨，鸟窝稳稳当当。野兽爬不上去，小鸟睡得香香的。有巢氏一拍脑门：「鸟会搭窝，我们就不会学吗？」"
+        },
+        {
+          "kind": "text",
+          "text": "有巢氏带着大家干起来。砍来粗树枝做架子，细树枝编成排。上面铺满厚厚的树叶和大草。一座座巢屋，稳稳架在大树杈上。人住在高高的巢里，野兽够不着。下大雨也淹不着，安全多了。夜里踏实睡个好觉，再也不用守到天亮了。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-youcao-tree-nest",
+          "text": "有巢氏教大家在大树上搭巢屋，粗枝做架，树叶当床，像大鸟窝一样稳当。"
+        },
+        {
+          "kind": "text",
+          "text": "消息传开，四面八方的人都来学。大树上巢屋连成片，像挂了一串串大鸟窝。后来人们下了树，在地上盖起房子。房屋越盖越好，可是人们没忘记有巢氏。是他教人第一次有了安稳的家。从此安居乐业，人丁兴旺。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "安居乐业——安安稳稳地住下，开开心心地干活过日子。有了屋子，不愁风雨野兽，日子才能越过越好。"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 神农尝百草",
+      "art": "myth-shennong-tastes-herbs",
+      "artPrompt": "an old farmer god with a transparent jade-green belly kneeling on a mountain slope, holding a small green herb to his mouth to taste, a big basket of plants on his back, wild flowers and misty mountains all around, villagers waiting below with baskets of grain, ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "古时候的人，靠采野果、打野物过日子。吃饱了肚子，还常有病找上门。受了寒，中了毒，浑身发热，只能硬扛着。没有药，多少人小病拖成了大病，早早没了命。人们多盼着，有谁能帮大家治病啊。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "神农氏——传说中的部落首领，人称神农。传说他生着透明的肚子，吃下什么，在肚里看得清清楚楚。"
+        },
+        {
+          "kind": "text",
+          "text": "部落首领神农氏，决心自己去找药。他背起药篓，翻山越岭，见草就尝。酸的、苦的、麻的、辣的，一样样记下滋味。传说他生着透明的肚子，吃下什么看得见。就靠着这股狠劲，他一天里竟中了七十次毒。"
+        },
+        {
+          "kind": "text",
+          "text": "有时毒气攻心，他头晕眼花。就赶紧嚼几片解毒的草，缓过来再尝。一样一样试下来，他认出了能治病的药草。还找到了稻、黍、麦、豆、麻五种好粮食。他教大家开田播种，年年有收成。再把药草分给病人，一喝病就好了。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-shennong-tastes-herbs",
+          "text": "神农翻山越岭尝百草，背上的药篓装满草药，乡亲们捧着五谷在山下等他。"
+        },
+        {
+          "kind": "text",
+          "text": "从此人们种五谷，吃上了自家田里的粮食。生了病，也有了药草调理。神农被尊为农耕和医药的祖先。传说他一辈子尝了千万种草。经验一条条传下来。这些药草知识越积越多，救了一代又一代人。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "五谷——稻、黍、麦、豆、麻，传说中神农找出的五种好粮食。有了五谷，人们才种田吃饭，不再挨饿。"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 仓颉造字",
+      "art": "myth-cangjie-creates-characters",
+      "artPrompt": "an official with four bright eyes crouching on a riverbank studying bird and deer footprints in the mud, drawing simple pictograph characters with a stick on the ground, tortoise shell and mountain silhouettes behind, golden millet grains falling from the sky like rain, ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "很久以前，还没有字，人们靠结绳记事。大事打个大结，小事打个小结。可事情一多，绳子上结满了疙瘩。谁也记不清哪个结是哪件事。传信也全凭嘴说，传来传去就走了样。人们真是不方便啊。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "结绳记事——在绳子上打结帮助记事。结有大有小，颜色也可以不同，可事情一多，就谁也记不清了。"
+        },
+        {
+          "kind": "text",
+          "text": "黄帝手下有个史官，名叫仓颉。传说他生着四只眼睛，看什么都特别仔细。管记事的他，常被绳结坑得头疼。他下了决心：「要想个法子，记得又准又牢！」"
+        },
+        {
+          "kind": "text",
+          "text": "仓颉抬起头，看日月星辰；低下头，看鸟兽的脚印。鸟爪印和兽蹄印不一样，一眼就能分清。他心里一亮：「照着样子画下来，不就认得了吗？」于是他画圆圈当太阳，画弯钩当月亮。照着山画山，照着水画水。最早的字，就这样一个个画了出来。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-cangjie-creates-characters",
+          "text": "仓颉蹲在河滩上，照着鸟兽的脚印和大山的形状，一笔一笔画出最初的字。"
+        },
+        {
+          "kind": "text",
+          "text": "仓颉把字造好了，教给大家认。说也奇怪，那天白天落下了一场粟米雨。夜里，还有人听见鬼神呜呜地哭。老辈人说，这是天神在贺喜，给人间送粮庆功。鬼神一哭，是怕人识了字、懂了道理。打这起，记事有了字，智慧一代传一代。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "粟米——就是小米，金黄的小圆粒，是古人的主粮。传说天降粟米，是上天庆贺人间有了文字。"
+        }
+      ]
+    },
+    {
+      "title": "第六章 · 伏羲画卦",
+      "art": "myth-fuxi-eight-trigrams",
+      "artPrompt": "a dignified ancient leader in robes gazing at a starry sky then down at a great river, a dragon horse rising from the waves with swirling patterns on its back, the leader drawing eight three-line symbols on a flat stone, gentle night light, ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "很久以前，有位聪慧的领袖叫伏羲。他白天领着大家渔猎耕种，夜里爱看满天星斗。太阳每天从东边升起，月亮圆了又缺。四季轮着变换，河水涨了又落。天地间好像藏着说不清的规矩。伏羲想弄明白这些道理，想得入了迷。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "八卦——八种由长短线条组成的古老符号，分别代表天、地、雷、风、水、火、山、泽八样东西。"
+        },
+        {
+          "kind": "text",
+          "text": "有一天，伏羲来到黄河边。忽然河水翻起大浪，一匹龙马踏浪而出。龙马身上的花纹圈圈点点，就像一张神奇的图。它绕了两圈，又潜回水里不见了。伏羲盯着那花纹，看了又看。他心里豁然开朗：「天地的道理，就藏在图案里！」"
+        },
+        {
+          "kind": "text",
+          "text": "他捡来石片，照着龙马背上的图纹琢磨。用一长横代表阳，两短横代表阴。阴阳一搭配，画出了八个符号。乾是天，坤是地，还有雷、风、水、火、山、泽。这就是八卦。天地的变化，都用它来推算。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-fuxi-eight-trigrams",
+          "text": "龙马从黄河中跃出，背上驮着奇妙的图纹，伏羲照着图纹在石上画八卦。"
+        },
+        {
+          "kind": "text",
+          "text": "伏羲把八卦教给大家。涨水鱼汛，看卦象心里就有了数。什么时候播种，什么时候收割，也都有了章法。人们打鱼、打猎、种田，收成一年比一年好。传说后来的《易经》，就是从八卦慢慢演变来的。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "龙马——传说中龙头马身的神兽。它从黄河里跃出来，背上驮着神奇的图纹，人们叫它「河图」。"
+        }
+      ]
+    },
+    {
+      "title": "第七章 · 共工怒触不周山",
+      "art": "myth-gonggong-buzhou-mountain",
+      "artPrompt": "a fierce water god with red hair and serpent tail crashing headlong into a towering dark mountain pillar that holds up the sky, the mountain cracking apart, waves and rocks bursting out, the sky tilting with stars sliding to one side, dramatic stormy ancient Chinese myth storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "传说水神共工，人面蛇身红头发。他管着天下的江河湖海。那时的天帝颛顼，掌管着四面八方。共工觉得自己本事大，想抢天帝的宝座。他带着水兵水将，和颛顼大战了一场。这一仗打得天昏地暗，共工吃了败仗。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "不周山——传说西北方的一座大山，像柱子一样撑着天。传说天柱一折断，整个天都要歪下来了。"
+        },
+        {
+          "kind": "text",
+          "text": "共工越想越气，越想越不服：「打输了就认输吗？不成！」他一头朝着不周山撞去。不周山是撑天的大柱子，又高又结实。只听轰隆一声巨响，山拦腰折断了。天柱一断，天塌了半边。大地剧烈摇晃，山崩地裂。"
+        },
+        {
+          "kind": "text",
+          "text": "打那以后，天往西北方向斜过去。日月星辰都朝西北滑，星星总在西边落下。地往东南方向塌下去，山川都歪了。大江大河顺着地势，哗哗地朝东流。一直流进东边的大海里。"
+        },
+        {
+          "kind": "image",
+          "art": "myth-gonggong-buzhou-mountain",
+          "text": "共工怒气冲冲一头撞向不周山，天柱折断，天歪地裂，星星都朝一边滑去。"
+        },
+        {
+          "kind": "text",
+          "text": "这就是流传千年的老故事。古人抬头看星河，低头看江河东流。就编出故事，解释天地。共工也成了神话里脾气最大的神。人们讲起天歪西北、水往东流，总要先讲这一撞。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "天柱——古人想象中撑住天空的大柱子。共工撞折了天柱，后来女娲炼了五彩石，又把天补好啦。"
+        }
+      ]
+    }
+  ]
+}

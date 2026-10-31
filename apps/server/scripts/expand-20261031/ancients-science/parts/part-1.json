@@ -1,0 +1,270 @@
+{
+  "chapters": [
+    {
+      "title": "第一章 · 蔡伦造纸",
+      "art": "ancients-cai-lun-paper",
+      "artPrompt": "an ancient papermaking workshop where Cai Lun dips a fine bamboo screen into a vat of pulp and lifts a thin wet sheet, assistants watching in wonder, piles of tree bark and old fishing nets nearby, warm gongbi style storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "汉朝的时候，写字是件大难事。字要么刻在竹简上，要么写在缣帛上。竹简一片片串起来，又厚又沉。一卷书常常要用车来拉。缣帛是丝织的，轻倒是轻。可价钱贵得吓人，普通人用不起。读个书、写封信，处处作难。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "竹简——削好的竹片，一片写一行字，再用绳子串成册。一卷书搬起来，往往沉得压肩膀。"
+        },
+        {
+          "kind": "text",
+          "text": "宫里有个叫蔡伦的人，管着打造器物的作坊。他看在眼里，记在心上。能不能造出又轻又便宜的新纸呢？其实民间早有人摸索。用沤烂的麻料做出过粗糙的纸。只是又厚又脆，不好写字。蔡伦把前人的法子一样样收起来，反复琢磨改进。"
+        },
+        {
+          "kind": "text",
+          "text": "他带人剥下树皮，收来麻头、破布、旧渔网。把东西泡软、剁碎，捣成白浆。再用细帘子从水里平平地一抄。帘上留下一层薄薄的浆。晾干了揭下来，居然能落墨写字！纸面匀匀净净，又轻又薄。原料还处处找得到，便宜得很。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-cai-lun-paper",
+          "text": "造纸作坊里，蔡伦用细竹帘从水槽中抄起薄薄一层纸浆。"
+        },
+        {
+          "kind": "text",
+          "text": "元兴元年，蔡伦把新纸献给朝廷。皇帝试过，赞不绝口，下令推行天下。轻飘飘的纸，走进了学堂和书斋。后来蔡伦封了侯。大家感念他的功劳，把这纸叫作「蔡侯纸」。竹简渐渐退到一边。纸，成了读书人最好的伙伴。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "缣帛——丝织的细绢，又轻又软，最适合写字画画。就是价钱太贵，普通人用不起，只有富贵人家舍得。"
+        }
+      ]
+    },
+    {
+      "title": "第二章 · 毕昇活字印刷",
+      "art": "ancients-bi-sheng-type",
+      "artPrompt": "an old craftsman arranging small clay movable type blocks in an iron frame on a warming plate, brushing ink and laying paper over the set type, wooden cases full of type characters behind him, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "书是怎么印出来的？北宋以前，靠的是雕版。工匠把一页页文字，反着刻在木板上。刷上墨，铺上纸，一印一页。一套书几十万字，就得刻几十万个字。刻错一个字，整块版白搭。刻书费工费钱，一部大书要刻好几年。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "雕版——把一整页字反刻在木板上的印版。刷墨铺纸一印就是一页，可刻起来费工又费料。"
+        },
+        {
+          "kind": "text",
+          "text": "北宋庆历年间，有位布衣工匠，名叫毕昇。他天天和雕版打交道，动起了新脑筋。字是死的，能不能让它们活起来？他用胶泥做成一个个小方块。上头刻一个字，放进火里烧硬。这便是泥活字。一字一印，随取随用。"
+        },
+        {
+          "kind": "text",
+          "text": "排版时，先在铁板上铺松脂蜡。把活字一个个拣出来，密密排进铁框。铁板一烤，蜡化了。拿平板把字压得平平整整。刷墨铺纸，一页书便印成了。印完烤化蜡，活字拆下来收进木格。下回印别的书，拣出来重排就是。常用字要多备几个。像「之」「也」，一备就是二十来个。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-bi-sheng-type",
+          "text": "案上铁框里排满泥活字，毕昇往字盘上刷墨铺纸。"
+        },
+        {
+          "kind": "text",
+          "text": "一副活字，能印千书万卷，省了多少工。大科学家沈括见了，郑重记进《梦溪笔谈》。活字印刷从此渐渐传开，越传越远。后来传到了四面八方。泥巴烧成的小方块，改写了印书的旧历史。这巧心思，全在肯动脑筋。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "活字——一个个单独的小字模。排起来是一页书，拆开来收进字格，下回印别的书，还能接着用。"
+        }
+      ]
+    },
+    {
+      "title": "第三章 · 张衡与地动仪",
+      "art": "ancients-seismoscope",
+      "artPrompt": "a great bronze wine-vessel shaped seismoscope with eight dragons holding copper balls above eight open-mouthed toads, one copper ball falling with people gathered around in astonishment, Han dynasty hall, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "东汉时候，地震常常发生。大地一夜裂开，房屋倒坍，人心惶惶。震在千里之外，全靠驿马一站站传信。路远马乏，消息常常迟到十几天。朝廷想早知道、早救灾，总是慢一步。太史令张衡看在眼里，急在心头。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "驿马——沿着驿道一站站换马传信的快马。千里消息全靠它接力，跑得再快也要好几天工夫。"
+        },
+        {
+          "kind": "text",
+          "text": "张衡通天文，晓地理，动手本事也大。他造出一台测报地震的仪器，叫候风地动仪。仪器用精铜铸成，圆滚滚的，像个大酒樽。四面八方，各蹲着一条铜龙。八条龙，对应八个方向。龙口里各衔一枚铜丸。龙底下，蹲着八只仰头的铜蟾蜍。"
+        },
+        {
+          "kind": "text",
+          "text": "哪个方向发生地震，那边的龙口就张开。铜丸「当啷」一声，落进蟾蜍嘴里。守仪器的人听见响，就知道哪一方有震。有一回，一条龙忽然吐了丸。洛阳城里却风平浪静。学者们议论纷纷，怪仪器不灵。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-seismoscope",
+          "text": "铜铸地动仪上龙口张开，一枚铜丸当啷落进蟾蜍口中，人们围拢惊讶张望。"
+        },
+        {
+          "kind": "text",
+          "text": "几天后，驿马飞驰进城，果然带来消息。陇西发生了大地震！人们这才明白。千里之外的震动，仪器早测着了。满城的人都服了。这件事记进了《后汉书》。书里夸它「验之以事，合契若神」。这台仪器，是世界上最早的测报地震的仪器。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "太史令——朝廷里管天文历法的官。看星象、定节气、记录国家大事，都归这一官署管着。"
+        }
+      ]
+    },
+    {
+      "title": "第四章 · 祖冲之与圆周率",
+      "art": "ancients-counting-rods",
+      "artPrompt": "an ancient scholar's desk covered with neat rows of small bamboo counting rods laid out as numbers, Zu Chongzhi leaning over the table by candlelight calculating, quiet study at night, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "圆的东西到处都有。车轮、磨盘、井口、月亮。圆的一圈有多长？古人早知道，是直径的三倍多一点。可到底多出多少，一千多年没人算得准。南朝出了位数学家祖冲之。他偏要把这个数，追到底。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "圆周率——圆的周长和直径的比。不管圆大圆小，这个数都一样，约是三点一四，后面还拖着长长一串。"
+        },
+        {
+          "kind": "text",
+          "text": "他用的工具，是一把把小竹棍，名叫算筹。算筹摆在案上，横一根，竖一根，像小小的队伍。做一回乘法，要摆弄几十下。算圆周率，更是千万次的加减乘除。屋里摆满算筹，夜夜灯火。这一算，就是许多年。"
+        },
+        {
+          "kind": "text",
+          "text": "算筹磨得发亮，结果终于出来了。圆周率在 3.1415926 和 3.1415927 之间！小数点后七位，一个不差。这个精度，领先了世界约九百年。祖冲之还留下两个好用的分数。一个叫约率，一个叫密率。密率 355/113，今天造仪器的人还在用。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-counting-rods",
+          "text": "书案上摆满横竖成阵的算筹，祖冲之伏案演算，烛火亮到深夜。"
+        },
+        {
+          "kind": "text",
+          "text": "他不光会算圆。他编出一部新历法，叫《大明历》。他推算出一年的长度。跟今天的科学测算一比，相差不到一分钟。历法颁行天下，节气更准了。那时候没有计算机。祖冲之靠一根根算筹，把学问做到了极致。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "算筹——一根根小竹棍、小木棍。古人拿它横横竖竖摆成数字，加减乘除，样样都行，算得又快又稳。"
+        }
+      ]
+    },
+    {
+      "title": "第五章 · 李时珍尝百草",
+      "art": "ancients-li-shizhen-herbs",
+      "artPrompt": "Li Shizhen in a straw cloak with a bamboo herb basket on his back, plucking a herb on a misty green mountainside and smelling it carefully, distant rivers and peaks, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "明朝出了位大医药学家，名叫李时珍。他家世代行医，父亲也是出名的郎中。李时珍从小跟着认药、抓药。医术一天天精起来。给病人瞧病时，他总翻旧的本草书。翻着翻着，心里越来越不安。书里的错误实在太多。有的药性写反了，有的药名张冠李戴。照着错书抓药，是要出人命的。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "本草——讲药物的老书。因为书里草木药最多，「本草」渐渐成了药物书的代称，一直用到了今天。"
+        },
+        {
+          "kind": "text",
+          "text": "他立下大志：重修一部本草！这个工程大得吓人。他背起药篓，带上纸笔，走出了家门。大江两岸，高山深谷，都留下他的脚印。听见哪儿有奇药，他立马动身去寻。采回的药草，他一样样亲自尝。甜的、苦的、麻的，记下滋味和药性。碰上有毒性的，他也冒着险试着来。"
+        },
+        {
+          "kind": "text",
+          "text": "走路、采药、读书、记录，一干二十七年。他参考了八百多种书，笔记装满一屋子。药草写进去，鸟兽写进去，矿物也写进去。这部大书名叫《本草纲目》。足足一百九十多万字。收载药物一千八百多种，附上的药方上万个。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-li-shizhen-herbs",
+          "text": "山间雾气里，背着药篓的李时珍摘下一株药草，凑近细细端详。"
+        },
+        {
+          "kind": "text",
+          "text": "书编成时，李时珍已两鬓斑白。书传到外国，大科学家达尔文也读过。他称它是「中国古代的百科全书」。一株株小草里，藏着老人二十七年的脚步。这门用苦功换来的学问，至今还在护着病人。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "药篓——采药人背在背上的竹篓。一路走一路采，新鲜草药全装在里面，压得肩膀沉甸甸。"
+        }
+      ]
+    },
+    {
+      "title": "第六章 · 黄道婆教纺织",
+      "art": "ancients-huang-daopo-loom",
+      "artPrompt": "an elderly woman teaching village women to weave patterned cotton on wooden looms, a three-spindle treadle spinning wheel beside them, finished patterned cloth hanging in a Songjiang workshop, warm storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "元朝时候，松江乌泥泾是个穷地方。地薄土瘦，种棉花收成也不济。有个姑娘姓黄，家里穷得揭不开锅。年纪轻轻，她离了家乡，搭船漂泊。一路流落到了崖州。崖州在海南岛上。黎族人家勤劳手巧，姑娘个个会纺织。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "崖州——古地名，在今天的海南岛。当年从中原过去，要坐很久很久的船，一路风浪，好远好远。"
+        },
+        {
+          "kind": "text",
+          "text": "黄道婆住了下来，虚心跟着学。纺线、织布、配色，一样样从头学起。黎家的纺织手艺高，织的花纹好看极了。她学得用心，手指练得又快又巧。一晃许多年过去，她成了纺织好手。可她夜夜梦见家乡。她想回去，把手艺教给乡亲们。"
+        },
+        {
+          "kind": "text",
+          "text": "年老时，她带着一身本事回了乌泥泾。错纱、配色、综线、挈花，她一桩桩教给乡亲。她还动手改良工具。造出的脚踏纺车，一脚踩下去，能同时纺出三根纱。乌泥泾的布渐渐出了名。织出的被面，远近抢着买。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-huang-daopo-loom",
+          "text": "织机前黄道婆手把手教乡亲织布，脚踏纺车就在一旁。"
+        },
+        {
+          "kind": "text",
+          "text": "「松江布」的名气越传越远，卖到大江南北。人称「衣被天下」。家家种棉纺织，穷日子变成了好日子。乡亲们忘不了黄道婆，尊她一声「黄母」。她去世后，大家为她立了祠堂。一位普通织妇的名字，从此织进了家乡的布纹里。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "纺车——把棉花纺成纱的工具。黄道婆改良的脚踏纺车，一脚踏下去，一次能纺出三根纱来。"
+        }
+      ]
+    },
+    {
+      "title": "第七章 · 李春造桥",
+      "art": "ancients-zhaozhou-bridge",
+      "artPrompt": "the ancient Zhaozhou stone bridge arching like a rainbow over the Xiao River, small side arches on each shoulder, carved dragon reliefs on the stone railings, willows on the green banks, storybook illustration",
+      "blocks": [
+        {
+          "kind": "text",
+          "text": "隋朝时候，河北赵县有条洨河。每逢夏秋，河水暴涨。渡船常在浪里打转，行人发愁。两岸的人盼桥，盼了多少年。石匠李春应下了这件大事。他领着工匠，一锤一凿。在洨河上造起一座大石桥。桥身只有一个大石拱，像一道彩虹横跨河面。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "洨河——流经河北赵县的一条河。有名的赵州桥就横跨在这条河上，稳稳站了一千四百多年。"
+        },
+        {
+          "kind": "text",
+          "text": "妙处全在拱的两肩。别处的桥，拱肩是实心的。李春在大拱两肩上，各开了两个小拱。发大水时，河水能从小拱里穿过去。桥身受的冲力小了，也省下石料。这样的「敞肩拱」，在世界上是头一份。别的国家，好几百年后才用上这个法子。"
+        },
+        {
+          "kind": "text",
+          "text": "石桥立在洨河上，任凭风吹雨打。一千四百年里，多少场洪水冲过，多少次地震摇过。它稳稳当当，一直立到今天。唐朝人夸它：「初月出云，长虹饮涧。」像新月钻出云层，像长虹低头饮水。"
+        },
+        {
+          "kind": "image",
+          "art": "ancients-zhaozhou-bridge",
+          "text": "洨河上赵州桥如长虹卧波，两肩小拱映在水里，桥栏上蛟龙雕刻清晰可见。"
+        },
+        {
+          "kind": "text",
+          "text": "桥两侧的栏板上，刻着隋代的蛟龙。龙身盘绕，鳞甲分明，刀刀都是好功夫。这座桥，今天叫赵州桥，也叫安济桥。造桥人李春的名字，跟着石桥传了一千多年。一座桥立了千年，靠的是真本事。石头的学问，一代代传了下来。"
+        },
+        {
+          "kind": "note",
+          "art": "lamp-hint",
+          "text": "敞肩拱——在大拱的两肩再开小拱的造桥法。小拱能过洪水，还能省下石料，是李春的巧思。"
+        }
+      ]
+    }
+  ]
+}

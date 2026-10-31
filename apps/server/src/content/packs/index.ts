@@ -1,4 +1,31 @@
 import type { PackBook } from '../types'
+import { ancientsScience } from './ancients-science'
+import { arthurPyle } from './arthur-pyle'
+import { folktaleGoldaxe } from './folktale-goldaxe'
+import { folktaleHailibu } from './folktale-hailibu'
+import { folktaleJigong } from './folktale-jigong'
+import { folktaleLongfamei } from './folktale-longfamei'
+import { folktaleMatouqin } from './folktale-matouqin'
+import { folktaleMengjiangnu } from './folktale-mengjiangnu'
+import { folktaleMousebride } from './folktale-mousebride'
+import { folktaleShixiongdi } from './folktale-shixiongdi'
+import { folktaleTigergrandma } from './folktale-tigergrandma'
+import { folktaleZaohe } from './folktale-zaohe'
+import { folktaleZhuangjin } from './folktale-zhuangjin'
+import { heroesKingsley } from './heroes-kingsley'
+import { liaozhaiTales2 } from './liaozhai-tales2'
+import { minsuLegends } from './minsu-legends'
+import { potterPie } from './potter-pie'
+import { sageAgudunba } from './sage-agudunba'
+import { sageBalagencang } from './sage-balagencang'
+import { sageXuwenchang } from './sage-xuwenchang'
+import { talesCeltic } from './tales-celtic'
+import { talesJataka } from './tales-jataka'
+import { talesJataka2 } from './tales-jataka2'
+import { talesOdin } from './tales-odin'
+import { talesOldpeter } from './tales-oldpeter'
+import { foodLegends } from './food-legends'
+import { mythCivilization } from './myth-civilization'
 import { chineseOpenStories } from './chinese-open-stories'
 import { chineseClassics } from './chinese-classics'
 import { correctChineseEditions } from '../editionCorrections'
@@ -295,6 +322,7 @@ import { windKite } from './original-windkite'
 
 /**
  * 全部内容包。新增书只需在此注册，seedAllPacks 幂等写入。
+ * 渀 5
  * 每本书的 rights 字段是版权台账的入库凭据（docs/07 §2 修改三）。
  */
 export const ALL_PACKS: PackBook[] = [
@@ -576,4 +604,31 @@ export const ALL_PACKS: PackBook[] = [
   windKite,
   ...chineseOpenStories,
   ...chineseClassics,
+  ancientsScience,
+  arthurPyle,
+  folktaleGoldaxe,
+  folktaleHailibu,
+  folktaleJigong,
+  folktaleLongfamei,
+  folktaleMatouqin,
+  folktaleMengjiangnu,
+  folktaleMousebride,
+  folktaleShixiongdi,
+  folktaleTigergrandma,
+  folktaleZaohe,
+  folktaleZhuangjin,
+  heroesKingsley,
+  liaozhaiTales2,
+  minsuLegends,
+  potterPie,
+  sageAgudunba,
+  sageBalagencang,
+  sageXuwenchang,
+  talesCeltic,
+  talesJataka,
+  talesJataka2,
+  talesOdin,
+  talesOldpeter,
+  foodLegends,
+  mythCivilization,
 ].map(correctChineseEditions)
