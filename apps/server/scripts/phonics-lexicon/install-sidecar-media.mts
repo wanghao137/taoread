@@ -6,10 +6,11 @@
  * 用法：npx tsx apps/server/scripts/phonics-lexicon/install-sidecar-media.mts --media-root <dir>
  */
 import { createHash } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { candidateDirectory } from '../../src/modules/phonics/v2/courseRegistry.js'
+import { copyVerifiedMedia } from '../lib/installPhonicsMedia.js'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..')
 const arg = (name: string) => process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1]! : undefined
@@ -18,18 +19,14 @@ if (!mediaRoot) throw new Error('需要 --media-root 或 TAO_MEDIA_DIR')
 const root = path.resolve(path.join(mediaRoot.replace(/[\\/]+$/, ''), 'phonics', candidateDirectory.replace(/[\\/]+$/, '').split(/[\\/]/).pop()!))
 mkdirSync(root, { recursive: true })
 
-const sha256 = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
 const copyVerified = (source: string, hash: string, extension: string) => {
-  const bytes = readFileSync(source)
-  if (sha256(bytes) !== hash) throw new Error(`哈希不符: ${source}`)
-  const target = path.join(root, `${hash}.${extension}`)
-  if (existsSync(target)) return 'skip'
-  copyFileSync(source, target)
-  return 'copy'
+  return copyVerifiedMedia(source, path.join(root, `${hash}.${extension}`), hash)
 }
 
 const usDir = path.join(repoRoot, 'output', 'phonics-sync-20261028', 'us-audio')
 const atlasDir = process.argv.includes('--atlas') ? process.argv[process.argv.indexOf('--atlas') + 1]! : path.join(repoRoot, 'output', 'word-atlas-src')
+const mimoExamples = arg('--mimo-examples')
+const mimoWords = arg('--mimo-words')
 let copied = 0, skipped = 0
 
 const us = JSON.parse(readFileSync(path.join(usDir, 'word-audio-candidates.json'), 'utf8'))
@@ -40,23 +37,24 @@ for (const item of Object.values(us.assets as Record<string, { sha256: string }>
 
 const lexicon = JSON.parse(readFileSync(path.join(candidateDirectory.replace(/[\\/]+$/, ''), 'lexicon.json'), 'utf8'))
 const edgeDir = path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'phonics', candidateDirectory.replace(/[\\/]+$/, '').split(/[\\/]/).pop()!)
-for (const entry of lexicon.entries as Array<{ word: string; example: { audio: { sha256: string } | null }; wordAudio?: { uk?: { sha256: string } | null; us?: { sha256: string } | null } }>) {
+for (const entry of lexicon.entries as Array<{ word: string; example: { audio: { sha256: string; extension?: 'mp3' | 'wav' } | null }; wordAudio?: { uk?: { sha256: string; extension?: 'mp3' | 'wav' } | null; us?: { sha256: string; extension?: 'mp3' | 'wav' } | null } }>) {
   if (entry.example.audio) {
-    const source = path.join(atlasDir, 'public', 'atlas', 'audio', 'ex', `${entry.word.toLowerCase()}.mp3`)
-    if (copyVerified(source, entry.example.audio.sha256, 'mp3') === 'copy') copied++
+    const extension = entry.example.audio.extension ?? 'mp3'
+    if (extension === 'wav' && !mimoExamples) throw new Error('WAV examples require --mimo-examples')
+    const source = extension === 'wav' ? path.join(mimoExamples!, `${entry.example.audio.sha256}.wav`) : path.join(atlasDir, 'public', 'atlas', 'audio', 'ex', `${entry.word.toLowerCase()}.mp3`)
+    if (copyVerified(source, entry.example.audio.sha256, extension) === 'copy') copied++
     else skipped++
   }
   for (const accent of ['uk', 'us'] as const) {
     const audio = entry.wordAudio?.[accent]
     if (!audio) continue
-    // 词光来源走词光目录；Edge 来源文件名即 sha，直接从 Edge 输出目录取
-    const candidates = [
-      path.join(atlasDir, 'public', 'atlas', 'audio', accent, `${entry.word.toLowerCase()}.mp3`),
-      path.join(edgeDir, `${audio.sha256}.mp3`),
-    ]
-    const source = candidates.find(p => existsSync(p))
+    const extension = audio.extension ?? 'mp3'
+    const candidates = extension === 'wav'
+      ? [path.join(usDir, `${audio.sha256}.wav`), ...(mimoWords ? [path.join(mimoWords, `${audio.sha256}.wav`)] : [])]
+      : [path.join(atlasDir, 'public', 'atlas', 'audio', accent, `${entry.word.toLowerCase()}.mp3`), path.join(edgeDir, `${audio.sha256}.mp3`)]
+    const source = candidates.find(p => existsSync(p) && createHash('sha256').update(readFileSync(p)).digest('hex') === audio.sha256)
     if (!source) throw new Error(`音频源不存在: ${entry.word} ${accent}`)
-    if (copyVerified(source, audio.sha256, 'mp3') === 'copy') copied++
+    if (copyVerified(source, audio.sha256, extension) === 'copy') copied++
     else skipped++
   }
 }

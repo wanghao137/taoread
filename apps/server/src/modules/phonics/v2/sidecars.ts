@@ -9,6 +9,7 @@ const hash = z.string().regex(/^[a-f0-9]{64}$/)
 /** 旁挂媒体引用：只认「物理文件哈希 + 时长 + 体积」，与课程资产同一套校验纪律。 */
 const sidecarAudioSchema = z.object({
   sha256: hash, durationMs: z.number().int().positive(), bytes: z.number().int().positive(), voice: z.string().min(1),
+  extension: z.enum(['mp3', 'wav']).optional(),
 })
 
 export const lexiconEntrySchema = z.object({
@@ -81,6 +82,9 @@ export async function loadSidecars(courseDirectory: string, versionId: string, c
   const lexicon = await load('lexicon.json', lexiconSchema, 'courseContentHash')
   const usAudio = await load('usAudio.json', usAudioSchema, 'courseHash')
   if (lexicon && lexicon.entries.length !== lexicon.counts.entries) problems.push('lexicon.json counts.entries 与实际条数不一致')
+  if (lexicon && (lexicon.entries.filter(entry => entry.example.audio).length !== lexicon.counts.exampleAudio ||
+    lexicon.entries.filter(entry => entry.source === 'word-atlas').length !== lexicon.counts.wordAtlas ||
+    lexicon.entries.filter(entry => entry.source === 'taoread-original').length !== lexicon.counts.taoreadOriginal)) problems.push('lexicon.json counts 与实际内容不一致')
   if (usAudio && usAudio.assets.length !== usAudio.counts.assets) problems.push('usAudio.json counts.assets 与实际条数不一致')
   return { lexicon, usAudio, problems }
 }

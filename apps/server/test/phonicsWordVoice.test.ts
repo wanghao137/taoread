@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { wordVoiceJobs } from '../scripts/lib/phonicsWordVoice'
+import { missingExampleVoiceJobs, wordVoiceJobs } from '../scripts/lib/phonicsWordVoice'
 
 describe('phonics word voice candidates', () => {
   const words = [{ id: 'w-cat', text: 'cat' }, { id: 'w-hat', text: 'hat' }]
@@ -15,6 +15,21 @@ describe('phonics word voice candidates', () => {
     expect(job!.inputHash).not.toBe(wordVoiceJobs(words, { ...options, voice: 'other' })[0]!.inputHash)
     expect(() => wordVoiceJobs(words, options, new Set(['w-unknown']))).toThrow('Unknown word id')
   })
+
+  it('creates example jobs only for missing audio and binds them to the text and voice', () => {
+    const entries = [{ wordId: 'w-cat', example: { en: 'A cat sat.', audio: null } }, { wordId: 'w-hat', example: { en: 'A hat.', audio: { sha256: 'existing' } } }]
+    const [job] = missingExampleVoiceJobs(entries, options)
+    expect(job).toMatchObject({ id: 'w-cat', text: 'A cat sat.' })
+    expect(missingExampleVoiceJobs(entries, { ...options, voice: 'other' })[0]!.inputHash).not.toBe(job!.inputHash)
+    expect(() => missingExampleVoiceJobs([{ wordId: 'w-cat', example: { en: ' ', audio: null } }], options)).toThrow('Empty example')
+  })
+
+  it('refuses to generate slow Edge words as phoneme or blend recordings', () => {
+    const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')
+    const result = spawnSync(process.execPath, ['--import', 'tsx', path.join(root, 'apps/server/scripts/produce-phonics-audio-edge.mts'), '--out', path.join(root, 'output'), '--kinds', 'segment'], { cwd: root, encoding: 'utf8', timeout: 30000 })
+    expect(result.status).not.toBe(0)
+    expect(result.stderr).toContain('only be used for whole words')
+  }, 40000)
 
   it('acquires the output lock before reading or changing an existing ledger', async () => {
     const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')

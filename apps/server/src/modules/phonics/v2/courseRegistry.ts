@@ -1,10 +1,12 @@
 import { createHash } from 'node:crypto'
+import { existsSync, readdirSync } from 'node:fs'
 import { readFile, realpath } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { PhonicsTaskDto } from '@taoread/shared'
 import { courseSchema, type PhonicsCourse, type PhonicsLesson, type PhonicsTask } from './contracts'
 import type { CourseSidecars } from './sidecars'
+import { duplicateTeachingAudio } from './audioSafety'
 
 export function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`
@@ -45,6 +47,15 @@ export async function loadCourse(directory: string): Promise<PhonicsCourse> {
 
 export const candidateDirectory = fileURLToPath(new URL('../courses/taoread-phonics-gb-v1/', import.meta.url))
 
+/** 已安装课程版本目录（v1 起按目录名排序，保证稳定加载顺序）。 */
+export function installedCourseDirectories(): string[] {
+  const coursesRoot = fileURLToPath(new URL('../courses/', import.meta.url))
+  return readdirSync(coursesRoot, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() && existsSync(path.join(coursesRoot, entry.name, 'manifest.json')))
+    .map(entry => path.join(coursesRoot, entry.name))
+    .sort()
+}
+
 export interface ContentIssue { code: string; location: string; message: string; severity: 'error' | 'warning' }
 export interface ContentValidation {
   complete: boolean
@@ -62,7 +73,7 @@ export interface ContentValidation {
 /** Private inspection permits outstanding human reviews, never invalid or missing content. */
 export function selfUseReady(report: ContentValidation): boolean {
   const pendingReviews = new Set(['NOT_REVIEWED', 'TEACHING_REVIEW', 'ASSET_PENDING', 'RIGHTS_REVIEW', 'SPEECH_REVIEW',
-    'LEXICON_REVIEW', 'LEXICON_SPEECH_REVIEW', 'LEXICON_RIGHTS_REVIEW', 'US_SPEECH_REVIEW', 'US_RIGHTS_REVIEW'])
+    'LEXICON_REVIEW', 'LEXICON_SPEECH_REVIEW', 'LEXICON_RIGHTS_REVIEW', 'US_SPEECH_REVIEW', 'US_RIGHTS_REVIEW', 'AUDIO_DUPLICATE'])
   return report.complete && report.counts.assets > 0 && report.counts.verifiedAssets === report.counts.assets
     && report.issues.every(issue => pendingReviews.has(issue.code))
 }
@@ -178,10 +189,18 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
     if (lesson) checkWord(word.id, lesson, `words.${word.id}`)
     else issue('UNKNOWN_LESSON', word.id, word.decodingIntroducedAt)
     for (const purpose of ['segment', 'blend', 'word'] as const) requireAsset(word.audioIds[purpose], word.id, purpose)
+    // shortcut: distinct hashes do not prove correct pronunciation, require listening review before publication.
+    if (duplicateTeachingAudio(c, word, 'segment') || duplicateTeachingAudio(c, word, 'blend')) issue('AUDIO_DUPLICATE', word.id, 'Word, segmentation and blending need distinct recordings', true)
   }
   for (const task of c.tasks) {
     requireAsset(task.instructionAssetId, task.id, 'instruction_zh')
     const stimulus = task.stimulusAssetId ? requireAsset(task.stimulusAssetId, task.id) : undefined
+    if ((task.skill === 'letter_name') !== Boolean(task.letterName) || (task.letterName && (task.wordId || task.mappingId || task.readerId))) issue('LETTER_TARGET', task.id, 'Letter names must have their own learning target')
+    if (task.letterName) {
+      if (!['listen', 'choice'].includes(task.kind) || !task.stimulusAssetId || stimulus?.purpose !== 'letter_name') issue('LETTER_AUDIO', task.id, 'Letter-name activities need a letter-name recording')
+      if (task.kind === 'listen' && (task.displayText !== `${task.letterName} ${task.letterName.toLowerCase()}` || !task.teachesCapitals.includes(task.letterName))) issue('LETTER_MODEL', task.id, 'Model must introduce both letter forms')
+      if (task.kind === 'choice' && (task.displayText || task.choices.length < 2 || task.choices.some(choice => !/^[A-Za-z]$/.test(choice.label)) || task.choices.filter(choice => choice.label.toUpperCase() === task.letterName).length !== 1 || task.choices.find(choice => task.judge?.answerIds.includes(choice.id))?.label.toUpperCase() !== task.letterName)) issue('LETTER_CHOICE', task.id, 'Choice must identify the target letter without revealing it')
+    }
     if (task.imageAssetId) requireAsset(task.imageAssetId, task.id, 'image')
     for (const hint of task.hintAssetIds) {
       if (requireAsset(hint, task.id)?.purpose === 'image') issue('HINT_PURPOSE', task.id, 'Audio hints cannot reference an image')
@@ -195,7 +214,7 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
     if (task.role === 'independent' && ['oral', 'read'].includes(task.kind) && (task.stimulusAssetId || task.imageAssetId || task.kind === 'read')) issue('ANSWER_EXPOSURE', task.id, 'Independent oral reading must not start with target audio, image or contextual reader')
     if (task.easierTaskId) {
       const easier = tasks.get(task.easierTaskId)
-      if (!easier || easier.skill !== task.skill || easier.wordId !== task.wordId || easier.mappingId !== task.mappingId) issue('EASIER_TARGET', task.id, 'Easier task must keep the same learning target')
+      if (!easier || easier.skill !== task.skill || easier.wordId !== task.wordId || easier.mappingId !== task.mappingId || easier.letterName !== task.letterName) issue('EASIER_TARGET', task.id, 'Easier task must keep the same learning target')
     }
     let previousEnd = 0
     for (const cue of task.timeline) {
@@ -228,7 +247,7 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
       if (task.role === 'independent' && task.wordId && lessonTasks.some(other => other && other.id !== task.id && other.wordId === task.wordId && ['model', 'guided'].includes(other.role))) issue('REHEARSED_INDEPENDENT_WORD', task.id, task.wordId)
       if (task.readerId && !readers.has(task.readerId)) issue('UNKNOWN_READER', task.id, task.readerId)
       if (task.displayText) {
-        const allowed = [task.wordId ? words.get(task.wordId)?.text : null, task.mappingId ? mappings.get(task.mappingId)?.display : null]
+        const allowed = [task.wordId ? words.get(task.wordId)?.text : null, task.mappingId ? mappings.get(task.mappingId)?.display : null, task.letterName ? `${task.letterName} ${task.letterName.toLowerCase()}` : null]
         if (!allowed.includes(task.displayText)) issue('UNVALIDATED_DISPLAY_TEXT', task.id, 'English display text must reference its word or mapping')
       }
     }
@@ -304,11 +323,17 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
       else issue('SIDECAR_INVALID', 'sidecars', problem)
     }
     if (sidecars.lexicon) {
+      const lexiconIds = new Set<string>()
       for (const entry of sidecars.lexicon.entries) {
+        const word = words.get(entry.wordId)
+        if (lexiconIds.has(entry.wordId) || !word || word.text.toLowerCase() !== entry.word.toLowerCase()) issue('LEXICON_WORD_INVALID', `lexicon.${entry.word}`, '词条重复或与当前课程词不一致')
+        lexiconIds.add(entry.wordId)
         issue('LEXICON_REVIEW', `lexicon.${entry.word}`, '词条内容需要人工教学审校', true)
         if (entry.source === 'word-atlas') issue('LEXICON_RIGHTS_REVIEW', `lexicon.${entry.word}`, '导入词条的署名与授权需要人工确认', true)
         if (entry.example.audio) issue('LEXICON_SPEECH_REVIEW', `lexicon.${entry.word}`, '例句朗读需要人工听审', true)
+        else issue('LEXICON_EXAMPLE_MISSING', `lexicon.${entry.word}`, '例句缺少朗读音频', true)
       }
+      for (const word of c.words) if (!lexiconIds.has(word.id)) issue('LEXICON_WORD_MISSING', `lexicon.${word.id}`, '当前课程词缺少词典例句', true)
     }
     if (sidecars.usAudio) {
       for (const asset of sidecars.usAudio.assets) {
@@ -316,6 +341,37 @@ export async function validateCourse(input: unknown, options: { mode: 'developme
         issue('US_RIGHTS_REVIEW', `usAudio.${asset.word}`, '美音候选的权利确认未完成', true)
       }
     }
+    const mediaRoot = options.mediaRoot
+    const checked = new Map<string, Promise<{ bytes: number; valid: boolean } | null>>()
+    const checkSidecarAudio = async (audio: { sha256: string; extension?: 'mp3' | 'wav'; bytes: number }, location: string) => {
+      const extension = audio.extension ?? 'mp3', key = `${audio.sha256}.${extension}`
+      if (!mediaRoot) { issue('SIDECAR_MEDIA_NOT_VERIFIED', location, '旁挂音频未验证', true); return }
+      if (!checked.has(key)) checked.set(key, (async () => {
+        try {
+          const root = await realpath(mediaRoot)
+          const versionRoot = await realpath(path.join(root, 'phonics', c.manifest.versionId))
+          const versionRelative = path.relative(root, versionRoot)
+          if (versionRelative.startsWith('..') || path.isAbsolute(versionRelative)) return null
+          const file = await realpath(path.join(versionRoot, key))
+          const relative = path.relative(versionRoot, file)
+          if (relative.startsWith('..') || path.isAbsolute(relative)) return null
+          const bytes = await readFile(file)
+          const signature = extension === 'wav' ? bytes.length > 44 && bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WAVE'
+            : bytes.length > 10 && (bytes.toString('ascii', 0, 3) === 'ID3' || (bytes[0] === 0xff && (bytes[1]! & 0xe0) === 0xe0))
+          return { bytes: bytes.length, valid: signature && createHash('sha256').update(bytes).digest('hex') === audio.sha256 }
+        } catch { return null }
+      })())
+      const result = await checked.get(key)!
+      if (!result || !result.valid || result.bytes !== audio.bytes) issue('SIDECAR_MEDIA_INVALID', location, '旁挂音频不存在或与清单不一致', true)
+    }
+    for (const entry of sidecars.lexicon?.entries ?? []) {
+      if (entry.example.audio) await checkSidecarAudio(entry.example.audio, `lexicon.${entry.word}.example`)
+      for (const accent of ['uk', 'us'] as const) {
+        const audio = entry.wordAudio?.[accent]
+        if (audio) await checkSidecarAudio(audio, `lexicon.${entry.word}.${accent}`)
+      }
+    }
+    for (const asset of sidecars.usAudio?.assets ?? []) await checkSidecarAudio({ ...asset, extension: 'wav' }, `usAudio.${asset.word}`)
   }
 
   report.ok = !report.issues.some(i => i.severity === 'error')

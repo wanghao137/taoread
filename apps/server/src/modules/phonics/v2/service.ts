@@ -7,11 +7,12 @@ import { AppError } from '../../../lib/errors'
 import { mediaUrl } from '../../media/access'
 import { digest, publicTask, courseHash } from './courseRegistry'
 import type { PhonicsCourse } from './contracts'
-import { controlSchema, enrollmentSchema, favoriteSchema, observationSchema, practiceAnswerSchema, readingProgressSchema, startSchema, typingResultSchema, wordBackupSchema, wordSessionStateSchema, wordSessionUpdateSchema, wordSettingsUpdateSchema } from './contracts'
+import { controlSchema, enrollmentSchema, favoriteSchema, observationSchema, practiceAnswerSchema, readingProgressSchema, startSchema, taskTarget, typingResultSchema, wordBackupSchema, wordSessionStateSchema, wordSessionUpdateSchema, wordSettingsUpdateSchema } from './contracts'
 import { applyLearningEvent, initialState, taskAt, type FrozenPlan, type LessonState } from './lessonMachine'
 import { PhonicsRuntime } from './runtime'
 import { dueLessonKeys, recentSupport, recommend, reviewTasks, REVIEW_RULE_VERSION, type PracticeHistory, type SupportTarget } from './review'
 import { PREVIOUS_WORD_SCHEDULE_VERSION, readWordSettings, WORD_SCHEDULE_VERSION, wordGrade, wordScheduler } from './wordStudy'
+import { presentableTask, usableTeachingAudio } from './audioSafety'
 
 type Tx = Prisma.TransactionClient
 type StartInput = z.infer<typeof startSchema>
@@ -108,7 +109,7 @@ export class PhonicsService {
     const rows = await this.db.phonicsAttempt.findMany({ where: { childId, protocolVersion: 2, courseVersionId: versionId }, orderBy: [{ startedAt: 'desc' }, { id: 'desc' }] })
     const history: PracticeHistory[] = rows.map(row => {
       const plan = planOf(row)
-      return { id: row.id, status: row.status, kind: row.planKind, lessonKey: row.lessonKey, lessonKeys: plan.lessonKeys, targetIds: plan.tasks.filter(t => plan.stepTaskIds.includes(t.id)).map(t => t.wordId ?? t.mappingId ?? t.readerId ?? t.id), startedAt: seconds(row.startedAt), finishedAt: row.finishedAt ? seconds(row.finishedAt) : null }
+      return { id: row.id, status: row.status, kind: row.planKind, lessonKey: row.lessonKey, lessonKeys: plan.lessonKeys, targetIds: plan.tasks.filter(t => plan.stepTaskIds.includes(t.id)).map(taskTarget), startedAt: seconds(row.startedAt), finishedAt: row.finishedAt ? seconds(row.finishedAt) : null }
     })
     const events = await this.db.phonicsLearningEvent.findMany({ where: { attempt: { childId, protocolVersion: 2, courseVersionId: versionId }, receivedAt: { gte: new Date(Date.now() - 7 * 86400_000) }, kind: { in: ['hint_requested', 'response_submitted', 'self_read_reported', 'task_skipped_with_help'] } }, orderBy: { receivedAt: 'desc' } })
     const support: SupportTarget[] = []
@@ -217,8 +218,9 @@ export class PhonicsService {
   async dto(claims: TokenClaims, attempt: PhonicsAttempt): Promise<PhonicsAttemptDto> {
     const plan = planOf(attempt), state = stateOf(attempt)
     const available = await this.runtime.available(claims.fid, attempt.courseVersionId!) && Boolean(await this.db.phonicsEnrollment.findFirst({ where: { childId: attempt.childId, v2Enabled: true, courseVersionId: attempt.courseVersionId } }))
-    const task = available ? taskAt(plan, state) : null
     const course = this.runtime.courses.get(attempt.courseVersionId!)
+    const frozenTask = available ? taskAt(plan, state) : null
+    const task = frozenTask ? presentableTask(course, frozenTask) : null
     const reader = task?.readerId ? plan.readers.find(r => r.id === task.readerId) ?? null : null
     const readerPage = reader?.pages[state.pageIndex]
     const activeHints = reader ? (state.hintLevel > 0 && readerPage ? [readerPage.audioAssetId] : []) : task?.hintAssetIds.slice(0, state.hintLevel) ?? []
@@ -267,6 +269,7 @@ export class PhonicsService {
       const us = usAssets.get(w.id)
       const useUs = settings.accent === 'US' && Boolean(us)
       const audios = (['segment', 'blend', 'word'] as const).flatMap(kind => {
+        if (kind !== 'word' && !usableTeachingAudio(course, w, kind)) return []
         if (kind === 'word' && useUs && us) {
           return [{ id: `us-word:${w.id}`, purpose: 'word' as const, durationMs: us.durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${us.sha256}.wav`, claims, this.tokenSecret) }]
         }
@@ -330,14 +333,15 @@ export class PhonicsService {
         const us = usAssets.get(w.id)
         const useUs = settings.accent === 'US' && Boolean(us)
         const audios = (['segment', 'blend', 'word'] as const).flatMap(kind => {
+          if (kind !== 'word' && !usableTeachingAudio(course, w, kind)) return []
           if (kind === 'word' && useUs && us) return [{ id: `us-word:${w.id}`, purpose: 'word' as const, durationMs: us.durationMs, url: mediaUrl(`/api/media/phonics/${versionId}/${us.sha256}.wav`, claims, this.tokenSecret), accent: 'US' as const }]
           const asset = assetOf(w.audioIds?.[kind])
           return asset?.sha256 ? [{ id: asset.id, purpose: asset.purpose, durationMs: asset.durationMs, url: signed(asset) }] : []
         })
         // 词光专业录音（英 Alice/美 Sarah）：英美双按钮，MiMo 只作缺省兜底
         const lexEntry = lexiconByWord.get(w.id)
-        if (lexEntry?.wordAudio?.uk) audios.push(signedHash(lexEntry.wordAudio.uk.sha256, 'mp3', lexEntry.wordAudio.uk.durationMs, 'word', `lex-uk:${w.id}`, 'GB'))
-        if (lexEntry?.wordAudio?.us) audios.push(signedHash(lexEntry.wordAudio.us.sha256, 'mp3', lexEntry.wordAudio.us.durationMs, 'word', `lex-us:${w.id}`, 'US'))
+        if (lexEntry?.wordAudio?.uk) audios.push(signedHash(lexEntry.wordAudio.uk.sha256, lexEntry.wordAudio.uk.extension ?? 'mp3', lexEntry.wordAudio.uk.durationMs, 'word', `lex-uk:${w.id}`, 'GB'))
+        if (lexEntry?.wordAudio?.us) audios.push(signedHash(lexEntry.wordAudio.us.sha256, lexEntry.wordAudio.us.extension ?? 'mp3', lexEntry.wordAudio.us.durationMs, 'word', `lex-us:${w.id}`, 'US'))
         const taskImage = course.tasks.find(t => t.wordId === w.id && assetOf(t.imageAssetId)?.sha256)?.imageAssetId
         const readerImage = course.readers.flatMap(r => r.pages).find(p => p.wordIds.includes(w.id) && assetOf(p.imageAssetId)?.sha256)?.imageAssetId
         const imageAsset = assetOf(taskImage ?? readerImage)
@@ -353,7 +357,7 @@ export class PhonicsService {
         const lexicon = entry ? {
           source: entry.source, ukIpa: entry.ukIpa, usIpa: entry.usIpa,
           senses: entry.senses.map(s => ({ ...s })),
-          example: { en: entry.example.en, zh: entry.example.zh, audio: entry.example.audio ? signedHash(entry.example.audio.sha256, 'mp3', entry.example.audio.durationMs, 'passage' as const, `lex-example:${w.id}`) : null },
+          example: { en: entry.example.en, zh: entry.example.zh, audio: entry.example.audio ? signedHash(entry.example.audio.sha256, entry.example.audio.extension ?? 'mp3', entry.example.audio.durationMs, 'passage' as const, `lex-example:${w.id}`) : null },
           collocations: [...entry.collocations], family: [...entry.family], tip: entry.tip,
         } : null
         return {
@@ -552,11 +556,9 @@ export class PhonicsService {
   async setReadingProgress(claims: TokenClaims, childId: string, readerId: string, input: ReadingInput) {
     const reader = await this.reader(claims, childId, readerId)
     if (reader.versionId !== input.versionId || input.page >= reader.pages.length) throw new AppError('阅读内容已变化', 'READER_CHANGED', 409)
-    const course = this.runtime.courses.get(input.versionId)!
-    const source = course.readers.find(item => item.id === readerId)!
     await this.transaction(async tx => {
       await this.enabled(claims, childId, input.versionId, tx)
-      const enrollment = await tx.phonicsEnrollment.findUniqueOrThrow({ where: { childId } })
+      await tx.phonicsEnrollment.findUniqueOrThrow({ where: { childId } })
       const key = { childId_courseVersionId_readerId: { childId, courseVersionId: input.versionId, readerId } }
       const existing = await tx.phonicsReadingProgress.findUnique({ where: key })
       if ((existing?.revision ?? 0) !== input.expectedRevision) throw conflict()
@@ -746,7 +748,10 @@ export class PhonicsService {
           status = 'completed'; result = { status, correct: null }
         } else {
           if (status !== 'started') throw new AppError('请先恢复这段练习', 'ATTEMPT_CLOSED', 409)
-          const applied = applyLearningEvent(plan, previous, input as PhonicsEventRequest)
+          const frozenTask = taskAt(plan, previous)
+          const presented = frozenTask && presentableTask(this.runtime.courses.get(attempt.courseVersionId!), frozenTask)
+          const eventPlan = presented && presented !== frozenTask ? { ...plan, tasks: plan.tasks.map(task => task.id === presented.id ? presented : task) } : plan
+          const applied = applyLearningEvent(eventPlan, previous, input as PhonicsEventRequest)
           state = applied.state; result = applied.result
         }
       }

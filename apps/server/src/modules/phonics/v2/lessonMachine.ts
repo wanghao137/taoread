@@ -1,5 +1,6 @@
 import type { PhonicsEventRequest, PhonicsStepState } from '@taoread/shared'
 import type { PhonicsCourse, PhonicsTask } from './contracts'
+import { taskTarget } from './contracts'
 import { AppError } from '../../../lib/errors'
 
 export interface FrozenPlan {
@@ -45,7 +46,7 @@ export function applyLearningEvent(plan: FrozenPlan, previous: LessonState, inpu
   } = {
     correct: null, firstResponse: false,
     evidenceRole: previous.hintLevel > 0 || previous.responseCount > 0 ? 'practice' : task.role,
-    taskKind: task.kind, skill: task.skill, targetId: task.wordId ?? task.mappingId ?? task.readerId ?? task.id,
+    taskKind: task.kind, skill: task.skill, targetId: taskTarget(task),
     helpLevel: previous.hintLevel,
     pageIndex: previous.pageIndex,
   }

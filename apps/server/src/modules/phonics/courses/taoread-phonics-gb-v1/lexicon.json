@@ -12,18 +12,27 @@
    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
    "commit": "99c007673d38f02c418d8e4cd2e9ec90b5d40be5",
    "origin": "https://github.com/designfuchen/word-atlas",
-   "changes": "提取 72 个精确匹配词条的英美音标、义项、生活例句（不含雅思学术句）、搭配、词族与用法提示，未逐条改动文本。",
+   "changes": "提取 144 个精确匹配词条的英美音标、义项、生活例句（不含雅思学术句）、搭配、词族与用法提示，未逐条改动文本。",
    "exampleAudioVoice": "ElevenLabs \"Alice\" (UK)，来自词光仓库 public/atlas/audio/ex，CC BY 4.0。"
   },
   "taoread-original": {
-   "note": "17 个词光无精确匹配的词条由桃阅读按词光编写规范自备，面向 5-7 岁改写。"
+   "note": "22 个词光无精确匹配的词条由桃阅读按词光编写规范自备，面向 5-7 岁改写。"
+  },
+  "mimo-example-audio": {
+   "provider": "xiaomi-mimo",
+   "humanReviewed": false,
+   "rightsReviewed": false,
+   "publicationApproved": false,
+   "evidence": [
+    "sensevoice-int8-en"
+   ]
   }
  },
  "counts": {
   "entries": 166,
   "wordAtlas": 144,
   "taoreadOriginal": 22,
-  "exampleAudio": 476
+  "exampleAudio": 166
  },
  "entries": [
   {
@@ -43,7 +52,13 @@
    "example": {
     "en": "The cat is at the door.",
     "zh": "猫在门口。",
-    "audio": null
+    "audio": {
+     "sha256": "f454e04b15d3098f7e4a6d9208788416c126818df5165efe0bfa960fc4aeeee0",
+     "extension": "wav",
+     "durationMs": 5280,
+     "bytes": 253484,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -85,7 +100,13 @@
    "example": {
     "en": "The cat sat on the mat.",
     "zh": "猫坐在垫子上。",
-    "audio": null
+    "audio": {
+     "sha256": "a89ef094afed270b7a2f8cdf97b9b3ba64f86d43a0c6e6faa628b09706646ce8",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -339,7 +360,13 @@
    "example": {
     "en": "I sip hot milk slowly.",
     "zh": "我慢慢地小口喝热牛奶。",
-    "audio": null
+    "audio": {
+     "sha256": "4a57ccde406944be36161630009371570d3ed7eeb7124cfd549eba7bfb1e99c5",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -800,7 +827,13 @@
    "example": {
     "en": "Sam and his dad ran in the park.",
     "zh": "山姆和爸爸在公园里跑步。",
-    "audio": null
+    "audio": {
+     "sha256": "15d3f3dcba83c3c9a69cd0666c640e371cd800610f9c9d673a7381ea6690a9ef",
+     "extension": "wav",
+     "durationMs": 4640,
+     "bytes": 222764,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -838,7 +871,13 @@
    "example": {
     "en": "My dad made a hat for me.",
     "zh": "爸爸给我做了一顶帽子。",
-    "audio": null
+    "audio": {
+     "sha256": "8d5f4b36a3ee3317e5c9c1fa85b433a4c04c5b2215bb694823a00177b49353aa",
+     "extension": "wav",
+     "durationMs": 3680,
+     "bytes": 176684,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -880,7 +919,13 @@
    "example": {
     "en": "The sad boy lost his hat.",
     "zh": "难过的男孩丢了帽子。",
-    "audio": null
+    "audio": {
+     "sha256": "b68fa28ed358f13fb488c76bfdc67420c2e0406971c9bc3c28ce4db492b50506",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -1906,7 +1951,13 @@
    "example": {
     "en": "The dog ran to the gate.",
     "zh": "狗跑到了大门口。",
-    "audio": null
+    "audio": {
+     "sha256": "b84ce798d21a9c1dc0090ad62bdc340050ac065c4173b56c7cb3f924bf3ee43f",
+     "extension": "wav",
+     "durationMs": 3680,
+     "bytes": 176684,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -2151,7 +2202,13 @@
    "example": {
     "en": "The hen laid an egg.",
     "zh": "母鸡下了一个蛋。",
-    "audio": null
+    "audio": {
+     "sha256": "455d741af161e9ae9267a3bc52eee79b6202fbb4f789e3bc0867db100b97b637",
+     "extension": "wav",
+     "durationMs": 4640,
+     "bytes": 222764,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -2244,7 +2301,13 @@
    "example": {
     "en": "The cat hid under the bed.",
     "zh": "猫藏在床底下。",
-    "audio": null
+    "audio": {
+     "sha256": "da05c88a9511cbaba2dad7c03c39479ee7870993cae74167449fa9010ebd2255",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3128,7 +3191,13 @@
    "example": {
     "en": "The actor wore a red wig.",
     "zh": "演员戴着一顶红假发。",
-    "audio": null
+    "audio": {
+     "sha256": "516f957802132ac76db62f792e3200c7c38b30d353b599c9211d0d9097581ac0",
+     "extension": "wav",
+     "durationMs": 4160,
+     "bytes": 199724,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3168,7 +3237,13 @@
    "example": {
     "en": "The yak has lots of hair.",
     "zh": "牦牛有很多毛。",
-    "audio": null
+    "audio": {
+     "sha256": "e2c53e439015fbcbd186c9cd0df6828164d72c9d65fa8951a9d8037c43b637b8",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3208,7 +3283,13 @@
    "example": {
     "en": "Yes, I can hop like a frog.",
     "zh": "是的，我能像青蛙一样跳。",
-    "audio": null
+    "audio": {
+     "sha256": "e7966930eb22a778445e10baafb64f7e415830e7f826525a26a6fd44c3ba4c0e",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3251,7 +3332,13 @@
    "example": {
     "en": "Zip up your red jacket.",
     "zh": "把你红色的夹克拉链拉上。",
-    "audio": null
+    "audio": {
+     "sha256": "ec6b9460bb3003351fb93e1cd3b9ca3acbd515eb1bbc5c5944df3b0c846e2502",
+     "extension": "wav",
+     "durationMs": 2560,
+     "bytes": 122924,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3291,7 +3378,13 @@
    "example": {
     "en": "Zap! The bug is gone.",
     "zh": "咻！虫子不见了。",
-    "audio": null
+    "audio": {
+     "sha256": "7904553ccbdf61d1f5b17a3da616a0cae7f1eb9c3930dd0e7da3125175000074",
+     "extension": "wav",
+     "durationMs": 3200,
+     "bytes": 153644,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3435,7 +3528,13 @@
    "example": {
     "en": "I can see six ducks.",
     "zh": "我能看见六只鸭子。",
-    "audio": null
+    "audio": {
+     "sha256": "1fc15d7fa391f9eebf6bc3838dcdbb666f4bcd7bafac07f1c137fd39a59f57eb",
+     "extension": "wav",
+     "durationMs": 4160,
+     "bytes": 199724,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -3524,7 +3623,13 @@
    "example": {
     "en": "We quit the game to eat lunch.",
     "zh": "我们停下游去吃午饭。",
-    "audio": null
+    "audio": {
+     "sha256": "764987847146d96435c70f76bff3623ff9eca87992330b5ff2d76271d1bc985b",
+     "extension": "wav",
+     "durationMs": 7360,
+     "bytes": 353324,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -4234,7 +4339,13 @@
    "example": {
     "en": "A moth flew to the lamp.",
     "zh": "一只飞蛾朝台灯飞去。",
-    "audio": null
+    "audio": {
+     "sha256": "477e6db4bc5a78d1dfa1804d55b82c48448c4bfcb2d976e415085aa0dd39f78f",
+     "extension": "wav",
+     "durationMs": 3520,
+     "bytes": 169004,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -4752,7 +4863,13 @@
    "example": {
     "en": "I have five red apples.",
     "zh": "我有五个红苹果。",
-    "audio": null
+    "audio": {
+     "sha256": "9f1b6f14da0d1bb5694059ac3552dba2a9c823d5ad7f55dccd6c91c8578bc44d",
+     "extension": "wav",
+     "durationMs": 3680,
+     "bytes": 176684,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -5375,7 +5492,13 @@
    "example": {
     "en": "Three ducks swim in the pond.",
     "zh": "三只鸭子在池塘里游泳。",
-    "audio": null
+    "audio": {
+     "sha256": "194c9398e1a66ee27fad945a05abb1b495dd340a16f3225f404d398210ff479e",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -5830,7 +5953,13 @@
    "example": {
     "en": "We saw a panda at the zoo.",
     "zh": "我们在动物园看到了熊猫。",
-    "audio": null
+    "audio": {
+     "sha256": "9df71f69f42a8fddbbcca1ec043de81bcd9d6d2166387054c74e373a0c40a6fb",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -6767,7 +6896,13 @@
    "example": {
     "en": "What is in your bag?",
     "zh": "你的书包里有什么？",
-    "audio": null
+    "audio": {
+     "sha256": "dda75ca070d424ddf618b5cf22b13f51bea1e82e271593480040f80e5cfa56b6",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {
@@ -7021,7 +7156,13 @@
    "example": {
     "en": "How do you go to school?",
     "zh": "你怎么去上学？",
-    "audio": null
+    "audio": {
+     "sha256": "2b54ec1cd83d3305fd31b36a4af419028053f60419abed305772ece24f4513b7",
+     "extension": "wav",
+     "durationMs": 2880,
+     "bytes": 138284,
+     "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
    },
    "wordAudio": {
     "uk": {

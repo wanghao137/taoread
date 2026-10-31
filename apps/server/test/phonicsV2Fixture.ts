@@ -31,7 +31,9 @@ export async function phonicsFixture(mediaRoot: string) {
   const dir = path.join(mediaRoot, 'phonics', version)
   await mkdir(dir, { recursive: true })
   for (const asset of course.assets) {
-    const bytes = asset.purpose === 'image' ? image : wav
+    const bytes = asset.purpose === 'image' ? image : Buffer.from(wav)
+    if (asset.purpose === 'segment') bytes.writeInt16LE(301, 44)
+    if (asset.purpose === 'blend') bytes.writeInt16LE(302, 44)
     asset.sha256 = createHash('sha256').update(bytes).digest('hex')
     asset.extension = asset.purpose === 'image' ? 'png' : 'wav'
     asset.durationMs = asset.purpose === 'image' ? null : 100

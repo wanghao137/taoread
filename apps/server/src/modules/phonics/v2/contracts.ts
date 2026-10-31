@@ -3,7 +3,7 @@ import { z } from 'zod'
 const id = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$/)
 const hash = z.string().regex(/^[a-f0-9]{64}$/)
 const range = z.tuple([z.number().int().nonnegative(), z.number().int().positive()])
-const assetPurpose = z.enum(['instruction_zh', 'phoneme', 'segment', 'blend', 'word', 'passage', 'image'])
+const assetPurpose = z.enum(['instruction_zh', 'letter_name', 'phoneme', 'segment', 'blend', 'word', 'passage', 'image'])
 
 export const mappingSchema = z.object({
   id, spelling: z.string().regex(/^[a-z]+$/), display: z.string().min(1),
@@ -23,10 +23,11 @@ export const wordSchema = z.object({
 
 export const taskSchema = z.object({
   id, kind: z.enum(['listen', 'choice', 'build', 'oral', 'read']),
-  skill: z.enum(['operation', 'meaning', 'mapping', 'blend', 'segment', 'oral_reading']),
+  skill: z.enum(['operation', 'meaning', 'letter_name', 'mapping', 'blend', 'segment', 'oral_reading']),
   role: z.enum(['model', 'guided', 'practice', 'independent']),
   instructionZh: z.string().min(1), instructionAssetId: id, stimulusAssetId: id.optional(),
   displayText: z.string().min(1).optional(), wordId: id.optional(), mappingId: id.optional(), readerId: id.optional(),
+  letterName: z.string().regex(/^[A-Z]$/).optional(),
   imageAssetId: id.optional(), teachesCapitals: z.array(z.string().regex(/^[A-Z]$/)).default([]),
   choices: z.array(z.object({ id, label: z.string().min(1), mappingId: id.optional() }).strict()),
   judge: z.object({ answerIds: z.array(id).min(1) }).strict().optional(),
@@ -74,6 +75,10 @@ export const courseSchema = z.object({
 export type PhonicsCourse = z.infer<typeof courseSchema>
 export type PhonicsTask = z.infer<typeof taskSchema>
 export type PhonicsLesson = z.infer<typeof lessonSchema>
+
+export function taskTarget(task: PhonicsTask): string {
+  return task.letterName ? `letter-${task.letterName.toLowerCase()}` : task.wordId ?? task.mappingId ?? task.readerId ?? task.id
+}
 
 const command = { clientEventId: z.string().uuid(), expectedRevision: z.number().int().nonnegative() }
 export const practiceAnswerSchema = z.object({

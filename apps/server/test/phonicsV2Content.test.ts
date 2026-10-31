@@ -91,6 +91,16 @@ describe('phonics v2 content gates', () => {
     task.timeline = [{ atMs: 20, endMs: 10, text: 's' }]
     expect(await codes(c)).toEqual(expect.arrayContaining(['INVALID_ANSWER', 'BUILD_SPELLING', 'ASSET_PURPOSE', 'TIMELINE']))
   })
+  it('blocks publication of duplicate word, segmentation and blending recordings', async () => {
+    const c = copy()
+    const originalReport = await inspect(c)
+    expect(originalReport.issues).toContainEqual(expect.objectContaining({ code: 'AUDIO_DUPLICATE', location: 'w-cat', severity: 'warning' }))
+    const word = c.words.find(item => item.id === 'w-cat')!
+    c.assets.find(asset => asset.id === word.audioIds.segment)!.sha256 = 'a'.repeat(64)
+    c.assets.find(asset => asset.id === word.audioIds.blend)!.sha256 = 'b'.repeat(64)
+    expect((await inspect(c)).issues).not.toContainEqual(expect.objectContaining({ code: 'AUDIO_DUPLICATE', location: 'w-cat' }))
+    expect((await validateCourse(original, { mode: 'release' })).issues).toContainEqual(expect.objectContaining({ code: 'AUDIO_DUPLICATE', location: 'w-cat', severity: 'error' }))
+  })
   it('requires same-target easier tasks and prevents correction loops', async () => {
     const c = copy(); const task = c.tasks[0]!; task.easierTaskId = task.id
     expect(await codes(c)).toContain('EASIER_CYCLE')

@@ -40,7 +40,6 @@ export function ShelfTab({ token, childId, atlas, versionOf, blocked, nextBusy, 
   if (openId && atlas) return <PhonicsReader token={token} childId={childId} readerId={openId} words={atlas.words} onFavorite={onFavorite} onClose={() => setOpenId(null)} onClassroom={() => { const versionId = versionOf(openId); if (versionId) onReread(openId, versionId) }} />
   return <section aria-label="小书架">
     <h2 className="ph-tab-title">书房 <span className="ph-tab-sub">能读 {openCount} / {readers.length} 本</span></h2>
-    <p className="phonics-hint">60 本小书都已打开。点一本，读给孩子听。
     {!atlas && <p role="status">正在摆书架…</p>}
     {groups.map(group => <div key={group.key} className="ph-shelf-group">
       <h3 className="ph-shelf-group-title">{group.title} <span>{group.open} / {group.items.length} 本</span></h3>

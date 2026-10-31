@@ -14,6 +14,7 @@
     "lint:fix": "eslint . --fix",
     "test": "npm run test --workspaces --if-present",
     "audit:touch": "node scripts/audit-touch.mjs",
+    "audit:phonics-audio": "tsx apps/server/scripts/audit-phonics-word-audio.mts",
     "perf:child": "node scripts/perf/measure-child.mjs",
     "verify": "npm run audit:touch && npm run typecheck && npm run lint && npm run test",
     "dev:server": "npm run dev -w @taoread/server",

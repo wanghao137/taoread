@@ -19,21 +19,23 @@ dotenv.config({ path: '.env.audio', override: true })
 if (before) process.env.TAO_DATABASE_URL = before
 await loadAudioEnvironment(process.env)
 const store = audioSettings(process.env)
+if (!store) throw new Error('audio store settings unavailable (R2 unconfigured?)')
 const client = audioClient(store)
 const manifestPath = 'D:/taoread-prod/apps/server/media/.tts-public-state.json'
 const outDir = 'D:/taoread-prod/apps/server/media/tts-public'
-const log = (m) => console.log(`[${new Date().toISOString().slice(11, 19)}] ${m}`)
+const log = (m: string) => console.log(`[${new Date().toISOString().slice(11, 19)}] ${m}`)
 
-function curl(args) {
+function curl(args: string[]): Promise<{ code: string; err: string | null }> {
   return new Promise((resolve) => {
-    execFile('curl', args, { timeout: 150000, maxBuffer: 1e8 }, (err, stdout, stderr) => {
+    execFile('curl', args, { timeout: 150000, maxBuffer: 1e8 }, (err, stdout) => {
       resolve({ code: String(stdout ?? '').trim(), err: err ? String(err?.message ?? err) : null })
     })
   })
 }
 
-const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-const pending = Object.entries(manifest).filter(([k, r]) => r && r.uploaded === false && fs.existsSync(path.join(outDir, `${k}.mp3`)))
+type UploadRecord = { uploaded: boolean } & Record<string, unknown>
+const manifest: Record<string, UploadRecord> = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+const pending: Array<[string, UploadRecord]> = Object.entries(manifest).filter(([k, r]) => r && r.uploaded === false && fs.existsSync(path.join(outDir, `${k}.mp3`)))
 const totalBytes = pending.reduce((s, [k]) => s + fs.statSync(path.join(outDir, `${k}.mp3`)).size, 0)
 log(`pending=${pending.length} totalBytes=${(totalBytes / 1e6).toFixed(1)}MB`)
 if (pending.length === 0) { log('FINISH nothing-to-do'); process.exit(0) }
@@ -52,7 +54,7 @@ for (let round = 1; round <= 20 && !acquired; round++) {
   if (round > 1) { log(`round ${round}: 60s 后重试抢锁`); await new Promise(r => setTimeout(r, 60000)) }
   try {
 await withR2Capacity({
-  accountId: store.accountId,
+  accountId: store.accountId!,
   bytes: totalBytes,
   stopBytes: R2_STOP_BYTES,
   waitMs: 600_000, // 慢路由/其它持锁者并存时多等（默认 120s 不够）
@@ -67,13 +69,15 @@ await withR2Capacity({
     log('uploading…')
     await Promise.all(Array.from({ length: CONC }, async () => {
       while (idx < pending.length) {
-        const [key, rec] = pending[idx++]
+        const entry = pending[idx++]
+        if (!entry) break
+        const [key, rec] = entry
         const local = path.join(outDir, `${key}.mp3`)
         const buf = fs.readFileSync(local)
         const sha = createHash('sha256').update(buf).digest('hex')
         let ok = false, lastErr = ''
         for (let attempt = 1; attempt <= 3 && !ok; attempt++) {
-          const res = await curl([
+          const res: { code: string; err: string | null } = await curl([
             '-sS', '-m', '120', '--connect-timeout', '30', '-X', 'PUT',
             '-H', `Authorization: ${store.authorization}`, // 值本身已含 Bearer 前缀
             '-H', 'Content-Type: audio/mpeg',
@@ -103,7 +107,7 @@ await withR2Capacity({
 manifestWrite()
 log(`FINISH done=${done} failed=${failed}`)
 acquired = true
-  } catch (err: any) { log(`round ${round} 失败: ${String(err?.message ?? err).slice(0, 80)}`) }
+  } catch (err) { log(`round ${round} 失败: ${String((err as Error)?.message ?? err).slice(0, 80)}`) }
 }
 if (!acquired) log(`FINISH-FAILED 未抢到锁`)
 process.exitCode = failed > 0 ? 1 : 0

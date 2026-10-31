@@ -1,4 +1,4 @@
-/** Edge 音频最终绑定：按 id 精确映射 word/blend/segment 三槽（幂等）。 */
+/** Legacy Edge candidates may be bound as whole words only. */
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { parseArgs } from 'node:util'
@@ -12,15 +12,14 @@ const ledger = JSON.parse(await readFile(path.resolve(values.candidates), 'utf8'
 const byEdgeId = new Map(ledger.assets.map(a => [a.id, a]))
 const dir = candidateDirectory
 const assetsPath = path.join(dir, 'assets.json')
-const assets = JSON.parse(await readFile(assetsPath, 'utf8')) as Array<{ id: string; sha256: string | null; extension: string; durationMs: number | null; speakerId: string | null; revision: number; sourceLicense: string | null; reviewStatus: string }>
+const assets = JSON.parse(await readFile(assetsPath, 'utf8')) as Array<{ id: string; purpose: string; sha256: string | null; extension: string; durationMs: number | null; speakerId: string | null; revision: number; sourceLicense: string | null; reviewStatus: string }>
 let updated = 0, missing = 0
 for (const asset of assets) {
-  if (!['word', 'blend', 'segment'].includes(asset.purpose)) continue
-  const m = /^w-(.+)-(word|blend|segment)$/.exec(asset.id)
+  if (asset.purpose !== 'word') continue
+  const m = /^w-(.+)-word$/.exec(asset.id)
   if (!m) continue
-  const wordId = `w-${m[1]}`, kind = m[2]!
-  const suffix = kind === 'word' ? '' : `-${kind}`
-  const edge = byEdgeId.get(`edge-gb-${wordId}${suffix}`)
+  const wordId = `w-${m[1]}`
+  const edge = byEdgeId.get(`edge-gb-${wordId}`)
   if (!edge) { missing++; continue }
   asset.sha256 = edge.sha256
   asset.extension = 'mp3'

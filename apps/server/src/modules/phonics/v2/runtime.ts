@@ -11,6 +11,8 @@ export interface PhonicsV2Options {
   /** Exact single household and content hash; independent of public rollout. */
   selfUseFamilyId?: string
   selfUseHash?: string
+  /** v2 多版本共存：追加的自用哈希（不改变任何家庭 enrollment，仅开放对应版本校验）。 */
+  selfUseHashes?: string[]
   /** Dependency injection for isolated tests; production loads installed content. */
   courses?: PhonicsCourse[]
   /** 与 courses 一一对应的旁挂清单（词典/美音包）；生产由 app.ts 从课程目录加载。 */
@@ -44,7 +46,9 @@ export class PhonicsRuntime {
   }
 
   selfUse(familyId: string, contentHash: string): boolean {
-    return Boolean(contentHash && this.options.selfUseFamilyId === familyId && this.options.selfUseHash === contentHash)
+    if (!contentHash || this.options.selfUseFamilyId !== familyId) return false
+    if (this.options.selfUseHash === contentHash) return true
+    return Boolean(this.options.selfUseHashes?.includes(contentHash))
   }
 
   releaseAllowed(familyId: string, release: { status: string; contentHash: string } | null, contentHash: string): boolean {
@@ -78,10 +82,11 @@ export class PhonicsRuntime {
       // 旁挂媒体（词典例句朗读/美音整词）当前全部处于待审状态：只对自用家庭开放，
       // 与课程媒体「approved 或自用」同一政策。
       const sidecar = this.sidecars.get(versionId!)
+      const matches = (audio: { sha256: string; extension?: 'mp3' | 'wav' } | null | undefined) => Boolean(audio && audio.sha256 === hash && (audio.extension ?? 'mp3') === extension)
       const inSidecar = Boolean(sidecar && (
-        (sidecar.usAudio?.assets ?? []).some(a => a.sha256 === hash) ||
-        (sidecar.lexicon?.entries ?? []).some(entry => entry.example.audio?.sha256 === hash ||
-          entry.wordAudio?.uk?.sha256 === hash || entry.wordAudio?.us?.sha256 === hash)))
+        (extension === 'wav' && (sidecar.usAudio?.assets ?? []).some(a => a.sha256 === hash)) ||
+        (sidecar.lexicon?.entries ?? []).some(entry => matches(entry.example.audio) ||
+          matches(entry.wordAudio?.uk) || matches(entry.wordAudio?.us))))
       if (!inSidecar || !this.selfUse(familyId, courseHash(course))) throw new AppError('媒体不存在', 'NOT_FOUND', 404)
     }
     const enrollment = await this.db.phonicsEnrollment.findFirst({ where: { courseVersionId: match[1], v2Enabled: true, child: { familyId } } })

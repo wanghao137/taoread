@@ -522,12 +522,19 @@ describe('phonics v2 sidecar lexicon and US audio pack', () => {
     const mp3 = Buffer.from('ID3 Synthetic test tone - not speech')
     await writeFile(path.join(root, 'phonics', versionId, `${wavSha}.wav`), wav).catch(() => undefined)
     const mp3Sha = (await import('node:crypto')).createHash('sha256').update(mp3).digest('hex')
+    const exampleWav = Buffer.from(wav)
+    exampleWav.writeInt16LE(123, 44)
+    const exampleWavSha = (await import('node:crypto')).createHash('sha256').update(exampleWav).digest('hex')
+    await writeFile(path.join(root, 'phonics', versionId, `${exampleWavSha}.wav`), exampleWav)
     await writeFile(path.join(root, 'phonics', versionId, `${mp3Sha}.mp3`), mp3)
     runtimeOf().sidecars.set(versionId, {
       lexicon: {
         schemaVersion: 1, courseVersionId: versionId, courseContentHash: versionId, humanReviewed: false, reviewStatus: 'pending', generatedAt: new Date().toISOString(),
-        sources: {}, counts: { entries: 1, wordAtlas: 1, taoreadOriginal: 0, exampleAudio: 1 },
-        entries: [{ wordId: 'w-map', word: 'map', source: 'word-atlas', reviewStatus: 'pending', ukIpa: '/mæp/', usIpa: '/mæp/', senses: [{ pos: 'n.', zh: '地图', en: 'A drawing of places.' }], example: { en: 'The map fell on the mat.', zh: '地图掉到了垫子上。', audio: { sha256: mp3Sha, durationMs: 100, bytes: mp3.length, voice: 'Synthetic test tone' } }, collocations: [], family: [], tip: '测试用', cefr: null }],
+        sources: {}, counts: { entries: 2, wordAtlas: 1, taoreadOriginal: 1, exampleAudio: 2 },
+        entries: [
+          { wordId: 'w-map', word: 'map', source: 'word-atlas', reviewStatus: 'pending', ukIpa: '/mæp/', usIpa: '/mæp/', senses: [{ pos: 'n.', zh: '地图', en: 'A drawing of places.' }], example: { en: 'The map fell on the mat.', zh: '地图掉到了垫子上。', audio: { sha256: mp3Sha, durationMs: 100, bytes: mp3.length, voice: 'Synthetic test tone' } }, collocations: [], family: [], tip: '测试用', cefr: null },
+          { wordId: 'w-mat', word: 'mat', source: 'taoread-original', reviewStatus: 'pending', ukIpa: '/mæt/', usIpa: '/mæt/', senses: [{ pos: 'n.', zh: '垫子', en: 'A small mat.' }], example: { en: 'The mat is red.', zh: '垫子是红色的。', audio: { sha256: exampleWavSha, extension: 'wav', durationMs: 100, bytes: exampleWav.length, voice: 'Synthetic test tone' } }, collocations: [], family: [], tip: '', cefr: null },
+        ],
       },
       usAudio: {
         schemaVersion: 1, courseVersionId: versionId, courseHash: versionId, requestedAccent: 'US', actualAccent: null,
@@ -556,12 +563,16 @@ describe('phonics v2 sidecar lexicon and US audio pack', () => {
     const usUrl = map.audios.find(a => a.purpose === 'word')!.url!
     const lexRes = await h.app.inject({ method: 'GET', url: lexUrl, headers: authHeaders(childToken) })
     expect(lexRes.statusCode, lexRes.body).toBe(200)
+    const wavLexUrl = (mat.lexicon as { example: { audio: { url: string } } }).example.audio.url
+    expect(wavLexUrl).toContain(`${exampleWavSha}.wav`)
+    expect((await h.app.inject({ method: 'GET', url: wavLexUrl, headers: authHeaders(childToken) })).statusCode).toBe(200)
     const usRes = await h.app.inject({ method: 'GET', url: usUrl, headers: authHeaders(childToken) })
     expect(usRes.statusCode, usRes.body).toBe(200)
     const otherChild = await createChild(h.app, other.token, other.familyId, '邻家孩子', '6-8')
     await call('PUT', `${base}/children/${otherChild}/enrollment`, other.token, { enabled: true, versionId, entryMode: 'lesson', entryLessonKey: 'L07', expectedRevision: 0 })
     // 非自用家庭拿不到旁挂媒体：404 不暴露存在性（与「媒体不存在」同一口径）
     expect((await h.app.inject({ method: 'GET', url: lexUrl, headers: authHeaders(other.token) })).statusCode).toBe(404)
+    expect((await h.app.inject({ method: 'GET', url: wavLexUrl, headers: authHeaders(other.token) })).statusCode).toBe(404)
     // 词卡列表按进度开放：走完 L07 后再取，整词音频同样按口音下发
     const { attempt } = await start()
     await finishAll(attempt)

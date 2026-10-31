@@ -1,5 +1,6 @@
 import type { PhonicsNextDto } from '@taoread/shared'
 import type { PhonicsCourse, PhonicsTask } from './contracts'
+import { taskTarget } from './contracts'
 
 export const REVIEW_RULE_VERSION = 'support-and-1-3-7-v1'
 // Pilot families use Asia/Shanghai calendar days; duration intervals remain seconds.
@@ -36,7 +37,7 @@ export function reviewTasks(course: PhonicsCourse, lessonKeys: string[], targetI
   const tasks = taskIds.map(id => course.tasks.find(t => t.id === id)!).filter(t => t && ['choice', 'build', 'oral'].includes(t.kind))
   const selected: PhonicsTask[] = [], seen = new Set<string>()
   for (const task of tasks) {
-    const target = task.wordId ?? task.mappingId ?? task.id
+    const target = taskTarget(task)
     if (seen.has(target) || (targetIds.length && !targetIds.includes(target))) continue
     seen.add(target); selected.push({ ...task, role: 'practice' })
     if (selected.length === 3) break

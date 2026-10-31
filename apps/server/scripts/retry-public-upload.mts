@@ -8,7 +8,6 @@ import { readFile, writeFile, rename } from 'node:fs/promises'
 import { join } from 'node:path'
 import dotenv from 'dotenv'
 import { loadConfig } from '../src/config'
-// @ts-expect-error 无类型 .mjs（与 pregen-tts.mjs 同源）
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -19,6 +18,7 @@ const mediaDir = config.TAO_MEDIA_DIR || join(process.cwd(), 'media')
 const manifestPath = join(mediaDir, '.tts-public-state.json')
 const outDir = join(mediaDir, 'tts-public')
 const store = audioSettings(process.env)
+if (!store) throw new Error('audio store settings unavailable (R2 .env.audio not loaded?)')
 const s3 = audioClient(store)
 const rounds = Number(process.argv[2] ?? 6)
 

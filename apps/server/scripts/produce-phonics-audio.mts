@@ -8,8 +8,9 @@ import { loadCourse, candidateDirectory, digest } from '../src/modules/phonics/v
 import { synthesizeSegment, TtsError } from '../src/modules/tts/client'
 import { parseWav, synthesizeSegmentMimo } from '../src/modules/tts/mimo'
 import { parseMp3 } from '../src/modules/tts/mp3duration'
+import { letterNameText } from './lib/phonicsLetterVoice'
 
-const { values } = parseArgs({ options: { out: { type: 'string' }, 'env-file': { type: 'string' }, concurrency: { type: 'string', default: '2' }, ids: { type: 'string' }, provider: { type: 'string', default: 'stepaudio' } } })
+const { values } = parseArgs({ options: { out: { type: 'string' }, 'course-dir': { type: 'string' }, 'env-file': { type: 'string' }, concurrency: { type: 'string', default: '2' }, ids: { type: 'string' }, provider: { type: 'string', default: 'stepaudio' } } })
 if (!values.out || !values['env-file']) throw Error('Explicit --out and --env-file are required')
 const provider = values.provider === 'mimo' ? 'mimo' : 'stepaudio'
 if (!['stepaudio', 'mimo'].includes(values.provider ?? '')) throw Error('Provider must be stepaudio or mimo')
@@ -23,7 +24,7 @@ const model = provider === 'mimo' ? env.MIMO_MODEL || 'mimo-v2.5-tts' : env.TTS_
 // MiMo 只出 WAV；音色用预置名（中文课堂老师=茉莉，GB 候选=Mia，正式口音归属待听审）。
 const mimoVoice = (accent: 'GB' | 'zh') => (accent === 'zh' ? env.MIMO_VOICE_ZH || '茉莉' : env.MIMO_VOICE_EN || 'Mia')
 const out = path.resolve(values.out)
-const course = await loadCourse(candidateDirectory)
+const course = await loadCourse(values['course-dir'] ? path.resolve(values['course-dir']) : candidateDirectory)
 const dest = path.join(out, 'phonics', course.manifest.versionId)
 await mkdir(dest, { recursive: true })
 const selected = values.ids ? new Set(values.ids.split(',')) : null
@@ -38,6 +39,11 @@ const jobs: Job[] = course.assets.filter(a => a.purpose !== 'image' && (!selecte
     if (candidates.length > 1) throw Error(`Conflicting instruction text: ${asset.id}`)
     text = candidates[0] ?? (asset.id === 'shared-help-zh' ? '别着急，我们再听一遍，一起试一试。' : '')
     instruction = '只准确朗读原文，不增加或删减内容，不读出引号，不加音乐或音效。标准普通话，温和清晰，适合五到七岁儿童。原文中的英语按标准英式发音读出。'
+  } else if (asset.purpose === 'letter_name') {
+    const letter = /^letter-name-([a-z])$/.exec(asset.id)?.[1]
+    if (!letter) throw Error(`No letter name for ${asset.id}`)
+    text = letterNameText(letter.toUpperCase())
+    instruction = `Say only the supplied text once, clearly in British English. It represents the alphabet name of ${letter.toUpperCase()}; do not add words, spelling, explanation or music.`
   } else if (asset.purpose === 'phoneme') {
     const mapping = mappings.get(`g-${asset.id.replace(/^sound-/, '')}`)
     if (!mapping) throw Error(`No mapping for ${asset.id}`)
@@ -104,7 +110,7 @@ async function worker() {
       }
       const sha256 = createHash('sha256').update(audio).digest('hex')
       await writeFile(path.join(dest, `${sha256}.${extension}`), audio)
-      const maximum = job.purpose === 'phoneme' ? 2500 : ['word', 'segment', 'blend'].includes(job.purpose) ? 6000 : 20000
+      const maximum = ['phoneme', 'letter_name'].includes(job.purpose) ? 2500 : ['word', 'segment', 'blend'].includes(job.purpose) ? 6000 : 20000
       const flags = durationMs > maximum ? ['EXCESS_DURATION_REQUIRES_REVIEW'] : []
       receipts[job.id] = { ...job, inputHash, status: 'generated_pending_listening_and_rights', sha256, extension, durationMs, bytes: audio.length, flags, model, provider: provider === 'mimo' ? 'xiaomi-mimo' : 'configured-stepaudio', voice: voiceName, reviewedByHuman: false }
       console.log(JSON.stringify({ id: job.id, generated: true, durationMs, flags }))

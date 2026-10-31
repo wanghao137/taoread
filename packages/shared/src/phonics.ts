@@ -3,11 +3,11 @@ export type PhonicsPlanKind = 'entry' | 'lesson' | 'review' | 'reread'
 export type PhonicsTaskKind = 'listen' | 'choice' | 'build' | 'oral' | 'read'
 export type PhonicsEvidenceRole = 'model' | 'guided' | 'practice' | 'independent'
 export type PhonicsAttemptStatus = 'started' | 'paused' | 'completed' | 'cancelled'
-export type PhonicsSkill = 'operation' | 'meaning' | 'mapping' | 'blend' | 'segment' | 'oral_reading'
+export type PhonicsSkill = 'operation' | 'meaning' | 'letter_name' | 'mapping' | 'blend' | 'segment' | 'oral_reading'
 
 export interface PhonicsAssetDto {
   id: string
-  purpose: 'instruction_zh' | 'phoneme' | 'segment' | 'blend' | 'word' | 'passage' | 'image'
+  purpose: 'instruction_zh' | 'letter_name' | 'phoneme' | 'segment' | 'blend' | 'word' | 'passage' | 'image'
   url: string | null
   durationMs: number | null
   /** 发音口音标记：词卡英美双按钮按此渲染（缺省跟随课程口音） */

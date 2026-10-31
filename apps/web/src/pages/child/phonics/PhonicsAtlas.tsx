@@ -143,16 +143,15 @@ export function WordSheet({ word, onClose, onFavorite }: { word: PhonicsAtlasWor
             {us && <button disabled={!ready || Boolean(playing)} onClick={() => void play(us)} title={`美式发音 ${word.lexicon?.usIpa ?? ''}`}>
               <IconVolume size={20} />{playing === us.id ? '播放中' : '美式'}
             </button>}
-            {segment && <button disabled={!ready || Boolean(playing)} onClick={() => void play(segment)} title="把单词读得很慢，一个音一个音听清楚">
+            {segment && <button disabled={!ready || Boolean(playing)} onClick={() => void play(segment)} title="逐个听单词里的音">
               <IconVolume size={20} />{playing === segment.id ? '播放中' : '分开读'}
             </button>}
-            {blend && <button disabled={!ready || Boolean(playing)} onClick={() => void play(blend)} title="比正常慢一点，把音连起来拼读">
+            {blend && <button disabled={!ready || Boolean(playing)} onClick={() => void play(blend)} title="听声音怎样连成单词">
               <IconVolume size={20} />{playing === blend.id ? '播放中' : '拼一拼'}
             </button>}
           </>
         })()}
       </div>
-      <p className="phonics-hint">英式/美式=标准发音 · 分开读=特慢速听清每个音 · 拼一拼=慢速连起来拼</p>
       {word.examples.length > 0 && <div className="ph-examples"><h4>在句子里</h4>{word.examples.map(example =>
         <div key={example.text} className="ph-example"><p lang="en-GB">{example.text}</p>
           {example.audio && <button className="ph-icon-button min-h-[44px] min-w-[44px]" title="播放句子" aria-label="播放句子" disabled={!ready || Boolean(playing)} onClick={() => void play(example.audio)}><IconVolume size={22} /></button>}

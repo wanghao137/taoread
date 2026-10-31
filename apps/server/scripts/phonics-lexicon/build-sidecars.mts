@@ -15,7 +15,8 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../
 const atlasDir = process.argv.includes('--atlas') ? process.argv[process.argv.indexOf('--atlas') + 1]! : path.join(repoRoot, 'output', 'word-atlas-src')
 const edgeLedgerPath = process.argv.includes('--edge-ledger') ? process.argv[process.argv.indexOf('--edge-ledger') + 1]! : path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'audio-candidates-edge.json')
 // Edge 神经录音（免费兜底）：词光无整词录音的词条用 Edge 补英美口音
-const edgeByWord = (() => { try { const l = JSON.parse(readFileSync(edgeLedgerPath, 'utf8')) as { assets: Array<{ id: string; sha256: string; durationMs: number; bytes: number; voice: string }> }; const m = new Map<string, { uk?: typeof l.assets[number]; us?: typeof l.assets[number] }>(); for (const a of l.assets) { const w = /^edge-(gb|us)-(w-[a-z0-9-]+?)(-blend|-segment)?$/.exec(a.id); if (!w || w[3]) continue; const key = w[2]; const slot = m.get(key) ?? {}; if (w[1] === 'gb') slot.uk = a; else slot.us = a; m.set(key, slot) } return m } catch { return new Map<string, { uk?: typeof l.assets[number]; us?: typeof l.assets[number] }>() } })()
+type EdgeAsset = { id: string; sha256: string; durationMs: number; bytes: number; voice: string }
+const edgeByWord = (() => { try { const l = JSON.parse(readFileSync(edgeLedgerPath, 'utf8')) as { assets: EdgeAsset[] }; const m = new Map<string, { uk?: EdgeAsset; us?: EdgeAsset }>(); for (const a of l.assets) { const w = /^edge-(gb|us)-(w-[a-z0-9-]+?)(-blend|-segment)?$/.exec(a.id); if (!w || w[3]) continue; const key = w[2]!; const slot = m.get(key) ?? {}; if (w[1] === 'gb') slot.uk = a; else slot.us = a; m.set(key, slot) } return m } catch { return new Map<string, { uk?: EdgeAsset; us?: EdgeAsset }>() } })()
 const usDir = path.join(repoRoot, 'output', 'phonics-sync-20261028', 'us-audio')
 
 const sha256 = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
@@ -77,6 +78,11 @@ const TAOREAD_ORIGINALS: Record<string, {
 async function main() {
   const course = await loadCourse(candidateDirectory)
   const hash = courseHash(course)
+  const existingPath = path.join(candidateDirectory, 'lexicon.json')
+  if (existsSync(existingPath)) {
+    const existing = JSON.parse(readFileSync(existingPath, 'utf8')) as { entries?: Array<{ example?: { audio?: { extension?: string } | null } }> }
+    if (existing.entries?.some(entry => entry.example?.audio?.extension === 'wav')) throw new Error('Existing WAV examples would be overwritten; preserve or migrate them before rebuilding the lexicon')
+  }
   const atlas = JSON.parse(readFileSync(path.join(atlasDir, 'data', 'word-atlas.json'), 'utf8')) as Array<Record<string, unknown>>
   const byWord = new Map(atlas.map(e => [String(e.w).toLowerCase(), e]))
   const atlasCommit = existsSync(path.join(atlasDir, '.git')) ? '99c007673d38f02c418d8e4cd2e9ec90b5d40be5' : 'unknown'
@@ -87,7 +93,6 @@ async function main() {
 
   const entries: unknown[] = []
   const usedSources = { 'word-atlas': 0, 'taoread-original': 0 }
-  const exampleAudio: Array<{ word: string; file: string; sha256: string; bytes: number }> = []
 
   for (const word of words) {
     const lower = word.text.toLowerCase()
@@ -105,7 +110,6 @@ async function main() {
         const durationMs = mp3DurationMs(bytes)
         if (durationMs) {
           audio = { sha256: sha256(bytes), durationMs, bytes: bytes.length, voice: 'ElevenLabs Alice (UK)' }
-          exampleAudio.push({ word: lower, file: audioFile, sha256: sha256(bytes), bytes: bytes.length })
         }
       }
       // 词光整词发音（ElevenLabs 专业录音）：英音 Alice、美音 Sarah，英美双按钮的数据源
@@ -117,7 +121,6 @@ async function main() {
         const durationMs = mp3DurationMs(bytes)
         if (!durationMs) continue
         wordAudio[accent] = { sha256: sha256(bytes), durationMs, bytes: bytes.length, voice: accent === 'uk' ? 'ElevenLabs Alice (UK)' : 'ElevenLabs Sarah (US)' }
-        exampleAudio.push({ word: `${lower}-${accent}`, file, sha256: sha256(bytes), bytes: bytes.length })
       }
       const edge = edgeByWord.get(word.id)
       for (const accent of ['uk', 'us'] as const) {
@@ -141,7 +144,7 @@ async function main() {
       const originalAudio: Record<string, unknown> = {}
       for (const accent of ['uk', 'us'] as const) {
         const e = accent === 'uk' ? edge?.uk : edge?.us
-        if (e) { originalAudio[accent] = { sha256: e.sha256, durationMs: e.durationMs, bytes: e.bytes, voice: e.voice }; exampleAudio.push({ word: lower + '-' + accent, file: path.join(repoRoot, 'apps', 'output', 'phonics-edge-20261028', 'phonics', course.manifest.versionId, e.sha256 + '.mp3'), sha256: e.sha256, bytes: e.bytes }) }
+        if (e) originalAudio[accent] = { sha256: e.sha256, durationMs: e.durationMs, bytes: e.bytes, voice: e.voice }
       }
       lex = {
         wordId: word.id, word: word.text, source: 'taoread-original', reviewStatus: 'pending',
@@ -164,14 +167,14 @@ async function main() {
         attribution: 'Word Atlas contributors', license: 'CC BY 4.0',
         licenseUrl: 'https://creativecommons.org/licenses/by/4.0/', commit: atlasCommit,
         origin: 'https://github.com/designfuchen/word-atlas',
-        changes: '提取 72 个精确匹配词条的英美音标、义项、生活例句（不含雅思学术句）、搭配、词族与用法提示，未逐条改动文本。',
+        changes: `提取 ${usedSources['word-atlas']} 个精确匹配词条的英美音标、义项、生活例句（不含雅思学术句）、搭配、词族与用法提示，未逐条改动文本。`,
         exampleAudioVoice: 'ElevenLabs "Alice" (UK)，来自词光仓库 public/atlas/audio/ex，CC BY 4.0。',
       },
       'taoread-original': {
-        note: '17 个词光无精确匹配的词条由桃阅读按词光编写规范自备，面向 5-7 岁改写。',
+        note: `${usedSources['taoread-original']} 个词光无精确匹配的词条由桃阅读按词光编写规范自备，面向 5-7 岁改写。`,
       },
     },
-    counts: { entries: entries.length, wordAtlas: usedSources['word-atlas'], taoreadOriginal: usedSources['taoread-original'], exampleAudio: exampleAudio.length },
+    counts: { entries: entries.length, wordAtlas: usedSources['word-atlas'], taoreadOriginal: usedSources['taoread-original'], exampleAudio: entries.filter(entry => Boolean((entry as { example: { audio: unknown } }).example.audio)).length },
     entries,
   }
 
@@ -200,7 +203,7 @@ async function main() {
   const courseDir = candidateDirectory.replace(/[\\]+$/, '').replace(/\/+$/, '')
   writeFileSync(path.join(courseDir, 'lexicon.json'), JSON.stringify(lexicon, null, 1) + '\n')
   writeFileSync(path.join(courseDir, 'usAudio.json'), JSON.stringify(usAudio, null, 1) + '\n')
-  console.log(`lexicon: ${entries.length} 条（词光 ${usedSources['word-atlas']} / 自备 ${usedSources['taoread-original']}，例句音频 ${exampleAudio.length}）`)
+  console.log(`lexicon: ${entries.length} 条（词光 ${usedSources['word-atlas']} / 自备 ${usedSources['taoread-original']}，例句音频 ${lexicon.counts.exampleAudio}）`)
   console.log(`usAudio: ${usAssets.length} 条校验通过`)
   console.log(`courseHash（保持不变）: ${hash}`)
 }

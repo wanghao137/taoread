@@ -1,0 +1,642 @@
+{
+ "schemaVersion": 1,
+ "courseVersionId": "taoread-phonics-gb-v2",
+ "courseHash": "889344eae98562548149509940fb9dbb2ebafa1af072caed077394773aa599ce",
+ "requestedAccent": "US",
+ "actualAccent": null,
+ "provider": "xiaomi-mimo",
+ "model": "mimo-v2.5-tts",
+ "voice": "Chloe",
+ "humanReviewed": false,
+ "rightsReviewed": false,
+ "publicationApproved": false,
+ "source": "MiMo TTS 候选（桃阅读自产），2026-10-28 台账逐文件校验通过",
+ "counts": {
+  "assets": 89
+ },
+ "assets": [
+  {
+   "wordId": "w-cat",
+   "word": "cat",
+   "sha256": "ced5e11f238f750cdbab8119726f4f8d8e7928d3daa3acb398715b8cc4cefbe5",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-run",
+   "word": "run",
+   "sha256": "0607c68ac870eb310dc3ff79bd8c69422db824ebe88e0655516ecafba5980d70",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-sit",
+   "word": "sit",
+   "sha256": "0bad863458001838f60971f8a864ad56d5d1857838b8f57025e6623264a8a3a4",
+   "durationMs": 800,
+   "bytes": 38444
+  },
+  {
+   "wordId": "w-hat",
+   "word": "hat",
+   "sha256": "8226689926ef210233d6d0b04bf9b432bdab96347569a05f60af2ef32875fd4d",
+   "durationMs": 800,
+   "bytes": 38444
+  },
+  {
+   "wordId": "w-at",
+   "word": "at",
+   "sha256": "9f875e6041897c3f11413f337fff2ebe0390a441ea1231eec3fa93ab1402867a",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-sat",
+   "word": "sat",
+   "sha256": "a2affed106c19b225141f47389f9cc045407cf8a27a9b77b07be40044c1790a9",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-pat",
+   "word": "pat",
+   "sha256": "040960737851e982e1e099fe26b989a8b38aced4a877abd3f97b226f6634144f",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-tap",
+   "word": "tap",
+   "sha256": "561d5b98378bb18195163310dcd098e2932c3f2dc180f764a125fa2583b54c0c",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-it",
+   "word": "it",
+   "sha256": "c1ae80eb6a481309b6c67a9853887b59687fc3df83e192d6973759cf37cfc70a",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-sip",
+   "word": "sip",
+   "sha256": "9f0d6a774ecc6e524a06f83460c225354caf93df180cad4f2e394aacd3aa5749",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-in",
+   "word": "in",
+   "sha256": "62758cee0c2dd443a811a1f78797279b53c599f4d06d59ef1de7c9e11b928b59",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-pin",
+   "word": "pin",
+   "sha256": "24a559c48e9d89c365f90779d3232b7c85d0a01e38628ce1a98d9777b9119fae",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-nap",
+   "word": "nap",
+   "sha256": "45e097c916acfd37333dc0ece8711c1ee6bfc8cc5b11791c318937ed94c08ad8",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-mat",
+   "word": "mat",
+   "sha256": "5fab3c72a2fba4641a376a4226ac564ee68c864658458dcb6b2230a50b5b1e63",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-pan",
+   "word": "pan",
+   "sha256": "c2467eb0fcea7799963a47ae3a2956942ccae5a860c32993b1508e509fb11b8d",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-map",
+   "word": "map",
+   "sha256": "18aabd25d11fbf245bddd9b3e4831f457150712af0a6f9d21469a3733c2f68a9",
+   "durationMs": 800,
+   "bytes": 38444
+  },
+  {
+   "wordId": "w-man",
+   "word": "man",
+   "sha256": "914c61d635029bc00f05998b851a7198257887c8bf2e9410c4d8edc153c1dfcd",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-sam",
+   "word": "Sam",
+   "sha256": "df8cb296a8ccc0047c969d43925c66ced9e456d65cb36c010044aeee498a441d",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-tip",
+   "word": "tip",
+   "sha256": "d6e6b8832d58e995cd3d6fc9b31fce22cfe2edd8137e9ce26c517120d459a5e2",
+   "durationMs": 800,
+   "bytes": 38444
+  },
+  {
+   "wordId": "w-ran",
+   "word": "ran",
+   "sha256": "198813dafcfda7cc830d76144157937e2a22b79cbc43ab7cb57b82bff0e84ccc",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-dad",
+   "word": "dad",
+   "sha256": "f10dba09c3e00178497a5726df13fb63d2fb1d365362107543e59de7e643a4c8",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-sad",
+   "word": "sad",
+   "sha256": "4c342d13aac656e614d6ff0b5d8d64ee3d55459ba6cbe4e5e4c4462f20fdd58d",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-dig",
+   "word": "dig",
+   "sha256": "2d66b9affdd75055b259da078fa7982bc3d8bf29b00a71de9d82d8730e4eee81",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-dip",
+   "word": "dip",
+   "sha256": "9f2c2888568f018fd40e711729bf965d50d44391b717985027243ec7126f7d13",
+   "durationMs": 3360,
+   "bytes": 161324
+  },
+  {
+   "wordId": "w-pig",
+   "word": "pig",
+   "sha256": "f0691371509a08f539488410f3980222f98a72cb2cf96616611d1c7cd0c0b8ef",
+   "durationMs": 3520,
+   "bytes": 169004
+  },
+  {
+   "wordId": "w-gap",
+   "word": "gap",
+   "sha256": "68ca5a2f33d31d0b04c16e0a56867382df68bb06e1e84238bfc9b4b28002ec29",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-dog",
+   "word": "dog",
+   "sha256": "e7ba1d8a0205932ea00782963230c79bfdb7e5589b84fba60f1bc4a4cf40302c",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-dot",
+   "word": "dot",
+   "sha256": "a25a6adba9e24bdb6190debf99753c34fdce5c4afc3f114ded09caa3906b83dd",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-pot",
+   "word": "pot",
+   "sha256": "21cd17805c26bb89767aa83a7478091f128d244f0dc16c662f4d6303071f48db",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-top",
+   "word": "top",
+   "sha256": "51e498a449561b077e88b8229d60486053b1ed141b4ee05ff2b86c46d6ff216a",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-cap",
+   "word": "cap",
+   "sha256": "ae59606b12b270234c82d143f88d428bd16f2bd176875895692bdeafd9235634",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-can",
+   "word": "can",
+   "sha256": "784e5b0effc6725d9257e18846769303de54e15a201c557357ab1027224011e3",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-kid",
+   "word": "kid",
+   "sha256": "3d5d5da4dba07a03526f0a3388ee96fab3cd7991a8671c58f53e0a2ef55d77b1",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-kit",
+   "word": "kit",
+   "sha256": "00121b70ff781f577368fa41b91a10c66749917a418f0c5309ae3f26ab0787a1",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-pet",
+   "word": "pet",
+   "sha256": "c55934d0d914691d01b36c66a0609a104925fab09e404916ea290d2ebae573bd",
+   "durationMs": 800,
+   "bytes": 38444
+  },
+  {
+   "wordId": "w-pen",
+   "word": "pen",
+   "sha256": "d1a81dd01bac3ba98029856e50366b39870029a0a2b85c5db86dcb065c1f4867",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-net",
+   "word": "net",
+   "sha256": "fcaf510fd40db580d62d6980a96ba1619621c2ed49e9db9831605b4682498d68",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-cup",
+   "word": "cup",
+   "sha256": "4a93a11ae92d08c277997bba50e6b4d2da60e5a55f4aa30372bb5b575a4c5f32",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-sun",
+   "word": "sun",
+   "sha256": "bb532c0016fbbc581ea1bb44a7a4a8beda3e0e34be778d8e791eca3c73f973ee",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-rat",
+   "word": "rat",
+   "sha256": "6e540665de3d35e28746417cab9aaa88b256b2477e66ee784bd9280f76556a79",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-mud",
+   "word": "mud",
+   "sha256": "f1c0af608e51d4459180d6e68083a7e9b556098b7e49767439d461afa13b65af",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-hen",
+   "word": "hen",
+   "sha256": "c16297b23e36e89d890a97d2b2b908d659bcc274df1dddd99b674c8fd79d0378",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-hop",
+   "word": "hop",
+   "sha256": "83d737f13b8a8f12030bace4ee89e7708ba4666c5ac12144086d598506224819",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-red",
+   "word": "red",
+   "sha256": "da0f256a8dd5edc106f0d38ff50184982ac952fae42f79a1ce7e5415f779b6bc",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-hid",
+   "word": "hid",
+   "sha256": "4d1ed600e197e70226ec1aa4fdb04fe1e1a258f53811650f059d2222e0d257d0",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-bag",
+   "word": "bag",
+   "sha256": "1360241514019886fed0c5d9a6ed54cb72c21ce5c248e334f0c61dc62b7f8438",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-bed",
+   "word": "bed",
+   "sha256": "a607e03aed4a41ca28e82873c46d13621bdebaca2413c9b94b78598006517970",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-bus",
+   "word": "bus",
+   "sha256": "ba80371cf6d1d014831bbfd1e2a60b377fad0141593cabee5b8930532a2c7ef0",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-fan",
+   "word": "fan",
+   "sha256": "724e2065ff7da41ca3cad1ac3d8ab9675311a7f23441cb79a0f3e0088d7485b5",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-fin",
+   "word": "fin",
+   "sha256": "41d95c9a5f19403a434f6518043cd90bcf3d30d67bd0b16b5865d6b264370ce3",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-fun",
+   "word": "fun",
+   "sha256": "a54621f7cd21e1d223e25c2f8361d693eafa026794174e5017959aff784c1a4d",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-leg",
+   "word": "leg",
+   "sha256": "8c21fd34fd981650b396f68113be0920e8cf61cd1b181ae951efaf9dd7fe7455",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-log",
+   "word": "log",
+   "sha256": "728d09275fe23cf310f2e10be1dea5556ea8f32925fd45abd275f832a2b2829b",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-lip",
+   "word": "lip",
+   "sha256": "351bd599cc99060186d5a9bbf2eedf695f30022d89545380925f9ebdf6f1b745",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-jet",
+   "word": "jet",
+   "sha256": "e6d0d2a4fd640d34e5ad532791212cbb0f9967c4b19adb3975edf64fe1762797",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-jam",
+   "word": "jam",
+   "sha256": "53bbd338018191e2ae79f4f341bd3b0bd6f017c9ce7b5f2dc764c4d842bda5c7",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-van",
+   "word": "van",
+   "sha256": "9a00453c53195e655d0c4fffda896d864d8751e0f66d491225a0e44795e9b9a7",
+   "durationMs": 1440,
+   "bytes": 69164
+  },
+  {
+   "wordId": "w-jog",
+   "word": "jog",
+   "sha256": "ddaedd7887a668e6ee4ca6b71efe452239c0ed34fa7b8f5ea3a38dfa3aa3d991",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-vet",
+   "word": "vet",
+   "sha256": "effb9ccd48f3a8c525040f0343ba2f8991e13ac5ccd24464f2d3d7428e072328",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-wet",
+   "word": "wet",
+   "sha256": "d800de0001f86f12ca774030e8d0cf2ac4ed38023b156c5d1cda8925209b5547",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-web",
+   "word": "web",
+   "sha256": "8c215e1ca80a81648e1f7e152a0071461c82699bfe80bfb7ba1c24e7c8dcd0a1",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-yak",
+   "word": "yak",
+   "sha256": "69cf0c023dccfa760df8f902d222f43d056793f76bdcedbe7568389d252fb382",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-wig",
+   "word": "wig",
+   "sha256": "9e45c1469aba9623228ebc08c2d3cada2d82cc1eb4d3d0e7e59b793c5b16731c",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-zip",
+   "word": "zip",
+   "sha256": "381514af0fdc385efc8ed1a0e544c655e2a780de4aa1ea55df7f28fc9be7e4ac",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-yes",
+   "word": "yes",
+   "sha256": "5d97bfb20d82acad6655506d4848e5325c72e7be0dd40285b24dd28b343b8990",
+   "durationMs": 3520,
+   "bytes": 169004
+  },
+  {
+   "wordId": "w-box",
+   "word": "box",
+   "sha256": "0f9ddc2a43b3ec062bb57c01abc9c327ca3e6102ad5fea1dda6ad6f548e686dc",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-zap",
+   "word": "zap",
+   "sha256": "d822ef6405a7f7856ef5bfba2716d4f264d1b6c6dd293c4f5adea131d6b2ae68",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-fox",
+   "word": "fox",
+   "sha256": "817bd1de0bb507fe5e5d11e1389908703a7a21e8d64bb48afedacd7e9eb7ef6d",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-six",
+   "word": "six",
+   "sha256": "28fafefc0ca5f885626f8aa14d7800029ac31bf2974e73e4f1c4e23df1f5b50a",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-quiz",
+   "word": "quiz",
+   "sha256": "d9715212224251b2c7a42bb787cbd9b24c6d31ad11ff328065db986e076d6451",
+   "durationMs": 1440,
+   "bytes": 69164
+  },
+  {
+   "wordId": "w-quit",
+   "word": "quit",
+   "sha256": "d2be33b56e3f9237c2adb7aaaff04c2d038f321e4f8df3de6ebe6e90d1c82c84",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-off",
+   "word": "off",
+   "sha256": "24d8d6d20c76c02439d5b0924473b9e449f96076bdac7a201f6ba1769ce1d285",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-bell",
+   "word": "bell",
+   "sha256": "8779435bc97ce00d598c60aa81a9deb957f5ebc8dc823792b9eca47abfce6ab7",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-doll",
+   "word": "doll",
+   "sha256": "b937be0fb82eb49fb835e0fe6ac01c7a5a8ed239ec691ab6d9b63b1c88a5d2ec",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-duck",
+   "word": "duck",
+   "sha256": "5e9ebefeb39e75dd48a0dc010178f0c1b986a08e11b81622bf41bc4ac652d15f",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-sock",
+   "word": "sock",
+   "sha256": "64f3a91701b8acc96252d43185a558958fcbf14a3ad4a5e1815c6f5ec7620ce5",
+   "durationMs": 4320,
+   "bytes": 207404
+  },
+  {
+   "wordId": "w-kick",
+   "word": "kick",
+   "sha256": "099974d8f5bef20a13ea5e4174a8ce4d2487a66dc63b55ac704248ba784129f7",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-ship",
+   "word": "ship",
+   "sha256": "790816ff2edc070b110170df5599acad20f23525f1d03c823df09f5f976edb3a",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-shop",
+   "word": "shop",
+   "sha256": "17b26a6a65f79a2fb419a4dd74e773bc5880ee360984c833979b2adcc41c8760",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-fish",
+   "word": "fish",
+   "sha256": "4581862da916807fce2440604a42fea138f095ffab38a1b2448ef3dc6acf1db1",
+   "durationMs": 2720,
+   "bytes": 130604
+  },
+  {
+   "wordId": "w-chip",
+   "word": "chip",
+   "sha256": "6272bb3d0ef0ef45c3664c02dee4dd6e813ace408067830939b3a0c492e85b81",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-chat",
+   "word": "chat",
+   "sha256": "a8dddd9eb52471cf2a66ca1efd8d00ebbaf8c82467e1cbb2dc842e178b7981e0",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-chin",
+   "word": "chin",
+   "sha256": "c484cacd8847355631543a5a2d5ef8f44407b0a0a39a4137f52c02fa0c74f5d7",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-thin",
+   "word": "thin",
+   "sha256": "b28ddc1fddcb63e73bcfa052045dc2c1ee33a05edf388c2b77d41144b7fc0ac9",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-moth",
+   "word": "moth",
+   "sha256": "366126010796fa0629bbac50445e7be5c9d18becf41e50c988f25fdb7d8bbb00",
+   "durationMs": 1120,
+   "bytes": 53804
+  },
+  {
+   "wordId": "w-ring",
+   "word": "ring",
+   "sha256": "051360ab12b5581ad36eb101e83a41c6c49ba9ec090ad58f0bd1f59144fdf685",
+   "durationMs": 1280,
+   "bytes": 61484
+  },
+  {
+   "wordId": "w-bath",
+   "word": "bath",
+   "sha256": "1f061f2a4c63274221c4f66b29464bf359954a2881157114421e4a9236f341db",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-wing",
+   "word": "wing",
+   "sha256": "d4ff68f8607d40406626e1a6e1c2c49f019e6d042d4e6a1f060eae7003fac8ff",
+   "durationMs": 960,
+   "bytes": 46124
+  },
+  {
+   "wordId": "w-sing",
+   "word": "sing",
+   "sha256": "b8375056786fedcd20836ecbb2cdd3599ba834bc63ee30b4bb657a0d03ea63c4",
+   "durationMs": 1120,
+   "bytes": 53804
+  }
+ ]
+}

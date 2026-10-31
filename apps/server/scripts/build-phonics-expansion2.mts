@@ -56,8 +56,7 @@ const LESSONS: LessonDef[] = [
     { text: 'draw', zh: '画画', oral: 'draw', graphemes: ['d', 'r', 'aw'] } ] },
   { id: 'L57', title: '小雨点的音（ew）', letters: ['ew'], shapes: ['VC', 'CVC', 'CV'], words: [
     { text: 'new', zh: '新的', blend: 'new', graphemes: ['n', 'ew'] },
-    { text: 'few', zh: '少许', oral: 'few', graphemes: ['f', 'ew'] } ],
-    reviewCards: ['new', 'few', 'moon', 'book'] },
+    { text: 'few', zh: '少许', oral: 'few', graphemes: ['f', 'ew'] } ] },
   { id: 'L58', title: '会变声的 c', letters: ['c2'], shapes: ['VC', 'CVC'], words: [
     { text: 'ice', zh: '冰', blend: 'ice', graphemes: ['ie!', 'c2'] },
     { text: 'rice', zh: '米饭', graphemes: ['r', 'ie!', 'c2'] },

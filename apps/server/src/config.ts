@@ -15,6 +15,10 @@ const schema = z
     TAO_PHONICS_ROLLOUT: z.enum(['off', 'pilot', 'all']).default('off'),
     TAO_PHONICS_SELF_USE_FAMILY: z.string().regex(/^([a-zA-Z0-9_-]{1,96})?$/).default(''),
     TAO_PHONICS_SELF_USE_HASH: z.string().regex(/^([a-f0-9]{64})?$/).default(''),
+    // v2 多版本共存：追加的自用内容哈希列表（逗号分隔）。家庭仅按第一个哈希绑定主课程；
+    // 追加哈希只开放对应课程版本的媒体与访问校验，不改变任何家庭的 enrollment。
+    TAO_PHONICS_SELF_USE_HASHES: z.string().default('').transform(s => s.split(',').map(x => x.trim()).filter(Boolean))
+      .refine(hashes => hashes.every(hash => /^[a-f0-9]{64}$/.test(hash)), 'Invalid self-use hash list'),
     TAO_PHONICS_PILOT_FAMILIES: z.string().default('').transform(s => s.split(',').map(x => x.trim()).filter(Boolean)).refine(ids => ids.every(id => /^[a-zA-Z0-9_-]{1,96}$/.test(id)), 'Invalid phonics pilot family ID'),
     // 阅读时间限制已于 2026-09-25 取消：TAO_BEDTIME 配置项随之移除（环境变量残留不再校验，
     // 忽略即可）。/api/ritual/window 端点保留、恒返回 open。
@@ -56,6 +60,9 @@ const schema = z
   .superRefine((cfg, ctx) => {
     if (Boolean(cfg.TAO_PHONICS_SELF_USE_FAMILY) !== Boolean(cfg.TAO_PHONICS_SELF_USE_HASH)) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Private phonics requires both household and content hash' })
+    }
+    if (cfg.TAO_PHONICS_SELF_USE_HASHES.length > 0 && !cfg.TAO_PHONICS_SELF_USE_FAMILY) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Extra self-use hashes also require the household id' })
     }
     if (cfg.NODE_ENV === 'prod' && parseAllowedOrigins(cfg.TAO_ALLOWED_ORIGIN) === true) {
       ctx.addIssue({

@@ -1,4 +1,4 @@
-/** 将 Edge 神经音频候选绑定进课程资产槽（整词/拼读/分开读 GB 三槽）。
+/** Legacy Edge candidates may be bound as whole words only.
  * 用法：npx tsx scripts/apply-phonics-audio-edge.mts --candidates <audio-candidates-edge.json>
  */
 import { readFile, writeFile } from 'node:fs/promises'
@@ -13,17 +13,15 @@ const ledger = JSON.parse(await readFile(path.resolve(values.candidates), 'utf8'
 }
 const dir = candidateDirectory
 const assetsPath = path.join(dir, 'assets.json')
-const assets = JSON.parse(await readFile(assetsPath, 'utf8')) as Array<{ id: string; sha256: string | null; extension: string; durationMs: number | null; speakerId: string | null; revision: number; sourceLicense: string | null; reviewStatus: string }>
+const assets = JSON.parse(await readFile(assetsPath, 'utf8')) as Array<{ id: string; purpose: string; sha256: string | null; extension: string; durationMs: number | null; speakerId: string | null; revision: number; sourceLicense: string | null; reviewStatus: string }>
 const byId = new Map(assets.map(a => [a.id, a]))
 
 let updated = 0, audioSlots = 0
 for (const item of ledger.assets) {
-  // edge-gb-<wordId> → w-<word>-word；edge-gb-<wordId>-blend → -blend；edge-gb-<wordId>-segment → -segment
   const m = /^edge-gb-(w-[a-z0-9-]+?)(-blend|-segment)?$/.exec(item.id)
-  if (!m) continue
-  const suffix = m[2] ?? ''
-  const asset = byId.get(`${m[1]}${suffix}`)
-  if (!asset || !['word', 'blend', 'segment'].includes(asset.purpose)) continue
+  if (!m || m[2]) continue
+  const asset = byId.get(`${m[1]}-word`)
+  if (!asset || asset.purpose !== 'word') continue
   asset.sha256 = item.sha256
   asset.extension = 'mp3'
   asset.durationMs = item.durationMs

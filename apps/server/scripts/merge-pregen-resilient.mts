@@ -8,7 +8,6 @@ import 'dotenv/config'
 import { readFile, writeFile, rename } from 'node:fs/promises'
 import { join } from 'node:path'
 import { loadConfig } from '../src/config'
-// @ts-expect-error 无类型 .mjs
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio, listAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -24,11 +23,13 @@ const devMedia = config.TAO_MEDIA_DIR || join(process.cwd(), 'media')
 const devManifestPath = join(devMedia, '.tts-public-state.json')
 const prodManifestPath = join(prodMedia, '.tts-public-state.json')
 
-let store, s3
+let store: NonNullable<ReturnType<typeof audioSettings>> | undefined, s3: unknown
 for (let attempt = 0; attempt < 5; attempt++) {
   try {
-    store = audioSettings(process.env)
-    s3 = audioClient(store)
+    const candidate = audioSettings(process.env)
+    if (!candidate) throw new Error('audio store settings unavailable')
+    store = candidate
+    s3 = audioClient(candidate)
     await listAudio(s3, store.bucket) // 连通性探针
     break
   } catch (err) {
@@ -37,6 +38,7 @@ for (let attempt = 0; attempt < 5; attempt++) {
     await new Promise(r => setTimeout(r, 15_000 * (attempt + 1)))
   }
 }
+if (!store) throw new Error('audio store settings unavailable')
 
 const devManifest: Record<string, { durationMs: number; bytes: number; uploaded: boolean; audioKey?: string; model?: string; store?: string }> =
   JSON.parse(await readFile(devManifestPath, 'utf8'))

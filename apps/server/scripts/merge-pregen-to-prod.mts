@@ -10,7 +10,6 @@ import { join } from 'node:path'
 import { createHash } from 'node:crypto'
 import dotenv from 'dotenv'
 import { loadConfig } from '../src/config'
-// @ts-expect-error 无类型 .mjs
 import { loadAudioEnvironment, audioSettings, audioClient, putAudio, listAudio } from './lib/public-audio-store.mjs'
 import { publicSegmentAudioKey } from '../src/modules/tts/publicCache'
 
@@ -27,6 +26,7 @@ const prodManifest: typeof devManifest =
   JSON.parse(await readFile(join(prodMedia, '.tts-public-state.json'), 'utf8'))
 
 const store = audioSettings(process.env)
+if (!store) throw new Error('audio store settings unavailable (R2 unconfigured?)')
 const s3 = audioClient(store)
 
 // 已在 R2 的键集合（gateway list）

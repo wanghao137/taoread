@@ -26,7 +26,7 @@ import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerPhonicsV2Routes } from './modules/phonics/v2/routes'
 import { PhonicsRuntime, type PhonicsV2Options } from './modules/phonics/v2/runtime'
-import { candidateDirectory, courseHash, loadCourse } from './modules/phonics/v2/courseRegistry'
+import { installedCourseDirectories, courseHash, loadCourse } from './modules/phonics/v2/courseRegistry'
 import { loadSidecars } from './modules/phonics/v2/sidecars'
 import { registerTtsRoutes } from './modules/tts/routes'
 import { routePreloads } from './lib/routePreloads'
@@ -42,6 +42,11 @@ import { callWereadApi } from './services/weread/gateway'
 import type { WereadCall } from './services/weread/endpoints'
 import { WereadServiceRegistry } from './services/weread/registry'
 import { registerOpsRoutes } from './modules/ops/routes'
+
+/** 自用模式判定（含多哈希扩展）；独立函数便于测试与注入。 */
+export function phonicsV2HasSelfUse(options: PhonicsV2Options | undefined): boolean {
+  return Boolean(options?.selfUseFamilyId && (options.selfUseHash || options.selfUseHashes?.length))
+}
 
 export interface BuildAppOptions {
   phonicsV2?: PhonicsV2Options
@@ -273,11 +278,13 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
   app.decorate('phonicsRuntime', phonicsRuntime)
   if (options.phonicsV2?.courses) {
     await phonicsRuntime.install(options.phonicsV2.courses, options.phonicsV2.sidecars)
-  } else if ((options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off') || (options.phonicsV2?.selfUseFamilyId && options.phonicsV2.selfUseHash)) {
-    const course = await loadCourse(candidateDirectory)
-    // 旁挂词典/美音包与课程同目录安装；哈希锁定由 loadSidecars 自行校验。
-    const sidecars = await loadSidecars(candidateDirectory.replace(/[\\/]+$/, ''), course.manifest.versionId, courseHash(course))
-    await phonicsRuntime.install([course], [sidecars])
+  } else if ((options.phonicsV2?.rollout && options.phonicsV2.rollout !== 'off') || phonicsV2HasSelfUse(options.phonicsV2)) {
+    // 多版本共存加载：courses 目录下每个带 manifest.json 的子目录 = 一个已安装版本
+    // （v1 起按目录名排序，旁挂清单与课程同目录安装，哈希锁定由 loadSidecars 自行校验）。
+    const directories = installedCourseDirectories()
+    const courses = await Promise.all(directories.map(dir => loadCourse(dir)))
+    const sidecars = await Promise.all(directories.map((dir, index) => loadSidecars(dir.replace(/[\\/]+$/, ''), courses[index]!.manifest.versionId, courseHash(courses[index]!))))
+    await phonicsRuntime.install(courses, sidecars)
   }
   registerPhonicsV2Routes(app, { db: options.db, tokenSecret: options.tokenSecret, runtime: phonicsRuntime })
   registerImprovementRoutes(app, { db: options.db, tokenSecret: options.tokenSecret })
