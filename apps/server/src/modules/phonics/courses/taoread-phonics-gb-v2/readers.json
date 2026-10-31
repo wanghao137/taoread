@@ -2551,5 +2551,317 @@
         "imageAssetId": "w-see-meaning-image"
       }
     ]
+  },
+  {
+    "id": "r-l80",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L80",
+    "pages": [
+      {
+        "text": "black",
+        "wordIds": [
+          "w-black"
+        ],
+        "audioAssetId": "w-black-word",
+        "imageAssetId": "w-black-meaning-image"
+      },
+      {
+        "text": "glad",
+        "wordIds": [
+          "w-glad"
+        ],
+        "audioAssetId": "w-glad-word",
+        "imageAssetId": "w-glad-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l81",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L81",
+    "pages": [
+      {
+        "text": "trap",
+        "wordIds": [
+          "w-trap"
+        ],
+        "audioAssetId": "w-trap-word",
+        "imageAssetId": "w-trap-meaning-image"
+      },
+      {
+        "text": "plum",
+        "wordIds": [
+          "w-plum"
+        ],
+        "audioAssetId": "w-plum-word",
+        "imageAssetId": "w-plum-meaning-image"
+      },
+      {
+        "text": "plane",
+        "wordIds": [
+          "w-plane"
+        ],
+        "audioAssetId": "w-plane-word",
+        "imageAssetId": "w-plane-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l82",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L82",
+    "pages": [
+      {
+        "text": "desk",
+        "wordIds": [
+          "w-desk"
+        ],
+        "audioAssetId": "w-desk-word",
+        "imageAssetId": "w-desk-meaning-image"
+      },
+      {
+        "text": "hand",
+        "wordIds": [
+          "w-hand"
+        ],
+        "audioAssetId": "w-hand-word",
+        "imageAssetId": "w-hand-meaning-image"
+      },
+      {
+        "text": "sand",
+        "wordIds": [
+          "w-sand"
+        ],
+        "audioAssetId": "w-sand-word",
+        "imageAssetId": "w-sand-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l83",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L83",
+    "pages": [
+      {
+        "text": "blue",
+        "wordIds": [
+          "w-blue"
+        ],
+        "audioAssetId": "w-blue-word",
+        "imageAssetId": "w-blue-meaning-image"
+      },
+      {
+        "text": "glue",
+        "wordIds": [
+          "w-glue"
+        ],
+        "audioAssetId": "w-glue-word",
+        "imageAssetId": "w-glue-meaning-image"
+      },
+      {
+        "text": "true",
+        "wordIds": [
+          "w-true"
+        ],
+        "audioAssetId": "w-true-word",
+        "imageAssetId": "w-true-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l84",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L84",
+    "pages": [
+      {
+        "text": "gem",
+        "wordIds": [
+          "w-gem"
+        ],
+        "audioAssetId": "w-gem-word",
+        "imageAssetId": "w-gem-meaning-image"
+      },
+      {
+        "text": "page",
+        "wordIds": [
+          "w-page"
+        ],
+        "audioAssetId": "w-page-word",
+        "imageAssetId": "w-page-meaning-image"
+      },
+      {
+        "text": "cage",
+        "wordIds": [
+          "w-cage"
+        ],
+        "audioAssetId": "w-cage-word",
+        "imageAssetId": "w-cage-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l85",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L85",
+    "pages": [
+      {
+        "text": "pencil",
+        "wordIds": [
+          "w-pencil"
+        ],
+        "audioAssetId": "w-pencil-word",
+        "imageAssetId": "w-pencil-meaning-image"
+      },
+      {
+        "text": "picnic",
+        "wordIds": [
+          "w-picnic"
+        ],
+        "audioAssetId": "w-picnic-word",
+        "imageAssetId": "w-picnic-meaning-image"
+      },
+      {
+        "text": "pancake",
+        "wordIds": [
+          "w-pancake"
+        ],
+        "audioAssetId": "w-pancake-word",
+        "imageAssetId": "w-pancake-meaning-image"
+      },
+      {
+        "text": "insect",
+        "wordIds": [
+          "w-insect"
+        ],
+        "audioAssetId": "w-insect-word",
+        "imageAssetId": "w-insect-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l86",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L86",
+    "pages": [
+      {
+        "text": "windy",
+        "wordIds": [
+          "w-windy"
+        ],
+        "audioAssetId": "w-windy-word",
+        "imageAssetId": "w-windy-meaning-image"
+      },
+      {
+        "text": "cloudy",
+        "wordIds": [
+          "w-cloudy"
+        ],
+        "audioAssetId": "w-cloudy-word",
+        "imageAssetId": "w-cloudy-meaning-image"
+      },
+      {
+        "text": "rainy",
+        "wordIds": [
+          "w-rainy"
+        ],
+        "audioAssetId": "w-rainy-word",
+        "imageAssetId": "w-rainy-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l87",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L87",
+    "pages": [
+      {
+        "text": "farmer",
+        "wordIds": [
+          "w-farmer"
+        ],
+        "audioAssetId": "w-farmer-word",
+        "imageAssetId": "w-farmer-meaning-image"
+      },
+      {
+        "text": "father",
+        "wordIds": [
+          "w-father"
+        ],
+        "audioAssetId": "w-father-word",
+        "imageAssetId": "w-father-meaning-image"
+      },
+      {
+        "text": "cooker",
+        "wordIds": [
+          "w-cooker"
+        ],
+        "audioAssetId": "w-cooker-word",
+        "imageAssetId": "w-cooker-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l88",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L88",
+    "pages": [
+      {
+        "text": "sheep",
+        "wordIds": [
+          "w-sheep"
+        ],
+        "audioAssetId": "w-sheep-word",
+        "imageAssetId": "w-sheep-meaning-image"
+      },
+      {
+        "text": "window",
+        "wordIds": [
+          "w-window"
+        ],
+        "audioAssetId": "w-window-word",
+        "imageAssetId": "w-window-meaning-image"
+      },
+      {
+        "text": "snowy",
+        "wordIds": [
+          "w-snowy"
+        ],
+        "audioAssetId": "w-snowy-word",
+        "imageAssetId": "w-snowy-meaning-image"
+      }
+    ]
+  },
+  {
+    "id": "r-l89",
+    "kind": "word_cards",
+    "titleZh": "一起读词卡",
+    "introducedAt": "L89",
+    "pages": [
+      {
+        "text": "mouth",
+        "wordIds": [
+          "w-mouth"
+        ],
+        "audioAssetId": "w-mouth-word",
+        "imageAssetId": "w-mouth-meaning-image"
+      },
+      {
+        "text": "tooth",
+        "wordIds": [
+          "w-tooth"
+        ],
+        "audioAssetId": "w-tooth-word",
+        "imageAssetId": "w-tooth-meaning-image"
+      }
+    ]
   }
 ]

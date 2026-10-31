@@ -1080,5 +1080,31 @@
     ],
     "accent": "GB",
     "positionCondition": "any"
+  },
+  {
+    "id": "g-g2",
+    "spelling": "g",
+    "display": "g",
+    "phonemes": [
+      {
+        "ipa": "dʒ",
+        "kind": "consonant"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "any"
+  },
+  {
+    "id": "g-ue2",
+    "spelling": "ue",
+    "display": "ue",
+    "phonemes": [
+      {
+        "ipa": "uː",
+        "kind": "vowel"
+      }
+    ],
+    "accent": "GB",
+    "positionCondition": "final"
   }
 ]

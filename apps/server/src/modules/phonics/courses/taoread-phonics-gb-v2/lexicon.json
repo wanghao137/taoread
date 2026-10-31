@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "courseVersionId": "taoread-phonics-gb-v2",
- "courseContentHash": "889344eae98562548149509940fb9dbb2ebafa1af072caed077394773aa599ce",
+ "courseContentHash": "4de8a3daac7a86e91ac2f6ef1494fe4adfb21790ea890f2063e5d7dfb4a166c7",
  "humanReviewed": false,
  "reviewStatus": "pending",
  "generatedAt": "2026-10-29T22:38:19.422Z",
@@ -34,10 +34,10 @@
   "primary": "Original examples for the primary phonics candidate; review pending."
  },
  "counts": {
-  "entries": 212,
+  "entries": 241,
   "wordAtlas": 144,
-  "taoreadOriginal": 68,
-  "exampleAudio": 212
+  "taoreadOriginal": 97,
+  "exampleAudio": 241
  },
  "entries": [
   {
@@ -9974,6 +9974,876 @@
      "durationMs": 3680,
      "bytes": 176684,
      "voice": "MiMo Mia (mimo-v2.5-tts); pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-black",
+   "word": "black",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/blæk/",
+   "usIpa": "/blæk/",
+   "senses": [
+    {
+     "pos": "n./adj.",
+     "zh": "黑色",
+     "en": "A very dark colour, like night."
+    }
+   ],
+   "example": {
+    "en": "The cat is black.",
+    "zh": "这只猫是黑色的。",
+    "audio": {
+     "sha256": "59291a946ded6da9d886ddfe7eb0357b30b148d962ebc8fa9cf5264e02b1ad23",
+     "extension": "wav",
+     "durationMs": 6720,
+     "bytes": 322604,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-glad",
+   "word": "glad",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡlæd/",
+   "usIpa": "/ɡlæd/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "高兴的",
+     "en": "Happy about something."
+    }
+   ],
+   "example": {
+    "en": "I am glad to see you.",
+    "zh": "见到你我很高兴。",
+    "audio": {
+     "sha256": "cc826d2163f1a133e42dd23c0c1f79ab57bf54a688047268f77dc5e8f2161de1",
+     "extension": "wav",
+     "durationMs": 3200,
+     "bytes": 153644,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-trap",
+   "word": "trap",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/træp/",
+   "usIpa": "/træp/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "陷阱",
+     "en": "A thing that catches someone or something."
+    }
+   ],
+   "example": {
+    "en": "The mouse is in the trap.",
+    "zh": "老鼠在陷阱里。",
+    "audio": {
+     "sha256": "c8cd26f9d4f74a4c28daf84d6f90fbcfacdae062198df391fc15bc40272805c4",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-plum",
+   "word": "plum",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/plʌm/",
+   "usIpa": "/plʌm/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "李子",
+     "en": "A soft sweet fruit."
+    }
+   ],
+   "example": {
+    "en": "The plum is sweet.",
+    "zh": "李子很甜。",
+    "audio": {
+     "sha256": "fb4434faeacf8e8056191b7c7b955fd4f56711437741eceac3476008f5d501f2",
+     "extension": "wav",
+     "durationMs": 3040,
+     "bytes": 145964,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-plane",
+   "word": "plane",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/pleɪn/",
+   "usIpa": "/pleɪn/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "飞机",
+     "en": "A machine that flies in the sky."
+    }
+   ],
+   "example": {
+    "en": "The plane is in the sky.",
+    "zh": "飞机在天上。",
+    "audio": {
+     "sha256": "fe5f4f9daf677e64f9e435d40c72691a729e3fdb64a888e6d6bc948cd7089ad0",
+     "extension": "wav",
+     "durationMs": 5120,
+     "bytes": 245804,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-desk",
+   "word": "desk",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/desk/",
+   "usIpa": "/desk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "课桌",
+     "en": "A table for writing at school."
+    }
+   ],
+   "example": {
+    "en": "My book is on the desk.",
+    "zh": "我的书在课桌上。",
+    "audio": {
+     "sha256": "ad2d00f65589afe112168bb990ab7e2b1504cc9731051b767d36c1c3d81e6490",
+     "extension": "wav",
+     "durationMs": 4320,
+     "bytes": 207404,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-hand",
+   "word": "hand",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/hænd/",
+   "usIpa": "/hænd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "手",
+     "en": "The body part you use to touch and hold things."
+    }
+   ],
+   "example": {
+    "en": "Wash your hands, please.",
+    "zh": "请洗手。",
+    "audio": {
+     "sha256": "03b3dca347aebcb771b10b2d708bdcdeeed06919204216159f1ee17ee8aa1324",
+     "extension": "wav",
+     "durationMs": 2720,
+     "bytes": 130604,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-sand",
+   "word": "sand",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/sænd/",
+   "usIpa": "/sænd/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "沙",
+     "en": "Tiny stones on the beach."
+    }
+   ],
+   "example": {
+    "en": "The sand is warm.",
+    "zh": "沙子是暖的。",
+    "audio": {
+     "sha256": "95fefc7d5ef7ccf33b1a5362fae73c91436e2788d6743b219b0f8aed258e03ed",
+     "extension": "wav",
+     "durationMs": 2560,
+     "bytes": 122924,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-blue",
+   "word": "blue",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/bluː/",
+   "usIpa": "/bluː/",
+   "senses": [
+    {
+     "pos": "n./adj.",
+     "zh": "蓝色",
+     "en": "The colour of the sky."
+    }
+   ],
+   "example": {
+    "en": "The sky is blue.",
+    "zh": "天空是蓝色的。",
+    "audio": {
+     "sha256": "7603906dd47b8dbd06bc40203c38c556b264e0166c4a149913467aa7f921307e",
+     "extension": "wav",
+     "durationMs": 3360,
+     "bytes": 161324,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "词尾 ue 读 /uː/，不读 /juː/。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-glue",
+   "word": "glue",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ɡluː/",
+   "usIpa": "/ɡluː/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "胶水",
+     "en": "Sticky stuff that joins things."
+    }
+   ],
+   "example": {
+    "en": "The glue is sticky.",
+    "zh": "胶水很粘。",
+    "audio": {
+     "sha256": "a84b1236da2d4331d8ccba9fb652699a4c354d1b354d1cf7b1164bebbad776ca",
+     "extension": "wav",
+     "durationMs": 3040,
+     "bytes": 145964,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-true",
+   "word": "true",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/truː/",
+   "usIpa": "/truː/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "真的",
+     "en": "Right and real."
+    }
+   ],
+   "example": {
+    "en": "The story is true.",
+    "zh": "这个故事是真的。",
+    "audio": {
+     "sha256": "fd9215670c4bd8dd3bca382f832bc034cf7e64a08bb439409b1268542b0f7fee",
+     "extension": "wav",
+     "durationMs": 2720,
+     "bytes": 130604,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-gem",
+   "word": "gem",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/dʒem/",
+   "usIpa": "/dʒem/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "宝石",
+     "en": "A pretty stone of great value."
+    }
+   ],
+   "example": {
+    "en": "The gem is shiny.",
+    "zh": "宝石闪闪发光。",
+    "audio": {
+     "sha256": "01d6240f3a1a0193adeb48d27d6df7dff4355b36cab27f8576a084f2ad6f3537",
+     "extension": "wav",
+     "durationMs": 2720,
+     "bytes": 130604,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "g 在 e 前常读 /dʒ/。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-page",
+   "word": "page",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/peɪdʒ/",
+   "usIpa": "/peɪdʒ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "页",
+     "en": "One side of a sheet in a book."
+    }
+   ],
+   "example": {
+    "en": "Turn to page four.",
+    "zh": "翻到第四页。",
+    "audio": {
+     "sha256": "b90cb8535f8a1c797d251ac8f7c5e2019e88e6ab96ba585ca519d1679794892c",
+     "extension": "wav",
+     "durationMs": 2560,
+     "bytes": 122924,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-cage",
+   "word": "cage",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/keɪdʒ/",
+   "usIpa": "/keɪdʒ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "笼子",
+     "en": "A box with bars for keeping animals."
+    }
+   ],
+   "example": {
+    "en": "The bird is in the cage.",
+    "zh": "鸟在笼子里。",
+    "audio": {
+     "sha256": "b8c60ee83b24a8a847b4aca6474c783a52b8cf24d9a16fdd8d8bbeff43850436",
+     "extension": "wav",
+     "durationMs": 3200,
+     "bytes": 153644,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-pencil",
+   "word": "pencil",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈpensl/",
+   "usIpa": "/ˈpensl/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "铅笔",
+     "en": "A wooden tool for writing."
+    }
+   ],
+   "example": {
+    "en": "My pencil is long.",
+    "zh": "我的铅笔很长。",
+    "audio": {
+     "sha256": "5648c5eb9e0788cbeeee372ed844cf8c535f9a32f4dbd2cd63a7d3d63265c1a8",
+     "extension": "wav",
+     "durationMs": 3840,
+     "bytes": 184364,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-picnic",
+   "word": "picnic",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈpɪknɪk/",
+   "usIpa": "/ˈpɪknɪk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "野餐",
+     "en": "A meal eaten outdoors."
+    }
+   ],
+   "example": {
+    "en": "We have a picnic on Sunday.",
+    "zh": "我们周日去野餐。",
+    "audio": {
+     "sha256": "8c9074e1ab5b282cdc597c01fd2a4c3f0aa97e4b6c4a3af9c73fbd3c348d242e",
+     "extension": "wav",
+     "durationMs": 3360,
+     "bytes": 161324,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-pancake",
+   "word": "pancake",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈpænkeɪk/",
+   "usIpa": "/ˈpænkeɪk/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "薄煎饼",
+     "en": "A thin flat cake from a pan."
+    }
+   ],
+   "example": {
+    "en": "The pancake is round.",
+    "zh": "薄煎饼是圆的。",
+    "audio": {
+     "sha256": "7426544160779d73a6690ec2d5b4dd6b91f1007d821c42ac0ea518b531389981",
+     "extension": "wav",
+     "durationMs": 4160,
+     "bytes": 199724,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-insect",
+   "word": "insect",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈɪnsekt/",
+   "usIpa": "/ˈɪnsekt/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "昆虫",
+     "en": "A small animal with six legs."
+    }
+   ],
+   "example": {
+    "en": "The insect is tiny.",
+    "zh": "昆虫很小。",
+    "audio": {
+     "sha256": "bc3cfd198eb0979f4bdd368f2be7c46e2839cccfac66bbbac5acda45a0f98dd0",
+     "extension": "wav",
+     "durationMs": 3520,
+     "bytes": 169004,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-windy",
+   "word": "windy",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈwɪndi/",
+   "usIpa": "/ˈwɪndi/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "有风的",
+     "en": "With a lot of wind."
+    }
+   ],
+   "example": {
+    "en": "It is windy today.",
+    "zh": "今天风很大。",
+    "audio": {
+     "sha256": "7fb6615dbda669600817db7fa4ae1160c948b6c452ded8a87be24b64fd55fdc9",
+     "extension": "wav",
+     "durationMs": 2560,
+     "bytes": 122924,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "词尾 y 读轻音 /ɪ/。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-cloudy",
+   "word": "cloudy",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈklaʊdi/",
+   "usIpa": "/ˈklaʊdi/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "多云的",
+     "en": "With many clouds in the sky."
+    }
+   ],
+   "example": {
+    "en": "The sky is cloudy.",
+    "zh": "天空多云。",
+    "audio": {
+     "sha256": "961d87a31275afd85803f553101fcc5854fb9aa42fc590f209bd9503c0e1dae8",
+     "extension": "wav",
+     "durationMs": 3200,
+     "bytes": 153644,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-rainy",
+   "word": "rainy",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈreɪni/",
+   "usIpa": "/ˈreɪni/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "下雨的",
+     "en": "With a lot of rain."
+    }
+   ],
+   "example": {
+    "en": "It is a rainy day.",
+    "zh": "这是一个下雨天。",
+    "audio": {
+     "sha256": "a30331e6faffc41b5c7f964aa155e432a6b9162f01a5c0dd0e708e636968f92a",
+     "extension": "wav",
+     "durationMs": 3040,
+     "bytes": 145964,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-farmer",
+   "word": "farmer",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈfɑːmə/",
+   "usIpa": "/ˈfɑːrmər/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "农民",
+     "en": "A person who works on a farm."
+    }
+   ],
+   "example": {
+    "en": "The farmer has a big farm.",
+    "zh": "农民有一个大农场。",
+    "audio": {
+     "sha256": "061a7920003304234e383018140225745025b4759452e45c72b46e13f2d7bb68",
+     "extension": "wav",
+     "durationMs": 4480,
+     "bytes": 215084,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "词尾 er 常读轻音 /ə/。",
+   "cefr": null
+  },
+  {
+   "wordId": "w-father",
+   "word": "father",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈfɑːðə/",
+   "usIpa": "/ˈfɑːðər/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "爸爸",
+     "en": "Your male parent."
+    }
+   ],
+   "example": {
+    "en": "My father reads with me.",
+    "zh": "我爸爸陪我读书。",
+    "audio": {
+     "sha256": "d31730cf87e0a90cc02ae9508e5fef73d8f6c6c71302892a306a995cebc44ff6",
+     "extension": "wav",
+     "durationMs": 3360,
+     "bytes": 161324,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-sheep",
+   "word": "sheep",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ʃiːp/",
+   "usIpa": "/ʃiːp/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "绵羊",
+     "en": "A farm animal with soft wool."
+    }
+   ],
+   "example": {
+    "en": "The sheep is on the grass.",
+    "zh": "绵羊在草地上。",
+    "audio": {
+     "sha256": "078a6c759cea39cc96cffb15383fb83e527511d0003363deb573da2e286c73f5",
+     "extension": "wav",
+     "durationMs": 4000,
+     "bytes": 192044,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-window",
+   "word": "window",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈwɪndəʊ/",
+   "usIpa": "/ˈwɪndoʊ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "窗户",
+     "en": "Glass in a wall that lets light in."
+    }
+   ],
+   "example": {
+    "en": "The window is clean.",
+    "zh": "窗户很干净。",
+    "audio": {
+     "sha256": "ed7a1e84e5e9365bb36080d4417409bac7b488b6bb26129685dcb3b38a1c6be2",
+     "extension": "wav",
+     "durationMs": 5920,
+     "bytes": 284204,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-mouth",
+   "word": "mouth",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/maʊθ/",
+   "usIpa": "/maʊθ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "嘴巴",
+     "en": "The part of the face used for eating and speaking."
+    }
+   ],
+   "example": {
+    "en": "Open your mouth.",
+    "zh": "张开你的嘴巴。",
+    "audio": {
+     "sha256": "7600cff506d51bc6b1b9c79fa830b961396fca3c652e1fbd4a2b2eb2d10d671d",
+     "extension": "wav",
+     "durationMs": 5440,
+     "bytes": 261164,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-tooth",
+   "word": "tooth",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/tuːθ/",
+   "usIpa": "/tuːθ/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "牙齿",
+     "en": "One of the hard white things in your mouth."
+    }
+   ],
+   "example": {
+    "en": "The tooth is white.",
+    "zh": "牙齿是白色的。",
+    "audio": {
+     "sha256": "c5270d687885131f1f0e8819ceffee5548302b959229766524f976985218bdd6",
+     "extension": "wav",
+     "durationMs": 3360,
+     "bytes": 161324,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-snowy",
+   "word": "snowy",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈsnəʊɪ/",
+   "usIpa": "/ˈsnoʊi/",
+   "senses": [
+    {
+     "pos": "adj.",
+     "zh": "下雪的",
+     "en": "With falling snow."
+    }
+   ],
+   "example": {
+    "en": "It is snowy today.",
+    "zh": "今天下雪了。",
+    "audio": {
+     "sha256": "b7b02d23481ef2fa604c58ed54b1cb9e6b027e9a105d809b750c614a31d57607",
+     "extension": "wav",
+     "durationMs": 3680,
+     "bytes": 176684,
+     "voice": "undefined; pending review"
+    }
+   },
+   "collocations": [],
+   "family": [],
+   "tip": "",
+   "cefr": null
+  },
+  {
+   "wordId": "w-cooker",
+   "word": "cooker",
+   "source": "taoread-original",
+   "reviewStatus": "pending",
+   "ukIpa": "/ˈkʊkə/",
+   "usIpa": "/ˈkʊkər/",
+   "senses": [
+    {
+     "pos": "n.",
+     "zh": "炊具",
+     "en": "A machine for cooking food."
+    }
+   ],
+   "example": {
+    "en": "The cooker is hot.",
+    "zh": "炊具很烫。",
+    "audio": {
+     "sha256": "838a3de0186a38d948a386d65fe2f6fe787983958e9b1dae9f6c43836bf82726",
+     "extension": "wav",
+     "durationMs": 2880,
+     "bytes": 138284,
+     "voice": "undefined; pending review"
     }
    },
    "collocations": [],

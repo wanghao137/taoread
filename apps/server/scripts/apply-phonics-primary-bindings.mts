@@ -25,7 +25,7 @@ for (const key of ['candidates', 'edge-ledger', 'mimo-ledger', 'image-ledger']) 
 interface EdgeAsset { id: string; sha256: string; durationMs: number; bytes: number; voice: string }
 const edgeLedger = JSON.parse(await readFile(path.resolve(values['edge-ledger']!), 'utf8')) as { assets: EdgeAsset[] }
 const edge = new Map(edgeLedger.assets.map(a => [a.id, a]))
-const mimoLedger = JSON.parse(await readFile(path.resolve(values['mimo-ledger']!), 'utf8')) as { assets: Record<string, { sha256: string; extension: 'mp3' | 'wav'; durationMs: number; bytes: number; voice?: string | null; status: string }> }
+const mimoLedger = JSON.parse(await readFile(path.resolve(values['mimo-ledger']!), 'utf8')) as { assets: Record<string, { sha256: string; extension: 'mp3' | 'wav'; durationMs: number; bytes: number; voice?: string | null; model?: string; status: string }> }
 const mimo = new Map(Object.entries(mimoLedger.assets))
 const imageLedger = JSON.parse(await readFile(path.resolve(values['image-ledger']!), 'utf8')) as { assets: Record<string, { sha256: string; bytes: number; model: string; status: string }> }
 const images = new Map(Object.entries(imageLedger.assets))
@@ -64,7 +64,7 @@ for (const asset of assets) {
   } else if (asset.purpose === 'instruction_zh' || asset.purpose === 'phoneme' || asset.purpose === 'passage') {
     const hit = mimo.get(asset.id)
     if (!hit) { problems.push('no-mimo:' + asset.id); continue }
-    source = { sha256: hit.sha256, extension: 'wav', durationMs: hit.durationMs, speakerId: hit.voice ?? hit.model, license: 'Xiaomi MiMo TTS generated for taoread phonics; listening review pending' }
+    source = { sha256: hit.sha256, extension: 'wav', durationMs: hit.durationMs, speakerId: hit.voice ?? hit.model ?? 'mimo', license: 'Xiaomi MiMo TTS generated for taoread phonics; listening review pending' }
   } else if (asset.purpose === 'image') {
     const hit = images.get(asset.id)
     if (!hit) { problems.push('no-image:' + asset.id); continue }
