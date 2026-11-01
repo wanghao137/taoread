@@ -14,7 +14,8 @@ for (let i = 1; i <= 72; i++) {
   }
   const tail = out.trim().split('\n').slice(-3).join(' | ')
   console.log(`[attempt ${i}] ${tail.slice(0, 300)}`)
-  if (/FINISH/.test(out)) { console.log('UPLOAD-COMPLETE'); break }
+  // docs/102 修复：/FINISH/ 会把 FINISH-FAILED 误判为完成——只认真正的成功行
+  if (/FINISH done|FINISH nothing-to-do/.test(out)) { console.log('UPLOAD-COMPLETE'); break }
   if (/capacity-stop/.test(out) && !/pending=\d/.test(out.split('FINISH')[0] ?? '')) {
     // 撞容量线：已完成本次能传的，剩余等清理；不再空转
     console.log('CAPACITY-LIMIT-REACHED (剩余段等死键清理腾空间后重跑)')

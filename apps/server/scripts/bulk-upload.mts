@@ -97,7 +97,10 @@ await withR2Capacity({
           if (done % 200 === 0) { manifestWrite(); log(`checkpoint done=${done}/${pending.length} failed=${failed}`) }
         } else {
           failed++
-          if (lastErr.startsWith('HTTP 000')) { netFails++; if (netFails >= 15) { log(`network-down early-abort at done=${done}`); manifestWrite(); process.exit(2) } }
+          // 持锁状态下绝不能 process.exit——它不执行 r2-capacity 的 finally 释放锁，
+          // 会留孤儿锁堵死后续所有上传（docs/102：10-31 与 11-01 两把孤儿锁的根因）。
+          // 抛错让 withR2Capacity 的 finally 走到：锁释放、外层 catch 记 FINISH-FAILED、循环稍后重试。
+          if (lastErr.startsWith('HTTP 000')) { netFails++; if (netFails >= 15) { manifestWrite(); throw new Error(`network-down early-abort at done=${done}`) } }
           else netFails = 0
           if (failed <= 12) log(`fail ${key.slice(0, 10)}: ${lastErr}`)
         }
