@@ -1,5 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import * as THREE from 'three'
+import {
+  BufferGeometry,
+  CanvasTexture,
+  Color,
+  Float32BufferAttribute,
+  Group,
+  MathUtils,
+  PointsMaterial,
+  Points,
+  PerspectiveCamera,
+  Raycaster,
+  Scene,
+  Vector2,
+  WebGLRenderer,
+} from 'three'
 import type { PhonicsAtlasWordDto } from '@taoread/shared'
 import { IconMinus, IconPlus, IconRefresh } from '../../../components/ui/icons'
 import { PHONICS_TOPICS, phonicsTopic, type PhonicsTopicId } from './phonicsTopics'
@@ -13,8 +27,8 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
   useEffect(() => {
     const node = host.current
     if (!node || !words.length) return
-    let renderer: THREE.WebGLRenderer
-    try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }) }
+    let renderer: WebGLRenderer
+    try { renderer = new WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }) }
     catch { setAvailable(false); return }
     setAvailable(true)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
@@ -22,10 +36,10 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
     renderer.domElement.setAttribute('aria-label', '单词星图')
     renderer.domElement.setAttribute('role', 'img')
     node.appendChild(renderer.domElement)
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 30)
+    const scene = new Scene()
+    const camera = new PerspectiveCamera(45, 1, 0.1, 30)
     camera.position.z = 6.5
-    const group = new THREE.Group()
+    const group = new Group()
     scene.add(group)
     const positions: number[] = [], colors: number[] = []
     const groups = PHONICS_TOPICS.map(topic => words.filter(word => phonicsTopic(word.id) === topic.id))
@@ -36,12 +50,12 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
       const radius = 0.65 * Math.sqrt((index + 0.5) / group.length)
       const angle = index * Math.PI * (3 - Math.sqrt(5))
       positions.push(Math.cos(center) * 1.65 + Math.cos(angle) * radius, Math.sin(center) * 1.65 + Math.sin(angle) * radius, Math.sin(angle * 0.7) * 0.3)
-      const color = new THREE.Color(word.favorite ? '#d46e61' : word.studyState === 'familiar' ? '#ca982e' : word.studyState === 'learning' ? '#287b56' : '#899e96')
+      const color = new Color(word.favorite ? '#d46e61' : word.studyState === 'familiar' ? '#ca982e' : word.studyState === 'learning' ? '#287b56' : '#899e96')
       colors.push(color.r, color.g, color.b)
     })
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+    const geometry = new BufferGeometry()
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new Float32BufferAttribute(colors, 3))
     const star = document.createElement('canvas')
     star.width = 32; star.height = 32
     const context = star.getContext('2d')
@@ -54,9 +68,9 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
       }
       context.closePath(); context.fill()
     }
-    const texture = new THREE.CanvasTexture(star)
-    const material = new THREE.PointsMaterial({ size: 14, sizeAttenuation: false, vertexColors: true, transparent: true, map: texture, alphaTest: 0.15 })
-    const points = new THREE.Points(geometry, material)
+    const texture = new CanvasTexture(star)
+    const material = new PointsMaterial({ size: 14, sizeAttenuation: false, vertexColors: true, transparent: true, map: texture, alphaTest: 0.15 })
+    const points = new Points(geometry, material)
     group.add(points)
     const resize = () => {
       const width = node.clientWidth, height = node.clientHeight
@@ -65,10 +79,10 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
     }
     const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(resize) : null
     observer?.observe(node); window.addEventListener('resize', resize); resize()
-    const zoom = (amount: number) => { camera.position.z = THREE.MathUtils.clamp(camera.position.z + amount, 4, 12) }
+    const zoom = (amount: number) => { camera.position.z = MathUtils.clamp(camera.position.z + amount, 4, 12) }
     const reset = () => { camera.position.z = 6.5; group.rotation.set(0, 0, 0) }
     controls.current = { zoom, reset }
-    const raycaster = new THREE.Raycaster()
+    const raycaster = new Raycaster()
     raycaster.params.Points.threshold = 0.16
     let down: { x: number; y: number; moved: number } | null = null
     const pointerDown = (event: PointerEvent) => { down = { x: event.clientX, y: event.clientY, moved: 0 }; renderer.domElement.setPointerCapture(event.pointerId) }
@@ -81,7 +95,7 @@ export function PhonicsGalaxy({ words, onOpen, onTopic }: { words: PhonicsAtlasW
     const pointerUp = (event: PointerEvent) => {
       if (down && down.moved < 6) {
         const rect = renderer.domElement.getBoundingClientRect()
-        raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1), camera)
+        raycaster.setFromCamera(new Vector2((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1), camera)
         const index = raycaster.intersectObject(points)[0]?.index
         if (index !== undefined && words[index]) open.current(words[index]!.id)
       }
