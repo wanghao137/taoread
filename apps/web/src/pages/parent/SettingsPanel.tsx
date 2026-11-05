@@ -35,8 +35,8 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
-  /** M2d 每日开读提醒（本机）：输入草稿（defaultValue 非受控） */
-  const reminderDraft = useRef('')
+  /** M2d 每日开读提醒（本机）：输入草稿（defaultValue 非受控；初始值=已存提醒，防重进误报格式错） */
+  const reminderDraft = useRef(getDailyReminder() ?? '')
   /** 注销二次确认：重输家庭码（知道码的人才能删库，防孩子/访客误触） */
   const [deleteCode, setDeleteCode] = useState('')
   const [busy, setBusy] = useState(false)

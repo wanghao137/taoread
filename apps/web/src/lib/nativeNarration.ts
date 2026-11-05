@@ -14,8 +14,12 @@ type NativePos = { index: number; positionMs: number; playing: boolean; count: n
 const PLUGIN = (): any =>
   typeof window !== 'undefined' ? (window as any).Capacitor?.Plugins?.Narration : undefined
 
-export const NATIVE_NARRATION =
-  import.meta.env.VITE_TAO_NATIVE === '1' && !!PLUGIN()
+/** 每次调用即时判定（对抗审查 F）：Capacitor 桥由壳在页面早期注入，
+ * 模块求值时全局未必已就位——常量会在 APK 里静默回退浏览器引擎（息屏断播 bug 复活）。
+ * VITE_TAO_NATIVE 是构建期常量，浏览器构建短路为 false 零成本。 */
+export function nativeNarrationActive(): boolean {
+  return import.meta.env.VITE_TAO_NATIVE === '1' && !!PLUGIN()
+}
 
 type Handler = (data: any) => void
 const handlers: Record<string, Set<Handler>> = {}

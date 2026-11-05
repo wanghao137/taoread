@@ -1,7 +1,6 @@
 package com.taostudio.taoread;
 
 import android.content.Context;
-import androidx.core.content.ContextCompat;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -84,7 +83,12 @@ public class NarrationPlugin extends Plugin {
 
   private void ensureService(Context ctx) {
     try {
-      ContextCompat.startForegroundService(ctx, new android.content.Intent(ctx, NarrationService.class));
+      // 对抗审查 A：必须用 startService 而非 startForegroundService——
+      // 后者要求服务 5 秒内 startForeground，而媒体通知由 MediaSessionService 在
+      // 真正开始播放时才自动挂起；网络慢（缓冲>5s）即触发
+      // ForegroundServiceDidNotStartInTimeException 崩溃。播放方总在前台手势路径，
+      // startService 合法；前台态由 media3 在开播时接管。
+      ctx.startService(new android.content.Intent(ctx, NarrationService.class));
     } catch (Exception ignored) {
       /* Android 12+ 后台启动限制：仅在前台手势路径调用，忽略异常保播放体验 */
     }

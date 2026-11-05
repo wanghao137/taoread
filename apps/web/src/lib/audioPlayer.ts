@@ -14,7 +14,7 @@ import { api } from './api'
 import { sanitizeForSpeech } from './tts'
 import { recordLocalDuration } from './readyTiming'
 import {
-  NATIVE_NARRATION,
+  nativeNarrationActive,
   nativeAppend,
   nativeFadeStop,
   nativeGetPosition,
@@ -393,7 +393,7 @@ class ServerAudioPlayer {
    * 播放一小段静音，此后同一元素的程序化 play() 即被放行。
    */
   prime(): void {
-    if (NATIVE_NARRATION) return
+    if (nativeNarrationActive()) return
     try {
       const a = this.ensureAudio()
       // A paused queue is already activated. Keep its source and position for resumeQueue().
@@ -417,7 +417,7 @@ class ServerAudioPlayer {
   /** 播放队列第 index 段；返回是否真正开播（供 speakChapter 的首段结清判定） */
   private async playSegment(index: number): Promise<boolean> {
     if (this.cancelled) return false
-    if (NATIVE_NARRATION) return this.playSegmentNative(index)
+    if (nativeNarrationActive()) return this.playSegmentNative(index)
     const session = this.session
     const seg = this.queue[index]
     if (!seg) {
@@ -559,7 +559,8 @@ class ServerAudioPlayer {
     onNativeState((data) => {
       if (this.cancelled) return
       const playing = data?.playing === true
-      this.playing = playing || (this.playing && this.queue.length > 0)
+      // 对抗审查 D：直接采信原生播放态（原生侧已按 playWhenReady+READY/BUFFERING 去抖）
+      this.playing = playing
       this.paused = !playing && this.queue.length > 0
       this.stateListeners.forEach(fn => fn(playing ? 'playing' : 'paused'))
       if (playing) { const seg = this.queue[this.currentIndex]; if (seg) this.startNativePolling(seg) }
@@ -598,7 +599,7 @@ class ServerAudioPlayer {
   /** 段还在流式合成时，等 0.8s 再看有没有下一段（原生模式不需要：原生 append 自动续播） */
   private waitForNext(fromIndex: number): void {
     if (this.cancelled) return
-    if (NATIVE_NARRATION) return
+    if (nativeNarrationActive()) return
     // 定时器绑定会话代号：stop 后 800ms 内开启的新播放不受旧定时器误杀（与 retryTimer 同防）
     const sess = this.session
     globalThis.setTimeout(() => {
@@ -683,7 +684,7 @@ class ServerAudioPlayer {
 
   /** 停止（不触发 onEnd） */
   stop(): void {
-    if (NATIVE_NARRATION) {
+    if (nativeNarrationActive()) {
       this.chapterAbort?.abort()
       this.chapterAbort = null
       this.streamFinished = true
@@ -726,7 +727,7 @@ class ServerAudioPlayer {
   }
 
   pause(): void {
-    if (NATIVE_NARRATION) {
+    if (nativeNarrationActive()) {
       if (this.playing && !this.paused) {
         this.paused = true
         this.stopNativePolling()
@@ -742,7 +743,7 @@ class ServerAudioPlayer {
   }
 
   resume(): void {
-    if (NATIVE_NARRATION) {
+    if (nativeNarrationActive()) {
       if (!this.playing) return
       this.paused = false
       void nativePlay().then(() => {
@@ -783,7 +784,7 @@ class ServerAudioPlayer {
     if (index < 0 || index >= this.queue.length) return false
     this.session += 1
     this.currentIndex = index
-    if (NATIVE_NARRATION) {
+    if (nativeNarrationActive()) {
       this.emitProgress(-1)
       void nativeJumpTo(index)
       return true
@@ -799,7 +800,7 @@ class ServerAudioPlayer {
    * 用户在入睡边缘时，硬切会惊醒；渐弱是这一品类的既定范式。
    */
   fadeOutAndStop(durationMs = 6000): void {
-    if (NATIVE_NARRATION) {
+    if (nativeNarrationActive()) {
       if (this.playing) {
         this.playing = false
         this.paused = false
@@ -833,7 +834,7 @@ class ServerAudioPlayer {
 
   /** 锁屏媒体控制（MediaSession API；不支持时静默跳过；原生模式由原生通知栏接管） */
   private setMediaSession(bookTitle: string, chapterTitle: string): void {
-    if (NATIVE_NARRATION) return
+    if (nativeNarrationActive()) return
     if (typeof globalThis.navigator === 'undefined' || !('mediaSession' in navigator)) return
     try {
       navigator.mediaSession.metadata = new MediaMetadata({

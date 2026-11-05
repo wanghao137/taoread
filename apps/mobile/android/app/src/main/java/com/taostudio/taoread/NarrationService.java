@@ -29,8 +29,8 @@ public class NarrationService extends MediaSessionService {
 
   private ExoPlayer player;
   private MediaSession session;
-  /** 是否已进入前台服务状态（首个 play 时 startForeground） */
-  private boolean foreground = false;
+  /** 渐弱定时器代次：任何新播放/停止都 +1，旧 postDelayed 回调过期自弃 */
+  private int fadeToken = 0;
   private static final String CHANNEL_ID = "narration";
 
   @Override
@@ -60,23 +60,38 @@ public class NarrationService extends MediaSessionService {
         NarrationPlugin.emitSegmentStart(index);
       }
 
+      /** 播放中=playWhenReady 且 (READY|BUFFERING)：暂停干净翻 false，缓冲不闪烁（对抗审查 D） */
+      private void emitPlayState() {
+        int state = player.getPlaybackState();
+        boolean active = player.getPlayWhenReady()
+            && (state == Player.STATE_READY || state == Player.STATE_BUFFERING);
+        NarrationPlugin.emitState(active);
+      }
+
       @Override
       public void onPlaybackStateChanged(int playbackState) {
-        NarrationPlugin.emitState(player.isPlaying());
+        emitPlayState();
         if (playbackState == Player.STATE_ENDED) {
           NarrationPlugin.emitEnded();
         }
       }
 
       @Override
-      public void onIsPlayingChanged(boolean isPlaying) {
-        NarrationPlugin.emitState(isPlaying);
+      public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+        emitPlayState();
       }
 
       @Override
       public void onPlayerError(androidx.media3.common.PlaybackException error) {
         int index = player.getCurrentMediaItemIndex();
         NarrationPlugin.emitSegmentError(index, String.valueOf(error.errorCode));
+        // 对抗审查 E：末段错误没有「下一段」——必须发 ended 让 web 收尾，否则卡死「播放中」
+        if (index + 1 >= player.getMediaItemCount()) {
+          NarrationPlugin.emitEnded();
+        } else {
+          player.seekToDefaultPosition(index + 1);
+          player.play();
+        }
       }
     });
 
@@ -91,6 +106,7 @@ public class NarrationService extends MediaSessionService {
   /** 追加段到队列；若播放器自然播完处于 ENDED 态则自动续播（SSE 流入衔接的关键） */
   void appendSegment(String url) {
     ensureForeground();
+    cancelFade();
     player.addMediaItem(MediaItem.fromUri(url));
     if (player.getPlaybackState() == Player.STATE_ENDED) {
       player.play();
@@ -99,21 +115,30 @@ public class NarrationService extends MediaSessionService {
 
   void play() {
     ensureForeground();
+    cancelFade();
     player.prepare();
     player.play();
+  }
+
+  /** 作废挂起渐弱并恢复音量（新播放不得被旧渐弱定时器停掉或静音） */
+  private void cancelFade() {
+    fadeToken += 1;
+    player.setVolume(1f);
   }
 
   void pause() {
     player.pause();
   }
 
-  /** 停止并清空队列（web stop() 语义） */
+  /** 停止并清空队列（web stop() 语义）。
+   * 对抗审查 B：不 stopSelf——web 的 stop() 与下一次 speak() 是同步连续调用，
+   * 服务自毁会制造「append 落进正在销毁的服务」竞态；空闲常驻是媒体类 App 标准形态，
+   * 前台态由 media3 在暂停/停止时自动让出。 */
   void stopAll() {
+    fadeToken += 1; /* 作废挂起的渐弱定时器（对抗审查 C） */
+    player.setVolume(1f);
     player.stop();
     player.clearMediaItems();
-    stopForeground(STOP_FOREGROUND_REMOVE);
-    stopSelf();
-    foreground = false;
   }
 
   void jumpTo(int index) {
@@ -140,15 +165,19 @@ public class NarrationService extends MediaSessionService {
     return player.getMediaItemCount();
   }
 
-  /** 哄睡渐弱：durationMs 内音量线性降到 0 再停（web fadeOutAndStop 语义） */
+  /** 哄睡渐弱：durationMs 内音量线性降到 0 再停（web fadeOutAndStop 语义）。
+   * 对抗审查 C：渐弱定时器必须可作废——用户在渐弱中途点新播放时，
+   * 旧定时器会把新队列一并 stop 且音量留在 0（静音 bug）；token 过期即放弃。 */
   void fadeStop(long durationMs, Context context) {
     final int steps = 12;
     final long stepMs = Math.max(200, durationMs / steps);
     final float from = player.getVolume() > 0 ? player.getVolume() : 1f;
+    final int token = ++fadeToken;
+    final android.os.Handler h = new android.os.Handler(android.os.Looper.getMainLooper());
     for (int i = 1; i <= steps; i++) {
       final float target = Math.max(0f, from * (1f - i / (float) steps));
-      android.os.Handler h = new android.os.Handler(android.os.Looper.getMainLooper());
       h.postDelayed(() -> {
+        if (token != fadeToken) return;
         player.setVolume(target);
         if (target <= 0f) {
           stopAll();

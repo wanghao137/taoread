@@ -56,7 +56,6 @@ export function getDailyReminder(): string | null {
     if (!raw) return null
     const v = JSON.parse(raw) as { raw?: string }
     return typeof v.raw === 'string' ? v.raw : null
-    // eslint-disable-next-line spaced-comment
   } catch { return null }
 }
 
