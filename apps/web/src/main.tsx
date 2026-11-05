@@ -71,3 +71,6 @@ if (!import.meta.env.VITE_TAO_NATIVE && 'serviceWorker' in navigator) {
     void navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => undefined)
   })
 }
+
+// docs/104 路线B M2d：原生壳内启动时幂等重排每日开读提醒（本机闹钟；浏览器构建动态 import 树摇掉原生分支）
+void import('./lib/dailyReminder').then((m) => m.ensureDailyReminderRescheduled())

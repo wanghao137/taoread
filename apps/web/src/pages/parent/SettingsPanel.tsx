@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, ApiError, type ChildDto, type DeviceSessionDto, type FamilySettingsDto } from '../../lib/api'
 import { useSession } from '../../stores/session'
@@ -8,6 +8,7 @@ import { PageHead } from '../../components/PageHead'
 import { FeedbackForm, FeedbackHistory, WeeklyPlan } from '../../components/ReadingSupport'
 import { RecordRestore } from '../../components/RecordRestore'
 import { ParentPinSettings } from '../../components/ParentPinSettings'
+import { cancelDailyReminder, getDailyReminder, NATIVE_REMINDER, scheduleDailyReminder } from '../../lib/dailyReminder'
 
 export interface SettingsPanelProps {
   familyId: string
@@ -34,6 +35,8 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
   const [newNickname, setNewNickname] = useState('')
   const [newStage, setNewStage] = useState('6-8')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  /** M2d 每日开读提醒（本机）：输入草稿（defaultValue 非受控） */
+  const reminderDraft = useRef('')
   /** 注销二次确认：重输家庭码（知道码的人才能删库，防孩子/访客误触） */
   const [deleteCode, setDeleteCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -341,6 +344,45 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             ))}
           </div>
         </div>
+
+        {NATIVE_REMINDER && (
+          <div className="panel" id="setting-daily-open-reminder">
+            <h3>每日开读提醒（本机）</h3>
+            <p>
+              由本机闹钟每天定点提醒开始阅读，不依赖任何推送通道；杀进程后仍会响。时间为这台设备各自的设置。
+            </p>
+            <div className="setting-row" style={{ marginTop: 12 }}>
+              <input
+                defaultValue={getDailyReminder() ?? ''}
+                placeholder="如 19:30"
+                inputMode="numeric"
+                aria-label="每日开读提醒时间（HH:MM）"
+                className="field"
+                style={{ width: 110 }}
+                onChange={(e) => { reminderDraft.current = e.target.value }}
+              />
+              <button
+                type="button"
+                className="sticker-btn primary sm"
+                onClick={() =>
+                  void scheduleDailyReminder(reminderDraft.current).then(() => alert('已设置每日开读提醒'))
+                    .catch((err: Error) => alert(err.message))
+                }
+              >
+                开启提醒
+              </button>
+              <button
+                type="button"
+                className="sticker-btn sm"
+                onClick={() =>
+                  void cancelDailyReminder().then(() => alert('已取消本机提醒'))
+                }
+              >
+                取消
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="panel" id="setting-reading">
           <h3>每日阅读提醒</h3>
