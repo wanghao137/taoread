@@ -8,7 +8,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { resolveAudioFileName, triage } from './lib/upload-flag-triage.mts'
+import { resolveAudioFileName, triage } from './lib/upload-flag-triage'
 
 const APPLY = process.argv.includes('--apply')
 const MANIFEST = 'D:/taoread-prod/apps/server/media/.tts-public-state.json'
@@ -58,7 +58,7 @@ async function worker(): Promise<void> {
     const localExists = fs.existsSync(path.join(LOCAL_DIR, `${name}.mp3`))
     const h = await head(name)
     const action = triage({ headOk: h.ok, network: h.network, localExists })
-    buckets[action].push(key)
+    buckets[action]!.push(key)
   }
 }
 
@@ -72,15 +72,15 @@ fs.writeFileSync(RESULT, JSON.stringify({ at: new Date().toISOString(), apply: A
 log(`result written: ${RESULT}`)
 
 if (APPLY) {
-  if (buckets.flip.length > 0) {
+  if (buckets.flip!.length > 0) {
     const bak = `${MANIFEST}.bak-perf-20261101`
     if (!fs.existsSync(bak)) fs.copyFileSync(MANIFEST, bak)
     const out: Record<string, Rec> = { ...manifest }
-    for (const k of buckets.flip) out[k] = { ...out[k]!, uploaded: true }
+    for (const k of buckets.flip!) out[k] = { ...out[k]!, uploaded: true }
     const tmp = `${MANIFEST}.tmp-sync`
     fs.writeFileSync(tmp, JSON.stringify(out))
     fs.renameSync(tmp, MANIFEST)
-    log(`APPLIED flip=${buckets.flip.length} backup=${bak}`)
+    log(`APPLIED flip=${buckets.flip!.length} backup=${bak}`)
   } else {
     log('APPLY requested but nothing to flip')
   }

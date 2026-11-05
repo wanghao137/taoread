@@ -39,6 +39,14 @@ export function mediaCspOrigin(): string {
   if (url.protocol !== 'https:' || url.username || url.password) throw new Error('TAO_MEDIA_PUBLIC_BASE must be a public HTTPS URL')
   return url.origin
 }
+/** docs/105 方案C-lite：web 静态资产域（dl 通道）。默认即生产值，未配置不破坏本地。 */
+export function webAssetCspOrigin(): string {
+  const configured = process.env.TAO_WEB_ASSET_BASE
+  if (!configured) return 'https://dl.taostudioai.com'
+  const url = new URL(configured)
+  if (url.protocol !== 'https:' || url.username || url.password) throw new Error('TAO_WEB_ASSET_BASE must be a public HTTPS URL')
+  return url.origin
+}
 export function mediaCspSources(): string {
   const values = [mediaCspOrigin()]
   if (process.env.TAO_TTS_PUBLIC_BASE) {
@@ -46,6 +54,7 @@ export function mediaCspSources(): string {
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('TAO_TTS_PUBLIC_BASE must be a public HTTPS URL')
     values.push(url.origin)
   }
+  values.push(webAssetCspOrigin())
   return [...new Set(values)].join(' ')
 }
 export function registerCspReports(app: FastifyInstance): void {

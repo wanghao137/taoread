@@ -22,7 +22,7 @@ import { registerRitualRoutes } from './modules/ritual/routes'
 import { registerReportsRoutes } from './modules/reports/routes'
 import { registerContentRoutes } from './content/routes'
 import { registerImprovementRoutes } from './content/improvementRoutes'
-import { registerCspReports, mediaCspSources, inlineScriptSources } from './lib/csp'
+import { registerCspReports, mediaCspSources, inlineScriptSources, webAssetCspOrigin } from './lib/csp'
 import { registerPhonicsRoutes } from './modules/phonics/routes'
 import { registerPhonicsV2Routes } from './modules/phonics/v2/routes'
 import { PhonicsRuntime, type PhonicsV2Options } from './modules/phonics/v2/runtime'
@@ -124,9 +124,10 @@ export async function buildApp(options: BuildAppOptions): Promise<FastifyInstanc
         `img-src 'self' data: blob: ${mediaCspSources()}`,
         // The audio gesture primer uses a local data URI; offline/recording uses blobs.
         `media-src 'self' data: blob: ${mediaCspSources()}`,
-        "font-src 'self' data:",
-        "style-src 'self' 'unsafe-inline'",
-        `script-src 'self' ${scriptSources}`.trim(),
+        // docs/105 方案C-lite：web 静态资产走 dl 通道，字体/样式/脚本域放行
+        `font-src 'self' data: ${webAssetCspOrigin()}`,
+        `style-src 'self' 'unsafe-inline' ${webAssetCspOrigin()}`,
+        `script-src 'self' ${scriptSources} ${webAssetCspOrigin()}`.trim(),
         "object-src 'none'",
         "frame-ancestors 'none'",
         "base-uri 'self'",

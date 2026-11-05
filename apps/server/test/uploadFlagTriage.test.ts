@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resolveAudioFileName, triage } from '../scripts/lib/upload-flag-triage.mts'
+import { resolveAudioFileName, triage } from '../scripts/lib/upload-flag-triage'
 
 describe('triage', () => {
   it('200 + local in disk -> flip', () => {

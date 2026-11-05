@@ -24,7 +24,8 @@
     "e2e": "playwright test -c e2e/playwright.config.ts --grep-invert @visual",
     "e2e:visual": "playwright test -c e2e/playwright.config.ts --grep @visual",
     "mobile:build": "npm run build:web -w @taoread/mobile",
-    "mobile:sync": "npm run build:web -w @taoread/mobile && npm run sync -w @taoread/mobile"
+    "mobile:sync": "npm run build:web -w @taoread/mobile && npm run sync -w @taoread/mobile",
+    "build:webcdn": "cd apps/web && npx vite build --mode cdn --outDir dist --emptyOutDir && cd ../.. && node scripts/postbuild-webcdn.mjs"
   },
   "engines": {
     "node": ">=20"

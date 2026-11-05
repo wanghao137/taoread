@@ -1,7 +1,9 @@
 // taoread-dist origin：按路径读 R2 对象，全部公开（安装包与版本清单无敏感数据）。
 // 禁止目录列举；key 校验只放行安装产物与清单，防止误绑整个桶语义。
 // mp3/html 供听感对比页（listening/）；Range/206 供手机 <audio> 分段播放（部分 WebView 必需）。
-const ALLOWED_EXT = /\.(exe|apk|json|sig|txt|webp|png|mp3|html|apk\.tmp)$/i
+// docs/105（2026-11-06）方案C-lite：web 静态资产经本通道分发（js/css/woff2/svg/ico），
+// web/ 前缀=内容哈希产物 → immutable 1y（浏览器+边缘均受益）；其余维持 300s。
+const ALLOWED_EXT = /\.(exe|apk|json|sig|txt|webp|png|mp3|html|apk\.tmp|js|mjs|css|woff2?|svg|ico|wav|webmanifest)$/i
 
 export default {
   async fetch(request, env) {
@@ -28,7 +30,9 @@ export default {
     const headers = new Headers()
     obj.writeHttpMetadata(headers)
     headers.set('etag', obj.httpEtag)
-    headers.set('cache-control', key.endsWith('.json') ? 'no-cache' : 'public, max-age=300')
+    headers.set('cache-control', key.startsWith('web/')
+      ? 'public, max-age=31536000, immutable'
+      : key.endsWith('.json') ? 'no-cache' : 'public, max-age=300')
     headers.set('access-control-allow-origin', '*')
     headers.set('accept-ranges', 'bytes')
     if (rangeOpt && obj.range) {
