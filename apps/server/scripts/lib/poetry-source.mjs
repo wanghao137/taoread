@@ -5,7 +5,7 @@ export const poemHash = text => createHash('sha256').update(text).digest('hex')
 /** The live service is a candidate source only. Do not copy API server code or trust metadata as review. */
 export async function searchPoetry(query, { mode = 'online', origin = 'https://poetry.palemoky.com', page = 1, pageSize = 50, dynasty, fetcher = fetch } = {}) {
   if (!['online', 'self-hosted'].includes(mode) || !query.trim() || query.length > 64 || !Number.isInteger(page) || page < 1 || !Number.isInteger(pageSize) || pageSize < 1 || pageSize > 100) throw Error('Invalid poetry source request')
-  if (mode === 'online' && [...query.trim()].length < 3) throw Error('Online poetry search requires at least three characters')
+  if (mode === 'online' && [...query.trim()].length < 2) throw Error('Online poetry search requires at least two characters')
   if (dynasty !== undefined && (typeof dynasty !== 'string' || dynasty.length > 16 || !dynasty.trim())) throw Error('Invalid dynasty filter')
   const url = new URL(mode === 'online' ? '/api/search' : '/api/v1/poems/search', origin)
   url.search = new URLSearchParams({ q: query, page: String(page), [mode === 'online' ? 'pageSize' : 'page_size']: String(pageSize), lang: 'zh-Hans', ...(mode === 'self-hosted' ? { type: 'title' } : {}), ...(dynasty ? { dynasty } : {}) }).toString()
