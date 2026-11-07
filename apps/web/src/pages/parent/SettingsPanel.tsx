@@ -109,6 +109,12 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
     return (
       <div className="set-grid">
         <nav className="settings-jump" aria-label="设置分类"><a href="#setting-readers">小读者</a><a href="#setting-reading">阅读习惯</a><a href="#setting-data">数据与隐私</a><a href="#setting-danger">注销家庭</a></nav>
+        {/* docs/110 UX-1：操作反馈渲染在页首——此前在页面最底部，长设置页里点了按钮看不见成败 */}
+        {message && (
+          <p role="status" aria-live="polite" className="msg msg-top">
+            {message}
+          </p>
+        )}
         <ParentPinSettings familyId={familyId} token={token} />
         {sessionsError && <div role="alert" className="panel">设备列表没有加载成功。<button className="sticker-btn" onClick={onChanged}>重新加载</button></div>}
         {/* 已登录设备（A1/F04）：只显示活跃设备（已请出的历史记录不再刷屏）；
@@ -517,12 +523,6 @@ export function SettingsPanel({ familyId, token, onDeleted, onChanged, revision 
             </button>
           )}
         </div>
-
-        {message && (
-          <p role="status" aria-live="polite" className="msg">
-            {message}
-          </p>
-        )}
       </div>
     )
   }

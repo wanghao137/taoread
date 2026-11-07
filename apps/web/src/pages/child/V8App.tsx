@@ -1634,7 +1634,8 @@ function BookDetailPage() {
 
   return (
     <section className="book-detail">
-        <button className="sticker-btn" onClick={() => navigate('/child/discover')}>← 返回找故事</button>
+        {/* docs/110 UX-3：从哪来回哪去（阅读器同款 navigate(-1)；无历史兜底找故事） */}
+        <button className="sticker-btn" onClick={() => (history.length > 1 ? navigate(-1) : navigate('/child/discover'))}>← 返回找故事</button>
           <div className="detail-grid">
             <div className="detail-cover">
               <div className={`book-cover ${book.tone} ${detailCoverSrc ? 'has-art' : ''}`}>
@@ -1712,7 +1713,7 @@ function BookDetailPage() {
                 <button className="sticker-btn" onClick={() => navigate('/offline')}>离线书架</button>
               </div></details>
             <details className="quiet-disclosure"><DisclosureSummary icon={<IconShield />} title="来源、加工说明与版本" hint="了解这本书的出处与审校情况" />
-              {provenanceError ? <p role="alert">来源说明未加载。<button onClick={() => setChapterRetry((n) => n + 1)}>重试</button></p> : provenance ? <>
+              {provenanceError ? <p role="alert">来源说明未加载。<button className="sticker-btn" onClick={() => setChapterRetry((n) => n + 1)}>重试</button></p> : provenance ? <>
                 <p>{provenance.source}</p><p>{provenance.rights?.workTitle}</p><p>{provenance.rights?.note}</p>
                 <p className="mono-label">版本 {provenance.contentVersion} · {provenance.reviewStatus === 'reviewed' ? '已留存人工审核记录' : '人工精审待完成'} · 插图可能由 AI 生成</p>
                 <p>{provenance.rights?.translator ? `译者：${provenance.rights.translator}` : ''}</p>

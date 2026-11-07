@@ -327,3 +327,6 @@ button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action
   .child-app .shortcut-copy small { display: none; }
   .child-app .today-shortcut > :is(svg, .tao-icon) { display: none; }
 }
+
+/* docs/110 UX-1：设置页操作反馈——渲染在页首且 sticky 钉住，长页面滚动中操作也能看到成败 */
+.parent-app .msg-top { position: sticky; top: 8px; z-index: 30; margin: 0 0 10px; }

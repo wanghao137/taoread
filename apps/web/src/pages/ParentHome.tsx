@@ -104,6 +104,10 @@ export function ParentHome() {
   }, [token, familyId])
 
   useEffect(() => load(), [load, revision])
+  // docs/110 UX-7：切 tab 回到顶部——长列表深处切「设置」不再落在页面中段（与孩子端 V8App 同口径）
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [tab])
 
   // 今天 tab 时每 15 秒静默轮询；document.hidden 时不轮询，恢复可见立即刷一次
   useEffect(() => {

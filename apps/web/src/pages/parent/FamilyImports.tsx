@@ -28,10 +28,20 @@ export function FamilyImports({ token }: { token: string }) {
   const prepared = useRef<{ sessionId?: string; body?: Parameters<typeof api.importTextBook>[1] } | null>(null)
   useEffect(() => { const epoch = uploadEpoch; return () => { epoch.current++; abort.current?.abort() } }, [token])
   const [publicBooks, setPublicBooks] = useState<Array<{ id: string; title: string; author: string }>>([])
-  useEffect(() => { void api.publicDomainBooks(token).then((result) => setPublicBooks(result.books)).catch(() => {}) }, [token])
+  // docs/110 UX-9：公版书源三态——加载失败不再伪装成「暂无可导入」
+  const [publicBooksError, setPublicBooksError] = useState(false)
+  const [publicBooksTick, setPublicBooksTick] = useState(0)
+  useEffect(() => {
+    let alive = true
+    setPublicBooksError(false)
+    void api.publicDomainBooks(token)
+      .then((result) => { if (alive) setPublicBooks(result.books) })
+      .catch(() => { if (alive) setPublicBooksError(true) })
+    return () => { alive = false }
+  }, [token, publicBooksTick])
   const refresh = useCallback(() => api.importedBooks(token).then((res) => setBooks(res.books)).catch((err: unknown) => setMessage(err instanceof Error ? err.message : '书架加载失败')), [token])
   useEffect(() => { void refresh() }, [refresh])
-  async function addPublic(id: string) { setBusy(true); setMessage(''); try { const result = await api.importPublicDomain(token, id, ageStage === '3-5' ? '6-8' : ageStage); setMessage(result.duplicate ? '这本书已在家庭书架' : `已导入 ${result.chapterCount} 章`); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '公版书源暂不可用') } finally { setBusy(false) } }
+  async function addPublic(id: string) { setBusy(true); setMessage(''); try { const result = await api.importPublicDomain(token, id, ageStage === '3-5' ? '6-8' : ageStage); setMessage(result.duplicate ? '这本书已在家庭书架' : `已导入 ${result.chapterCount} 章（公版书按 6-8 岁入库${ageStage === '3-5' ? '，已由 3-5 岁调整，孩子的书架会按年龄显示' : ''}）`); await refresh() } catch (err) { setMessage(err instanceof Error ? err.message : '公版书源暂不可用') } finally { setBusy(false) } }
   function toBase64(bytes: Uint8Array): string { let binary = ''; for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192)); return btoa(binary) }
   async function upload(event: React.FormEvent) {
     event.preventDefault()
@@ -231,7 +241,8 @@ export function FamilyImports({ token }: { token: string }) {
     <div className="fam-pd">
       <h4>公版书源</h4>
       <p className="mono-line" style={{ fontSize: 12 }}>从 Project Gutenberg 下载已核对的原始英文经典文学；并非自然拼读分级读物。</p>
-      {publicBooks.length === 0 ? <p className="mono-line">暂无可导入的公版书。</p> : publicBooks.map((book) => (
+      {publicBooksError ? <p role="alert">公版书源暂时没连上。<button className="sticker-btn sm" onClick={() => setPublicBooksTick((n) => n + 1)}>重新加载</button></p>
+        : publicBooks.length === 0 ? <p className="mono-line">暂无可导入的公版书。</p> : publicBooks.map((book) => (
         <div className="fam-pd-row" key={book.id}>
           <span><b>{book.title}</b> · {book.author}</span>
           <button type="button" className="sticker-btn sm" disabled={busy} onClick={() => void addPublic(book.id)}>导入家庭书架</button>

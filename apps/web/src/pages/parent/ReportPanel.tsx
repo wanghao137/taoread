@@ -48,6 +48,8 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
   // docs/34 P2-6：读完分享卡按会话下载
   const [cardBusyId, setCardBusyId] = useState<string | null>(null)
 
+  // docs/110 UX-8：时间线可重试——失败不再要求整页刷新（会丢已选周与滚动位置）
+  const [historyTick, setHistoryTick] = useState(0)
   useEffect(() => {
     let alive = true
     api.familyView(familyId, token).then((r) => { if (alive) setChildren(r.children) }).catch(() => undefined)
@@ -56,7 +58,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
       .then((r) => { if (alive) { setHistory(r.sessions); setHistoryError(false) } })
       .catch(() => { if (alive) setHistoryError(true) })
     return () => { alive = false }
-  }, [token, familyId, childId])
+  }, [token, familyId, childId, historyTick])
 
   const load = useCallback(() => {
     let alive = true
@@ -247,7 +249,7 @@ export function ReportPanel({ familyId, token }: ReportPanelProps) {
             每一次一起读过的晚上都在这里；点「存张卡」可以把这次共读保存成图片
           </p>
           <div className="chapter-list" style={{ marginTop: 10 }}>
-            {historyError && <p role="alert">逐次记录未加载，请刷新页面重试。</p>}
+                        {historyError && <p role="alert">逐次记录未加载。<button className="sticker-btn sm" onClick={() => setHistoryTick((n) => n + 1)}>重新加载</button></p>}
             {history.filter((s) => !childId || s.childId === childId).map((s) => {
               const d = new Date(s.startedAt)
               const minutes = s.durationSec !== null ? Math.round(s.durationSec / 60) : null

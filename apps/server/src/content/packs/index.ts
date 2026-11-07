@@ -45,6 +45,8 @@ import { wangWei } from './poetry-wangwei'
 import { tongQu } from './poetry-children'
 import { songCi } from './poetry-songci'
 import { songSpringPacks } from './poetry-song-spring'
+import { poetrySushiPack } from './poetry-sushi'
+import { poetryFestivalPack } from './poetry-festival'
 
 /* ── 神话 / 寓言 / 成语 ── */
 import { mythPangu } from './myth-pangu'
@@ -356,6 +358,8 @@ export const ALL_PACKS: PackBook[] = [
   yuanQu,
   tongQuPlay,
   ...songSpringPacks,
+  poetrySushiPack,
+  poetryFestivalPack,
   // 神话与民间传说（11）
   mythPangu,
   mythNuWa,
