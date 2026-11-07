@@ -5,14 +5,16 @@ import { isAbsolute } from 'node:path'
 import { PrismaClient, type Prisma } from '@prisma/client'
 import { poetrySushiPack } from '../src/content/packs/poetry-sushi'
 import { poetryFestivalPack } from '../src/content/packs/poetry-festival'
+import { baijuyiPack } from '../src/content/packs/poetry-baijuyi'
+import { summerNaturePack } from '../src/content/packs/poetry-summer-nature'
 import { packContentVersion, seedPackTransaction } from '../src/content/seed'
 
 const arg = (name: string) => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3)
 const database = arg('database'), output = arg('out')
 const publish = process.argv.includes('--publish')
 if (!database?.startsWith('file:') || !isAbsolute(database.slice(5)) || !output || (publish && !process.argv.includes('--quiescent'))) throw Error('Explicit --database=file:absolute-path, --out and --quiescent for publication are required')
-const packs = [poetrySushiPack, poetryFestivalPack]
-const ids = ['poetry-sushi', 'poetry-festival']
+const packs = [baijuyiPack, summerNaturePack]
+const ids = ['poetry-baijuyi', 'poetry-summer-nature']
 if (packs.length !== 2 || packs.some((p, i) => p.id !== ids[i]) || packs.reduce((n, p) => n + p.chapters.length, 0) !== 16) throw Error('Unexpected release scope')
 const evidencePath = arg('evidence')
 if (publish) {

@@ -1,109 +1,131 @@
-/** docs/110: assemble poetry pack TS files from acquired drafts (apps/server/output/poetry-classics-20261107).
- * Translations/notes/artPrompts are authored for TaoRead (not copied); pinyin from pinyin-pro
- * with spot-checked polyphones. Emits src/content/packs/poetry-{sushi,festival}.ts. */
+/** docs/110-2: assemble round-2 poetry packs. 17 poems from 4 draft sources -> 2 books:
+ * poetry-baijuyi (6) and poetry-summer-nature (11 = yangwanli 4 + tianyuan 4 + yongwu 3).
+ * Translations/notes/art prompts authored for TaoRead; pinyin from pinyin-pro. */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { pinyin } from 'pinyin-pro'
+const pinyinOf = (text) => pinyin(text)
 
-const drafts = {
-  'poetry-sushi': JSON.parse(readFileSync('apps/server/output/poetry-classics-20261107/poetry-sushi-kids.draft.json', 'utf8')),
-  'poetry-festival': JSON.parse(readFileSync('apps/server/output/poetry-classics-20261107/poetry-festival.draft.json', 'utf8')),
-}
+const DIR = 'apps/server/output/poetry-classics-20261107'
+const load = (id) => JSON.parse(readFileSync(`${DIR}/${id}.draft.json`, 'utf8')).picked
+const bySource = (drafts, sourceId) => drafts.find((d) => d.sourceId === sourceId)
 
-/** per-poem authored layer keyed by sourceId: [translation, note, artPrompt] */
+const baijuyiDraft = load('poetry-baijuyi')
+const yangDraft = load('poetry-yangwanli')
+const tianyuanDraft = load('poetry-tianyuan')
+const yongwuDraft = load('poetry-yongwu')
+
+/** authored layer keyed by sourceId: [translation, note, artPrompt] */
 const AUTHORED = {
-  194584: ['横看成岭侧成峰：在庐山里看不清庐山的样子，因为自己就在山中。',
-    '题西林壁：把感受写在西林寺的墙上。横、侧：横着看、斜着看。缘：因为。和孩子聊聊：为什么「不识庐山真面目」？换个角度看事情，答案会不一样。',
-    '庐山云雾缭绕，从不同角度看山峰形态各异，一位宋代成年诗人站在山径上仰望，水彩绘本，无文字。'],
-  193772: ['晴天时西湖水光闪动，雨天时山色朦胧，就像淡妆或浓抹的西施，怎样都好看。',
-    '饮湖上初晴后雨：在西湖的船上喝酒赏景，先晴后雨。潋滟：水波闪动。空蒙：云雾迷茫。西子：西施。和孩子比一比：晴天和雨天的湖，你更喜欢哪个？',
-    '杭州西湖，晴天波光与远处雨雾山色同框，游船画舫点缀，宋代水彩绘本，无文字。'],
-  194757: ['竹林外桃花开了三两枝，鸭子最先知道春江水变暖。蒌蒿长满地，芦苇冒短芽，正是河豚要逆流而上的时节。',
-    '惠崇春江晚景：为僧人惠崇的画题的诗。蒌蒿（lóu hāo）：一种野菜。河豚：一种鱼，春天逆流而上。和孩子找一找：诗里哪些东西告诉我们春天来了？',
-    '早春江边，竹林外桃花初绽，几只鸭子在回暖的江水中游弋，岸边蒌蒿芦芽，水彩绘本，无文字。'],
-  193678: ['黑云像打翻的墨汁还没遮住山，白亮的雨点像跳动的珍珠蹦进船里。忽然卷地大风把乌云吹散，望湖楼下的湖水安静得像天空。',
-    '六月二十七日望湖楼醉书：在望湖楼上看到的夏日骤雨。翻墨：打翻的墨汁。跳珠：雨点像珍珠跳动。和孩子数一数：这首诗里天气变了几次？',
-    '夏日西湖骤雨，乌云白雨同框，雨点打在船篷溅起水花，远处望湖楼下湖面如天空般平静，水彩绘本，无文字。'],
-  195049: ['荷花凋谢了，撑雨的荷叶也不在了；菊花枯萎了，但傲霜的枝条还在。一年最好的景致你要记住——正是橙子金黄、橘子将熟未熟的时节。',
-    '赠刘景文：写给朋友刘景文的诗。擎雨盖：荷叶像撑雨的伞盖。犹有：还有。君：你。和孩子聊聊：秋天也有秋天的好，你最喜欢的秋天水果是什么？',
-    '初冬荷塘，残荷与傲霜的菊花枝并存，枝头橙子金黄、橘子青黄，明亮温暖的秋末水彩，无文字。'],
-  194120: ['梨花淡白，柳絮浅青，柳絮飞尽的时候满城都绿了。带着惆怅看一株梨花，像雪一样白，让人想到人生能看几回这样清晰的清明景色呢。',
-    '东栏梨花：苏轼在密州写的诗。惆怅：有点难过的心情。雪：比喻梨花。和孩子看看：诗里用了什么比喻把梨花写活？',
-    '宋代庭院东栏边一株盛开的白梨花，柳絮飘飞，淡青春色，安静清雅水彩，无文字。'],
-  194559: ['袅袅的东风吹动了淡淡的云光，香雾丝丝缕缕挂满了走廊。月亮害怕深海睡去，把光交给海棠，海棠在月光下像睡着的佳人。',
-    '海棠：苏轼在海棠树下留恋春夜。袅袅：微风轻拂。崇光：春日升腾的光泽。空林：幽静的树林。「恐」与「照」：月亮怕花睡去，所以把光留在海棠上——诗人的想象真温柔。',
-    '春夜月色下的海棠花枝，柔和月光照在粉白花瓣上，香雾轻绕回廊，温柔静谧水彩，无文字。'],
-  180781: ['爆竹声中旧的一年过去了，春风把暖意送进屠苏酒里。初升的太阳照着千家万户，大家都取下旧桃符，换上新桃符。',
-    '元日：王安石写春节。屠苏：屠苏酒，春节全家按幼长顺序喝。曈曈：太阳初升的样子。桃符：春联的前身。和孩子说说：你们家过年有哪些新桃符一样的老习俗？',
-    '宋代春节清晨，千家万户门前换新桃符，爆竹红纸屑飘落，朝阳照暖屋顶，喜庆温暖水彩，无文字。'],
-  376836: ['清明时节总是下着细雨，路上行人心情也像被雨打湿。请问哪里有酒家？牧童远远指向杏花深处的村子。',
-    '清明：杜牧写清明出行的遇雨。欲断魂：心里难过极了。借问：请问。杏花村：杏花深处的村庄。和孩子聊聊：如果你是牧童，会怎么给路人指路？',
-    '清明细雨中的乡间小路，行人撑伞缓行，远处杏花环绕的村庄，骑在牛背上的小牧童遥遥指向前方，水彩绘本，无文字。'],
-  278074: ['火树银花：灯树灯火如花开， 星桥：城门铁锁打开，明灯如星。暗尘随马去，明月逐人来。灯火把夜照成白昼，金吾不禁夜，玉漏莫相催。',
-    '正月十五夜：写元宵灯节的繁华。火树银花：形容灿烂的灯火。星桥：城里桥上的灯如星。金吾：京城禁卫军，元宵夜取消宵禁。和孩子说说：元宵夜为什么大家都不想回家？',
-    '唐代元宵灯节夜市，火树银花般的灯树沿街，明月高悬，游人如织提灯漫步，热闹温暖水彩，无文字。'],
-  259136: ['春天的城里到处飞花，寒食节东风把御柳吹斜。夜幕降临宫里传出赐火，轻烟散进王侯贵戚的家。',
-    '寒食：韩翃写寒食节（清明前一二日禁火冷食）。御柳：皇宫里的柳树。传蜡烛：寒食禁火，皇帝特赐蜡烛新火。和孩子聊聊：为什么寒食节家家不能生火？',
-    '寒食节春天的长安城，柳絮飞花，皇宫御柳在东风中轻斜，傍晚宫墙内烛光轻烟袅袅，水彩绘本，无文字。'],
-  308006: ['独自在外做客，每逢佳节就加倍思念亲人。远远知道兄弟们登高时，都插着茱萸，只少了我一个。',
-    '九月九日忆山东兄弟：王维十七岁重阳节写思念家乡的兄弟。独在异乡：独自在外地。茱萸（zhū yú）：重阳节插戴的香草。和孩子聊聊：你什么时候最想念家人？',
-    '重阳节秋高气爽，山间少年们结伴登高插茱萸，远处一位游子独自凭栏望乡，深秋暖色水彩，无文字。'],
-  272454: ['七夕的晚上抬头看碧蓝的天空，牵牛织女渡过鹊桥相会。家家户户望着秋月穿针引线，穿完了红丝几万条。',
-    '乞巧：林杰写七夕。乞巧：向织女星乞求心灵手巧。碧霄：蓝天。穿尽红丝几万条：对月穿针的习俗。和孩子一起数数：诗里有几位「人物」？牛郎、织女、家家姑娘。',
-    '七夕夜晚，孩子和姑娘们仰望星空银河鹊桥，对月穿针引线，红丝线在月光下闪闪，宁静浪漫水彩，无文字。'],
-  376838: ['银烛秋光冷画屏，轻罗小扇扑流萤。天阶夜色凉如水，坐看牵牛织女星。',
-    '秋夕：杜牧写宫女秋夜。银烛：白色蜡烛。轻罗小扇：轻薄的丝织小团扇。天阶：宫中石阶。和孩子一起认星星：秋夜天空里找找牵牛星和织女星。',
-    '秋夜庭院，白色烛光映着画屏，少女摇着小团扇轻扑飞舞的萤火虫，石阶清凉，星空璀璨，安静梦幻水彩，无文字。'],
-  294702: ['节分端午自谁言，万古传闻为屈原。堪笑楚江空渺渺，不能洗得直臣冤。',
-    '端午：文秀写端午节纪念屈原。堪笑：可叹。直臣：正直的大臣。和孩子讲讲：端午节吃粽子、赛龙舟，都是为了纪念谁？',
-    '端午节楚江，江面龙舟竞渡，岸边孩子看粽叶飘香，远处青山渺渺，节日气氛浓烈，明亮水彩，无文字。'],
-  282296: ['樱桃花因雨水凋谢了花瓣，明月和凉风让八月十五更清爽。桂花瓣像玉珠散落，走在月下满身都是花香——这花不是人间种的，是从月宫飘来的吧。',
-    '天竺寺八月十五日夜桂子：皮日休写中秋在天竺寺拾桂花。殿前拾得：在寺前拾到。露华新：桂花带露新鲜。和孩子捡一捡：中秋捡花瓣，说说桂花的香味。',
-    '中秋月夜天竺寺前，桂花瓣如玉珠飘落，孩子蹲下拾花，月光清凉，桂花香仿佛可见，宁静水彩，无文字。'],
-  267027: ['锦里开芳宴，兰缸艳早年。缛彩遥分地，繁光远缀天。接汉疑星落，依楼似月悬。',
-    '十五夜观灯：卢照邻写元宵灯会。缛彩：繁多华丽的彩灯。接汉：连到银河。和孩子比一比：灯像星星还是像月亮？',
-    '元宵夜街市，连绵彩灯如星河落地、如明月悬楼，孩子提灯仰头惊叹，璀璨梦幻水彩，无文字。'],
+  // ── 白居易 ──
+  354608: ['小娃娃撑着小船，偷偷采了池边的白莲回来。他不懂藏踪迹，小船把浮萍分开，一道长长的水路暴露了他。',
+    '池上：白居易写小孩子偷采白莲。解：懂得。浮萍：漂在水面的小植物。和孩子聊聊：小娃哪里露出了马脚？',
+    '夏日池塘，一个胖娃娃撑小船采白莲归来，浮萍分开一道水痕，乐呵呵的水彩绘本，无文字。'],
+  376817: ['原野上的草多么茂盛，一年枯荣一轮。野火烧不尽它，春风一吹又长出来。远方的芳草蔓延到古道，晴天下一片翠绿连接着荒城。又送走一位朋友，萋萋的草都满含别情。',
+    '赋得古原草送别：白居易十六岁写的应考诗。离离：草长得茂盛。萋萋：草丰盛的样子。和孩子背一背：前四句最有名——野火烧不尽，春风吹又生。',
+    '辽阔古原野，绿草如茵蔓延到古道尽头，夕阳下两个孩子蹲在路边看草叶上的光，水彩绘本，无文字。'],
+  270424: ['一道残阳铺在江面上，半江是碧绿半江是艳红。最可爱的是九月初三的夜晚，露珠像珍珠，月亮像弯弓。',
+    '暮江吟：白居易写黄昏到夜晚的江景。瑟瑟：碧绿色。可怜：可爱。和孩子观察：太阳快落山时，江面是不是一半绿一半红？',
+    '黄昏江面，残阳把水染成半绿半红，九月初三夜空挂一弯新月，草叶露珠闪光，水彩绘本，无文字。'],
+  269643: ['夜里惊讶被子枕头这么冷，又看见窗户格外明亮。夜深了，知道雪下得很大，不时听到竹子被雪压折的声音。',
+    '夜雪：白居易全篇写雪却不直接写雪的样子，全靠感觉：冷、亮、声。折竹：雪压断竹枝。和孩子玩一玩：下雪时闭上眼睛，能「听」出雪有多大吗？',
+    '冬夜雪屋，窗纸透出雪的明亮，院中竹子被厚雪压弯，安静清冷的水彩绘本，无文字。'],
+  271988: ['天平山上白云泉，云自无心水自闲。何必奔冲山下去，更添波浪向人间。',
+    '白云泉：白居易在苏州写泉水。无心：没有心机、自由自在。和孩子聊聊：白云和水为什么「闲」？',
+    '天平山清泉石上流，白云悠悠山顶飘，一个孩子蹲在泉边看水中云影，恬淡水彩，无文字。'],
+  269796: ['住在邯郸客栈正逢冬至，抱着膝盖坐在灯前，只有影子作伴。想来家里人今晚围坐到深夜，还该说起我这个远行的人吧。',
+    '邯郸冬至夜思家：白居易冬至夜想家。抱膝：抱着膝盖坐着。远行人：诗人自己。和孩子聊聊：你想念远方的人时，会做什么？',
+    '冬至夜驿站小屋，一盏油灯映出诗人抱着膝盖的影子，窗外落雪，思念温暖的水彩，无文字。'],
+  // ── 杨万里 ──
+  49219: ['下山时不要说下山容易——没有下山的人空喜欢一场。正在山里的人最喜欢平地，到得平地，前面的山峰又挡住了路。',
+    '过松源晨炊漆公店：杨万里写翻山的哲理。空喜欢：白白高兴。拦：阻挡。和孩子聊聊：翻过一座山还有山，像不像做作业？',
+    '连绵群山间的小路，一个挑担的旅人翻过山冈又见前方山峰，层峦叠嶂水彩，无文字。'],
+  45269: ['夜里还是那么热，中午也一样。打开小门立在月光下，深深的竹林里虫声嗡嗡，偶尔有点凉意，但不是风——是夜深的缘故。',
+    '夏夜追凉：杨万里写找凉快。追凉：找凉快处。和孩子说说：没有空调的古人，夏天怎么过夜？',
+    '夏夜小院，孩子推开小门站在月光下，竹林虫鸣，萤火点点，安静清凉水彩，无文字。'],
+  49151: ['雨过天晴，草地开满小花，溪水涨得满满的。一个小孩子躺在柳荫下睡得正香，一头牛悠闲地吃着草，不知不觉吃过了柳荫的西边。',
+    '桑茶坑道中：杨万里写夏日路边的闲适。隄：即「堤」，河堤。和孩子画一画：诗里有一个睡着的小孩和一头牛，分别在画面的哪里？',
+    '夏日雨后，溪水涨满花草地岸，柳荫下一个孩子睡得香甜，一头牛悠闲吃草走过，田园牧歌水彩，无文字。'],
+  47087: ['田里的丈夫把秧苗抛过来，妻子接住，小儿子拔秧，大儿子插秧。斗笠当头盔，蓑衣当铠甲，雨从头上湿到肩膀。喊他吃口饭歇一歇，他低头弯腰只顾干活不答应——秧根还没插牢，活儿还没干完，还要小心看好家里的鹅儿和雏鸭别踩了田。',
+    '插秧歌：杨万里写全家冒雨插秧的忙碌。兜鍪：头盔。蓑：蓑衣。莳未匝：插秧还没插完。和孩子数一数：诗里一家人有几个动作？抛、接、拔、插，还要看住鹅和鸭！',
+    '春雨水田，一家人分工插秧：父抛秧母接秧兄弟拔插，斗笠蓑衣滴着雨水，田埂上鹅鸭徘徊，劳动欢快水彩，无文字。'],
+  // ── 田园（范成大/李绅）──
+  44392: ['蝴蝶双双飞进菜花田，白昼变长，田家里半天也没有客人来。鸡飞过篱笆、狗在洞口叫——原来有走村串巷的商人来买茶啦。',
+    '晚春田园杂兴：范成大写村居的安静与热闹。犬吠窦：狗在墙洞口叫。行商：走村串巷的买卖人。和孩子玩一玩：鸡飞狗叫的时候，村里发生了什么事？',
+    '晚春菜花田，蝴蝶双双飞舞，篱笆内鸡飞狗吠，一位挑担的卖茶商人走近村舍，生活气息水彩，无文字。'],
+  44379: ['泥土苏醒，春雨频频来催，千花万草一下子全开了。屋后的荒地还绿茸茸的，邻居家的竹鞭笋已经悄悄钻过墙来啦。',
+    '春日田园杂兴：范成大写春意。土膏：肥沃的泥土。一饷：一晌，一会儿。鞭笋：竹鞭上的嫩笋。和孩子找一找：邻居家的笋是怎么「过墙」的？',
+    '春日院落，屋后荒畦绿意盎然，邻家嫩笋破土钻过墙根，千花万草竞放，生机勃勃水彩，无文字。'],
+  376833: ['锄地正当年头烈的日头，汗水一滴滴落进禾下的土里。有谁知道盘中的每一粒饭，都是这样辛苦得来的。',
+    '悯农：李绅写农民的辛苦。皆：都。和孩子背一背：谁知盘中餐，粒粒皆辛苦——吃饭前想一想。',
+    '烈日下的稻田，农民弯腰锄草汗滴入土，饭碗里白米饭冒着热气，教育深意的水彩，无文字。'],
+  // ── 咏物（风/蜂/蝉）──
+  277987: ['能吹落秋天的叶子，能吹开春天的花朵。刮过江面能掀起千尺巨浪，吹进竹林能让万竿斜斜摇曳。',
+    '风：李峤全篇都在写风，却没有一个「风」字。三秋：深秋。和孩子猜一猜：这首诗写的是什么？答案藏在每一句里。',
+    '风的无形之力：秋叶飘落、春花摇曳、江面巨浪、竹林倾斜，四景联动的动感水彩，无文字。'],
+  285103: ['不论平地还是山顶，无限风光都被占尽。采得百花成蜜后，为谁辛苦为谁甜？',
+    '蜂：罗隐写蜜蜂的勤劳。占：占据。和孩子聊聊：蜜蜂采蜜为了谁？像不像忙碌的爸爸妈妈？',
+    '春日花田，蜜蜂在百花间忙碌采蜜，特写蜂翼上花粉，明亮通透的水彩，无文字。'],
+  266827: ['蝉垂下触角吸着清露，声音从疏朗的梧桐间传出。它身居高处，声音自然传得远，并不是借了秋风。',
+    '蝉：虞世南写蝉的高洁。緌：蝉触角。藉：凭借。和孩子聊聊：站得高为什么声音传得远？',
+    '夏日梧桐枝头一只蝉，翅翼透明，阳光穿过树叶洒下光斑，高远清亮的水彩，无文字。'],
 }
 
 const BOOK_META = {
-  'poetry-sushi': {
-    title: '苏轼诗选·儿童诵读本', ageStage: '6-8',
-    intro: '跟着苏轼看庐山、游西湖、赏海棠——十首经典藏在山水与四季里，带拼音和白话，一起慢慢读。',
-    coverPrompt: '宋代山水与西湖春色，一位豁达的成年诗人立于山径远眺湖光，桃花柳绿点缀，明亮温暖水彩绘本，无文字封面。',
-    from: '#7A9AC4', to: '#F2E3C2',
+  'poetry-baijuyi': {
+    title: '白居易诗选·儿童诵读本', ageStage: '6-8',
+    intro: '偷采白莲的小娃、被野火烧不尽的草、半江碧绿半江红——六首白居易，藏着孩子最懂的小心思。',
+    coverPrompt: '江南夏日，荷塘小船与绿草古原同框，一个孩子撑船微笑，温暖明亮水彩绘本，无文字封面。',
+    from: '#8FAE8B', to: '#F5E9CB',
   },
-  'poetry-festival': {
-    title: '节日诗选·跟着诗过日子', ageStage: '6-8',
-    intro: '春节的爆竹、清明的雨、元宵的灯、七夕的星——十首节日诗，跟着诗过一遍中国的日子。',
-    coverPrompt: '中国传统节日集市长卷，春节桃符、元宵花灯、中秋明月同框，孩子提灯奔跑，喜庆温暖水彩绘本，无文字封面。',
-    from: '#D98E5A', to: '#F7E6C8',
+  'poetry-summer-nature': {
+    title: '夏日自然诗选·风蜂蝉与田野', ageStage: '6-8',
+    intro: '看不见的风、忙忙碌碌的蜂、树上的蝉、追蝴蝶的孩子、学种瓜的娃娃——十一首诗，把夏天读给你听。',
+    coverPrompt: '夏日自然长卷，梧桐蝉鸣、菜花蝴蝶、水田插秧、竹林月光同框，孩子奔跑其间，明快水彩绘本，无文字封面。',
+    from: '#6FA85E', to: '#F7E8B5',
   },
 }
 
-for (const [bookId, draft] of Object.entries(drafts)) {
+// canonical-text normalization applied at assembly (edition discipline: 通用字形 + 节选整理)
+const TEXT_EDITS = {
+  354608: { text: '小娃撑小艇，偷采白莲回。\n不解藏踪迹，浮萍一道开。', title: '池上·其二' },
+  376817: { text: '离离原上草，一岁一枯荣。\n野火烧不尽，春风吹又生。' },
+  269796: { text: '邯郸驿里逢冬至，抱膝灯前影伴身。\n想得家中夜深坐，还应说着远行人。' },
+  277987: { text: '解落三秋叶，能开二月花。\n过江千尺浪，入竹万竿斜。' },
+  266827: { text: '垂緌饮清露，流响出疏桐。\n居高声自远，非是藉秋风。' },
+  49219: { text: '莫言下岭便无难，赚得行人错喜欢。\n正入万山围子里，一山放出一山拦。' },
+  49151: { text: '晴明风日雨干时，草满花堤水满溪。\n童子柳阴眠正着，一牛吃过柳阴西。' },
+}
+const BOOKS = {
+  'poetry-baijuyi': { picks: baijuyiDraft },
+  // 44418（秋日其五，租债赋税主题）不宜儿童，剔除
+  'poetry-summer-nature': { picks: [...yongwuDraft, ...yangDraft, ...tianyuanDraft.filter((p) => p.sourceId !== 44418)] },
+}
+
+for (const [bookId, cfg] of Object.entries(BOOKS)) {
   const meta = BOOK_META[bookId]
-  const poems = draft.picked
-  const missing = poems.filter((p) => !AUTHORED[p.sourceId])
-  if (missing.length) throw new Error(`missing authored layer for sourceIds: ${missing.map((m) => m.sourceId).join(',')}`)
-  const entries = poems.map((p) => {
+  const missing = cfg.picks.filter((p) => !AUTHORED[p.sourceId])
+  if (missing.length) throw new Error(`missing authored layer: ${missing.map((m) => m.sourceId).join(',')}`)
+  const body = cfg.picks.filter((p) => AUTHORED[p.sourceId]).map((raw) => {
+    const edit = TEXT_EDITS[raw.sourceId]
+    const p = { ...raw, ...(edit ?? {}), pinyin: edit?.text ? pinyinOf(edit.text) : raw.pinyin }
     const [translation, note, artPrompt] = AUTHORED[p.sourceId]
-    return { p, translation, note, artPrompt }
-  })
-  const body = entries.map(({ p, translation, note, artPrompt }) => {
-    const lines = [
-      `  { sourceId: ${p.sourceId}, title: ${JSON.stringify(p.title)}, author: ${JSON.stringify(p.author)},`,
+    return [
+      `  { dynasty: ${JSON.stringify(p.dynasty ?? '唐')}, sourceId: ${p.sourceId}, title: ${JSON.stringify(p.title)}, author: ${JSON.stringify(p.author)},`,
       `    text: ${JSON.stringify(p.text)},`,
       `    pinyin: ${JSON.stringify(p.pinyin)},`,
       `    translation: ${JSON.stringify(translation)},`,
       `    note: ${JSON.stringify(note)}, artPrompt: ${JSON.stringify(artPrompt)} },`,
-    ]
-    return lines.join('\n')
+    ].join('\n')
   }).join('\n')
-  const authors = [...new Set(poems.map((x) => x.author))].join(' / ')
-  const file = `import type { AgeStage, PackBook } from '../types'
+  const authors = [...new Set(cfg.picks.map((x) => x.author))].join(' / ')
+  const exportName = bookId.replace(/poetry-/, '').replace(/-(\w)/g, (_, c) => c.toUpperCase()) + 'Pack'
+  const file = `import type { PackBook } from '../types'
 
-/** docs/110 poetry classics round: acquired from the live poetry API (candidate source only,
- * provenance per poem), editions cross-checked against canonical texts, pinyin via pinyin-pro
- * with polyphone spot checks, translations/notes/art prompts authored for TaoRead. */
+/** docs/110-2 poetry classics round 2: acquired from the live poetry API (candidate source only,
+ * provenance per poem), canonical-text cross-checks, pinyin via pinyin-pro with polyphone spot
+ * checks, translations/notes/art prompts authored for TaoRead. */
 interface ClassicPoem {
+  dynasty: string
   sourceId: number
   title: string
   author: string
@@ -117,15 +139,15 @@ export const POEMS: readonly ClassicPoem[] = [
 ${body}
 ]
 
-export const ${bookId.replace(/-(\w)/g, (_, c) => c.toUpperCase())}Pack: PackBook = {
+export const ${exportName}: PackBook = {
   id: '${bookId}', title: '${meta.title}', ageStage: '${meta.ageStage}', author: '${authors}',
   lang: 'zh', category: 'poetry', intro: '${meta.intro}', coverArt: 'scenery-night',
   coverFrom: '${meta.from}', coverTo: '${meta.to}',
   coverArtPrompt: '${meta.coverPrompt}',
-  source: '${draft.queries?.length ?? poems.length} 首经典诗，逐首经诗泉候选采集与底本校对，注音与译文由桃阅读整理。',
+  source: '${cfg.picks.length} 首经典诗，逐首经诗泉候选采集与底本校对，注音与译文由桃阅读整理。',
   chapters: POEMS.map(p => ({ title: \`\${p.title} · \${p.author}\`, art: \`chapter:${bookId}:\${p.sourceId}\`, artPrompt: p.artPrompt, blocks: [
     { kind: 'poem', text: p.text, pinyin: p.pinyin, translation: p.translation },
-    { kind: 'note', text: \`\${p.dynasty ?? ''} · \${p.author}。\${p.note}\` },
+    { kind: 'note', text: \`\${p.dynasty} · \${p.author}。\${p.note}\` },
   ] })),
   rights: { workTitle: '${meta.title}', author: '${authors}', translator: '桃阅读自撰白话译文', jurisdiction: 'CN', basis: 'pd-70',
     sourceUrl: 'https://github.com/palemoky/chinese-poetry-api',
@@ -133,5 +155,5 @@ export const ${bookId.replace(/-(\w)/g, (_, c) => c.toUpperCase())}Pack: PackBoo
 }
 `
   writeFileSync(`apps/server/src/content/packs/${bookId}.ts`, file)
-  console.log(`wrote packs/${bookId}.ts with ${poems.length} poems`)
+  console.log(`wrote packs/${bookId}.ts with ${cfg.picks.length} poems`)
 }

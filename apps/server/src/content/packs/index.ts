@@ -47,6 +47,8 @@ import { songCi } from './poetry-songci'
 import { songSpringPacks } from './poetry-song-spring'
 import { poetrySushiPack } from './poetry-sushi'
 import { poetryFestivalPack } from './poetry-festival'
+import { baijuyiPack } from './poetry-baijuyi'
+import { summerNaturePack } from './poetry-summer-nature'
 
 /* ── 神话 / 寓言 / 成语 ── */
 import { mythPangu } from './myth-pangu'
@@ -360,6 +362,8 @@ export const ALL_PACKS: PackBook[] = [
   ...songSpringPacks,
   poetrySushiPack,
   poetryFestivalPack,
+  baijuyiPack,
+  summerNaturePack,
   // 神话与民间传说（11）
   mythPangu,
   mythNuWa,
