@@ -304,11 +304,26 @@ button, [role='button'] { -webkit-tap-highlight-color: transparent; touch-action
   .child-app .today-shortcuts.has-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .today-shortcut.wide { order: 3; grid-column: 1 / -1; }
 }
+/* ≤760：三入口紧凑 3 列（docs/107 W-3）。此前单列整行三卡（min-height 76px ×3 + 副文案）
+   吃掉孩子首屏约 1/3——手机首屏应直达内容。图标上/标签下的紧凑卡：
+   副文案与右箭头窄屏隐藏；wide（英语课堂）≤960 的「整行垫底」规则在此一并重置。 */
 @media (max-width: 760px) {
-  .child-app .today-shortcuts.has-wide { grid-template-columns: 1fr; }
-  .child-app .today-shortcut { min-height: 76px; gap: 14px; padding: 12px 16px; }
-  .child-app .shortcut-icon { width: 48px; height: 48px; flex-basis: 48px; border-radius: 14px; }
-  .child-app .shortcut-icon svg { width: 30px; height: 30px; }
-  .child-app .shortcut-copy b { font-size: 18px; }
-  .child-app .shortcut-copy small { font-size: 13px; }
+  .child-app .today-shortcuts.has-wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .child-app .today-shortcut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 0;
+    padding: 14px 4px;
+    text-align: center;
+  }
+  .child-app .today-shortcut.wide { order: 0; grid-column: auto; }
+  .child-app .shortcut-icon { width: 44px; height: 44px; flex-basis: auto; border-radius: 14px; }
+  .child-app .shortcut-icon svg { width: 26px; height: 26px; }
+  .child-app .shortcut-copy { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .child-app .shortcut-copy b { font-size: 15px; }
+  .child-app .shortcut-copy small { display: none; }
+  .child-app .today-shortcut > :is(svg, .tao-icon) { display: none; }
 }

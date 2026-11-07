@@ -82,6 +82,10 @@ export async function withR2Capacity({ accountId, bytes, inventory, upload, stop
     if (!safeBytes(projected) || projected >= stopBytes) throw Error(`R2 capacity stop: projected ${projected} bytes, limit ${stopBytes}`)
     if (projected >= R2_WARNING_BYTES) warn(JSON.stringify({ r2Capacity: 'warning', accountId, projectedBytes: projected, warningBytes: R2_WARNING_BYTES, stopBytes }))
     state.bytes = projected
+    // docs/107：投影写入同时刷新 scannedAt——否则账本永远滞后于 maxAge，每个文件都触发全账号
+    // 清点（~11 万对象分页 ListObjectsV2 ≈ 60s/文件，sync-media-r2 实测 1 文件/分钟）。
+    // 语义改为「账本最后确认时刻」：窗口内只做一次真扫描；删除会使账本高估（保守方向，安全）。
+    state.scannedAt = Date.now()
     await writeFile(`${statePath}.tmp`, JSON.stringify(state))
     await rename(`${statePath}.tmp`, statePath)
     return await upload()

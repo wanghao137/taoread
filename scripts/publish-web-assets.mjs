@@ -25,7 +25,6 @@ const CT = {
 function* walk(dir, prefix = '') {
   for (const name of readdirSync(dir)) {
     if (prefix === '' && SKIP_FILES.has(name)) continue
-    if (prefix === '' && name === 'art') continue
     const full = join(dir, name)
     const rel = prefix ? `${prefix}/${name}` : name
     if (statSync(full).isDirectory()) yield* walk(full, rel)

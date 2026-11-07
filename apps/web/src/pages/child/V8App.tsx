@@ -28,6 +28,7 @@ import { haptic } from '../../lib/haptics'
 import { Dialog } from '../../components/ui/Dialog'
 import { DisclosureSummary } from '../../components/ui/DisclosureSummary'
 import { saveOfflineBook } from '../../lib/offline'
+import { getCachedList, setCachedList, clearCachedList } from '../../lib/listCache'
 import { PageHead } from '../../components/PageHead'
 import { DailyPoemCard } from './DailyPoemCard'
 import { RecentReading } from '../../components/ReadingSupport'
@@ -102,6 +103,11 @@ const CATEGORY_LABEL: Record<string, string> = {
   tale: '童话',
   science: '科学',
 }
+
+/** docs/107 W-2：home/shelf 作用域缓存 TTL——与既有 60s 静默刷新节流对齐 */
+const SCOPE_CACHE_TTL_MS = 60_000
+/** docs/107 W-1：找故事页缓存 TTL——浏览态低写频，进度/收藏经上下文叠加不依赖重拉 */
+const DISCOVER_CACHE_TTL_MS = 5 * 60_000
 
 function toV8(b: ContentBookDto): V8Book {
   return {
@@ -225,7 +231,7 @@ interface V8ContextValue {
   home: ChildHomeDto | null
   rememberBooks: (books: ContentBookDto[]) => void
   loadReport: () => void
-  reloadBooks: () => void
+  reloadBooks: (force?: boolean) => void
   loadBook: (id: string) => Promise<void>
   report: { nights: number; highlightsTotal: number; booksCompleted: number; highlights: Array<{ text: string; source: string }> } | null
   nights: string[]
@@ -328,12 +334,30 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
     if (toastTimer.current) clearTimeout(toastTimer.current)
   }, [])
 
-  const reloadBooks = useCallback(() => {
+  // docs/107 W-2：home/shelf 双域内存缓存——scope 切换不再 blank（先缓存渲染，过期后台重验），
+  // 新鲜（≤60s）直接跳过网络；force（读后返回/手动重试）清缓存强制刷新保证读后写一致。
+  const reloadBooks = useCallback((force = false) => {
     if (!token) return
     const sequence = ++booksRequest.current
     const forHome = ['/', '/child', '/child/today'].includes(window.location.pathname)
     const scope = forHome ? 'home' : 'shelf'
-    if (booksScope.current !== scope) setLoaded(false)
+    const cacheKey = `scope:${token}:${childId ?? 'none'}:${scope}`
+    if (force && childId) {
+      // 读后返回：进度/收藏可能已变，两域缓存全部失效（另一域下次进入也会重拉）
+      clearCachedList(`scope:${token}:${childId}:home`)
+      clearCachedList(`scope:${token}:${childId}:shelf`)
+    }
+    const cached = childId && !force ? getCachedList<{ books: V8Book[]; home?: ChildHomeDto }>(cacheKey) : null
+    if (cached) {
+      // 立即渲染（V8Book[]），loaded 不落 false——scope 切换不再出现占位闪烁
+      setBooks(cached.data.books)
+      if (forHome && cached.data.home) setHome(cached.data.home)
+      setLoaded(true)
+      if (Date.now() - cached.at <= SCOPE_CACHE_TTL_MS) { booksScope.current = scope; return }
+      // 过期：落到下方网络重验（books 已渲染，回来原位替换）
+    } else if (booksScope.current !== scope) {
+      setLoaded(false)
+    }
     booksScope.current = scope
     const initial = initialBooksRef.current
     initialBooksRef.current = null
@@ -349,9 +373,11 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
     result
       .then((res) => {
         if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
-        setBooks(res.books.map(toV8))
+        const v8books = res.books.map(toV8)
+        setBooks(v8books)
         if (forHome && 'continueId' in res) setHome(res as ChildHomeDto)
         setLoaded(true)
+        if (childId) setCachedList(cacheKey, { books: v8books, home: forHome && 'continueId' in res ? (res as ChildHomeDto) : undefined })
       })
       .catch((err: unknown) => {
         if (sequence !== booksRequest.current || useSession.getState().token !== token || useSession.getState().childId !== childId) return
@@ -396,7 +422,8 @@ export function V8App({ childName, onSwitchFamily, onSwitchChild, initialBooks, 
     const scope = location.pathname === '/child/my' ? 'shelf' : 'home'
     if (booksScope.current !== scope || cameFromElsewhere || Date.now() - lastFetchRef.current > 60_000) {
       lastFetchRef.current = Date.now()
-      void reloadBooks()
+      // 读后返回（cameFromElsewhere）：强制刷新（reloadBooks 内部会清两域缓存，保证读后写一致）
+      void reloadBooks(cameFromElsewhere)
     }
   }, [location.pathname, reloadBooks])
   // 回前台且距上次拉取 >60s 时静默刷新（家长在另一端屏蔽/孩子换设备读完的场景）
@@ -766,7 +793,7 @@ function TodayPage() {
         <div><h2>{v.childName}，今天读点什么？<img className="greeting-accent" src="/art/reading-desk/greeting-accent.webp" width="41" height="65" alt="" aria-hidden="true" /></h2><p>每天一小段，故事慢慢长大。</p></div>
         <time dateTime={new Date().toLocaleDateString('sv-SE')}>{new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })}<span>{new Date().toLocaleDateString('zh-CN', { weekday: 'short' })}</span></time>
       </header>
-      {v.booksError && <div role="alert"><p>{v.booksError}</p><button className="sticker-btn" onClick={v.reloadBooks}>重新加载书架</button></div>}
+      {v.booksError && <div role="alert"><p>{v.booksError}</p><button className="sticker-btn" onClick={() => v.reloadBooks(true)}>重新加载书架</button></div>}
       <div className="today-featured">
         <section className={`today-hero${!v.loaded ? ' is-loading' : ''}`} aria-busy={!v.loaded} aria-labelledby="continue-title">
           <span className="continue-tab">{continueBook ? '接着上次读' : '从一本书开始'}</span>
@@ -971,6 +998,8 @@ function DiscoverPage() {
   const [loading, setLoading] = useState(true)
   const [pageError, setPageError] = useState<string | null>(null)
   const pending = useRef<AbortController | null>(null)
+  // docs/107 W-1：当前页书集的 ref 镜像——分页合并与缓存写入都以此为准（避免在 setState 函数式更新里做副作用）
+  const pageBooksRef = useRef<V8Book[]>([])
   const key = JSON.stringify([token, childId, query.trim(), moodKey, langFilter, collectionKey, collectionAll])
   const scope = useRef(key)
   scope.current = key
@@ -986,10 +1015,12 @@ function DiscoverPage() {
         lang: langFilter === 'all' ? undefined : langFilter, collection: collectionKey ?? undefined, all: collectionAll }, controller.signal)
       if (scope.current !== key || controller.signal.aborted) return
       rememberBooks(result.books)
-      setPage(old => {
-        const merged = cursor && old.key === key ? [...old.books, ...result.books.map(toV8)] : result.books.map(toV8)
-        return { key, books: [...new Map(merged.map(b => [b.id, b])).values()], total: result.total, cursor: result.nextCursor ?? null }
-      })
+      // docs/107 W-1：用 ref 保存当前页书集，分页/缓存都以它为底合并（setPage 函数式更新里不写副作用）
+      const merged = cursor ? [...pageBooksRef.current, ...result.books.map(toV8)] : result.books.map(toV8)
+      const finalBooks = [...new Map(merged.map(b => [b.id, b])).values()]
+      pageBooksRef.current = finalBooks
+      setPage({ key, books: finalBooks, total: result.total, cursor: result.nextCursor ?? null })
+      setCachedList(key, { books: finalBooks, total: result.total, cursor: result.nextCursor ?? null })
     } catch (error) {
       if (scope.current === key && !controller.signal.aborted) setPageError(error instanceof Error ? error.message : '书架暂时打不开')
     } finally {
@@ -998,8 +1029,21 @@ function DiscoverPage() {
   }, [token, childId, query, moodKey, langFilter, collectionKey, collectionAll, key, rememberBooks])
   useEffect(() => {
     pending.current?.abort(); pending.current = null
-    setPage({ key, books: [], total: 0, cursor: null }); setLoading(true); setPageError(null)
+    setPageError(null)
     setVisible(restoring.current?.count ?? (window.matchMedia('(max-width: 760px)').matches ? 4 : 12))
+    // docs/107 W-1：tab 切换即命中缓存 → 立即渲染（进度/收藏由上下文叠加），不再清空重拉。
+    // 返回浏览（restoring，读后回来）或已过期 → 后台静默重验；从未拉过才走占位加载。
+    const cached = getCachedList<{ books: V8Book[]; total: number; cursor: string | null }>(key)
+    if (cached) {
+      pageBooksRef.current = cached.data.books
+      setPage({ key, books: cached.data.books, total: cached.data.total, cursor: cached.data.cursor })
+      setLoading(false)
+      const stale = Date.now() - cached.at > DISCOVER_CACHE_TTL_MS
+      if (stale || restoring.current) void fetchPage()
+      return () => { pending.current?.abort(); pending.current = null }
+    }
+    pageBooksRef.current = []
+    setPage({ key, books: [], total: 0, cursor: null }); setLoading(true)
     const timer = setTimeout(() => { void fetchPage() }, query.trim() ? 300 : 0)
     return () => { clearTimeout(timer); pending.current?.abort(); pending.current = null }
   }, [fetchPage, key, query])
@@ -1012,11 +1056,15 @@ function DiscoverPage() {
   const activeFilter = MOODS.find(m => m.key === moodKey) ?? (collectionKey ? { label: '书单 · ' + (collections.find(c => c.id === collectionKey)?.title ?? '已选书单') } : null)
   const clearAllFilters = () => applyFilters({ mood: null, collection: null, lang: 'all' })
   const latest = new Map(v.books.map(b => [b.id, b]))
-  const filtered = page.key === key ? page.books.map(b => ({ ...b, fav: latest.get(b.id)?.fav ?? b.fav })) : []
+  // docs/107 W-1：缓存命中时进度/收藏可能与上下文脱节——渲染前用上下文（读后强制刷新过的最新值）叠加
+  const filtered = page.key === key ? page.books.map(b => {
+    const fresh = latest.get(b.id)
+    return fresh ? { ...b, fav: fresh.fav, progress: fresh.progress, finished: fresh.finished } : b
+  }) : []
   const loaded = page.key === key && (filtered.length > 0 || !loading)
   const total = page.key === key ? page.total : 0
   const searchStatus = loading && query.trim() ? 'loading' : pageError ? 'error' : 'ready'
-  const reloadPage = () => { setPage({ key, books: [], total: 0, cursor: null }); void fetchPage() }
+  const reloadPage = () => { pageBooksRef.current = []; setPage({ key, books: [], total: 0, cursor: null }); void fetchPage() }
   useEffect(() => {
     const target = restoring.current
     if (!target || page.key !== key || loading || pageError) return
