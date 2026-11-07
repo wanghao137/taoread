@@ -19,3 +19,14 @@ test('self-hosted route is explicit; malformed data and unavailable source fail 
   await searchPoetry('小池', { mode: 'self-hosted', origin: 'http://127.0.0.1:1279', fetcher: async url => { assert.equal(url.pathname, '/api/v1/poems/search'); assert.equal(url.searchParams.get('page_size'), '50'); return Response.json({ data: [] }) } })
   for (const response of [new Response('offline', { status: 503 }), Response.json({ data: [{ title: 'bad', content: 'text' }] }), Response.json({ wrong: [] })]) await assert.rejects(searchPoetry('静夜思', { fetcher: async () => response }))
 })
+test('v0.8.0 schema without poem ids parses with null sourceId; invalid id types still fail closed', async () => {
+  const result = await searchPoetry('静夜思', { fetcher: async () => Response.json({ data: [{ title: '静夜思', author: { name: '李白' }, content: ['床前看月光。'] }] }) })
+  assert.equal(result.candidates[0].sourceId, null)
+  await assert.rejects(searchPoetry('静夜思', { fetcher: async () => Response.json({ data: [{ id: '7', title: 'x', author: { name: 'a' }, content: ['y'] }] }) }))
+})
+test('dynasty filter is passed through on the online route and validated', async () => {
+  let request
+  await searchPoetry('春日偶成', { dynasty: '唐', fetcher: async url => { request = url; return Response.json({ data: [] }) } })
+  assert.equal(request.searchParams.get('dynasty'), '唐')
+  await assert.rejects(searchPoetry('春日偶成', { dynasty: 'x'.repeat(17), fetcher: async () => Response.json({ data: [] }) }))
+})
