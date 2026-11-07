@@ -80,6 +80,8 @@ class ServerAudioPlayer {
   private voices: VoiceOption[] = []
 
   private audio: HTMLAudioElement | null = null
+  /** docs/108 M-1：已预取的下一段 URL 集（防重复 fetch；新朗读会话时清空） */
+  private preloaded = new Set<string>()
   private queue: AudioSegment[] = []
   /** 已静默重试过的段（index:url）——每段只自动重试一次 */
   private retriedKeys = new Set<string>()
@@ -229,6 +231,7 @@ class ServerAudioPlayer {
     this.streamFinished = false
 
     this.queue = []
+    this.preloaded.clear()
     this.currentIndex = 0
     this.playing = true
     this.cancelled = false
@@ -254,6 +257,8 @@ class ServerAudioPlayer {
             onSegment: (seg) => {
               if (this.cancelled || this.chapterAbort !== stream || seg.index < (options.startSegment ?? 0)) return
               this.queue.push(seg)
+              // docs/108 M-1：新段恰好是「当前播放段的下一段」时补一次预取（当前段开播时它可能还没到）
+              if (this.playing && seg.index === this.currentIndex + 1) this.preloadNext(this.currentIndex)
               // 第一段到了立刻开播；后续段在 onEnded 里自动衔接
               if (this.queue.length === 1) {
                 this.currentIndex = 0
@@ -469,11 +474,23 @@ class ServerAudioPlayer {
     if (session !== this.session || this.cancelled || index !== this.currentIndex) return false
     this.paused = false
     this.startTimelineLoop(seg)
+    this.preloadNext(index)
     if (this.requestedAt !== null) {
       recordLocalDuration('audio-playing', this.requestedAt)
       this.requestedAt = null
     }
     return true
+  }
+
+  /** docs/108 M-1：浏览器引擎下一段预取——当前段开播即把下一段拉进 HTTP 缓存，段间切换零等待。
+   * 只预取 cached:true（预生成=公共无票 URL，响应可缓存）；实时合成段 URL 带一次性票据，预取无意义。
+   * 原生路径整队列交给 ExoPlayer，不需要此优化（playSegmentNative 早退，不会走到这里）。 */
+  private preloadNext(index: number): void {
+    const next = this.queue[index + 1] as (typeof this.queue)[number] | undefined
+    if (!next || !next.cached || this.preloaded.has(next.audioUrl)) return
+    if (typeof globalThis.fetch === 'undefined') return
+    this.preloaded.add(next.audioUrl)
+    void fetch(next.audioUrl).catch(() => undefined)
   }
 
   /** 原生引擎路径：整条队列交给 ExoPlayer 链式播放；web 只负责追加与 UI */

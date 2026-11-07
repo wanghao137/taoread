@@ -12,6 +12,27 @@ import { ChildPicker } from './child/ChildPicker'
 import { V8App, prepareChildRoute, type InitialBookRequest, type InitialBooksRequest } from './child/V8App'
 import type { InitialListeningRequest } from './child/ListeningPage'
 
+// docs/108 M-2：children 列表持久缓存（每家庭一份，familyView 后台重验对账）。
+// children 列表近乎不可变（加/删孩子才变），任意年龄缓存都安全——真正的选择
+// 校验（stored childId 是否存在）在 applyFamily 里每次都跑。
+const CHILDREN_CACHE_PREFIX = 'taoread-children:'
+
+function readChildrenCache(familyId: string): ChildDto[] | null {
+  try {
+    const raw = globalThis.localStorage?.getItem(CHILDREN_CACHE_PREFIX + familyId)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { kids?: ChildDto[] }
+    return Array.isArray(parsed?.kids) && parsed.kids.length > 0 ? parsed.kids : null
+  } catch { return null }
+}
+
+function writeChildrenCache(familyId: string, kids: ChildDto[]): void {
+  try {
+    if (!kids.length) return
+    globalThis.localStorage?.setItem(CHILDREN_CACHE_PREFIX + familyId, JSON.stringify({ kids, at: Date.now() }))
+  } catch { /* quota/privacy: silent */ }
+}
+
 export function ChildHome() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -29,6 +50,8 @@ export function ChildHome() {
   const [confirmSwitch, setConfirmSwitch] = useState(false)
 
   const [childName, setChildName] = useState('小读者')
+  // docs/108 M-2：本次挂载是否已用持久缓存渲染（familyView 失败时不顶掉缓存首屏）
+  const bootFromCache = useRef(false)
   const initialBooks = useRef<InitialBooksRequest | null>(null)
   const initialBook = useRef<InitialBookRequest | null>(null)
   const initialListening = useRef<InitialListeningRequest | null>(null)
@@ -40,11 +63,39 @@ export function ChildHome() {
     listening: InitialListeningRequest | null
   } | null>(null)
 
+  // docs/108 M-2：children 列表热启动缓存——familyView 的 1 个隧道 RTT 不再挡住首屏。
+  // localStorage 命中即按缓存渲染（V8App 立即挂载），familyView 照常后台跑，回来对账：
+  // 多了孩子不破当前选择（stored childId 仍有效）；stored 失效才弹选择浮层。
+  const applyFamily = useCallback((view: { children: ChildDto[] }) => {
+    const kids = view.children
+    setChildrenList(kids)
+    if (kids.length === 0) {
+      setLoading(false)
+      return
+    }
+    const storedChildId = useSession.getState().childId
+    const stored = storedChildId && kids.some((k) => k.id === storedChildId) ? storedChildId : null
+    if (stored || kids.length === 1) {
+      const target = kids.find((k) => k.id === stored) ?? kids[0]
+      if (target && !stored) setChild({ childId: target.id, stage: target.stage })
+      if (target) setChildName(target.nickname)
+      setLoading(false)
+      setPickOpen(false)
+    } else {
+      setLoading(false)
+      setPickOpen(true)
+    }
+  }, [setChild])
+
   const loadChildren = useCallback(() => {
     if (!token || !familyId) return
     let alive = true
     setLoading(true)
     setLoadError(undefined)
+    // docs/108 M-2：热启动路径——缓存命中即渲染（loading 门直接放行），
+    // familyView 仍在下方照常发起，回来 applyFamily 对账 + 刷新缓存
+    const cached = readChildrenCache(familyId)
+    if (cached) { bootFromCache.current = true; applyFamily({ children: cached }) }
     const selected = useSession.getState().childId
     const key = JSON.stringify([token, familyId, selected, window.location.pathname])
     const home = ['/', '/child', '/child/today'].includes(window.location.pathname)
@@ -88,34 +139,19 @@ export function ChildHome() {
     pending.family
       .then((view) => {
         if (!alive) return
-        const kids = view.children
-        setChildrenList(kids)
-        if (kids.length === 0) {
-          setLoading(false)
-          return
-        }
-        const storedChildId = useSession.getState().childId
-        const stored = storedChildId && kids.some((k) => k.id === storedChildId) ? storedChildId : null
-        if (stored || kids.length === 1) {
-          const target = kids.find((k) => k.id === stored) ?? kids[0]
-          if (target && !stored) setChild({ childId: target.id, stage: target.stage })
-          if (target) setChildName(target.nickname)
-          setLoading(false)
-          setPickOpen(false)
-        } else {
-          setLoading(false)
-          setPickOpen(true)
-        }
+        applyFamily(view)
+        writeChildrenCache(familyId, view.children)
       })
       .catch((err: unknown) => {
         if (!alive) return
-        setLoadError(err instanceof ApiError ? err.message : undefined)
+        // docs/108 M-2：缓存已渲染时不让网络错误顶掉首屏——V8App 内部 API 自有错误态兜底
+        if (!bootFromCache.current) setLoadError(err instanceof ApiError ? err.message : undefined)
         setLoading(false)
       })
     return () => {
       alive = false
     }
-  }, [token, familyId, setChild])
+  }, [token, familyId, applyFamily])
 
   // 直接返回 loadChildren 的清理函数（此前 void 丢弃了它，卸载后响应仍会写入状态）
   useEffect(() => loadChildren(), [loadChildren])
